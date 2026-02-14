@@ -1,0 +1,224 @@
+"""Seed database with well-known Hansen Solubility Parameter data.
+
+Sources:
+- Hansen, C.M. "Hansen Solubility Parameters: A User's Handbook" (2007)
+- Barton, A.F.M. "Handbook of Solubility Parameters" (1991)
+- Various published literature values
+
+All HSP values in MPa½.
+"""
+
+# Standard solvent HSP values — the most commonly referenced dataset
+# Format: (name, CAS, δD, δP, δH, MW, BP°C, density, molar_volume, category)
+SOLVENTS = [
+    # --- Hydrocarbons (nonpolar) ---
+    ("n-Hexane", "110-54-3", 14.9, 0.0, 0.0, 86.18, 69, 0.659, 131.6, "hydrocarbon"),
+    ("n-Heptane", "142-82-5", 15.3, 0.0, 0.0, 100.2, 98, 0.684, 147.4, "hydrocarbon"),
+    ("n-Octane", "111-65-9", 15.5, 0.0, 0.0, 114.2, 126, 0.703, 163.5, "hydrocarbon"),
+    ("n-Decane", "124-18-5", 15.7, 0.0, 0.0, 142.3, 174, 0.730, 195.9, "hydrocarbon"),
+    ("Cyclohexane", "110-82-7", 16.8, 0.0, 0.2, 84.16, 81, 0.779, 108.7, "hydrocarbon"),
+    ("Methylcyclohexane", "108-87-2", 16.0, 0.0, 1.0, 98.19, 101, 0.769, 128.3, "hydrocarbon"),
+    ("Isooctane", "540-84-1", 14.1, 0.0, 0.0, 114.2, 99, 0.692, 166.1, "hydrocarbon"),
+
+    # --- Aromatics ---
+    ("Benzene", "71-43-2", 18.4, 0.0, 2.0, 78.11, 80, 0.879, 89.4, "aromatic"),
+    ("Toluene", "108-88-3", 18.0, 1.4, 2.0, 92.14, 111, 0.867, 106.8, "aromatic"),
+    ("Ethylbenzene", "100-41-4", 17.8, 0.6, 1.4, 106.2, 136, 0.867, 123.1, "aromatic"),
+    ("o-Xylene", "95-47-6", 17.8, 1.0, 3.1, 106.2, 144, 0.880, 121.2, "aromatic"),
+    ("m-Xylene", "108-38-3", 17.7, 0.5, 2.3, 106.2, 139, 0.864, 123.8, "aromatic"),
+    ("p-Xylene", "106-42-3", 17.6, 1.0, 3.1, 106.2, 138, 0.861, 124.0, "aromatic"),
+    ("Styrene", "100-42-5", 18.6, 1.0, 4.1, 104.1, 145, 0.906, 115.6, "aromatic"),
+    ("Naphthalene", "91-20-3", 19.2, 2.0, 5.9, 128.2, 218, 1.025, 125.0, "aromatic"),
+    ("Tetralin", "119-64-2", 19.6, 2.0, 2.9, 132.2, 208, 0.970, 136.8, "aromatic"),
+
+    # --- Halogenated ---
+    ("Dichloromethane", "75-09-2", 17.0, 7.3, 7.1, 84.93, 40, 1.325, 64.0, "halogenated"),
+    ("Chloroform", "67-66-3", 17.8, 3.1, 5.7, 119.4, 61, 1.489, 80.7, "halogenated"),
+    ("Carbon tetrachloride", "56-23-5", 17.8, 0.0, 0.6, 153.8, 77, 1.594, 97.1, "halogenated"),
+    ("1,2-Dichloroethane", "107-06-2", 18.0, 7.4, 4.1, 98.96, 83, 1.256, 79.4, "halogenated"),
+    ("Chlorobenzene", "108-90-7", 19.0, 4.3, 2.0, 112.6, 132, 1.106, 102.1, "halogenated"),
+    ("1,1,1-Trichloroethane", "71-55-6", 16.8, 4.3, 2.0, 133.4, 74, 1.339, 99.9, "halogenated"),
+
+    # --- Ethers ---
+    ("Diethyl ether", "60-29-7", 14.5, 2.9, 4.6, 74.12, 35, 0.713, 104.8, "ether"),
+    ("Tetrahydrofuran", "109-99-9", 16.8, 5.7, 8.0, 72.11, 66, 0.889, 81.7, "ether"),
+    ("1,4-Dioxane", "123-91-1", 17.5, 1.8, 9.0, 88.11, 101, 1.034, 85.7, "ether"),
+    ("Diisopropyl ether", "108-20-3", 13.8, 3.0, 3.4, 102.2, 69, 0.724, 141.8, "ether"),
+    ("Methyl tert-butyl ether", "1634-04-4", 14.8, 4.3, 5.0, 88.15, 55, 0.741, 119.9, "ether"),
+    ("2-Methyltetrahydrofuran", "96-47-9", 16.9, 5.0, 4.3, 86.13, 80, 0.855, 101.3, "ether"),
+    ("Anisole", "100-66-3", 17.8, 4.4, 6.9, 108.1, 154, 0.995, 109.2, "ether"),
+
+    # --- Ketones ---
+    ("Acetone", "67-64-1", 15.5, 10.4, 7.0, 58.08, 56, 0.791, 74.0, "ketone"),
+    ("Methyl ethyl ketone", "78-93-3", 16.0, 9.0, 5.1, 72.11, 80, 0.805, 90.1, "ketone"),
+    ("Methyl isobutyl ketone", "108-10-1", 15.3, 6.1, 4.1, 100.2, 117, 0.802, 125.8, "ketone"),
+    ("Cyclohexanone", "108-94-1", 17.8, 8.4, 5.1, 98.14, 156, 0.948, 104.0, "ketone"),
+    ("Acetophenone", "98-86-2", 19.6, 8.6, 3.7, 120.1, 202, 1.028, 117.4, "ketone"),
+    ("Methyl isopropyl ketone", "563-80-4", 15.5, 7.5, 4.5, 86.13, 94, 0.805, 107.5, "ketone"),
+    ("2-Pentanone", "107-87-9", 15.8, 7.7, 4.7, 86.13, 102, 0.809, 107.0, "ketone"),
+    ("Isophorone", "78-59-1", 16.6, 8.2, 7.4, 138.2, 215, 0.922, 150.5, "ketone"),
+
+    # --- Esters ---
+    ("Methyl acetate", "79-20-9", 15.5, 7.2, 7.6, 74.08, 57, 0.934, 79.7, "ester"),
+    ("Ethyl acetate", "141-78-6", 15.8, 5.3, 7.2, 88.11, 77, 0.902, 98.5, "ester"),
+    ("n-Butyl acetate", "123-86-4", 15.8, 3.7, 6.3, 116.2, 126, 0.882, 132.5, "ester"),
+    ("Isopropyl acetate", "108-21-4", 14.9, 4.5, 6.3, 102.1, 89, 0.872, 117.6, "ester"),
+    ("Ethyl lactate", "97-64-3", 16.0, 7.6, 12.5, 118.1, 154, 1.031, 115.0, "ester"),
+    ("Dimethyl carbonate", "616-38-6", 15.5, 8.6, 9.7, 90.08, 90, 1.069, 84.7, "ester"),
+    ("Propylene carbonate", "108-32-7", 20.0, 18.0, 4.1, 102.1, 242, 1.205, 85.0, "ester"),
+    ("gamma-Butyrolactone", "96-48-0", 19.0, 16.6, 7.4, 86.09, 204, 1.129, 76.8, "ester"),
+
+    # --- Alcohols ---
+    ("Methanol", "67-56-1", 14.7, 12.3, 22.3, 32.04, 65, 0.791, 40.7, "alcohol"),
+    ("Ethanol", "64-17-5", 15.8, 8.8, 19.4, 46.07, 78, 0.789, 58.5, "alcohol"),
+    ("1-Propanol", "71-23-8", 16.0, 6.8, 17.4, 60.10, 97, 0.804, 75.2, "alcohol"),
+    ("2-Propanol", "67-63-0", 15.8, 6.1, 16.4, 60.10, 82, 0.786, 76.8, "alcohol"),
+    ("1-Butanol", "71-36-3", 16.0, 5.7, 15.8, 74.12, 118, 0.810, 91.5, "alcohol"),
+    ("2-Butanol", "78-92-2", 15.8, 5.7, 14.5, 74.12, 100, 0.808, 92.0, "alcohol"),
+    ("tert-Butanol", "75-65-0", 15.2, 5.1, 14.7, 74.12, 82, 0.786, 94.3, "alcohol"),
+    ("1-Pentanol", "71-41-0", 15.9, 5.9, 13.9, 88.15, 138, 0.814, 108.6, "alcohol"),
+    ("1-Hexanol", "111-27-3", 15.9, 5.8, 12.5, 102.2, 157, 0.814, 125.2, "alcohol"),
+    ("1-Octanol", "111-87-5", 16.0, 5.0, 11.9, 130.2, 195, 0.824, 158.4, "alcohol"),
+    ("Benzyl alcohol", "100-51-6", 18.4, 6.3, 13.7, 108.1, 205, 1.045, 103.6, "alcohol"),
+    ("Cyclohexanol", "108-93-0", 17.4, 4.1, 13.5, 100.2, 161, 0.962, 104.0, "alcohol"),
+    ("Ethylene glycol", "107-21-1", 17.0, 11.0, 26.0, 62.07, 197, 1.113, 55.8, "alcohol"),
+    ("Propylene glycol", "57-55-6", 16.8, 9.4, 23.3, 76.09, 188, 1.036, 73.6, "alcohol"),
+    ("Glycerol", "56-81-5", 17.4, 12.1, 29.3, 92.09, 290, 1.261, 73.3, "alcohol"),
+    ("2-Ethyl-1-hexanol", "104-76-7", 15.9, 3.3, 11.8, 130.2, 184, 0.834, 156.6, "alcohol"),
+    ("Diacetone alcohol", "123-42-2", 15.8, 8.2, 10.8, 116.2, 168, 0.938, 124.2, "alcohol"),
+
+    # --- Amides ---
+    ("N,N-Dimethylformamide", "68-12-2", 17.4, 13.7, 11.3, 73.09, 153, 0.944, 77.0, "amide"),
+    ("N,N-Dimethylacetamide", "127-19-5", 16.8, 11.5, 10.2, 87.12, 166, 0.937, 93.0, "amide"),
+    ("N-Methyl-2-pyrrolidone", "872-50-4", 18.0, 12.3, 7.2, 99.13, 202, 1.028, 96.5, "amide"),
+    ("Formamide", "75-12-7", 17.2, 26.2, 19.0, 45.04, 210, 1.133, 39.8, "amide"),
+
+    # --- Sulfoxides ---
+    ("Dimethyl sulfoxide", "67-68-5", 18.4, 16.4, 10.2, 78.13, 189, 1.100, 71.3, "sulfoxide"),
+
+    # --- Acids ---
+    ("Acetic acid", "64-19-7", 14.5, 8.0, 13.5, 60.05, 118, 1.049, 57.1, "acid"),
+    ("Formic acid", "64-18-6", 14.3, 11.9, 16.6, 46.03, 101, 1.220, 37.8, "acid"),
+
+    # --- Nitriles ---
+    ("Acetonitrile", "75-05-8", 15.3, 18.0, 6.1, 41.05, 82, 0.786, 52.6, "nitrile"),
+    ("Propionitrile", "107-12-0", 15.3, 14.3, 5.5, 55.08, 97, 0.782, 70.9, "nitrile"),
+
+    # --- Glycol ethers ---
+    ("2-Methoxyethanol", "109-86-4", 16.2, 9.2, 16.4, 76.09, 124, 0.965, 79.1, "glycol ether"),
+    ("2-Ethoxyethanol", "110-80-5", 16.2, 9.2, 14.3, 90.12, 135, 0.930, 97.8, "glycol ether"),
+    ("2-Butoxyethanol", "111-76-2", 16.0, 5.1, 12.3, 118.2, 171, 0.902, 131.6, "glycol ether"),
+    ("Diethylene glycol monoethyl ether", "111-90-0", 16.2, 9.2, 12.3, 134.2, 202, 0.990, 130.9, "glycol ether"),
+    ("Propylene glycol monomethyl ether", "107-98-2", 15.6, 6.3, 11.6, 90.12, 120, 0.919, 98.4, "glycol ether"),
+
+    # --- Amines ---
+    ("Triethylamine", "121-44-8", 15.5, 0.4, 1.0, 101.2, 89, 0.726, 139.0, "amine"),
+    ("Pyridine", "110-86-1", 19.0, 8.8, 5.9, 79.10, 115, 0.982, 80.9, "amine"),
+    ("Aniline", "62-53-3", 19.4, 5.1, 10.2, 93.13, 184, 1.022, 91.5, "amine"),
+    ("Ethanolamine", "141-43-5", 17.0, 15.5, 21.0, 61.08, 171, 1.012, 60.2, "amine"),
+    ("Morpholine", "110-91-8", 18.8, 4.9, 9.2, 87.12, 129, 1.000, 87.1, "amine"),
+
+    # --- Terpenes / bio-solvents ---
+    ("d-Limonene", "5989-27-5", 17.2, 1.8, 4.3, 136.2, 176, 0.842, 162.1, "terpene"),
+    ("alpha-Pinene", "80-56-8", 16.3, 1.4, 2.6, 136.2, 156, 0.858, 158.6, "terpene"),
+    ("p-Cymene", "99-87-6", 17.3, 1.2, 2.0, 134.2, 177, 0.857, 156.6, "terpene"),
+    ("Turpentine", "8006-64-2", 16.2, 1.4, 2.8, 136.0, 160, 0.870, 156.3, "terpene"),
+
+    # --- Water ---
+    ("Water", "7732-18-5", 15.5, 16.0, 42.3, 18.02, 100, 1.000, 18.0, "inorganic"),
+
+    # --- Additional common solvents ---
+    ("Carbon disulfide", "75-15-0", 20.5, 0.0, 0.6, 76.14, 46, 1.263, 60.6, "inorganic"),
+    ("Nitromethane", "75-52-5", 15.8, 18.8, 5.1, 61.04, 101, 1.138, 54.3, "nitro"),
+    ("Nitrobenzene", "98-95-3", 20.0, 8.6, 4.1, 123.1, 211, 1.204, 102.7, "nitro"),
+    ("2-Nitropropane", "79-46-9", 16.2, 12.1, 4.1, 89.09, 120, 0.992, 90.5, "nitro"),
+    ("Dimethyl ether", "115-10-6", 13.7, 4.0, 5.7, 46.07, -24, 0.735, 62.8, "ether"),
+    ("Diethylene glycol", "111-46-6", 16.6, 12.0, 20.7, 106.1, 245, 1.118, 95.3, "glycol"),
+    ("Triethylene glycol", "112-27-6", 16.0, 12.5, 18.6, 150.2, 285, 1.125, 114.0, "glycol"),
+    ("Hexafluoroisopropanol", "920-66-1", 17.2, 4.5, 14.7, 168.0, 59, 1.596, 105.2, "fluorinated"),
+    ("Perfluorohexane", "355-42-0", 12.0, 0.0, 0.0, 338.0, 57, 1.672, 202.0, "fluorinated"),
+    ("Methyl formate", "107-31-3", 15.3, 8.4, 10.2, 60.05, 32, 0.974, 62.1, "ester"),
+    ("Diethyl malonate", "105-53-3", 16.0, 5.5, 7.3, 160.2, 199, 1.055, 151.8, "ester"),
+    ("Furfural", "98-01-1", 18.6, 14.9, 5.1, 96.08, 162, 1.160, 83.2, "heterocyclic"),
+    ("Tetrahydrofurfuryl alcohol", "97-99-4", 17.8, 8.2, 14.8, 102.1, 178, 1.054, 97.1, "heterocyclic"),
+]
+
+# Well-known polymer HSP values with solubility sphere radii
+# Format: (name, δD, δP, δH, R₀, type)
+POLYMERS = [
+    ("Polylactic acid (PLA)", 18.6, 9.9, 6.0, 10.7, "thermoplastic"),
+    ("Polystyrene (PS)", 18.5, 4.5, 2.9, 5.3, "thermoplastic"),
+    ("Poly(methyl methacrylate) (PMMA)", 18.6, 10.5, 7.5, 8.6, "thermoplastic"),
+    ("Polyvinyl chloride (PVC)", 18.2, 7.5, 8.3, 3.5, "thermoplastic"),
+    ("Polycarbonate (PC)", 18.6, 8.0, 6.0, 10.0, "thermoplastic"),
+    ("Polyethylene terephthalate (PET)", 19.4, 3.5, 8.6, 6.0, "thermoplastic"),
+    ("Nylon 6,6", 17.0, 5.1, 12.3, 5.1, "thermoplastic"),
+    ("Polyethylene (HDPE)", 18.0, 0.0, 2.0, 4.0, "thermoplastic"),
+    ("Polypropylene (PP)", 18.0, 0.0, 1.0, 6.0, "thermoplastic"),
+    ("Polyvinyl acetate (PVAc)", 18.0, 10.2, 8.2, 13.7, "thermoplastic"),
+    ("Polyvinyl alcohol (PVA)", 17.2, 8.8, 18.8, 6.2, "thermoplastic"),
+    ("ABS", 17.6, 8.6, 6.4, 5.6, "thermoplastic"),
+    ("Cellulose acetate", 18.6, 12.7, 11.0, 7.6, "thermoplastic"),
+    ("Ethyl cellulose", 17.4, 4.2, 9.6, 7.3, "thermoplastic"),
+    ("Nitrocellulose", 15.4, 14.7, 8.8, 11.5, "thermoplastic"),
+    ("Polyurethane (general)", 17.0, 9.3, 7.0, 10.0, "thermoset"),
+    ("Epoxy resin (Bisphenol A)", 18.0, 10.0, 8.0, 10.0, "thermoset"),
+    ("Polytetrafluoroethylene (PTFE)", 16.2, 1.8, 3.4, 3.9, "fluoropolymer"),
+    ("Natural rubber", 16.6, 3.1, 4.2, 8.6, "elastomer"),
+    ("Styrene-butadiene rubber (SBR)", 17.1, 3.4, 2.8, 6.5, "elastomer"),
+    ("Silicone (PDMS)", 15.9, 0.0, 4.7, 9.0, "elastomer"),
+    ("Polyacrylonitrile (PAN)", 18.2, 16.2, 6.8, 10.9, "thermoplastic"),
+    ("Polyimide", 18.0, 14.0, 5.0, 12.0, "thermoset"),
+    ("Shellac", 18.4, 8.6, 10.2, 8.2, "natural"),
+    ("Rosin (WW)", 18.6, 5.0, 8.2, 10.5, "natural"),
+    ("Bitumen", 17.5, 2.5, 3.0, 8.0, "natural"),
+    ("Lignin", 21.9, 14.1, 16.9, 13.7, "natural"),
+    ("Starch", 18.0, 14.0, 18.0, 10.0, "natural"),
+    ("Polyvinylpyrrolidone (PVP)", 17.4, 12.0, 9.4, 10.5, "thermoplastic"),
+    ("Polyvinylidene fluoride (PVDF)", 17.2, 12.5, 9.2, 5.0, "fluoropolymer"),
+]
+
+
+def seed_database(session):
+    """Populate the database with built-in HSP data."""
+    from backend.app.models.database import Chemical, Polymer
+
+    # Check if already seeded
+    existing = session.query(Chemical).count()
+    if existing > 0:
+        return existing
+
+    # Insert solvents
+    for row in SOLVENTS:
+        name, cas, dd, dp, dh, mw, bp, density, mv, cat = row
+        chem = Chemical(
+            name=name,
+            cas_number=cas,
+            delta_d=dd,
+            delta_p=dp,
+            delta_h=dh,
+            molecular_weight=mw,
+            boiling_point=bp,
+            density=density,
+            molar_volume=mv,
+            category=cat,
+            data_source="literature",
+        )
+        session.add(chem)
+
+    # Insert polymers
+    for row in POLYMERS:
+        name, dd, dp, dh, r0, ptype = row
+        poly = Polymer(
+            name=name,
+            delta_d=dd,
+            delta_p=dp,
+            delta_h=dh,
+            radius=r0,
+            type=ptype,
+            data_source="literature",
+        )
+        session.add(poly)
+
+    session.commit()
+    return len(SOLVENTS)
