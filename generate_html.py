@@ -47,6 +47,7 @@ CATEGORY_COLORS = {
     "amine": "#D62728", "terpene": "#9467BD", "inorganic": "#8C564B",
     "nitro": "#E377C2", "glycol": "#7F7F7F", "fluorinated": "#BCBD22",
     "heterocyclic": "#17BECF",
+    "aldehyde": "#FF7F0E", "sulfur compound": "#AEC7E8", "other": "#888888",
 }
 
 # Build the 3D figure

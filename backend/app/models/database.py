@@ -37,6 +37,7 @@ class Chemical(Base):
 
     # Metadata
     data_source = Column(String(100))  # measured, estimated, user, literature
+    source_url = Column(String(500))  # URL to the data source
     category = Column(String(100))  # solvent, polymer, plasticizer, etc.
     subcategory = Column(String(100))
     notes = Column(Text)
@@ -80,6 +81,7 @@ class Polymer(Base):
     radius = Column(Float)  # Solubility sphere radius R₀
 
     data_source = Column(String(100))
+    source_url = Column(String(500))
     notes = Column(Text)
 
     solubility_tests = relationship("SolubilityTest", back_populates="polymer")

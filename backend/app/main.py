@@ -110,6 +110,9 @@ CATEGORY_COLORS = {
     "glycol": "#7F7F7F",
     "fluorinated": "#BCBD22",
     "heterocyclic": "#17BECF",
+    "aldehyde": "#FF7F0E",
+    "sulfur compound": "#AEC7E8",
+    "other": "#888888",
 }
 
 # ---------------------------------------------------------------------------
