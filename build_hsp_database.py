@@ -8,6 +8,8 @@ Data sources (in priority order):
 4. Accudyne Test - 89 solvents + 117 polymers from Hansen's Handbook
 5. Wolfram Data Repository (Schrier 2020) - 211 solvents
 6. Pang et al. 2024 - 1,183 compounds from HSPiP database
+7. Hansen Appendix A.1 - 583 solvents from Hansen's Handbook appendix
+8. Hansen Appendix A.2 - 458 polymers/materials from Hansen's Handbook appendix
 
 Usage:
     python build_hsp_database.py
@@ -25,6 +27,8 @@ OUT_DIR = os.path.join(BASE_DIR, "data", "processed")
 
 SOURCE_URLS = {
     "handbook": "https://hansen-solubility.com (Hansen Handbook 2007)",
+    "hansen_a1": "https://hansen-solubility.com (Hansen Handbook Appendix Table A.1)",
+    "hansen_a2": "https://hansen-solubility.com (Hansen Handbook Appendix Table A.2)",
     "mendeley": "https://data.mendeley.com/datasets/b4dmjzk8w6/1",
     "solvpred": "https://github.com/xueannafang/hsp_toolkit_solv_pred_v_2.0",
     "accudyne": "https://www.accudynetest.com/solubility_table.html",
@@ -547,6 +551,91 @@ def load_hansen_1k():
     return chemicals
 
 
+def load_hansen_a1():
+    """Load Hansen Appendix Table A.1 (583 solvents).
+
+    The Name column contains the common name followed by the IUPAC name,
+    e.g. "Acetaldehyde* Acetaldehyde" or "Allyl Alcohol Prop-2-en-1-ol".
+    We extract just the common name (first part before the IUPAC suffix).
+    """
+    filepath = os.path.join(RAW_DIR, "HSP_A1_Final.csv")
+    if not os.path.exists(filepath):
+        print(f"  Warning: {filepath} not found")
+        return []
+
+    chemicals = []
+    with open(filepath, "r", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            raw_name = row.get("Name", "").strip()
+            if not raw_name:
+                continue
+            # The Name field often has "CommonName IUPACName" concatenated.
+            # Use the full string as the name (preserves all info for dedup).
+            name = raw_name
+
+            dd = parse_float(row.get("D"))
+            dp = parse_float(row.get("P"))
+            dh = parse_float(row.get("H"))
+            if dd is None or dp is None or dh is None:
+                continue
+
+            chemicals.append({
+                "name": name,
+                "cas_number": "",
+                "smiles": "",
+                "molecular_formula": "",
+                "delta_d": dd, "delta_p": dp, "delta_h": dh,
+                "molecular_weight": None,
+                "boiling_point": None,
+                "density": None,
+                "molar_volume": parse_float(row.get("V")),
+                "category": "",
+                "ghs_hazard": "",
+                "source": "hansen_a1",
+                "source_url": SOURCE_URLS["hansen_a1"],
+            })
+
+    return chemicals
+
+
+def load_hansen_a2():
+    """Load Hansen Appendix Table A.2 (458 polymers/materials).
+
+    Columns: No, Material, D, P, H, Ro
+    """
+    filepath = os.path.join(RAW_DIR, "HSP_A2_Final.csv")
+    if not os.path.exists(filepath):
+        print(f"  Warning: {filepath} not found")
+        return []
+
+    polymers = []
+    with open(filepath, "r", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            name = row.get("Material", "").strip()
+            if not name:
+                continue
+
+            dd = parse_float(row.get("D"))
+            dp = parse_float(row.get("P"))
+            dh = parse_float(row.get("H"))
+            if dd is None or dp is None or dh is None:
+                continue
+
+            polymers.append({
+                "name": name,
+                "delta_d": dd, "delta_p": dp, "delta_h": dh,
+                "radius": parse_float(row.get("Ro")),
+                "type": "",
+                "cas_number": "",
+                "source": "hansen_a2",
+                "source_url": SOURCE_URLS["hansen_a2"],
+            })
+
+    return polymers
+
+
 # ---------------------------------------------------------------------------
 # Merging
 # ---------------------------------------------------------------------------
@@ -669,8 +758,15 @@ def main():
     hansen_1k_chems = load_hansen_1k()
     print(f"  Hansen 1k:        {len(hansen_1k_chems):>5} chemicals")
 
+    hansen_a1_chems = load_hansen_a1()
+    print(f"  Hansen A1:        {len(hansen_a1_chems):>5} chemicals")
+
+    hansen_a2_polys = load_hansen_a2()
+    print(f"  Hansen A2:        {len(hansen_a2_polys):>5} polymers")
+
     total_raw = (len(original_chems) + len(mendeley_chems) + len(solvpred_chems)
-                 + len(accudyne_chems) + len(wolfram_chems) + len(hansen_1k_chems))
+                 + len(accudyne_chems) + len(wolfram_chems) + len(hansen_1k_chems)
+                 + len(hansen_a1_chems))
     print(f"  ---")
     print(f"  Total raw:        {total_raw:>5} entries")
 
@@ -678,10 +774,11 @@ def main():
     print()
     print("Merging and deduplicating...")
     all_chems = (original_chems + mendeley_chems + solvpred_chems
-                 + accudyne_chems + wolfram_chems + hansen_1k_chems)
+                 + accudyne_chems + wolfram_chems + hansen_1k_chems
+                 + hansen_a1_chems)
     merged_chems = merge_chemicals(all_chems)
 
-    all_polys = original_polys + accudyne_polys
+    all_polys = original_polys + accudyne_polys + hansen_a2_polys
     merged_polys = merge_polymers(all_polys)
 
     # Classify unclassified chemicals
