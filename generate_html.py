@@ -564,25 +564,28 @@ full_html = f"""<!DOCTYPE html>
         function parseQuery(raw) {{
             const q = raw.toLowerCase().trim();
 
-            // --- Follow-up detection ---
-            const followUpPatterns = [
-                /^(?:what|how)\s+about\s+(.+)/i,
-                /^(?:and|also|try|check|test|evaluate)\s+(.+)/i,
-                /^(?:is|are)\s+(.+?)\s+(?:good|bad|compatible|ok|suitable)/i,
-                /^(?:would)\s+(.+?)\s+(?:work|dissolve|be\s+compatible)/i,
-            ];
-            for (const p of followUpPatterns) {{
-                const m = q.match(p);
-                if (m && chatContext) {{
-                    return {{ intent: 'followup', material: m[1].replace(/[?.!]/g, '').trim() }};
-                }}
-            }}
+            // --- Standard intent detection FIRST (takes priority over follow-ups) ---
+            // This ensures "is NMP a good solvent for silicone" is parsed as a new
+            // good_solvents query rather than a follow-up even when context exists.
+            const hasStandardIntent = /good\s+solvent|bad\s+solvent|best\s+solvent|worst\s+solvent|poor\s+solvent|dissolve|compatible\s+with|incompatible|similar\s+to|close\s+to|solvents?\s+for|polymers?\s+for|polymers?\s+similar|solvents?\s+similar/i.test(q);
 
-            // If chatContext exists and query is just material names (no intent keywords)
-            if (chatContext) {{
-                const intentWords = /good|bad|best|worst|similar|close|near|dissolve|compatible|incompatible|find|search|show|list|solvents?\s+for|polymers?\s+for/i;
-                if (!intentWords.test(q)) {{
-                    // Probably a follow-up with just names
+            // --- Follow-up detection (only if no standard intent detected) ---
+            if (!hasStandardIntent && chatContext) {{
+                const followUpPatterns = [
+                    /^(?:what|how)\s+about\s+(.+)/i,
+                    /^(?:and|also|try|check|test|evaluate)\s+(.+)/i,
+                    /^(?:would)\s+(.+?)\s+(?:work)/i,
+                ];
+                for (const p of followUpPatterns) {{
+                    const m = q.match(p);
+                    if (m) {{
+                        return {{ intent: 'followup', material: m[1].replace(/[?.!]/g, '').trim() }};
+                    }}
+                }}
+
+                // If query is just material names (no intent keywords at all)
+                const anyIntentWord = /good|bad|best|worst|similar|close|near|dissolve|compatible|incompatible|find|search|show|list|solvent|polymer/i;
+                if (!anyIntentWord.test(q)) {{
                     return {{ intent: 'followup', material: q.replace(/[?.!]/g, '').trim() }};
                 }}
             }}
@@ -788,7 +791,7 @@ full_html = f"""<!DOCTYPE html>
 
             const showRed = parentIntent === 'good_solvents' || parentIntent === 'bad_solvents';
             if (showRed) {{
-                html += '<th>Ra</th><th>RED</th><th>Verdict</th>';
+                html += '<th>Ra</th><th>RED</th>';
             }} else if (parentIntent === 'similar_solvents') {{
                 html += '<th>Ra</th><th>Category</th>';
             }} else {{
@@ -812,13 +815,12 @@ full_html = f"""<!DOCTYPE html>
                 html += '<td>' + (r.ra != null ? r.ra.toFixed(2) : '') + '</td>';
                 if (showRed) {{
                     const red = r.red;
-                    let cls = 'red-bad', verdict = 'Incompatible';
+                    let cls = 'red-bad';
                     if (red !== null) {{
-                        if (red < 1) {{ cls = 'red-good'; verdict = 'Compatible'; }}
-                        else if (red < 1.2) {{ cls = 'red-boundary'; verdict = 'Borderline'; }}
+                        if (red < 1) cls = 'red-good';
+                        else if (red < 1.2) cls = 'red-boundary';
                     }}
                     html += '<td class="' + cls + '">' + (red !== null ? red.toFixed(2) : 'N/A') + '</td>';
-                    html += '<td class="' + cls + '">' + verdict + '</td>';
                 }} else if (parentIntent === 'similar_solvents') {{
                     html += '<td>' + (r.cat || '') + '</td>';
                 }} else {{
