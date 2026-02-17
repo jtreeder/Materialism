@@ -169,15 +169,30 @@ full_html = f"""<!DOCTYPE html>
             border: 1px solid #555; border-radius: 8px; cursor: pointer;
         }}
         .search-bar .clear-btn:hover {{ background: #444; color: #fff; }}
-        .search-examples {{
-            padding: 4px 20px 10px; background: #16213e; font-size: 0.8rem; color: #666;
+        .search-options {{
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 4px 20px 10px; background: #16213e;
             border-bottom: 2px solid #0f3460;
+        }}
+        .search-examples {{
+            font-size: 0.8rem; color: #666;
         }}
         .search-examples span {{
             cursor: pointer; color: #557; margin-right: 14px;
             transition: color 0.2s;
         }}
         .search-examples span:hover {{ color: #e94560; }}
+        .result-count-selector {{
+            font-size: 0.8rem; color: #666; display: flex; align-items: center; gap: 4px;
+            white-space: nowrap;
+        }}
+        .rc-btn {{
+            background: #1a1a2e; border: 1px solid #333; color: #888;
+            padding: 3px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;
+            transition: all 0.2s;
+        }}
+        .rc-btn:hover {{ border-color: #e94560; color: #e0e0e0; }}
+        .rc-btn.active {{ background: #e94560; color: white; border-color: #e94560; }}
 
         /* --- Chat Panel --- */
         .chat-panel {{
@@ -259,13 +274,21 @@ full_html = f"""<!DOCTYPE html>
         <button onclick="runSearch()">Search</button>
         <button class="clear-btn" onclick="clearChat()">New Chat</button>
     </div>
-    <div class="search-examples">
-        Try:
-        <span onclick="exampleSearch('good solvents for polystyrene')">good solvents for polystyrene</span>
-        <span onclick="exampleSearch('bad solvents for PVC')">bad solvents for PVC</span>
-        <span onclick="exampleSearch('solvents similar to toluene')">solvents similar to toluene</span>
-        <span onclick="exampleSearch('what dissolves nylon')">what dissolves nylon</span>
-        <span onclick="exampleSearch('polymers similar to epoxy')">polymers similar to epoxy</span>
+    <div class="search-options">
+        <div class="search-examples">
+            Try:
+            <span onclick="exampleSearch('good solvents for polystyrene')">good solvents for polystyrene</span>
+            <span onclick="exampleSearch('bad solvents for PVC')">bad solvents for PVC</span>
+            <span onclick="exampleSearch('solvents similar to toluene')">solvents similar to toluene</span>
+            <span onclick="exampleSearch('what dissolves nylon')">what dissolves nylon</span>
+            <span onclick="exampleSearch('polymers similar to epoxy')">polymers similar to epoxy</span>
+        </div>
+        <div class="result-count-selector">
+            Results:
+            <button class="rc-btn" onclick="setResultCount(10)">10</button>
+            <button class="rc-btn active" onclick="setResultCount(25)">25</button>
+            <button class="rc-btn" onclick="setResultCount(50)">50</button>
+        </div>
     </div>
 
     <div id="chat-panel" class="chat-panel"></div>
@@ -356,7 +379,7 @@ full_html = f"""<!DOCTYPE html>
             <h3 style="margin-top:20px;">Chat-Style Search</h3>
             <p>Use the search bar to ask questions in plain English. You can have a <strong>conversation</strong>:</p>
             <ul style="margin: 10px 0 10px 20px;">
-                <li><strong>"good solvents for polystyrene"</strong> — finds the 10 best solvents</li>
+                <li><strong>"good solvents for polystyrene"</strong> — finds the best solvents (configurable: 10, 25, or 50 results)</li>
                 <li><strong>"what about NMP or DMSO?"</strong> — follow-up evaluates specific solvents against the same polymer</li>
                 <li><strong>"bad solvents for PVC"</strong> — starts a new search for incompatible solvents</li>
                 <li><strong>"solvents similar to toluene"</strong> — finds the nearest neighbors</li>
@@ -556,6 +579,16 @@ full_html = f"""<!DOCTYPE html>
             return {{ polymer: p, solvent: s }};
         }}
 
+        // ===================== RESULT COUNT =====================
+        let resultCount = 25;
+
+        function setResultCount(n) {{
+            resultCount = n;
+            document.querySelectorAll('.rc-btn').forEach(btn => {{
+                btn.classList.toggle('active', parseInt(btn.textContent) === n);
+            }});
+        }}
+
         // ===================== CHAT STATE =====================
         let chatContext = null; // {{ intent, target, targetType }}
         let chatMessages = [];
@@ -712,14 +745,14 @@ full_html = f"""<!DOCTYPE html>
                 const scored = SOLVENTS.map(s => ({{ ...s, ra: hspDistance(s, target), red: redNumber(s, target) }}));
                 if (intent === 'good_solvents') {{
                     scored.sort((a, b) => a.ra - b.ra);
-                    const results = scored.slice(0, 10);
+                    const results = scored.slice(0, resultCount);
                     chatContext = {{ intent, target, targetType: 'polymer' }};
-                    return {{ intent, target, results, description: 'Top 10 solvents by HSP distance (Ra). RED < 1 = inside solubility sphere = compatible.', targetType: 'polymer' }};
+                    return {{ intent, target, results, description: 'Top ' + resultCount + ' solvents by HSP distance (Ra). RED < 1 = inside solubility sphere = compatible.', targetType: 'polymer' }};
                 }} else {{
                     scored.sort((a, b) => b.ra - a.ra);
-                    const results = scored.slice(0, 10);
+                    const results = scored.slice(0, resultCount);
                     chatContext = {{ intent, target, targetType: 'polymer' }};
-                    return {{ intent, target, results, description: 'Top 10 most incompatible solvents by HSP distance (Ra). RED > 1 = outside sphere.', targetType: 'polymer' }};
+                    return {{ intent, target, results, description: 'Top ' + resultCount + ' most incompatible solvents by HSP distance (Ra). RED > 1 = outside sphere.', targetType: 'polymer' }};
                 }}
             }}
 
@@ -734,7 +767,7 @@ full_html = f"""<!DOCTYPE html>
                 const scored = SOLVENTS.filter(s => s.name !== target.name).map(s => ({{ ...s, ra: hspDistance(s, target) }}));
                 scored.sort((a, b) => a.ra - b.ra);
                 chatContext = {{ intent, target, targetType: 'solvent' }};
-                return {{ intent, target, results: scored.slice(0, 10), description: 'Solvents closest to ' + target.name + ' in Hansen space.', targetType: 'solvent' }};
+                return {{ intent, target, results: scored.slice(0, resultCount), description: 'Solvents closest to ' + target.name + ' in Hansen space.', targetType: 'solvent' }};
             }}
 
             if (intent === 'similar_polymers') {{
@@ -748,7 +781,7 @@ full_html = f"""<!DOCTYPE html>
                 const scored = POLYMERS.filter(p => p.name !== target.name).map(p => ({{ ...p, ra: hspDistance(p, target) }}));
                 scored.sort((a, b) => a.ra - b.ra);
                 chatContext = {{ intent, target, targetType: 'polymer' }};
-                return {{ intent, target, results: scored.slice(0, 10), description: 'Polymers closest to ' + target.name + ' in Hansen space.', targetType: 'polymer' }};
+                return {{ intent, target, results: scored.slice(0, resultCount), description: 'Polymers closest to ' + target.name + ' in Hansen space.', targetType: 'polymer' }};
             }}
 
             return {{ error: 'Could not understand the query. Try "good solvents for polystyrene", "bad solvents for PVC", or "solvents similar to toluene".' }};
