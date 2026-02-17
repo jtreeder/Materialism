@@ -801,7 +801,7 @@ full_html = f"""<!DOCTYPE html>
                     html += '<tr><td class="rank">' + (i + 1) + '</td><td colspan="8" style="color:#EF553B">Could not find "' + r.queryName + '" in the database</td></tr>';
                     return;
                 }}
-                const nameHtml = '<span class="hoverable-name" onmouseenter="showStructure(event,\'' + encodeURIComponent(r.name) + '\')" onmouseleave="hideStructure()">' + r.name + '</span>';
+                const nameHtml = '<span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(r.name) + '\\x27)" onmouseleave="hideStructure()">' + r.name + '</span>';
                 html += '<tr>';
                 html += '<td class="rank">' + (i + 1) + '</td>';
                 html += '<td>' + nameHtml + '</td>';
