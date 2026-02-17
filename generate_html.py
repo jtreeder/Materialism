@@ -105,6 +105,12 @@ solvents_json = json.dumps(solvents)
 polymers_json = json.dumps(poly_data)
 cat_colors_json = json.dumps(CATEGORY_COLORS)
 
+# Embed Plotly.js inline so the file works offline / from file://
+import plotly as _plotly_pkg
+_plotly_js_path = os.path.join(os.path.dirname(_plotly_pkg.__file__), "package_data", "plotly.min.js")
+with open(_plotly_js_path) as _f:
+    plotly_js_inline = _f.read()
+
 # Generate full HTML
 full_html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -112,7 +118,7 @@ full_html = f"""<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Materialism — Hansen Solubility Parameters</title>
-    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script>{plotly_js_inline}</script>
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
         body {{ background: #1a1a2e; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }}
