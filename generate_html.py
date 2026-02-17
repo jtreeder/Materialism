@@ -22,6 +22,30 @@ seed_database(session)
 chemicals = session.query(Chemical).all()
 polymers = session.query(Polymer).all()
 
+# Also read polymer CAS from CSV if available
+polymer_cas = {}
+try:
+    import csv
+    with open(os.path.join(os.path.dirname(__file__), "data", "processed", "hsp_polymers.csv")) as f:
+        for row in csv.DictReader(f):
+            cas = row.get("cas_number", "").strip()
+            if cas:
+                polymer_cas[row["name"].strip()] = cas
+except Exception:
+    pass
+
+# Source display name mapping
+SOURCE_NAMES = {
+    "handbook": "Hansen Handbook 2007",
+    "hansen_a1": "Hansen Handbook A.1",
+    "hansen_a2": "Hansen Handbook A.2",
+    "mendeley": "Mendeley (Langner 2022)",
+    "pang2024": "Pang et al. 2024",
+    "solvpred": "SolvPred (Fang)",
+    "wolfram": "Wolfram Data Repo",
+    "accudyne": "Accudyne Test",
+}
+
 solvents = []
 for c in chemicals:
     if c.has_hsp:
@@ -30,6 +54,9 @@ for c in chemicals:
             "dd": c.delta_d, "dp": c.delta_p, "dh": c.delta_h,
             "mw": c.molecular_weight, "bp": c.boiling_point,
             "cat": c.category or "other",
+            "smiles": c.smiles or "",
+            "src": SOURCE_NAMES.get(c.data_source, c.data_source or ""),
+            "srcUrl": c.source_url or "",
         })
 
 poly_data = []
@@ -37,6 +64,9 @@ for p in polymers:
     poly_data.append({
         "name": p.name, "dd": p.delta_d, "dp": p.delta_p,
         "dh": p.delta_h, "r": p.radius, "type": p.type or "",
+        "cas": polymer_cas.get(p.name, ""),
+        "src": SOURCE_NAMES.get(p.data_source, p.data_source or ""),
+        "srcUrl": p.source_url or "",
     })
 
 CATEGORY_COLORS = {
@@ -50,22 +80,24 @@ CATEGORY_COLORS = {
     "aldehyde": "#FF7F0E", "sulfur compound": "#AEC7E8", "other": "#888888",
 }
 
-# --- Also build a data table as HTML ---
+# --- Build HTML data tables ---
 table_rows = ""
 for s in sorted(solvents, key=lambda x: x["name"]):
+    src_link = f'<a href="{s["srcUrl"]}" target="_blank" style="color:#6ea8fe;text-decoration:none">{s["src"]}</a>' if s["srcUrl"] else s["src"]
     table_rows += f"""<tr>
         <td>{s['name']}</td><td>{s['cas']}</td>
         <td>{s['dd']}</td><td>{s['dp']}</td><td>{s['dh']}</td>
         <td>{s['mw'] or ''}</td><td>{s['bp'] or ''}</td>
-        <td>{s['cat']}</td>
+        <td>{s['cat']}</td><td>{src_link}</td>
     </tr>"""
 
 polymer_rows = ""
 for p in sorted(poly_data, key=lambda x: x["name"]):
+    src_link = f'<a href="{p["srcUrl"]}" target="_blank" style="color:#6ea8fe;text-decoration:none">{p["src"]}</a>' if p["srcUrl"] else p["src"]
     polymer_rows += f"""<tr>
-        <td>{p['name']}</td>
+        <td>{p['name']}</td><td>{p['cas']}</td>
         <td>{p['dd']}</td><td>{p['dp']}</td><td>{p['dh']}</td>
-        <td>{p['r']}</td><td>{p['type']}</td>
+        <td>{p['r']}</td><td>{p['type']}</td><td>{src_link}</td>
     </tr>"""
 
 # Serialize data for JS embedding
@@ -73,7 +105,7 @@ solvents_json = json.dumps(solvents)
 polymers_json = json.dumps(poly_data)
 cat_colors_json = json.dumps(CATEGORY_COLORS)
 
-# Generate full HTML — plot is now built client-side so we can dynamically update it
+# Generate full HTML
 full_html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,7 +140,7 @@ full_html = f"""<!DOCTYPE html>
         .compatible {{ color: #00CC96; font-weight: bold; }}
         .incompatible {{ color: #EF553B; }}
 
-        /* --- Search UI --- */
+        /* --- Chat / Search UI --- */
         .search-bar {{
             display: flex; align-items: center; gap: 10px; padding: 16px 20px;
             background: #16213e; border-bottom: 1px solid #0f3460;
@@ -126,6 +158,11 @@ full_html = f"""<!DOCTYPE html>
             transition: background 0.2s;
         }}
         .search-bar button:hover {{ background: #c73652; }}
+        .search-bar .clear-btn {{
+            padding: 12px 16px; font-size: 1rem; background: #333; color: #aaa;
+            border: 1px solid #555; border-radius: 8px; cursor: pointer;
+        }}
+        .search-bar .clear-btn:hover {{ background: #444; color: #fff; }}
         .search-examples {{
             padding: 4px 20px 10px; background: #16213e; font-size: 0.8rem; color: #666;
             border-bottom: 2px solid #0f3460;
@@ -136,29 +173,40 @@ full_html = f"""<!DOCTYPE html>
         }}
         .search-examples span:hover {{ color: #e94560; }}
 
-        /* --- Results Panel --- */
-        .results-panel {{
-            display: none; margin: 10px 20px; padding: 16px; background: #16213e;
-            border-radius: 8px; border: 1px solid #0f3460;
+        /* --- Chat Panel --- */
+        .chat-panel {{
+            display: none; max-height: 500px; overflow-y: auto; margin: 0 20px;
+            padding: 12px 0; border-bottom: 1px solid #0f3460;
         }}
-        .results-panel.visible {{ display: block; }}
-        .results-header {{
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 12px;
+        .chat-panel.visible {{ display: block; }}
+        .chat-msg {{
+            margin: 8px 0; padding: 10px 14px; border-radius: 8px;
+            max-width: 95%; font-size: 0.9rem; line-height: 1.5;
         }}
-        .results-header h3 {{ color: #e94560; font-size: 1rem; }}
-        .results-close {{
-            cursor: pointer; color: #888; font-size: 1.2rem; padding: 4px 8px;
-            border-radius: 4px; transition: all 0.2s;
+        .chat-msg.user {{
+            background: #0f3460; color: #e0e0e0; margin-left: auto;
+            max-width: 60%; text-align: right; border-bottom-right-radius: 2px;
         }}
-        .results-close:hover {{ color: #e94560; background: #1a1a2e; }}
-        .results-description {{ color: #aaa; font-size: 0.85rem; margin-bottom: 12px; }}
-        .results-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
+        .chat-msg.system {{
+            background: #16213e; border: 1px solid #0f3460;
+            border-bottom-left-radius: 2px;
+        }}
+        .chat-msg .msg-label {{
+            font-size: 0.7rem; color: #888; margin-bottom: 4px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }}
+        .chat-context {{
+            display: inline-block; background: #0f3460; color: #aaa; padding: 2px 8px;
+            border-radius: 4px; font-size: 0.75rem; margin-bottom: 8px;
+        }}
+
+        /* --- Results Table in Chat --- */
+        .results-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; }}
         .results-table th {{
             background: #0f3460; color: #e94560; padding: 8px 10px;
-            text-align: left; font-weight: 600;
+            text-align: left; font-weight: 600; position: static;
         }}
-        .results-table td {{ padding: 8px 10px; border-bottom: 1px solid #333; }}
+        .results-table td {{ padding: 8px 10px; border-bottom: 1px solid #333; position: relative; }}
         .results-table tr:hover {{ background: #1a1a2e; }}
         .results-table .rank {{ color: #e94560; font-weight: bold; }}
         .red-good {{ color: #00CC96; font-weight: bold; }}
@@ -168,11 +216,29 @@ full_html = f"""<!DOCTYPE html>
             display: inline-block; background: #e94560; color: white; padding: 2px 10px;
             border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-left: 8px;
         }}
-        .results-reset {{
-            margin-top: 10px; padding: 8px 16px; background: #333; color: #e0e0e0;
-            border: 1px solid #555; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+        .chat-reset {{
+            margin-top: 10px; padding: 6px 14px; background: #333; color: #aaa;
+            border: 1px solid #555; border-radius: 6px; cursor: pointer; font-size: 0.8rem;
         }}
-        .results-reset:hover {{ background: #444; border-color: #e94560; }}
+        .chat-reset:hover {{ background: #444; color: #fff; border-color: #e94560; }}
+
+        /* --- Structure Tooltip --- */
+        .struct-tooltip {{
+            display: none; position: fixed; z-index: 9999;
+            background: #fff; border: 2px solid #e94560; border-radius: 8px;
+            padding: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            pointer-events: none;
+        }}
+        .struct-tooltip img {{
+            display: block; width: 200px; height: 200px; border-radius: 4px;
+        }}
+        .struct-tooltip .struct-name {{
+            text-align: center; font-size: 0.7rem; color: #333; padding: 2px 4px;
+            max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }}
+        .struct-tooltip.loading img {{ opacity: 0.3; }}
+        .struct-tooltip.error {{ display: none; }}
+        .hoverable-name {{ cursor: help; border-bottom: 1px dotted #888; }}
     </style>
 </head>
 <body>
@@ -182,28 +248,21 @@ full_html = f"""<!DOCTYPE html>
     </div>
 
     <div class="search-bar">
-        <input type="text" id="nl-search" placeholder="Ask anything — e.g. &quot;good solvents for polystyrene&quot; or &quot;solvents similar to toluene&quot;"
+        <input type="text" id="nl-search" placeholder="Ask anything — e.g. &quot;good solvents for polystyrene&quot; then follow up with &quot;what about NMP?&quot;"
                onkeydown="if(event.key==='Enter')runSearch()">
         <button onclick="runSearch()">Search</button>
+        <button class="clear-btn" onclick="clearChat()">New Chat</button>
     </div>
     <div class="search-examples">
         Try:
         <span onclick="exampleSearch('good solvents for polystyrene')">good solvents for polystyrene</span>
         <span onclick="exampleSearch('bad solvents for PVC')">bad solvents for PVC</span>
         <span onclick="exampleSearch('solvents similar to toluene')">solvents similar to toluene</span>
-        <span onclick="exampleSearch('polymers similar to epoxy')">polymers similar to epoxy</span>
         <span onclick="exampleSearch('what dissolves nylon')">what dissolves nylon</span>
+        <span onclick="exampleSearch('polymers similar to epoxy')">polymers similar to epoxy</span>
     </div>
 
-    <div id="results-panel" class="results-panel">
-        <div class="results-header">
-            <h3 id="results-title">Results</h3>
-            <span class="results-close" onclick="closeResults()">&times; Close</span>
-        </div>
-        <div id="results-description" class="results-description"></div>
-        <div id="results-body"></div>
-        <button class="results-reset" onclick="closeResults()">Reset to full view</button>
-    </div>
+    <div id="chat-panel" class="chat-panel"></div>
 
     <div class="tabs">
         <div class="tab active" onclick="showTab('plot')">3D Hansen Space</div>
@@ -229,12 +288,13 @@ full_html = f"""<!DOCTYPE html>
                 <thead><tr>
                     <th onclick="sortTable('solvent-table',0)">Name</th>
                     <th onclick="sortTable('solvent-table',1)">CAS</th>
-                    <th onclick="sortTable('solvent-table',2)">δD</th>
-                    <th onclick="sortTable('solvent-table',3)">δP</th>
-                    <th onclick="sortTable('solvent-table',4)">δH</th>
+                    <th onclick="sortTable('solvent-table',2)">&delta;D</th>
+                    <th onclick="sortTable('solvent-table',3)">&delta;P</th>
+                    <th onclick="sortTable('solvent-table',4)">&delta;H</th>
                     <th onclick="sortTable('solvent-table',5)">MW</th>
-                    <th onclick="sortTable('solvent-table',6)">BP °C</th>
+                    <th onclick="sortTable('solvent-table',6)">BP &deg;C</th>
                     <th onclick="sortTable('solvent-table',7)">Category</th>
+                    <th>Source</th>
                 </tr></thead>
                 <tbody>{table_rows}</tbody>
             </table>
@@ -247,11 +307,13 @@ full_html = f"""<!DOCTYPE html>
             <table id="polymer-table">
                 <thead><tr>
                     <th onclick="sortTable('polymer-table',0)">Name</th>
-                    <th onclick="sortTable('polymer-table',1)">δD</th>
-                    <th onclick="sortTable('polymer-table',2)">δP</th>
-                    <th onclick="sortTable('polymer-table',3)">δH</th>
-                    <th onclick="sortTable('polymer-table',4)">R₀</th>
-                    <th onclick="sortTable('polymer-table',5)">Type</th>
+                    <th onclick="sortTable('polymer-table',1)">CAS</th>
+                    <th onclick="sortTable('polymer-table',2)">&delta;D</th>
+                    <th onclick="sortTable('polymer-table',3)">&delta;P</th>
+                    <th onclick="sortTable('polymer-table',4)">&delta;H</th>
+                    <th onclick="sortTable('polymer-table',5)">R&#8320;</th>
+                    <th onclick="sortTable('polymer-table',6)">Type</th>
+                    <th>Source</th>
                 </tr></thead>
                 <tbody>{polymer_rows}</tbody>
             </table>
@@ -263,45 +325,49 @@ full_html = f"""<!DOCTYPE html>
             <h3>Hansen Solubility Parameters (HSP)</h3>
             <p>Every material gets three numbers that describe its molecular interactions:</p>
             <ul style="margin: 10px 0 10px 20px;">
-                <li><strong>δD</strong> — Dispersion forces (van der Waals)</li>
-                <li><strong>δP</strong> — Polar forces (dipole-dipole)</li>
-                <li><strong>δH</strong> — Hydrogen bonding forces</li>
+                <li><strong>&delta;D</strong> — Dispersion forces (van der Waals)</li>
+                <li><strong>&delta;P</strong> — Polar forces (dipole-dipole)</li>
+                <li><strong>&delta;H</strong> — Hydrogen bonding forces</li>
             </ul>
-            <p>All measured in <strong>MPa½</strong>.</p>
+            <p>All measured in <strong>MPa&frac12;</strong>.</p>
 
             <h3 style="margin-top:20px;">The Distance Formula</h3>
             <p>Compatibility is predicted by the distance in Hansen space:</p>
             <p style="text-align:center; font-size:1.1em; margin:15px 0;">
-                <code>Ra² = 4(δD₁ - δD₂)² + (δP₁ - δP₂)² + (δH₁ - δH₂)²</code>
+                <code>Ra&sup2; = 4(&delta;D&#8321; - &delta;D&#8322;)&sup2; + (&delta;P&#8321; - &delta;P&#8322;)&sup2; + (&delta;H&#8321; - &delta;H&#8322;)&sup2;</code>
             </p>
             <p>The factor of <strong>4</strong> on the dispersion term is empirical — it makes the 3D
             Hansen space approximately spherical for real solubility data.</p>
 
             <h3 style="margin-top:20px;">RED Number</h3>
-            <p><code>RED = Ra / R₀</code> where R₀ is the solubility sphere radius.</p>
+            <p><code>RED = Ra / R&#8320;</code> where R&#8320; is the solubility sphere radius.</p>
             <ul style="margin: 10px 0 10px 20px;">
-                <li><span class="compatible">RED &lt; 1</span> — solvent is inside the sphere → <strong>compatible</strong></li>
+                <li><span class="compatible">RED &lt; 1</span> — inside the sphere &rarr; <strong>compatible</strong></li>
                 <li>RED = 1 — on the boundary</li>
-                <li><span class="incompatible">RED &gt; 1</span> — outside the sphere → <strong>not compatible</strong></li>
+                <li><span class="incompatible">RED &gt; 1</span> — outside the sphere &rarr; <strong>not compatible</strong></li>
             </ul>
 
-            <h3 style="margin-top:20px;">Natural Language Search</h3>
-            <p>Use the search bar at the top to ask questions in plain English. Examples:</p>
+            <h3 style="margin-top:20px;">Chat-Style Search</h3>
+            <p>Use the search bar to ask questions in plain English. You can have a <strong>conversation</strong>:</p>
             <ul style="margin: 10px 0 10px 20px;">
-                <li><strong>"good solvents for polystyrene"</strong> — finds solvents with low RED (inside solubility sphere)</li>
-                <li><strong>"bad solvents for PVC"</strong> — finds solvents with high RED (outside sphere)</li>
-                <li><strong>"solvents similar to toluene"</strong> — finds solvents closest in Hansen space</li>
-                <li><strong>"polymers similar to epoxy"</strong> — finds polymers closest in Hansen space</li>
-                <li><strong>"what dissolves nylon"</strong> — same as finding good solvents</li>
+                <li><strong>"good solvents for polystyrene"</strong> — finds the 10 best solvents</li>
+                <li><strong>"what about NMP or DMSO?"</strong> — follow-up evaluates specific solvents against the same polymer</li>
+                <li><strong>"bad solvents for PVC"</strong> — starts a new search for incompatible solvents</li>
+                <li><strong>"solvents similar to toluene"</strong> — finds the nearest neighbors</li>
             </ul>
-            <p>The 3D plot updates to show only the matched materials, highlighted in context.</p>
+            <p>Common acronyms are supported: NMP, DMSO, DMF, THF, MEK, DCM, PVC, PMMA, PTFE, etc.</p>
+            <p>Hover over material names in results to see molecular structures (loaded from PubChem).</p>
 
             <h3 style="margin-top:20px;">The 3D Plot</h3>
-            <p>Each dot is a solvent positioned at its (δD, δP, δH) coordinates. Select a polymer
-            from the dropdown to see its <strong>solubility sphere</strong> — any solvent inside the
-            sphere should dissolve that polymer. The sphere appears as an ellipsoid because
-            of the 4× weighting on the δD axis.</p>
+            <p>Each dot is a solvent positioned at its (&delta;D, &delta;P, &delta;H) coordinates.
+            Search results highlight matched materials and show the polymer's solubility sphere.</p>
         </div>
+    </div>
+
+    <!-- Structure tooltip -->
+    <div id="struct-tooltip" class="struct-tooltip">
+        <img id="struct-img" src="" alt="Structure">
+        <div id="struct-name" class="struct-name"></div>
     </div>
 
     <script>
@@ -309,6 +375,109 @@ full_html = f"""<!DOCTYPE html>
         const SOLVENTS = {solvents_json};
         const POLYMERS = {polymers_json};
         const CAT_COLORS = {cat_colors_json};
+
+        // ===================== ALIASES =====================
+        const SOLVENT_ALIASES = {{
+            'nmp': '1Methyl2Pyrrolidinone',
+            'n-methyl-2-pyrrolidone': '1Methyl2Pyrrolidinone',
+            'dmso': 'Dimethyl sulfoxide',
+            'dmf': 'N,N-Dimethylformamide',
+            'dma': 'N,N-Dimethylacetamide',
+            'dmac': 'N,N-Dimethylacetamide',
+            'thf': 'Tetrahydrofuran',
+            'dcm': 'Dichloromethane',
+            'methylene chloride': 'Dichloromethane',
+            'meoh': 'Methanol',
+            'etoh': 'Ethanol',
+            'ipa': '2-Propanol',
+            'isopropanol': '2-Propanol',
+            'isopropyl alcohol': '2-Propanol',
+            'mek': 'Methyl ethyl ketone',
+            'mibk': 'Methyl Isobutyl Ketone',
+            'acn': 'Acetonitrile',
+            'tce': 'Trichloroethylene',
+            'chloroform': 'Chloroform',
+            'chcl3': 'Chloroform',
+            'water': 'Water',
+            'h2o': 'Water',
+            'acetone': 'Acetone',
+            'toluene': 'Toluene',
+            'benzene': 'Benzene',
+            'hexane': 'Hexane',
+            'pentane': 'Pentane',
+            'cyclohexane': 'Cyclohexane',
+            'xylene': 'Xylene',
+            'ethyl acetate': 'Ethyl Acetate',
+            'etoac': 'Ethyl Acetate',
+            'diethyl ether': 'Diethyl ether',
+            'ether': 'Diethyl ether',
+            'etoh': 'Ethanol',
+            'formamide': 'Formamide',
+            'dmpu': 'DMPU (1,3-Dimethyl-3,4,5,6-Tetrahydro-2(1H)-Pyrimidinone)',
+            'pgmea': 'Propylene Glycol Methyl Ether Acetate',
+            'nma': 'N-Methyl Acetamide',
+            'gbl': 'gamma-Butyrolactone',
+            'butyrolactone': 'gamma-Butyrolactone',
+            'dioxane': '1,4-Dioxane',
+            'pyridine': 'Pyridine',
+            'dmpu': 'DMPU (1,3-Dimethyl-3,4,5,6-Tetrahydro-2(1H)-Pyrimidinone)',
+            'nitromethane': 'Nitromethane',
+        }};
+
+        const POLYMER_ALIASES = {{
+            'pvc': 'Polyvinyl chloride (PVC)',
+            'polyvinyl chloride': 'Polyvinyl chloride (PVC)',
+            'pmma': 'Poly(methyl methacrylate) (PMMA)',
+            'plexiglass': 'Polymethyl methacrylate (PMMA, acrylic, plexiglas)',
+            'acrylic': 'Polymethyl methacrylate (PMMA, acrylic, plexiglas)',
+            'ps': 'Polystyrene (PS)',
+            'polystyrene': 'Polystyrene (PS)',
+            'pe': 'Polyethylene',
+            'polyethylene': 'Polyethylene',
+            'hdpe': 'HDPE',
+            'ldpe': 'LDPE',
+            'pp': 'Polypropylene',
+            'polypropylene': 'Polypropylene',
+            'ptfe': 'Polytetrafluoroethylene (PTFE)',
+            'teflon': 'Polytetrafluoroethylene (PTFE)',
+            'pet': 'Polyethylene terephthalate (PET)',
+            'abs': 'Acrylonitrile butadiene styrene (ABS)',
+            'nylon': 'Nylon 6,6',
+            'nylon 6': 'Nylon 6 (polycaprolactum, aramid 6)',
+            'nylon 66': 'Nylon 6,6',
+            'nylon 6,6': 'Nylon 6,6',
+            'nylon 11': 'Nylon 11',
+            'nylon 12': 'Nylon 12',
+            'pa': 'Nylon 6,6',
+            'pa6': 'Nylon 6 (polycaprolactum, aramid 6)',
+            'pa66': 'Nylon 6,6',
+            'pc': 'Polycarbonate',
+            'polycarbonate': 'Polycarbonate',
+            'pu': 'Polyurethane',
+            'polyurethane': 'Polyurethane',
+            'pla': 'PLA',
+            'polylactic acid': 'PLA',
+            'pvdf': 'PVDF',
+            'pva': 'Poly(vinyl alcohol)',
+            'pvac': 'Poly(vinyl acetate)',
+            'pvb': 'Poly(vinyl butyral)',
+            'epoxy': 'Epoxy resin (Bisphenol A)',
+            'silicone': 'Silicone (PDMS)',
+            'pdms': 'Silicone (PDMS)',
+            'polydimethylsiloxane': 'Silicone (PDMS)',
+            'rubber': 'Natural rubber',
+            'natural rubber': 'Natural rubber',
+            'peek': 'PEEK',
+            'polyetheretherketone': 'PEEK',
+            'pei': 'PEI',
+            'polyetherimide': 'PEI',
+            'pps': 'Polyphenylene sulfide (PPS)',
+            'petg': 'PETG',
+            'cellulose acetate': 'Cellulose acetate',
+            'ca': 'Cellulose acetate',
+            'eva': 'Ethylene vinyl acetate (EVA)',
+            'san': 'Styrene acrylonitrile (SAN)',
+        }};
 
         // ===================== HSP MATH =====================
         function hspDistance(a, b) {{
@@ -322,6 +491,17 @@ full_html = f"""<!DOCTYPE html>
         // ===================== FUZZY MATCH =====================
         function normalize(s) {{ return s.toLowerCase().replace(/[^a-z0-9]/g, ''); }}
 
+        function resolveAlias(query, aliases) {{
+            const q = query.toLowerCase().trim();
+            if (aliases[q]) return aliases[q];
+            // Try normalized
+            const qn = normalize(q);
+            for (const [alias, name] of Object.entries(aliases)) {{
+                if (normalize(alias) === qn) return name;
+            }}
+            return null;
+        }}
+
         function fuzzyMatch(query, items, key) {{
             const q = normalize(query);
             if (!q) return null;
@@ -329,19 +509,14 @@ full_html = f"""<!DOCTYPE html>
             for (const item of items) {{
                 const name = normalize(item[key || 'name']);
                 let score = 0;
-                // Exact match
                 if (name === q) score = 1000;
-                // Starts with
                 else if (name.startsWith(q)) score = 500 + q.length;
-                // Contains
                 else if (name.includes(q)) score = 200 + q.length;
-                // Query contains name
                 else if (q.includes(name) && name.length > 2) score = 100 + name.length;
-                // Word overlap
                 else {{
-                    const qWords = q.match(/.{{2,}}/g) || [];
+                    const qWords = query.toLowerCase().split(/[\s,]+/).filter(w => w.length > 1);
                     for (const w of qWords) {{
-                        if (name.includes(w)) score += 30 + w.length;
+                        if (name.includes(normalize(w))) score += 30 + w.length;
                     }}
                 }}
                 if (score > bestScore) {{ bestScore = score; best = item; }}
@@ -349,10 +524,71 @@ full_html = f"""<!DOCTYPE html>
             return bestScore > 0 ? best : null;
         }}
 
+        function findSolvent(query) {{
+            const aliased = resolveAlias(query, SOLVENT_ALIASES);
+            if (aliased) {{
+                const exact = SOLVENTS.find(s => s.name === aliased);
+                if (exact) return exact;
+            }}
+            return fuzzyMatch(query, SOLVENTS, 'name');
+        }}
+
+        function findPolymer(query) {{
+            const aliased = resolveAlias(query, POLYMER_ALIASES);
+            if (aliased) {{
+                const exact = POLYMERS.find(p => p.name === aliased);
+                if (exact) return exact;
+                return fuzzyMatch(aliased, POLYMERS, 'name');
+            }}
+            return fuzzyMatch(query, POLYMERS, 'name');
+        }}
+
+        function findMaterial(query) {{
+            // Try polymer first (for good/bad solvents context), then solvent
+            const p = findPolymer(query);
+            const s = findSolvent(query);
+            return {{ polymer: p, solvent: s }};
+        }}
+
+        // ===================== CHAT STATE =====================
+        let chatContext = null; // {{ intent, target, targetType }}
+        let chatMessages = [];
+
         // ===================== NLP QUERY PARSER =====================
         function parseQuery(raw) {{
             const q = raw.toLowerCase().trim();
-            // Detect intent
+
+            // --- Follow-up detection ---
+            const followUpPatterns = [
+                /^(?:what|how)\s+about\s+(.+)/i,
+                /^(?:and|also|try|check|test|evaluate)\s+(.+)/i,
+                /^(?:is|are)\s+(.+?)\s+(?:good|bad|compatible|ok|suitable)/i,
+                /^(?:would)\s+(.+?)\s+(?:work|dissolve|be\s+compatible)/i,
+            ];
+            for (const p of followUpPatterns) {{
+                const m = q.match(p);
+                if (m && chatContext) {{
+                    return {{ intent: 'followup', material: m[1].replace(/[?.!]/g, '').trim() }};
+                }}
+            }}
+
+            // If chatContext exists and query is just material names (no intent keywords)
+            if (chatContext) {{
+                const intentWords = /good|bad|best|worst|similar|close|near|dissolve|compatible|incompatible|find|search|show|list|solvents?\s+for|polymers?\s+for/i;
+                if (!intentWords.test(q)) {{
+                    // Probably a follow-up with just names
+                    return {{ intent: 'followup', material: q.replace(/[?.!]/g, '').trim() }};
+                }}
+            }}
+
+            // --- Standard intent detection ---
+            const badPatterns = [
+                /bad\s+solvents?\s+for/i,
+                /(?:poor|worst|incompatible)\s+solvents?\s+for/i,
+                /solvents?\s+(?:that\s+)?(?:won'?t|will\s+not|cannot|can'?t)\s+dissolve/i,
+                /(?:resist|resistant|insoluble)/i,
+                /non[- ]?solvents?\s+for/i,
+            ];
             const goodPatterns = [
                 /good\s+solvents?\s+(for|to\s+dissolve)/i,
                 /best\s+solvents?\s+for/i,
@@ -363,17 +599,10 @@ full_html = f"""<!DOCTYPE html>
                 /soluble\s+in/i,
                 /find\s+(?:me\s+)?(?:a\s+)?solvents?\s+for/i,
             ];
-            const badPatterns = [
-                /bad\s+solvents?\s+for/i,
-                /(?:poor|worst|incompatible)\s+solvents?\s+for/i,
-                /solvents?\s+(?:that\s+)?(?:won'?t|will\s+not|cannot|can'?t)\s+dissolve/i,
-                /(?:resist|resistant|insoluble)/i,
-                /non[- ]?solvents?\s+for/i,
-            ];
             const similarSolventPatterns = [
                 /solvents?\s+(?:similar|close|near)\s+to/i,
                 /(?:similar|close|near)\s+(?:to\s+)?(?:the\s+)?solvents?/i,
-                /(?:like|alternatives?\s+to)\s+/i,
+                /(?:alternatives?\s+to)\s+/i,
                 /replace(?:ment)?\s+for\s+/i,
             ];
             const similarPolymerPatterns = [
@@ -382,38 +611,32 @@ full_html = f"""<!DOCTYPE html>
                 /materials?\s+(?:similar|close|near)\s+to/i,
             ];
 
-            // Try bad solvents first (more specific than good)
             for (const p of badPatterns) {{
                 if (p.test(q)) {{
-                    const material = q.replace(p, '').replace(/[?.!]/g, '').trim();
-                    return {{ intent: 'bad_solvents', material }};
+                    return {{ intent: 'bad_solvents', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }};
                 }}
             }}
             for (const p of goodPatterns) {{
                 if (p.test(q)) {{
-                    const material = q.replace(p, '').replace(/[?.!]/g, '').trim();
-                    return {{ intent: 'good_solvents', material }};
+                    return {{ intent: 'good_solvents', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }};
                 }}
             }}
             for (const p of similarPolymerPatterns) {{
                 if (p.test(q)) {{
-                    const material = q.replace(p, '').replace(/[?.!]/g, '').trim();
-                    return {{ intent: 'similar_polymers', material }};
+                    return {{ intent: 'similar_polymers', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }};
                 }}
             }}
             for (const p of similarSolventPatterns) {{
                 if (p.test(q)) {{
-                    const material = q.replace(p, '').replace(/[?.!]/g, '').trim();
-                    return {{ intent: 'similar_solvents', material }};
+                    return {{ intent: 'similar_solvents', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }};
                 }}
             }}
 
-            // Fallback: check if query mentions a polymer name → good solvents
-            const polyMatch = fuzzyMatch(q.replace(/[?.!]/g, ''), POLYMERS, 'name');
+            // Fallback: check if query mentions a polymer name
+            const polyMatch = findPolymer(q.replace(/[?.!]/g, ''));
             if (polyMatch) return {{ intent: 'good_solvents', material: q.replace(/[?.!]/g, '').trim() }};
 
-            // Fallback: check if query mentions a solvent name → similar solvents
-            const solvMatch = fuzzyMatch(q.replace(/[?.!]/g, ''), SOLVENTS, 'name');
+            const solvMatch = findSolvent(q.replace(/[?.!]/g, ''));
             if (solvMatch) return {{ intent: 'similar_solvents', material: q.replace(/[?.!]/g, '').trim() }};
 
             return {{ intent: 'unknown', material: q }};
@@ -422,135 +645,175 @@ full_html = f"""<!DOCTYPE html>
         // ===================== SEARCH ENGINE =====================
         function executeSearch(parsed) {{
             const {{ intent, material }} = parsed;
-            let results = [];
-            let target = null;
-            let description = '';
 
-            if (intent === 'good_solvents' || intent === 'bad_solvents') {{
-                target = fuzzyMatch(material, POLYMERS, 'name');
-                if (!target) {{
-                    // Maybe they typed a solvent name and mean "for what polymer?"
-                    // Try polymers harder with individual words
-                    const words = material.split(/\s+/);
-                    for (const w of words) {{
-                        target = fuzzyMatch(w, POLYMERS, 'name');
-                        if (target) break;
+            // --- Follow-up: evaluate specific materials in current context ---
+            if (intent === 'followup' && chatContext) {{
+                // Split on "or", "and", commas, "/"
+                const names = material.split(/\s+(?:or|and|,|\/)\s*|\s*[,\/]\s*/i).map(s => s.trim()).filter(Boolean);
+                const results = [];
+
+                for (const name of names) {{
+                    if (chatContext.intent === 'good_solvents' || chatContext.intent === 'bad_solvents') {{
+                        // Evaluate solvent(s) against the polymer target
+                        const s = findSolvent(name);
+                        if (s) {{
+                            const ra = hspDistance(s, chatContext.target);
+                            const red = redNumber(s, chatContext.target);
+                            results.push({{ ...s, ra, red, queryName: name }});
+                        }} else {{
+                            // Maybe it's a polymer they want to compare
+                            const p = findPolymer(name);
+                            if (p) {{
+                                const ra = hspDistance(p, chatContext.target);
+                                results.push({{ ...p, ra, red: null, queryName: name, isPolymer: true }});
+                            }} else {{
+                                results.push({{ name: name, queryName: name, notFound: true }});
+                            }}
+                        }}
+                    }} else if (chatContext.intent === 'similar_solvents') {{
+                        const s = findSolvent(name);
+                        if (s) {{
+                            const ra = hspDistance(s, chatContext.target);
+                            results.push({{ ...s, ra, queryName: name }});
+                        }} else {{
+                            results.push({{ name: name, queryName: name, notFound: true }});
+                        }}
+                    }} else if (chatContext.intent === 'similar_polymers') {{
+                        const p = findPolymer(name);
+                        if (p) {{
+                            const ra = hspDistance(p, chatContext.target);
+                            results.push({{ ...p, ra, queryName: name }});
+                        }} else {{
+                            results.push({{ name: name, queryName: name, notFound: true }});
+                        }}
                     }}
                 }}
-                if (!target) return {{ error: 'Could not find a matching polymer for "' + material + '". Try a polymer name like "polystyrene", "PVC", or "nylon".' }};
+                return {{ intent: 'followup', target: chatContext.target, results, description: 'Evaluating specific materials against ' + chatContext.target.name, targetType: chatContext.targetType, parentIntent: chatContext.intent }};
+            }}
 
-                const scored = SOLVENTS.map(s => ({{
-                    ...s, ra: hspDistance(s, target), red: redNumber(s, target)
-                }}));
+            // --- Standard searches ---
+            if (intent === 'good_solvents' || intent === 'bad_solvents') {{
+                let target = findPolymer(material);
+                if (!target) {{
+                    const words = material.split(/\s+/);
+                    for (const w of words) {{ target = findPolymer(w); if (target) break; }}
+                }}
+                if (!target) return {{ error: 'Could not find a matching polymer for "' + material + '". Try names like "polystyrene", "PVC", "PMMA", or "nylon".' }};
 
+                const scored = SOLVENTS.map(s => ({{ ...s, ra: hspDistance(s, target), red: redNumber(s, target) }}));
                 if (intent === 'good_solvents') {{
                     scored.sort((a, b) => a.ra - b.ra);
-                    results = scored.slice(0, 10);
-                    description = 'Solvents ranked by HSP distance (Ra) — lowest = best compatibility. RED < 1 means inside the solubility sphere.';
+                    const results = scored.slice(0, 10);
+                    chatContext = {{ intent, target, targetType: 'polymer' }};
+                    return {{ intent, target, results, description: 'Top 10 solvents by HSP distance (Ra). RED < 1 = inside solubility sphere = compatible.', targetType: 'polymer' }};
                 }} else {{
                     scored.sort((a, b) => b.ra - a.ra);
-                    results = scored.slice(0, 10);
-                    description = 'Solvents ranked by HSP distance (Ra) — highest = most incompatible. RED > 1 means outside the solubility sphere.';
+                    const results = scored.slice(0, 10);
+                    chatContext = {{ intent, target, targetType: 'polymer' }};
+                    return {{ intent, target, results, description: 'Top 10 most incompatible solvents by HSP distance (Ra). RED > 1 = outside sphere.', targetType: 'polymer' }};
                 }}
-                return {{ intent, target, results, description, targetType: 'polymer' }};
             }}
 
             if (intent === 'similar_solvents') {{
-                target = fuzzyMatch(material, SOLVENTS, 'name');
+                let target = findSolvent(material);
                 if (!target) {{
                     const words = material.split(/\s+/);
-                    for (const w of words) {{
-                        target = fuzzyMatch(w, SOLVENTS, 'name');
-                        if (target) break;
-                    }}
+                    for (const w of words) {{ target = findSolvent(w); if (target) break; }}
                 }}
-                if (!target) return {{ error: 'Could not find a matching solvent for "' + material + '". Try a solvent name like "toluene", "acetone", or "ethanol".' }};
+                if (!target) return {{ error: 'Could not find solvent "' + material + '". Try "toluene", "acetone", "NMP", "DMSO", etc.' }};
 
-                const scored = SOLVENTS.filter(s => s.name !== target.name).map(s => ({{
-                    ...s, ra: hspDistance(s, target)
-                }}));
+                const scored = SOLVENTS.filter(s => s.name !== target.name).map(s => ({{ ...s, ra: hspDistance(s, target) }}));
                 scored.sort((a, b) => a.ra - b.ra);
-                results = scored.slice(0, 10);
-                description = 'Solvents closest to ' + target.name + ' in Hansen space (lowest Ra = most similar).';
-                return {{ intent, target, results, description, targetType: 'solvent' }};
+                chatContext = {{ intent, target, targetType: 'solvent' }};
+                return {{ intent, target, results: scored.slice(0, 10), description: 'Solvents closest to ' + target.name + ' in Hansen space.', targetType: 'solvent' }};
             }}
 
             if (intent === 'similar_polymers') {{
-                target = fuzzyMatch(material, POLYMERS, 'name');
+                let target = findPolymer(material);
                 if (!target) {{
                     const words = material.split(/\s+/);
-                    for (const w of words) {{
-                        target = fuzzyMatch(w, POLYMERS, 'name');
-                        if (target) break;
-                    }}
+                    for (const w of words) {{ target = findPolymer(w); if (target) break; }}
                 }}
-                if (!target) return {{ error: 'Could not find a matching polymer for "' + material + '". Try "polystyrene", "epoxy", or "nylon".' }};
+                if (!target) return {{ error: 'Could not find polymer "' + material + '". Try "polystyrene", "epoxy", "PMMA", etc.' }};
 
-                const scored = POLYMERS.filter(p => p.name !== target.name).map(p => ({{
-                    ...p, ra: hspDistance(p, target)
-                }}));
+                const scored = POLYMERS.filter(p => p.name !== target.name).map(p => ({{ ...p, ra: hspDistance(p, target) }}));
                 scored.sort((a, b) => a.ra - b.ra);
-                results = scored.slice(0, 10);
-                description = 'Polymers closest to ' + target.name + ' in Hansen space (lowest Ra = most similar).';
-                return {{ intent, target, results, description, targetType: 'polymer' }};
+                chatContext = {{ intent, target, targetType: 'polymer' }};
+                return {{ intent, target, results: scored.slice(0, 10), description: 'Polymers closest to ' + target.name + ' in Hansen space.', targetType: 'polymer' }};
             }}
 
-            return {{ error: 'Could not understand the query. Try something like "good solvents for polystyrene" or "solvents similar to toluene".' }};
+            return {{ error: 'Could not understand the query. Try "good solvents for polystyrene", "bad solvents for PVC", or "solvents similar to toluene".' }};
         }}
 
-        // ===================== RESULTS DISPLAY =====================
-        function displayResults(result) {{
-            const panel = document.getElementById('results-panel');
-            const title = document.getElementById('results-title');
-            const desc = document.getElementById('results-description');
-            const body = document.getElementById('results-body');
+        // ===================== CHAT DISPLAY =====================
+        function addChatMessage(type, html) {{
+            const panel = document.getElementById('chat-panel');
+            panel.classList.add('visible');
+            const div = document.createElement('div');
+            div.className = 'chat-msg ' + type;
+            div.innerHTML = html;
+            panel.appendChild(div);
+            panel.scrollTop = panel.scrollHeight;
+        }}
 
-            if (result.error) {{
-                title.innerHTML = 'No Results';
-                desc.textContent = result.error;
-                body.innerHTML = '';
-                panel.classList.add('visible');
-                return;
-            }}
+        function renderResultsHTML(result) {{
+            if (result.error) return '<span style="color:#EF553B">' + result.error + '</span>';
 
             const {{ intent, target, results, description }} = result;
             let titleText = '';
-            if (intent === 'good_solvents') titleText = 'Best Solvents for';
+            const parentIntent = result.parentIntent || intent;
+            if (intent === 'followup') titleText = 'Evaluating against';
+            else if (intent === 'good_solvents') titleText = 'Best Solvents for';
             else if (intent === 'bad_solvents') titleText = 'Worst Solvents for';
             else if (intent === 'similar_solvents') titleText = 'Solvents Similar to';
             else if (intent === 'similar_polymers') titleText = 'Polymers Similar to';
-            title.innerHTML = titleText + ' <span class="target-chip">' + target.name + '</span>';
-            desc.textContent = description;
 
-            let html = '<table class="results-table"><thead><tr>';
-            html += '<th>#</th><th>Name</th><th>δD</th><th>δP</th><th>δH</th>';
-            if (intent === 'good_solvents' || intent === 'bad_solvents') {{
-                html += '<th>Ra</th><th>RED</th><th>Category</th>';
-            }} else if (intent === 'similar_solvents') {{
+            let html = '<strong>' + titleText + '</strong> <span class="target-chip">' + target.name + '</span>';
+            if (target.cas) html += ' <span style="color:#888;font-size:0.75rem">CAS: ' + target.cas + '</span>';
+            html += '<br><span style="color:#aaa;font-size:0.8rem">' + description + '</span>';
+
+            // Context indicator
+            if (chatContext) {{
+                html += '<br><span class="chat-context">Context: ' + chatContext.intent.replace('_', ' ') + ' for ' + chatContext.target.name + '</span>';
+            }}
+
+            html += '<table class="results-table"><thead><tr>';
+            html += '<th>#</th><th>Name</th><th>CAS</th><th>&delta;D</th><th>&delta;P</th><th>&delta;H</th>';
+
+            const showRed = parentIntent === 'good_solvents' || parentIntent === 'bad_solvents';
+            if (showRed) {{
+                html += '<th>Ra</th><th>RED</th><th>Verdict</th>';
+            }} else if (parentIntent === 'similar_solvents') {{
                 html += '<th>Ra</th><th>Category</th>';
             }} else {{
-                html += '<th>Ra</th><th>R₀</th><th>Type</th>';
+                html += '<th>Ra</th><th>R&#8320;</th><th>Type</th>';
             }}
             html += '</tr></thead><tbody>';
 
             results.forEach((r, i) => {{
+                if (r.notFound) {{
+                    html += '<tr><td class="rank">' + (i + 1) + '</td><td colspan="8" style="color:#EF553B">Could not find "' + r.queryName + '" in the database</td></tr>';
+                    return;
+                }}
+                const nameHtml = '<span class="hoverable-name" onmouseenter="showStructure(event,\'' + encodeURIComponent(r.name) + '\')" onmouseleave="hideStructure()">' + r.name + '</span>';
                 html += '<tr>';
                 html += '<td class="rank">' + (i + 1) + '</td>';
-                html += '<td>' + r.name + '</td>';
+                html += '<td>' + nameHtml + '</td>';
+                html += '<td>' + (r.cas || '') + '</td>';
                 html += '<td>' + (r.dd != null ? r.dd.toFixed(1) : '') + '</td>';
                 html += '<td>' + (r.dp != null ? r.dp.toFixed(1) : '') + '</td>';
                 html += '<td>' + (r.dh != null ? r.dh.toFixed(1) : '') + '</td>';
-                html += '<td>' + r.ra.toFixed(2) + '</td>';
-                if (intent === 'good_solvents' || intent === 'bad_solvents') {{
+                html += '<td>' + (r.ra != null ? r.ra.toFixed(2) : '') + '</td>';
+                if (showRed) {{
                     const red = r.red;
-                    let cls = 'red-bad';
+                    let cls = 'red-bad', verdict = 'Incompatible';
                     if (red !== null) {{
-                        if (red < 1) cls = 'red-good';
-                        else if (red < 1.2) cls = 'red-boundary';
+                        if (red < 1) {{ cls = 'red-good'; verdict = 'Compatible'; }}
+                        else if (red < 1.2) {{ cls = 'red-boundary'; verdict = 'Borderline'; }}
                     }}
                     html += '<td class="' + cls + '">' + (red !== null ? red.toFixed(2) : 'N/A') + '</td>';
-                    html += '<td>' + (r.cat || '') + '</td>';
-                }} else if (intent === 'similar_solvents') {{
+                    html += '<td class="' + cls + '">' + verdict + '</td>';
+                }} else if (parentIntent === 'similar_solvents') {{
                     html += '<td>' + (r.cat || '') + '</td>';
                 }} else {{
                     html += '<td>' + (r.r || '') + '</td>';
@@ -560,22 +823,16 @@ full_html = f"""<!DOCTYPE html>
             }});
 
             html += '</tbody></table>';
-            body.innerHTML = html;
-            panel.classList.add('visible');
-
-            // Update 3D plot
-            updatePlotWithResults(result);
+            return html;
         }}
 
         // ===================== 3D PLOT =====================
         let plotDiv;
-        let fullTraces = [];  // stored once at init
+        let fullTraces = [];
 
         function buildFullPlot() {{
             plotDiv = document.getElementById('plotly-div');
             const traces = [];
-
-            // Group solvents by category
             const cats = [...new Set(SOLVENTS.map(s => s.cat))].sort();
             for (const cat of cats) {{
                 const cs = SOLVENTS.filter(s => s.cat === cat);
@@ -589,8 +846,6 @@ full_html = f"""<!DOCTYPE html>
                     marker: {{ size: 5, color: color, opacity: 0.85 }},
                 }});
             }}
-
-            // Polymer points
             traces.push({{
                 type: 'scatter3d', mode: 'markers',
                 name: 'Polymers',
@@ -599,101 +854,82 @@ full_html = f"""<!DOCTYPE html>
                 hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
                 marker: {{ size: 7, color: 'gold', symbol: 'diamond', opacity: 0.95 }},
             }});
-
             fullTraces = traces;
+            Plotly.newPlot(plotDiv, traces, defaultLayout(), {{ responsive: true }});
+        }}
 
-            const layout = {{
+        function defaultLayout(title) {{
+            return {{
                 scene: {{
                     xaxis: {{ title: 'δD (Dispersion) MPa½', range: [12, 22] }},
                     yaxis: {{ title: 'δP (Polar) MPa½', range: [0, 28] }},
                     zaxis: {{ title: 'δH (H-bonding) MPa½', range: [0, 45] }},
                 }},
                 template: 'plotly_dark',
-                paper_bgcolor: '#1a1a2e',
-                plot_bgcolor: '#1a1a2e',
+                paper_bgcolor: '#1a1a2e', plot_bgcolor: '#1a1a2e',
                 margin: {{ l: 0, r: 0, t: 40, b: 0 }},
                 legend: {{ x: 0.01, y: 0.99, bgcolor: 'rgba(0,0,0,0.5)' }},
-                title: {{ text: 'Materialism — Hansen Solubility Parameter Space', x: 0.5, font: {{ size: 18 }} }},
+                title: {{ text: title || 'Materialism — Hansen Solubility Parameter Space', x: 0.5, font: {{ size: 18 }} }},
             }};
-
-            Plotly.newPlot(plotDiv, traces, layout, {{ responsive: true }});
         }}
 
         function updatePlotWithResults(result) {{
             if (!result || result.error) return;
-            const {{ intent, target, results, targetType }} = result;
+            const {{ target, results }} = result;
+            const parentIntent = result.parentIntent || result.intent;
 
-            // Switch to plot tab
             showTab('plot');
-
             const traces = [];
 
-            // Dimmed background: all solvents in grey
+            // Dimmed background
             traces.push({{
-                type: 'scatter3d', mode: 'markers',
-                name: 'All Solvents',
+                type: 'scatter3d', mode: 'markers', name: 'All Solvents',
                 x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
                 text: SOLVENTS.map(s => s.name),
                 hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                marker: {{ size: 3, color: '#444', opacity: 0.2 }},
-                showlegend: true,
+                marker: {{ size: 3, color: '#444', opacity: 0.15 }},
             }});
-
-            // Dimmed polymers
             traces.push({{
-                type: 'scatter3d', mode: 'markers',
-                name: 'All Polymers',
+                type: 'scatter3d', mode: 'markers', name: 'All Polymers',
                 x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
                 text: POLYMERS.map(p => p.name),
                 hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                marker: {{ size: 4, color: '#665500', symbol: 'diamond', opacity: 0.2 }},
-                showlegend: true,
+                marker: {{ size: 4, color: '#665500', symbol: 'diamond', opacity: 0.15 }},
             }});
 
-            // Highlighted results
-            const colors = ['#FF006E', '#FB5607', '#FF006E', '#FFBE0B', '#3A86FF',
-                            '#8338EC', '#06D6A0', '#118AB2', '#EF476F', '#FFD166'];
-            if (intent === 'good_solvents' || intent === 'bad_solvents') {{
-                // Color by RED
-                const resultColors = results.map(r => {{
+            // Valid results only
+            const valid = results.filter(r => !r.notFound);
+
+            if (parentIntent === 'good_solvents' || parentIntent === 'bad_solvents') {{
+                const resultColors = valid.map(r => {{
                     if (r.red === null) return '#888';
                     if (r.red < 1) return '#00CC96';
                     if (r.red < 1.2) return '#FFA15A';
                     return '#EF553B';
                 }});
                 traces.push({{
-                    type: 'scatter3d', mode: 'markers+text',
-                    name: 'Matched Solvents',
-                    x: results.map(r => r.dd), y: results.map(r => r.dp), z: results.map(r => r.dh),
-                    text: results.map((r, i) => (i + 1) + '. ' + r.name),
-                    textposition: 'top center',
-                    textfont: {{ size: 9, color: '#fff' }},
-                    hovertemplate: results.map((r, i) =>
+                    type: 'scatter3d', mode: 'markers+text', name: 'Results',
+                    x: valid.map(r => r.dd), y: valid.map(r => r.dp), z: valid.map(r => r.dh),
+                    text: valid.map((r, i) => (i + 1) + '. ' + r.name),
+                    textposition: 'top center', textfont: {{ size: 9, color: '#fff' }},
+                    hovertemplate: valid.map((r, i) =>
                         '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>Ra=' + r.ra.toFixed(2) +
-                        (r.red !== null ? '<br>RED=' + r.red.toFixed(2) : '') + '<extra></extra>'
-                    ),
+                        (r.red !== null ? '<br>RED=' + r.red.toFixed(2) : '') + '<extra></extra>'),
                     marker: {{ size: 10, color: resultColors, opacity: 1, line: {{ color: '#fff', width: 1 }} }},
                 }});
-
-                // Target polymer as big star
+                // Target polymer
                 traces.push({{
-                    type: 'scatter3d', mode: 'markers+text',
-                    name: 'Target: ' + target.name,
+                    type: 'scatter3d', mode: 'markers+text', name: 'Target: ' + target.name,
                     x: [target.dd], y: [target.dp], z: [target.dh],
-                    text: [target.name],
-                    textposition: 'top center',
-                    textfont: {{ size: 12, color: '#e94560' }},
+                    text: [target.name], textposition: 'top center', textfont: {{ size: 12, color: '#e94560' }},
                     hovertemplate: '<b>' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>R₀=' + target.r + '<extra></extra>',
                     marker: {{ size: 14, color: '#e94560', symbol: 'diamond', opacity: 1, line: {{ color: '#fff', width: 2 }} }},
                 }});
-
-                // Solubility sphere for the target polymer
+                // Solubility sphere
                 if (target.r && target.r > 0) {{
-                    const N = 30, M = 20;
-                    const x = [], y = [], z = [];
+                    const N = 30, M = 20, x = [], y = [], z = [];
                     for (let i = 0; i <= N; i++) {{
-                        const xr = [], yr = [], zr = [];
-                        const u = (i / N) * 2 * Math.PI;
+                        const xr = [], yr = [], zr = [], u = (i / N) * 2 * Math.PI;
                         for (let j = 0; j <= M; j++) {{
                             const v = (j / M) * Math.PI;
                             xr.push(target.dd + (target.r / 2) * Math.cos(u) * Math.sin(v));
@@ -702,109 +938,121 @@ full_html = f"""<!DOCTYPE html>
                         }}
                         x.push(xr); y.push(yr); z.push(zr);
                     }}
-                    traces.push({{
-                        type: 'surface', x, y, z,
-                        opacity: 0.12,
+                    traces.push({{ type: 'surface', x, y, z, opacity: 0.12,
                         colorscale: [[0, 'rgba(233,69,96,0.2)'], [1, 'rgba(233,69,96,0.2)']],
-                        showscale: false,
-                        name: 'Sphere: ' + target.name,
-                        hoverinfo: 'name',
-                    }});
+                        showscale: false, name: 'Sphere: ' + target.name, hoverinfo: 'name' }});
                 }}
-
-            }} else if (intent === 'similar_solvents') {{
+            }} else {{
+                const colors = ['#FF006E', '#FB5607', '#FF006E', '#FFBE0B', '#3A86FF',
+                                '#8338EC', '#06D6A0', '#118AB2', '#EF476F', '#FFD166'];
+                const sym = (parentIntent === 'similar_polymers') ? 'diamond' : 'circle';
                 traces.push({{
-                    type: 'scatter3d', mode: 'markers+text',
-                    name: 'Similar Solvents',
-                    x: results.map(r => r.dd), y: results.map(r => r.dp), z: results.map(r => r.dh),
-                    text: results.map((r, i) => (i + 1) + '. ' + r.name),
-                    textposition: 'top center',
-                    textfont: {{ size: 9, color: '#fff' }},
-                    hovertemplate: results.map((r, i) =>
-                        '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>Ra=' + r.ra.toFixed(2) + '<extra></extra>'
-                    ),
-                    marker: {{ size: 10, color: colors, opacity: 1, line: {{ color: '#fff', width: 1 }} }},
+                    type: 'scatter3d', mode: 'markers+text', name: 'Results',
+                    x: valid.map(r => r.dd), y: valid.map(r => r.dp), z: valid.map(r => r.dh),
+                    text: valid.map((r, i) => (i + 1) + '. ' + r.name),
+                    textposition: 'top center', textfont: {{ size: 9, color: '#fff' }},
+                    hovertemplate: valid.map((r, i) =>
+                        '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>Ra=' + r.ra.toFixed(2) + '<extra></extra>'),
+                    marker: {{ size: 10, color: colors.slice(0, valid.length), symbol: sym, opacity: 1, line: {{ color: '#fff', width: 1 }} }},
                 }});
-                // Target solvent
+                const tsym = (parentIntent === 'similar_polymers') ? 'diamond' : 'circle';
                 traces.push({{
-                    type: 'scatter3d', mode: 'markers+text',
-                    name: 'Target: ' + target.name,
+                    type: 'scatter3d', mode: 'markers+text', name: 'Target: ' + target.name,
                     x: [target.dd], y: [target.dp], z: [target.dh],
-                    text: [target.name],
-                    textposition: 'top center',
-                    textfont: {{ size: 12, color: '#e94560' }},
+                    text: [target.name], textposition: 'top center', textfont: {{ size: 12, color: '#e94560' }},
                     hovertemplate: '<b>' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                    marker: {{ size: 14, color: '#e94560', opacity: 1, line: {{ color: '#fff', width: 2 }} }},
-                }});
-
-            }} else if (intent === 'similar_polymers') {{
-                traces.push({{
-                    type: 'scatter3d', mode: 'markers+text',
-                    name: 'Similar Polymers',
-                    x: results.map(r => r.dd), y: results.map(r => r.dp), z: results.map(r => r.dh),
-                    text: results.map((r, i) => (i + 1) + '. ' + r.name),
-                    textposition: 'top center',
-                    textfont: {{ size: 9, color: '#fff' }},
-                    hovertemplate: results.map((r, i) =>
-                        '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>Ra=' + r.ra.toFixed(2) + '<extra></extra>'
-                    ),
-                    marker: {{ size: 10, color: colors, symbol: 'diamond', opacity: 1, line: {{ color: '#fff', width: 1 }} }},
-                }});
-                // Target polymer
-                traces.push({{
-                    type: 'scatter3d', mode: 'markers+text',
-                    name: 'Target: ' + target.name,
-                    x: [target.dd], y: [target.dp], z: [target.dh],
-                    text: [target.name],
-                    textposition: 'top center',
-                    textfont: {{ size: 12, color: '#e94560' }},
-                    hovertemplate: '<b>' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                    marker: {{ size: 14, color: '#e94560', symbol: 'diamond', opacity: 1, line: {{ color: '#fff', width: 2 }} }},
+                    marker: {{ size: 14, color: '#e94560', symbol: tsym, opacity: 1, line: {{ color: '#fff', width: 2 }} }},
                 }});
             }}
 
-            const layout = {{
-                scene: {{
-                    xaxis: {{ title: 'δD (Dispersion) MPa½' }},
-                    yaxis: {{ title: 'δP (Polar) MPa½' }},
-                    zaxis: {{ title: 'δH (H-bonding) MPa½' }},
-                }},
-                template: 'plotly_dark',
-                paper_bgcolor: '#1a1a2e',
-                plot_bgcolor: '#1a1a2e',
-                margin: {{ l: 0, r: 0, t: 40, b: 0 }},
-                legend: {{ x: 0.01, y: 0.99, bgcolor: 'rgba(0,0,0,0.5)' }},
-                title: {{ text: 'Search Results — ' + target.name, x: 0.5, font: {{ size: 18 }} }},
-            }};
-
-            Plotly.react(plotDiv, traces, layout);
+            Plotly.react(plotDiv, traces, defaultLayout('Search Results — ' + target.name));
         }}
 
         function resetPlot() {{
-            const layout = {{
-                scene: {{
-                    xaxis: {{ title: 'δD (Dispersion) MPa½', range: [12, 22] }},
-                    yaxis: {{ title: 'δP (Polar) MPa½', range: [0, 28] }},
-                    zaxis: {{ title: 'δH (H-bonding) MPa½', range: [0, 45] }},
-                }},
-                template: 'plotly_dark',
-                paper_bgcolor: '#1a1a2e',
-                plot_bgcolor: '#1a1a2e',
-                margin: {{ l: 0, r: 0, t: 40, b: 0 }},
-                legend: {{ x: 0.01, y: 0.99, bgcolor: 'rgba(0,0,0,0.5)' }},
-                title: {{ text: 'Materialism — Hansen Solubility Parameter Space', x: 0.5, font: {{ size: 18 }} }},
-            }};
-            Plotly.react(plotDiv, fullTraces, layout);
+            Plotly.react(plotDiv, fullTraces, defaultLayout());
         }}
+
+        // ===================== STRUCTURE TOOLTIP =====================
+        const structCache = {{}};
+        const tooltip = {{ el: null, img: null, nameEl: null }};
+
+        function showStructure(event, encodedName) {{
+            const name = decodeURIComponent(encodedName);
+            if (!tooltip.el) {{
+                tooltip.el = document.getElementById('struct-tooltip');
+                tooltip.img = document.getElementById('struct-img');
+                tooltip.nameEl = document.getElementById('struct-name');
+            }}
+            tooltip.nameEl.textContent = name;
+            tooltip.el.style.display = 'block';
+            positionTooltip(event);
+
+            if (structCache[name] === 'error') {{
+                tooltip.el.style.display = 'none';
+                return;
+            }}
+
+            // Try to find the solvent's SMILES for lookup
+            const solvent = SOLVENTS.find(s => s.name === name);
+            const casNum = (solvent && solvent.cas) ? solvent.cas : null;
+
+            // Build PubChem URL — prefer CAS for accuracy, fall back to name
+            let url;
+            if (casNum) {{
+                url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(casNum) + '/PNG?image_size=200x200';
+            }} else {{
+                url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(name) + '/PNG?image_size=200x200';
+            }}
+
+            if (structCache[name]) {{
+                tooltip.img.src = structCache[name];
+                tooltip.el.classList.remove('loading');
+            }} else {{
+                tooltip.el.classList.add('loading');
+                tooltip.img.src = url;
+                tooltip.img.onload = function() {{
+                    structCache[name] = url;
+                    tooltip.el.classList.remove('loading');
+                }};
+                tooltip.img.onerror = function() {{
+                    structCache[name] = 'error';
+                    tooltip.el.style.display = 'none';
+                }};
+            }}
+        }}
+
+        function hideStructure() {{
+            if (tooltip.el) tooltip.el.style.display = 'none';
+        }}
+
+        function positionTooltip(event) {{
+            if (!tooltip.el) return;
+            let x = event.clientX + 15;
+            let y = event.clientY - 100;
+            if (x + 220 > window.innerWidth) x = event.clientX - 225;
+            if (y < 10) y = 10;
+            tooltip.el.style.left = x + 'px';
+            tooltip.el.style.top = y + 'px';
+        }}
+
+        document.addEventListener('mousemove', function(e) {{
+            if (tooltip.el && tooltip.el.style.display === 'block') positionTooltip(e);
+        }});
 
         // ===================== UI GLUE =====================
         function runSearch() {{
             const input = document.getElementById('nl-search');
             const q = input.value.trim();
             if (!q) return;
+            input.value = '';
+
+            addChatMessage('user', q);
             const parsed = parseQuery(q);
             const result = executeSearch(parsed);
-            displayResults(result);
+            const html = renderResultsHTML(result);
+            addChatMessage('system', html);
+
+            if (!result.error) updatePlotWithResults(result);
         }}
 
         function exampleSearch(text) {{
@@ -812,8 +1060,12 @@ full_html = f"""<!DOCTYPE html>
             runSearch();
         }}
 
-        function closeResults() {{
-            document.getElementById('results-panel').classList.remove('visible');
+        function clearChat() {{
+            chatContext = null;
+            chatMessages = [];
+            const panel = document.getElementById('chat-panel');
+            panel.innerHTML = '';
+            panel.classList.remove('visible');
             resetPlot();
         }}
 
@@ -821,20 +1073,18 @@ full_html = f"""<!DOCTYPE html>
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.getElementById('panel-' + name).classList.add('active');
-            // Find the correct tab button
             const tabs = document.querySelectorAll('.tab');
             const tabNames = ['plot', 'solvents', 'polymers', 'about'];
             const idx = tabNames.indexOf(name);
             if (idx >= 0 && tabs[idx]) tabs[idx].classList.add('active');
-            if (name === 'plot') {{ window.dispatchEvent(new Event('resize')); }}
+            if (name === 'plot') window.dispatchEvent(new Event('resize'));
         }}
 
         function filterTable(tableId, query) {{
             const rows = document.querySelectorAll('#' + tableId + ' tbody tr');
             const q = query.toLowerCase();
             rows.forEach(row => {{
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(q) ? '' : 'none';
+                row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
             }});
         }}
 
