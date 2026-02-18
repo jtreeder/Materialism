@@ -592,36 +592,42 @@ full_html = f"""<!DOCTYPE html>
             // --- Multi-material detection ---
             // Separator: "and", "but", comma, semicolon
             var sep = /\s*(?:,\s*(?:and\s+|but\s+)?|;\s*|\s+and\s+|\s+but\s+)\s*/;
+            // "solvents?" is optional in all patterns so "good for X, bad for Y" works
+            var optSolv = '(?:solvents?\\s+)?';
 
-            // "good solvents for X, bad for Y" / "good for X and bad for Y" etc.
-            var multiGoodBad = q.match(new RegExp('good\\s+solvents?\\s+for\\s+(.+?)' + sep.source + '(?:a\\s+)?bad\\s+(?:solvents?\\s+)?for\\s+(.+)', 'i'));
+            // "good (solvents) for X, bad (solvents) for Y"
+            var multiGoodBad = q.match(new RegExp('good\\s+' + optSolv + 'for\\s+(.+?)' + sep.source + '(?:a\\s+)?bad\\s+' + optSolv + 'for\\s+(.+)', 'i'));
             if (multiGoodBad) {{
                 return {{ intent: 'multi_material', materials: [
                     {{ name: multiGoodBad[1].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
                     {{ name: multiGoodBad[2].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
                 ]}};
             }}
-            var multiBadGood = q.match(new RegExp('bad\\s+solvents?\\s+for\\s+(.+?)' + sep.source + '(?:a\\s+)?good\\s+(?:solvents?\\s+)?for\\s+(.+)', 'i'));
+            // "bad (solvents) for X, good (solvents) for Y"
+            var multiBadGood = q.match(new RegExp('bad\\s+' + optSolv + 'for\\s+(.+?)' + sep.source + '(?:a\\s+)?good\\s+' + optSolv + 'for\\s+(.+)', 'i'));
             if (multiBadGood) {{
                 return {{ intent: 'multi_material', materials: [
                     {{ name: multiBadGood[1].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
                     {{ name: multiBadGood[2].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
                 ]}};
             }}
-            var multiBoth = q.match(new RegExp('good\\s+solvents?\\s+for\\s+(?:both\\s+)?(.+?)' + sep.source + '(.+)', 'i'));
+            // "good (solvents) for (both) X and Y"
+            var multiBoth = q.match(new RegExp('good\\s+' + optSolv + 'for\\s+(?:both\\s+)?(.+?)' + sep.source + '(.+)', 'i'));
             if (multiBoth) {{
                 return {{ intent: 'multi_material', materials: [
                     {{ name: multiBoth[1].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
                     {{ name: multiBoth[2].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
                 ]}};
             }}
-            var multiBothBad = q.match(new RegExp('bad\\s+solvents?\\s+for\\s+(?:both\\s+)?(.+?)' + sep.source + '(.+)', 'i'));
+            // "bad (solvents) for (both) X and Y"
+            var multiBothBad = q.match(new RegExp('bad\\s+' + optSolv + 'for\\s+(?:both\\s+)?(.+?)' + sep.source + '(.+)', 'i'));
             if (multiBothBad) {{
                 return {{ intent: 'multi_material', materials: [
                     {{ name: multiBothBad[1].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
                     {{ name: multiBothBad[2].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
                 ]}};
             }}
+            // "dissolves (both) X and Y"
             var dissolvesBoth = q.match(new RegExp('(?:dissolves?|dissolve)\\s+(?:both\\s+)?(.+?)' + sep.source + '(.+)', 'i'));
             if (dissolvesBoth) {{
                 return {{ intent: 'multi_material', materials: [
@@ -649,15 +655,17 @@ full_html = f"""<!DOCTYPE html>
             }}
 
             const badPatterns = [
-                /bad\s+solvents?\s+for/i, /(?:poor|worst|incompatible)\s+solvents?\s+for/i,
+                /bad\s+solvents?\s+for/i, /bad\s+for/i,
+                /(?:poor|worst|incompatible)\s+(?:solvents?\s+)?for/i,
                 /solvents?\s+(?:that\s+)?(?:won'?t|will\s+not|cannot|can'?t)\s+dissolve/i,
                 /(?:resist|resistant|insoluble)/i, /non[- ]?solvents?\s+for/i,
             ];
             const goodPatterns = [
-                /good\s+solvents?\s+(for|to\s+dissolve)/i, /best\s+solvents?\s+for/i,
+                /good\s+solvents?\s+(for|to\s+dissolve)/i, /good\s+for/i,
+                /best\s+(?:solvents?\s+)?for/i,
                 /(?:what|which)\s+(?:solvents?\s+)?(?:dissolves?|will\s+dissolve|can\s+dissolve)/i,
                 /solvents?\s+(?:that\s+)?(?:dissolves?|for|compatible\s+with)/i,
-                /dissolve\s+/i, /compatible\s+solvents?\s+for/i, /soluble\s+in/i,
+                /dissolve\s+/i, /compatible\s+(?:solvents?\s+)?for/i, /soluble\s+in/i,
                 /find\s+(?:me\s+)?(?:a\s+)?solvents?\s+for/i,
             ];
             const similarSolventPatterns = [
