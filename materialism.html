@@ -17303,7 +17303,8 @@ return Plotly;
                 // Keep categories that appear at least twice, or top 2 if none do
                 var topCats = sorted.filter(function(c) { return catCounts[c] >= 2; }).slice(0, 3);
                 if (topCats.length === 0) topCats = sorted.slice(0, 2);
-                var catLabels = topCats.map(function(c) { return c + 's'; });
+                var catPlural = { 'hydrocarbon': 'hydrocarbons', 'aromatic': 'aromatics', 'halogenated': 'halogenated solvents', 'ether': 'ethers', 'ketone': 'ketones', 'ester': 'esters', 'alcohol': 'alcohols', 'amide': 'amides', 'sulfoxide': 'sulfoxides', 'acid': 'acids', 'nitrile': 'nitriles', 'glycol ether': 'glycol ethers', 'amine': 'amines', 'terpene': 'terpenes', 'inorganic': 'inorganic solvents', 'nitro': 'nitro compounds', 'glycol': 'glycols', 'fluorinated': 'fluorinated solvents', 'heterocyclic': 'heterocyclics', 'aldehyde': 'aldehydes', 'sulfur compound': 'sulfur compounds' };
+                var catLabels = topCats.map(function(c) { return catPlural[c] || c + 's'; });
 
                 // Name 3 specific solvents
                 var topNames = topN.slice(0, 3).map(function(r) { return r.name; });
