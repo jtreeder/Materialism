@@ -4057,7 +4057,7 @@ return Plotly;
 </head>
 <body>
     <div class="header">
-        <h1>Materialism</h1>
+        <h1 onclick="goHome()" style="cursor:pointer">Materialism</h1>
         <div class="stats">2152 solvents &middot; 471 polymers &middot; Hansen Solubility Parameters</div>
     </div>
 
@@ -17274,15 +17274,12 @@ return Plotly;
         }
 
         // ===================== CHAT DISPLAY =====================
-        function addChatMessage(type, html) {
+        function showResults(html) {
             hideHomePanel();
             const panel = document.getElementById('chat-panel');
+            panel.innerHTML = html;
             panel.classList.add('visible');
-            const div = document.createElement('div');
-            div.className = 'chat-msg ' + type;
-            div.innerHTML = html;
-            panel.appendChild(div);
-            panel.scrollTop = panel.scrollHeight;
+            panel.scrollTop = 0;
         }
 
         // ===================== MATERIAL DESCRIPTIONS =====================
@@ -17516,18 +17513,19 @@ return Plotly;
         }
 
         function defaultLayout(title) {
-            const axisStyle = {
-                titlefont: { size: 14, color: '#e0e0e0', family: 'Arial, sans-serif' },
-                tickfont: { size: 12, color: '#bbb', family: 'Arial, sans-serif' },
+            var titleFont = { size: 14, color: '#e0e0e0', family: 'Arial, sans-serif' };
+            var tickFont = { size: 12, color: '#bbb', family: 'Arial, sans-serif' };
+            var axisCommon = {
+                tickfont: tickFont,
                 gridcolor: 'rgba(255,255,255,0.15)',
                 zerolinecolor: 'rgba(255,255,255,0.25)',
                 showspikes: false,
             };
             return {
                 scene: {
-                    xaxis: { ...axisStyle, title: 'δD (Dispersion) MPa½', range: [12, 22], dtick: 2 },
-                    yaxis: { ...axisStyle, title: 'δP (Polar) MPa½', range: [0, 28], dtick: 4 },
-                    zaxis: { ...axisStyle, title: 'δH (H-bonding) MPa½', range: [0, 45], dtick: 5 },
+                    xaxis: Object.assign({}, axisCommon, { title: { text: '\u03B4D (Dispersion) MPa\u00BD', font: titleFont }, range: [12, 22], dtick: 2 }),
+                    yaxis: Object.assign({}, axisCommon, { title: { text: '\u03B4P (Polar) MPa\u00BD', font: titleFont }, range: [0, 28], dtick: 4 }),
+                    zaxis: Object.assign({}, axisCommon, { title: { text: '\u03B4H (H-bonding) MPa\u00BD', font: titleFont }, range: [0, 45], dtick: 5 }),
                 },
                 template: 'plotly_dark',
                 paper_bgcolor: '#1a1a2e', plot_bgcolor: '#1a1a2e',
@@ -17795,11 +17793,10 @@ return Plotly;
             if (!q) return;
             input.value = '';
 
-            addChatMessage('user', q);
             const parsed = parseQuery(q);
             const result = executeSearch(parsed);
             const html = renderResultsHTML(result);
-            addChatMessage('system', html);
+            showResults(html);
 
             if (!result.error) updatePlotWithResults(result);
         }
@@ -17817,6 +17814,15 @@ return Plotly;
             panel.classList.remove('visible');
             showHomePanel();
             resetPlot();
+        }
+
+        function goHome() {
+            clearChat();
+            document.getElementById('nl-search').value = '';
+            // Close any open database tab
+            document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+            window.dispatchEvent(new Event('resize'));
         }
 
         function showTab(name) {
