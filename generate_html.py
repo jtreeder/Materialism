@@ -3,36 +3,23 @@
 import os
 import sys
 import json
+import csv
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
 
 import numpy as np
-import plotly.graph_objects as go
 
 from backend.app.models.database import init_db, get_engine, get_session, Chemical, Polymer
 from backend.app.data.seed_data import seed_database
-from backend.app.services.hsp_calculator import hsp_distance, red_number
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "materialism.db")
 engine = init_db(get_engine(DB_PATH))
 session = get_session(engine)
 seed_database(session)
 
-# Load data
-chemicals = session.query(Chemical).all()
-polymers = session.query(Polymer).all()
-
-# Also read polymer CAS from CSV if available
-polymer_cas = {}
-try:
-    import csv
-    with open(os.path.join(os.path.dirname(__file__), "data", "processed", "hsp_polymers.csv")) as f:
-        for row in csv.DictReader(f):
-            cas = row.get("cas_number", "").strip()
-            if cas:
-                polymer_cas[row["name"].strip()] = cas
-except Exception:
-    pass
+# Load data from CSV (has per-field source URLs after enrichment)
+CHEM_CSV = os.path.join(os.path.dirname(__file__), "data", "processed", "hsp_chemicals.csv")
+POLY_CSV = os.path.join(os.path.dirname(__file__), "data", "processed", "hsp_polymers.csv")
 
 # Source display name mapping
 SOURCE_NAMES = {
@@ -47,27 +34,53 @@ SOURCE_NAMES = {
 }
 
 solvents = []
-for c in chemicals:
-    if c.has_hsp:
+with open(CHEM_CSV) as f:
+    for row in csv.DictReader(f):
+        dd = row.get("delta_d", "").strip()
+        dp = row.get("delta_p", "").strip()
+        dh = row.get("delta_h", "").strip()
+        if not (dd and dp and dh):
+            continue
+        src_key = row.get("source", "").strip()
+        src_url = row.get("source_url", "").strip()
+        mw_src = row.get("mw_source", "").strip() or src_url
+        bp_src = row.get("bp_source", "").strip() or src_url
+        mw_val = row.get("molecular_weight", "").strip()
+        bp_val = row.get("boiling_point", "").strip()
         solvents.append({
-            "name": c.name, "cas": c.cas_number or "",
-            "dd": c.delta_d, "dp": c.delta_p, "dh": c.delta_h,
-            "mw": c.molecular_weight, "bp": c.boiling_point,
-            "cat": c.category or "other",
-            "smiles": c.smiles or "",
-            "src": SOURCE_NAMES.get(c.data_source, c.data_source or ""),
-            "srcUrl": c.source_url or "",
+            "name": row["name"].strip(),
+            "cas": row.get("cas_number", "").strip(),
+            "dd": float(dd), "dp": float(dp), "dh": float(dh),
+            "mw": float(mw_val) if mw_val else None,
+            "bp": float(bp_val) if bp_val else None,
+            "cat": row.get("category", "other").strip() or "other",
+            "smiles": row.get("smiles", "").strip(),
+            "src": SOURCE_NAMES.get(src_key, src_key),
+            "srcUrl": src_url,
+            "mwSrc": mw_src if mw_val else "",
+            "bpSrc": bp_src if bp_val else "",
         })
 
 poly_data = []
-for p in polymers:
-    poly_data.append({
-        "name": p.name, "dd": p.delta_d, "dp": p.delta_p,
-        "dh": p.delta_h, "r": p.radius, "type": p.type or "",
-        "cas": polymer_cas.get(p.name, ""),
-        "src": SOURCE_NAMES.get(p.data_source, p.data_source or ""),
-        "srcUrl": p.source_url or "",
-    })
+with open(POLY_CSV) as f:
+    for row in csv.DictReader(f):
+        dd = row.get("delta_d", "").strip()
+        dp = row.get("delta_p", "").strip()
+        dh = row.get("delta_h", "").strip()
+        if not (dd and dp and dh):
+            continue
+        src_key = row.get("source", "").strip()
+        src_url = row.get("source_url", "").strip()
+        r_val = row.get("radius", "").strip()
+        poly_data.append({
+            "name": row["name"].strip(),
+            "dd": float(dd), "dp": float(dp), "dh": float(dh),
+            "r": float(r_val) if r_val else None,
+            "type": row.get("type", "").strip(),
+            "cas": row.get("cas_number", "").strip(),
+            "src": SOURCE_NAMES.get(src_key, src_key),
+            "srcUrl": src_url,
+        })
 
 CATEGORY_COLORS = {
     "hydrocarbon": "#636EFA", "aromatic": "#EF553B", "halogenated": "#00CC96",
@@ -80,24 +93,36 @@ CATEGORY_COLORS = {
     "aldehyde": "#FF7F0E", "sulfur compound": "#AEC7E8", "other": "#888888",
 }
 
-# --- Build HTML data tables ---
+# Build static HTML data tables (for Solvent/Polymer Database tabs)
 table_rows = ""
 for s in sorted(solvents, key=lambda x: x["name"]):
-    src_link = f'<a href="{s["srcUrl"]}" target="_blank" style="color:#6ea8fe;text-decoration:none">{s["src"]}</a>' if s["srcUrl"] else s["src"]
+    def _link(val, url):
+        if val is None or val == "":
+            return ""
+        v = str(val)
+        if url:
+            return f'<a href="{url}" target="_blank" rel="noopener" style="color:#6ea8fe;text-decoration:none" title="Source">{v}</a>'
+        return v
     table_rows += f"""<tr>
         <td>{s['name']}</td><td>{s['cas']}</td>
-        <td>{s['dd']}</td><td>{s['dp']}</td><td>{s['dh']}</td>
-        <td>{s['mw'] or ''}</td><td>{s['bp'] or ''}</td>
-        <td>{s['cat']}</td><td>{src_link}</td>
+        <td>{_link(s['dd'], s['srcUrl'])}</td><td>{_link(s['dp'], s['srcUrl'])}</td><td>{_link(s['dh'], s['srcUrl'])}</td>
+        <td>{_link(s['mw'], s['mwSrc'])}</td><td>{_link(s['bp'], s['bpSrc'])}</td>
+        <td>{s['cat']}</td>
     </tr>"""
 
 polymer_rows = ""
 for p in sorted(poly_data, key=lambda x: x["name"]):
-    src_link = f'<a href="{p["srcUrl"]}" target="_blank" style="color:#6ea8fe;text-decoration:none">{p["src"]}</a>' if p["srcUrl"] else p["src"]
+    def _link(val, url):
+        if val is None or val == "":
+            return ""
+        v = str(val)
+        if url:
+            return f'<a href="{url}" target="_blank" rel="noopener" style="color:#6ea8fe;text-decoration:none" title="Source">{v}</a>'
+        return v
     polymer_rows += f"""<tr>
         <td>{p['name']}</td><td>{p['cas']}</td>
-        <td>{p['dd']}</td><td>{p['dp']}</td><td>{p['dh']}</td>
-        <td>{p['r']}</td><td>{p['type']}</td><td>{src_link}</td>
+        <td>{_link(p['dd'], p['srcUrl'])}</td><td>{_link(p['dp'], p['srcUrl'])}</td><td>{_link(p['dh'], p['srcUrl'])}</td>
+        <td>{_link(p['r'], p['srcUrl'])}</td><td>{p['type']}</td>
     </tr>"""
 
 # Serialize data for JS embedding
@@ -123,7 +148,7 @@ full_html = f"""<!DOCTYPE html>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
         body {{ background: #1a1a2e; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }}
         .header {{ background: #16213e; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #0f3460; }}
-        .header h1 {{ font-size: 1.5rem; color: #e94560; }}
+        .header h1 {{ font-size: 1.5rem; color: #e94560; cursor: pointer; }}
         .header .stats {{ color: #888; font-size: 0.9rem; }}
         .tabs {{ display: flex; gap: 0; background: #16213e; border-bottom: 2px solid #0f3460; }}
         .tab {{ padding: 12px 24px; cursor: pointer; border: none; background: transparent; color: #888; font-size: 0.95rem; transition: all 0.2s; }}
@@ -131,9 +156,11 @@ full_html = f"""<!DOCTYPE html>
         .tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #1a1a2e; }}
         .panel {{ display: none; padding: 20px; }}
         .panel.active {{ display: block; }}
+        .results-layout {{ display: flex; gap: 0; height: calc(100vh - 140px); min-height: 500px; }}
+        .plot-side {{ flex: 1 1 55%; min-width: 0; border-right: 1px solid #0f3460; overflow: hidden; }}
         .plot-container {{ width: 100%; }}
         table {{ width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }}
-        th {{ background: #16213e; color: #e94560; padding: 10px; text-align: left; position: sticky; top: 0; cursor: pointer; }}
+        th {{ background: #16213e; color: #e94560; padding: 10px; text-align: left; position: sticky; top: 0; cursor: pointer; z-index: 1; }}
         th:hover {{ background: #0f3460; }}
         td {{ padding: 8px 10px; border-bottom: 1px solid #333; }}
         tr:hover {{ background: #16213e; }}
@@ -164,11 +191,6 @@ full_html = f"""<!DOCTYPE html>
             transition: background 0.2s;
         }}
         .search-bar button:hover {{ background: #c73652; }}
-        .search-bar .clear-btn {{
-            padding: 12px 16px; font-size: 1rem; background: #333; color: #aaa;
-            border: 1px solid #555; border-radius: 8px; cursor: pointer;
-        }}
-        .search-bar .clear-btn:hover {{ background: #444; color: #fff; }}
         .search-options {{
             display: flex; align-items: center; justify-content: space-between;
             padding: 4px 20px 10px; background: #16213e;
@@ -194,34 +216,40 @@ full_html = f"""<!DOCTYPE html>
         .rc-btn:hover {{ border-color: #e94560; color: #e0e0e0; }}
         .rc-btn.active {{ background: #e94560; color: white; border-color: #e94560; }}
 
-        /* --- Chat Panel --- */
+        /* --- Chat Panel (right side of results layout) --- */
         .chat-panel {{
-            display: none; max-height: 500px; overflow-y: auto; margin: 0 20px;
-            padding: 12px 0; border-bottom: 1px solid #0f3460;
+            display: none; flex: 1 1 45%; min-width: 0;
+            overflow-y: auto; padding: 12px 14px;
+            height: calc(100vh - 140px); box-sizing: border-box;
         }}
         .chat-panel.visible {{ display: block; }}
-        .chat-msg {{
-            margin: 8px 0; padding: 10px 14px; border-radius: 8px;
-            max-width: 95%; font-size: 0.9rem; line-height: 1.5;
+
+        /* --- Home Panel (right side, shown when no search results) --- */
+        .home-panel {{
+            flex: 1 1 45%; min-width: 0; display: flex; flex-direction: column;
+            height: calc(100vh - 140px); box-sizing: border-box;
         }}
-        .chat-msg.user {{
-            background: #0f3460; color: #e0e0e0; margin-left: auto;
-            max-width: 60%; text-align: right; border-bottom-right-radius: 2px;
+        .home-panel-header {{
+            display: flex; align-items: center; padding: 10px 14px;
+            border-bottom: 1px solid #0f3460; flex-shrink: 0;
         }}
-        .chat-msg.system {{
-            background: #16213e; border: 1px solid #0f3460;
-            border-bottom-left-radius: 2px;
+        .home-tabs {{
+            display: flex; gap: 0; border-bottom: 1px solid #0f3460; flex-shrink: 0;
         }}
-        .chat-msg .msg-label {{
-            font-size: 0.7rem; color: #888; margin-bottom: 4px;
-            text-transform: uppercase; letter-spacing: 0.5px;
+        .home-tab {{
+            padding: 8px 18px; cursor: pointer; border: none; background: transparent;
+            color: #888; font-size: 0.85rem; transition: all 0.2s;
         }}
+        .home-tab:hover {{ color: #e0e0e0; background: #1a1a2e; }}
+        .home-tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #1a1a2e; }}
+        .home-table-wrap {{ flex: 1; overflow-y: auto; min-height: 0; }}
+
         .chat-context {{
             display: inline-block; background: #0f3460; color: #aaa; padding: 2px 8px;
             border-radius: 4px; font-size: 0.75rem; margin-bottom: 8px;
         }}
 
-        /* --- Results Table in Chat --- */
+        /* --- Results Table --- */
         .results-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; }}
         .results-table th {{
             background: #0f3460; color: #e94560; padding: 8px 10px;
@@ -237,11 +265,6 @@ full_html = f"""<!DOCTYPE html>
             display: inline-block; background: #e94560; color: white; padding: 2px 10px;
             border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-left: 8px;
         }}
-        .chat-reset {{
-            margin-top: 10px; padding: 6px 14px; background: #333; color: #aaa;
-            border: 1px solid #555; border-radius: 6px; cursor: pointer; font-size: 0.8rem;
-        }}
-        .chat-reset:hover {{ background: #444; color: #fff; border-color: #e94560; }}
 
         /* --- Structure Tooltip --- */
         .struct-tooltip {{
@@ -266,7 +289,7 @@ full_html = f"""<!DOCTYPE html>
 </head>
 <body>
     <div class="header">
-        <h1>Materialism</h1>
+        <h1 onclick="goHome()">Materialism</h1>
         <div class="stats">{len(solvents)} solvents &middot; {len(poly_data)} polymers &middot; Hansen Solubility Parameters</div>
     </div>
 
@@ -274,7 +297,6 @@ full_html = f"""<!DOCTYPE html>
         <input type="text" id="nl-search" placeholder="Ask anything — e.g. &quot;good solvents for polystyrene&quot; then follow up with &quot;what about NMP?&quot;"
                onkeydown="if(event.key==='Enter')runSearch()">
         <button onclick="runSearch()">Search</button>
-        <button class="clear-btn" onclick="clearChat()">New Chat</button>
     </div>
     <div class="search-options">
         <div class="search-examples">
@@ -295,23 +317,40 @@ full_html = f"""<!DOCTYPE html>
         </div>
     </div>
 
-    <div id="chat-panel" class="chat-panel"></div>
+    <div id="results-layout" class="results-layout">
+        <div id="panel-plot" class="plot-side">
+            <div class="plot-container">
+                <div id="plotly-div" style="width:100%; height:700px;"></div>
+            </div>
+            <p style="color:#888; padding:6px 10px; font-size:0.8rem; margin:0;">
+                Drag to rotate &middot; Scroll to zoom &middot;
+                Gold diamonds = polymers, colored dots = solvents by category
+            </p>
+        </div>
+        <div id="chat-panel" class="chat-panel"></div>
+        <div id="home-panel" class="home-panel">
+            <div class="home-panel-header">
+                <strong style="color:#e94560">All Materials</strong>
+                <span style="color:#888;font-size:0.8rem;margin-left:8px" id="home-count"></span>
+                <input type="text" id="home-filter" placeholder="Filter by name..." oninput="filterHomeTable(this.value)" style="margin-left:auto;width:180px;font-size:0.8rem;">
+            </div>
+            <div class="home-tabs">
+                <button class="home-tab active" onclick="switchHomeTab('solvents')">Solvents</button>
+                <button class="home-tab" onclick="switchHomeTab('polymers')">Polymers</button>
+            </div>
+            <div class="home-table-wrap">
+                <table id="home-table" class="results-table">
+                    <thead id="home-thead"></thead>
+                    <tbody id="home-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <div class="tabs">
-        <div class="tab active" onclick="showTab('plot')">3D Hansen Space</div>
         <div class="tab" onclick="showTab('solvents')">Solvent Database</div>
         <div class="tab" onclick="showTab('polymers')">Polymer Database</div>
         <div class="tab" onclick="showTab('about')">How It Works</div>
-    </div>
-
-    <div id="panel-plot" class="panel active">
-        <div class="plot-container">
-            <div id="plotly-div" style="width:100%; height:800px;"></div>
-        </div>
-        <p style="color:#888; padding:10px; font-size:0.85rem;">
-            Drag to rotate &middot; Scroll to zoom &middot;
-            Gold diamonds = polymers, colored dots = solvents by category
-        </p>
     </div>
 
     <div id="panel-solvents" class="panel">
@@ -327,7 +366,6 @@ full_html = f"""<!DOCTYPE html>
                     <th onclick="sortTable('solvent-table',5)">MW</th>
                     <th onclick="sortTable('solvent-table',6)">BP &deg;C</th>
                     <th onclick="sortTable('solvent-table',7)">Category</th>
-                    <th>Source</th>
                 </tr></thead>
                 <tbody>{table_rows}</tbody>
             </table>
@@ -346,7 +384,6 @@ full_html = f"""<!DOCTYPE html>
                     <th onclick="sortTable('polymer-table',4)">&delta;H</th>
                     <th onclick="sortTable('polymer-table',5)">R&#8320;</th>
                     <th onclick="sortTable('polymer-table',6)">Type</th>
-                    <th>Source</th>
                 </tr></thead>
                 <tbody>{polymer_rows}</tbody>
             </table>
@@ -380,20 +417,18 @@ full_html = f"""<!DOCTYPE html>
                 <li><span class="incompatible">RED &gt; 1</span> — outside the sphere &rarr; <strong>not compatible</strong></li>
             </ul>
 
-            <h3 style="margin-top:20px;">Chat-Style Search</h3>
-            <p>Use the search bar to ask questions in plain English. You can have a <strong>conversation</strong>:</p>
+            <h3 style="margin-top:20px;">Search</h3>
+            <p>Use the search bar to ask questions in plain English:</p>
             <ul style="margin: 10px 0 10px 20px;">
-                <li><strong>"good solvents for polystyrene"</strong> — finds the best solvents (configurable: 10, 25, or 50 results)</li>
-                <li><strong>"what about NMP or DMSO?"</strong> — follow-up evaluates specific solvents against the same polymer</li>
-                <li><strong>"bad solvents for PVC"</strong> — starts a new search for incompatible solvents</li>
+                <li><strong>"good solvents for polystyrene"</strong> — finds the best solvents</li>
+                <li><strong>"what about NMP or DMSO?"</strong> — follow-up evaluates specific solvents</li>
+                <li><strong>"good solvent for both cellulose and PVC"</strong> — multi-material search</li>
                 <li><strong>"solvents similar to toluene"</strong> — finds the nearest neighbors</li>
             </ul>
             <p>Common acronyms are supported: NMP, DMSO, DMF, THF, MEK, DCM, PVC, PMMA, PTFE, etc.</p>
             <p>Hover over material names in results to see molecular structures (loaded from PubChem).</p>
-
-            <h3 style="margin-top:20px;">The 3D Plot</h3>
-            <p>Each dot is a solvent positioned at its (&delta;D, &delta;P, &delta;H) coordinates.
-            Search results highlight matched materials and show the polymer's solubility sphere.</p>
+            <p>Click a material name in results to highlight it on the 3D plot.</p>
+            <p>Values in the database tables link to their data source.</p>
         </div>
     </div>
 
@@ -444,7 +479,6 @@ full_html = f"""<!DOCTYPE html>
             'etoac': 'Ethyl Acetate',
             'diethyl ether': 'Diethyl ether',
             'ether': 'Diethyl ether',
-            'etoh': 'Ethanol',
             'formamide': 'Formamide',
             'dmpu': 'DMPU (1,3-Dimethyl-3,4,5,6-Tetrahydro-2(1H)-Pyrimidinone)',
             'pgmea': 'Propylene Glycol Methyl Ether Acetate',
@@ -453,7 +487,6 @@ full_html = f"""<!DOCTYPE html>
             'butyrolactone': 'gamma-Butyrolactone',
             'dioxane': '1,4-Dioxane',
             'pyridine': 'Pyridine',
-            'dmpu': 'DMPU (1,3-Dimethyl-3,4,5,6-Tetrahydro-2(1H)-Pyrimidinone)',
             'nitromethane': 'Nitromethane',
         }};
 
@@ -507,6 +540,7 @@ full_html = f"""<!DOCTYPE html>
             'pps': 'Polyphenylene sulfide (PPS)',
             'petg': 'PETG',
             'cellulose acetate': 'Cellulose acetate',
+            'cellulose': 'Cellulose acetate',
             'ca': 'Cellulose acetate',
             'eva': 'Ethylene vinyl acetate (EVA)',
             'san': 'Styrene acrylonitrile (SAN)',
@@ -521,13 +555,42 @@ full_html = f"""<!DOCTYPE html>
             return hspDistance(solvent, polymer) / polymer.r;
         }}
 
+        // ===================== COLOR SCALING =====================
+        function distanceToColor(t) {{
+            t = Math.max(0, Math.min(1, t));
+            let r, g, b;
+            if (t < 0.5) {{
+                const s = t * 2;
+                r = Math.round(0x00 + s * (0xCC - 0x00));
+                g = Math.round(0xCC + s * (0xCC - 0xCC));
+                b = Math.round(0x66 + s * (0x00 - 0x66));
+            }} else {{
+                const s = (t - 0.5) * 2;
+                r = Math.round(0xCC + s * (0xEF - 0xCC));
+                g = Math.round(0xCC + s * (0x55 - 0xCC));
+                b = Math.round(0x00 + s * (0x3B - 0x00));
+            }}
+            return 'rgb(' + r + ',' + g + ',' + b + ')';
+        }}
+
+        function computeResultColors(validResults) {{
+            if (validResults.length === 0) return [];
+            const distances = validResults.map(r => r.ra != null ? r.ra : 0);
+            const minD = Math.min(...distances);
+            const maxD = Math.max(...distances);
+            const range = maxD - minD;
+            return distances.map(d => {{
+                if (range === 0) return distanceToColor(0);
+                return distanceToColor((d - minD) / range);
+            }});
+        }}
+
         // ===================== FUZZY MATCH =====================
         function normalize(s) {{ return s.toLowerCase().replace(/[^a-z0-9]/g, ''); }}
 
         function resolveAlias(query, aliases) {{
             const q = query.toLowerCase().trim();
             if (aliases[q]) return aliases[q];
-            // Try normalized
             const qn = normalize(q);
             for (const [alias, name] of Object.entries(aliases)) {{
                 if (normalize(alias) === qn) return name;
@@ -577,7 +640,6 @@ full_html = f"""<!DOCTYPE html>
         }}
 
         function findMaterial(query) {{
-            // Try polymer first (for good/bad solvents context), then solvent
             const p = findPolymer(query);
             const s = findSolvent(query);
             return {{ polymer: p, solvent: s }};
@@ -594,7 +656,7 @@ full_html = f"""<!DOCTYPE html>
         }}
 
         // ===================== CHAT STATE =====================
-        let chatContext = null; // {{ intent, target, targetType }}
+        let chatContext = null;
         let chatMessages = [];
 
         // ===================== NLP QUERY PARSER =====================
@@ -602,8 +664,6 @@ full_html = f"""<!DOCTYPE html>
             const q = raw.toLowerCase().trim();
 
             // --- Multi-material detection ---
-            // "good solvent for both cellulose and PVC"
-            // "good solvent for silicone and bad solvent for epoxy"
             const multiGoodBad = q.match(/good\s+solvents?\s+for\s+(.+?)\s+and\s+(?:a\s+)?bad\s+solvents?\s+for\s+(.+)/i);
             if (multiGoodBad) {{
                 return {{ intent: 'multi_material', materials: [
@@ -618,7 +678,6 @@ full_html = f"""<!DOCTYPE html>
                     {{ name: multiBadGood[2].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
                 ]}};
             }}
-            // "good solvent for both X and Y" or "good solvent for X and Y"
             const multiBoth = q.match(/good\s+solvents?\s+for\s+(?:both\s+)?(.+?)\s+and\s+(.+)/i);
             if (multiBoth) {{
                 return {{ intent: 'multi_material', materials: [
@@ -633,7 +692,6 @@ full_html = f"""<!DOCTYPE html>
                     {{ name: multiBothBad[2].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
                 ]}};
             }}
-            // "dissolves both X and Y"
             const dissolvesBoth = q.match(/(?:dissolves?|dissolve)\s+(?:both\s+)?(.+?)\s+and\s+(.+)/i);
             if (dissolvesBoth) {{
                 return {{ intent: 'multi_material', materials: [
@@ -642,12 +700,8 @@ full_html = f"""<!DOCTYPE html>
                 ]}};
             }}
 
-            // --- Standard intent detection FIRST (takes priority over follow-ups) ---
-            // This ensures "is NMP a good solvent for silicone" is parsed as a new
-            // good_solvents query rather than a follow-up even when context exists.
             const hasStandardIntent = /good\s+solvent|bad\s+solvent|best\s+solvent|worst\s+solvent|poor\s+solvent|dissolve|compatible\s+with|incompatible|similar\s+to|close\s+to|solvents?\s+for|polymers?\s+for|polymers?\s+similar|solvents?\s+similar/i.test(q);
 
-            // --- Follow-up detection (only if no standard intent detected) ---
             if (!hasStandardIntent && chatContext) {{
                 const followUpPatterns = [
                     /^(?:what|how)\s+about\s+(.+)/i,
@@ -656,41 +710,30 @@ full_html = f"""<!DOCTYPE html>
                 ];
                 for (const p of followUpPatterns) {{
                     const m = q.match(p);
-                    if (m) {{
-                        return {{ intent: 'followup', material: m[1].replace(/[?.!]/g, '').trim() }};
-                    }}
+                    if (m) return {{ intent: 'followup', material: m[1].replace(/[?.!]/g, '').trim() }};
                 }}
-
-                // If query is just material names (no intent keywords at all)
                 const anyIntentWord = /good|bad|best|worst|similar|close|near|dissolve|compatible|incompatible|find|search|show|list|solvent|polymer/i;
                 if (!anyIntentWord.test(q)) {{
                     return {{ intent: 'followup', material: q.replace(/[?.!]/g, '').trim() }};
                 }}
             }}
 
-            // --- Standard intent detection ---
             const badPatterns = [
-                /bad\s+solvents?\s+for/i,
-                /(?:poor|worst|incompatible)\s+solvents?\s+for/i,
+                /bad\s+solvents?\s+for/i, /(?:poor|worst|incompatible)\s+solvents?\s+for/i,
                 /solvents?\s+(?:that\s+)?(?:won'?t|will\s+not|cannot|can'?t)\s+dissolve/i,
-                /(?:resist|resistant|insoluble)/i,
-                /non[- ]?solvents?\s+for/i,
+                /(?:resist|resistant|insoluble)/i, /non[- ]?solvents?\s+for/i,
             ];
             const goodPatterns = [
-                /good\s+solvents?\s+(for|to\s+dissolve)/i,
-                /best\s+solvents?\s+for/i,
+                /good\s+solvents?\s+(for|to\s+dissolve)/i, /best\s+solvents?\s+for/i,
                 /(?:what|which)\s+(?:solvents?\s+)?(?:dissolves?|will\s+dissolve|can\s+dissolve)/i,
                 /solvents?\s+(?:that\s+)?(?:dissolves?|for|compatible\s+with)/i,
-                /dissolve\s+/i,
-                /compatible\s+solvents?\s+for/i,
-                /soluble\s+in/i,
+                /dissolve\s+/i, /compatible\s+solvents?\s+for/i, /soluble\s+in/i,
                 /find\s+(?:me\s+)?(?:a\s+)?solvents?\s+for/i,
             ];
             const similarSolventPatterns = [
                 /solvents?\s+(?:similar|close|near)\s+to/i,
                 /(?:similar|close|near)\s+(?:to\s+)?(?:the\s+)?solvents?/i,
-                /(?:alternatives?\s+to)\s+/i,
-                /replace(?:ment)?\s+for\s+/i,
+                /(?:alternatives?\s+to)\s+/i, /replace(?:ment)?\s+for\s+/i,
             ];
             const similarPolymerPatterns = [
                 /polymers?\s+(?:similar|close|near)\s+to/i,
@@ -698,28 +741,11 @@ full_html = f"""<!DOCTYPE html>
                 /materials?\s+(?:similar|close|near)\s+to/i,
             ];
 
-            for (const p of badPatterns) {{
-                if (p.test(q)) {{
-                    return {{ intent: 'bad_solvents', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }};
-                }}
-            }}
-            for (const p of goodPatterns) {{
-                if (p.test(q)) {{
-                    return {{ intent: 'good_solvents', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }};
-                }}
-            }}
-            for (const p of similarPolymerPatterns) {{
-                if (p.test(q)) {{
-                    return {{ intent: 'similar_polymers', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }};
-                }}
-            }}
-            for (const p of similarSolventPatterns) {{
-                if (p.test(q)) {{
-                    return {{ intent: 'similar_solvents', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }};
-                }}
-            }}
+            for (const p of badPatterns) {{ if (p.test(q)) return {{ intent: 'bad_solvents', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }}; }}
+            for (const p of goodPatterns) {{ if (p.test(q)) return {{ intent: 'good_solvents', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }}; }}
+            for (const p of similarPolymerPatterns) {{ if (p.test(q)) return {{ intent: 'similar_polymers', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }}; }}
+            for (const p of similarSolventPatterns) {{ if (p.test(q)) return {{ intent: 'similar_solvents', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }}; }}
 
-            // Fallback: check if query mentions a polymer name
             const polyMatch = findPolymer(q.replace(/[?.!]/g, ''));
             if (polyMatch) return {{ intent: 'good_solvents', material: q.replace(/[?.!]/g, '').trim() }};
 
@@ -733,52 +759,34 @@ full_html = f"""<!DOCTYPE html>
         function executeSearch(parsed) {{
             const {{ intent, material }} = parsed;
 
-            // --- Follow-up: evaluate specific materials in current context ---
             if (intent === 'followup' && chatContext) {{
-                // Split on "or", "and", commas, "/"
                 const names = material.split(/\s+(?:or|and|,|\/)\s*|\s*[,\/]\s*/i).map(s => s.trim()).filter(Boolean);
                 const results = [];
-
                 for (const name of names) {{
                     if (chatContext.intent === 'good_solvents' || chatContext.intent === 'bad_solvents') {{
-                        // Evaluate solvent(s) against the polymer target
                         const s = findSolvent(name);
                         if (s) {{
                             const ra = hspDistance(s, chatContext.target);
                             const red = redNumber(s, chatContext.target);
                             results.push({{ ...s, ra, red, queryName: name }});
                         }} else {{
-                            // Maybe it's a polymer they want to compare
                             const p = findPolymer(name);
-                            if (p) {{
-                                const ra = hspDistance(p, chatContext.target);
-                                results.push({{ ...p, ra, red: null, queryName: name, isPolymer: true }});
-                            }} else {{
-                                results.push({{ name: name, queryName: name, notFound: true }});
-                            }}
+                            if (p) {{ results.push({{ ...p, ra: hspDistance(p, chatContext.target), red: null, queryName: name, isPolymer: true }}); }}
+                            else {{ results.push({{ name: name, queryName: name, notFound: true }}); }}
                         }}
                     }} else if (chatContext.intent === 'similar_solvents') {{
                         const s = findSolvent(name);
-                        if (s) {{
-                            const ra = hspDistance(s, chatContext.target);
-                            results.push({{ ...s, ra, queryName: name }});
-                        }} else {{
-                            results.push({{ name: name, queryName: name, notFound: true }});
-                        }}
+                        if (s) {{ results.push({{ ...s, ra: hspDistance(s, chatContext.target), queryName: name }}); }}
+                        else {{ results.push({{ name: name, queryName: name, notFound: true }}); }}
                     }} else if (chatContext.intent === 'similar_polymers') {{
                         const p = findPolymer(name);
-                        if (p) {{
-                            const ra = hspDistance(p, chatContext.target);
-                            results.push({{ ...p, ra, queryName: name }});
-                        }} else {{
-                            results.push({{ name: name, queryName: name, notFound: true }});
-                        }}
+                        if (p) {{ results.push({{ ...p, ra: hspDistance(p, chatContext.target), queryName: name }}); }}
+                        else {{ results.push({{ name: name, queryName: name, notFound: true }}); }}
                     }}
                 }}
                 return {{ intent: 'followup', target: chatContext.target, results, description: 'Evaluating specific materials against ' + chatContext.target.name, targetType: chatContext.targetType, parentIntent: chatContext.intent }};
             }}
 
-            // --- Multi-material search ---
             if (intent === 'multi_material') {{
                 const targets = [];
                 for (const mat of parsed.materials) {{
@@ -786,7 +794,6 @@ full_html = f"""<!DOCTYPE html>
                     if (!target) return {{ error: 'Could not find polymer "' + mat.name + '". Try names like "polystyrene", "PVC", "PMMA", or "nylon".' }};
                     targets.push({{ ...target, requirement: mat.requirement }});
                 }}
-
                 const scored = SOLVENTS.map(s => {{
                     const info = {{ ...s, reds: {{}}, ras: {{}} }};
                     let combinedScore = 0;
@@ -795,54 +802,38 @@ full_html = f"""<!DOCTYPE html>
                         const red = (t.r && t.r > 0) ? ra / t.r : null;
                         info.reds[t.name] = red;
                         info.ras[t.name] = ra;
-                        if (t.requirement === 'good') {{
-                            combinedScore += ra; // lower is better for good
-                        }} else {{
-                            combinedScore -= ra; // higher is better for bad
-                        }}
+                        combinedScore += t.requirement === 'good' ? ra : -ra;
                     }}
                     info.combinedScore = combinedScore;
                     return info;
                 }});
                 scored.sort((a, b) => a.combinedScore - b.combinedScore);
-
                 const results = scored.slice(0, resultCount);
                 const desc = targets.map(t => (t.requirement === 'good' ? 'compatible with' : 'incompatible with') + ' ' + t.name).join(' AND ');
                 chatContext = {{ intent: 'multi_material', targets, targetType: 'polymer' }};
                 return {{ intent: 'multi_material', targets, results, description: 'Top ' + resultCount + ' solvents: ' + desc + '.', targetType: 'polymer' }};
             }}
 
-            // --- Standard searches ---
             if (intent === 'good_solvents' || intent === 'bad_solvents') {{
                 let target = findPolymer(material);
-                if (!target) {{
-                    const words = material.split(/\s+/);
-                    for (const w of words) {{ target = findPolymer(w); if (target) break; }}
-                }}
+                if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findPolymer(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find a matching polymer for "' + material + '". Try names like "polystyrene", "PVC", "PMMA", or "nylon".' }};
-
                 const scored = SOLVENTS.map(s => ({{ ...s, ra: hspDistance(s, target), red: redNumber(s, target) }}));
                 if (intent === 'good_solvents') {{
                     scored.sort((a, b) => a.ra - b.ra);
-                    const results = scored.slice(0, resultCount);
                     chatContext = {{ intent, target, targetType: 'polymer' }};
-                    return {{ intent, target, results, description: 'Top ' + resultCount + ' solvents by HSP distance (Ra). RED < 1 = inside solubility sphere = compatible.', targetType: 'polymer' }};
+                    return {{ intent, target, results: scored.slice(0, resultCount), description: 'Top ' + resultCount + ' solvents by HSP distance (Ra). RED < 1 = inside solubility sphere = compatible.', targetType: 'polymer' }};
                 }} else {{
                     scored.sort((a, b) => b.ra - a.ra);
-                    const results = scored.slice(0, resultCount);
                     chatContext = {{ intent, target, targetType: 'polymer' }};
-                    return {{ intent, target, results, description: 'Top ' + resultCount + ' most incompatible solvents by HSP distance (Ra). RED > 1 = outside sphere.', targetType: 'polymer' }};
+                    return {{ intent, target, results: scored.slice(0, resultCount), description: 'Top ' + resultCount + ' most incompatible solvents by HSP distance (Ra). RED > 1 = outside sphere.', targetType: 'polymer' }};
                 }}
             }}
 
             if (intent === 'similar_solvents') {{
                 let target = findSolvent(material);
-                if (!target) {{
-                    const words = material.split(/\s+/);
-                    for (const w of words) {{ target = findSolvent(w); if (target) break; }}
-                }}
+                if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findSolvent(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find solvent "' + material + '". Try "toluene", "acetone", "NMP", "DMSO", etc.' }};
-
                 const scored = SOLVENTS.filter(s => s.name !== target.name).map(s => ({{ ...s, ra: hspDistance(s, target) }}));
                 scored.sort((a, b) => a.ra - b.ra);
                 chatContext = {{ intent, target, targetType: 'solvent' }};
@@ -851,12 +842,8 @@ full_html = f"""<!DOCTYPE html>
 
             if (intent === 'similar_polymers') {{
                 let target = findPolymer(material);
-                if (!target) {{
-                    const words = material.split(/\s+/);
-                    for (const w of words) {{ target = findPolymer(w); if (target) break; }}
-                }}
+                if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findPolymer(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find polymer "' + material + '". Try "polystyrene", "epoxy", "PMMA", etc.' }};
-
                 const scored = POLYMERS.filter(p => p.name !== target.name).map(p => ({{ ...p, ra: hspDistance(p, target) }}));
                 scored.sort((a, b) => a.ra - b.ra);
                 chatContext = {{ intent, target, targetType: 'polymer' }};
@@ -866,15 +853,13 @@ full_html = f"""<!DOCTYPE html>
             return {{ error: 'Could not understand the query. Try "good solvents for polystyrene", "bad solvents for PVC", or "solvents similar to toluene".' }};
         }}
 
-        // ===================== CHAT DISPLAY =====================
-        function addChatMessage(type, html) {{
+        // ===================== SHOW RESULTS (replaces, not appends) =====================
+        function showResults(html) {{
+            hideHomePanel();
             const panel = document.getElementById('chat-panel');
+            panel.innerHTML = html;
             panel.classList.add('visible');
-            const div = document.createElement('div');
-            div.className = 'chat-msg ' + type;
-            div.innerHTML = html;
-            panel.appendChild(div);
-            panel.scrollTop = panel.scrollHeight;
+            panel.scrollTop = 0;
         }}
 
         // ===================== RESULTS TABLE SORTING =====================
@@ -893,7 +878,6 @@ full_html = f"""<!DOCTYPE html>
                 return va.localeCompare(vb) * dir;
             }});
             rows.forEach(row => tbody.appendChild(row));
-            // Update sort indicators
             tableEl.querySelectorAll('th').forEach((th, i) => {{
                 th.classList.remove('sort-asc', 'sort-desc');
                 if (i === colIdx) th.classList.add(dir === 1 ? 'sort-asc' : 'sort-desc');
@@ -917,7 +901,6 @@ full_html = f"""<!DOCTYPE html>
             let html = '<strong>' + titleText + '</strong>';
             html += '<br><span style="color:#aaa;font-size:0.8rem">' + description + '</span>';
 
-            // Context indicator
             if (chatContext && chatContext.target) {{
                 html += '<br><span class="chat-context">Context: ' + chatContext.intent.replace(/_/g, ' ') + ' for ' + chatContext.target.name + '</span>';
             }}
@@ -925,23 +908,16 @@ full_html = f"""<!DOCTYPE html>
             const isMulti = intent === 'multi_material';
             const showRed = parentIntent === 'good_solvents' || parentIntent === 'bad_solvents';
 
-            // --- Target material table (with headers) ---
+            // --- Target material table ---
             const targetList = isMulti ? (result.targets || []) : (target ? [target] : []);
             if (targetList.length > 0 && intent !== 'followup') {{
                 html += '<div style="margin-top:10px"><span style="color:#e94560;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Target Material' + (targetList.length > 1 ? 's' : '') + '</span></div>';
                 html += '<table class="results-table" style="margin-bottom:16px"><thead><tr>';
                 html += '<th>Name</th><th>CAS</th><th>&delta;D</th><th>&delta;P</th><th>&delta;H</th>';
-                if (showRed || isMulti) {{
-                    html += '<th>R&#8320;</th>';
-                }}
-                if (parentIntent === 'similar_solvents') {{
-                    html += '<th>Category</th>';
-                }} else if (parentIntent === 'similar_polymers') {{
-                    html += '<th>R&#8320;</th><th>Type</th>';
-                }}
-                if (isMulti) {{
-                    html += '<th>Requirement</th>';
-                }}
+                if (showRed || isMulti) html += '<th>R&#8320;</th>';
+                if (parentIntent === 'similar_solvents') html += '<th>Category</th>';
+                else if (parentIntent === 'similar_polymers') html += '<th>R&#8320;</th><th>Type</th>';
+                if (isMulti) html += '<th>Requirement</th>';
                 html += '</tr></thead><tbody>';
                 targetList.forEach(t => {{
                     const chipColor = (isMulti && t.requirement === 'bad') ? '#EF553B' : '#00CC96';
@@ -951,93 +927,37 @@ full_html = f"""<!DOCTYPE html>
                     html += '<td>' + (t.dd != null ? t.dd.toFixed(1) : '') + '</td>';
                     html += '<td>' + (t.dp != null ? t.dp.toFixed(1) : '') + '</td>';
                     html += '<td>' + (t.dh != null ? t.dh.toFixed(1) : '') + '</td>';
-                    if (showRed || isMulti) {{
-                        html += '<td>' + (t.r || '') + '</td>';
-                    }}
-                    if (parentIntent === 'similar_solvents') {{
-                        html += '<td>' + (t.cat || '') + '</td>';
-                    }} else if (parentIntent === 'similar_polymers') {{
-                        html += '<td>' + (t.r || '') + '</td>';
-                        html += '<td>' + (t.type || '') + '</td>';
-                    }}
-                    if (isMulti) {{
-                        html += '<td><span style="display:inline-block;background:' + chipColor + ';color:white;padding:2px 10px;border-radius:12px;font-size:0.8rem;font-weight:600">' + t.requirement + '</span></td>';
-                    }}
+                    if (showRed || isMulti) html += '<td>' + (t.r || '') + '</td>';
+                    if (parentIntent === 'similar_solvents') html += '<td>' + (t.cat || '') + '</td>';
+                    else if (parentIntent === 'similar_polymers') {{ html += '<td>' + (t.r || '') + '</td>'; html += '<td>' + (t.type || '') + '</td>'; }}
+                    if (isMulti) html += '<td><span style="display:inline-block;background:' + chipColor + ';color:white;padding:2px 10px;border-radius:12px;font-size:0.8rem;font-weight:600">' + t.requirement + '</span></td>';
                     html += '</tr>';
                 }});
                 html += '</tbody></table>';
             }}
 
-            // --- Candidate results table (with headers) ---
+            // --- Candidate results table ---
             const tableId = 'rt-' + Date.now();
             html += '<div><span style="color:#e94560;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Candidate ' + (parentIntent === 'similar_polymers' ? 'Polymers' : 'Solvents') + ' (' + results.length + ')</span></div>';
             html += '<table class="results-table" id="' + tableId + '"><thead><tr>';
-
-            // Build sortable headers
             let colNum = 0;
             const th = (label) => '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + (colNum++) + ')" style="cursor:pointer">' + label + '</th>';
             html += th('#') + th('Name') + th('CAS') + th('&delta;D') + th('&delta;P') + th('&delta;H');
-
-            if (isMulti) {{
-                result.targets.forEach(t => {{
-                    html += th('Ra(' + t.name.slice(0, 15) + ')');
-                    html += th('RED(' + t.name.slice(0, 15) + ')');
-                }});
-            }} else if (showRed) {{
-                html += th('Ra') + th('RED');
-            }} else if (parentIntent === 'similar_solvents') {{
-                html += th('Ra') + th('Category');
-            }} else {{
-                html += th('Ra') + th('R&#8320;') + th('Type');
-            }}
+            if (isMulti) {{ result.targets.forEach(t => {{ html += th('Ra(' + t.name.slice(0, 15) + ')') + th('RED(' + t.name.slice(0, 15) + ')'); }}); }}
+            else if (showRed) {{ html += th('Ra') + th('RED'); }}
+            else if (parentIntent === 'similar_solvents') {{ html += th('Ra') + th('Category'); }}
+            else {{ html += th('Ra') + th('R&#8320;') + th('Type'); }}
             html += '</tr></thead><tbody>';
 
             results.forEach((r, i) => {{
-                if (r.notFound) {{
-                    html += '<tr><td class="rank">' + (i + 1) + '</td><td colspan="8" style="color:#EF553B">Could not find "' + r.queryName + '" in the database</td></tr>';
-                    return;
-                }}
+                if (r.notFound) {{ html += '<tr><td class="rank">' + (i + 1) + '</td><td colspan="8" style="color:#EF553B">Could not find "' + r.queryName + '" in the database</td></tr>'; return; }}
                 const nameHtml = '<span class="hoverable-name" onclick="highlightInPlot(\\x27' + encodeURIComponent(r.name) + '\\x27)" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(r.name) + '\\x27)" onmouseleave="hideStructure()">' + r.name + '</span>';
-                html += '<tr>';
-                html += '<td class="rank">' + (i + 1) + '</td>';
-                html += '<td>' + nameHtml + '</td>';
-                html += '<td>' + (r.cas || '') + '</td>';
-                html += '<td>' + (r.dd != null ? r.dd.toFixed(1) : '') + '</td>';
-                html += '<td>' + (r.dp != null ? r.dp.toFixed(1) : '') + '</td>';
-                html += '<td>' + (r.dh != null ? r.dh.toFixed(1) : '') + '</td>';
-
-                if (isMulti) {{
-                    result.targets.forEach(t => {{
-                        const ra = r.ras[t.name];
-                        const red = r.reds[t.name];
-                        html += '<td>' + (ra != null ? ra.toFixed(2) : '') + '</td>';
-                        let cls = 'red-bad';
-                        if (red !== null && red !== undefined) {{
-                            if (red < 1) cls = 'red-good';
-                            else if (red < 1.2) cls = 'red-boundary';
-                        }}
-                        html += '<td class="' + cls + '">' + (red != null ? red.toFixed(2) : 'N/A') + '</td>';
-                    }});
-                }} else {{
-                    html += '<td>' + (r.ra != null ? r.ra.toFixed(2) : '') + '</td>';
-                    if (showRed) {{
-                        const red = r.red;
-                        let cls = 'red-bad';
-                        if (red !== null) {{
-                            if (red < 1) cls = 'red-good';
-                            else if (red < 1.2) cls = 'red-boundary';
-                        }}
-                        html += '<td class="' + cls + '">' + (red !== null ? red.toFixed(2) : 'N/A') + '</td>';
-                    }} else if (parentIntent === 'similar_solvents') {{
-                        html += '<td>' + (r.cat || '') + '</td>';
-                    }} else {{
-                        html += '<td>' + (r.r || '') + '</td>';
-                        html += '<td>' + (r.type || '') + '</td>';
-                    }}
-                }}
+                html += '<tr><td class="rank">' + (i + 1) + '</td><td>' + nameHtml + '</td><td>' + (r.cas || '') + '</td>';
+                html += '<td>' + (r.dd != null ? r.dd.toFixed(1) : '') + '</td><td>' + (r.dp != null ? r.dp.toFixed(1) : '') + '</td><td>' + (r.dh != null ? r.dh.toFixed(1) : '') + '</td>';
+                if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; html += '<td>' + (ra != null ? ra.toFixed(2) : '') + '</td>'; let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} html += '<td class="' + cls + '">' + (red != null ? red.toFixed(2) : 'N/A') + '</td>'; }}); }}
+                else {{ html += '<td>' + (r.ra != null ? r.ra.toFixed(2) : '') + '</td>'; if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} html += '<td class="' + cls + '">' + (red !== null ? red.toFixed(2) : 'N/A') + '</td>'; }} else if (parentIntent === 'similar_solvents') {{ html += '<td>' + (r.cat || '') + '</td>'; }} else {{ html += '<td>' + (r.r || '') + '</td><td>' + (r.type || '') + '</td>'; }} }}
                 html += '</tr>';
             }});
-
             html += '</tbody></table>';
             return html;
         }}
@@ -1114,44 +1034,29 @@ full_html = f"""<!DOCTYPE html>
             const parentIntent = result.parentIntent || result.intent;
             const isMulti = result.intent === 'multi_material';
 
-            showTab('plot');
+            // Deactivate any open tab panel
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            window.dispatchEvent(new Event('resize'));
             const traces = [];
 
-            // Dimmed background
-            traces.push({{
-                type: 'scatter3d', mode: 'markers', name: 'All Solvents',
+            traces.push({{ type: 'scatter3d', mode: 'markers', name: 'All Solvents',
                 x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
                 text: SOLVENTS.map(s => s.name),
                 hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
                 marker: {{ size: 3, color: '#444', opacity: 0.15 }},
             }});
-            traces.push({{
-                type: 'scatter3d', mode: 'markers', name: 'All Polymers',
+            traces.push({{ type: 'scatter3d', mode: 'markers', name: 'All Polymers',
                 x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
                 text: POLYMERS.map(p => p.name),
                 hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
                 marker: {{ size: 4, color: '#665500', symbol: 'diamond', opacity: 0.15 }},
             }});
 
-            // Valid results only
             const valid = results.filter(r => !r.notFound);
+            const resultColors = computeResultColors(valid);
 
             if (isMulti) {{
-                // Multi-material: color by best combined RED
-                const resultColors = valid.map(r => {{
-                    const reds = result.targets.map(t => r.reds[t.name]).filter(v => v != null);
-                    const allGood = result.targets.every(t => {{
-                        const red = r.reds[t.name];
-                        return t.requirement === 'good' ? (red != null && red < 1) : (red != null && red > 1);
-                    }});
-                    if (allGood) return '#00CC96';
-                    const anyBoundary = result.targets.some(t => {{
-                        const red = r.reds[t.name];
-                        return t.requirement === 'good' ? (red != null && red < 1.2) : (red != null && red > 0.8);
-                    }});
-                    if (anyBoundary) return '#FFA15A';
-                    return '#EF553B';
-                }});
                 traces.push({{
                     type: 'scatter3d', mode: 'markers+text', name: 'Results',
                     x: valid.map(r => r.dd), y: valid.map(r => r.dp), z: valid.map(r => r.dh),
@@ -1159,40 +1064,25 @@ full_html = f"""<!DOCTYPE html>
                     textposition: 'top center', textfont: {{ size: 9, color: '#fff' }},
                     hovertemplate: valid.map((r, i) => {{
                         let h = '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}';
-                        result.targets.forEach(t => {{
-                            const red = r.reds[t.name];
-                            h += '<br>' + t.name.slice(0, 20) + ': RED=' + (red != null ? red.toFixed(2) : 'N/A');
-                        }});
+                        result.targets.forEach(t => {{ h += '<br>' + t.name.slice(0, 20) + ': RED=' + (r.reds[t.name] != null ? r.reds[t.name].toFixed(2) : 'N/A'); }});
                         return h + '<extra></extra>';
                     }}),
                     marker: {{ size: 10, color: resultColors, opacity: 1, line: {{ color: '#fff', width: 1 }} }},
                 }});
-                // Multiple target polymers with different colored spheres
                 const tgtColors = ['#e94560', '#3A86FF', '#06D6A0', '#FFBE0B'];
-                const sphereColors = [
-                    'rgba(233,69,96,0.2)', 'rgba(58,134,255,0.2)',
-                    'rgba(6,214,160,0.2)', 'rgba(255,190,11,0.2)',
-                ];
+                const sphereColors = ['rgba(233,69,96,0.2)', 'rgba(58,134,255,0.2)', 'rgba(6,214,160,0.2)', 'rgba(255,190,11,0.2)'];
                 result.targets.forEach((tgt, ti) => {{
                     const c = tgtColors[ti % tgtColors.length];
-                    traces.push({{
-                        type: 'scatter3d', mode: 'markers+text',
+                    traces.push({{ type: 'scatter3d', mode: 'markers+text',
                         name: (tgt.requirement === 'good' ? '✓ ' : '✗ ') + tgt.name,
-                        x: [tgt.dd], y: [tgt.dp], z: [tgt.dh],
-                        text: [tgt.name], textposition: 'top center',
-                        textfont: {{ size: 12, color: c }},
+                        x: [tgt.dd], y: [tgt.dp], z: [tgt.dh], text: [tgt.name],
+                        textposition: 'top center', textfont: {{ size: 12, color: c }},
                         hovertemplate: '<b>' + tgt.name + '</b> (' + tgt.requirement + ')<br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>R₀=' + tgt.r + '<extra></extra>',
                         marker: {{ size: 14, color: c, symbol: 'diamond', opacity: 1, line: {{ color: '#fff', width: 2 }} }},
                     }});
                     addSphere(traces, tgt, sphereColors[ti % sphereColors.length]);
                 }});
             }} else if (parentIntent === 'good_solvents' || parentIntent === 'bad_solvents') {{
-                const resultColors = valid.map(r => {{
-                    if (r.red === null) return '#888';
-                    if (r.red < 1) return '#00CC96';
-                    if (r.red < 1.2) return '#FFA15A';
-                    return '#EF553B';
-                }});
                 traces.push({{
                     type: 'scatter3d', mode: 'markers+text', name: 'Results',
                     x: valid.map(r => r.dd), y: valid.map(r => r.dp), z: valid.map(r => r.dh),
@@ -1203,18 +1093,14 @@ full_html = f"""<!DOCTYPE html>
                         (r.red !== null ? '<br>RED=' + r.red.toFixed(2) : '') + '<extra></extra>'),
                     marker: {{ size: 10, color: resultColors, opacity: 1, line: {{ color: '#fff', width: 1 }} }},
                 }});
-                // Target polymer
-                traces.push({{
-                    type: 'scatter3d', mode: 'markers+text', name: 'Target: ' + target.name,
-                    x: [target.dd], y: [target.dp], z: [target.dh],
-                    text: [target.name], textposition: 'top center', textfont: {{ size: 12, color: '#e94560' }},
-                    hovertemplate: '<b>' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>R₀=' + target.r + '<extra></extra>',
-                    marker: {{ size: 14, color: '#e94560', symbol: 'diamond', opacity: 1, line: {{ color: '#fff', width: 2 }} }},
+                traces.push({{ type: 'scatter3d', mode: 'markers+text', name: '★ Target: ' + target.name,
+                    x: [target.dd], y: [target.dp], z: [target.dh], text: ['★ ' + target.name],
+                    textposition: 'top center', textfont: {{ size: 13, color: '#e94560' }},
+                    hovertemplate: '<b>★ ' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>R₀=' + target.r + '<extra></extra>',
+                    marker: {{ size: 16, color: '#e94560', symbol: 'diamond', opacity: 1, line: {{ color: '#fff', width: 2 }} }},
                 }});
                 addSphere(traces, target, 'rgba(233,69,96,0.2)');
             }} else {{
-                const colors = ['#FF006E', '#FB5607', '#FF006E', '#FFBE0B', '#3A86FF',
-                                '#8338EC', '#06D6A0', '#118AB2', '#EF476F', '#FFD166'];
                 const sym = (parentIntent === 'similar_polymers') ? 'diamond' : 'circle';
                 traces.push({{
                     type: 'scatter3d', mode: 'markers+text', name: 'Results',
@@ -1223,22 +1109,18 @@ full_html = f"""<!DOCTYPE html>
                     textposition: 'top center', textfont: {{ size: 9, color: '#fff' }},
                     hovertemplate: valid.map((r, i) =>
                         '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>Ra=' + r.ra.toFixed(2) + '<extra></extra>'),
-                    marker: {{ size: 10, color: colors.slice(0, valid.length), symbol: sym, opacity: 1, line: {{ color: '#fff', width: 1 }} }},
+                    marker: {{ size: 10, color: resultColors, symbol: sym, opacity: 1, line: {{ color: '#fff', width: 1 }} }},
                 }});
                 const tsym = (parentIntent === 'similar_polymers') ? 'diamond' : 'circle';
-                traces.push({{
-                    type: 'scatter3d', mode: 'markers+text', name: 'Target: ' + target.name,
-                    x: [target.dd], y: [target.dp], z: [target.dh],
-                    text: [target.name], textposition: 'top center', textfont: {{ size: 12, color: '#e94560' }},
-                    hovertemplate: '<b>' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                    marker: {{ size: 14, color: '#e94560', symbol: tsym, opacity: 1, line: {{ color: '#fff', width: 2 }} }},
+                traces.push({{ type: 'scatter3d', mode: 'markers+text', name: '★ Target: ' + target.name,
+                    x: [target.dd], y: [target.dp], z: [target.dh], text: ['★ ' + target.name],
+                    textposition: 'top center', textfont: {{ size: 13, color: '#e94560' }},
+                    hovertemplate: '<b>★ ' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
+                    marker: {{ size: 16, color: '#e94560', symbol: tsym, opacity: 1, line: {{ color: '#fff', width: 2 }} }},
                 }});
             }}
 
-            const plotTitle = isMulti
-                ? 'Multi-Material Search'
-                : 'Search Results — ' + target.name;
-            Plotly.react(plotDiv, traces, defaultLayout(plotTitle));
+            Plotly.react(plotDiv, traces, defaultLayout(isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name));
         }}
 
         function resetPlot() {{
@@ -1246,36 +1128,107 @@ full_html = f"""<!DOCTYPE html>
         }}
 
         // ===================== HIGHLIGHT IN PLOT =====================
-        let highlightTrace = null;
         function highlightInPlot(encodedName) {{
             const name = decodeURIComponent(encodedName);
-            // Find the material in solvents or polymers
             let mat = SOLVENTS.find(s => s.name === name);
             let sym = 'circle';
-            if (!mat) {{
-                mat = POLYMERS.find(p => p.name === name);
-                sym = 'diamond';
-            }}
+            if (!mat) {{ mat = POLYMERS.find(p => p.name === name); sym = 'diamond'; }}
             if (!mat) return;
-
-            showTab('plot');
-
-            // Get current traces and remove any previous highlight trace
             const currentData = plotDiv.data.filter(t => t.name !== '★ Highlighted');
-            const trace = {{
-                type: 'scatter3d', mode: 'markers+text',
-                name: '★ Highlighted',
-                x: [mat.dd], y: [mat.dp], z: [mat.dh],
-                text: ['★ ' + mat.name],
-                textposition: 'top center',
-                textfont: {{ size: 13, color: '#FFD700' }},
+            currentData.push({{
+                type: 'scatter3d', mode: 'markers+text', name: '★ Highlighted',
+                x: [mat.dd], y: [mat.dp], z: [mat.dh], text: ['★ ' + mat.name],
+                textposition: 'top center', textfont: {{ size: 13, color: '#FFD700' }},
                 hovertemplate: '<b>' + mat.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                marker: {{ size: 18, color: '#FFD700', symbol: sym, opacity: 1,
-                           line: {{ color: '#fff', width: 2 }} }},
-            }};
-            currentData.push(trace);
-            const currentLayout = plotDiv.layout;
-            Plotly.react(plotDiv, currentData, currentLayout);
+                marker: {{ size: 18, color: '#FFD700', symbol: sym, opacity: 1, line: {{ color: '#fff', width: 2 }} }},
+            }});
+            Plotly.react(plotDiv, currentData, plotDiv.layout);
+        }}
+
+        // ===================== HOME PANEL (all materials) =====================
+        var homeTab = 'solvents';
+        var homeFilterText = '';
+
+        function buildHomeTable() {{
+            var thead = document.getElementById('home-thead');
+            var tbody = document.getElementById('home-tbody');
+            var countEl = document.getElementById('home-count');
+            var headerHtml, rowsHtml;
+
+            if (homeTab === 'solvents') {{
+                headerHtml = '<tr><th>Name</th><th>CAS</th><th>&delta;D</th><th>&delta;P</th><th>&delta;H</th><th>MW</th><th>BP &deg;C</th><th>Category</th></tr>';
+                var filtered = SOLVENTS;
+                if (homeFilterText) {{
+                    var q = homeFilterText.toLowerCase();
+                    filtered = SOLVENTS.filter(function(s) {{ return s.name.toLowerCase().indexOf(q) !== -1 || (s.cas && s.cas.indexOf(q) !== -1); }});
+                }}
+                countEl.textContent = filtered.length + ' solvents';
+                rowsHtml = '';
+                for (var i = 0; i < filtered.length; i++) {{
+                    var s = filtered[i];
+                    var catColor = CAT_COLORS[s.cat] || '#888';
+                    function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#6ea8fe;text-decoration:none">' + v + '</a>' : v; }}
+                    rowsHtml += '<tr style="border-left:3px solid ' + catColor + '">';
+                    rowsHtml += '<td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
+                    rowsHtml += '<td>' + (s.cas || '') + '</td>';
+                    rowsHtml += '<td>' + lnk(s.dd, s.srcUrl) + '</td>';
+                    rowsHtml += '<td>' + lnk(s.dp, s.srcUrl) + '</td>';
+                    rowsHtml += '<td>' + lnk(s.dh, s.srcUrl) + '</td>';
+                    rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
+                    rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
+                    rowsHtml += '<td style="color:' + catColor + '">' + (s.cat || '') + '</td>';
+                    rowsHtml += '</tr>';
+                }}
+            }} else {{
+                headerHtml = '<tr><th>Name</th><th>CAS</th><th>&delta;D</th><th>&delta;P</th><th>&delta;H</th><th>R&#8320;</th><th>Type</th></tr>';
+                var filtered = POLYMERS;
+                if (homeFilterText) {{
+                    var q = homeFilterText.toLowerCase();
+                    filtered = POLYMERS.filter(function(p) {{ return p.name.toLowerCase().indexOf(q) !== -1 || (p.cas && p.cas.indexOf(q) !== -1); }});
+                }}
+                countEl.textContent = filtered.length + ' polymers';
+                rowsHtml = '';
+                for (var i = 0; i < filtered.length; i++) {{
+                    var p = filtered[i];
+                    function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#6ea8fe;text-decoration:none">' + v + '</a>' : v; }}
+                    rowsHtml += '<tr>';
+                    rowsHtml += '<td>' + p.name + '</td>';
+                    rowsHtml += '<td>' + (p.cas || '') + '</td>';
+                    rowsHtml += '<td>' + lnk(p.dd, p.srcUrl) + '</td>';
+                    rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
+                    rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
+                    rowsHtml += '<td>' + (p.r || '') + '</td>';
+                    rowsHtml += '<td>' + (p.type || '') + '</td>';
+                    rowsHtml += '</tr>';
+                }}
+            }}
+
+            thead.innerHTML = headerHtml;
+            tbody.innerHTML = rowsHtml;
+        }}
+
+        function switchHomeTab(tab) {{
+            homeTab = tab;
+            document.querySelectorAll('.home-tab').forEach(function(t) {{ t.classList.remove('active'); }});
+            var btns = document.querySelectorAll('.home-tab');
+            if (tab === 'solvents' && btns[0]) btns[0].classList.add('active');
+            if (tab === 'polymers' && btns[1]) btns[1].classList.add('active');
+            buildHomeTable();
+        }}
+
+        function filterHomeTable(val) {{
+            homeFilterText = val.trim();
+            buildHomeTable();
+        }}
+
+        function showHomePanel() {{
+            var hp = document.getElementById('home-panel');
+            if (hp) hp.style.display = '';
+        }}
+
+        function hideHomePanel() {{
+            var hp = document.getElementById('home-panel');
+            if (hp) hp.style.display = 'none';
         }}
 
         // ===================== STRUCTURE TOOLTIP =====================
@@ -1292,38 +1245,20 @@ full_html = f"""<!DOCTYPE html>
             tooltip.nameEl.textContent = name;
             tooltip.el.style.display = 'block';
             positionTooltip(event);
-
-            if (structCache[name] === 'error') {{
-                tooltip.el.style.display = 'none';
-                return;
-            }}
-
-            // Try to find the solvent's SMILES for lookup
+            if (structCache[name] === 'error') {{ tooltip.el.style.display = 'none'; return; }}
             const solvent = SOLVENTS.find(s => s.name === name);
             const casNum = (solvent && solvent.cas) ? solvent.cas : null;
-
-            // Build PubChem URL — prefer CAS for accuracy, fall back to name
-            let url;
-            if (casNum) {{
-                url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(casNum) + '/PNG?image_size=200x200';
-            }} else {{
-                url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(name) + '/PNG?image_size=200x200';
-            }}
-
+            let url = casNum
+                ? 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(casNum) + '/PNG?image_size=200x200'
+                : 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(name) + '/PNG?image_size=200x200';
             if (structCache[name]) {{
                 tooltip.img.src = structCache[name];
                 tooltip.el.classList.remove('loading');
             }} else {{
                 tooltip.el.classList.add('loading');
                 tooltip.img.src = url;
-                tooltip.img.onload = function() {{
-                    structCache[name] = url;
-                    tooltip.el.classList.remove('loading');
-                }};
-                tooltip.img.onerror = function() {{
-                    structCache[name] = 'error';
-                    tooltip.el.style.display = 'none';
-                }};
+                tooltip.img.onload = function() {{ structCache[name] = url; tooltip.el.classList.remove('loading'); }};
+                tooltip.img.onerror = function() {{ structCache[name] = 'error'; tooltip.el.style.display = 'none'; }};
             }}
         }}
 
@@ -1351,13 +1286,10 @@ full_html = f"""<!DOCTYPE html>
             const q = input.value.trim();
             if (!q) return;
             input.value = '';
-
-            addChatMessage('user', q);
             const parsed = parseQuery(q);
             const result = executeSearch(parsed);
             const html = renderResultsHTML(result);
-            addChatMessage('system', html);
-
+            showResults(html);
             if (!result.error) updatePlotWithResults(result);
         }}
 
@@ -1372,18 +1304,27 @@ full_html = f"""<!DOCTYPE html>
             const panel = document.getElementById('chat-panel');
             panel.innerHTML = '';
             panel.classList.remove('visible');
+            showHomePanel();
             resetPlot();
+        }}
+
+        function goHome() {{
+            clearChat();
+            document.getElementById('nl-search').value = '';
+            document.querySelectorAll('.panel').forEach(function(p) {{ p.classList.remove('active'); }});
+            document.querySelectorAll('.tab').forEach(function(t) {{ t.classList.remove('active'); }});
+            window.dispatchEvent(new Event('resize'));
         }}
 
         function showTab(name) {{
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById('panel-' + name).classList.add('active');
+            var el = document.getElementById('panel-' + name);
+            if (el) el.classList.add('active');
             const tabs = document.querySelectorAll('.tab');
-            const tabNames = ['plot', 'solvents', 'polymers', 'about'];
+            const tabNames = ['solvents', 'polymers', 'about'];
             const idx = tabNames.indexOf(name);
             if (idx >= 0 && tabs[idx]) tabs[idx].classList.add('active');
-            if (name === 'plot') window.dispatchEvent(new Event('resize'));
         }}
 
         function filterTable(tableId, query) {{
@@ -1413,7 +1354,10 @@ full_html = f"""<!DOCTYPE html>
         }}
 
         // ===================== INIT =====================
-        document.addEventListener('DOMContentLoaded', buildFullPlot);
+        document.addEventListener('DOMContentLoaded', function() {{
+            buildFullPlot();
+            buildHomeTable();
+        }});
     </script>
 </body>
 </html>"""
