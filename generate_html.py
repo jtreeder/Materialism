@@ -971,11 +971,6 @@ full_html = f"""<!DOCTYPE html>
             }};
         }}
 
-        function saveCamera() {{
-            try {{ return JSON.parse(JSON.stringify(plotDiv._fullLayout.scene.camera)); }}
-            catch(e) {{ return null; }}
-        }}
-
         function addSphere(traces, tgt, sphereColor) {{
             if (!tgt.r || tgt.r <= 0) return;
             const N = 30, M = 20, x = [], y = [], z = [];
@@ -1088,17 +1083,13 @@ full_html = f"""<!DOCTYPE html>
                 }});
             }}
 
-            var cam = saveCamera();
-            var layout = defaultLayout(isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name);
-            if (cam) layout.scene.camera = cam;
-            Plotly.react(plotDiv, traces, layout);
+            Plotly.react(plotDiv, traces, plotDiv.layout);
+            Plotly.relayout(plotDiv, {{ 'title.text': isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name }});
         }}
 
         function resetPlot() {{
-            var cam = saveCamera();
-            var layout = defaultLayout();
-            if (cam) layout.scene.camera = cam;
-            Plotly.react(plotDiv, fullTraces, layout);
+            Plotly.react(plotDiv, fullTraces, plotDiv.layout);
+            Plotly.relayout(plotDiv, {{ 'title.text': 'Materialism — Hansen Solubility Parameter Space' }});
         }}
 
         // ===================== HIGHLIGHT IN PLOT =====================
