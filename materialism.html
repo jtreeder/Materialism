@@ -3997,6 +3997,9 @@ return Plotly;
         .results-table td { padding: 8px 10px; border-bottom: 1px solid #333; position: relative; }
         .results-table tr:hover { background: #1a1a2e; }
         .results-table .rank { color: #e94560; font-weight: bold; }
+        .target-info-row { background: #162447; border-left: 4px solid #e94560 !important; }
+        .target-info-row td { font-weight: 600; color: #e0e0e0; border-bottom: 2px solid #e94560; }
+        .target-desc-row td { padding: 10px; color: #bbb; font-size: 0.82rem; font-style: italic; border-bottom: 2px solid #333; background: #111; }
         .red-good { color: #00CC96; font-weight: bold; }
         .red-boundary { color: #FFA15A; font-weight: bold; }
         .red-bad { color: #EF553B; font-weight: bold; }
@@ -17241,6 +17244,61 @@ return Plotly;
             panel.scrollTop = panel.scrollHeight;
         }
 
+        // ===================== MATERIAL DESCRIPTIONS =====================
+        const MATERIAL_INFO = {
+            'Nylon 6,6': { desc: 'Nylon 6,6 is a semi-crystalline thermoplastic polyamide derived from hexamethylenediamine and adipic acid.', solvents: 'polar protic solvents such as formic acid, phenols, and strong organic acids' },
+            'Nylon 6 (polycaprolactum, aramid 6)': { desc: 'Nylon 6 is a semi-crystalline thermoplastic polyamide made by ring-opening polymerization of caprolactam.', solvents: 'polar protic solvents such as formic acid, m-cresol, and concentrated mineral acids' },
+            'Nylon 11': { desc: 'Nylon 11 is a bio-based semi-crystalline polyamide derived from castor oil (11-aminoundecanoic acid).', solvents: 'polar protic solvents such as formic acid, m-cresol, and fluorinated alcohols' },
+            'Nylon 12': { desc: 'Nylon 12 is a semi-crystalline polyamide derived from laurolactam, with lower moisture absorption than Nylon 6 or 6,6.', solvents: 'polar protic solvents such as formic acid, m-cresol, and fluorinated alcohols' },
+            'Polystyrene': { desc: 'Polystyrene is an amorphous thermoplastic made by polymerization of styrene monomer.', solvents: 'aromatic hydrocarbons, chlorinated solvents, and ketones such as toluene, chloroform, and MEK' },
+            'Polyvinyl chloride (PVC)': { desc: 'PVC is a widely used thermoplastic made by polymerization of vinyl chloride.', solvents: 'polar aprotic solvents such as THF, cyclohexanone, and NMP' },
+            'PMMA': { desc: 'PMMA (polymethyl methacrylate) is a transparent amorphous thermoplastic, also known as acrylic or Plexiglas.', solvents: 'ketones, chlorinated solvents, and esters such as acetone, chloroform, and ethyl acetate' },
+            'Polyethylene (HDPE)': { desc: 'HDPE is a semi-crystalline thermoplastic polyolefin with high density and chemical resistance.', solvents: 'non-polar hydrocarbons at elevated temperatures, such as hot xylene and decalin' },
+            'LDPE': { desc: 'LDPE is a branched semi-crystalline polyolefin with lower density and crystallinity than HDPE.', solvents: 'non-polar hydrocarbons at elevated temperatures, such as hot toluene and xylene' },
+            'Polypropylene': { desc: 'Polypropylene is a semi-crystalline thermoplastic polyolefin with good chemical resistance.', solvents: 'non-polar hydrocarbons at elevated temperatures, such as hot decalin and trichlorobenzene' },
+            'Polytetrafluoroethylene (PTFE)': { desc: 'PTFE (Teflon) is a fluoropolymer with exceptional chemical resistance and low surface energy.', solvents: 'essentially insoluble in all common solvents; only attacked by molten alkali metals and fluorinating agents' },
+            'Polyethylene terephthalate (PET)': { desc: 'PET is a semi-crystalline thermoplastic polyester widely used in fibers and packaging.', solvents: 'fluorinated alcohols and strong acids such as HFIP, trifluoroacetic acid, and phenol/TCE mixtures' },
+            'Acrylonitrile butadiene styrene (ABS)': { desc: 'ABS is an amorphous thermoplastic terpolymer combining toughness, rigidity, and processability.', solvents: 'ketones, chlorinated solvents, and esters such as acetone, MEK, and chloroform' },
+            'Polycarbonate': { desc: 'Polycarbonate is an amorphous engineering thermoplastic known for high impact strength and optical clarity.', solvents: 'chlorinated solvents and polar aprotic solvents such as DCM, chloroform, and NMP' },
+            'Polyurethane': { desc: 'Polyurethane is a versatile polymer formed from diisocyanates and polyols, available as foams, elastomers, and coatings.', solvents: 'polar aprotic solvents such as DMF, NMP, and THF' },
+            'PLA': { desc: 'PLA (polylactic acid) is a biodegradable thermoplastic polyester derived from renewable resources like corn starch.', solvents: 'chlorinated solvents and cyclic ethers such as chloroform, DCM, and dioxane' },
+            'Epoxy resin (Bisphenol A)': { desc: 'Bisphenol-A epoxy is a thermoset resin cured with hardeners to form cross-linked networks.', solvents: 'strong polar solvents; uncured resin dissolves in ketones and esters, cured resin is highly resistant' },
+            'Silicone (PDMS)': { desc: 'PDMS (polydimethylsiloxane) is a flexible silicone elastomer with very low surface energy.', solvents: 'non-polar solvents such as hexane, toluene, and silicone fluids' },
+            'Natural rubber': { desc: 'Natural rubber is a polyisoprene elastomer harvested from Hevea brasiliensis latex.', solvents: 'non-polar and aromatic hydrocarbons such as toluene, cyclohexane, and turpentine' },
+            'PEEK': { desc: 'PEEK is a semi-crystalline engineering thermoplastic with outstanding thermal and chemical resistance.', solvents: 'concentrated sulfuric acid and a few superacids; essentially insoluble in common organic solvents' },
+            'PVDF': { desc: 'PVDF (polyvinylidene fluoride) is a semi-crystalline fluoropolymer with good chemical and UV resistance.', solvents: 'strong polar aprotic solvents such as NMP, DMF, and DMSO' },
+            'Cellulose acetate': { desc: 'Cellulose acetate is a semi-synthetic thermoplastic derived from cellulose by acetylation.', solvents: 'polar solvents such as acetone, dioxane, and methyl acetate' },
+            'Poly(vinyl alcohol)': { desc: 'PVA is a water-soluble synthetic polymer made by hydrolysis of polyvinyl acetate.', solvents: 'water and highly polar protic solvents; insoluble in most organic solvents' },
+            'Poly(vinyl acetate)': { desc: 'PVAc is an amorphous thermoplastic polymer used in adhesives and coatings.', solvents: 'ketones, esters, and aromatic solvents such as acetone, ethyl acetate, and toluene' },
+            'Ethylene vinyl acetate (EVA)': { desc: 'EVA is a copolymer of ethylene and vinyl acetate, ranging from flexible to rubbery depending on VA content.', solvents: 'aromatic and chlorinated solvents such as toluene and chloroform' },
+            'Styrene acrylonitrile (SAN)': { desc: 'SAN is a transparent amorphous copolymer of styrene and acrylonitrile.', solvents: 'ketones, chlorinated solvents, and polar aprotic solvents such as MEK and DMF' },
+            'Polyphenylene sulfide (PPS)': { desc: 'PPS is a semi-crystalline engineering thermoplastic with excellent chemical and thermal resistance.', solvents: 'essentially insoluble in common solvents below 200°C; attacked by strong oxidizing acids' },
+            'PEI': { desc: 'PEI (polyetherimide) is an amorphous high-performance thermoplastic with high heat resistance.', solvents: 'chlorinated solvents and strong polar aprotic solvents such as NMP and DCM' },
+            'PETG': { desc: 'PETG is a glycol-modified polyester with better impact resistance and easier processing than PET.', solvents: 'chlorinated solvents and some ketones such as DCM and cyclohexanone' },
+        };
+
+        function getMaterialDescription(target, intent) {
+            const info = MATERIAL_INFO[target.name];
+            if (info) {
+                if (intent === 'good_solvents') return info.desc + ' Compatible solvents tend to be ' + info.solvents + '.';
+                if (intent === 'bad_solvents') return info.desc + ' Incompatible solvents will be those with HSP values far from its coordinates.';
+                return info.desc;
+            }
+            // Dynamic fallback based on type and HSP values
+            const typeLabel = target.type ? target.type.charAt(0).toUpperCase() + target.type.slice(1) : 'Polymer';
+            let solventHint;
+            if (target.dp < 3 && target.dh < 3) solventHint = 'non-polar hydrocarbons';
+            else if (target.dh > 10 && target.dp > 5) solventHint = 'strongly polar protic solvents such as alcohols and organic acids';
+            else if (target.dh > 8) solventHint = 'polar protic solvents such as alcohols and acids';
+            else if (target.dp > 8) solventHint = 'polar aprotic solvents such as ketones, NMP, and DMF';
+            else if (target.dp > 4) solventHint = 'moderately polar solvents such as esters, ethers, and ketones';
+            else solventHint = 'solvents with low polarity and moderate hydrogen bonding';
+            const desc = target.name + ' is a ' + typeLabel.toLowerCase() + ' with δD=' + target.dd.toFixed(1) + ', δP=' + target.dp.toFixed(1) + ', δH=' + target.dh.toFixed(1) + ' MPa\u00BD.';
+            if (intent === 'good_solvents') return desc + ' Compatible solvents tend to be ' + solventHint + '.';
+            if (intent === 'bad_solvents') return desc + ' Incompatible solvents will be those with HSP values far from its coordinates.';
+            return desc;
+        }
+
         function renderResultsHTML(result) {
             if (result.error) return '<span style="color:#EF553B">' + result.error + '</span>';
 
@@ -17274,7 +17332,33 @@ return Plotly;
                 html += '<th>Ra</th><th>R&#8320;</th><th>Type</th>';
             }
             html += '<th>Source</th>';
+            const colCount = showRed ? 9 : (parentIntent === 'similar_solvents' ? 9 : 10);
             html += '</tr></thead><tbody>';
+
+            // Target material info row (same columns as results)
+            html += '<tr class="target-info-row">';
+            html += '<td style="color:#e94560;font-size:1.1rem;text-align:center">&#9733;</td>';
+            html += '<td>' + target.name + '</td>';
+            html += '<td>' + (target.cas || '') + '</td>';
+            html += '<td>' + (target.dd != null ? target.dd.toFixed(1) : '') + '</td>';
+            html += '<td>' + (target.dp != null ? target.dp.toFixed(1) : '') + '</td>';
+            html += '<td>' + (target.dh != null ? target.dh.toFixed(1) : '') + '</td>';
+            if (showRed) {
+                html += '<td>' + (target.r ? 'R\u2080=' + target.r : '\u2014') + '</td>';
+                html += '<td style="color:#e94560;font-weight:600">target</td>';
+            } else if (parentIntent === 'similar_solvents') {
+                html += '<td>\u2014</td>';
+                html += '<td>' + (target.cat || '') + '</td>';
+            } else {
+                html += '<td>\u2014</td>';
+                html += '<td>' + (target.r || '') + '</td>';
+                html += '<td>' + (target.type || '') + '</td>';
+            }
+            const tgtSrcHtml = target.srcUrl ? '<a href="' + target.srcUrl + '" target="_blank" rel="noopener" style="color:#888;text-decoration:none;font-size:0.75rem">' + (target.src || 'link') + '</a>' : (target.src || '');
+            html += '<td style="font-size:0.75rem;color:#888">' + tgtSrcHtml + '</td>';
+            html += '</tr>';
+            // Material description row
+            html += '<tr class="target-desc-row"><td colspan="' + colCount + '">' + getMaterialDescription(target, parentIntent) + '</td></tr>';
 
             // Pre-compute distance colors for valid rows
             const validOnly = results.filter(r => !r.notFound);
@@ -17374,17 +17458,24 @@ return Plotly;
         }
 
         function defaultLayout(title) {
+            const axisStyle = {
+                titlefont: { size: 14, color: '#e0e0e0', family: 'Arial, sans-serif' },
+                tickfont: { size: 12, color: '#bbb', family: 'Arial, sans-serif' },
+                gridcolor: 'rgba(255,255,255,0.15)',
+                zerolinecolor: 'rgba(255,255,255,0.25)',
+                showspikes: false,
+            };
             return {
                 scene: {
-                    xaxis: { title: 'δD (Dispersion) MPa½', range: [12, 22] },
-                    yaxis: { title: 'δP (Polar) MPa½', range: [0, 28] },
-                    zaxis: { title: 'δH (H-bonding) MPa½', range: [0, 45] },
+                    xaxis: { ...axisStyle, title: 'δD (Dispersion) MPa½', range: [12, 22], dtick: 2 },
+                    yaxis: { ...axisStyle, title: 'δP (Polar) MPa½', range: [0, 28], dtick: 4 },
+                    zaxis: { ...axisStyle, title: 'δH (H-bonding) MPa½', range: [0, 45], dtick: 5 },
                 },
                 template: 'plotly_dark',
                 paper_bgcolor: '#1a1a2e', plot_bgcolor: '#1a1a2e',
                 margin: { l: 0, r: 0, t: 40, b: 0 },
-                legend: { x: 0.01, y: 0.99, bgcolor: 'rgba(0,0,0,0.5)' },
-                title: { text: title || 'Materialism — Hansen Solubility Parameter Space', x: 0.5, font: { size: 18 } },
+                legend: { x: 0.01, y: 0.99, bgcolor: 'rgba(0,0,0,0.5)', font: { size: 12, color: '#ddd' } },
+                title: { text: title || 'Materialism — Hansen Solubility Parameter Space', x: 0.5, font: { size: 18, color: '#e0e0e0' } },
             };
         }
 
