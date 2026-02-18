@@ -101,7 +101,7 @@ for s in sorted(solvents, key=lambda x: x["name"]):
             return ""
         v = str(val)
         if url:
-            return f'<a href="{url}" target="_blank" rel="noopener" style="color:#6ea8fe;text-decoration:none" title="Source">{v}</a>'
+            return f'<a href="{url}" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none" title="Source">{v}</a>'
         return v
     table_rows += f"""<tr>
         <td>{s['name']}</td><td>{s['cas']}</td>
@@ -117,7 +117,7 @@ for p in sorted(poly_data, key=lambda x: x["name"]):
             return ""
         v = str(val)
         if url:
-            return f'<a href="{url}" target="_blank" rel="noopener" style="color:#6ea8fe;text-decoration:none" title="Source">{v}</a>'
+            return f'<a href="{url}" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none" title="Source">{v}</a>'
         return v
     polymer_rows += f"""<tr>
         <td>{p['name']}</td><td>{p['cas']}</td>
@@ -146,45 +146,45 @@ full_html = f"""<!DOCTYPE html>
     <script>{plotly_js_inline}</script>
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        body {{ background: #1a1a2e; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }}
-        .header {{ background: #16213e; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #0f3460; }}
+        body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }}
+        .header {{ background: #fff; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #dfe6e9; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }}
         .header h1 {{ font-size: 1.5rem; color: #e94560; cursor: pointer; }}
-        .header .stats {{ color: #888; font-size: 0.9rem; }}
-        .tabs {{ display: flex; gap: 0; background: #16213e; border-bottom: 2px solid #0f3460; }}
-        .tab {{ padding: 12px 24px; cursor: pointer; border: none; background: transparent; color: #888; font-size: 0.95rem; transition: all 0.2s; }}
-        .tab:hover {{ color: #e0e0e0; background: #1a1a2e; }}
-        .tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #1a1a2e; }}
+        .header .stats {{ color: #636e72; font-size: 0.9rem; }}
+        .tabs {{ display: flex; gap: 0; background: #fff; border-bottom: 2px solid #dfe6e9; }}
+        .tab {{ padding: 12px 24px; cursor: pointer; border: none; background: transparent; color: #636e72; font-size: 0.95rem; transition: all 0.2s; }}
+        .tab:hover {{ color: #2d3436; background: #f5f6fa; }}
+        .tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #f5f6fa; }}
         .panel {{ display: none; padding: 20px; }}
         .panel.active {{ display: block; }}
         .results-layout {{ display: flex; gap: 0; height: calc(100vh - 140px); min-height: 500px; }}
-        .plot-side {{ flex: 1 1 55%; min-width: 0; border-right: 1px solid #0f3460; overflow: hidden; }}
+        .plot-side {{ flex: 1 1 55%; min-width: 0; border-right: 1px solid #dfe6e9; overflow: hidden; background: #fff; }}
         .plot-container {{ width: 100%; }}
         table {{ width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }}
-        th {{ background: #16213e; color: #e94560; padding: 10px; text-align: left; position: sticky; top: 0; cursor: pointer; z-index: 1; }}
-        th:hover {{ background: #0f3460; }}
-        td {{ padding: 8px 10px; border-bottom: 1px solid #333; }}
-        tr:hover {{ background: #16213e; }}
-        .table-wrapper {{ max-height: 500px; overflow-y: auto; border: 1px solid #333; border-radius: 4px; }}
-        input[type="text"] {{ background: #16213e; border: 1px solid #333; color: #e0e0e0; padding: 8px 12px; border-radius: 4px; width: 300px; margin: 10px 0; }}
+        th {{ background: #f0f2f5; color: #e94560; padding: 10px; text-align: left; position: sticky; top: 0; cursor: pointer; z-index: 1; border-bottom: 2px solid #dfe6e9; }}
+        th:hover {{ background: #e8eaed; }}
+        td {{ padding: 8px 10px; border-bottom: 1px solid #eee; color: #2d3436; }}
+        tr:hover {{ background: #f8f9fa; }}
+        .table-wrapper {{ max-height: 500px; overflow-y: auto; border: 1px solid #dfe6e9; border-radius: 4px; }}
+        input[type="text"] {{ background: #fff; border: 1px solid #dfe6e9; color: #2d3436; padding: 8px 12px; border-radius: 4px; width: 300px; margin: 10px 0; }}
         input[type="text"]:focus {{ outline: none; border-color: #e94560; }}
-        .info {{ background: #16213e; padding: 20px; border-radius: 8px; margin: 10px 0; line-height: 1.7; }}
+        .info {{ background: #fff; padding: 20px; border-radius: 8px; margin: 10px 0; line-height: 1.7; border: 1px solid #eee; }}
         .info h3 {{ color: #e94560; margin-bottom: 10px; }}
-        .info code {{ background: #0f3460; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }}
-        .compatible {{ color: #00CC96; font-weight: bold; }}
-        .incompatible {{ color: #EF553B; }}
+        .info code {{ background: #f0f2f5; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; color: #2d3436; }}
+        .compatible {{ color: #00b894; font-weight: bold; }}
+        .incompatible {{ color: #d63031; }}
 
         /* --- Chat / Search UI --- */
         .search-bar {{
             display: flex; align-items: center; gap: 10px; padding: 16px 20px;
-            background: #16213e; border-bottom: 1px solid #0f3460;
+            background: #fff; border-bottom: 1px solid #dfe6e9;
         }}
         .search-bar input {{
             flex: 1; max-width: 700px; padding: 12px 18px; font-size: 1rem;
-            background: #1a1a2e; border: 2px solid #0f3460; color: #e0e0e0;
+            background: #f5f6fa; border: 2px solid #dfe6e9; color: #2d3436;
             border-radius: 8px; outline: none; transition: border-color 0.2s;
         }}
         .search-bar input:focus {{ border-color: #e94560; }}
-        .search-bar input::placeholder {{ color: #666; }}
+        .search-bar input::placeholder {{ color: #b2bec3; }}
         .search-bar button {{
             padding: 12px 24px; font-size: 1rem; background: #e94560; color: white;
             border: none; border-radius: 8px; cursor: pointer; font-weight: 600;
@@ -193,27 +193,27 @@ full_html = f"""<!DOCTYPE html>
         .search-bar button:hover {{ background: #c73652; }}
         .search-options {{
             display: flex; align-items: center; justify-content: space-between;
-            padding: 4px 20px 10px; background: #16213e;
-            border-bottom: 2px solid #0f3460;
+            padding: 4px 20px 10px; background: #fff;
+            border-bottom: 2px solid #dfe6e9;
         }}
         .search-examples {{
-            font-size: 0.8rem; color: #666;
+            font-size: 0.8rem; color: #636e72;
         }}
         .search-examples span {{
-            cursor: pointer; color: #557; margin-right: 14px;
+            cursor: pointer; color: #74b9ff; margin-right: 14px;
             transition: color 0.2s;
         }}
         .search-examples span:hover {{ color: #e94560; }}
         .result-count-selector {{
-            font-size: 0.8rem; color: #666; display: flex; align-items: center; gap: 4px;
+            font-size: 0.8rem; color: #636e72; display: flex; align-items: center; gap: 4px;
             white-space: nowrap;
         }}
         .rc-btn {{
-            background: #1a1a2e; border: 1px solid #333; color: #888;
+            background: #f5f6fa; border: 1px solid #dfe6e9; color: #636e72;
             padding: 3px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;
             transition: all 0.2s;
         }}
-        .rc-btn:hover {{ border-color: #e94560; color: #e0e0e0; }}
+        .rc-btn:hover {{ border-color: #e94560; color: #2d3436; }}
         .rc-btn.active {{ background: #e94560; color: white; border-color: #e94560; }}
 
         /* --- Chat Panel (right side of results layout) --- */
@@ -221,6 +221,7 @@ full_html = f"""<!DOCTYPE html>
             display: none; flex: 1 1 45%; min-width: 0;
             overflow-y: auto; padding: 12px 14px;
             height: calc(100vh - 140px); box-sizing: border-box;
+            background: #fff;
         }}
         .chat-panel.visible {{ display: block; }}
 
@@ -228,39 +229,40 @@ full_html = f"""<!DOCTYPE html>
         .home-panel {{
             flex: 1 1 45%; min-width: 0; display: flex; flex-direction: column;
             height: calc(100vh - 140px); box-sizing: border-box;
+            background: #fff;
         }}
         .home-panel-header {{
             display: flex; align-items: center; padding: 10px 14px;
-            border-bottom: 1px solid #0f3460; flex-shrink: 0;
+            border-bottom: 1px solid #dfe6e9; flex-shrink: 0;
         }}
         .home-tabs {{
-            display: flex; gap: 0; border-bottom: 1px solid #0f3460; flex-shrink: 0;
+            display: flex; gap: 0; border-bottom: 1px solid #dfe6e9; flex-shrink: 0;
         }}
         .home-tab {{
             padding: 8px 18px; cursor: pointer; border: none; background: transparent;
-            color: #888; font-size: 0.85rem; transition: all 0.2s;
+            color: #636e72; font-size: 0.85rem; transition: all 0.2s;
         }}
-        .home-tab:hover {{ color: #e0e0e0; background: #1a1a2e; }}
-        .home-tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #1a1a2e; }}
+        .home-tab:hover {{ color: #2d3436; background: #f5f6fa; }}
+        .home-tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #fff; }}
         .home-table-wrap {{ flex: 1; overflow-y: auto; min-height: 0; }}
 
         .chat-context {{
-            display: inline-block; background: #0f3460; color: #aaa; padding: 2px 8px;
+            display: inline-block; background: #f0f2f5; color: #636e72; padding: 2px 8px;
             border-radius: 4px; font-size: 0.75rem; margin-bottom: 8px;
         }}
 
         /* --- Results Table --- */
         .results-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; }}
         .results-table th {{
-            background: #0f3460; color: #e94560; padding: 8px 10px;
-            text-align: left; font-weight: 600; position: static;
+            background: #f0f2f5; color: #e94560; padding: 8px 10px;
+            text-align: left; font-weight: 600; position: static; border-bottom: 2px solid #dfe6e9;
         }}
-        .results-table td {{ padding: 8px 10px; border-bottom: 1px solid #333; position: relative; }}
-        .results-table tr:hover {{ background: #1a1a2e; }}
+        .results-table td {{ padding: 8px 10px; border-bottom: 1px solid #eee; position: relative; }}
+        .results-table tr:hover {{ background: #f8f9fa; }}
         .results-table .rank {{ color: #e94560; font-weight: bold; }}
-        .red-good {{ color: #00CC96; font-weight: bold; }}
-        .red-boundary {{ color: #FFA15A; font-weight: bold; }}
-        .red-bad {{ color: #EF553B; font-weight: bold; }}
+        .red-good {{ color: #00b894; font-weight: bold; }}
+        .red-boundary {{ color: #e17055; font-weight: bold; }}
+        .red-bad {{ color: #d63031; font-weight: bold; }}
         .target-chip {{
             display: inline-block; background: #e94560; color: white; padding: 2px 10px;
             border-radius: 12px; font-size: 0.8rem; font-weight: 600; margin-left: 8px;
@@ -270,7 +272,7 @@ full_html = f"""<!DOCTYPE html>
         .struct-tooltip {{
             display: none; position: fixed; z-index: 9999;
             background: #fff; border: 2px solid #e94560; border-radius: 8px;
-            padding: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            padding: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             pointer-events: none;
         }}
         .struct-tooltip img {{
@@ -282,7 +284,7 @@ full_html = f"""<!DOCTYPE html>
         }}
         .struct-tooltip.loading img {{ opacity: 0.3; }}
         .struct-tooltip.error {{ display: none; }}
-        .hoverable-name {{ cursor: help; border-bottom: 1px dotted #888; }}
+        .hoverable-name {{ cursor: help; border-bottom: 1px dotted #b2bec3; }}
         th.sort-asc::after {{ content: ' ▲'; font-size: 0.7em; color: #e94560; }}
         th.sort-desc::after {{ content: ' ▼'; font-size: 0.7em; color: #e94560; }}
     </style>
@@ -290,7 +292,7 @@ full_html = f"""<!DOCTYPE html>
 <body>
     <div class="header">
         <h1 onclick="goHome()">Materialism</h1>
-        <div class="stats">{len(solvents)} solvents &middot; {len(poly_data)} polymers &middot; Hansen Solubility Parameters</div>
+        <div class="stats"><a href="solvents.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3">{len(solvents)} solvents</a> &middot; <a href="polymers.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3">{len(poly_data)} polymers</a> &middot; Hansen Solubility Parameters</div>
     </div>
 
     <div class="search-bar">
@@ -322,7 +324,7 @@ full_html = f"""<!DOCTYPE html>
             <div class="plot-container">
                 <div id="plotly-div" style="width:100%; height:700px;"></div>
             </div>
-            <p style="color:#888; padding:6px 10px; font-size:0.8rem; margin:0;">
+            <p style="color:#636e72; padding:6px 10px; font-size:0.8rem; margin:0;">
                 Drag to rotate &middot; Scroll to zoom &middot;
                 Gold diamonds = polymers, colored dots = solvents by category
             </p>
@@ -331,7 +333,7 @@ full_html = f"""<!DOCTYPE html>
         <div id="home-panel" class="home-panel">
             <div class="home-panel-header">
                 <strong style="color:#e94560">All Materials</strong>
-                <span style="color:#888;font-size:0.8rem;margin-left:8px" id="home-count"></span>
+                <span style="color:#636e72;font-size:0.8rem;margin-left:8px" id="home-count"></span>
                 <input type="text" id="home-filter" placeholder="Filter by name..." oninput="filterHomeTable(this.value)" style="margin-left:auto;width:180px;font-size:0.8rem;">
             </div>
             <div class="home-tabs">
@@ -347,90 +349,6 @@ full_html = f"""<!DOCTYPE html>
         </div>
     </div>
 
-    <div class="tabs">
-        <div class="tab" onclick="showTab('solvents')">Solvent Database</div>
-        <div class="tab" onclick="showTab('polymers')">Polymer Database</div>
-        <div class="tab" onclick="showTab('about')">How It Works</div>
-    </div>
-
-    <div id="panel-solvents" class="panel">
-        <input type="text" id="solvent-search" placeholder="Search solvents by name or CAS..." oninput="filterTable('solvent-table', this.value)">
-        <div class="table-wrapper">
-            <table id="solvent-table">
-                <thead><tr>
-                    <th onclick="sortTable('solvent-table',0)">Name</th>
-                    <th onclick="sortTable('solvent-table',1)">CAS</th>
-                    <th onclick="sortTable('solvent-table',2)">&delta;D</th>
-                    <th onclick="sortTable('solvent-table',3)">&delta;P</th>
-                    <th onclick="sortTable('solvent-table',4)">&delta;H</th>
-                    <th onclick="sortTable('solvent-table',5)">MW</th>
-                    <th onclick="sortTable('solvent-table',6)">BP &deg;C</th>
-                    <th onclick="sortTable('solvent-table',7)">Category</th>
-                </tr></thead>
-                <tbody>{table_rows}</tbody>
-            </table>
-        </div>
-    </div>
-
-    <div id="panel-polymers" class="panel">
-        <input type="text" id="polymer-search" placeholder="Search polymers..." oninput="filterTable('polymer-table', this.value)">
-        <div class="table-wrapper">
-            <table id="polymer-table">
-                <thead><tr>
-                    <th onclick="sortTable('polymer-table',0)">Name</th>
-                    <th onclick="sortTable('polymer-table',1)">CAS</th>
-                    <th onclick="sortTable('polymer-table',2)">&delta;D</th>
-                    <th onclick="sortTable('polymer-table',3)">&delta;P</th>
-                    <th onclick="sortTable('polymer-table',4)">&delta;H</th>
-                    <th onclick="sortTable('polymer-table',5)">R&#8320;</th>
-                    <th onclick="sortTable('polymer-table',6)">Type</th>
-                </tr></thead>
-                <tbody>{polymer_rows}</tbody>
-            </table>
-        </div>
-    </div>
-
-    <div id="panel-about" class="panel">
-        <div class="info">
-            <h3>Hansen Solubility Parameters (HSP)</h3>
-            <p>Every material gets three numbers that describe its molecular interactions:</p>
-            <ul style="margin: 10px 0 10px 20px;">
-                <li><strong>&delta;D</strong> — Dispersion forces (van der Waals)</li>
-                <li><strong>&delta;P</strong> — Polar forces (dipole-dipole)</li>
-                <li><strong>&delta;H</strong> — Hydrogen bonding forces</li>
-            </ul>
-            <p>All measured in <strong>MPa&frac12;</strong>.</p>
-
-            <h3 style="margin-top:20px;">The Distance Formula</h3>
-            <p>Compatibility is predicted by the distance in Hansen space:</p>
-            <p style="text-align:center; font-size:1.1em; margin:15px 0;">
-                <code>Ra&sup2; = 4(&delta;D&#8321; - &delta;D&#8322;)&sup2; + (&delta;P&#8321; - &delta;P&#8322;)&sup2; + (&delta;H&#8321; - &delta;H&#8322;)&sup2;</code>
-            </p>
-            <p>The factor of <strong>4</strong> on the dispersion term is empirical — it makes the 3D
-            Hansen space approximately spherical for real solubility data.</p>
-
-            <h3 style="margin-top:20px;">RED Number</h3>
-            <p><code>RED = Ra / R&#8320;</code> where R&#8320; is the solubility sphere radius.</p>
-            <ul style="margin: 10px 0 10px 20px;">
-                <li><span class="compatible">RED &lt; 1</span> — inside the sphere &rarr; <strong>compatible</strong></li>
-                <li>RED = 1 — on the boundary</li>
-                <li><span class="incompatible">RED &gt; 1</span> — outside the sphere &rarr; <strong>not compatible</strong></li>
-            </ul>
-
-            <h3 style="margin-top:20px;">Search</h3>
-            <p>Use the search bar to ask questions in plain English:</p>
-            <ul style="margin: 10px 0 10px 20px;">
-                <li><strong>"good solvents for polystyrene"</strong> — finds the best solvents</li>
-                <li><strong>"what about NMP or DMSO?"</strong> — follow-up evaluates specific solvents</li>
-                <li><strong>"good solvent for both cellulose and PVC"</strong> — multi-material search</li>
-                <li><strong>"solvents similar to toluene"</strong> — finds the nearest neighbors</li>
-            </ul>
-            <p>Common acronyms are supported: NMP, DMSO, DMF, THF, MEK, DCM, PVC, PMMA, PTFE, etc.</p>
-            <p>Hover over material names in results to see molecular structures (loaded from PubChem).</p>
-            <p>Click a material name in results to highlight it on the 3D plot.</p>
-            <p>Values in the database tables link to their data source.</p>
-        </div>
-    </div>
 
     <!-- Structure tooltip -->
     <div id="struct-tooltip" class="struct-tooltip">
@@ -446,8 +364,8 @@ full_html = f"""<!DOCTYPE html>
 
         // ===================== ALIASES =====================
         const SOLVENT_ALIASES = {{
-            'nmp': '1Methyl2Pyrrolidinone',
-            'n-methyl-2-pyrrolidone': '1Methyl2Pyrrolidinone',
+            'nmp': '1-Methyl-2-Pyrrolidinone',
+            'n-methyl-2-pyrrolidone': '1-Methyl-2-Pyrrolidinone',
             'dmso': 'Dimethyl sulfoxide',
             'dmf': 'N,N-Dimethylformamide',
             'dma': 'N,N-Dimethylacetamide',
@@ -648,11 +566,19 @@ full_html = f"""<!DOCTYPE html>
         // ===================== RESULT COUNT =====================
         let resultCount = 25;
 
+        var lastSearchQuery = '';
         function setResultCount(n) {{
             resultCount = n;
             document.querySelectorAll('.rc-btn').forEach(btn => {{
                 btn.classList.toggle('active', parseInt(btn.textContent) === n);
             }});
+            if (lastSearchQuery) {{
+                var parsed = parseQuery(lastSearchQuery);
+                var result = executeSearch(parsed);
+                var html = renderResultsHTML(result);
+                showResults(html);
+                if (!result.error) updatePlotWithResults(result);
+            }}
         }}
 
         // ===================== CHAT STATE =====================
@@ -899,7 +825,7 @@ full_html = f"""<!DOCTYPE html>
             else if (intent === 'multi_material') titleText = 'Multi-Material Search';
 
             let html = '<strong>' + titleText + '</strong>';
-            html += '<br><span style="color:#aaa;font-size:0.8rem">' + description + '</span>';
+            html += '<br><span style="color:#636e72;font-size:0.8rem">' + description + '</span>';
 
             if (chatContext && chatContext.target) {{
                 html += '<br><span class="chat-context">Context: ' + chatContext.intent.replace(/_/g, ' ') + ' for ' + chatContext.target.name + '</span>';
@@ -921,7 +847,7 @@ full_html = f"""<!DOCTYPE html>
                 html += '</tr></thead><tbody>';
                 targetList.forEach(t => {{
                     const chipColor = (isMulti && t.requirement === 'bad') ? '#EF553B' : '#00CC96';
-                    html += '<tr style="background:#0f3460">';
+                    html += '<tr style="background:#f0f2f5">';
                     html += '<td><strong style="color:#e94560">' + t.name + '</strong></td>';
                     html += '<td>' + (t.cas || '') + '</td>';
                     html += '<td>' + (t.dd != null ? t.dd.toFixed(1) : '') + '</td>';
@@ -995,17 +921,23 @@ full_html = f"""<!DOCTYPE html>
         }}
 
         function defaultLayout(title) {{
+            var axisStyle = {{
+                gridcolor: '#dfe6e9',
+                zerolinecolor: '#b2bec3',
+                backgroundcolor: '#f8f9fa',
+                showbackground: true,
+                tickfont: {{ size: 11, color: '#636e72' }},
+            }};
             return {{
                 scene: {{
-                    xaxis: {{ title: 'δD (Dispersion) MPa½', range: [12, 22] }},
-                    yaxis: {{ title: 'δP (Polar) MPa½', range: [0, 28] }},
-                    zaxis: {{ title: 'δH (H-bonding) MPa½', range: [0, 45] }},
+                    xaxis: Object.assign({{ title: {{ text: 'δD (Dispersion) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: [12, 22] }}, axisStyle),
+                    yaxis: Object.assign({{ title: {{ text: 'δP (Polar) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: [0, 28] }}, axisStyle),
+                    zaxis: Object.assign({{ title: {{ text: 'δH (H-bonding) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: [0, 45] }}, axisStyle),
                 }},
-                template: 'plotly_dark',
-                paper_bgcolor: '#1a1a2e', plot_bgcolor: '#1a1a2e',
+                paper_bgcolor: '#fff', plot_bgcolor: '#fff',
                 margin: {{ l: 0, r: 0, t: 40, b: 0 }},
-                legend: {{ x: 0.01, y: 0.99, bgcolor: 'rgba(0,0,0,0.5)' }},
-                title: {{ text: title || 'Materialism — Hansen Solubility Parameter Space', x: 0.5, font: {{ size: 18 }} }},
+                legend: {{ x: 0.01, y: 0.99, bgcolor: 'rgba(255,255,255,0.85)', bordercolor: '#dfe6e9', borderwidth: 1, font: {{ color: '#2d3436' }} }},
+                title: {{ text: title || 'Materialism — Hansen Solubility Parameter Space', x: 0.5, font: {{ size: 18, color: '#2d3436' }} }},
             }};
         }}
 
@@ -1061,13 +993,13 @@ full_html = f"""<!DOCTYPE html>
                     type: 'scatter3d', mode: 'markers+text', name: 'Results',
                     x: valid.map(r => r.dd), y: valid.map(r => r.dp), z: valid.map(r => r.dh),
                     text: valid.map((r, i) => (i + 1) + '. ' + r.name),
-                    textposition: 'top center', textfont: {{ size: 9, color: '#fff' }},
+                    textposition: 'top center', textfont: {{ size: 9, color: '#2d3436' }},
                     hovertemplate: valid.map((r, i) => {{
                         let h = '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}';
                         result.targets.forEach(t => {{ h += '<br>' + t.name.slice(0, 20) + ': RED=' + (r.reds[t.name] != null ? r.reds[t.name].toFixed(2) : 'N/A'); }});
                         return h + '<extra></extra>';
                     }}),
-                    marker: {{ size: 10, color: resultColors, opacity: 1, line: {{ color: '#fff', width: 1 }} }},
+                    marker: {{ size: 10, color: resultColors, opacity: 1, line: {{ color: '#2d3436', width: 1 }} }},
                 }});
                 const tgtColors = ['#e94560', '#3A86FF', '#06D6A0', '#FFBE0B'];
                 const sphereColors = ['rgba(233,69,96,0.2)', 'rgba(58,134,255,0.2)', 'rgba(6,214,160,0.2)', 'rgba(255,190,11,0.2)'];
@@ -1078,7 +1010,7 @@ full_html = f"""<!DOCTYPE html>
                         x: [tgt.dd], y: [tgt.dp], z: [tgt.dh], text: [tgt.name],
                         textposition: 'top center', textfont: {{ size: 12, color: c }},
                         hovertemplate: '<b>' + tgt.name + '</b> (' + tgt.requirement + ')<br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>R₀=' + tgt.r + '<extra></extra>',
-                        marker: {{ size: 14, color: c, symbol: 'diamond', opacity: 1, line: {{ color: '#fff', width: 2 }} }},
+                        marker: {{ size: 14, color: c, symbol: 'diamond', opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
                     }});
                     addSphere(traces, tgt, sphereColors[ti % sphereColors.length]);
                 }});
@@ -1087,17 +1019,17 @@ full_html = f"""<!DOCTYPE html>
                     type: 'scatter3d', mode: 'markers+text', name: 'Results',
                     x: valid.map(r => r.dd), y: valid.map(r => r.dp), z: valid.map(r => r.dh),
                     text: valid.map((r, i) => (i + 1) + '. ' + r.name),
-                    textposition: 'top center', textfont: {{ size: 9, color: '#fff' }},
+                    textposition: 'top center', textfont: {{ size: 9, color: '#2d3436' }},
                     hovertemplate: valid.map((r, i) =>
                         '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>Ra=' + r.ra.toFixed(2) +
                         (r.red !== null ? '<br>RED=' + r.red.toFixed(2) : '') + '<extra></extra>'),
-                    marker: {{ size: 10, color: resultColors, opacity: 1, line: {{ color: '#fff', width: 1 }} }},
+                    marker: {{ size: 10, color: resultColors, opacity: 1, line: {{ color: '#2d3436', width: 1 }} }},
                 }});
                 traces.push({{ type: 'scatter3d', mode: 'markers+text', name: '★ Target: ' + target.name,
                     x: [target.dd], y: [target.dp], z: [target.dh], text: ['★ ' + target.name],
                     textposition: 'top center', textfont: {{ size: 13, color: '#e94560' }},
                     hovertemplate: '<b>★ ' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>R₀=' + target.r + '<extra></extra>',
-                    marker: {{ size: 16, color: '#e94560', symbol: 'diamond', opacity: 1, line: {{ color: '#fff', width: 2 }} }},
+                    marker: {{ size: 16, color: '#e94560', symbol: 'diamond', opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
                 }});
                 addSphere(traces, target, 'rgba(233,69,96,0.2)');
             }} else {{
@@ -1106,17 +1038,17 @@ full_html = f"""<!DOCTYPE html>
                     type: 'scatter3d', mode: 'markers+text', name: 'Results',
                     x: valid.map(r => r.dd), y: valid.map(r => r.dp), z: valid.map(r => r.dh),
                     text: valid.map((r, i) => (i + 1) + '. ' + r.name),
-                    textposition: 'top center', textfont: {{ size: 9, color: '#fff' }},
+                    textposition: 'top center', textfont: {{ size: 9, color: '#2d3436' }},
                     hovertemplate: valid.map((r, i) =>
                         '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>Ra=' + r.ra.toFixed(2) + '<extra></extra>'),
-                    marker: {{ size: 10, color: resultColors, symbol: sym, opacity: 1, line: {{ color: '#fff', width: 1 }} }},
+                    marker: {{ size: 10, color: resultColors, symbol: sym, opacity: 1, line: {{ color: '#2d3436', width: 1 }} }},
                 }});
                 const tsym = (parentIntent === 'similar_polymers') ? 'diamond' : 'circle';
                 traces.push({{ type: 'scatter3d', mode: 'markers+text', name: '★ Target: ' + target.name,
                     x: [target.dd], y: [target.dp], z: [target.dh], text: ['★ ' + target.name],
                     textposition: 'top center', textfont: {{ size: 13, color: '#e94560' }},
                     hovertemplate: '<b>★ ' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                    marker: {{ size: 16, color: '#e94560', symbol: tsym, opacity: 1, line: {{ color: '#fff', width: 2 }} }},
+                    marker: {{ size: 16, color: '#e94560', symbol: tsym, opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
                 }});
             }}
 
@@ -1140,7 +1072,7 @@ full_html = f"""<!DOCTYPE html>
                 x: [mat.dd], y: [mat.dp], z: [mat.dh], text: ['★ ' + mat.name],
                 textposition: 'top center', textfont: {{ size: 13, color: '#FFD700' }},
                 hovertemplate: '<b>' + mat.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                marker: {{ size: 18, color: '#FFD700', symbol: sym, opacity: 1, line: {{ color: '#fff', width: 2 }} }},
+                marker: {{ size: 18, color: '#FFD700', symbol: sym, opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
             }});
             Plotly.react(plotDiv, currentData, plotDiv.layout);
         }}
@@ -1167,7 +1099,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var i = 0; i < filtered.length; i++) {{
                     var s = filtered[i];
                     var catColor = CAT_COLORS[s.cat] || '#888';
-                    function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#6ea8fe;text-decoration:none">' + v + '</a>' : v; }}
+                    function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
                     rowsHtml += '<tr style="border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
                     rowsHtml += '<td>' + (s.cas || '') + '</td>';
@@ -1190,7 +1122,7 @@ full_html = f"""<!DOCTYPE html>
                 rowsHtml = '';
                 for (var i = 0; i < filtered.length; i++) {{
                     var p = filtered[i];
-                    function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#6ea8fe;text-decoration:none">' + v + '</a>' : v; }}
+                    function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
                     rowsHtml += '<tr>';
                     rowsHtml += '<td>' + p.name + '</td>';
                     rowsHtml += '<td>' + (p.cas || '') + '</td>';
@@ -1285,6 +1217,7 @@ full_html = f"""<!DOCTYPE html>
             const input = document.getElementById('nl-search');
             const q = input.value.trim();
             if (!q) return;
+            lastSearchQuery = q;
             input.value = '';
             const parsed = parseQuery(q);
             const result = executeSearch(parsed);
@@ -1316,42 +1249,6 @@ full_html = f"""<!DOCTYPE html>
             window.dispatchEvent(new Event('resize'));
         }}
 
-        function showTab(name) {{
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            var el = document.getElementById('panel-' + name);
-            if (el) el.classList.add('active');
-            const tabs = document.querySelectorAll('.tab');
-            const tabNames = ['solvents', 'polymers', 'about'];
-            const idx = tabNames.indexOf(name);
-            if (idx >= 0 && tabs[idx]) tabs[idx].classList.add('active');
-        }}
-
-        function filterTable(tableId, query) {{
-            const rows = document.querySelectorAll('#' + tableId + ' tbody tr');
-            const q = query.toLowerCase();
-            rows.forEach(row => {{
-                row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
-            }});
-        }}
-
-        let sortDir = {{}};
-        function sortTable(tableId, colIdx) {{
-            const table = document.getElementById(tableId);
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.rows);
-            const key = tableId + '-' + colIdx;
-            sortDir[key] = !sortDir[key];
-            const dir = sortDir[key] ? 1 : -1;
-            rows.sort((a, b) => {{
-                let va = a.cells[colIdx].textContent.trim();
-                let vb = b.cells[colIdx].textContent.trim();
-                const na = parseFloat(va), nb = parseFloat(vb);
-                if (!isNaN(na) && !isNaN(nb)) return (na - nb) * dir;
-                return va.localeCompare(vb) * dir;
-            }});
-            rows.forEach(row => tbody.appendChild(row));
-        }}
 
         // ===================== INIT =====================
         document.addEventListener('DOMContentLoaded', function() {{
@@ -1369,3 +1266,97 @@ with open(output_path, "w") as f:
 print(f"Generated: {output_path}")
 print(f"File size: {os.path.getsize(output_path) / 1024 / 1024:.1f} MB")
 print(f"Contains: {len(solvents)} solvents, {len(poly_data)} polymers")
+
+# ===================== Generate separate database pages =====================
+
+db_page_css = """
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+.header { background: #fff; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #dfe6e9; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.header h1 { font-size: 1.5rem; color: #e94560; }
+.header h1 a { color: #e94560; text-decoration: none; }
+.header .stats { color: #636e72; font-size: 0.9rem; }
+.content { padding: 20px 30px; }
+.search-row { margin-bottom: 16px; }
+.search-row input { background: #fff; border: 2px solid #dfe6e9; color: #2d3436; padding: 10px 16px; border-radius: 6px; width: 350px; font-size: 0.95rem; outline: none; }
+.search-row input:focus { border-color: #e94560; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+th { background: #f0f2f5; color: #e94560; padding: 10px; text-align: left; position: sticky; top: 0; cursor: pointer; z-index: 1; border-bottom: 2px solid #dfe6e9; }
+th:hover { background: #e8eaed; }
+td { padding: 8px 10px; border-bottom: 1px solid #eee; color: #2d3436; }
+tr:hover { background: #f8f9fa; }
+.table-wrapper { border: 1px solid #dfe6e9; border-radius: 6px; overflow: auto; max-height: calc(100vh - 160px); }
+th.sort-asc::after { content: ' ▲'; font-size: 0.7em; color: #e94560; }
+th.sort-desc::after { content: ' ▼'; font-size: 0.7em; color: #e94560; }
+"""
+
+db_page_js = """
+function filterTable(q) {
+    var rows = document.querySelectorAll('#db-table tbody tr');
+    var lq = q.toLowerCase();
+    rows.forEach(function(row) { row.style.display = row.textContent.toLowerCase().includes(lq) ? '' : 'none'; });
+}
+var sortDir = {};
+function sortTable(colIdx) {
+    var table = document.getElementById('db-table');
+    var tbody = table.querySelector('tbody');
+    var rows = Array.from(tbody.rows);
+    var key = 'c' + colIdx;
+    sortDir[key] = !sortDir[key];
+    var dir = sortDir[key] ? 1 : -1;
+    var ths = table.querySelectorAll('th');
+    ths.forEach(function(th) { th.classList.remove('sort-asc', 'sort-desc'); });
+    ths[colIdx].classList.add(sortDir[key] ? 'sort-asc' : 'sort-desc');
+    rows.sort(function(a, b) {
+        var va = a.cells[colIdx].textContent.trim();
+        var vb = b.cells[colIdx].textContent.trim();
+        var na = parseFloat(va), nb = parseFloat(vb);
+        if (!isNaN(na) && !isNaN(nb)) return (na - nb) * dir;
+        return va.localeCompare(vb) * dir;
+    });
+    rows.forEach(function(row) { tbody.appendChild(row); });
+}
+"""
+
+def gen_db_page(title, headers, rows_html, search_placeholder, filename):
+    header_html = "".join(f'<th onclick="sortTable({i})">{h}</th>' for i, h in enumerate(headers))
+    page = f"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Materialism — {title}</title>
+<style>{db_page_css}</style>
+</head><body>
+<div class="header">
+    <h1><a href="materialism.html">Materialism</a> — {title}</h1>
+    <div class="stats">{len(solvents)} solvents &middot; {len(poly_data)} polymers</div>
+</div>
+<div class="content">
+    <div class="search-row"><input type="text" placeholder="{search_placeholder}" oninput="filterTable(this.value)"></div>
+    <div class="table-wrapper">
+        <table id="db-table">
+            <thead><tr>{header_html}</tr></thead>
+            <tbody>{rows_html}</tbody>
+        </table>
+    </div>
+</div>
+<script>{db_page_js}</script>
+</body></html>"""
+    out = os.path.join(os.path.dirname(__file__), filename)
+    with open(out, "w") as f:
+        f.write(page)
+    print(f"Generated: {out} ({os.path.getsize(out) / 1024:.0f} KB)")
+
+gen_db_page(
+    "Solvent Database",
+    ["Name", "CAS", "&delta;D", "&delta;P", "&delta;H", "MW", "BP &deg;C", "Category"],
+    table_rows,
+    "Search solvents by name or CAS...",
+    "solvents.html"
+)
+
+gen_db_page(
+    "Polymer Database",
+    ["Name", "CAS", "&delta;D", "&delta;P", "&delta;H", "R\u2080", "Type"],
+    polymer_rows,
+    "Search polymers...",
+    "polymers.html"
+)
