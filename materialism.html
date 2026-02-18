@@ -17277,26 +17277,42 @@ return Plotly;
             'PETG': { desc: 'PETG is a glycol-modified polyester with better impact resistance and easier processing than PET.', solvents: 'chlorinated solvents and some ketones such as DCM and cyclohexanone' },
         };
 
-        function getMaterialDescription(target, intent) {
+        function getMaterialDescription(target, intent, results) {
             const info = MATERIAL_INFO[target.name];
+            // Base description of the material itself
+            var baseDesc;
             if (info) {
-                if (intent === 'good_solvents') return info.desc + ' Compatible solvents tend to be ' + info.solvents + '.';
-                if (intent === 'bad_solvents') return info.desc + ' Incompatible solvents will be those with HSP values far from its coordinates.';
-                return info.desc;
+                baseDesc = info.desc;
+            } else {
+                var typeLabel = target.type ? target.type.charAt(0).toUpperCase() + target.type.slice(1) : 'Polymer';
+                baseDesc = target.name + ' is a ' + typeLabel.toLowerCase() + ' with \u03B4D=' + target.dd.toFixed(1) + ', \u03B4P=' + target.dp.toFixed(1) + ', \u03B4H=' + target.dh.toFixed(1) + ' MPa\u00BD.';
             }
-            // Dynamic fallback based on type and HSP values
-            const typeLabel = target.type ? target.type.charAt(0).toUpperCase() + target.type.slice(1) : 'Polymer';
-            let solventHint;
-            if (target.dp < 3 && target.dh < 3) solventHint = 'non-polar hydrocarbons';
-            else if (target.dh > 10 && target.dp > 5) solventHint = 'strongly polar protic solvents such as alcohols and organic acids';
-            else if (target.dh > 8) solventHint = 'polar protic solvents such as alcohols and acids';
-            else if (target.dp > 8) solventHint = 'polar aprotic solvents such as ketones, NMP, and DMF';
-            else if (target.dp > 4) solventHint = 'moderately polar solvents such as esters, ethers, and ketones';
-            else solventHint = 'solvents with low polarity and moderate hydrogen bonding';
-            const desc = target.name + ' is a ' + typeLabel.toLowerCase() + ' with δD=' + target.dd.toFixed(1) + ', δP=' + target.dp.toFixed(1) + ', δH=' + target.dh.toFixed(1) + ' MPa\u00BD.';
-            if (intent === 'good_solvents') return desc + ' Compatible solvents tend to be ' + solventHint + '.';
-            if (intent === 'bad_solvents') return desc + ' Incompatible solvents will be those with HSP values far from its coordinates.';
-            return desc;
+
+            // Build data-driven solvent summary from actual results
+            if ((intent === 'good_solvents' || intent === 'bad_solvents') && results && results.length > 0) {
+                var topN = results.slice(0, 10).filter(function(r) { return !r.notFound; });
+                if (topN.length === 0) return baseDesc;
+
+                // Tally categories among top results
+                var catCounts = {};
+                topN.forEach(function(r) {
+                    var cat = r.cat || 'other';
+                    catCounts[cat] = (catCounts[cat] || 0) + 1;
+                });
+                var sorted = Object.keys(catCounts).sort(function(a, b) { return catCounts[b] - catCounts[a]; });
+                // Keep categories that appear at least twice, or top 2 if none do
+                var topCats = sorted.filter(function(c) { return catCounts[c] >= 2; }).slice(0, 3);
+                if (topCats.length === 0) topCats = sorted.slice(0, 2);
+                var catLabels = topCats.map(function(c) { return c + 's'; });
+
+                // Name 3 specific solvents
+                var topNames = topN.slice(0, 3).map(function(r) { return r.name; });
+
+                var label = intent === 'good_solvents' ? 'compatible' : 'incompatible';
+                return baseDesc + ' The most ' + label + ' solvents are predominantly ' + catLabels.join(', ') + ' \u2014 for example ' + topNames.join(', ') + '.';
+            }
+
+            return baseDesc;
         }
 
         function renderResultsHTML(result) {
@@ -17358,7 +17374,7 @@ return Plotly;
             html += '<td style="font-size:0.75rem;color:#888">' + tgtSrcHtml + '</td>';
             html += '</tr>';
             // Material description row
-            html += '<tr class="target-desc-row"><td colspan="' + colCount + '">' + getMaterialDescription(target, parentIntent) + '</td></tr>';
+            html += '<tr class="target-desc-row"><td colspan="' + colCount + '">' + getMaterialDescription(target, parentIntent, results) + '</td></tr>';
 
             // Pre-compute distance colors for valid rows
             const validOnly = results.filter(r => !r.notFound);
