@@ -921,6 +921,7 @@ full_html = f"""<!DOCTYPE html>
         // ===================== 3D PLOT =====================
         let plotDiv;
         let fullTraces = [];
+        let bgTraces = [];
 
         function buildFullPlot() {{
             plotDiv = document.getElementById('plotly-div');
@@ -947,6 +948,19 @@ full_html = f"""<!DOCTYPE html>
                 marker: {{ size: 7, color: 'gold', symbol: 'diamond', opacity: 0.95 }},
             }});
             fullTraces = traces;
+            // Pre-compute dim background traces for search results view
+            bgTraces = [
+                {{ type: 'scatter3d', mode: 'markers', name: 'All Solvents',
+                  x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
+                  text: SOLVENTS.map(s => s.name),
+                  hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
+                  marker: {{ size: 3, color: '#444', opacity: 0.15 }} }},
+                {{ type: 'scatter3d', mode: 'markers', name: 'All Polymers',
+                  x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
+                  text: POLYMERS.map(p => p.name),
+                  hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
+                  marker: {{ size: 4, color: '#665500', symbol: 'diamond', opacity: 0.15 }} }},
+            ];
             Plotly.newPlot(plotDiv, traces, defaultLayout(), {{ responsive: true }});
         }}
 
@@ -968,9 +982,9 @@ full_html = f"""<!DOCTYPE html>
             }};
             return {{
                 scene: {{
-                    xaxis: Object.assign({{ title: {{ text: 'δD (Dispersion) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: [12, 22] }}, axisStyle),
-                    yaxis: Object.assign({{ title: {{ text: 'δP (Polar) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: [0, 28] }}, axisStyle),
-                    zaxis: Object.assign({{ title: {{ text: 'δH (H-bonding) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: [0, 45] }}, axisStyle),
+                    xaxis: Object.assign({{ title: {{ text: 'δD (Dispersion) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: [12, 22], autorange: false }}, axisStyle),
+                    yaxis: Object.assign({{ title: {{ text: 'δP (Polar) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: [0, 28], autorange: false }}, axisStyle),
+                    zaxis: Object.assign({{ title: {{ text: 'δH (H-bonding) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: [0, 45], autorange: false }}, axisStyle),
                 }},
                 paper_bgcolor: '#fff', plot_bgcolor: '#fff',
                 margin: {{ l: 0, r: 0, t: 40, b: 0 }},
@@ -1008,20 +1022,7 @@ full_html = f"""<!DOCTYPE html>
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             window.dispatchEvent(new Event('resize'));
-            const traces = [];
-
-            traces.push({{ type: 'scatter3d', mode: 'markers', name: 'All Solvents',
-                x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
-                text: SOLVENTS.map(s => s.name),
-                hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                marker: {{ size: 3, color: '#444', opacity: 0.15 }},
-            }});
-            traces.push({{ type: 'scatter3d', mode: 'markers', name: 'All Polymers',
-                x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
-                text: POLYMERS.map(p => p.name),
-                hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                marker: {{ size: 4, color: '#665500', symbol: 'diamond', opacity: 0.15 }},
-            }});
+            const traces = bgTraces.slice();
 
             const valid = results.filter(r => !r.notFound);
             const resultColors = computeResultColors(valid);
@@ -1091,13 +1092,15 @@ full_html = f"""<!DOCTYPE html>
                 }});
             }}
 
-            Plotly.react(plotDiv, traces, plotDiv.layout);
-            Plotly.relayout(plotDiv, {{ 'title.text': isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name }});
+            var layout = plotDiv.layout;
+            layout.title.text = isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name;
+            Plotly.react(plotDiv, traces, layout);
         }}
 
         function resetPlot() {{
-            Plotly.react(plotDiv, fullTraces, plotDiv.layout);
-            Plotly.relayout(plotDiv, {{ 'title.text': 'Materialism — Hansen Solubility Parameter Space' }});
+            var layout = plotDiv.layout;
+            layout.title.text = 'Materialism — Hansen Solubility Parameter Space';
+            Plotly.react(plotDiv, fullTraces, layout);
         }}
 
         // ===================== HIGHLIGHT IN PLOT =====================
