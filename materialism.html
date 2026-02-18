@@ -4575,39 +4575,12 @@ return Plotly;
 
             const isMulti = intent === 'multi_material';
             const showRed = parentIntent === 'good_solvents' || parentIntent === 'bad_solvents';
-
-            // --- Target material table ---
             const targetList = isMulti ? (result.targets || []) : (target ? [target] : []);
-            if (targetList.length > 0 && intent !== 'followup') {
-                html += '<div style="margin-top:10px"><span style="color:#e94560;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Target Material' + (targetList.length > 1 ? 's' : '') + '</span></div>';
-                html += '<table class="results-table" style="margin-bottom:16px"><thead><tr>';
-                html += '<th>Name</th><th>CAS</th><th>&delta;D</th><th>&delta;P</th><th>&delta;H</th>';
-                if (showRed || isMulti) html += '<th>R&#8320;</th>';
-                if (parentIntent === 'similar_solvents') html += '<th>Category</th>';
-                else if (parentIntent === 'similar_polymers') html += '<th>R&#8320;</th><th>Type</th>';
-                if (isMulti) html += '<th>Requirement</th>';
-                html += '</tr></thead><tbody>';
-                targetList.forEach(t => {
-                    const chipColor = (isMulti && t.requirement === 'bad') ? '#EF553B' : '#00CC96';
-                    html += '<tr style="background:#f0f2f5">';
-                    html += '<td><strong style="color:#e94560">' + t.name + '</strong></td>';
-                    html += '<td>' + (t.cas || '') + '</td>';
-                    html += '<td>' + (t.dd != null ? t.dd.toFixed(1) : '') + '</td>';
-                    html += '<td>' + (t.dp != null ? t.dp.toFixed(1) : '') + '</td>';
-                    html += '<td>' + (t.dh != null ? t.dh.toFixed(1) : '') + '</td>';
-                    if (showRed || isMulti) html += '<td>' + (t.r || '') + '</td>';
-                    if (parentIntent === 'similar_solvents') html += '<td>' + (t.cat || '') + '</td>';
-                    else if (parentIntent === 'similar_polymers') { html += '<td>' + (t.r || '') + '</td>'; html += '<td>' + (t.type || '') + '</td>'; }
-                    if (isMulti) html += '<td><span style="display:inline-block;background:' + chipColor + ';color:white;padding:2px 10px;border-radius:12px;font-size:0.8rem;font-weight:600">' + t.requirement + '</span></td>';
-                    html += '</tr>';
-                });
-                html += '</tbody></table>';
-            }
+            const showTarget = targetList.length > 0 && intent !== 'followup';
 
-            // --- Candidate results table ---
+            // --- Single unified table with shared columns ---
             const tableId = 'rt-' + Date.now();
-            html += '<div><span style="color:#e94560;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Candidate ' + (parentIntent === 'similar_polymers' ? 'Polymers' : 'Solvents') + ' (' + results.length + ')</span></div>';
-            html += '<table class="results-table" id="' + tableId + '"><thead><tr>';
+            html += '<table class="results-table" id="' + tableId + '" style="margin-top:10px"><thead><tr>';
             let colNum = 0;
             const th = (label) => '<th onclick="sortResultsTable(this.closest(\x27table\x27),' + (colNum++) + ')" style="cursor:pointer">' + label + '</th>';
             html += th('#') + th('Name') + th('CAS') + th('&delta;D') + th('&delta;P') + th('&delta;H');
@@ -4617,6 +4590,36 @@ return Plotly;
             else { html += th('Ra') + th('R&#8320;') + th('Type'); }
             html += '</tr></thead><tbody>';
 
+            // --- Target material rows ---
+            if (showTarget) {
+                targetList.forEach(t => {
+                    html += '<tr style="background:#eef1f6;border-bottom:2px solid #dfe6e9">';
+                    html += '<td style="color:#e94560;font-weight:bold">★</td>';
+                    html += '<td><strong style="color:#e94560">' + t.name + '</strong></td>';
+                    html += '<td>' + (t.cas || '') + '</td>';
+                    html += '<td>' + (t.dd != null ? t.dd.toFixed(1) : '') + '</td>';
+                    html += '<td>' + (t.dp != null ? t.dp.toFixed(1) : '') + '</td>';
+                    html += '<td>' + (t.dh != null ? t.dh.toFixed(1) : '') + '</td>';
+                    if (isMulti) {
+                        result.targets.forEach(tt => {
+                            html += '<td></td>';
+                            if (tt.name === t.name) {
+                                const chipColor = t.requirement === 'bad' ? '#EF553B' : '#00CC96';
+                                html += '<td><span style="display:inline-block;background:' + chipColor + ';color:white;padding:2px 10px;border-radius:12px;font-size:0.8rem;font-weight:600">' + t.requirement + '</span></td>';
+                            } else { html += '<td></td>'; }
+                        });
+                    } else if (showRed) {
+                        html += '<td></td><td style="color:#636e72">R&#8320;=' + (t.r || 'N/A') + '</td>';
+                    } else if (parentIntent === 'similar_solvents') {
+                        html += '<td></td><td>' + (t.cat || '') + '</td>';
+                    } else {
+                        html += '<td></td><td>' + (t.r || '') + '</td><td>' + (t.type || '') + '</td>';
+                    }
+                    html += '</tr>';
+                });
+            }
+
+            // --- Candidate result rows ---
             results.forEach((r, i) => {
                 if (r.notFound) { html += '<tr><td class="rank">' + (i + 1) + '</td><td colspan="8" style="color:#EF553B">Could not find "' + r.queryName + '" in the database</td></tr>'; return; }
                 const nameHtml = '<span class="hoverable-name" onclick="highlightInPlot(\x27' + encodeURIComponent(r.name) + '\x27)" onmouseenter="showStructure(event,\x27' + encodeURIComponent(r.name) + '\x27)" onmouseleave="hideStructure()">' + r.name + '</span>';
