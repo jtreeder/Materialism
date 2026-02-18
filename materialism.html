@@ -17344,6 +17344,23 @@ return Plotly;
             });
             fullTraces = traces;
             Plotly.newPlot(plotDiv, traces, defaultLayout(), { responsive: true });
+
+            // Remap middle-mouse (button 1) to pan (button 2) in the 3D scene
+            const glCanvas = plotDiv.querySelector('.gl-canvas-focus, canvas');
+            if (glCanvas) {
+                glCanvas.addEventListener('mousedown', function(e) {
+                    if (e.button === 1) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const panEvent = new MouseEvent('mousedown', {
+                            bubbles: true, cancelable: true,
+                            clientX: e.clientX, clientY: e.clientY,
+                            button: 2, buttons: 2,
+                        });
+                        glCanvas.dispatchEvent(panEvent);
+                    }
+                }, true);
+            }
         }
 
         function defaultLayout(title) {
