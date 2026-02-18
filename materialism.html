@@ -3965,10 +3965,11 @@ return Plotly;
 
         /* --- Chat Panel (right side of results layout) --- */
         .chat-panel {
-            display: none; flex: 1 1 45%; min-width: 0; overflow-y: auto;
-            padding: 12px 14px;
+            display: none; flex: 1 1 45%; min-width: 0;
+            overflow-y: auto; padding: 12px 14px;
+            height: calc(100vh - 140px); box-sizing: border-box;
         }
-        .chat-panel.visible { display: flex; flex-direction: column; }
+        .chat-panel.visible { display: block; }
         .chat-msg {
             margin: 8px 0; padding: 10px 14px; border-radius: 8px;
             max-width: 95%; font-size: 0.9rem; line-height: 1.5;
