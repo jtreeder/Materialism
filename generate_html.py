@@ -255,7 +255,7 @@ full_html = f"""<!DOCTYPE html>
         .results-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; }}
         .results-table th {{
             background: #f0f2f5; color: #e94560; padding: 8px 10px;
-            text-align: left; font-weight: 600; position: static; border-bottom: 2px solid #dfe6e9;
+            text-align: left; font-weight: 600; position: sticky; top: 0; z-index: 1; border-bottom: 2px solid #dfe6e9;
         }}
         .results-table td {{ padding: 8px 10px; border-bottom: 1px solid #eee; position: relative; }}
         .results-table tr:hover {{ background: #f8f9fa; }}
@@ -324,9 +324,9 @@ full_html = f"""<!DOCTYPE html>
             <div class="plot-container">
                 <div id="plotly-div" style="width:100%; height:100%;"></div>
             </div>
-            <p style="color:#636e72; padding:6px 10px; font-size:0.8rem; margin:0;">
-                Drag to rotate &middot; Scroll to zoom &middot;
-                Gold diamonds = polymers, colored dots = solvents by category
+            <p style="color:#636e72; padding:6px 10px; font-size:0.8rem; margin:0; display:flex; align-items:center; justify-content:space-between;">
+                <span>Drag to rotate &middot; Scroll to zoom &middot; Gold diamonds = polymers, colored dots = solvents by category</span>
+                <button onclick="toggleAllTraces()" class="rc-btn" id="toggle-all-btn">Hide All</button>
             </p>
         </div>
         <div id="chat-panel" class="chat-panel"></div>
@@ -590,35 +590,39 @@ full_html = f"""<!DOCTYPE html>
             const q = raw.toLowerCase().trim();
 
             // --- Multi-material detection ---
-            const multiGoodBad = q.match(/good\s+solvents?\s+for\s+(.+?)\s+and\s+(?:a\s+)?bad\s+solvents?\s+for\s+(.+)/i);
+            // Separator: "and", "but", comma, semicolon
+            var sep = /\s*(?:,\s*(?:and\s+|but\s+)?|;\s*|\s+and\s+|\s+but\s+)\s*/;
+
+            // "good solvents for X, bad for Y" / "good for X and bad for Y" etc.
+            var multiGoodBad = q.match(new RegExp('good\\s+solvents?\\s+for\\s+(.+?)' + sep.source + '(?:a\\s+)?bad\\s+(?:solvents?\\s+)?for\\s+(.+)', 'i'));
             if (multiGoodBad) {{
                 return {{ intent: 'multi_material', materials: [
                     {{ name: multiGoodBad[1].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
                     {{ name: multiGoodBad[2].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
                 ]}};
             }}
-            const multiBadGood = q.match(/bad\s+solvents?\s+for\s+(.+?)\s+and\s+(?:a\s+)?good\s+solvents?\s+for\s+(.+)/i);
+            var multiBadGood = q.match(new RegExp('bad\\s+solvents?\\s+for\\s+(.+?)' + sep.source + '(?:a\\s+)?good\\s+(?:solvents?\\s+)?for\\s+(.+)', 'i'));
             if (multiBadGood) {{
                 return {{ intent: 'multi_material', materials: [
                     {{ name: multiBadGood[1].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
                     {{ name: multiBadGood[2].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
                 ]}};
             }}
-            const multiBoth = q.match(/good\s+solvents?\s+for\s+(?:both\s+)?(.+?)\s+and\s+(.+)/i);
+            var multiBoth = q.match(new RegExp('good\\s+solvents?\\s+for\\s+(?:both\\s+)?(.+?)' + sep.source + '(.+)', 'i'));
             if (multiBoth) {{
                 return {{ intent: 'multi_material', materials: [
                     {{ name: multiBoth[1].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
                     {{ name: multiBoth[2].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
                 ]}};
             }}
-            const multiBothBad = q.match(/bad\s+solvents?\s+for\s+(?:both\s+)?(.+?)\s+and\s+(.+)/i);
+            var multiBothBad = q.match(new RegExp('bad\\s+solvents?\\s+for\\s+(?:both\\s+)?(.+?)' + sep.source + '(.+)', 'i'));
             if (multiBothBad) {{
                 return {{ intent: 'multi_material', materials: [
                     {{ name: multiBothBad[1].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
                     {{ name: multiBothBad[2].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
                 ]}};
             }}
-            const dissolvesBoth = q.match(/(?:dissolves?|dissolve)\s+(?:both\s+)?(.+?)\s+and\s+(.+)/i);
+            var dissolvesBoth = q.match(new RegExp('(?:dissolves?|dissolve)\\s+(?:both\\s+)?(.+?)' + sep.source + '(.+)', 'i'));
             if (dissolvesBoth) {{
                 return {{ intent: 'multi_material', materials: [
                     {{ name: dissolvesBoth[1].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
@@ -626,7 +630,7 @@ full_html = f"""<!DOCTYPE html>
                 ]}};
             }}
 
-            const hasStandardIntent = /good\s+solvent|bad\s+solvent|best\s+solvent|worst\s+solvent|poor\s+solvent|dissolve|compatible\s+with|incompatible|similar\s+to|close\s+to|solvents?\s+for|polymers?\s+for|polymers?\s+similar|solvents?\s+similar/i.test(q);
+            const hasStandardIntent = /good\s+solvent|bad\s+solvent|best\s+solvent|worst\s+solvent|poor\s+solvent|dissolve|compatible\s+with|incompatible|similar\s+to|close\s+to|solvents?\s+for|polymers?\s+for|polymers?\s+similar|solvents?\s+similar|polymers?\s+(?:dissolved|compatible)|what\s+(?:does|can|will)|which\s+polymers/i.test(q);
 
             if (!hasStandardIntent && chatContext) {{
                 const followUpPatterns = [
@@ -666,7 +670,22 @@ full_html = f"""<!DOCTYPE html>
                 /(?:similar|close|near)\s+(?:to\s+)?(?:the\s+)?polymers?/i,
                 /materials?\s+(?:similar|close|near)\s+to/i,
             ];
+            const polymersForSolventPatterns = [
+                /(?:which|what)\s+polymers?\s+(?:does|can|will)\s+(.+?)\s+dissolve/i,
+                /(?:which|what)\s+polymers?\s+(?:are\s+)?(?:dissolved|soluble|compatible)\s+(?:by|in|with)\s+(.+)/i,
+                /polymers?\s+(?:dissolved|soluble|compatible)\s+(?:by|in|with)\s+/i,
+                /(?:what|which)\s+(?:can|does|will)\s+(.+?)\s+dissolve/i,
+                /polymers?\s+for\s+/i,
+            ];
 
+            // Check polymers-for-solvent FIRST (before good/bad which would misinterpret)
+            for (const p of polymersForSolventPatterns) {{
+                var m = q.match(p);
+                if (m) {{
+                    var mat = m[1] ? m[1].replace(/[?.!]/g, '').trim() : q.replace(p, '').replace(/[?.!]/g, '').trim();
+                    return {{ intent: 'polymers_for_solvent', material: mat }};
+                }}
+            }}
             for (const p of badPatterns) {{ if (p.test(q)) return {{ intent: 'bad_solvents', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }}; }}
             for (const p of goodPatterns) {{ if (p.test(q)) return {{ intent: 'good_solvents', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }}; }}
             for (const p of similarPolymerPatterns) {{ if (p.test(q)) return {{ intent: 'similar_polymers', material: q.replace(p, '').replace(/[?.!]/g, '').trim() }}; }}
@@ -776,7 +795,17 @@ full_html = f"""<!DOCTYPE html>
                 return {{ intent, target, results: scored.slice(0, resultCount), description: 'Polymers closest to ' + target.name + ' in Hansen space.', targetType: 'polymer' }};
             }}
 
-            return {{ error: 'Could not understand the query. Try "good solvents for polystyrene", "bad solvents for PVC", or "solvents similar to toluene".' }};
+            if (intent === 'polymers_for_solvent') {{
+                let target = findSolvent(material);
+                if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findSolvent(w); if (target) break; }} }}
+                if (!target) return {{ error: 'Could not find solvent "' + material + '". Try "toluene", "acetone", "NMP", "DMSO", etc.' }};
+                const scored = POLYMERS.filter(p => p.r && p.r > 0).map(p => ({{ ...p, ra: hspDistance(target, p), red: redNumber(target, p) }}));
+                scored.sort((a, b) => a.ra - b.ra);
+                chatContext = {{ intent: 'polymers_for_solvent', target, targetType: 'solvent' }};
+                return {{ intent: 'polymers_for_solvent', target, results: scored.slice(0, resultCount), description: 'Polymers most easily dissolved by ' + target.name + '. RED < 1 = inside solubility sphere = compatible.', targetType: 'solvent' }};
+            }}
+
+            return {{ error: 'Could not understand the query. Try "good solvents for polystyrene", "bad solvents for PVC", "solvents similar to toluene", or "what polymers does acetone dissolve?".' }};
         }}
 
         // ===================== SHOW RESULTS (replaces, not appends) =====================
@@ -820,7 +849,7 @@ full_html = f"""<!DOCTYPE html>
             let html = '';
 
             const isMulti = intent === 'multi_material';
-            const showRed = parentIntent === 'good_solvents' || parentIntent === 'bad_solvents';
+            const showRed = parentIntent === 'good_solvents' || parentIntent === 'bad_solvents' || parentIntent === 'polymers_for_solvent';
             const targetList = isMulti ? (result.targets || []) : (target ? [target] : []);
             const showTarget = targetList.length > 0 && intent !== 'followup';
 
@@ -843,7 +872,7 @@ full_html = f"""<!DOCTYPE html>
                     html += '<td style="color:#e94560;font-weight:bold">★</td>';
                     html += '<td><strong style="color:#e94560">' + t.name + '</strong></td>';
                     html += '<td>' + (t.cas || '') + '</td>';
-                    html += '<td>' + (t.src || '') + '</td>';
+                    html += '<td>' + ((t.src && t.srcUrl) ? '<a href="' + t.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + t.src + '</a>' : (t.src || '')) + '</td>';
                     html += '<td>' + (t.dd != null ? t.dd.toFixed(1) : '') + '</td>';
                     html += '<td>' + (t.dp != null ? t.dp.toFixed(1) : '') + '</td>';
                     html += '<td>' + (t.dh != null ? t.dh.toFixed(1) : '') + '</td>';
@@ -870,7 +899,8 @@ full_html = f"""<!DOCTYPE html>
             results.forEach((r, i) => {{
                 if (r.notFound) {{ html += '<tr><td class="rank">' + (i + 1) + '</td><td colspan="9" style="color:#EF553B">Could not find "' + r.queryName + '" in the database</td></tr>'; return; }}
                 const nameHtml = '<span class="hoverable-name" onclick="highlightInPlot(\\x27' + encodeURIComponent(r.name) + '\\x27)" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(r.name) + '\\x27)" onmouseleave="hideStructure()">' + r.name + '</span>';
-                html += '<tr><td class="rank">' + (i + 1) + '</td><td>' + nameHtml + '</td><td>' + (r.cas || '') + '</td><td>' + (r.src || '') + '</td>';
+                var srcHtml = (r.src && r.srcUrl) ? '<a href="' + r.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + r.src + '</a>' : (r.src || '');
+                html += '<tr><td class="rank">' + (i + 1) + '</td><td>' + nameHtml + '</td><td>' + (r.cas || '') + '</td><td>' + srcHtml + '</td>';
                 html += '<td>' + (r.dd != null ? r.dd.toFixed(1) : '') + '</td><td>' + (r.dp != null ? r.dp.toFixed(1) : '') + '</td><td>' + (r.dh != null ? r.dh.toFixed(1) : '') + '</td>';
                 if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; html += '<td>' + (ra != null ? ra.toFixed(2) : '') + '</td>'; let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} html += '<td class="' + cls + '">' + (red != null ? red.toFixed(2) : 'N/A') + '</td>'; }}); }}
                 else {{ html += '<td>' + (r.ra != null ? r.ra.toFixed(2) : '') + '</td>'; if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} html += '<td class="' + cls + '">' + (red !== null ? red.toFixed(2) : 'N/A') + '</td>'; }} else if (parentIntent === 'similar_solvents') {{ html += '<td>' + (r.cat || '') + '</td>'; }} else {{ html += '<td>' + (r.r || '') + '</td><td>' + (r.type || '') + '</td>'; }} }}
@@ -912,6 +942,14 @@ full_html = f"""<!DOCTYPE html>
             Plotly.newPlot(plotDiv, traces, defaultLayout(), {{ responsive: true }});
         }}
 
+        function toggleAllTraces() {{
+            if (!plotDiv || !plotDiv.data) return;
+            var anyVisible = plotDiv.data.some(function(t) {{ return t.visible !== 'legendonly'; }});
+            var newVal = anyVisible ? 'legendonly' : true;
+            Plotly.restyle(plotDiv, {{ visible: newVal }});
+            document.getElementById('toggle-all-btn').textContent = anyVisible ? 'Show All' : 'Hide All';
+        }}
+
         function defaultLayout(title) {{
             var axisStyle = {{
                 gridcolor: '#dfe6e9',
@@ -931,6 +969,11 @@ full_html = f"""<!DOCTYPE html>
                 legend: {{ x: 0.01, y: 0.99, bgcolor: 'rgba(255,255,255,0.85)', bordercolor: '#dfe6e9', borderwidth: 1, font: {{ color: '#2d3436' }} }},
                 title: {{ text: title || 'Materialism — Hansen Solubility Parameter Space', x: 0.5, font: {{ size: 18, color: '#2d3436' }} }},
             }};
+        }}
+
+        function saveCamera() {{
+            try {{ return JSON.parse(JSON.stringify(plotDiv._fullLayout.scene.camera)); }}
+            catch(e) {{ return null; }}
         }}
 
         function addSphere(traces, tgt, sphereColor) {{
@@ -1006,7 +1049,8 @@ full_html = f"""<!DOCTYPE html>
                     }});
                     addSphere(traces, tgt, sphereColors[ti % sphereColors.length]);
                 }});
-            }} else if (parentIntent === 'good_solvents' || parentIntent === 'bad_solvents') {{
+            }} else if (parentIntent === 'good_solvents' || parentIntent === 'bad_solvents' || parentIntent === 'polymers_for_solvent') {{
+                var isReverse = parentIntent === 'polymers_for_solvent';
                 traces.push({{
                     type: 'scatter3d', mode: 'markers+text', name: 'Results',
                     x: valid.map(r => r.dd), y: valid.map(r => r.dp), z: valid.map(r => r.dh),
@@ -1015,15 +1059,15 @@ full_html = f"""<!DOCTYPE html>
                     hovertemplate: valid.map((r, i) =>
                         '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>Ra=' + r.ra.toFixed(2) +
                         (r.red !== null ? '<br>RED=' + r.red.toFixed(2) : '') + '<extra></extra>'),
-                    marker: {{ size: 10, color: resultColors, opacity: 1, line: {{ color: '#2d3436', width: 1 }} }},
+                    marker: {{ size: 10, color: resultColors, symbol: isReverse ? 'diamond' : 'circle', opacity: 1, line: {{ color: '#2d3436', width: 1 }} }},
                 }});
                 traces.push({{ type: 'scatter3d', mode: 'markers+text', name: '★ Target: ' + target.name,
                     x: [target.dd], y: [target.dp], z: [target.dh], text: ['★ ' + target.name],
                     textposition: 'top center', textfont: {{ size: 13, color: '#e94560' }},
-                    hovertemplate: '<b>★ ' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>R₀=' + target.r + '<extra></extra>',
-                    marker: {{ size: 16, color: '#e94560', symbol: 'diamond', opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
+                    hovertemplate: '<b>★ ' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}' + (target.r ? '<br>R₀=' + target.r : '') + '<extra></extra>',
+                    marker: {{ size: 16, color: '#e94560', symbol: isReverse ? 'circle' : 'diamond', opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
                 }});
-                addSphere(traces, target, 'rgba(233,69,96,0.2)');
+                if (!isReverse) addSphere(traces, target, 'rgba(233,69,96,0.2)');
             }} else {{
                 const sym = (parentIntent === 'similar_polymers') ? 'diamond' : 'circle';
                 traces.push({{
@@ -1044,18 +1088,16 @@ full_html = f"""<!DOCTYPE html>
                 }});
             }}
 
+            var cam = saveCamera();
             var layout = defaultLayout(isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name);
-            if (plotDiv.layout && plotDiv.layout.scene && plotDiv.layout.scene.camera) {{
-                layout.scene.camera = plotDiv.layout.scene.camera;
-            }}
+            if (cam) layout.scene.camera = cam;
             Plotly.react(plotDiv, traces, layout);
         }}
 
         function resetPlot() {{
+            var cam = saveCamera();
             var layout = defaultLayout();
-            if (plotDiv.layout && plotDiv.layout.scene && plotDiv.layout.scene.camera) {{
-                layout.scene.camera = plotDiv.layout.scene.camera;
-            }}
+            if (cam) layout.scene.camera = cam;
             Plotly.react(plotDiv, fullTraces, layout);
         }}
 
@@ -1075,6 +1117,23 @@ full_html = f"""<!DOCTYPE html>
                 marker: {{ size: 18, color: '#FFD700', symbol: sym, opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
             }});
             Plotly.react(plotDiv, currentData, plotDiv.layout);
+            selectInTable(name);
+        }}
+
+        function selectInTable(name) {{
+            var homePanel = document.getElementById('home-panel');
+            if (homePanel.style.display === 'none') return;
+            var tbody = document.getElementById('home-tbody');
+            if (!tbody) return;
+            var rows = tbody.querySelectorAll('tr[data-name]');
+            rows.forEach(function(r) {{ r.style.background = ''; }});
+            for (var i = 0; i < rows.length; i++) {{
+                if (rows[i].getAttribute('data-name') === name) {{
+                    rows[i].style.background = '#fff3cd';
+                    rows[i].scrollIntoView({{ block: 'center', behavior: 'smooth' }});
+                    break;
+                }}
+            }}
         }}
 
         // ===================== HOME PANEL (all materials) =====================
@@ -1088,7 +1147,11 @@ full_html = f"""<!DOCTYPE html>
             var headerHtml, rowsHtml;
 
             if (homeTab === 'solvents') {{
-                headerHtml = '<tr><th>Name</th><th>CAS</th><th>&delta;D</th><th>&delta;P</th><th>&delta;H</th><th>MW</th><th>BP &deg;C</th><th>Category</th></tr>';
+                headerHtml = '<tr>';
+                ['Name','CAS','&delta;D','&delta;P','&delta;H','MW','BP &deg;C','Category'].forEach(function(label, i) {{
+                    headerHtml += '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + i + ')" style="cursor:pointer">' + label + '</th>';
+                }});
+                headerHtml += '</tr>';
                 var filtered = SOLVENTS;
                 if (homeFilterText) {{
                     var q = homeFilterText.toLowerCase();
@@ -1100,8 +1163,8 @@ full_html = f"""<!DOCTYPE html>
                     var s = filtered[i];
                     var catColor = CAT_COLORS[s.cat] || '#888';
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
-                    rowsHtml += '<tr style="border-left:3px solid ' + catColor + '">';
-                    rowsHtml += '<td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
+                    rowsHtml += '<tr data-name="' + s.name.replace(/"/g, '&quot;') + '" style="border-left:3px solid ' + catColor + '">';
+                    rowsHtml += '<td><span class="hoverable-name" onclick="highlightInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
                     rowsHtml += '<td>' + (s.cas || '') + '</td>';
                     rowsHtml += '<td>' + lnk(s.dd, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.dp, s.srcUrl) + '</td>';
@@ -1112,7 +1175,11 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '</tr>';
                 }}
             }} else {{
-                headerHtml = '<tr><th>Name</th><th>CAS</th><th>&delta;D</th><th>&delta;P</th><th>&delta;H</th><th>R&#8320;</th><th>Type</th></tr>';
+                headerHtml = '<tr>';
+                ['Name','CAS','&delta;D','&delta;P','&delta;H','R&#8320;','Type'].forEach(function(label, i) {{
+                    headerHtml += '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + i + ')" style="cursor:pointer">' + label + '</th>';
+                }});
+                headerHtml += '</tr>';
                 var filtered = POLYMERS;
                 if (homeFilterText) {{
                     var q = homeFilterText.toLowerCase();
@@ -1123,8 +1190,8 @@ full_html = f"""<!DOCTYPE html>
                 for (var i = 0; i < filtered.length; i++) {{
                     var p = filtered[i];
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
-                    rowsHtml += '<tr>';
-                    rowsHtml += '<td>' + p.name + '</td>';
+                    rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '">';
+                    rowsHtml += '<td><span class="hoverable-name" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)">' + p.name + '</span></td>';
                     rowsHtml += '<td>' + (p.cas || '') + '</td>';
                     rowsHtml += '<td>' + lnk(p.dd, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
@@ -1254,6 +1321,18 @@ full_html = f"""<!DOCTYPE html>
         document.addEventListener('DOMContentLoaded', function() {{
             buildFullPlot();
             buildHomeTable();
+            plotDiv.on('plotly_click', function(data) {{
+                if (!data || !data.points || !data.points.length) return;
+                var pt = data.points[0];
+                var name = '';
+                if (pt.text) {{
+                    name = pt.text.replace(/^★\s*/, '').replace(/<br>.*/, '').replace(/^\d+\.\s*/, '');
+                }}
+                if (name) {{
+                    highlightInPlot(encodeURIComponent(name));
+                    selectInTable(name);
+                }}
+            }});
         }});
     </script>
 </body>
