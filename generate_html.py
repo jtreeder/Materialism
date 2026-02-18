@@ -157,8 +157,8 @@ full_html = f"""<!DOCTYPE html>
         .panel {{ display: none; padding: 20px; }}
         .panel.active {{ display: block; }}
         .results-layout {{ display: flex; gap: 0; height: calc(100vh - 140px); min-height: 500px; }}
-        .plot-side {{ flex: 1 1 55%; min-width: 0; border-right: 1px solid #dfe6e9; overflow: hidden; background: #fff; }}
-        .plot-container {{ width: 100%; }}
+        .plot-side {{ flex: 1 1 55%; min-width: 0; border-right: 1px solid #dfe6e9; overflow: hidden; background: #fff; display: flex; flex-direction: column; }}
+        .plot-container {{ width: 100%; flex: 1; min-height: 0; }}
         table {{ width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }}
         th {{ background: #f0f2f5; color: #e94560; padding: 10px; text-align: left; position: sticky; top: 0; cursor: pointer; z-index: 1; border-bottom: 2px solid #dfe6e9; }}
         th:hover {{ background: #e8eaed; }}
@@ -322,7 +322,7 @@ full_html = f"""<!DOCTYPE html>
     <div id="results-layout" class="results-layout">
         <div id="panel-plot" class="plot-side">
             <div class="plot-container">
-                <div id="plotly-div" style="width:100%; height:700px;"></div>
+                <div id="plotly-div" style="width:100%; height:100%;"></div>
             </div>
             <p style="color:#636e72; padding:6px 10px; font-size:0.8rem; margin:0;">
                 Drag to rotate &middot; Scroll to zoom &middot;
@@ -815,21 +815,9 @@ full_html = f"""<!DOCTYPE html>
 
             const {{ intent, results, description }} = result;
             const target = result.target || (result.targets ? result.targets[0] : null);
-            let titleText = '';
             const parentIntent = result.parentIntent || intent;
-            if (intent === 'followup') titleText = 'Evaluating against';
-            else if (intent === 'good_solvents') titleText = 'Best Solvents for';
-            else if (intent === 'bad_solvents') titleText = 'Worst Solvents for';
-            else if (intent === 'similar_solvents') titleText = 'Solvents Similar to';
-            else if (intent === 'similar_polymers') titleText = 'Polymers Similar to';
-            else if (intent === 'multi_material') titleText = 'Multi-Material Search';
 
-            let html = '<strong>' + titleText + '</strong>';
-            html += '<br><span style="color:#636e72;font-size:0.8rem">' + description + '</span>';
-
-            if (chatContext && chatContext.target) {{
-                html += '<br><span class="chat-context">Context: ' + chatContext.intent.replace(/_/g, ' ') + ' for ' + chatContext.target.name + '</span>';
-            }}
+            let html = '';
 
             const isMulti = intent === 'multi_material';
             const showRed = parentIntent === 'good_solvents' || parentIntent === 'bad_solvents';
@@ -841,7 +829,7 @@ full_html = f"""<!DOCTYPE html>
             html += '<table class="results-table" id="' + tableId + '" style="margin-top:10px"><thead><tr>';
             let colNum = 0;
             const th = (label) => '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + (colNum++) + ')" style="cursor:pointer">' + label + '</th>';
-            html += th('#') + th('Name') + th('CAS') + th('&delta;D') + th('&delta;P') + th('&delta;H');
+            html += th('#') + th('Name') + th('CAS') + th('Source') + th('&delta;D') + th('&delta;P') + th('&delta;H');
             if (isMulti) {{ result.targets.forEach(t => {{ html += th('Ra(' + t.name.slice(0, 15) + ')') + th('RED(' + t.name.slice(0, 15) + ')'); }}); }}
             else if (showRed) {{ html += th('Ra') + th('RED'); }}
             else if (parentIntent === 'similar_solvents') {{ html += th('Ra') + th('Category'); }}
@@ -855,6 +843,7 @@ full_html = f"""<!DOCTYPE html>
                     html += '<td style="color:#e94560;font-weight:bold">★</td>';
                     html += '<td><strong style="color:#e94560">' + t.name + '</strong></td>';
                     html += '<td>' + (t.cas || '') + '</td>';
+                    html += '<td>' + (t.src || '') + '</td>';
                     html += '<td>' + (t.dd != null ? t.dd.toFixed(1) : '') + '</td>';
                     html += '<td>' + (t.dp != null ? t.dp.toFixed(1) : '') + '</td>';
                     html += '<td>' + (t.dh != null ? t.dh.toFixed(1) : '') + '</td>';
@@ -879,9 +868,9 @@ full_html = f"""<!DOCTYPE html>
 
             // --- Candidate result rows ---
             results.forEach((r, i) => {{
-                if (r.notFound) {{ html += '<tr><td class="rank">' + (i + 1) + '</td><td colspan="8" style="color:#EF553B">Could not find "' + r.queryName + '" in the database</td></tr>'; return; }}
+                if (r.notFound) {{ html += '<tr><td class="rank">' + (i + 1) + '</td><td colspan="9" style="color:#EF553B">Could not find "' + r.queryName + '" in the database</td></tr>'; return; }}
                 const nameHtml = '<span class="hoverable-name" onclick="highlightInPlot(\\x27' + encodeURIComponent(r.name) + '\\x27)" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(r.name) + '\\x27)" onmouseleave="hideStructure()">' + r.name + '</span>';
-                html += '<tr><td class="rank">' + (i + 1) + '</td><td>' + nameHtml + '</td><td>' + (r.cas || '') + '</td>';
+                html += '<tr><td class="rank">' + (i + 1) + '</td><td>' + nameHtml + '</td><td>' + (r.cas || '') + '</td><td>' + (r.src || '') + '</td>';
                 html += '<td>' + (r.dd != null ? r.dd.toFixed(1) : '') + '</td><td>' + (r.dp != null ? r.dp.toFixed(1) : '') + '</td><td>' + (r.dh != null ? r.dh.toFixed(1) : '') + '</td>';
                 if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; html += '<td>' + (ra != null ? ra.toFixed(2) : '') + '</td>'; let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} html += '<td class="' + cls + '">' + (red != null ? red.toFixed(2) : 'N/A') + '</td>'; }}); }}
                 else {{ html += '<td>' + (r.ra != null ? r.ra.toFixed(2) : '') + '</td>'; if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} html += '<td class="' + cls + '">' + (red !== null ? red.toFixed(2) : 'N/A') + '</td>'; }} else if (parentIntent === 'similar_solvents') {{ html += '<td>' + (r.cat || '') + '</td>'; }} else {{ html += '<td>' + (r.r || '') + '</td><td>' + (r.type || '') + '</td>'; }} }}
@@ -1055,11 +1044,19 @@ full_html = f"""<!DOCTYPE html>
                 }});
             }}
 
-            Plotly.react(plotDiv, traces, defaultLayout(isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name));
+            var layout = defaultLayout(isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name);
+            if (plotDiv.layout && plotDiv.layout.scene && plotDiv.layout.scene.camera) {{
+                layout.scene.camera = plotDiv.layout.scene.camera;
+            }}
+            Plotly.react(plotDiv, traces, layout);
         }}
 
         function resetPlot() {{
-            Plotly.react(plotDiv, fullTraces, defaultLayout());
+            var layout = defaultLayout();
+            if (plotDiv.layout && plotDiv.layout.scene && plotDiv.layout.scene.camera) {{
+                layout.scene.camera = plotDiv.layout.scene.camera;
+            }}
+            Plotly.react(plotDiv, fullTraces, layout);
         }}
 
         // ===================== HIGHLIGHT IN PLOT =====================
