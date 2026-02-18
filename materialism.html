@@ -3970,6 +3970,26 @@ return Plotly;
             height: calc(100vh - 140px); box-sizing: border-box;
         }
         .chat-panel.visible { display: block; }
+
+        /* --- Home Panel (right side, shown when no search results) --- */
+        .home-panel {
+            flex: 1 1 45%; min-width: 0; display: flex; flex-direction: column;
+            height: calc(100vh - 140px); box-sizing: border-box;
+        }
+        .home-panel-header {
+            display: flex; align-items: center; padding: 10px 14px;
+            border-bottom: 1px solid #0f3460; flex-shrink: 0;
+        }
+        .home-tabs {
+            display: flex; gap: 0; border-bottom: 1px solid #0f3460; flex-shrink: 0;
+        }
+        .home-tab {
+            padding: 8px 18px; cursor: pointer; border: none; background: transparent;
+            color: #888; font-size: 0.85rem; transition: all 0.2s;
+        }
+        .home-tab:hover { color: #e0e0e0; background: #1a1a2e; }
+        .home-tab.active { color: #e94560; border-bottom: 2px solid #e94560; background: #1a1a2e; }
+        .home-table-wrap { flex: 1; overflow-y: auto; min-height: 0; }
         .chat-msg {
             margin: 8px 0; padding: 10px 14px; border-radius: 8px;
             max-width: 95%; font-size: 0.9rem; line-height: 1.5;
@@ -4075,6 +4095,23 @@ return Plotly;
             </p>
         </div>
         <div id="chat-panel" class="chat-panel"></div>
+        <div id="home-panel" class="home-panel">
+            <div class="home-panel-header">
+                <strong style="color:#e94560">All Materials</strong>
+                <span style="color:#888;font-size:0.8rem;margin-left:8px" id="home-count"></span>
+                <input type="text" id="home-filter" placeholder="Filter by name..." oninput="filterHomeTable(this.value)" style="margin-left:auto;width:180px;font-size:0.8rem;">
+            </div>
+            <div class="home-tabs">
+                <button class="home-tab active" onclick="switchHomeTab('solvents')">Solvents</button>
+                <button class="home-tab" onclick="switchHomeTab('polymers')">Polymers</button>
+            </div>
+            <div class="home-table-wrap">
+                <table id="home-table" class="results-table">
+                    <thead id="home-thead"></thead>
+                    <tbody id="home-tbody"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <div class="tabs">
@@ -17238,6 +17275,7 @@ return Plotly;
 
         // ===================== CHAT DISPLAY =====================
         function addChatMessage(type, html) {
+            hideHomePanel();
             const panel = document.getElementById('chat-panel');
             panel.classList.add('visible');
             const div = document.createElement('div');
@@ -17595,6 +17633,94 @@ return Plotly;
             Plotly.react(plotDiv, fullTraces, defaultLayout());
         }
 
+        // ===================== HOME PANEL (all materials) =====================
+        var homeTab = 'solvents';
+        var homeFilterText = '';
+
+        function buildHomeTable() {
+            var thead = document.getElementById('home-thead');
+            var tbody = document.getElementById('home-tbody');
+            var countEl = document.getElementById('home-count');
+            var data, headerHtml, rowsHtml;
+
+            if (homeTab === 'solvents') {
+                headerHtml = '<tr><th>Name</th><th>CAS</th><th>&delta;D</th><th>&delta;P</th><th>&delta;H</th><th>MW</th><th>BP &deg;C</th><th>Category</th><th>Source</th></tr>';
+                var filtered = SOLVENTS;
+                if (homeFilterText) {
+                    var q = homeFilterText.toLowerCase();
+                    filtered = SOLVENTS.filter(function(s) { return s.name.toLowerCase().indexOf(q) !== -1 || (s.cas && s.cas.indexOf(q) !== -1); });
+                }
+                countEl.textContent = filtered.length + ' solvents';
+                rowsHtml = '';
+                for (var i = 0; i < filtered.length; i++) {
+                    var s = filtered[i];
+                    var catColor = CAT_COLORS[s.cat] || '#888';
+                    var srcHtml = s.srcUrl ? '<a href="' + s.srcUrl + '" target="_blank" rel="noopener" style="color:#888;text-decoration:none;font-size:0.75rem">' + (s.src || 'link') + '</a>' : (s.src || '');
+                    rowsHtml += '<tr style="border-left:3px solid ' + catColor + '">';
+                    rowsHtml += '<td><span class="hoverable-name" onmouseenter="showStructure(event,\x27' + encodeURIComponent(s.name) + '\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
+                    rowsHtml += '<td>' + (s.cas || '') + '</td>';
+                    rowsHtml += '<td>' + s.dd.toFixed(1) + '</td>';
+                    rowsHtml += '<td>' + s.dp.toFixed(1) + '</td>';
+                    rowsHtml += '<td>' + s.dh.toFixed(1) + '</td>';
+                    rowsHtml += '<td>' + (s.mw || '') + '</td>';
+                    rowsHtml += '<td>' + (s.bp != null ? s.bp : '') + '</td>';
+                    rowsHtml += '<td style="color:' + catColor + '">' + (s.cat || '') + '</td>';
+                    rowsHtml += '<td style="font-size:0.75rem;color:#888;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + srcHtml + '</td>';
+                    rowsHtml += '</tr>';
+                }
+            } else {
+                headerHtml = '<tr><th>Name</th><th>CAS</th><th>&delta;D</th><th>&delta;P</th><th>&delta;H</th><th>R&#8320;</th><th>Type</th><th>Source</th></tr>';
+                var filtered = POLYMERS;
+                if (homeFilterText) {
+                    var q = homeFilterText.toLowerCase();
+                    filtered = POLYMERS.filter(function(p) { return p.name.toLowerCase().indexOf(q) !== -1 || (p.cas && p.cas.indexOf(q) !== -1); });
+                }
+                countEl.textContent = filtered.length + ' polymers';
+                rowsHtml = '';
+                for (var i = 0; i < filtered.length; i++) {
+                    var p = filtered[i];
+                    var srcHtml = p.srcUrl ? '<a href="' + p.srcUrl + '" target="_blank" rel="noopener" style="color:#888;text-decoration:none;font-size:0.75rem">' + (p.src || 'link') + '</a>' : (p.src || '');
+                    rowsHtml += '<tr>';
+                    rowsHtml += '<td>' + p.name + '</td>';
+                    rowsHtml += '<td>' + (p.cas || '') + '</td>';
+                    rowsHtml += '<td>' + p.dd.toFixed(1) + '</td>';
+                    rowsHtml += '<td>' + p.dp.toFixed(1) + '</td>';
+                    rowsHtml += '<td>' + p.dh.toFixed(1) + '</td>';
+                    rowsHtml += '<td>' + (p.r || '') + '</td>';
+                    rowsHtml += '<td>' + (p.type || '') + '</td>';
+                    rowsHtml += '<td style="font-size:0.75rem;color:#888;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + srcHtml + '</td>';
+                    rowsHtml += '</tr>';
+                }
+            }
+
+            thead.innerHTML = headerHtml;
+            tbody.innerHTML = rowsHtml;
+        }
+
+        function switchHomeTab(tab) {
+            homeTab = tab;
+            document.querySelectorAll('.home-tab').forEach(function(t) { t.classList.remove('active'); });
+            var btns = document.querySelectorAll('.home-tab');
+            if (tab === 'solvents' && btns[0]) btns[0].classList.add('active');
+            if (tab === 'polymers' && btns[1]) btns[1].classList.add('active');
+            buildHomeTable();
+        }
+
+        function filterHomeTable(val) {
+            homeFilterText = val.trim();
+            buildHomeTable();
+        }
+
+        function showHomePanel() {
+            var hp = document.getElementById('home-panel');
+            if (hp) hp.style.display = '';
+        }
+
+        function hideHomePanel() {
+            var hp = document.getElementById('home-panel');
+            if (hp) hp.style.display = 'none';
+        }
+
         // ===================== STRUCTURE TOOLTIP =====================
         const structCache = {};
         const tooltip = { el: null, img: null, nameEl: null };
@@ -17689,6 +17815,7 @@ return Plotly;
             const panel = document.getElementById('chat-panel');
             panel.innerHTML = '';
             panel.classList.remove('visible');
+            showHomePanel();
             resetPlot();
         }
 
@@ -17730,7 +17857,10 @@ return Plotly;
         }
 
         // ===================== INIT =====================
-        document.addEventListener('DOMContentLoaded', buildFullPlot);
+        document.addEventListener('DOMContentLoaded', function() {
+            buildFullPlot();
+            buildHomeTable();
+        });
     </script>
 </body>
 </html>
