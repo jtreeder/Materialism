@@ -50,6 +50,149 @@ def normalize_name(name):
     return n
 
 
+# --- Hansen A1 Name Splitting ---
+# The raw HSP_A1_Final.csv has "CommonName IUPACName" concatenated in the Name column.
+# These functions extract just the common (trivial) name.
+
+# IUPAC carbon-chain stems
+_IUPAC_STEMS = re.compile(
+    r"(meth|eth(?!yl)|prop|but(?!yl)|pent|hex|hept|oct|non(?!yl)|dec|"
+    r"undec|dodec|benz[eo]|naphthal|oxir|thiir|azirid|furan|pyrrol|"
+    r"pyrid|thiophen|imidazol|morpholin|quinol|chromen|oxepan|thiet)",
+    re.I,
+)
+
+# Systematic suffixes (without preceding hyphen)
+_IUPAC_SUFFIX = re.compile(
+    r"(ane|ene|yne|ol|al|one|amine|amide|nitrile|thiol|diol|dione|"
+    r"triol|anone|enol|anide|oate|oic|ide|ate|ole)$",
+    re.I,
+)
+
+
+def _looks_like_iupac_word(word):
+    """Check if a word is a systematic IUPAC-style name (with hyphens/digits)."""
+    # Contains hyphen-digit pattern (Pent-4-enoic, But-2-enal)
+    if re.search(r"-\d", word):
+        return True
+    # Hyphenated systematic name (Bromo-benzene, Chloro-acetaldehyde)
+    if re.match(r"^[A-Z][a-z]+-[a-z]", word):
+        return True
+    # Di/Tri/etc prefix with hyphens (Dichloro-fluoro-methane)
+    if "-" in word and re.match(r"^(Di|Tri|Tetra|Penta|Hexa|Bis|Tris)", word):
+        return True
+    # N,N- or N- prefixed systematic name (N,N-Dibutyl-formamide)
+    if re.match(r"^N[,N]*-[A-Z]", word) and "-" in word[3:]:
+        return True
+    # Contains [ ] ring notation (Benzo[1,3]dioxole)
+    if "[" in word:
+        return True
+    # Lowercase positional prefix + hyphen (o-Tolylamine, p-Xylene, m-Cresol)
+    if re.match(r"^[a-z]-[A-Z]", word):
+        return True
+    return False
+
+
+def _looks_like_iupac_name(word):
+    """Check if a single unhyphenated word is likely a systematic IUPAC name."""
+    # Must have a recognized stem AND suffix
+    has_stem = bool(_IUPAC_STEMS.search(word))
+    has_suffix = bool(_IUPAC_SUFFIX.search(word))
+    if has_stem and has_suffix:
+        return True
+    # Known heterocyclic / systematic names without standard stem+suffix
+    known = {
+        "aziridine", "thiirane", "oxirane", "thietane", "oxetane",
+        "anthraquinone", "benzoquinone", "quinone",
+    }
+    if word.lower() in known:
+        return True
+    return False
+
+
+def _has_iupac_suffix(word):
+    """Check if a word ends with a recognized chemical suffix (lenient check)."""
+    return bool(_IUPAC_SUFFIX.search(word))
+
+
+def extract_common_name(raw_name):
+    """Extract the common (trivial) name from 'CommonName IUPACName' format in Hansen A1."""
+    name = raw_name.strip()
+    if not name:
+        return name
+
+    # 1. Handle asterisk delimiter (explicit marker in the source)
+    if "*" in name:
+        return name.split("*")[0].strip()
+
+    # 2. Strip parenthetical aliases — but only when the part before the paren
+    #    is a meaningful name (at least 3 chars), to avoid stripping systematic
+    #    notation like "2-(Diethylamino)".
+    paren_match = re.match(r"^(.+?)\s*\([^)]*\)\s*(.+)$", name)
+    if paren_match:
+        before = paren_match.group(1).strip()
+        after = paren_match.group(2).strip()
+        if after and len(before) >= 3 and not before.endswith("-"):
+            return before
+
+    words = name.split()
+    n = len(words)
+
+    if n <= 1:
+        return name
+
+    # 3. Check for exact word-for-word duplication (case-insensitive)
+    # "Acetamide Acetamide", "Benzoic Acid Benzoic acid"
+    for half_len in range(1, n // 2 + 1):
+        if n >= 2 * half_len:
+            first_half = " ".join(words[:half_len])
+            second_half = " ".join(words[half_len : 2 * half_len])
+            if first_half.lower() == second_half.lower():
+                return first_half
+
+    # 4. Find IUPAC boundary by pattern matching on hyphenated/digit-starting words
+    for i in range(1, n):
+        word = words[i]
+
+        # IUPAC starts with digit (3-Chloro-propene, 2-Methoxy-phenylamine)
+        if word[0].isdigit():
+            return " ".join(words[:i])
+
+        # IUPAC starts with parenthetical ((E)-But-2-enal, (Z)-1-Bromo-propene)
+        if word[0] in "([":
+            return " ".join(words[:i])
+
+        # IUPAC word has systematic hyphenation
+        if _looks_like_iupac_word(word):
+            return " ".join(words[:i])
+
+        # Lowercase word after capitalized context → IUPAC continuation
+        # e.g., "Butyric Anhydride Butanoic anhydride" → "anhydride" is lowercase
+        if word[0].islower() and i >= 2:
+            prev = words[i - 1]
+            if prev[0].isupper():
+                return " ".join(words[:i - 1])
+
+    # 5. For 3-word entries: check if last word is a single IUPAC name
+    # e.g., "Dimethyl Ether Methoxymethane", "Methyl Bromide Bromomethane"
+    if n == 3:
+        if _looks_like_iupac_name(words[2]):
+            return " ".join(words[:2])
+        # Also catch compound words with just a suffix (Allylamine, Vinylamine)
+        if _has_iupac_suffix(words[2]) and words[2][0].isupper():
+            return " ".join(words[:2])
+
+    # 6. For 2-word entries: check if second word is a plausible IUPAC name
+    if n == 2:
+        if _looks_like_iupac_name(words[1]):
+            return words[0]
+        # Keep both words for compound names (Castor Oil, Pine Oil)
+        return name
+
+    # 7. Fallback: return the full name
+    return name
+
+
 def normalize_cas(cas):
     """Clean up CAS number."""
     if not cas:
@@ -570,9 +713,9 @@ def load_hansen_a1():
             raw_name = row.get("Name", "").strip()
             if not raw_name:
                 continue
-            # The Name field often has "CommonName IUPACName" concatenated.
-            # Use the full string as the name (preserves all info for dedup).
-            name = raw_name
+            # The Name field has "CommonName IUPACName" concatenated.
+            # Extract just the common name.
+            name = extract_common_name(raw_name)
 
             dd = parse_float(row.get("D"))
             dp = parse_float(row.get("P"))

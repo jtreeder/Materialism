@@ -260,6 +260,8 @@ full_html = f"""<!DOCTYPE html>
         .struct-tooltip.loading img {{ opacity: 0.3; }}
         .struct-tooltip.error {{ display: none; }}
         .hoverable-name {{ cursor: help; border-bottom: 1px dotted #888; }}
+        th.sort-asc::after {{ content: ' ▲'; font-size: 0.7em; color: #e94560; }}
+        th.sort-desc::after {{ content: ' ▼'; font-size: 0.7em; color: #e94560; }}
     </style>
 </head>
 <body>
@@ -282,6 +284,8 @@ full_html = f"""<!DOCTYPE html>
             <span onclick="exampleSearch('solvents similar to toluene')">solvents similar to toluene</span>
             <span onclick="exampleSearch('what dissolves nylon')">what dissolves nylon</span>
             <span onclick="exampleSearch('polymers similar to epoxy')">polymers similar to epoxy</span>
+            <span onclick="exampleSearch('good solvent for both cellulose acetate and PVC')">good for cellulose acetate AND PVC</span>
+            <span onclick="exampleSearch('good solvent for silicone and bad solvent for epoxy')">good for silicone, bad for epoxy</span>
         </div>
         <div class="result-count-selector">
             Results:
@@ -597,6 +601,47 @@ full_html = f"""<!DOCTYPE html>
         function parseQuery(raw) {{
             const q = raw.toLowerCase().trim();
 
+            // --- Multi-material detection ---
+            // "good solvent for both cellulose and PVC"
+            // "good solvent for silicone and bad solvent for epoxy"
+            const multiGoodBad = q.match(/good\s+solvents?\s+for\s+(.+?)\s+and\s+(?:a\s+)?bad\s+solvents?\s+for\s+(.+)/i);
+            if (multiGoodBad) {{
+                return {{ intent: 'multi_material', materials: [
+                    {{ name: multiGoodBad[1].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
+                    {{ name: multiGoodBad[2].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
+                ]}};
+            }}
+            const multiBadGood = q.match(/bad\s+solvents?\s+for\s+(.+?)\s+and\s+(?:a\s+)?good\s+solvents?\s+for\s+(.+)/i);
+            if (multiBadGood) {{
+                return {{ intent: 'multi_material', materials: [
+                    {{ name: multiBadGood[1].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
+                    {{ name: multiBadGood[2].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
+                ]}};
+            }}
+            // "good solvent for both X and Y" or "good solvent for X and Y"
+            const multiBoth = q.match(/good\s+solvents?\s+for\s+(?:both\s+)?(.+?)\s+and\s+(.+)/i);
+            if (multiBoth) {{
+                return {{ intent: 'multi_material', materials: [
+                    {{ name: multiBoth[1].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
+                    {{ name: multiBoth[2].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
+                ]}};
+            }}
+            const multiBothBad = q.match(/bad\s+solvents?\s+for\s+(?:both\s+)?(.+?)\s+and\s+(.+)/i);
+            if (multiBothBad) {{
+                return {{ intent: 'multi_material', materials: [
+                    {{ name: multiBothBad[1].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
+                    {{ name: multiBothBad[2].replace(/[?.!]/g, '').trim(), requirement: 'bad' }},
+                ]}};
+            }}
+            // "dissolves both X and Y"
+            const dissolvesBoth = q.match(/(?:dissolves?|dissolve)\s+(?:both\s+)?(.+?)\s+and\s+(.+)/i);
+            if (dissolvesBoth) {{
+                return {{ intent: 'multi_material', materials: [
+                    {{ name: dissolvesBoth[1].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
+                    {{ name: dissolvesBoth[2].replace(/[?.!]/g, '').trim(), requirement: 'good' }},
+                ]}};
+            }}
+
             // --- Standard intent detection FIRST (takes priority over follow-ups) ---
             // This ensures "is NMP a good solvent for silicone" is parsed as a new
             // good_solvents query rather than a follow-up even when context exists.
@@ -733,6 +778,40 @@ full_html = f"""<!DOCTYPE html>
                 return {{ intent: 'followup', target: chatContext.target, results, description: 'Evaluating specific materials against ' + chatContext.target.name, targetType: chatContext.targetType, parentIntent: chatContext.intent }};
             }}
 
+            // --- Multi-material search ---
+            if (intent === 'multi_material') {{
+                const targets = [];
+                for (const mat of parsed.materials) {{
+                    const target = findPolymer(mat.name);
+                    if (!target) return {{ error: 'Could not find polymer "' + mat.name + '". Try names like "polystyrene", "PVC", "PMMA", or "nylon".' }};
+                    targets.push({{ ...target, requirement: mat.requirement }});
+                }}
+
+                const scored = SOLVENTS.map(s => {{
+                    const info = {{ ...s, reds: {{}}, ras: {{}} }};
+                    let combinedScore = 0;
+                    for (const t of targets) {{
+                        const ra = hspDistance(s, t);
+                        const red = (t.r && t.r > 0) ? ra / t.r : null;
+                        info.reds[t.name] = red;
+                        info.ras[t.name] = ra;
+                        if (t.requirement === 'good') {{
+                            combinedScore += ra; // lower is better for good
+                        }} else {{
+                            combinedScore -= ra; // higher is better for bad
+                        }}
+                    }}
+                    info.combinedScore = combinedScore;
+                    return info;
+                }});
+                scored.sort((a, b) => a.combinedScore - b.combinedScore);
+
+                const results = scored.slice(0, resultCount);
+                const desc = targets.map(t => (t.requirement === 'good' ? 'compatible with' : 'incompatible with') + ' ' + t.name).join(' AND ');
+                chatContext = {{ intent: 'multi_material', targets, targetType: 'polymer' }};
+                return {{ intent: 'multi_material', targets, results, description: 'Top ' + resultCount + ' solvents: ' + desc + '.', targetType: 'polymer' }};
+            }}
+
             // --- Standard searches ---
             if (intent === 'good_solvents' || intent === 'bad_solvents') {{
                 let target = findPolymer(material);
@@ -798,10 +877,34 @@ full_html = f"""<!DOCTYPE html>
             panel.scrollTop = panel.scrollHeight;
         }}
 
+        // ===================== RESULTS TABLE SORTING =====================
+        let resultSortDir = {{}};
+        function sortResultsTable(tableEl, colIdx) {{
+            const tbody = tableEl.querySelector('tbody');
+            const rows = Array.from(tbody.rows);
+            const key = 'rt-' + colIdx;
+            resultSortDir[key] = !resultSortDir[key];
+            const dir = resultSortDir[key] ? 1 : -1;
+            rows.sort((a, b) => {{
+                let va = a.cells[colIdx].textContent.trim();
+                let vb = b.cells[colIdx].textContent.trim();
+                const na = parseFloat(va), nb = parseFloat(vb);
+                if (!isNaN(na) && !isNaN(nb)) return (na - nb) * dir;
+                return va.localeCompare(vb) * dir;
+            }});
+            rows.forEach(row => tbody.appendChild(row));
+            // Update sort indicators
+            tableEl.querySelectorAll('th').forEach((th, i) => {{
+                th.classList.remove('sort-asc', 'sort-desc');
+                if (i === colIdx) th.classList.add(dir === 1 ? 'sort-asc' : 'sort-desc');
+            }});
+        }}
+
         function renderResultsHTML(result) {{
             if (result.error) return '<span style="color:#EF553B">' + result.error + '</span>';
 
-            const {{ intent, target, results, description }} = result;
+            const {{ intent, results, description }} = result;
+            const target = result.target || (result.targets ? result.targets[0] : null);
             let titleText = '';
             const parentIntent = result.parentIntent || intent;
             if (intent === 'followup') titleText = 'Evaluating against';
@@ -809,26 +912,83 @@ full_html = f"""<!DOCTYPE html>
             else if (intent === 'bad_solvents') titleText = 'Worst Solvents for';
             else if (intent === 'similar_solvents') titleText = 'Solvents Similar to';
             else if (intent === 'similar_polymers') titleText = 'Polymers Similar to';
+            else if (intent === 'multi_material') titleText = 'Multi-Material Search';
 
-            let html = '<strong>' + titleText + '</strong> <span class="target-chip">' + target.name + '</span>';
-            if (target.cas) html += ' <span style="color:#888;font-size:0.75rem">CAS: ' + target.cas + '</span>';
+            let html = '<strong>' + titleText + '</strong>';
             html += '<br><span style="color:#aaa;font-size:0.8rem">' + description + '</span>';
 
             // Context indicator
-            if (chatContext) {{
-                html += '<br><span class="chat-context">Context: ' + chatContext.intent.replace('_', ' ') + ' for ' + chatContext.target.name + '</span>';
+            if (chatContext && chatContext.target) {{
+                html += '<br><span class="chat-context">Context: ' + chatContext.intent.replace(/_/g, ' ') + ' for ' + chatContext.target.name + '</span>';
             }}
 
-            html += '<table class="results-table"><thead><tr>';
-            html += '<th>#</th><th>Name</th><th>CAS</th><th>&delta;D</th><th>&delta;P</th><th>&delta;H</th>';
-
+            const isMulti = intent === 'multi_material';
             const showRed = parentIntent === 'good_solvents' || parentIntent === 'bad_solvents';
-            if (showRed) {{
-                html += '<th>Ra</th><th>RED</th>';
+
+            // --- Target material table (with headers) ---
+            const targetList = isMulti ? (result.targets || []) : (target ? [target] : []);
+            if (targetList.length > 0 && intent !== 'followup') {{
+                html += '<div style="margin-top:10px"><span style="color:#e94560;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Target Material' + (targetList.length > 1 ? 's' : '') + '</span></div>';
+                html += '<table class="results-table" style="margin-bottom:16px"><thead><tr>';
+                html += '<th>Name</th><th>CAS</th><th>&delta;D</th><th>&delta;P</th><th>&delta;H</th>';
+                if (showRed || isMulti) {{
+                    html += '<th>R&#8320;</th>';
+                }}
+                if (parentIntent === 'similar_solvents') {{
+                    html += '<th>Category</th>';
+                }} else if (parentIntent === 'similar_polymers') {{
+                    html += '<th>R&#8320;</th><th>Type</th>';
+                }}
+                if (isMulti) {{
+                    html += '<th>Requirement</th>';
+                }}
+                html += '</tr></thead><tbody>';
+                targetList.forEach(t => {{
+                    const chipColor = (isMulti && t.requirement === 'bad') ? '#EF553B' : '#00CC96';
+                    html += '<tr style="background:#0f3460">';
+                    html += '<td><strong style="color:#e94560">' + t.name + '</strong></td>';
+                    html += '<td>' + (t.cas || '') + '</td>';
+                    html += '<td>' + (t.dd != null ? t.dd.toFixed(1) : '') + '</td>';
+                    html += '<td>' + (t.dp != null ? t.dp.toFixed(1) : '') + '</td>';
+                    html += '<td>' + (t.dh != null ? t.dh.toFixed(1) : '') + '</td>';
+                    if (showRed || isMulti) {{
+                        html += '<td>' + (t.r || '') + '</td>';
+                    }}
+                    if (parentIntent === 'similar_solvents') {{
+                        html += '<td>' + (t.cat || '') + '</td>';
+                    }} else if (parentIntent === 'similar_polymers') {{
+                        html += '<td>' + (t.r || '') + '</td>';
+                        html += '<td>' + (t.type || '') + '</td>';
+                    }}
+                    if (isMulti) {{
+                        html += '<td><span style="display:inline-block;background:' + chipColor + ';color:white;padding:2px 10px;border-radius:12px;font-size:0.8rem;font-weight:600">' + t.requirement + '</span></td>';
+                    }}
+                    html += '</tr>';
+                }});
+                html += '</tbody></table>';
+            }}
+
+            // --- Candidate results table (with headers) ---
+            const tableId = 'rt-' + Date.now();
+            html += '<div><span style="color:#e94560;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Candidate ' + (parentIntent === 'similar_polymers' ? 'Polymers' : 'Solvents') + ' (' + results.length + ')</span></div>';
+            html += '<table class="results-table" id="' + tableId + '"><thead><tr>';
+
+            // Build sortable headers
+            let colNum = 0;
+            const th = (label) => '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + (colNum++) + ')" style="cursor:pointer">' + label + '</th>';
+            html += th('#') + th('Name') + th('CAS') + th('&delta;D') + th('&delta;P') + th('&delta;H');
+
+            if (isMulti) {{
+                result.targets.forEach(t => {{
+                    html += th('Ra(' + t.name.slice(0, 15) + ')');
+                    html += th('RED(' + t.name.slice(0, 15) + ')');
+                }});
+            }} else if (showRed) {{
+                html += th('Ra') + th('RED');
             }} else if (parentIntent === 'similar_solvents') {{
-                html += '<th>Ra</th><th>Category</th>';
+                html += th('Ra') + th('Category');
             }} else {{
-                html += '<th>Ra</th><th>R&#8320;</th><th>Type</th>';
+                html += th('Ra') + th('R&#8320;') + th('Type');
             }}
             html += '</tr></thead><tbody>';
 
@@ -837,7 +997,7 @@ full_html = f"""<!DOCTYPE html>
                     html += '<tr><td class="rank">' + (i + 1) + '</td><td colspan="8" style="color:#EF553B">Could not find "' + r.queryName + '" in the database</td></tr>';
                     return;
                 }}
-                const nameHtml = '<span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(r.name) + '\\x27)" onmouseleave="hideStructure()">' + r.name + '</span>';
+                const nameHtml = '<span class="hoverable-name" onclick="highlightInPlot(\\x27' + encodeURIComponent(r.name) + '\\x27)" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(r.name) + '\\x27)" onmouseleave="hideStructure()">' + r.name + '</span>';
                 html += '<tr>';
                 html += '<td class="rank">' + (i + 1) + '</td>';
                 html += '<td>' + nameHtml + '</td>';
@@ -845,20 +1005,35 @@ full_html = f"""<!DOCTYPE html>
                 html += '<td>' + (r.dd != null ? r.dd.toFixed(1) : '') + '</td>';
                 html += '<td>' + (r.dp != null ? r.dp.toFixed(1) : '') + '</td>';
                 html += '<td>' + (r.dh != null ? r.dh.toFixed(1) : '') + '</td>';
-                html += '<td>' + (r.ra != null ? r.ra.toFixed(2) : '') + '</td>';
-                if (showRed) {{
-                    const red = r.red;
-                    let cls = 'red-bad';
-                    if (red !== null) {{
-                        if (red < 1) cls = 'red-good';
-                        else if (red < 1.2) cls = 'red-boundary';
-                    }}
-                    html += '<td class="' + cls + '">' + (red !== null ? red.toFixed(2) : 'N/A') + '</td>';
-                }} else if (parentIntent === 'similar_solvents') {{
-                    html += '<td>' + (r.cat || '') + '</td>';
+
+                if (isMulti) {{
+                    result.targets.forEach(t => {{
+                        const ra = r.ras[t.name];
+                        const red = r.reds[t.name];
+                        html += '<td>' + (ra != null ? ra.toFixed(2) : '') + '</td>';
+                        let cls = 'red-bad';
+                        if (red !== null && red !== undefined) {{
+                            if (red < 1) cls = 'red-good';
+                            else if (red < 1.2) cls = 'red-boundary';
+                        }}
+                        html += '<td class="' + cls + '">' + (red != null ? red.toFixed(2) : 'N/A') + '</td>';
+                    }});
                 }} else {{
-                    html += '<td>' + (r.r || '') + '</td>';
-                    html += '<td>' + (r.type || '') + '</td>';
+                    html += '<td>' + (r.ra != null ? r.ra.toFixed(2) : '') + '</td>';
+                    if (showRed) {{
+                        const red = r.red;
+                        let cls = 'red-bad';
+                        if (red !== null) {{
+                            if (red < 1) cls = 'red-good';
+                            else if (red < 1.2) cls = 'red-boundary';
+                        }}
+                        html += '<td class="' + cls + '">' + (red !== null ? red.toFixed(2) : 'N/A') + '</td>';
+                    }} else if (parentIntent === 'similar_solvents') {{
+                        html += '<td>' + (r.cat || '') + '</td>';
+                    }} else {{
+                        html += '<td>' + (r.r || '') + '</td>';
+                        html += '<td>' + (r.type || '') + '</td>';
+                    }}
                 }}
                 html += '</tr>';
             }});
@@ -914,10 +1089,30 @@ full_html = f"""<!DOCTYPE html>
             }};
         }}
 
+        function addSphere(traces, tgt, sphereColor) {{
+            if (!tgt.r || tgt.r <= 0) return;
+            const N = 30, M = 20, x = [], y = [], z = [];
+            for (let i = 0; i <= N; i++) {{
+                const xr = [], yr = [], zr = [], u = (i / N) * 2 * Math.PI;
+                for (let j = 0; j <= M; j++) {{
+                    const v = (j / M) * Math.PI;
+                    xr.push(tgt.dd + (tgt.r / 2) * Math.cos(u) * Math.sin(v));
+                    yr.push(tgt.dp + tgt.r * Math.sin(u) * Math.sin(v));
+                    zr.push(tgt.dh + tgt.r * Math.cos(v));
+                }}
+                x.push(xr); y.push(yr); z.push(zr);
+            }}
+            traces.push({{ type: 'surface', x, y, z, opacity: 0.12,
+                colorscale: [[0, sphereColor], [1, sphereColor]],
+                showscale: false, name: 'Sphere: ' + tgt.name, hoverinfo: 'name' }});
+        }}
+
         function updatePlotWithResults(result) {{
             if (!result || result.error) return;
-            const {{ target, results }} = result;
+            const {{ results }} = result;
+            const target = result.target || (result.targets ? result.targets[0] : null);
             const parentIntent = result.parentIntent || result.intent;
+            const isMulti = result.intent === 'multi_material';
 
             showTab('plot');
             const traces = [];
@@ -941,7 +1136,57 @@ full_html = f"""<!DOCTYPE html>
             // Valid results only
             const valid = results.filter(r => !r.notFound);
 
-            if (parentIntent === 'good_solvents' || parentIntent === 'bad_solvents') {{
+            if (isMulti) {{
+                // Multi-material: color by best combined RED
+                const resultColors = valid.map(r => {{
+                    const reds = result.targets.map(t => r.reds[t.name]).filter(v => v != null);
+                    const allGood = result.targets.every(t => {{
+                        const red = r.reds[t.name];
+                        return t.requirement === 'good' ? (red != null && red < 1) : (red != null && red > 1);
+                    }});
+                    if (allGood) return '#00CC96';
+                    const anyBoundary = result.targets.some(t => {{
+                        const red = r.reds[t.name];
+                        return t.requirement === 'good' ? (red != null && red < 1.2) : (red != null && red > 0.8);
+                    }});
+                    if (anyBoundary) return '#FFA15A';
+                    return '#EF553B';
+                }});
+                traces.push({{
+                    type: 'scatter3d', mode: 'markers+text', name: 'Results',
+                    x: valid.map(r => r.dd), y: valid.map(r => r.dp), z: valid.map(r => r.dh),
+                    text: valid.map((r, i) => (i + 1) + '. ' + r.name),
+                    textposition: 'top center', textfont: {{ size: 9, color: '#fff' }},
+                    hovertemplate: valid.map((r, i) => {{
+                        let h = '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}';
+                        result.targets.forEach(t => {{
+                            const red = r.reds[t.name];
+                            h += '<br>' + t.name.slice(0, 20) + ': RED=' + (red != null ? red.toFixed(2) : 'N/A');
+                        }});
+                        return h + '<extra></extra>';
+                    }}),
+                    marker: {{ size: 10, color: resultColors, opacity: 1, line: {{ color: '#fff', width: 1 }} }},
+                }});
+                // Multiple target polymers with different colored spheres
+                const tgtColors = ['#e94560', '#3A86FF', '#06D6A0', '#FFBE0B'];
+                const sphereColors = [
+                    'rgba(233,69,96,0.2)', 'rgba(58,134,255,0.2)',
+                    'rgba(6,214,160,0.2)', 'rgba(255,190,11,0.2)',
+                ];
+                result.targets.forEach((tgt, ti) => {{
+                    const c = tgtColors[ti % tgtColors.length];
+                    traces.push({{
+                        type: 'scatter3d', mode: 'markers+text',
+                        name: (tgt.requirement === 'good' ? '✓ ' : '✗ ') + tgt.name,
+                        x: [tgt.dd], y: [tgt.dp], z: [tgt.dh],
+                        text: [tgt.name], textposition: 'top center',
+                        textfont: {{ size: 12, color: c }},
+                        hovertemplate: '<b>' + tgt.name + '</b> (' + tgt.requirement + ')<br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>R₀=' + tgt.r + '<extra></extra>',
+                        marker: {{ size: 14, color: c, symbol: 'diamond', opacity: 1, line: {{ color: '#fff', width: 2 }} }},
+                    }});
+                    addSphere(traces, tgt, sphereColors[ti % sphereColors.length]);
+                }});
+            }} else if (parentIntent === 'good_solvents' || parentIntent === 'bad_solvents') {{
                 const resultColors = valid.map(r => {{
                     if (r.red === null) return '#888';
                     if (r.red < 1) return '#00CC96';
@@ -966,23 +1211,7 @@ full_html = f"""<!DOCTYPE html>
                     hovertemplate: '<b>' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>R₀=' + target.r + '<extra></extra>',
                     marker: {{ size: 14, color: '#e94560', symbol: 'diamond', opacity: 1, line: {{ color: '#fff', width: 2 }} }},
                 }});
-                // Solubility sphere
-                if (target.r && target.r > 0) {{
-                    const N = 30, M = 20, x = [], y = [], z = [];
-                    for (let i = 0; i <= N; i++) {{
-                        const xr = [], yr = [], zr = [], u = (i / N) * 2 * Math.PI;
-                        for (let j = 0; j <= M; j++) {{
-                            const v = (j / M) * Math.PI;
-                            xr.push(target.dd + (target.r / 2) * Math.cos(u) * Math.sin(v));
-                            yr.push(target.dp + target.r * Math.sin(u) * Math.sin(v));
-                            zr.push(target.dh + target.r * Math.cos(v));
-                        }}
-                        x.push(xr); y.push(yr); z.push(zr);
-                    }}
-                    traces.push({{ type: 'surface', x, y, z, opacity: 0.12,
-                        colorscale: [[0, 'rgba(233,69,96,0.2)'], [1, 'rgba(233,69,96,0.2)']],
-                        showscale: false, name: 'Sphere: ' + target.name, hoverinfo: 'name' }});
-                }}
+                addSphere(traces, target, 'rgba(233,69,96,0.2)');
             }} else {{
                 const colors = ['#FF006E', '#FB5607', '#FF006E', '#FFBE0B', '#3A86FF',
                                 '#8338EC', '#06D6A0', '#118AB2', '#EF476F', '#FFD166'];
@@ -1006,11 +1235,47 @@ full_html = f"""<!DOCTYPE html>
                 }});
             }}
 
-            Plotly.react(plotDiv, traces, defaultLayout('Search Results — ' + target.name));
+            const plotTitle = isMulti
+                ? 'Multi-Material Search'
+                : 'Search Results — ' + target.name;
+            Plotly.react(plotDiv, traces, defaultLayout(plotTitle));
         }}
 
         function resetPlot() {{
             Plotly.react(plotDiv, fullTraces, defaultLayout());
+        }}
+
+        // ===================== HIGHLIGHT IN PLOT =====================
+        let highlightTrace = null;
+        function highlightInPlot(encodedName) {{
+            const name = decodeURIComponent(encodedName);
+            // Find the material in solvents or polymers
+            let mat = SOLVENTS.find(s => s.name === name);
+            let sym = 'circle';
+            if (!mat) {{
+                mat = POLYMERS.find(p => p.name === name);
+                sym = 'diamond';
+            }}
+            if (!mat) return;
+
+            showTab('plot');
+
+            // Get current traces and remove any previous highlight trace
+            const currentData = plotDiv.data.filter(t => t.name !== '★ Highlighted');
+            const trace = {{
+                type: 'scatter3d', mode: 'markers+text',
+                name: '★ Highlighted',
+                x: [mat.dd], y: [mat.dp], z: [mat.dh],
+                text: ['★ ' + mat.name],
+                textposition: 'top center',
+                textfont: {{ size: 13, color: '#FFD700' }},
+                hovertemplate: '<b>' + mat.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
+                marker: {{ size: 18, color: '#FFD700', symbol: sym, opacity: 1,
+                           line: {{ color: '#fff', width: 2 }} }},
+            }};
+            currentData.push(trace);
+            const currentLayout = plotDiv.layout;
+            Plotly.react(plotDiv, currentData, currentLayout);
         }}
 
         // ===================== STRUCTURE TOOLTIP =====================
