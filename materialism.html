@@ -3898,6 +3898,8 @@ return Plotly;
         .tab.active { color: #e94560; border-bottom: 2px solid #e94560; background: #1a1a2e; }
         .panel { display: none; padding: 20px; }
         .panel.active { display: block; }
+        .results-layout { display: flex; gap: 0; min-height: 500px; }
+        .plot-side { flex: 1 1 55%; min-width: 0; border-right: 1px solid #0f3460; }
         .plot-container { width: 100%; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
         th { background: #16213e; color: #e94560; padding: 10px; text-align: left; position: sticky; top: 0; cursor: pointer; }
@@ -3961,10 +3963,10 @@ return Plotly;
         .rc-btn:hover { border-color: #e94560; color: #e0e0e0; }
         .rc-btn.active { background: #e94560; color: white; border-color: #e94560; }
 
-        /* --- Chat Panel --- */
+        /* --- Chat Panel (right side of results layout) --- */
         .chat-panel {
-            display: none; max-height: 500px; overflow-y: auto; margin: 0 20px;
-            padding: 12px 0; border-bottom: 1px solid #0f3460;
+            display: none; flex: 1 1 45%; min-width: 0; overflow-y: auto;
+            padding: 12px 14px; border-bottom: 1px solid #0f3460;
         }
         .chat-panel.visible { display: block; }
         .chat-msg {
@@ -4061,23 +4063,23 @@ return Plotly;
         </div>
     </div>
 
-    <div id="chat-panel" class="chat-panel"></div>
+    <div id="results-layout" class="results-layout">
+        <div id="panel-plot" class="plot-side">
+            <div class="plot-container">
+                <div id="plotly-div" style="width:100%; height:700px;"></div>
+            </div>
+            <p style="color:#888; padding:6px 10px; font-size:0.8rem; margin:0;">
+                Drag to rotate &middot; Scroll to zoom &middot;
+                Gold diamonds = polymers, colored dots = solvents by category
+            </p>
+        </div>
+        <div id="chat-panel" class="chat-panel"></div>
+    </div>
 
     <div class="tabs">
-        <div class="tab active" onclick="showTab('plot')">3D Hansen Space</div>
         <div class="tab" onclick="showTab('solvents')">Solvent Database</div>
         <div class="tab" onclick="showTab('polymers')">Polymer Database</div>
         <div class="tab" onclick="showTab('about')">How It Works</div>
-    </div>
-
-    <div id="panel-plot" class="panel active">
-        <div class="plot-container">
-            <div id="plotly-div" style="width:100%; height:800px;"></div>
-        </div>
-        <p style="color:#888; padding:10px; font-size:0.85rem;">
-            Drag to rotate &middot; Scroll to zoom &middot;
-            Gold diamonds = polymers, colored dots = solvents by category
-        </p>
     </div>
 
     <div id="panel-solvents" class="panel">
@@ -17501,7 +17503,10 @@ return Plotly;
             const { target, results } = result;
             const parentIntent = result.parentIntent || result.intent;
 
-            showTab('plot');
+            // Deactivate any open tab panel so results layout is prominent
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            window.dispatchEvent(new Event('resize'));
             const traces = [];
 
             // Dimmed background
@@ -17535,13 +17540,13 @@ return Plotly;
                         (r.red !== null ? '<br>RED=' + r.red.toFixed(2) : '') + '<extra></extra>'),
                     marker: { size: 10, color: resultColors, opacity: 1, line: { color: '#fff', width: 1 } },
                 });
-                // Target polymer
+                // Target polymer (★ star to match results table)
                 traces.push({
-                    type: 'scatter3d', mode: 'markers+text', name: 'Target: ' + target.name,
+                    type: 'scatter3d', mode: 'markers+text', name: '\u2605 Target: ' + target.name,
                     x: [target.dd], y: [target.dp], z: [target.dh],
-                    text: [target.name], textposition: 'top center', textfont: { size: 12, color: '#e94560' },
-                    hovertemplate: '<b>' + target.name + '</b><br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}<br>R₀=' + target.r + '<extra></extra>',
-                    marker: { size: 14, color: '#e94560', symbol: 'diamond', opacity: 1, line: { color: '#fff', width: 2 } },
+                    text: ['\u2605 ' + target.name], textposition: 'top center', textfont: { size: 13, color: '#e94560', family: 'Arial, sans-serif' },
+                    hovertemplate: '<b>\u2605 ' + target.name + '</b><br>\u03B4D=%{x:.1f}, \u03B4P=%{y:.1f}, \u03B4H=%{z:.1f}<br>R\u2080=' + target.r + '<extra></extra>',
+                    marker: { size: 16, color: '#e94560', symbol: 'diamond', opacity: 1, line: { color: '#fff', width: 2 } },
                 });
                 // Solubility sphere
                 if (target.r && target.r > 0) {
@@ -17574,11 +17579,11 @@ return Plotly;
                 });
                 const tsym = (parentIntent === 'similar_polymers') ? 'diamond' : 'circle';
                 traces.push({
-                    type: 'scatter3d', mode: 'markers+text', name: 'Target: ' + target.name,
+                    type: 'scatter3d', mode: 'markers+text', name: '\u2605 Target: ' + target.name,
                     x: [target.dd], y: [target.dp], z: [target.dh],
-                    text: [target.name], textposition: 'top center', textfont: { size: 12, color: '#e94560' },
-                    hovertemplate: '<b>' + target.name + '</b><br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}<extra></extra>',
-                    marker: { size: 14, color: '#e94560', symbol: tsym, opacity: 1, line: { color: '#fff', width: 2 } },
+                    text: ['\u2605 ' + target.name], textposition: 'top center', textfont: { size: 13, color: '#e94560', family: 'Arial, sans-serif' },
+                    hovertemplate: '<b>\u2605 ' + target.name + '</b><br>\u03B4D=%{x:.1f}, \u03B4P=%{y:.1f}, \u03B4H=%{z:.1f}<extra></extra>',
+                    marker: { size: 16, color: '#e94560', symbol: tsym, opacity: 1, line: { color: '#fff', width: 2 } },
                 });
             }
 
@@ -17689,12 +17694,12 @@ return Plotly;
         function showTab(name) {
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById('panel-' + name).classList.add('active');
+            var el = document.getElementById('panel-' + name);
+            if (el) el.classList.add('active');
             const tabs = document.querySelectorAll('.tab');
-            const tabNames = ['plot', 'solvents', 'polymers', 'about'];
+            const tabNames = ['solvents', 'polymers', 'about'];
             const idx = tabNames.indexOf(name);
             if (idx >= 0 && tabs[idx]) tabs[idx].classList.add('active');
-            if (name === 'plot') window.dispatchEvent(new Event('resize'));
         }
 
         function filterTable(tableId, query) {
