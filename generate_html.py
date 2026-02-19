@@ -996,12 +996,11 @@ full_html = f"""<!DOCTYPE html>
         // ===================== 3D PLOT =====================
         let plotDiv;
         let fullTraces = [];
-        let bgTraces = [];
 
         function buildFullPlot() {{
             plotDiv = document.getElementById('plotly-div');
             // Single trace for all solvents with per-point colors (instead of 22+ traces)
-            var solventColors = SOLVENTS.map(s => CAT_COLORS[s.cat] || '#888');
+            _solventColors = SOLVENTS.map(s => CAT_COLORS[s.cat] || '#888');
             fullTraces = [
                 {{
                     type: 'scatter3d', mode: 'markers',
@@ -1009,7 +1008,7 @@ full_html = f"""<!DOCTYPE html>
                     x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
                     text: SOLVENTS.map(s => s.name + '<br>CAS: ' + s.cas + '<br>MW: ' + s.mw + '<br>BP: ' + s.bp + '°C'),
                     hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                    marker: {{ size: 5, color: solventColors, opacity: 0.85 }},
+                    marker: {{ size: 5, color: _solventColors, opacity: 0.85 }},
                 }},
                 {{
                     type: 'scatter3d', mode: 'markers',
@@ -1020,19 +1019,7 @@ full_html = f"""<!DOCTYPE html>
                     marker: {{ size: 7, color: 'gold', symbol: 'diamond', opacity: 0.95 }},
                 }},
             ];
-            // Pre-compute dim background traces for search results view
-            // Skip hover text — these are tiny dim dots; no one hovers them
-            bgTraces = [
-                {{ type: 'scatter3d', mode: 'markers', name: 'All Solvents',
-                  x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
-                  hoverinfo: 'skip',
-                  marker: {{ size: 2, color: '#999', opacity: 0.1 }} }},
-                {{ type: 'scatter3d', mode: 'markers', name: 'All Polymers',
-                  x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
-                  hoverinfo: 'skip',
-                  marker: {{ size: 3, color: '#aa8800', symbol: 'diamond', opacity: 0.12 }} }},
-            ];
-            _bgTraceCount = bgTraces.length;
+            _baseTraceCount = fullTraces.length;
             Plotly.newPlot(plotDiv, fullTraces, makeLayout(), {{ responsive: true }});
         }}
 
@@ -1083,17 +1070,37 @@ full_html = f"""<!DOCTYPE html>
                 showscale: false, name: 'Sphere: ' + tgt.name, hoverinfo: 'name' }});
         }}
 
-        // Track how many bg traces exist so we can surgically remove only result traces
-        var _bgTraceCount = 0;
-        var _resultTraceCount = 0; // how many result traces currently on the plot
-        var _plotInSearchMode = false; // whether we're showing search results or the full plot
+        // Track result traces layered on top of the 2 base traces
+        var _baseTraceCount = 0;
+        var _solventColors = [];
+        var _resultTraceCount = 0;
+        var _plotDimmed = false;
 
-        function _switchToBgTraces() {{
-            // Swap from the full exploration traces to the dim background traces
-            // by replacing all traces at once (only needed once per search session)
-            _plotInSearchMode = true;
-            _resultTraceCount = 0;
-            Plotly.react(plotDiv, bgTraces.slice(), makeLayout());
+        function _dimBaseTraces() {{
+            // Restyle the 2 base traces to be dim background dots.
+            // No Plotly.react, no layout rebuild — camera stays exactly where it is.
+            if (_plotDimmed) return;
+            _plotDimmed = true;
+            Plotly.restyle(plotDiv, {{
+                'marker.size': [2, 3],
+                'marker.color': ['#999', '#aa8800'],
+                'marker.opacity': [0.1, 0.12],
+                'hoverinfo': ['skip', 'skip'],
+                'hovertemplate': [null, null],
+            }}, [0, 1]);
+        }}
+
+        function _restoreBaseTraces() {{
+            // Restore the 2 base traces to full interactive appearance.
+            if (!_plotDimmed) return;
+            _plotDimmed = false;
+            Plotly.restyle(plotDiv, {{
+                'marker.size': [5, 7],
+                'marker.color': [_solventColors, 'gold'],
+                'marker.opacity': [0.85, 0.95],
+                'hoverinfo': ['all', 'all'],
+                'hovertemplate': [fullTraces[0].hovertemplate, fullTraces[1].hovertemplate],
+            }}, [0, 1]);
         }}
 
         function updatePlotWithResults(result) {{
@@ -1107,13 +1114,13 @@ full_html = f"""<!DOCTYPE html>
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
 
-            // If coming from full-plot mode, swap to bg traces first
-            if (!_plotInSearchMode) _switchToBgTraces();
+            // Dim base traces (no-op if already dimmed)
+            _dimBaseTraces();
 
-            // Remove previous result traces (everything after the bg traces)
+            // Remove previous result traces (everything after the base traces)
             if (_resultTraceCount > 0) {{
                 var idxs = [];
-                for (var i = 0; i < _resultTraceCount; i++) idxs.push(_bgTraceCount + i);
+                for (var i = 0; i < _resultTraceCount; i++) idxs.push(_baseTraceCount + i);
                 Plotly.deleteTraces(plotDiv, idxs);
                 _resultTraceCount = 0;
             }}
@@ -1187,9 +1194,18 @@ full_html = f"""<!DOCTYPE html>
                 }});
             }}
 
-            // Add only the new result traces (bg traces are untouched)
+            // Pre-allocate a hidden highlight trace so highlightInPlot never needs addTraces
+            newTraces.push({{
+                type: 'scatter3d', mode: 'markers+text', name: '★ Highlighted',
+                x: [0], y: [0], z: [0], text: [''], visible: false,
+                textposition: 'top center', textfont: {{ size: 13, color: '#FFD700' }},
+                hovertemplate: '<extra></extra>',
+                marker: {{ size: 18, color: '#FFD700', symbol: 'circle', opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
+            }});
+
+            // Add only the new result traces (base traces are untouched)
             _resultTraceCount = newTraces.length;
-            _highlightIdx = -1;
+            _highlightIdx = _baseTraceCount + newTraces.length - 1; // last trace = highlight
             Plotly.addTraces(plotDiv, newTraces);
             var title = isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name;
             Plotly.relayout(plotDiv, {{ 'title.text': title }});
@@ -1197,42 +1213,39 @@ full_html = f"""<!DOCTYPE html>
 
         function resetPlot() {{
             _highlightIdx = -1;
-            _resultTraceCount = 0;
-            _plotInSearchMode = false;
-            Plotly.react(plotDiv, fullTraces, makeLayout());
+            // Remove any result/highlight traces
+            if (_resultTraceCount > 0) {{
+                var idxs = [];
+                for (var i = 0; i < _resultTraceCount; i++) idxs.push(_baseTraceCount + i);
+                Plotly.deleteTraces(plotDiv, idxs);
+                _resultTraceCount = 0;
+            }}
+            // Also remove stale highlight trace if present
+            for (var hi = plotDiv.data.length - 1; hi >= _baseTraceCount; hi--) {{
+                if (plotDiv.data[hi].name === '★ Highlighted') {{ Plotly.deleteTraces(plotDiv, hi); break; }}
+            }}
+            // Restore base traces to full appearance
+            _restoreBaseTraces();
+            Plotly.relayout(plotDiv, {{ 'title.text': 'Materialism — Hansen Solubility Parameter Space' }});
         }}
 
         // ===================== HIGHLIGHT IN PLOT =====================
-        var _highlightIdx = -1; // track the index of the highlight trace
+        var _highlightIdx = -1; // index of the pre-allocated highlight trace
         function highlightInPlot(encodedName) {{
             const name = decodeURIComponent(encodedName);
             let mat = SOLVENTS.find(s => s.name === name);
             let sym = 'circle';
             if (!mat) {{ mat = POLYMERS.find(p => p.name === name); sym = 'diamond'; }}
-            if (!mat) return;
-            var newTrace = {{
-                type: 'scatter3d', mode: 'markers+text', name: '★ Highlighted',
-                x: [mat.dd], y: [mat.dp], z: [mat.dh], text: ['★ ' + mat.name],
-                textposition: 'top center', textfont: {{ size: 13, color: '#FFD700' }},
-                hovertemplate: '<b>' + mat.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                marker: {{ size: 18, color: '#FFD700', symbol: sym, opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
-            }};
-            if (_highlightIdx >= 0 && _highlightIdx < plotDiv.data.length && plotDiv.data[_highlightIdx].name === '★ Highlighted') {{
-                // Update existing highlight trace in-place (no full rerender)
-                Plotly.restyle(plotDiv, {{
-                    x: [[mat.dd]], y: [[mat.dp]], z: [[mat.dh]],
-                    text: [['★ ' + mat.name]],
-                    hovertemplate: [newTrace.hovertemplate],
-                    'marker.symbol': sym,
-                }}, [_highlightIdx]);
-            }} else {{
-                // Remove stale highlight if present, then add new one
-                for (var hi = plotDiv.data.length - 1; hi >= 0; hi--) {{
-                    if (plotDiv.data[hi].name === '★ Highlighted') {{ Plotly.deleteTraces(plotDiv, hi); break; }}
-                }}
-                Plotly.addTraces(plotDiv, newTrace);
-                _highlightIdx = plotDiv.data.length - 1;
-            }}
+            if (!mat || _highlightIdx < 0) return;
+            // Restyle the pre-allocated highlight trace — no addTraces/deleteTraces,
+            // no scene rebuild, camera stays exactly where it is.
+            Plotly.restyle(plotDiv, {{
+                x: [[mat.dd]], y: [[mat.dp]], z: [[mat.dh]],
+                text: [['★ ' + mat.name]],
+                hovertemplate: ['<b>' + mat.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>'],
+                'marker.symbol': sym,
+                visible: true,
+            }}, [_highlightIdx]);
             selectInTable(name);
         }}
 
