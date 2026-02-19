@@ -324,9 +324,8 @@ full_html = f"""<!DOCTYPE html>
             <div class="plot-container">
                 <div id="plotly-div" style="width:100%; height:100%;"></div>
             </div>
-            <p style="color:#636e72; padding:6px 10px; font-size:0.8rem; margin:0; display:flex; align-items:center; justify-content:space-between;">
-                <span>Drag to rotate &middot; Scroll to zoom &middot; Gold diamonds = polymers, colored dots = solvents by category</span>
-                <button onclick="toggleAllTraces()" class="rc-btn" id="toggle-all-btn">Hide All</button>
+            <p style="color:#636e72; padding:6px 10px; font-size:0.8rem; margin:0;">
+                Drag to rotate &middot; Scroll to zoom &middot; Gold diamonds = polymers, colored dots = solvents by category
             </p>
         </div>
         <div id="chat-panel" class="chat-panel"></div>
@@ -966,14 +965,6 @@ full_html = f"""<!DOCTYPE html>
                   marker: {{ size: 3, color: '#aa8800', symbol: 'diamond', opacity: 0.12 }} }},
             ];
             Plotly.newPlot(plotDiv, traces, makeLayout(), {{ responsive: true }});
-        }}
-
-        function toggleAllTraces() {{
-            if (!plotDiv || !plotDiv.data) return;
-            var anyVisible = plotDiv.data.some(function(t) {{ return t.visible !== 'legendonly'; }});
-            var newVal = anyVisible ? 'legendonly' : true;
-            Plotly.restyle(plotDiv, {{ visible: newVal }});
-            document.getElementById('toggle-all-btn').textContent = anyVisible ? 'Show All' : 'Hide All';
         }}
 
         // Fixed axis ranges — never change
