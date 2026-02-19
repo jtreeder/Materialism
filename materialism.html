@@ -4671,7 +4671,7 @@ return Plotly;
             const target = result.target || (result.targets ? result.targets[0] : null);
             const parentIntent = result.parentIntent || intent;
 
-            let html = '';
+            var h = []; // array + join is faster than string +=
 
             const isMulti = intent === 'multi_material';
             const showRed = parentIntent === 'good_solvents' || parentIntent === 'bad_solvents' || parentIntent === 'polymers_for_solvent';
@@ -4680,59 +4680,59 @@ return Plotly;
 
             // --- Single unified table with shared columns ---
             const tableId = 'rt-' + Date.now();
-            html += '<table class="results-table" id="' + tableId + '" style="margin-top:10px"><thead><tr>';
+            h.push('<table class="results-table" id="', tableId, '" style="margin-top:10px"><thead><tr>');
             let colNum = 0;
             const th = (label) => '<th onclick="sortResultsTable(this.closest(\x27table\x27),' + (colNum++) + ')" style="cursor:pointer">' + label + '</th>';
-            html += th('#') + th('Name') + th('CAS') + th('Source') + th('&delta;D') + th('&delta;P') + th('&delta;H');
-            if (isMulti) { result.targets.forEach(t => { html += th('Ra(' + t.name.slice(0, 15) + ')') + th('RED(' + t.name.slice(0, 15) + ')'); }); }
-            else if (showRed) { html += th('Ra') + th('RED'); }
-            else if (parentIntent === 'similar_solvents') { html += th('Ra') + th('Category'); }
-            else { html += th('Ra') + th('R&#8320;') + th('Type'); }
-            html += '</tr></thead><tbody>';
+            h.push(th('#'), th('Name'), th('CAS'), th('Source'), th('&delta;D'), th('&delta;P'), th('&delta;H'));
+            if (isMulti) { result.targets.forEach(t => { h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }); }
+            else if (showRed) { h.push(th('Ra'), th('RED')); }
+            else if (parentIntent === 'similar_solvents') { h.push(th('Ra'), th('Category')); }
+            else { h.push(th('Ra'), th('R&#8320;'), th('Type')); }
+            h.push('</tr></thead><tbody>');
 
             // --- Target material rows ---
             if (showTarget) {
                 targetList.forEach(t => {
-                    html += '<tr style="background:#eef1f6;border-bottom:2px solid #dfe6e9">';
-                    html += '<td style="color:#e94560;font-weight:bold">★</td>';
-                    html += '<td><strong style="color:#e94560">' + t.name + '</strong></td>';
-                    html += '<td>' + (t.cas || '') + '</td>';
-                    html += '<td>' + ((t.src && t.srcUrl) ? '<a href="' + t.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + t.src + '</a>' : (t.src || '')) + '</td>';
-                    html += '<td>' + (t.dd != null ? t.dd.toFixed(1) : '') + '</td>';
-                    html += '<td>' + (t.dp != null ? t.dp.toFixed(1) : '') + '</td>';
-                    html += '<td>' + (t.dh != null ? t.dh.toFixed(1) : '') + '</td>';
+                    h.push('<tr style="background:#eef1f6;border-bottom:2px solid #dfe6e9">',
+                        '<td style="color:#e94560;font-weight:bold">★</td>',
+                        '<td><strong style="color:#e94560">', t.name, '</strong></td>',
+                        '<td>', (t.cas || ''), '</td>',
+                        '<td>', ((t.src && t.srcUrl) ? '<a href="' + t.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + t.src + '</a>' : (t.src || '')), '</td>',
+                        '<td>', (t.dd != null ? t.dd.toFixed(1) : ''), '</td>',
+                        '<td>', (t.dp != null ? t.dp.toFixed(1) : ''), '</td>',
+                        '<td>', (t.dh != null ? t.dh.toFixed(1) : ''), '</td>');
                     if (isMulti) {
                         result.targets.forEach(tt => {
-                            html += '<td></td>';
+                            h.push('<td></td>');
                             if (tt.name === t.name) {
                                 const chipColor = t.requirement === 'bad' ? '#EF553B' : '#00CC96';
-                                html += '<td><span style="display:inline-block;background:' + chipColor + ';color:white;padding:2px 10px;border-radius:12px;font-size:0.8rem;font-weight:600">' + t.requirement + '</span></td>';
-                            } else { html += '<td></td>'; }
+                                h.push('<td><span style="display:inline-block;background:', chipColor, ';color:white;padding:2px 10px;border-radius:12px;font-size:0.8rem;font-weight:600">', t.requirement, '</span></td>');
+                            } else { h.push('<td></td>'); }
                         });
                     } else if (showRed) {
-                        html += '<td></td><td style="color:#636e72">R&#8320;=' + (t.r || 'N/A') + '</td>';
+                        h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td>');
                     } else if (parentIntent === 'similar_solvents') {
-                        html += '<td></td><td>' + (t.cat || '') + '</td>';
+                        h.push('<td></td><td>', (t.cat || ''), '</td>');
                     } else {
-                        html += '<td></td><td>' + (t.r || '') + '</td><td>' + (t.type || '') + '</td>';
+                        h.push('<td></td><td>', (t.r || ''), '</td><td>', (t.type || ''), '</td>');
                     }
-                    html += '</tr>';
+                    h.push('</tr>');
                 });
             }
 
             // --- Candidate result rows ---
             results.forEach((r, i) => {
-                if (r.notFound) { html += '<tr><td class="rank">' + (i + 1) + '</td><td colspan="9" style="color:#EF553B">Could not find "' + r.queryName + '" in the database</td></tr>'; return; }
-                const nameHtml = '<span class="hoverable-name" onclick="highlightInPlot(\x27' + encodeURIComponent(r.name) + '\x27)" onmouseenter="showStructure(event,\x27' + encodeURIComponent(r.name) + '\x27)" onmouseleave="hideStructure()">' + r.name + '</span>';
-                var srcHtml = (r.src && r.srcUrl) ? '<a href="' + r.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + r.src + '</a>' : (r.src || '');
-                html += '<tr><td class="rank">' + (i + 1) + '</td><td>' + nameHtml + '</td><td>' + (r.cas || '') + '</td><td>' + srcHtml + '</td>';
-                html += '<td>' + (r.dd != null ? r.dd.toFixed(1) : '') + '</td><td>' + (r.dp != null ? r.dp.toFixed(1) : '') + '</td><td>' + (r.dh != null ? r.dh.toFixed(1) : '') + '</td>';
-                if (isMulti) { result.targets.forEach(t => { const ra = r.ras[t.name]; const red = r.reds[t.name]; html += '<td>' + (ra != null ? ra.toFixed(2) : '') + '</td>'; let cls = 'red-bad'; if (red != null) { if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; } html += '<td class="' + cls + '">' + (red != null ? red.toFixed(2) : 'N/A') + '</td>'; }); }
-                else { html += '<td>' + (r.ra != null ? r.ra.toFixed(2) : '') + '</td>'; if (showRed) { const red = r.red; let cls = 'red-bad'; if (red !== null) { if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; } html += '<td class="' + cls + '">' + (red !== null ? red.toFixed(2) : 'N/A') + '</td>'; } else if (parentIntent === 'similar_solvents') { html += '<td>' + (r.cat || '') + '</td>'; } else { html += '<td>' + (r.r || '') + '</td><td>' + (r.type || '') + '</td>'; } }
-                html += '</tr>';
+                if (r.notFound) { h.push('<tr><td class="rank">', (i + 1), '</td><td colspan="9" style="color:#EF553B">Could not find "', r.queryName, '" in the database</td></tr>'); return; }
+                var enc = encodeURIComponent(r.name);
+                h.push('<tr><td class="rank">', (i + 1), '</td><td><span class="hoverable-name" onclick="highlightInPlot(\x27', enc, '\x27)" onmouseenter="showStructure(event,\x27', enc, '\x27)" onmouseleave="hideStructure()">', r.name, '</span></td>');
+                h.push('<td>', (r.cas || ''), '</td><td>', ((r.src && r.srcUrl) ? '<a href="' + r.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + r.src + '</a>' : (r.src || '')), '</td>');
+                h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
+                if (isMulti) { result.targets.forEach(t => { const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) { if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; } h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }); }
+                else { h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) { const red = r.red; let cls = 'red-bad'; if (red !== null) { if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; } h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); } else if (parentIntent === 'similar_solvents') { h.push('<td>', (r.cat || ''), '</td>'); } else { h.push('<td>', (r.r || ''), '</td><td>', (r.type || ''), '</td>'); } }
+                h.push('</tr>');
             });
-            html += '</tbody></table>';
-            return html;
+            h.push('</tbody></table>');
+            return h.join('');
         }
 
         // ===================== 3D PLOT =====================
@@ -4763,18 +4763,18 @@ return Plotly;
                 },
             ];
             // Pre-compute dim background traces for search results view
+            // Skip hover text — these are tiny dim dots; no one hovers them
             bgTraces = [
                 { type: 'scatter3d', mode: 'markers', name: 'All Solvents',
                   x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
-                  text: SOLVENTS.map(s => s.name),
-                  hoverinfo: 'text',
+                  hoverinfo: 'skip',
                   marker: { size: 2, color: '#999', opacity: 0.1 } },
                 { type: 'scatter3d', mode: 'markers', name: 'All Polymers',
                   x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
-                  text: POLYMERS.map(p => p.name),
-                  hoverinfo: 'text',
+                  hoverinfo: 'skip',
                   marker: { size: 3, color: '#aa8800', symbol: 'diamond', opacity: 0.12 } },
             ];
+            _bgTraceCount = bgTraces.length;
             Plotly.newPlot(plotDiv, fullTraces, makeLayout(), { responsive: true });
         }
 
@@ -4825,6 +4825,19 @@ return Plotly;
                 showscale: false, name: 'Sphere: ' + tgt.name, hoverinfo: 'name' });
         }
 
+        // Track how many bg traces exist so we can surgically remove only result traces
+        var _bgTraceCount = 0;
+        var _resultTraceCount = 0; // how many result traces currently on the plot
+        var _plotInSearchMode = false; // whether we're showing search results or the full plot
+
+        function _switchToBgTraces() {
+            // Swap from the full exploration traces to the dim background traces
+            // by replacing all traces at once (only needed once per search session)
+            _plotInSearchMode = true;
+            _resultTraceCount = 0;
+            Plotly.react(plotDiv, bgTraces.slice(), makeLayout());
+        }
+
         function updatePlotWithResults(result) {
             if (!result || result.error) return;
             const { results } = result;
@@ -4835,13 +4848,24 @@ return Plotly;
             // Deactivate any open tab panel
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            const traces = bgTraces.slice();
+
+            // If coming from full-plot mode, swap to bg traces first
+            if (!_plotInSearchMode) _switchToBgTraces();
+
+            // Remove previous result traces (everything after the bg traces)
+            if (_resultTraceCount > 0) {
+                var idxs = [];
+                for (var i = 0; i < _resultTraceCount; i++) idxs.push(_bgTraceCount + i);
+                Plotly.deleteTraces(plotDiv, idxs);
+                _resultTraceCount = 0;
+            }
 
             const valid = results.filter(r => !r.notFound);
             const resultColors = computeResultColors(valid);
+            var newTraces = [];
 
             if (isMulti) {
-                traces.push({
+                newTraces.push({
                     type: 'scatter3d', mode: 'markers+text', name: 'Results',
                     x: valid.map(r => r.dd), y: valid.map(r => r.dp), z: valid.map(r => r.dh),
                     text: valid.map((r, i) => (i + 1) + '. ' + r.name),
@@ -4857,18 +4881,18 @@ return Plotly;
                 const sphereColors = ['rgba(233,69,96,0.2)', 'rgba(58,134,255,0.2)', 'rgba(6,214,160,0.2)', 'rgba(255,190,11,0.2)'];
                 result.targets.forEach((tgt, ti) => {
                     const c = tgtColors[ti % tgtColors.length];
-                    traces.push({ type: 'scatter3d', mode: 'markers+text',
+                    newTraces.push({ type: 'scatter3d', mode: 'markers+text',
                         name: (tgt.requirement === 'good' ? '✓ ' : '✗ ') + tgt.name,
                         x: [tgt.dd], y: [tgt.dp], z: [tgt.dh], text: [tgt.name],
                         textposition: 'top center', textfont: { size: 12, color: c },
                         hovertemplate: '<b>' + tgt.name + '</b> (' + tgt.requirement + ')<br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}<br>R₀=' + tgt.r + '<extra></extra>',
                         marker: { size: 14, color: c, symbol: 'diamond', opacity: 1, line: { color: '#2d3436', width: 2 } },
                     });
-                    addSphere(traces, tgt, sphereColors[ti % sphereColors.length]);
+                    addSphere(newTraces, tgt, sphereColors[ti % sphereColors.length]);
                 });
             } else if (parentIntent === 'good_solvents' || parentIntent === 'bad_solvents' || parentIntent === 'polymers_for_solvent') {
                 var isReverse = parentIntent === 'polymers_for_solvent';
-                traces.push({
+                newTraces.push({
                     type: 'scatter3d', mode: 'markers+text', name: 'Results',
                     x: valid.map(r => r.dd), y: valid.map(r => r.dp), z: valid.map(r => r.dh),
                     text: valid.map((r, i) => (i + 1) + '. ' + r.name),
@@ -4878,16 +4902,16 @@ return Plotly;
                         (r.red !== null ? '<br>RED=' + r.red.toFixed(2) : '') + '<extra></extra>'),
                     marker: { size: 10, color: resultColors, symbol: isReverse ? 'diamond' : 'circle', opacity: 1, line: { color: '#2d3436', width: 1 } },
                 });
-                traces.push({ type: 'scatter3d', mode: 'markers+text', name: '★ Target: ' + target.name,
+                newTraces.push({ type: 'scatter3d', mode: 'markers+text', name: '★ Target: ' + target.name,
                     x: [target.dd], y: [target.dp], z: [target.dh], text: ['★ ' + target.name],
                     textposition: 'top center', textfont: { size: 13, color: '#e94560' },
                     hovertemplate: '<b>★ ' + target.name + '</b><br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}' + (target.r ? '<br>R₀=' + target.r : '') + '<extra></extra>',
                     marker: { size: 16, color: '#e94560', symbol: isReverse ? 'circle' : 'diamond', opacity: 1, line: { color: '#2d3436', width: 2 } },
                 });
-                if (!isReverse) addSphere(traces, target, 'rgba(233,69,96,0.2)');
+                if (!isReverse) addSphere(newTraces, target, 'rgba(233,69,96,0.2)');
             } else {
                 const sym = (parentIntent === 'similar_polymers') ? 'diamond' : 'circle';
-                traces.push({
+                newTraces.push({
                     type: 'scatter3d', mode: 'markers+text', name: 'Results',
                     x: valid.map(r => r.dd), y: valid.map(r => r.dp), z: valid.map(r => r.dh),
                     text: valid.map((r, i) => (i + 1) + '. ' + r.name),
@@ -4897,7 +4921,7 @@ return Plotly;
                     marker: { size: 10, color: resultColors, symbol: sym, opacity: 1, line: { color: '#2d3436', width: 1 } },
                 });
                 const tsym = (parentIntent === 'similar_polymers') ? 'diamond' : 'circle';
-                traces.push({ type: 'scatter3d', mode: 'markers+text', name: '★ Target: ' + target.name,
+                newTraces.push({ type: 'scatter3d', mode: 'markers+text', name: '★ Target: ' + target.name,
                     x: [target.dd], y: [target.dp], z: [target.dh], text: ['★ ' + target.name],
                     textposition: 'top center', textfont: { size: 13, color: '#e94560' },
                     hovertemplate: '<b>★ ' + target.name + '</b><br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}<extra></extra>',
@@ -4905,13 +4929,18 @@ return Plotly;
                 });
             }
 
-            var title = isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name;
+            // Add only the new result traces (bg traces are untouched)
+            _resultTraceCount = newTraces.length;
             _highlightIdx = -1;
-            Plotly.react(plotDiv, traces, makeLayout(title));
+            Plotly.addTraces(plotDiv, newTraces);
+            var title = isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name;
+            Plotly.relayout(plotDiv, { 'title.text': title });
         }
 
         function resetPlot() {
             _highlightIdx = -1;
+            _resultTraceCount = 0;
+            _plotInSearchMode = false;
             Plotly.react(plotDiv, fullTraces, makeLayout());
         }
 
