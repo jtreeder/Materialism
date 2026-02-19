@@ -4670,29 +4670,26 @@ return Plotly;
 
         function buildFullPlot() {
             plotDiv = document.getElementById('plotly-div');
-            const traces = [];
-            const cats = [...new Set(SOLVENTS.map(s => s.cat))].sort();
-            for (const cat of cats) {
-                const cs = SOLVENTS.filter(s => s.cat === cat);
-                const color = CAT_COLORS[cat] || '#888';
-                traces.push({
+            // Single trace for all solvents with per-point colors (instead of 22+ traces)
+            var solventColors = SOLVENTS.map(s => CAT_COLORS[s.cat] || '#888');
+            fullTraces = [
+                {
                     type: 'scatter3d', mode: 'markers',
-                    name: cat.charAt(0).toUpperCase() + cat.slice(1),
-                    x: cs.map(s => s.dd), y: cs.map(s => s.dp), z: cs.map(s => s.dh),
-                    text: cs.map(s => s.name + '<br>CAS: ' + s.cas + '<br>MW: ' + s.mw + '<br>BP: ' + s.bp + '°C'),
+                    name: 'Solvents',
+                    x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
+                    text: SOLVENTS.map(s => s.name + '<br>CAS: ' + s.cas + '<br>MW: ' + s.mw + '<br>BP: ' + s.bp + '°C'),
                     hovertemplate: '<b>%{text}</b><br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}<extra></extra>',
-                    marker: { size: 5, color: color, opacity: 0.85 },
-                });
-            }
-            traces.push({
-                type: 'scatter3d', mode: 'markers',
-                name: 'Polymers',
-                x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
-                text: POLYMERS.map(p => p.name + '<br>R₀=' + p.r),
-                hovertemplate: '<b>%{text}</b><br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}<extra></extra>',
-                marker: { size: 7, color: 'gold', symbol: 'diamond', opacity: 0.95 },
-            });
-            fullTraces = traces;
+                    marker: { size: 5, color: solventColors, opacity: 0.85 },
+                },
+                {
+                    type: 'scatter3d', mode: 'markers',
+                    name: 'Polymers',
+                    x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
+                    text: POLYMERS.map(p => p.name + '<br>R₀=' + p.r),
+                    hovertemplate: '<b>%{text}</b><br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}<extra></extra>',
+                    marker: { size: 7, color: 'gold', symbol: 'diamond', opacity: 0.95 },
+                },
+            ];
             // Pre-compute dim background traces for search results view
             bgTraces = [
                 { type: 'scatter3d', mode: 'markers', name: 'All Solvents',
@@ -4706,7 +4703,7 @@ return Plotly;
                   hoverinfo: 'text',
                   marker: { size: 3, color: '#aa8800', symbol: 'diamond', opacity: 0.12 } },
             ];
-            Plotly.newPlot(plotDiv, traces, makeLayout(), { responsive: true });
+            Plotly.newPlot(plotDiv, fullTraces, makeLayout(), { responsive: true });
         }
 
         // Fixed axis ranges — never change
@@ -4738,22 +4735,9 @@ return Plotly;
             };
         }
 
-        // Force axes back to fixed ranges (call after any Plotly.react)
-        function lockAxes() {
-            if (!plotDiv || !plotDiv.layout || !plotDiv.layout.scene) return;
-            Plotly.relayout(plotDiv, {
-                'scene.xaxis.range': FIXED_AXES.xRange.slice(),
-                'scene.yaxis.range': FIXED_AXES.yRange.slice(),
-                'scene.zaxis.range': FIXED_AXES.zRange.slice(),
-                'scene.xaxis.autorange': false,
-                'scene.yaxis.autorange': false,
-                'scene.zaxis.autorange': false,
-            });
-        }
-
         function addSphere(traces, tgt, sphereColor) {
             if (!tgt.r || tgt.r <= 0) return;
-            const N = 16, M = 12, x = [], y = [], z = [];
+            const N = 10, M = 8, x = [], y = [], z = [];
             for (let i = 0; i <= N; i++) {
                 const xr = [], yr = [], zr = [], u = (i / N) * 2 * Math.PI;
                 for (let j = 0; j <= M; j++) {
@@ -4850,29 +4834,46 @@ return Plotly;
             }
 
             var title = isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name;
+            _highlightIdx = -1;
             Plotly.react(plotDiv, traces, makeLayout(title));
         }
 
         function resetPlot() {
+            _highlightIdx = -1;
             Plotly.react(plotDiv, fullTraces, makeLayout());
         }
 
         // ===================== HIGHLIGHT IN PLOT =====================
+        var _highlightIdx = -1; // track the index of the highlight trace
         function highlightInPlot(encodedName) {
             const name = decodeURIComponent(encodedName);
             let mat = SOLVENTS.find(s => s.name === name);
             let sym = 'circle';
             if (!mat) { mat = POLYMERS.find(p => p.name === name); sym = 'diamond'; }
             if (!mat) return;
-            const currentData = plotDiv.data.filter(t => t.name !== '★ Highlighted');
-            currentData.push({
+            var newTrace = {
                 type: 'scatter3d', mode: 'markers+text', name: '★ Highlighted',
                 x: [mat.dd], y: [mat.dp], z: [mat.dh], text: ['★ ' + mat.name],
                 textposition: 'top center', textfont: { size: 13, color: '#FFD700' },
                 hovertemplate: '<b>' + mat.name + '</b><br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}<extra></extra>',
                 marker: { size: 18, color: '#FFD700', symbol: sym, opacity: 1, line: { color: '#2d3436', width: 2 } },
-            });
-            Plotly.react(plotDiv, currentData, makeLayout(plotDiv.layout.title ? plotDiv.layout.title.text : undefined));
+            };
+            if (_highlightIdx >= 0 && _highlightIdx < plotDiv.data.length && plotDiv.data[_highlightIdx].name === '★ Highlighted') {
+                // Update existing highlight trace in-place (no full rerender)
+                Plotly.restyle(plotDiv, {
+                    x: [[mat.dd]], y: [[mat.dp]], z: [[mat.dh]],
+                    text: [['★ ' + mat.name]],
+                    hovertemplate: [newTrace.hovertemplate],
+                    'marker.symbol': sym,
+                }, [_highlightIdx]);
+            } else {
+                // Remove stale highlight if present, then add new one
+                for (var hi = plotDiv.data.length - 1; hi >= 0; hi--) {
+                    if (plotDiv.data[hi].name === '★ Highlighted') { Plotly.deleteTraces(plotDiv, hi); break; }
+                }
+                Plotly.addTraces(plotDiv, newTrace);
+                _highlightIdx = plotDiv.data.length - 1;
+            }
             selectInTable(name);
         }
 
@@ -5031,8 +5032,12 @@ return Plotly;
             tooltip.el.style.top = y + 'px';
         }
 
+        var _mmRaf = 0;
         document.addEventListener('mousemove', function(e) {
-            if (tooltip.el && tooltip.el.style.display === 'block') positionTooltip(e);
+            if (tooltip.el && tooltip.el.style.display === 'block') {
+                if (_mmRaf) return;
+                _mmRaf = requestAnimationFrame(function() { _mmRaf = 0; positionTooltip(e); });
+            }
         });
 
         // ===================== UI GLUE =====================
