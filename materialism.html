@@ -4206,12 +4206,51 @@ return Plotly;
         };
 
         // ===================== HSP MATH =====================
+        // Pre-compute typed arrays for fast distance calculations
+        var _sDD = new Float64Array(SOLVENTS.length);
+        var _sDP = new Float64Array(SOLVENTS.length);
+        var _sDH = new Float64Array(SOLVENTS.length);
+        for (var _si = 0; _si < SOLVENTS.length; _si++) {
+            _sDD[_si] = SOLVENTS[_si].dd; _sDP[_si] = SOLVENTS[_si].dp; _sDH[_si] = SOLVENTS[_si].dh;
+        }
+
         function hspDistance(a, b) {
-            return Math.sqrt(4 * Math.pow(a.dd - b.dd, 2) + Math.pow(a.dp - b.dp, 2) + Math.pow(a.dh - b.dh, 2));
+            var ddd = a.dd - b.dd, ddp = a.dp - b.dp, ddh = a.dh - b.dh;
+            return Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh);
         }
         function redNumber(solvent, polymer) {
             if (!polymer.r || polymer.r <= 0) return null;
             return hspDistance(solvent, polymer) / polymer.r;
+        }
+
+        // Partial sort: get top-K smallest items without sorting the full array.
+        // Uses quickselect (O(N) average) then sorts only the top K (O(K log K)).
+        function topK(arr, k, key) {
+            if (arr.length <= k) { arr.sort(function(a, b) { return key(a) - key(b); }); return arr; }
+            // Quickselect partition
+            function swap(i, j) { var t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+            function partition(lo, hi) {
+                var pivot = key(arr[hi]), i = lo;
+                for (var j = lo; j < hi; j++) {
+                    if (key(arr[j]) <= pivot) { swap(i, j); i++; }
+                }
+                swap(i, hi);
+                return i;
+            }
+            var lo = 0, hi = arr.length - 1;
+            while (lo < hi) {
+                var p = partition(lo, hi);
+                if (p === k) break;
+                else if (p < k) lo = p + 1;
+                else hi = p - 1;
+            }
+            var top = arr.slice(0, k);
+            top.sort(function(a, b) { return key(a) - key(b); });
+            return top;
+        }
+        // Same but for largest (bottom-K by descending key)
+        function bottomK(arr, k, key) {
+            return topK(arr, k, function(x) { return -key(x); });
         }
 
         // ===================== COLOR SCALING =====================
@@ -4492,21 +4531,31 @@ return Plotly;
                     if (!target) return { error: 'Could not find polymer "' + mat.name + '". Try names like "polystyrene", "PVC", "PMMA", or "nylon".' };
                     targets.push({ ...target, requirement: mat.requirement });
                 }
-                const scored = SOLVENTS.map(s => {
-                    const info = { ...s, reds: {}, ras: {} };
-                    let combinedScore = 0;
-                    for (const t of targets) {
-                        const ra = hspDistance(s, t);
-                        const red = (t.r && t.r > 0) ? ra / t.r : null;
-                        info.reds[t.name] = red;
-                        info.ras[t.name] = ra;
-                        combinedScore += t.requirement === 'good' ? ra : -ra;
+                // Compute combined scores using typed arrays — lightweight objects, defer spread
+                var N = SOLVENTS.length, scored = new Array(N);
+                var tDDs = targets.map(function(t) { return t.dd; });
+                var tDPs = targets.map(function(t) { return t.dp; });
+                var tDHs = targets.map(function(t) { return t.dh; });
+                var tRs = targets.map(function(t) { return (t.r && t.r > 0) ? t.r : 0; });
+                var tGood = targets.map(function(t) { return t.requirement === 'good' ? 1 : -1; });
+                for (var si = 0; si < N; si++) {
+                    var cs = 0, dd0 = _sDD[si], dp0 = _sDP[si], dh0 = _sDH[si];
+                    for (var ti = 0; ti < targets.length; ti++) {
+                        var ddd = dd0 - tDDs[ti], ddp = dp0 - tDPs[ti], ddh = dh0 - tDHs[ti];
+                        cs += tGood[ti] * Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh);
                     }
-                    info.combinedScore = combinedScore;
+                    scored[si] = { _i: si, combinedScore: cs };
+                }
+                var top = topK(scored, resultCount, function(x) { return x.combinedScore; });
+                var results = top.map(function(x) {
+                    var s = SOLVENTS[x._i], info = { ...s, reds: {}, ras: {}, combinedScore: x.combinedScore };
+                    for (var ti = 0; ti < targets.length; ti++) {
+                        var ra = hspDistance(s, targets[ti]);
+                        info.ras[targets[ti].name] = ra;
+                        info.reds[targets[ti].name] = tRs[ti] > 0 ? ra / tRs[ti] : null;
+                    }
                     return info;
                 });
-                scored.sort((a, b) => a.combinedScore - b.combinedScore);
-                const results = scored.slice(0, resultCount);
                 const desc = targets.map(t => (t.requirement === 'good' ? 'compatible with' : 'incompatible with') + ' ' + t.name).join(' AND ');
                 chatContext = { intent: 'multi_material', targets, targetType: 'polymer' };
                 return { intent: 'multi_material', targets, results, description: 'Top ' + resultCount + ' solvents: ' + desc + '.', targetType: 'polymer' };
@@ -4516,15 +4565,28 @@ return Plotly;
                 let target = findPolymer(material);
                 if (!target) { const words = material.split(/\s+/); for (const w of words) { target = findPolymer(w); if (target) break; } }
                 if (!target) return { error: 'Could not find a matching polymer for "' + material + '". Try names like "polystyrene", "PVC", "PMMA", or "nylon".' };
-                const scored = SOLVENTS.map(s => ({ ...s, ra: hspDistance(s, target), red: redNumber(s, target) }));
+                // Typed-array distance computation + quickselect — avoids spreading 1630 objects
+                var tDD = target.dd, tDP = target.dp, tDH = target.dh, N = SOLVENTS.length;
+                var scored = new Array(N);
+                for (var si = 0; si < N; si++) {
+                    var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
+                    scored[si] = { _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) };
+                }
+                var top;
                 if (intent === 'good_solvents') {
-                    scored.sort((a, b) => a.ra - b.ra);
-                    chatContext = { intent, target, targetType: 'polymer' };
-                    return { intent, target, results: scored.slice(0, resultCount), description: 'Top ' + resultCount + ' solvents by HSP distance (Ra). RED < 1 = inside solubility sphere = compatible.', targetType: 'polymer' };
+                    top = topK(scored, resultCount, function(x) { return x.ra; });
                 } else {
-                    scored.sort((a, b) => b.ra - a.ra);
-                    chatContext = { intent, target, targetType: 'polymer' };
-                    return { intent, target, results: scored.slice(0, resultCount), description: 'Top ' + resultCount + ' most incompatible solvents by HSP distance (Ra). RED > 1 = outside sphere.', targetType: 'polymer' };
+                    top = bottomK(scored, resultCount, function(x) { return x.ra; });
+                }
+                var results = top.map(function(x) {
+                    var s = SOLVENTS[x._i];
+                    return { ...s, ra: x.ra, red: (target.r && target.r > 0) ? x.ra / target.r : null };
+                });
+                chatContext = { intent, target, targetType: 'polymer' };
+                if (intent === 'good_solvents') {
+                    return { intent, target, results, description: 'Top ' + resultCount + ' solvents by HSP distance (Ra). RED < 1 = inside solubility sphere = compatible.', targetType: 'polymer' };
+                } else {
+                    return { intent, target, results, description: 'Top ' + resultCount + ' most incompatible solvents by HSP distance (Ra). RED > 1 = outside sphere.', targetType: 'polymer' };
                 }
             }
 
@@ -4532,10 +4594,17 @@ return Plotly;
                 let target = findSolvent(material);
                 if (!target) { const words = material.split(/\s+/); for (const w of words) { target = findSolvent(w); if (target) break; } }
                 if (!target) return { error: 'Could not find solvent "' + material + '". Try "toluene", "acetone", "NMP", "DMSO", etc.' };
-                const scored = SOLVENTS.filter(s => s.name !== target.name).map(s => ({ ...s, ra: hspDistance(s, target) }));
-                scored.sort((a, b) => a.ra - b.ra);
+                var tDD = target.dd, tDP = target.dp, tDH = target.dh;
+                var scored = [];
+                for (var si = 0; si < SOLVENTS.length; si++) {
+                    if (SOLVENTS[si].name === target.name) continue;
+                    var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
+                    scored.push({ _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) });
+                }
+                var top = topK(scored, resultCount, function(x) { return x.ra; });
+                var results = top.map(function(x) { return { ...SOLVENTS[x._i], ra: x.ra }; });
                 chatContext = { intent, target, targetType: 'solvent' };
-                return { intent, target, results: scored.slice(0, resultCount), description: 'Solvents closest to ' + target.name + ' in Hansen space.', targetType: 'solvent' };
+                return { intent, target, results, description: 'Solvents closest to ' + target.name + ' in Hansen space.', targetType: 'solvent' };
             }
 
             if (intent === 'similar_polymers') {
@@ -4543,9 +4612,9 @@ return Plotly;
                 if (!target) { const words = material.split(/\s+/); for (const w of words) { target = findPolymer(w); if (target) break; } }
                 if (!target) return { error: 'Could not find polymer "' + material + '". Try "polystyrene", "epoxy", "PMMA", etc.' };
                 const scored = POLYMERS.filter(p => p.name !== target.name).map(p => ({ ...p, ra: hspDistance(p, target) }));
-                scored.sort((a, b) => a.ra - b.ra);
+                var results = topK(scored, resultCount, function(x) { return x.ra; });
                 chatContext = { intent, target, targetType: 'polymer' };
-                return { intent, target, results: scored.slice(0, resultCount), description: 'Polymers closest to ' + target.name + ' in Hansen space.', targetType: 'polymer' };
+                return { intent, target, results, description: 'Polymers closest to ' + target.name + ' in Hansen space.', targetType: 'polymer' };
             }
 
             if (intent === 'polymers_for_solvent') {
@@ -4553,9 +4622,9 @@ return Plotly;
                 if (!target) { const words = material.split(/\s+/); for (const w of words) { target = findSolvent(w); if (target) break; } }
                 if (!target) return { error: 'Could not find solvent "' + material + '". Try "toluene", "acetone", "NMP", "DMSO", etc.' };
                 const scored = POLYMERS.filter(p => p.r && p.r > 0).map(p => ({ ...p, ra: hspDistance(target, p), red: redNumber(target, p) }));
-                scored.sort((a, b) => a.ra - b.ra);
+                var results = topK(scored, resultCount, function(x) { return x.ra; });
                 chatContext = { intent: 'polymers_for_solvent', target, targetType: 'solvent' };
-                return { intent: 'polymers_for_solvent', target, results: scored.slice(0, resultCount), description: 'Polymers most easily dissolved by ' + target.name + '. RED < 1 = inside solubility sphere = compatible.', targetType: 'solvent' };
+                return { intent: 'polymers_for_solvent', target, results, description: 'Polymers most easily dissolved by ' + target.name + '. RED < 1 = inside solubility sphere = compatible.', targetType: 'solvent' };
             }
 
             return { error: 'Could not understand the query. Try "good solvents for polystyrene", "bad solvents for PVC", "solvents similar to toluene", or "what polymers does acetone dissolve?".' };
@@ -4585,7 +4654,10 @@ return Plotly;
                 if (!isNaN(na) && !isNaN(nb)) return (na - nb) * dir;
                 return va.localeCompare(vb) * dir;
             });
-            rows.forEach(row => tbody.appendChild(row));
+            // Batch DOM updates with DocumentFragment to avoid N individual reflows
+            const frag = document.createDocumentFragment();
+            rows.forEach(row => frag.appendChild(row));
+            tbody.appendChild(frag);
             tableEl.querySelectorAll('th').forEach((th, i) => {
                 th.classList.remove('sort-asc', 'sort-desc');
                 if (i === colIdx) th.classList.add(dir === 1 ? 'sort-asc' : 'sort-desc');
@@ -5051,7 +5123,9 @@ return Plotly;
             const result = executeSearch(parsed);
             const html = renderResultsHTML(result);
             showResults(html);
-            if (!result.error) updatePlotWithResults(result);
+            // Defer the expensive Plotly update to the next frame so the table
+            // paints immediately and the UI feels responsive.
+            if (!result.error) requestAnimationFrame(function() { updatePlotWithResults(result); });
         }
 
         function exampleSearch(text) {
