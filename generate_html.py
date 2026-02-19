@@ -901,20 +901,22 @@ full_html = f"""<!DOCTYPE html>
         let resultSortDir = {{}};
         function sortResultsTable(tableEl, colIdx) {{
             const tbody = tableEl.querySelector('tbody');
-            const rows = Array.from(tbody.rows);
+            const allRows = Array.from(tbody.rows);
+            const pinned = allRows.filter(r => r.dataset.target);
+            const sortable = allRows.filter(r => !r.dataset.target);
             const key = 'rt-' + colIdx;
             resultSortDir[key] = !resultSortDir[key];
             const dir = resultSortDir[key] ? 1 : -1;
-            rows.sort((a, b) => {{
+            sortable.sort((a, b) => {{
                 let va = a.cells[colIdx].textContent.trim();
                 let vb = b.cells[colIdx].textContent.trim();
                 const na = parseFloat(va), nb = parseFloat(vb);
                 if (!isNaN(na) && !isNaN(nb)) return (na - nb) * dir;
                 return va.localeCompare(vb) * dir;
             }});
-            // Batch DOM updates with DocumentFragment to avoid N individual reflows
             const frag = document.createDocumentFragment();
-            rows.forEach(row => frag.appendChild(row));
+            pinned.forEach(row => frag.appendChild(row));
+            sortable.forEach(row => frag.appendChild(row));
             tbody.appendChild(frag);
             tableEl.querySelectorAll('th').forEach((th, i) => {{
                 th.classList.remove('sort-asc', 'sort-desc');
@@ -951,7 +953,7 @@ full_html = f"""<!DOCTYPE html>
             // --- Target material rows ---
             if (showTarget) {{
                 targetList.forEach(t => {{
-                    h.push('<tr style="background:#eef1f6;border-bottom:2px solid #dfe6e9">',
+                    h.push('<tr data-target="1" style="background:#eef1f6;border-bottom:2px solid #dfe6e9">',
                         '<td style="color:#e94560;font-weight:bold">★</td>',
                         '<td><strong style="color:#e94560">', t.name, '</strong></td>',
                         '<td>', (t.cas || ''), '</td>',
@@ -984,7 +986,7 @@ full_html = f"""<!DOCTYPE html>
             results.forEach((r, i) => {{
                 if (r.notFound) {{ h.push('<tr><td class="rank">', (i + 1), '</td><td colspan="11" style="color:#EF553B">Could not find "', r.queryName, '" in the database</td></tr>'); return; }}
                 var enc = encodeURIComponent(r.name);
-                h.push('<tr><td class="rank">', (i + 1), '</td><td><span class="hoverable-name" onclick="highlightInPlot(\\x27', enc, '\\x27)" onmouseenter="showStructure(event,\\x27', enc, '\\x27)" onmouseleave="hideStructure()">', r.name, '</span></td>');
+                h.push('<tr data-name="', r.name.replace(/"/g, '&quot;'), '"><td class="rank">', (i + 1), '</td><td><span class="hoverable-name" onclick="highlightInPlot(\\x27', enc, '\\x27)" onmouseenter="showStructure(event,\\x27', enc, '\\x27)" onmouseleave="hideStructure()">', r.name, '</span></td>');
                 h.push('<td>', (r.cas || ''), '</td><td>', ((r.src && r.srcUrl) ? '<a href="' + r.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + r.src + '</a>' : (r.src || '')), '</td>');
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
@@ -1253,17 +1255,20 @@ full_html = f"""<!DOCTYPE html>
         }}
 
         function selectInTable(name) {{
-            var homePanel = document.getElementById('home-panel');
-            if (homePanel.style.display === 'none') return;
-            var tbody = document.getElementById('home-tbody');
-            if (!tbody) return;
-            var rows = tbody.querySelectorAll('tr[data-name]');
-            rows.forEach(function(r) {{ r.style.background = ''; }});
-            for (var i = 0; i < rows.length; i++) {{
-                if (rows[i].getAttribute('data-name') === name) {{
-                    rows[i].style.background = '#fff3cd';
-                    rows[i].scrollIntoView({{ block: 'center', behavior: 'smooth' }});
-                    break;
+            // Highlight in whichever table is visible: results (chat-panel) or home table
+            var containers = [document.getElementById('chat-panel'), document.getElementById('home-panel')];
+            for (var ci = 0; ci < containers.length; ci++) {{
+                var c = containers[ci];
+                if (!c || c.style.display === 'none' || !c.classList.contains('visible') && ci === 0) continue;
+                var rows = c.querySelectorAll('tr[data-name]');
+                if (!rows.length) continue;
+                rows.forEach(function(r) {{ r.style.background = ''; }});
+                for (var i = 0; i < rows.length; i++) {{
+                    if (rows[i].getAttribute('data-name') === name) {{
+                        rows[i].style.background = '#fff3cd';
+                        rows[i].scrollIntoView({{ block: 'center', behavior: 'smooth' }});
+                        return;
+                    }}
                 }}
             }}
         }}
