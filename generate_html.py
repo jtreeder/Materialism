@@ -941,7 +941,7 @@ full_html = f"""<!DOCTYPE html>
             h.push('<table class="results-table" id="', tableId, '" style="margin-top:10px"><thead><tr>');
             let colNum = 0;
             const th = (label) => '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + (colNum++) + ')" style="cursor:pointer">' + label + '</th>';
-            h.push(th('#'), th('Name'), th('CAS'), th('Source'), th('&delta;D'), th('&delta;P'), th('&delta;H'));
+            h.push(th('#'), th('Name'), th('CAS'), th('Source'), th('&delta;D'), th('&delta;P'), th('&delta;H'), th('MW'), th('BP &deg;C'));
             if (isMulti) {{ result.targets.forEach(t => {{ h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }}); }}
             else if (showRed) {{ h.push(th('Ra'), th('RED')); }}
             else if (parentIntent === 'similar_solvents') {{ h.push(th('Ra'), th('Category')); }}
@@ -958,7 +958,9 @@ full_html = f"""<!DOCTYPE html>
                         '<td>', ((t.src && t.srcUrl) ? '<a href="' + t.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + t.src + '</a>' : (t.src || '')), '</td>',
                         '<td>', (t.dd != null ? t.dd.toFixed(1) : ''), '</td>',
                         '<td>', (t.dp != null ? t.dp.toFixed(1) : ''), '</td>',
-                        '<td>', (t.dh != null ? t.dh.toFixed(1) : ''), '</td>');
+                        '<td>', (t.dh != null ? t.dh.toFixed(1) : ''), '</td>',
+                        '<td>', (t.mw != null ? t.mw : ''), '</td>',
+                        '<td>', (t.bp != null ? t.bp : ''), '</td>');
                     if (isMulti) {{
                         result.targets.forEach(tt => {{
                             h.push('<td></td>');
@@ -980,11 +982,12 @@ full_html = f"""<!DOCTYPE html>
 
             // --- Candidate result rows ---
             results.forEach((r, i) => {{
-                if (r.notFound) {{ h.push('<tr><td class="rank">', (i + 1), '</td><td colspan="9" style="color:#EF553B">Could not find "', r.queryName, '" in the database</td></tr>'); return; }}
+                if (r.notFound) {{ h.push('<tr><td class="rank">', (i + 1), '</td><td colspan="11" style="color:#EF553B">Could not find "', r.queryName, '" in the database</td></tr>'); return; }}
                 var enc = encodeURIComponent(r.name);
                 h.push('<tr><td class="rank">', (i + 1), '</td><td><span class="hoverable-name" onclick="highlightInPlot(\\x27', enc, '\\x27)" onmouseenter="showStructure(event,\\x27', enc, '\\x27)" onmouseleave="hideStructure()">', r.name, '</span></td>');
                 h.push('<td>', (r.cas || ''), '</td><td>', ((r.src && r.srcUrl) ? '<a href="' + r.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + r.src + '</a>' : (r.src || '')), '</td>');
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
+                h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
                 if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); }}
                 else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ h.push('<td>', (r.cat || ''), '</td>'); }} else {{ h.push('<td>', (r.r || ''), '</td><td>', (r.type || ''), '</td>'); }} }}
                 h.push('</tr>');
