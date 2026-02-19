@@ -1053,7 +1053,7 @@ full_html = f"""<!DOCTYPE html>
                 paper_bgcolor: '#fff', plot_bgcolor: '#fff',
                 margin: {{ l: 0, r: 0, t: 40, b: 0 }},
                 legend: {{ x: 0.01, y: 0.99, bgcolor: 'rgba(255,255,255,0.85)', bordercolor: '#dfe6e9', borderwidth: 1, font: {{ color: '#2d3436' }} }},
-                title: {{ text: title || 'Materialism — Hansen Solubility Parameter Space', x: 0.5, font: {{ size: 18, color: '#2d3436' }} }},
+                title: {{ text: title || 'Hansen Solubility Parameter Space', x: 0.5, font: {{ size: 18, color: '#2d3436' }} }},
             }};
         }}
 
@@ -1231,7 +1231,7 @@ full_html = f"""<!DOCTYPE html>
             }}
             // Restore base traces to full appearance
             _restoreBaseTraces();
-            Plotly.relayout(plotDiv, {{ 'title.text': 'Materialism — Hansen Solubility Parameter Space' }});
+            Plotly.relayout(plotDiv, {{ 'title.text': 'Hansen Solubility Parameter Space' }});
         }}
 
         // ===================== HIGHLIGHT IN PLOT =====================
