@@ -493,7 +493,11 @@ full_html = f"""<!DOCTYPE html>
 
         function computeResultColors(validResults) {{
             if (validResults.length === 0) return [];
-            const distances = validResults.map(r => r.ra != null ? r.ra : 0);
+            const distances = validResults.map(r => {{
+                if (r.ra != null) return r.ra;
+                if (r.combinedScore != null) return r.combinedScore;
+                return 0;
+            }});
             const minD = Math.min(...distances);
             const maxD = Math.max(...distances);
             const range = maxD - minD;
@@ -953,15 +957,15 @@ full_html = f"""<!DOCTYPE html>
                 {{ type: 'scatter3d', mode: 'markers', name: 'All Solvents',
                   x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
                   text: SOLVENTS.map(s => s.name),
-                  hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                  marker: {{ size: 3, color: '#444', opacity: 0.15 }} }},
+                  hoverinfo: 'text',
+                  marker: {{ size: 2, color: '#999', opacity: 0.1 }} }},
                 {{ type: 'scatter3d', mode: 'markers', name: 'All Polymers',
                   x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
                   text: POLYMERS.map(p => p.name),
-                  hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
-                  marker: {{ size: 4, color: '#665500', symbol: 'diamond', opacity: 0.15 }} }},
+                  hoverinfo: 'text',
+                  marker: {{ size: 3, color: '#aa8800', symbol: 'diamond', opacity: 0.12 }} }},
             ];
-            Plotly.newPlot(plotDiv, traces, defaultLayout(), {{ responsive: true }});
+            Plotly.newPlot(plotDiv, traces, makeLayout(), {{ responsive: true }});
         }}
 
         function toggleAllTraces() {{
@@ -972,19 +976,22 @@ full_html = f"""<!DOCTYPE html>
             document.getElementById('toggle-all-btn').textContent = anyVisible ? 'Show All' : 'Hide All';
         }}
 
-        function defaultLayout(title) {{
-            var axisStyle = {{
-                gridcolor: '#dfe6e9',
-                zerolinecolor: '#b2bec3',
-                backgroundcolor: '#f8f9fa',
-                showbackground: true,
-                tickfont: {{ size: 11, color: '#636e72' }},
-            }};
+        // Fixed axis ranges — never change
+        var FIXED_AXES = {{
+            xRange: [12, 22], yRange: [0, 28], zRange: [0, 45],
+        }};
+        var axisStyle = {{
+            gridcolor: '#dfe6e9', zerolinecolor: '#b2bec3',
+            backgroundcolor: '#f8f9fa', showbackground: true,
+            tickfont: {{ size: 11, color: '#636e72' }},
+        }};
+
+        function makeLayout(title) {{
             return {{
                 scene: {{
-                    xaxis: Object.assign({{ title: {{ text: 'δD (Dispersion) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: [12, 22], autorange: false }}, axisStyle),
-                    yaxis: Object.assign({{ title: {{ text: 'δP (Polar) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: [0, 28], autorange: false }}, axisStyle),
-                    zaxis: Object.assign({{ title: {{ text: 'δH (H-bonding) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: [0, 45], autorange: false }}, axisStyle),
+                    xaxis: Object.assign({{ title: {{ text: 'δD (Dispersion) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: FIXED_AXES.xRange.slice(), autorange: false }}, axisStyle),
+                    yaxis: Object.assign({{ title: {{ text: 'δP (Polar) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: FIXED_AXES.yRange.slice(), autorange: false }}, axisStyle),
+                    zaxis: Object.assign({{ title: {{ text: 'δH (H-bonding) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: FIXED_AXES.zRange.slice(), autorange: false }}, axisStyle),
                 }},
                 paper_bgcolor: '#fff', plot_bgcolor: '#fff',
                 margin: {{ l: 0, r: 0, t: 40, b: 0 }},
@@ -993,9 +1000,22 @@ full_html = f"""<!DOCTYPE html>
             }};
         }}
 
+        // Force axes back to fixed ranges (call after any Plotly.react)
+        function lockAxes() {{
+            if (!plotDiv || !plotDiv.layout || !plotDiv.layout.scene) return;
+            Plotly.relayout(plotDiv, {{
+                'scene.xaxis.range': FIXED_AXES.xRange.slice(),
+                'scene.yaxis.range': FIXED_AXES.yRange.slice(),
+                'scene.zaxis.range': FIXED_AXES.zRange.slice(),
+                'scene.xaxis.autorange': false,
+                'scene.yaxis.autorange': false,
+                'scene.zaxis.autorange': false,
+            }});
+        }}
+
         function addSphere(traces, tgt, sphereColor) {{
             if (!tgt.r || tgt.r <= 0) return;
-            const N = 30, M = 20, x = [], y = [], z = [];
+            const N = 16, M = 12, x = [], y = [], z = [];
             for (let i = 0; i <= N; i++) {{
                 const xr = [], yr = [], zr = [], u = (i / N) * 2 * Math.PI;
                 for (let j = 0; j <= M; j++) {{
@@ -1021,7 +1041,6 @@ full_html = f"""<!DOCTYPE html>
             // Deactivate any open tab panel
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            window.dispatchEvent(new Event('resize'));
             const traces = bgTraces.slice();
 
             const valid = results.filter(r => !r.notFound);
@@ -1092,15 +1111,12 @@ full_html = f"""<!DOCTYPE html>
                 }});
             }}
 
-            var layout = plotDiv.layout;
-            layout.title.text = isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name;
-            Plotly.react(plotDiv, traces, layout);
+            var title = isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name;
+            Plotly.react(plotDiv, traces, makeLayout(title));
         }}
 
         function resetPlot() {{
-            var layout = plotDiv.layout;
-            layout.title.text = 'Materialism — Hansen Solubility Parameter Space';
-            Plotly.react(plotDiv, fullTraces, layout);
+            Plotly.react(plotDiv, fullTraces, makeLayout());
         }}
 
         // ===================== HIGHLIGHT IN PLOT =====================
@@ -1118,7 +1134,7 @@ full_html = f"""<!DOCTYPE html>
                 hovertemplate: '<b>' + mat.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
                 marker: {{ size: 18, color: '#FFD700', symbol: sym, opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
             }});
-            Plotly.react(plotDiv, currentData, plotDiv.layout);
+            Plotly.react(plotDiv, currentData, makeLayout(plotDiv.layout.title ? plotDiv.layout.title.text : undefined));
             selectInTable(name);
         }}
 
