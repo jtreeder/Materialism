@@ -4720,12 +4720,17 @@ return Plotly;
         };
 
         function makeLayout(title) {
-            return {
-                scene: {
+            // Preserve the current camera position so the plot doesn't reset on updates
+            var cam = (plotDiv && plotDiv.layout && plotDiv.layout.scene && plotDiv.layout.scene.camera)
+                ? plotDiv.layout.scene.camera : undefined;
+            var sceneObj = {
                     xaxis: Object.assign({ title: { text: 'δD (Dispersion) MPa½', font: { size: 14, color: '#2d3436' } }, range: FIXED_AXES.xRange.slice(), autorange: false }, axisStyle),
                     yaxis: Object.assign({ title: { text: 'δP (Polar) MPa½', font: { size: 14, color: '#2d3436' } }, range: FIXED_AXES.yRange.slice(), autorange: false }, axisStyle),
                     zaxis: Object.assign({ title: { text: 'δH (H-bonding) MPa½', font: { size: 14, color: '#2d3436' } }, range: FIXED_AXES.zRange.slice(), autorange: false }, axisStyle),
-                },
+            };
+            if (cam) sceneObj.camera = cam;
+            return {
+                scene: sceneObj,
                 paper_bgcolor: '#fff', plot_bgcolor: '#fff',
                 margin: { l: 0, r: 0, t: 40, b: 0 },
                 legend: { x: 0.01, y: 0.99, bgcolor: 'rgba(255,255,255,0.85)', bordercolor: '#dfe6e9', borderwidth: 1, font: { color: '#2d3436' } },
