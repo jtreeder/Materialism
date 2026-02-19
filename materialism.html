@@ -4338,10 +4338,10 @@ return Plotly;
             // Separator: "and", "but", comma, semicolon
             var sep = /\s*(?:,\s*(?:and\s+|but\s+)?|;\s*|\s+and\s+|\s+but\s+)\s*/;
             // "solvents?" is optional in all patterns so "good for X, bad for Y" works
-            var optSolv = '(?:solvents?\s+)?';
+            var optSolv = '(?:solvents?\\s+)?';
 
             // "good (solvents) for X, bad (solvents) for Y"
-            var multiGoodBad = q.match(new RegExp('good\s+' + optSolv + 'for\s+(.+?)' + sep.source + '(?:a\s+)?bad\s+' + optSolv + 'for\s+(.+)', 'i'));
+            var multiGoodBad = q.match(new RegExp('good\\s+' + optSolv + 'for\\s+(.+?)' + sep.source + '(?:a\\s+)?bad\\s+' + optSolv + 'for\\s+(.+)', 'i'));
             if (multiGoodBad) {
                 return { intent: 'multi_material', materials: [
                     { name: multiGoodBad[1].replace(/[?.!]/g, '').trim(), requirement: 'good' },
@@ -4349,7 +4349,7 @@ return Plotly;
                 ]};
             }
             // "bad (solvents) for X, good (solvents) for Y"
-            var multiBadGood = q.match(new RegExp('bad\s+' + optSolv + 'for\s+(.+?)' + sep.source + '(?:a\s+)?good\s+' + optSolv + 'for\s+(.+)', 'i'));
+            var multiBadGood = q.match(new RegExp('bad\\s+' + optSolv + 'for\\s+(.+?)' + sep.source + '(?:a\\s+)?good\\s+' + optSolv + 'for\\s+(.+)', 'i'));
             if (multiBadGood) {
                 return { intent: 'multi_material', materials: [
                     { name: multiBadGood[1].replace(/[?.!]/g, '').trim(), requirement: 'bad' },
@@ -4357,7 +4357,7 @@ return Plotly;
                 ]};
             }
             // "good (solvents) for (both) X and Y"
-            var multiBoth = q.match(new RegExp('good\s+' + optSolv + 'for\s+(?:both\s+)?(.+?)' + sep.source + '(.+)', 'i'));
+            var multiBoth = q.match(new RegExp('good\\s+' + optSolv + 'for\\s+(?:both\\s+)?(.+?)' + sep.source + '(.+)', 'i'));
             if (multiBoth) {
                 return { intent: 'multi_material', materials: [
                     { name: multiBoth[1].replace(/[?.!]/g, '').trim(), requirement: 'good' },
@@ -4365,7 +4365,7 @@ return Plotly;
                 ]};
             }
             // "bad (solvents) for (both) X and Y"
-            var multiBothBad = q.match(new RegExp('bad\s+' + optSolv + 'for\s+(?:both\s+)?(.+?)' + sep.source + '(.+)', 'i'));
+            var multiBothBad = q.match(new RegExp('bad\\s+' + optSolv + 'for\\s+(?:both\\s+)?(.+?)' + sep.source + '(.+)', 'i'));
             if (multiBothBad) {
                 return { intent: 'multi_material', materials: [
                     { name: multiBothBad[1].replace(/[?.!]/g, '').trim(), requirement: 'bad' },
@@ -4373,7 +4373,7 @@ return Plotly;
                 ]};
             }
             // "dissolves (both) X and Y"
-            var dissolvesBoth = q.match(new RegExp('(?:dissolves?|dissolve)\s+(?:both\s+)?(.+?)' + sep.source + '(.+)', 'i'));
+            var dissolvesBoth = q.match(new RegExp('(?:dissolves?|dissolve)\\s+(?:both\\s+)?(.+?)' + sep.source + '(.+)', 'i'));
             if (dissolvesBoth) {
                 return { intent: 'multi_material', materials: [
                     { name: dissolvesBoth[1].replace(/[?.!]/g, '').trim(), requirement: 'good' },
