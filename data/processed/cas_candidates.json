@@ -33,7 +33,14 @@
     "mv_pct_diff": 10.7,
     "guess_text": "1,1,1-Trifluoroethane"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 129,
+   "total_pages": 159,
+   "crop_file": "source_crops/10.png",
+   "raw_line": "661 1,1,1-Trifluoroethan 1,1,1-Trifluoro-ethan 14.6 10.7 0 64.6"
+  }
  },
  {
   "row_index": 32,
@@ -69,7 +76,14 @@
     "mv_pct_diff": null,
     "guess_text": "1,1-Difluoroetylene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 54,
+   "total_pages": 159,
+   "crop_file": "source_crops/32.png",
+   "raw_line": "274 1,1-Difluoroet ylene 1,1-Difluoro-ethen 15.0 6.8 3.6 58.2"
+  }
  },
  {
   "row_index": 33,
@@ -129,7 +143,14 @@
     "mv_pct_diff": null,
     "guess_text": "1,1-Difluoroethan"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 54,
+   "total_pages": 159,
+   "crop_file": "source_crops/33.png",
+   "raw_line": "273 1,1-Difluoroethan 1,1-Difluoro-ethan 14.9 10.2 3.0 69.5"
+  }
  },
  {
   "row_index": 39,
@@ -165,7 +186,21 @@
     "mv_pct_diff": 0.2,
     "guess_text": "1,2,3,4-Tetrahydronaphthalene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "1,2,3,4Tetrahydronaphthalene",
+    "InChIKey": "CXWXQJXEFPUFDZ-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "136.0",
+    "delta_d_MPa0.5": "19.6",
+    "delta_p_MPa0.5": "2.0",
+    "delta_h_MPa0.5": "2.9",
+    "delta_t_MPa0.5": "20.0"
+   }
+  }
  },
  {
   "row_index": 47,
@@ -201,7 +236,14 @@
     "mv_pct_diff": 0.0,
     "guess_text": "1,2,4,5-Tetrachlorobenzene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 119,
+   "total_pages": 159,
+   "crop_file": "source_crops/47.png",
+   "raw_line": "708 1,2,4,5-Tetrachlorobenzene 1,2,4,5-T etrachloro- 21.2 10.7 3.4 116.2"
+  }
  },
  {
   "row_index": 50,
@@ -237,7 +279,14 @@
     "mv_pct_diff": null,
     "guess_text": "1,2-Chlorobromoethylene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 29,
+   "total_pages": 159,
+   "crop_file": "source_crops/50.png",
+   "raw_line": "151 1,2-Chlorobromoethylene 1-Bromo-2-chloro- 17.2 6.6 2.3 78.7"
+  }
  },
  {
   "row_index": 72,
@@ -273,7 +322,21 @@
     "mv_pct_diff": 0.2,
     "guess_text": "1,2-Dichlorobenzene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "1,2Dichlorobenzene",
+    "InChIKey": "RFFLAFLAYFXFSW-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "112.8",
+    "delta_d_MPa0.5": "19.2",
+    "delta_p_MPa0.5": "6.3",
+    "delta_h_MPa0.5": "3.3",
+    "delta_t_MPa0.5": "20.5"
+   }
+  }
  },
  {
   "row_index": 78,
@@ -309,7 +372,14 @@
     "mv_pct_diff": 61.1,
     "guess_text": "1,3-Butadiene-1,2-Di-Chloro"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 17,
+   "total_pages": 159,
+   "crop_file": "source_crops/78.png",
+   "raw_line": "84 1,3-Butadiene-1,2-Di-Chloro 1,2-Dichloro-buta-1,3- 17.0 10.7 2.8 102.5"
+  }
  },
  {
   "row_index": 79,
@@ -345,7 +415,14 @@
     "mv_pct_diff": 0.2,
     "guess_text": "1,3-Butadiene-1-Chloro"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 16,
+   "total_pages": 159,
+   "crop_file": "source_crops/79.png",
+   "raw_line": "82 1,3-Butadiene-1-Chloro 1-Chloro-buta-1,3-diene 15.6 8.5 2.0 92.2"
+  }
  },
  {
   "row_index": 93,
@@ -381,7 +458,20 @@
     "mv_pct_diff": null,
     "guess_text": "1,4-Butandiol Diacrylate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "68",
+    "Molecule": "1,4-Butandiol Diacrylate",
+    "SMILES": "OCCCCO.OC(=O)C=C.OC(=O)C=C",
+    "hansen_d": "16.8",
+    "hansen_p": "9.1",
+    "hansen_h": "4.2"
+   }
+  }
  },
  {
   "row_index": 101,
@@ -417,7 +507,21 @@
     "mv_pct_diff": null,
     "guess_text": "1,4-Diethylbenzene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "1,4Diethylbenzene",
+    "InChIKey": "DSNHSQKRULAAEI-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "156.9",
+    "delta_d_MPa0.5": "18.0",
+    "delta_p_MPa0.5": "0.0",
+    "delta_h_MPa0.5": "0.6",
+    "delta_t_MPa0.5": "18.0"
+   }
+  }
  },
  {
   "row_index": 127,
@@ -501,7 +605,14 @@
     "mv_pct_diff": null,
     "guess_text": "1-Chloro Methyl Acrylate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 25,
+   "total_pages": 159,
+   "crop_file": "source_crops/127.png",
+   "raw_line": "132 1-Chloro Methyl Acrylate Acrylic acid 15.9 7.3 8.5 101.4"
+  }
  },
  {
   "row_index": 129,
@@ -585,7 +696,20 @@
     "mv_pct_diff": null,
     "guess_text": "1-Chloro Vinylethyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "90",
+    "Molecule": "1-Chloro Vinyl Ethyl Ether",
+    "SMILES": "CCOC(Cl)=C",
+    "hansen_d": "16.8",
+    "hansen_p": "6.5",
+    "hansen_h": "5.7"
+   }
+  }
  },
  {
   "row_index": 145,
@@ -645,7 +769,20 @@
     "mv_pct_diff": null,
     "guess_text": "1-Ethoxy Ethoxy-2-Propanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "105",
+    "Molecule": "1-Ethoxy Ethoxy-2-Propanol",
+    "SMILES": "CCOC(C)OCC(C)O",
+    "hansen_d": "15.4",
+    "hansen_p": "6.3",
+    "hansen_h": "6"
+   }
+  }
  },
  {
   "row_index": 146,
@@ -705,7 +842,20 @@
     "mv_pct_diff": null,
     "guess_text": "1-Ethyl Vinylethyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "106",
+    "Molecule": "1-Ethyl Vinyl Ethyl Ether",
+    "SMILES": "CCOC(=C)CC",
+    "hansen_d": "15.3",
+    "hansen_p": "4.2",
+    "hansen_h": "4.6"
+   }
+  }
  },
  {
   "row_index": 147,
@@ -741,7 +891,14 @@
     "mv_pct_diff": null,
     "guess_text": "1-FluoroAcrylic Acid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 76,
+   "total_pages": 159,
+   "crop_file": "source_crops/147.png",
+   "raw_line": "390 1-Fluoro Acrylic Acid 2-Fluoro-acrylic acid 16.0 8.7 13.0 90.0"
+  }
  },
  {
   "row_index": 148,
@@ -777,7 +934,14 @@
     "mv_pct_diff": null,
     "guess_text": "1-FluoroAcrylonitrile"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 76,
+   "total_pages": 159,
+   "crop_file": "source_crops/148.png",
+   "raw_line": "391 1-Fluoro Acrylonitrile 2-Fluoro-acrylonitrile 14.1 15.4 5.7 88.8"
+  }
  },
  {
   "row_index": 182,
@@ -813,7 +977,21 @@
     "mv_pct_diff": 0.2,
     "guess_text": "1-Chloropropane"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "1Chloropropane",
+    "InChIKey": "SNMVRZFUUCLYTO-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "88.1",
+    "delta_d_MPa0.5": "16.0",
+    "delta_p_MPa0.5": "7.8",
+    "delta_h_MPa0.5": "2.0",
+    "delta_t_MPa0.5": "17.8"
+   }
+  }
  },
  {
   "row_index": 183,
@@ -849,7 +1027,21 @@
     "mv_pct_diff": 0.7,
     "guess_text": "1-Methoxy-2-Propanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "1Methoxy2Propanol",
+    "InChIKey": "ARXJGSRGQADJSQ-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "98.2",
+    "delta_d_MPa0.5": "15.6",
+    "delta_p_MPa0.5": "6.3",
+    "delta_h_MPa0.5": "11.6",
+    "delta_t_MPa0.5": "20.435508312738392"
+   }
+  }
  },
  {
   "row_index": 184,
@@ -885,7 +1077,21 @@
     "mv_pct_diff": 0.4,
     "guess_text": "1-Methyl-2-Pyrrolidinone"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "1Methyl2Pyrrolidinone",
+    "InChIKey": "SECXISVLQFMRJM-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "96.6",
+    "delta_d_MPa0.5": "18.0",
+    "delta_p_MPa0.5": "12.3",
+    "delta_h_MPa0.5": "7.2",
+    "delta_t_MPa0.5": "22.95931183637698"
+   }
+  }
  },
  {
   "row_index": 185,
@@ -921,7 +1127,21 @@
     "mv_pct_diff": 0.1,
     "guess_text": "1-Phenoxy-2-Propanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "1Phenoxy2Propanol",
+    "InChIKey": "IBLKWZIFZMJLFL-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "143.2",
+    "delta_d_MPa0.5": "17.4",
+    "delta_p_MPa0.5": "5.3",
+    "delta_h_MPa0.5": "11.5",
+    "delta_t_MPa0.5": "21.519758362955656"
+   }
+  }
  },
  {
   "row_index": 186,
@@ -957,7 +1177,21 @@
     "mv_pct_diff": 2.1,
     "guess_text": "1-Tridecanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "1Tridecanol",
+    "InChIKey": "XFRVVPUIAFSTFO-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "242.0",
+    "delta_d_MPa0.5": "14.3",
+    "delta_p_MPa0.5": "3.1",
+    "delta_h_MPa0.5": "9.0",
+    "delta_t_MPa0.5": "17.2"
+   }
+  }
  },
  {
   "row_index": 189,
@@ -993,7 +1227,14 @@
     "mv_pct_diff": null,
     "guess_text": "2,2',5,5'-Tetrathiafulvalene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 122,
+   "total_pages": 159,
+   "crop_file": "source_crops/189.png",
+   "raw_line": "890 2,2',5,5'-Tetrathiafulvalen [2,2']Bi[[1,3]dithiolylide 21.0 8.2 8.4 204.0"
+  }
  },
  {
   "row_index": 190,
@@ -1053,7 +1294,14 @@
     "mv_pct_diff": null,
     "guess_text": "2,2,2-Trifluoro Ethano"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 129,
+   "total_pages": 159,
+   "crop_file": "source_crops/190.png",
+   "raw_line": "944 2,2,2-Trifluoro Ethano 2,2,2-Trifluoro-ethano 15.4 8.3 16.4 72.3"
+  }
  },
  {
   "row_index": 200,
@@ -1137,7 +1385,21 @@
     "mv_pct_diff": null,
     "guess_text": "2,2Butoxyethoxy Ethyl Acetate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "2,2ButoxyethoxyEthylAcetate",
+    "InChIKey": "VXQBJTKSVGFQOL-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "208.2",
+    "delta_d_MPa0.5": "16.0",
+    "delta_p_MPa0.5": "4.1",
+    "delta_h_MPa0.5": "8.2",
+    "delta_t_MPa0.5": "18.44044468010465"
+   }
+  }
  },
  {
   "row_index": 201,
@@ -1173,7 +1435,14 @@
     "mv_pct_diff": null,
     "guess_text": "2,3,4-Trifluoro Nitrobenzene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 129,
+   "total_pages": 159,
+   "crop_file": "source_crops/201.png",
+   "raw_line": "795 2,3,4-Trifluoro Nitrobenzen 1,2,3-Trifluoro-4-nitro 19.5 7.7 3.5 122.0"
+  }
  },
  {
   "row_index": 206,
@@ -1209,7 +1478,14 @@
     "mv_pct_diff": null,
     "guess_text": "2,3-Dibromoprene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 43,
+   "total_pages": 159,
+   "crop_file": "source_crops/206.png",
+   "raw_line": "218 2,3-Dibromoprene 2,3-Dibromo-buta-1,3- 17.7 11.8 6.4 103.4"
+  }
  },
  {
   "row_index": 222,
@@ -1245,7 +1521,14 @@
     "mv_pct_diff": null,
     "guess_text": "2,4-Dichloro-5-Nitrobenzotrifluoride"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 45,
+   "total_pages": 159,
+   "crop_file": "source_crops/222.png",
+   "raw_line": "828 2,4-Dichloro-5-Nitrobenzotrifluorid 1,5-Dichloro-2-nitro-4- 19.9 7.6 3.7 162.0"
+  }
  },
  {
   "row_index": 228,
@@ -1281,7 +1564,14 @@
     "mv_pct_diff": null,
     "guess_text": "2,4-Difluoronitrobenzene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 54,
+   "total_pages": 159,
+   "crop_file": "source_crops/228.png",
+   "raw_line": "823 2,4-Difluoronitrobenzen 2,4-Difluoro-1-nitro 19.4 11.0 3.7 109.6"
+  }
  },
  {
   "row_index": 234,
@@ -1317,7 +1607,14 @@
     "mv_pct_diff": null,
     "guess_text": "2,5-Dichlorobenzotrifluoride"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 47,
+   "total_pages": 159,
+   "crop_file": "source_crops/234.png",
+   "raw_line": "826 2,5-Dichlorobenzotrifluorid 1,4-Dichloro-2- 20.0 4.7 2.4 145.5"
+  }
  },
  {
   "row_index": 243,
@@ -1353,7 +1650,14 @@
     "mv_pct_diff": null,
     "guess_text": "2,5-Tetrahydrofuran Dimethanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 121,
+   "total_pages": 159,
+   "crop_file": "source_crops/243.png",
+   "raw_line": "999 2,5-Tetrahydrofuran Dimethanol (5-Hydroxymethyl- 17.9 8.5 18.9 114.5"
+  }
  },
  {
   "row_index": 247,
@@ -1389,7 +1693,14 @@
     "mv_pct_diff": null,
     "guess_text": "2,6-Difluorobenzonitrile"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 54,
+   "total_pages": 159,
+   "crop_file": "source_crops/247.png",
+   "raw_line": "829 2,6-Difluorobenzonitril 2,6-Difluoro 18.8 11.2 3.2 111.6"
+  }
  },
  {
   "row_index": 253,
@@ -1425,7 +1736,21 @@
     "mv_pct_diff": 0.3,
     "guess_text": "2,6-Dimethyl-4-Heptanone"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "2,6Dimethyl4Heptanone",
+    "InChIKey": "PTTPXKJBFFKCEK-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "177.1",
+    "delta_d_MPa0.5": "16.0",
+    "delta_p_MPa0.5": "3.7",
+    "delta_h_MPa0.5": "4.1",
+    "delta_t_MPa0.5": "16.8"
+   }
+  }
  },
  {
   "row_index": 289,
@@ -1485,7 +1810,14 @@
     "mv_pct_diff": 0.0,
     "guess_text": "2-Chloroethyl Ethyl Sulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 31,
+   "total_pages": 159,
+   "crop_file": "source_crops/289.png",
+   "raw_line": "834 2-Chloroethyl Ethyl Sulfid 1-Chloro-2- 17.2 5.0 6.1 116.9"
+  }
  },
  {
   "row_index": 301,
@@ -1521,7 +1853,20 @@
     "mv_pct_diff": null,
     "guess_text": "2-EthylCroton Aldehyde"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "200",
+    "Molecule": "2-Ethyl Croton Aldehyde",
+    "SMILES": "CC\\C(=C/C)C=O",
+    "hansen_d": "16.1",
+    "hansen_p": "8",
+    "hansen_h": "5.5"
+   }
+  }
  },
  {
   "row_index": 304,
@@ -1581,7 +1926,14 @@
     "mv_pct_diff": null,
     "guess_text": "2-Ethyl Hexyl Acrylate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 68,
+   "total_pages": 159,
+   "crop_file": "source_crops/304.png",
+   "raw_line": "347 2-Ethyl Hexyl Acrylate Acrylic acid 2-ethyl- 14.8 4.7 3.4 208.2"
+  }
  },
  {
   "row_index": 305,
@@ -1641,7 +1993,20 @@
     "mv_pct_diff": null,
     "guess_text": "2-Ethyl Hexyl Phthalate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "203",
+    "Molecule": "2-Ethyl Hexyl Phthalate ",
+    "SMILES": "CCCCCCOC(=O)c1ccccc1C(=O)OCC",
+    "hansen_d": "17.3",
+    "hansen_p": "6.2",
+    "hansen_h": "6.8"
+   }
+  }
  },
  {
   "row_index": 325,
@@ -1677,7 +2042,20 @@
     "mv_pct_diff": null,
     "guess_text": "2-Iodo-1,3-butadiene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "771",
+    "Molecule": "2-Iodo-1,3-butadiene",
+    "SMILES": "IC(=C)C=C",
+    "hansen_d": "17.2",
+    "hansen_p": "2.5",
+    "hansen_h": "6.2"
+   }
+  }
  },
  {
   "row_index": 332,
@@ -1761,7 +2139,14 @@
     "mv_pct_diff": null,
     "guess_text": "2-Methyl (cis) Acrylic Acid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 90,
+   "total_pages": 159,
+   "crop_file": "source_crops/332.png",
+   "raw_line": "461 2-Methyl (cis) Acrylic Acid (Z)-But-2-enoic acid 16.8 5.2 12.4 83.9"
+  }
  },
  {
   "row_index": 385,
@@ -1797,7 +2182,21 @@
     "mv_pct_diff": 0.7,
     "guess_text": "2-Butanone"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "2Butanone",
+    "InChIKey": "ZWEHNKRNPOVVGH-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "90.1",
+    "delta_d_MPa0.5": "16.0",
+    "delta_p_MPa0.5": "9.0",
+    "delta_h_MPa0.5": "5.1",
+    "delta_t_MPa0.5": "19.0"
+   }
+  }
  },
  {
   "row_index": 386,
@@ -1857,7 +2256,21 @@
     "mv_pct_diff": null,
     "guess_text": "2ButoxyethylAcetate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "2ButoxyethylAcetate",
+    "InChIKey": "NQBXSWAWVZHKBZ-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "171.2",
+    "delta_d_MPa0.5": "15.3",
+    "delta_p_MPa0.5": "7.5",
+    "delta_h_MPa0.5": "6.8",
+    "delta_t_MPa0.5": "18.346116755324545"
+   }
+  }
  },
  {
   "row_index": 387,
@@ -1893,7 +2306,21 @@
     "mv_pct_diff": 0.3,
     "guess_text": "2-ChloroethylEther"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "2ChloroethylEther",
+    "InChIKey": "ZNSMNVMLTJELDZ-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "117.6",
+    "delta_d_MPa0.5": "18.8",
+    "delta_p_MPa0.5": "9.0",
+    "delta_h_MPa0.5": "5.7",
+    "delta_t_MPa0.5": "21.7"
+   }
+  }
  },
  {
   "row_index": 388,
@@ -1953,7 +2380,21 @@
     "mv_pct_diff": null,
     "guess_text": "2EthoxyethylAcetate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "2EthoxyethylAcetate",
+    "InChIKey": "SVONRAPFKPVNKG-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "136.2",
+    "delta_d_MPa0.5": "16.0",
+    "delta_p_MPa0.5": "4.7",
+    "delta_h_MPa0.5": "10.6",
+    "delta_t_MPa0.5": "19.6"
+   }
+  }
  },
  {
   "row_index": 389,
@@ -1989,7 +2430,21 @@
     "mv_pct_diff": 0.4,
     "guess_text": "2-Furaldehyde"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "2Furaldehyde",
+    "InChIKey": "HYBBIBNJHNGZAN-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "83.2",
+    "delta_d_MPa0.5": "18.6",
+    "delta_p_MPa0.5": "14.9",
+    "delta_h_MPa0.5": "5.1",
+    "delta_t_MPa0.5": "24.3"
+   }
+  }
  },
  {
   "row_index": 394,
@@ -2025,7 +2480,14 @@
     "mv_pct_diff": null,
     "guess_text": "3,4-Dichloro \u03b1,\u03b1,\u03b1-Trifluorotoluene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 44,
+   "total_pages": 159,
+   "crop_file": "source_crops/394.png",
+   "raw_line": "700 3,4-Dichloro \u03b1,\u03b1,\u03b1-Trifluorotoluen 1,2-Dichloro-4- 20.0 4.7 2.4 145.5"
+  }
  },
  {
   "row_index": 401,
@@ -2061,7 +2523,14 @@
     "mv_pct_diff": null,
     "guess_text": "3,5-Difluorobenzonitrile"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 54,
+   "total_pages": 159,
+   "crop_file": "source_crops/401.png",
+   "raw_line": "830 3,5-Difluorobenzonitril 3,5-Difluoro 18.8 11.2 3.2 111.6"
+  }
  },
  {
   "row_index": 411,
@@ -2097,7 +2566,20 @@
     "mv_pct_diff": null,
     "guess_text": "3-Butoxybutanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "256",
+    "Molecule": "3-Butoxybutanol",
+    "SMILES": "CCCCOC(C)CCO",
+    "hansen_d": "15.9",
+    "hansen_p": "5.5",
+    "hansen_h": "10.6"
+   }
+  }
  },
  {
   "row_index": 450,
@@ -2133,7 +2615,21 @@
     "mv_pct_diff": 0.6,
     "guess_text": "3-Hydroxypropionitrile"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "3Hydroxypropionitrile",
+    "InChIKey": "WSGYTJNNHPZFKR-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "68.3",
+    "delta_d_MPa0.5": "17.2",
+    "delta_p_MPa0.5": "18.8",
+    "delta_h_MPa0.5": "17.6",
+    "delta_t_MPa0.5": "30.9"
+   }
+  }
  },
  {
   "row_index": 451,
@@ -2169,7 +2665,21 @@
     "mv_pct_diff": 0.5,
     "guess_text": "3-Methyl-1-Butanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "3Methyl1Butanol",
+    "InChIKey": "PHTQWCKDNZKARW-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "109.3",
+    "delta_d_MPa0.5": "15.8",
+    "delta_p_MPa0.5": "5.2",
+    "delta_h_MPa0.5": "13.3",
+    "delta_t_MPa0.5": "21.297182912300865"
+   }
+  }
  },
  {
   "row_index": 452,
@@ -2205,7 +2715,21 @@
     "mv_pct_diff": 0.8,
     "guess_text": "3-Pentanone"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "3Pentanone",
+    "InChIKey": "FDPIMTJIUBPUKL-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "106.4",
+    "delta_d_MPa0.5": "15.8",
+    "delta_p_MPa0.5": "7.6",
+    "delta_h_MPa0.5": "4.7",
+    "delta_t_MPa0.5": "18.2"
+   }
+  }
  },
  {
   "row_index": 454,
@@ -2265,7 +2789,14 @@
     "mv_pct_diff": null,
     "guess_text": "4-(Trifluoromet yl) Acetophenone"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 130,
+   "total_pages": 159,
+   "crop_file": "source_crops/454.png",
+   "raw_line": "847 4-(Trifluoromet yl) Acetophenone 1-(4-Trifluoromet yl- 18.8 6.1 3.5 151.7"
+  }
  },
  {
   "row_index": 467,
@@ -2301,7 +2832,14 @@
     "mv_pct_diff": null,
     "guess_text": "4-EthoxyAcetophenone"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 65,
+   "total_pages": 159,
+   "crop_file": "source_crops/467.png",
+   "raw_line": "794 4-Ethoxy Acetophenone 1-(4-Ethoxy-phenyl)- 18.8 10.3 6.4 162.6"
+  }
  },
  {
   "row_index": 472,
@@ -2361,7 +2899,14 @@
     "mv_pct_diff": null,
     "guess_text": "4-Fluoro-3-Nitrobenzofluorid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 76,
+   "total_pages": 159,
+   "crop_file": "source_crops/472.png",
+   "raw_line": "827 4-Fluoro-3-Nitrobenzofluorid 1,4-Difluoro-2-nitro 19.4 7.2 3.7 108.4"
+  }
  },
  {
   "row_index": 491,
@@ -2397,7 +2942,21 @@
     "mv_pct_diff": 0.3,
     "guess_text": "4-Hydroxy-4-Methyl-2-Pentanone"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "4Hydroxy4Methyl2Pentanone",
+    "InChIKey": "SWXVUIWOUIDPGS-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "124.2",
+    "delta_d_MPa0.5": "15.8",
+    "delta_p_MPa0.5": "8.2",
+    "delta_h_MPa0.5": "10.8",
+    "delta_t_MPa0.5": "20.9"
+   }
+  }
  },
  {
   "row_index": 492,
@@ -2457,7 +3016,21 @@
     "mv_pct_diff": null,
     "guess_text": "4Hydroxymethyl1,3Dioxolan2One"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "4Hydroxymethyl1,3Dioxolan2One",
+    "InChIKey": "JFMGYULNQJPJCY-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "83.2",
+    "delta_d_MPa0.5": "17.9",
+    "delta_p_MPa0.5": "25.5",
+    "delta_h_MPa0.5": "17.4",
+    "delta_t_MPa0.5": "35.68501085890265"
+   }
+  }
  },
  {
   "row_index": 493,
@@ -2517,7 +3090,21 @@
     "mv_pct_diff": null,
     "guess_text": "4Methyl2Pentanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "4Methyl2Pentanol",
+    "InChIKey": "WVYWICLMDOOCFB-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "127.2",
+    "delta_d_MPa0.5": "15.3",
+    "delta_p_MPa0.5": "3.3",
+    "delta_h_MPa0.5": "12.3",
+    "delta_t_MPa0.5": "19.8"
+   }
+  }
  },
  {
   "row_index": 494,
@@ -2553,7 +3140,21 @@
     "mv_pct_diff": 0.7,
     "guess_text": "4-Methyl-2-Pentanone"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "4Methyl2Pentanone",
+    "InChIKey": "NTIZESTWPVYFNL-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "125.8",
+    "delta_d_MPa0.5": "15.3",
+    "delta_p_MPa0.5": "6.1",
+    "delta_h_MPa0.5": "4.1",
+    "delta_t_MPa0.5": "17.0"
+   }
+  }
  },
  {
   "row_index": 495,
@@ -2589,7 +3190,21 @@
     "mv_pct_diff": null,
     "guess_text": "4-Octanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "4Octanol",
+    "InChIKey": "WOFPPJOZXUTRAU-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "157.0",
+    "delta_d_MPa0.5": "16.0",
+    "delta_p_MPa0.5": "3.3",
+    "delta_h_MPa0.5": "11.9",
+    "delta_t_MPa0.5": "20.1"
+   }
+  }
  },
  {
   "row_index": 499,
@@ -2625,7 +3240,14 @@
     "mv_pct_diff": null,
     "guess_text": "5-Bromo-2-Nitrobenzotrifluoride"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 13,
+   "total_pages": 159,
+   "crop_file": "source_crops/499.png",
+   "raw_line": "854 5-Bromo-2-Nitrobenzotrifluorid 4-Bromo-1-nitro-2- 20.0 6.0 4.9 150.1"
+  }
  },
  {
   "row_index": 507,
@@ -2661,7 +3283,21 @@
     "mv_pct_diff": 9.9,
     "guess_text": "5-Methyl-2-Hexanone"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "5Methyl2Hexanone",
+    "InChIKey": "FFWSICBKRCICMR-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "142.8",
+    "delta_d_MPa0.5": "16.0",
+    "delta_p_MPa0.5": "5.7",
+    "delta_h_MPa0.5": "4.1",
+    "delta_t_MPa0.5": "17.4"
+   }
+  }
  },
  {
   "row_index": 522,
@@ -2697,7 +3333,14 @@
     "mv_pct_diff": 2.3,
     "guess_text": "Acetonecyanhydrin"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 1,
+   "total_pages": 159,
+   "crop_file": "source_crops/522.png",
+   "raw_line": "8 Acetonecyanhydrin 2-Hydroxy-2-methyl- 16.6 12.2 15.5 94.0"
+  }
  },
  {
   "row_index": 523,
@@ -2733,7 +3376,14 @@
     "mv_pct_diff": 4.4,
     "guess_text": "Acetonemethyloxime"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 2,
+   "total_pages": 159,
+   "crop_file": "source_crops/523.png",
+   "raw_line": "9 Acetonemethyloxime Propan-2-one O-methyl- 14.7 4.6 4.6 96.7"
+  }
  },
  {
   "row_index": 532,
@@ -2793,7 +3443,20 @@
     "mv_pct_diff": null,
     "guess_text": "Acetylene (Ethyne)"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "335",
+    "Molecule": "Acetylene (Ethyne)",
+    "SMILES": "C#C.C#C",
+    "hansen_d": "14.4",
+    "hansen_p": "4.2",
+    "hansen_h": "11.9"
+   }
+  }
  },
  {
   "row_index": 533,
@@ -2853,7 +3516,14 @@
     "mv_pct_diff": null,
     "guess_text": "Acetylfluorid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 4,
+   "total_pages": 159,
+   "crop_file": "source_crops/533.png",
+   "raw_line": "21 Acetylfluorid Acetyl fluorid 14.7 14.0 5.7 62.0"
+  }
  },
  {
   "row_index": 546,
@@ -2913,7 +3583,14 @@
     "mv_pct_diff": null,
     "guess_text": "alfa-ChloroAcetophenone"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 5,
+   "total_pages": 159,
+   "crop_file": "source_crops/546.png",
+   "raw_line": "1088 alfa-Chloro Acetophenone 2-Chloro-1-phenyl- 20.0 9.6 5.7 116.8"
+  }
  },
  {
   "row_index": 547,
@@ -2973,7 +3650,14 @@
     "mv_pct_diff": 0.2,
     "guess_text": "alfa-MethylStyrene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 97,
+   "total_pages": 159,
+   "crop_file": "source_crops/547.png",
+   "raw_line": "886 alfa-Methyl Styrene 1-Methyl-2-vinyl- 18.5 2.4 2.4 130.0"
+  }
  },
  {
   "row_index": 570,
@@ -3009,7 +3693,14 @@
     "mv_pct_diff": null,
     "guess_text": "alpha,alpha,alpha Trifluoro otoluene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 129,
+   "total_pages": 159,
+   "crop_file": "source_crops/570.png",
+   "raw_line": "1158 alpha,alpha,alpha Trifluoro oluene Trifluoromethyl-benzen 17.5 8.8 0 122.9"
+  }
  },
  {
   "row_index": 579,
@@ -3093,7 +3784,14 @@
     "mv_pct_diff": null,
     "guess_text": "Anisaldehyde (2-Methoxy"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 8,
+   "total_pages": 159,
+   "crop_file": "source_crops/579.png",
+   "raw_line": "1113 Anisaldehyde (2-Methoxy 2-Methoxy- 19.4 11.9 8.3 120.8"
+  }
  },
  {
   "row_index": 616,
@@ -3177,7 +3875,21 @@
     "mv_pct_diff": 34.6,
     "guess_text": "Bis-2-ChloroisopropylEther"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "Bis2ChloroisopropylEther",
+    "InChIKey": "BULHJTXRZFEUDQ-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "146.0",
+    "delta_d_MPa0.5": "19.0",
+    "delta_p_MPa0.5": "8.2",
+    "delta_h_MPa0.5": "5.1",
+    "delta_t_MPa0.5": "21.3"
+   }
+  }
  },
  {
   "row_index": 620,
@@ -3213,7 +3925,14 @@
     "mv_pct_diff": null,
     "guess_text": "BorineCarbonyl"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 12,
+   "total_pages": 159,
+   "crop_file": "source_crops/620.png",
+   "raw_line": "64 Borine Carbonyl 17.0 10.2 6.9 41.8"
+  }
  },
  {
   "row_index": 632,
@@ -3273,7 +3992,14 @@
     "mv_pct_diff": null,
     "guess_text": "Bromoprene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 5,
+   "total_pages": 159,
+   "crop_file": "source_crops/632.png",
+   "raw_line": "32 Allyl Bromide (3-Bromoprene) 3-Bromo-propene 16.5 7.3 4.9 86.5"
+  }
  },
  {
   "row_index": 635,
@@ -3333,7 +4059,14 @@
     "mv_pct_diff": null,
     "guess_text": "Butadiene-4-Cyano"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 17,
+   "total_pages": 159,
+   "crop_file": "source_crops/635.png",
+   "raw_line": "85 Butadiene-4-Cyano Penta-2,4-dienenitrile 16.2 11.7 5.2 93.7"
+  }
  },
  {
   "row_index": 639,
@@ -3393,7 +4126,20 @@
     "mv_pct_diff": null,
     "guess_text": "Butoxyethoxy Propanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "420",
+    "Molecule": "Butoxy Ethoxy Propanol",
+    "SMILES": "CCCCOC(O)(CC)OCC",
+    "hansen_d": "15.5",
+    "hansen_p": "6.5",
+    "hansen_h": "10.2"
+   }
+  }
  },
  {
   "row_index": 644,
@@ -3477,7 +4223,20 @@
     "mv_pct_diff": null,
     "guess_text": "Butyl Isopropenyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "423",
+    "Molecule": "Butyl Isopropenyl Ether",
+    "SMILES": "CCCCOC(C)=C",
+    "hansen_d": "14.8",
+    "hansen_p": "5.3",
+    "hansen_h": "5"
+   }
+  }
  },
  {
   "row_index": 647,
@@ -3513,7 +4272,14 @@
     "mv_pct_diff": null,
     "guess_text": "Butyl-6-Methyl-3-Cyclohexene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 21,
+   "total_pages": 159,
+   "crop_file": "source_crops/647.png",
+   "raw_line": "747 Butyl-6-Methyl-3-Cyclohexene 6-Methyl-cyclohex-3- 16.1 2.5 5.7 209.1"
+  }
  },
  {
   "row_index": 648,
@@ -3573,7 +4339,20 @@
     "mv_pct_diff": null,
     "guess_text": "Butyl-6-Methyl-3-Cyclohexene Carboxylate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "427",
+    "Molecule": "Butyl-6-Methyl-3-Cyclohexene Carboxylate",
+    "SMILES": "CCCCOC(=O)C1CC=CCC1C",
+    "hansen_d": "16.1",
+    "hansen_p": "2.5",
+    "hansen_h": "5.7"
+   }
+  }
  },
  {
   "row_index": 652,
@@ -3609,7 +4388,21 @@
     "mv_pct_diff": null,
     "guess_text": "Butyl Propionate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "ButylPropionate",
+    "InChIKey": "BTMVHUNTONAYDX-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "149.3",
+    "delta_d_MPa0.5": "15.7",
+    "delta_p_MPa0.5": "5.5",
+    "delta_h_MPa0.5": "5.9",
+    "delta_t_MPa0.5": "17.650779019635365"
+   }
+  }
  },
  {
   "row_index": 664,
@@ -3669,7 +4462,14 @@
     "mv_pct_diff": null,
     "guess_text": "CarbonDisulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 24,
+   "total_pages": 159,
+   "crop_file": "source_crops/664.png",
+   "raw_line": "120 Carbon Disulfid Methanedithione 20.5 0 0.6 60.0"
+  }
  },
  {
   "row_index": 668,
@@ -3729,7 +4529,14 @@
     "mv_pct_diff": 35.5,
     "guess_text": "CarbonylSulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 24,
+   "total_pages": 159,
+   "crop_file": "source_crops/668.png",
+   "raw_line": "123 Carbonyl Sulfid Thioxo-methanone 17.4 3.7 0 51.0"
+  }
  },
  {
   "row_index": 711,
@@ -3789,7 +4596,14 @@
     "mv_pct_diff": null,
     "guess_text": "Castor Oil"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 24,
+   "total_pages": 159,
+   "crop_file": "source_crops/711.png",
+   "raw_line": "1224 Castor Oil 15.9 4.6 12.0 436.0"
+  }
  },
  {
   "row_index": 730,
@@ -3849,7 +4663,14 @@
     "mv_pct_diff": null,
     "guess_text": "Chloromethylsulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 31,
+   "total_pages": 159,
+   "crop_file": "source_crops/730.png",
+   "raw_line": "158 Chloromethylsulfid Chloro- 16.6 6.4 2.0 95.0"
+  }
  },
  {
   "row_index": 734,
@@ -3885,7 +4706,14 @@
     "mv_pct_diff": 17.9,
     "guess_text": "Chlorotrifluoroetylene (CTFE)"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 33,
+   "total_pages": 159,
+   "crop_file": "source_crops/734.png",
+   "raw_line": "134 Chlorotrifluoroet ylene (CTFE) 1-Chloro-1,2,2-trifluoro 15.3 6.3 0 75.6"
+  }
  },
  {
   "row_index": 736,
@@ -3945,7 +4773,14 @@
     "mv_pct_diff": null,
     "guess_text": "Chlorprene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 32,
+   "total_pages": 159,
+   "crop_file": "source_crops/736.png",
+   "raw_line": "161 Chlorprene 2-Chloro-buta-1,3-diene 16.1 5.4 2.1 93.2"
+  }
  },
  {
   "row_index": 737,
@@ -3981,7 +4816,14 @@
     "mv_pct_diff": 0.6,
     "guess_text": "Cineol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 34,
+   "total_pages": 159,
+   "crop_file": "source_crops/737.png",
+   "raw_line": "1135 Cineol (Eucalyptol) 1,3,3-Trimethyl-2-oxa- 16.7 4.6 3.4 167.5"
+  }
  },
  {
   "row_index": 767,
@@ -4017,7 +4859,20 @@
     "mv_pct_diff": null,
     "guess_text": "Cyclohexane-1,2-DicarboxylicAcidDi-IsononylEther"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "483",
+    "Molecule": "Cyclohexane-1,2-Dicarboxylic Acid Di-Isononyl Ether",
+    "SMILES": "CC(C)CCCCCCOCCCCCCC(C)C.OC(=O)C1CCCCC1C(O)=O",
+    "hansen_d": "16.4",
+    "hansen_p": "2.2",
+    "hansen_h": "5"
+   }
+  }
  },
  {
   "row_index": 800,
@@ -4101,7 +4956,20 @@
     "mv_pct_diff": null,
     "guess_text": "Di Butyl Fumarate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "506",
+    "Molecule": "Di Butyl Fumarate",
+    "SMILES": "CCCCOC(=O)/C=C/C(=O)OCCCC",
+    "hansen_d": "16.7",
+    "hansen_p": "3",
+    "hansen_h": "6.7"
+   }
+  }
  },
  {
   "row_index": 808,
@@ -4185,7 +5053,14 @@
     "mv_pct_diff": null,
     "guess_text": "Di-2-Ethyl Hexyl Amine"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 40,
+   "total_pages": 159,
+   "crop_file": "source_crops/808.png",
+   "raw_line": "205 Di-2-Ethyl Hexyl Amine Bis-(2-ethyl-hexyl)- 15.6 0.8 3.2 301.5"
+  }
  },
  {
   "row_index": 817,
@@ -4269,7 +5144,14 @@
     "mv_pct_diff": null,
     "guess_text": "Di-Isopropyl Methyl Phosphonate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 41,
+   "total_pages": 159,
+   "crop_file": "source_crops/817.png",
+   "raw_line": "840 Di-Isopropyl Methyl Phosphonate Methyl-phosphonic acid 16.4 10.0 5.7 184.4"
+  }
  },
  {
   "row_index": 818,
@@ -4305,7 +5187,14 @@
     "mv_pct_diff": null,
     "guess_text": "Di-Isopropyl Phosphonofluoridate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 41,
+   "total_pages": 159,
+   "crop_file": "source_crops/818.png",
+   "raw_line": "842 Di-Isopropyl Phosphonofluoridat Phosphorofluoridic acid 15.7 10.2 5.9 174.5"
+  }
  },
  {
   "row_index": 830,
@@ -4389,7 +5278,14 @@
     "mv_pct_diff": null,
     "guess_text": "Dibasic Esters (dupont) Mix of"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 42,
+   "total_pages": 159,
+   "crop_file": "source_crops/830.png",
+   "raw_line": "1009 Dibasic Esters (dupont) Mix of Pentanedioic acid 16.2 4.7 8.4 159.0"
+  }
  },
  {
   "row_index": 850,
@@ -4473,7 +5369,14 @@
     "mv_pct_diff": 37.5,
     "guess_text": "DiethoxyDisulfide"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 50,
+   "total_pages": 159,
+   "crop_file": "source_crops/850.png",
+   "raw_line": "792 Diethoxy Disulfid [(Ethoxydithio)oxy]etha 15.1 8.3 7.4 141.5"
+  }
  },
  {
   "row_index": 852,
@@ -4557,7 +5460,14 @@
     "mv_pct_diff": null,
     "guess_text": "DiethylAmine/AceticAcid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 51,
+   "total_pages": 159,
+   "crop_file": "source_crops/852.png",
+   "raw_line": "1183 Diethyl Amine/Acetic Acid Acetate diethyl- 16.0 20.3 18.4"
+  }
  },
  {
   "row_index": 854,
@@ -4617,7 +5527,14 @@
     "mv_pct_diff": null,
     "guess_text": "Diethyl Ethanolamine"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 51,
+   "total_pages": 159,
+   "crop_file": "source_crops/854.png",
+   "raw_line": "1184 Diethyl Ethanolamine/Acetic Acid Acetate diethyl-(2- 16.0 20.3 18.4"
+  }
  },
  {
   "row_index": 863,
@@ -4653,7 +5570,14 @@
     "mv_pct_diff": 0.5,
     "guess_text": "DiethylSulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 52,
+   "total_pages": 159,
+   "crop_file": "source_crops/863.png",
+   "raw_line": "260 Diethyl Sulfid Ethylsulfanyl-ethane 16.8 3.1 2.0 107.4"
+  }
  },
  {
   "row_index": 871,
@@ -4689,7 +5613,14 @@
     "mv_pct_diff": 0.4,
     "guess_text": "Diethylene Glycol Butyl Ether Acetate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 53,
+   "total_pages": 159,
+   "crop_file": "source_crops/871.png",
+   "raw_line": "264 Diethylene Glycol Butyl Ether Acetate Acetic acid 2-(2-butoxy- 16.0 4.1 8.2 208.2"
+  }
  },
  {
   "row_index": 876,
@@ -4749,7 +5680,14 @@
     "mv_pct_diff": null,
     "guess_text": "Diethylene Glycol Methyl t-Butyl"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 53,
+   "total_pages": 159,
+   "crop_file": "source_crops/876.png",
+   "raw_line": "266 Diethylene Glycol Methyl t-Butyl 2-[2-(2-Methoxy- 16.0 7.2 7.2 193.9"
+  }
  },
  {
   "row_index": 877,
@@ -4857,7 +5795,20 @@
     "mv_pct_diff": null,
     "guess_text": "Diethylene Glycol Methyl t-Butyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "572",
+    "Molecule": "Diethylene Glycol Methyl t-Butyl Ether",
+    "SMILES": "COC(C)(C)C.OCCOCCO",
+    "hansen_d": "16",
+    "hansen_p": "7.2",
+    "hansen_h": "7.2"
+   }
+  }
  },
  {
   "row_index": 883,
@@ -4917,7 +5868,21 @@
     "mv_pct_diff": 4.9,
     "guess_text": "DiethyleneGlycolButylEther"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "DiethyleneGlycolButylEther",
+    "InChIKey": "OAYXUHPQHDHDDZ-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "170.6",
+    "delta_d_MPa0.5": "16.0",
+    "delta_p_MPa0.5": "7.0",
+    "delta_h_MPa0.5": "10.6",
+    "delta_t_MPa0.5": "20.5"
+   }
+  }
  },
  {
   "row_index": 885,
@@ -4977,7 +5942,21 @@
     "mv_pct_diff": 51.7,
     "guess_text": "DiethyleneGlycolMethylEther"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "DiethyleneGlycolMethylEther",
+    "InChIKey": "SBASXUCJHJRPEV-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "118.0",
+    "delta_d_MPa0.5": "16.2",
+    "delta_p_MPa0.5": "7.8",
+    "delta_h_MPa0.5": "12.7",
+    "delta_t_MPa0.5": "21.9"
+   }
+  }
  },
  {
   "row_index": 901,
@@ -5013,7 +5992,14 @@
     "mv_pct_diff": null,
     "guess_text": "DimethylAmine-Dimer"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 56,
+   "total_pages": 159,
+   "crop_file": "source_crops/901.png",
+   "raw_line": "288 Dimethyl Amine-Dimer Dimethyl-amine; 15.3 4.8 7.9 132.4"
+  }
  },
  {
   "row_index": 904,
@@ -5094,7 +6080,14 @@
     "mv_pct_diff": null,
     "guess_text": "Dimethyl Diethylene Glycol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 57,
+   "total_pages": 159,
+   "crop_file": "source_crops/904.png",
+   "raw_line": "292 Dimethyl Diethylene Glycol 1-Methoxy-2-(2- 15.8 6.1 9.2 142.0"
+  }
  },
  {
   "row_index": 906,
@@ -5130,7 +6123,14 @@
     "mv_pct_diff": 0.1,
     "guess_text": "Dimethyl Disulfide"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 57,
+   "total_pages": 159,
+   "crop_file": "source_crops/906.png",
+   "raw_line": "294 Dimethyl Disulfid Methyldisulfanyl- 17.3 7.8 6.5 88.6"
+  }
  },
  {
   "row_index": 909,
@@ -5190,7 +6190,14 @@
     "mv_pct_diff": null,
     "guess_text": "DimethylEthanolamine/AceticAcid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 57,
+   "total_pages": 159,
+   "crop_file": "source_crops/909.png",
+   "raw_line": "1189 Dimethyl Ethanolamine/Acetic Acid Acetate (2-hydroxy- 16.8 19.8 19.8"
+  }
  },
  {
   "row_index": 910,
@@ -5250,7 +6257,14 @@
     "mv_pct_diff": null,
     "guess_text": "Dimethyl Ethanolamine"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 57,
+   "total_pages": 159,
+   "crop_file": "source_crops/910.png",
+   "raw_line": "1188 Dimethyl Ethanolamine/Formic Acid Formate (2-hydroxy- 17.2 21.5 22.5"
+  }
  },
  {
   "row_index": 911,
@@ -5286,7 +6300,14 @@
     "mv_pct_diff": null,
     "guess_text": "Dimethyl Ethanolamine"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 57,
+   "total_pages": 159,
+   "crop_file": "source_crops/911.png",
+   "raw_line": "1185 Dimethyl Ethanolamine/Methacrylic 2-Methyl-acrylate (2- 17.2 18.8 17.6"
+  }
  },
  {
   "row_index": 912,
@@ -5346,7 +6367,14 @@
     "mv_pct_diff": null,
     "guess_text": "DimethylEthanolamine/p-Toluene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 58,
+   "total_pages": 159,
+   "crop_file": "source_crops/912.png",
+   "raw_line": "1186 Dimethyl Ethanolamine/p-Toluene Toluene-4-sulfonate (2- 17.2 21.5 22.5"
+  }
  },
  {
   "row_index": 913,
@@ -5382,7 +6410,14 @@
     "mv_pct_diff": null,
     "guess_text": "DimethylEthanolamine/Thioglycolic"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 58,
+   "total_pages": 159,
+   "crop_file": "source_crops/913.png",
+   "raw_line": "1187 Dimethyl Ethanolamine/Thioglycolic Mercapto-acetate (2- 17.2 21.5 22.5"
+  }
  },
  {
   "row_index": 917,
@@ -5418,7 +6453,14 @@
     "mv_pct_diff": null,
     "guess_text": "Dimethyl Isopropanol Amine"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 58,
+   "total_pages": 159,
+   "crop_file": "source_crops/917.png",
+   "raw_line": "1190 Dimethyl Isopropanol Amine/Acetic Acetate (2-hydroxy- 16.6 19.4 18.0"
+  }
  },
  {
   "row_index": 926,
@@ -5478,7 +6520,14 @@
     "mv_pct_diff": null,
     "guess_text": "Dimethyl Sulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 59,
+   "total_pages": 159,
+   "crop_file": "source_crops/926.png",
+   "raw_line": "301 Dimethyl Sulfid Methylsulfanyl-methane 16.1 6.4 7.4 73.2"
+  }
  },
  {
   "row_index": 933,
@@ -5538,7 +6587,21 @@
     "mv_pct_diff": 43.9,
     "guess_text": "Di-n-Octyl Phthalate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "DiNOctylPhthalate",
+    "InChIKey": "MQIUGAXCHLFZKX-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "277.0",
+    "delta_d_MPa0.5": "16.6",
+    "delta_p_MPa0.5": "7.0",
+    "delta_h_MPa0.5": "3.1",
+    "delta_t_MPa0.5": "18.2"
+   }
+  }
  },
  {
   "row_index": 939,
@@ -5598,7 +6661,14 @@
     "mv_pct_diff": null,
     "guess_text": "DiphenylAcetylene P from 0 Dipole"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 61,
+   "total_pages": 159,
+   "crop_file": "source_crops/939.png",
+   "raw_line": "1166 Diphenyl Acetylene P from 0 Dipole (Phenylethynyl)benzene 20.1 0 3.2 184.3"
+  }
  },
  {
   "row_index": 940,
@@ -5703,7 +6773,14 @@
     "mv_pct_diff": null,
     "guess_text": "Phenylethynyl)benzene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 61,
+   "total_pages": 159,
+   "crop_file": "source_crops/940.png",
+   "raw_line": "1167 Diphenyl Acetylene P from Group Cont. (Phenylethynyl)benzene 20.1 2.0 3.2 184.3"
+  }
  },
  {
   "row_index": 951,
@@ -5763,7 +6840,20 @@
     "mv_pct_diff": null,
     "guess_text": "Dipropylene Glycol Mono n-Butyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "622",
+    "Molecule": "Dipropylene Glycol Mono n-Butyl Ether",
+    "SMILES": "CCCCOC(C)COC(C)CO",
+    "hansen_d": "15.7",
+    "hansen_p": "6.5",
+    "hansen_h": "10"
+   }
+  }
  },
  {
   "row_index": 952,
@@ -5799,7 +6889,14 @@
     "mv_pct_diff": null,
     "guess_text": "Dipropylene Glycol Monon-Butyl Ether 1-(2-Butoxy-1-methyl-"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 62,
+   "total_pages": 159,
+   "crop_file": "source_crops/952.png",
+   "raw_line": "1007 Dipropylene Glycol Mono n-Butyl Ether 1-(2-Butoxy-1-methyl- 15.7 6.5 10.0 211.2"
+  }
  },
  {
   "row_index": 953,
@@ -5835,7 +6932,14 @@
     "mv_pct_diff": null,
     "guess_text": "Dipropylene Glycol Monon-Prop yl"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 63,
+   "total_pages": 159,
+   "crop_file": "source_crops/953.png",
+   "raw_line": "1008 Dipropylene Glycol Mono n-Prop yl 1-(1-Methyl-2-propoxy- 15.6 6.1 11.0 185.6"
+  }
  },
  {
   "row_index": 954,
@@ -5871,7 +6975,20 @@
     "mv_pct_diff": null,
     "guess_text": "Dipropylene Glycol Monon-Propyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "623",
+    "Molecule": "Dipropylene Glycol Mono n-Propyl Ether",
+    "SMILES": "CCCOC(C)COC(C)CO",
+    "hansen_d": "15.6",
+    "hansen_p": "6.1",
+    "hansen_h": "11"
+   }
+  }
  },
  {
   "row_index": 957,
@@ -5931,7 +7048,21 @@
     "mv_pct_diff": null,
     "guess_text": "Di Propylene Glycol Butyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "DiPropyleneGlycolButylEther",
+    "InChIKey": "CUVLMZNMSPJDON-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "211.2",
+    "delta_d_MPa0.5": "15.7",
+    "delta_p_MPa0.5": "6.5",
+    "delta_h_MPa0.5": "10.0",
+    "delta_t_MPa0.5": "19.716490559934847"
+   }
+  }
  },
  {
   "row_index": 959,
@@ -5991,7 +7122,14 @@
     "mv_pct_diff": null,
     "guess_text": "Divinyl Sulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 63,
+   "total_pages": 159,
+   "crop_file": "source_crops/959.png",
+   "raw_line": "315 Divinyl Sulfid Vinylsulfanyl-ethene 16.5 4.6 5.6 93.6"
+  }
  },
  {
   "row_index": 961,
@@ -6051,7 +7189,21 @@
     "mv_pct_diff": 0.6,
     "guess_text": "DLLimonene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "DLLimonene",
+    "InChIKey": "XMGQYMWWDOXHJM-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "162.9",
+    "delta_d_MPa0.5": "17.2",
+    "delta_p_MPa0.5": "1.8",
+    "delta_h_MPa0.5": "4.3",
+    "delta_t_MPa0.5": "17.820493820318223"
+   }
+  }
  },
  {
   "row_index": 965,
@@ -6111,7 +7263,21 @@
     "mv_pct_diff": 16.1,
     "guess_text": "DowanolDpme"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "DowanolDpm",
+    "InChIKey": "CUDYYMUUJHLCGZ-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "156.1",
+    "delta_d_MPa0.5": "15.5",
+    "delta_p_MPa0.5": "5.7",
+    "delta_h_MPa0.5": "11.2",
+    "delta_t_MPa0.5": "19.954448125668623"
+   }
+  }
  },
  {
   "row_index": 976,
@@ -6195,7 +7361,14 @@
     "mv_pct_diff": null,
     "guess_text": "Ethanolamine/Acetic Acid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 51,
+   "total_pages": 159,
+   "crop_file": "source_crops/976.png",
+   "raw_line": "1184 Diethyl Ethanolamine/Acetic Acid Acetate diethyl-(2- 16.0 20.3 18.4"
+  }
  },
  {
   "row_index": 977,
@@ -6255,7 +7428,20 @@
     "mv_pct_diff": null,
     "guess_text": "Ethoxyethyl Propionate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "639",
+    "Molecule": "Ethoxyethyl Propionate",
+    "SMILES": "CCOC(C)OC(=O)CC",
+    "hansen_d": "16.2",
+    "hansen_p": "3.3",
+    "hansen_h": "8.8"
+   }
+  }
  },
  {
   "row_index": 992,
@@ -6281,7 +7467,20 @@
     "mv_match": null,
     "mv_pct_diff": null
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "654",
+    "Molecule": "Ethyl Carbylamine",
+    "SMILES": "CCN=[CH+]",
+    "hansen_d": "15.6",
+    "hansen_p": "15.2",
+    "hansen_h": "5.8"
+   }
+  }
  },
  {
   "row_index": 1010,
@@ -6341,7 +7540,14 @@
     "mv_pct_diff": null,
     "guess_text": "Ethyl Methyl Sulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 69,
+   "total_pages": 159,
+   "crop_file": "source_crops/1010.png",
+   "raw_line": "355 Ethyl Methyl Sulfid Methylsulfanyl-ethane 17.1 4.8 2.5 91.2"
+  }
  },
  {
   "row_index": 1032,
@@ -6425,7 +7631,20 @@
     "mv_pct_diff": 32.7,
     "guess_text": "Ethylene Glycol Butyl MethylEther"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "687",
+    "Molecule": "Ethylene Glycol Butyl Methyl Ether",
+    "SMILES": "CCCCOC.OCCO",
+    "hansen_d": "15.5",
+    "hansen_p": "5.2",
+    "hansen_h": "4.9"
+   }
+  }
  },
  {
   "row_index": 1038,
@@ -6533,7 +7752,14 @@
     "mv_pct_diff": null,
     "guess_text": "Ethylene Glycol Methyl t-Butyl"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 53,
+   "total_pages": 159,
+   "crop_file": "source_crops/1038.png",
+   "raw_line": "266 Diethylene Glycol Methyl t-Butyl 2-[2-(2-Methoxy- 16.0 7.2 7.2 193.9"
+  }
  },
  {
   "row_index": 1039,
@@ -6641,7 +7867,20 @@
     "mv_pct_diff": null,
     "guess_text": "Ethylene Glycol Methyl t-Butyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "693",
+    "Molecule": "Ethylene Glycol Methyl t-Butyl Ether",
+    "SMILES": "COC(C)(C)C.OCCO",
+    "hansen_d": "15.3",
+    "hansen_p": "5.1",
+    "hansen_h": "8.2"
+   }
+  }
  },
  {
   "row_index": 1040,
@@ -6701,7 +7940,20 @@
     "mv_pct_diff": null,
     "guess_text": "Ethylene Glycol Mono 2-Ethyl Hexyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "694",
+    "Molecule": "Ethylene Glycol Mono 2-Ethyl Hexyl Ether",
+    "SMILES": "CCCCCCOCC.OCCO",
+    "hansen_d": "16",
+    "hansen_p": "4.1",
+    "hansen_h": "10.5"
+   }
+  }
  },
  {
   "row_index": 1046,
@@ -6785,7 +8037,14 @@
     "mv_pct_diff": null,
     "guess_text": "Ethylene Glycol Mono-2-Ethyl Hexyl"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 73,
+   "total_pages": 159,
+   "crop_file": "source_crops/1046.png",
+   "raw_line": "373 Ethylene Glycol Mono-2-Ethyl Hexyl 2-(2-Ethyl-hexyloxy)- 16.0 4.1 10.5 194.7"
+  }
  },
  {
   "row_index": 1054,
@@ -6821,7 +8080,14 @@
     "mv_pct_diff": null,
     "guess_text": "EthyleneGlycolSulfit"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 74,
+   "total_pages": 159,
+   "crop_file": "source_crops/1054.png",
+   "raw_line": "789 Ethylene Glycol Sulfit [1,3,2]Dioxathiolane 2- 20.0 15.9 5.1 75.1"
+  }
  },
  {
   "row_index": 1056,
@@ -6881,7 +8147,20 @@
     "mv_pct_diff": null,
     "guess_text": "Ethylene Methyl Sulfonate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "708",
+    "Molecule": "Ethylene Methyl Sulfonate",
+    "SMILES": "C[S](O)(=O)=O.C=C",
+    "hansen_d": "16.9",
+    "hansen_p": "9.3",
+    "hansen_h": "9.6"
+   }
+  }
  },
  {
   "row_index": 1058,
@@ -6941,7 +8220,14 @@
     "mv_pct_diff": null,
     "guess_text": "Ethylene Sulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 75,
+   "total_pages": 159,
+   "crop_file": "source_crops/1058.png",
+   "raw_line": "384 Ethylene Sulfid Thiirane 19.3 9.0 6.5 59.5"
+  }
  },
  {
   "row_index": 1061,
@@ -7001,7 +8287,21 @@
     "mv_pct_diff": null,
     "guess_text": "EthyleneGlycolButylEther"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "EthyleneGlycolButylEther",
+    "InChIKey": "POAOYUHQDCAZBD-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "131.6",
+    "delta_d_MPa0.5": "16.0",
+    "delta_p_MPa0.5": "5.1",
+    "delta_h_MPa0.5": "12.3",
+    "delta_t_MPa0.5": "20.9"
+   }
+  }
  },
  {
   "row_index": 1062,
@@ -7061,7 +8361,21 @@
     "mv_pct_diff": null,
     "guess_text": "EthyleneGlycolMonophenylEther"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "EthyleneGlycolMonophenylEther",
+    "InChIKey": "QCDWFXQBSFUVSP-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "124.7",
+    "delta_d_MPa0.5": "17.8",
+    "delta_p_MPa0.5": "5.7",
+    "delta_h_MPa0.5": "14.3",
+    "delta_t_MPa0.5": "23.533380547639137"
+   }
+  }
  },
  {
   "row_index": 1066,
@@ -7169,7 +8483,20 @@
     "mv_pct_diff": null,
     "guess_text": "Ethynyl Propyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "715",
+    "Molecule": "Ethynyl Propyl Ether",
+    "SMILES": "CCCOC#C",
+    "hansen_d": "15.4",
+    "hansen_p": "3.8",
+    "hansen_h": "5.4"
+   }
+  }
  },
  {
   "row_index": 1070,
@@ -7253,7 +8580,14 @@
     "mv_pct_diff": null,
     "guess_text": "Alfa"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 76,
+   "total_pages": 159,
+   "crop_file": "source_crops/1070.png",
+   "raw_line": "898 Fenchene(Alfa) 7,7-Dimethyl-2- 16.9 1.5 3.1 157.3"
+  }
  },
  {
   "row_index": 1099,
@@ -7313,7 +8647,20 @@
     "mv_pct_diff": null,
     "guess_text": "Glycerol Carbonate Acetate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "734",
+    "Molecule": "Glycerol Carbonate Acetate",
+    "SMILES": "CC(O)=O.OCC(O)CO.OC(O)=O",
+    "hansen_d": "17.1",
+    "hansen_p": "14.7",
+    "hansen_h": "9.2"
+   }
+  }
  },
  {
   "row_index": 1100,
@@ -7397,7 +8744,20 @@
     "mv_pct_diff": null,
     "guess_text": "GlycerolCarbonateEthylEther"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "735",
+    "Molecule": "Glycerol Carbonate Ethyl Ether",
+    "SMILES": "CCOCC.OCC(O)CO.OC(O)=O",
+    "hansen_d": "16.8",
+    "hansen_p": "18.5",
+    "hansen_h": "8.7"
+   }
+  }
  },
  {
   "row_index": 1117,
@@ -7433,7 +8793,14 @@
     "mv_pct_diff": 0.0,
     "guess_text": "Hexafluo o-Isopropanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 80,
+   "total_pages": 159,
+   "crop_file": "source_crops/1117.png",
+   "raw_line": "414 Hexafluo o Isopropanol 1,1,1,3,3,3-Hexafluoro 17.2 4.5 14.7 105.3"
+  }
  },
  {
   "row_index": 1118,
@@ -7493,7 +8860,14 @@
     "mv_pct_diff": null,
     "guess_text": "Hexafluo ohexanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 81,
+   "total_pages": 159,
+   "crop_file": "source_crops/1118.png",
+   "raw_line": "415 Hexafluo ohexanol 1,2,3,4,5,6-Hexafluoro 15.1 4.4 9.9 123.3"
+  }
  },
  {
   "row_index": 1119,
@@ -7529,7 +8903,14 @@
     "mv_pct_diff": null,
     "guess_text": "Hexafluoro 1,3-Butadiene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 80,
+   "total_pages": 159,
+   "crop_file": "source_crops/1119.png",
+   "raw_line": "413 Hexafluoro 1,3-Butadien 1,1,2,3,4,4-Hexafluoro 13.8 0 0 104.3"
+  }
  },
  {
   "row_index": 1121,
@@ -7565,7 +8946,14 @@
     "mv_pct_diff": null,
     "guess_text": "Hexafluorobenzene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 80,
+   "total_pages": 159,
+   "crop_file": "source_crops/1121.png",
+   "raw_line": "1119 Hexafluorobenzen 1,2,3,4,5,6-Hexafluoro 16.9 0 0 115.8"
+  }
  },
  {
   "row_index": 1123,
@@ -7601,7 +8989,20 @@
     "mv_pct_diff": null,
     "guess_text": "Hexafluorohexanol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "752",
+    "Molecule": "Hexafluorohexanol",
+    "SMILES": "CCCC(F)(F)C(F)(F)C(O)(F)F",
+    "hansen_d": "15.1",
+    "hansen_p": "4.4",
+    "hansen_h": "9.9"
+   }
+  }
  },
  {
   "row_index": 1150,
@@ -7661,7 +9062,14 @@
     "mv_pct_diff": null,
     "guess_text": "Iodoprene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 83,
+   "total_pages": 159,
+   "crop_file": "source_crops/1150.png",
+   "raw_line": "428 Iodoprene 2-Iodo-buta-1,3-diene 17.2 2.5 6.2 104.2"
+  }
  },
  {
   "row_index": 1237,
@@ -7721,7 +9129,20 @@
     "mv_pct_diff": null,
     "guess_text": "Methyl Allyl Cyanide"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "829",
+    "Molecule": "Methyl Allyl Cyanide",
+    "SMILES": "CC=CCC#N",
+    "hansen_d": "16.4",
+    "hansen_p": "11.3",
+    "hansen_h": "5.1"
+   }
+  }
  },
  {
   "row_index": 1275,
@@ -7805,7 +9226,14 @@
     "mv_pct_diff": null,
     "guess_text": "MethylPhenylSulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 96,
+   "total_pages": 159,
+   "crop_file": "source_crops/1275.png",
+   "raw_line": "879 Methyl Phenyl Sulfid Methylsulfanyl-benzene 19.6 4.8 4.7 117.4"
+  }
  },
  {
   "row_index": 1278,
@@ -7889,7 +9317,14 @@
     "mv_pct_diff": null,
     "guess_text": "Methyl Phosphonic Difluorid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 96,
+   "total_pages": 159,
+   "crop_file": "source_crops/1278.png",
+   "raw_line": "841 Methyl Phosphonic Difluorid Methylphosphonic 14.0 14.0 8.4 73.9"
+  }
  },
  {
   "row_index": 1289,
@@ -7949,7 +9384,14 @@
     "mv_pct_diff": null,
     "guess_text": "Methyl Vinyl Sulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 98,
+   "total_pages": 159,
+   "crop_file": "source_crops/1289.png",
+   "raw_line": "511 Methyl Vinyl Sulfid Methylsulfanyl-ethene 16.4 4.9 6.0 82.1"
+  }
  },
  {
   "row_index": 1301,
@@ -8009,7 +9451,14 @@
     "mv_pct_diff": null,
     "guess_text": "MEHP) Phthalic acid mono-(2-"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 68,
+   "total_pages": 159,
+   "crop_file": "source_crops/1301.png",
+   "raw_line": "1153 Mono 2-Ethyl-Hexyl Phthalate (MEHP) Phthalic acid mono-(2- 17.3 6.2 6.8 265.0"
+  }
  },
  {
   "row_index": 1303,
@@ -8069,7 +9518,14 @@
     "mv_pct_diff": null,
     "guess_text": "Morpholine/AceticAcid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 101,
+   "total_pages": 159,
+   "crop_file": "source_crops/1303.png",
+   "raw_line": "1193 Morpholine/Acetic Acid Acetate morpholin-4- 17.2 20.3 18.4"
+  }
  },
  {
   "row_index": 1311,
@@ -8128,7 +9584,20 @@
     "mv_pct_diff": null,
     "guess_text": "N,N-Dichloromethyl Amine"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "885",
+    "Molecule": "N,N-Dichloromethyl Amine",
+    "SMILES": "ClCNCCl",
+    "hansen_d": "16.5",
+    "hansen_p": "7.5",
+    "hansen_h": "8"
+   }
+  }
  },
  {
   "row_index": 1318,
@@ -8164,7 +9633,21 @@
     "mv_pct_diff": 0.1,
     "guess_text": "N,N-Dimethylhydrazine"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "N,NDimethylhydrazine",
+    "InChIKey": "RHUYHJGZWVXEHW-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "76.0",
+    "delta_d_MPa0.5": "15.3",
+    "delta_p_MPa0.5": "5.9",
+    "delta_h_MPa0.5": "11.0",
+    "delta_t_MPa0.5": "19.8"
+   }
+  }
  },
  {
   "row_index": 1329,
@@ -8248,7 +9731,14 @@
     "mv_pct_diff": null,
     "guess_text": "N-ButylAmine/AceticAcid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 20,
+   "total_pages": 159,
+   "crop_file": "source_crops/1329.png",
+   "raw_line": "1182 N-Butyl Amine/Acetic Acid Acetate butyl- 16.0 20.3 18.4"
+  }
  },
  {
   "row_index": 1335,
@@ -8284,7 +9774,14 @@
     "mv_pct_diff": null,
     "guess_text": "N-ButylPyrrolidone"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 21,
+   "total_pages": 159,
+   "crop_file": "source_crops/1335.png",
+   "raw_line": "109 N-Butyl Pyrrolidone 1-Butyl-pyrrolidin-2-one 17.5 9.9 5.8 148.0"
+  }
  },
  {
   "row_index": 1344,
@@ -8344,7 +9841,14 @@
     "mv_pct_diff": null,
     "guess_text": "N-Formyl Hexamethylene Imine"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 77,
+   "total_pages": 159,
+   "crop_file": "source_crops/1344.png",
+   "raw_line": "400 N-Formyl Hexamethylene Imine Azepane-1-carbaldehyde 18.5 10.4 7.6 127.0"
+  }
  },
  {
   "row_index": 1384,
@@ -8404,7 +9908,14 @@
     "mv_pct_diff": null,
     "guess_text": "Norephedrin"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 104,
+   "total_pages": 159,
+   "crop_file": "source_crops/1384.png",
+   "raw_line": "1209 Norephedrin 2-Methylamino-1- 18.0 10.7 24.1 141.9"
+  }
  },
  {
   "row_index": 1392,
@@ -8440,7 +9951,14 @@
     "mv_pct_diff": null,
     "guess_text": "o-Chlorofluorobenzene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 31,
+   "total_pages": 159,
+   "crop_file": "source_crops/1392.png",
+   "raw_line": "808 o-Chlorofluorobenzen 1-Chloro-2-fluoro 19.4 8.7 2.0 104.9"
+  }
  },
  {
   "row_index": 1399,
@@ -8476,7 +9994,14 @@
     "mv_pct_diff": null,
     "guess_text": "o-Difluorobenzene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 54,
+   "total_pages": 159,
+   "crop_file": "source_crops/1399.png",
+   "raw_line": "810 o-Difluorobenzen 1,2-Difluoro-benzen 18.0 9.0 1.0 98.5"
+  }
  },
  {
   "row_index": 1450,
@@ -8512,7 +10037,14 @@
     "mv_pct_diff": null,
     "guess_text": "Paraquat 1,1'-Dimethyl-4,4'-"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 106,
+   "total_pages": 159,
+   "crop_file": "source_crops/1450.png",
+   "raw_line": "1114 Paraquat 1,1'-Dimethyl-4,4'- 19.5 8.8 5.9 205.7"
+  }
  },
  {
   "row_index": 1454,
@@ -8548,7 +10080,14 @@
     "mv_pct_diff": null,
     "guess_text": "Pentafluorobenzophenone"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 106,
+   "total_pages": 159,
+   "crop_file": "source_crops/1454.png",
+   "raw_line": "821 Pentafluorobenzophenon 1-Pentafluorophe yl- 19.3 8.1 5.4 185.5"
+  }
  },
  {
   "row_index": 1456,
@@ -8608,7 +10147,14 @@
     "mv_pct_diff": null,
     "guess_text": "Pentamethylene Sulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 106,
+   "total_pages": 159,
+   "crop_file": "source_crops/1456.png",
+   "raw_line": "549 Pentamethylene Sulfid Tetrahydro-thiopyran 18.5 6.3 8.9 103.6"
+  }
  },
  {
   "row_index": 1461,
@@ -8644,7 +10190,21 @@
     "mv_pct_diff": 0.4,
     "guess_text": "Pentyl Acetate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "PentylAcetate",
+    "InChIKey": "PGMYKACGEOXYJE-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "148.0",
+    "delta_d_MPa0.5": "15.8",
+    "delta_p_MPa0.5": "3.3",
+    "delta_h_MPa0.5": "6.1",
+    "delta_t_MPa0.5": "17.25514416051051"
+   }
+  }
  },
  {
   "row_index": 1462,
@@ -8680,7 +10240,14 @@
     "mv_pct_diff": null,
     "guess_text": "Perfluoro Dimetylcyclohexane"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 107,
+   "total_pages": 159,
+   "crop_file": "source_crops/1462.png",
+   "raw_line": "556 Perfluoro Dimet ylcyclohexane 1,1,2,2,3,4,4,5,5,6- 12.4 0 0 217.4"
+  }
  },
  {
   "row_index": 1469,
@@ -8716,7 +10283,14 @@
     "mv_pct_diff": null,
     "guess_text": "Perfluorometylcyclohexane"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 108,
+   "total_pages": 159,
+   "crop_file": "source_crops/1469.png",
+   "raw_line": "558 Perfluoromet ylcyclohexane 1,1,2,2,3,3,4,4,5,5,6- 12.4 0 0 196.0"
+  }
  },
  {
   "row_index": 1483,
@@ -8776,7 +10350,14 @@
     "mv_pct_diff": null,
     "guess_text": "Phosphoryl"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 110,
+   "total_pages": 159,
+   "crop_file": "source_crops/1483.png",
+   "raw_line": "1171 Phosphorous Oxychloride (Phosphoryl Phosphoric trichloride 18.1 9.3 0 93.2"
+  }
  },
  {
   "row_index": 1488,
@@ -8836,7 +10417,14 @@
     "mv_pct_diff": null,
     "guess_text": "Pine Oil"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 110,
+   "total_pages": 159,
+   "crop_file": "source_crops/1488.png",
+   "raw_line": "565 Pine Oil 15.6 3.0 9.8 155.0"
+  }
  },
  {
   "row_index": 1498,
@@ -8872,7 +10460,14 @@
     "mv_pct_diff": null,
     "guess_text": "2,3-Epoxypropionaldehyde"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 112,
+   "total_pages": 159,
+   "crop_file": "source_crops/1498.png",
+   "raw_line": "574 Propionaldehyde-2,3-Epoxy* Oxirane-2-carbaldehyde 17.5 13.4 9.8 63.2"
+  }
  },
  {
   "row_index": 1527,
@@ -8908,7 +10503,21 @@
     "mv_pct_diff": null,
     "guess_text": "Propyl Propionate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "PropylPropionate",
+    "InChIKey": "MCSINKKTEDDPNK-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "132.5",
+    "delta_d_MPa0.5": "15.5",
+    "delta_p_MPa0.5": "5.6",
+    "delta_h_MPa0.5": "5.7",
+    "delta_t_MPa0.5": "17.438463235044537"
+   }
+  }
  },
  {
   "row_index": 1571,
@@ -8968,7 +10577,21 @@
     "mv_pct_diff": null,
     "guess_text": "TertButylAcetate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "TertButylAcetate",
+    "InChIKey": "WMOVHXAZOJBABW-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "134.8",
+    "delta_d_MPa0.5": "15.0",
+    "delta_p_MPa0.5": "3.7",
+    "delta_h_MPa0.5": "6.0",
+    "delta_t_MPa0.5": "16.573774464496612"
+   }
+  }
  },
  {
   "row_index": 1587,
@@ -9028,7 +10651,14 @@
     "mv_pct_diff": null,
     "guess_text": "Tetramethylene Sulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 122,
+   "total_pages": 159,
+   "crop_file": "source_crops/1587.png",
+   "raw_line": "622 Tetramethylene Sulfid Tetrahydro-thiophene 18.6 6.7 9.1 88.3"
+  }
  },
  {
   "row_index": 1589,
@@ -9088,7 +10718,14 @@
     "mv_pct_diff": null,
     "guess_text": "Tetramethylene Sulfone (Sulfolane)"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 122,
+   "total_pages": 159,
+   "crop_file": "source_crops/1589.png",
+   "raw_line": "790 Tetramethylene Sulfone (Sulfolane) Tetrahydro-thiophene 20.3 18.2 10.9 95.7"
+  }
  },
  {
   "row_index": 1602,
@@ -9124,7 +10761,14 @@
     "mv_pct_diff": 0.0,
     "guess_text": "Thioglycolic Acid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 123,
+   "total_pages": 159,
+   "crop_file": "source_crops/1602.png",
+   "raw_line": "1017 Thioglycolic Acid (Mercapto Acetic Mercapto-acetic acid 16.0 8.6 14.8 69.5"
+  }
  },
  {
   "row_index": 1611,
@@ -9184,7 +10828,14 @@
     "mv_pct_diff": null,
     "guess_text": "Tigaldehyde"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 124,
+   "total_pages": 159,
+   "crop_file": "source_crops/1611.png",
+   "raw_line": "636 Tigaldehyde (E)-2-Methyl-but-2-enal 16.2 12.9 6.8 96.6"
+  }
  },
  {
   "row_index": 1617,
@@ -9268,7 +10919,14 @@
     "mv_pct_diff": null,
     "guess_text": "Tri-n-ButylAcetylCitrate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 125,
+   "total_pages": 159,
+   "crop_file": "source_crops/1617.png",
+   "raw_line": "1137 Tri-n-Butyl Acetyl Citrate 3-Acetoxy-3- 16.7 2.5 7.4 384.3"
+  }
  },
  {
   "row_index": 1621,
@@ -9352,7 +11010,14 @@
     "mv_pct_diff": null,
     "guess_text": "1,2,3-Propanetriol Triacetate) Acetic acid 2-acetoxy-1-"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 124,
+   "total_pages": 159,
+   "crop_file": "source_crops/1621.png",
+   "raw_line": "1147 Triacetin (1,2,3-Propanetriol Triacetate) Acetic acid 2-acetoxy-1- 16.5 4.5 9.1 188.2"
+  }
  },
  {
   "row_index": 1622,
@@ -9388,7 +11053,14 @@
     "mv_pct_diff": null,
     "guess_text": "Tribromoethylene"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 125,
+   "total_pages": 159,
+   "crop_file": "source_crops/1622.png",
+   "raw_line": "640 Tribromo Ethylene* 1,1,2-Tribromo-ethene 18.3 9.4 8.0 97.8"
+  }
  },
  {
   "row_index": 1636,
@@ -9448,7 +11120,14 @@
     "mv_pct_diff": null,
     "guess_text": "Triethanolamine/AceticAcid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 128,
+   "total_pages": 159,
+   "crop_file": "source_crops/1636.png",
+   "raw_line": "1194 Triethanolamine/Acetic Acid Acetate tris-(2-hydroxy- 17.2 20.3 18.4"
+  }
  },
  {
   "row_index": 1644,
@@ -9508,7 +11187,14 @@
     "mv_pct_diff": null,
     "guess_text": "Trifluoroacetic Aci"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 129,
+   "total_pages": 159,
+   "crop_file": "source_crops/1644.png",
+   "raw_line": "660 Trifluoroacetic Aci Trifluoro-acetic acid 15.6 9.9 11.6 74.2"
+  }
  },
  {
   "row_index": 1647,
@@ -9544,7 +11230,21 @@
     "mv_pct_diff": null,
     "guess_text": "Trifluoromethyl Undecafluorocyclohexane"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "wolfram_hsp.csv",
+   "url": "https://datarepository.wolframcloud.com/resources/JoshuaSchrier_Hansen-Solubility-Parameters/",
+   "raw_row": {
+    "Solvent": "TrifluoromethylUndecafluorocyclohexane",
+    "InChIKey": "QIROQPWSJUXOJC-UHFFFAOYSA-N",
+    "Volume_cm3_per_mol": "217.4",
+    "delta_d_MPa0.5": "12.5",
+    "delta_p_MPa0.5": "0.0",
+    "delta_h_MPa0.5": "0.0",
+    "delta_t_MPa0.5": "12.5"
+   }
+  }
  },
  {
   "row_index": 1648,
@@ -9604,7 +11304,14 @@
     "mv_pct_diff": null,
     "guess_text": "Triisononyl Trimellilate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 130,
+   "total_pages": 159,
+   "crop_file": "source_crops/1648.png",
+   "raw_line": "663 Triisononyl Trimellilate Benzene-1,2,4- 16.6 5.7 2.2 602.9"
+  }
  },
  {
   "row_index": 1654,
@@ -9664,7 +11371,14 @@
     "mv_pct_diff": 10.7,
     "guess_text": "Trimethylenesulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 131,
+   "total_pages": 159,
+   "crop_file": "source_crops/1654.png",
+   "raw_line": "669 Trimethylenesulfid Thietane 18.8 7.8 9.4 72.8"
+  }
  },
  {
   "row_index": 1655,
@@ -9700,7 +11414,14 @@
     "mv_pct_diff": null,
     "guess_text": "Trinitromethane"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 131,
+   "total_pages": 159,
+   "crop_file": "source_crops/1655.png",
+   "raw_line": "934 Trinitomethane Trinitro-methane 15.5 10.3 7.3 94.6"
+  }
  },
  {
   "row_index": 1658,
@@ -9760,7 +11481,14 @@
     "mv_pct_diff": null,
     "guess_text": "TNT) P by Dipole"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 131,
+   "total_pages": 159,
+   "crop_file": "source_crops/1658.png",
+   "raw_line": "918 Trinitrotoluene (TNT) P by Dipole 2-Methyl-1,3,5-trinitro- 19.5 3.7 4.5 137.6"
+  }
  },
  {
   "row_index": 1661,
@@ -9820,7 +11548,14 @@
     "mv_pct_diff": null,
     "guess_text": "Tripropylene Glycol Monometh yl"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": null,
+   "crop_file": null,
+   "raw_line": null,
+   "note": "Could not locate in PDF"
+  }
  },
  {
   "row_index": 1666,
@@ -9880,7 +11615,14 @@
     "mv_pct_diff": null,
     "guess_text": "Ro = 19.4"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 132,
+   "total_pages": 159,
+   "crop_file": "source_crops/1666.png",
+   "raw_line": "860 Urea (Ro = 19.4) Urea 20.9 18.7 26.4 45.8"
+  }
  },
  {
   "row_index": 1670,
@@ -9940,7 +11682,14 @@
     "mv_pct_diff": null,
     "guess_text": "Vanillin (4-Hydroxy-3-Methoxy"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 132,
+   "total_pages": 159,
+   "crop_file": "source_crops/1670.png",
+   "raw_line": "1162 Vanillin (4-Hydroxy-3-Methoxy 4-Hydroxy-3-methoxy- 19.4 9.8 11.2 144.1"
+  }
  },
  {
   "row_index": 1671,
@@ -10024,7 +11773,14 @@
     "mv_pct_diff": null,
     "guess_text": "Vinyl 2-Chloro Ethyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 132,
+   "total_pages": 159,
+   "crop_file": "source_crops/1671.png",
+   "raw_line": "674 Vinyl 2-Chloro Ethyl Ether (2-Chloro-ethoxy)- 16.3 6.7 5.8 101.7"
+  }
  },
  {
   "row_index": 1673,
@@ -10108,7 +11864,14 @@
     "mv_pct_diff": null,
     "guess_text": "Vinyl 2-Methoxy Ethyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 132,
+   "total_pages": 159,
+   "crop_file": "source_crops/1673.png",
+   "raw_line": "675 Vinyl 2-Methoxy Ethyl Ether (2-Methoxy-ethoxy)- 15.9 6.7 6.8 96.2"
+  }
  },
  {
   "row_index": 1680,
@@ -10144,7 +11907,14 @@
     "mv_pct_diff": null,
     "guess_text": "Vinylbutyl Carbitol"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 133,
+   "total_pages": 159,
+   "crop_file": "source_crops/1680.png",
+   "raw_line": "914 Vinyl Butyl Carbitol 1-[2-(2-Vinyloxy- 16.0 5.0 6.0 206.2"
+  }
  },
  {
   "row_index": 1682,
@@ -10228,7 +11998,14 @@
     "mv_pct_diff": null,
     "guess_text": "Vinyl Butyl Sulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 133,
+   "total_pages": 159,
+   "crop_file": "source_crops/1682.png",
+   "raw_line": "681 Vinyl Butyl Sulfid 1-Vinylsulfanyl-butane 16.0 5.0 5.4 136.7"
+  }
  },
  {
   "row_index": 1691,
@@ -10312,7 +12089,14 @@
     "mv_pct_diff": null,
     "guess_text": "Vinyl Ethyl Sulfid"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 134,
+   "total_pages": 159,
+   "crop_file": "source_crops/1691.png",
+   "raw_line": "686 Vinyl Ethyl Sulfid Ethylsulfanyl-ethene 16.4 5.8 6.3 101.3"
+  }
  },
  {
   "row_index": 1697,
@@ -10396,7 +12180,14 @@
     "mv_pct_diff": null,
     "guess_text": "Vinyl Methyl Cellosolve"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 135,
+   "total_pages": 159,
+   "crop_file": "source_crops/1697.png",
+   "raw_line": "911 Vinyl Methyl Cellosolve (2-Methoxy-ethoxy)- 15.6 6.2 6.8 114.7"
+  }
  },
  {
   "row_index": 1701,
@@ -10432,7 +12223,14 @@
     "mv_pct_diff": null,
     "guess_text": "Vinyl S-Butyl Mercaptobutyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 135,
+   "total_pages": 159,
+   "crop_file": "source_crops/1701.png",
+   "raw_line": "913 Vinyl S-Butyl Mercapto Butyl Ether 1-Ethoxy-4- 16.5 5.0 5.8 174.0"
+  }
  },
  {
   "row_index": 1702,
@@ -10492,7 +12290,20 @@
     "mv_pct_diff": null,
     "guess_text": "Vinyl S-ButylMercapto Ethyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "1173",
+    "Molecule": "Vinyl S-Butyl Mercapto Ethyl Ether",
+    "SMILES": "CCCC[S](OCC)C=C",
+    "hansen_d": "16.5",
+    "hansen_p": "5",
+    "hansen_h": "5.8"
+   }
+  }
  },
  {
   "row_index": 1703,
@@ -10528,7 +12339,20 @@
     "mv_pct_diff": null,
     "guess_text": "Vinyl S-Ethyl Mercaptoethyl Ether"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "1174",
+    "Molecule": "Vinyl S-Ethyl Mercapto Ethyl Ether",
+    "SMILES": "CCO[S](CC)C=C",
+    "hansen_d": "16.4",
+    "hansen_p": "7",
+    "hansen_h": "6"
+   }
+  }
  },
  {
   "row_index": 1705,
@@ -10611,7 +12435,14 @@
     "mv_pct_diff": null,
     "guess_text": "Vinyl Trifluoro Acetate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 136,
+   "total_pages": 159,
+   "crop_file": "source_crops/1705.png",
+   "raw_line": "693 Vinyl Trifluoro Acetate Trifluoro-acetic acid 13.9 4.3 7.6 116.4"
+  }
  },
  {
   "row_index": 1707,
@@ -10671,7 +12502,20 @@
     "mv_pct_diff": null,
     "guess_text": "Vinyl-2-Ethyl Hexanoate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "csv",
+   "file": "hansen_1k_smiles_shorter.csv",
+   "url": "https://github.com/jiayunpang/hsp_embedding",
+   "raw_row": {
+    "number": "1178",
+    "Molecule": "Vinyl-2-Ethyl Hexanoate",
+    "SMILES": "CCCCCC(=O)OC(C)C=C",
+    "hansen_d": "15.6",
+    "hansen_p": "2.7",
+    "hansen_h": "5.8"
+   }
+  }
  },
  {
   "row_index": 1710,
@@ -10731,7 +12575,14 @@
     "mv_pct_diff": null,
     "guess_text": "Vinylenecarbonate"
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 136,
+   "total_pages": 159,
+   "crop_file": "source_crops/1710.png",
+   "raw_line": "695 Vinylenecarbonate [1,3]Dioxol-2-one 17.3 18.1 9.6 86.0"
+  }
  },
  {
   "row_index": 1713,
@@ -10757,7 +12608,14 @@
     "mv_match": null,
     "mv_pct_diff": null
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 136,
+   "total_pages": 159,
+   "crop_file": "source_crops/1713.png",
+   "raw_line": "859 Water - 1% in Ro = 18.1 Water 15.1 20.4 16.5 18.0"
+  }
  },
  {
   "row_index": 1714,
@@ -10783,6 +12641,13 @@
     "mv_match": null,
     "mv_pct_diff": null
    }
-  ]
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 136,
+   "total_pages": 159,
+   "crop_file": "source_crops/1714.png",
+   "raw_line": "858 Water - Complete Miscibility Water 18.1 17.1 16.9 18.0"
+  }
  }
 ]
