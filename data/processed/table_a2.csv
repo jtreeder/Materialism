@@ -1,0 +1,467 @@
+number,polymer_name,category,dispersion,polar,hydrogen_bonding,interaction_radius
+1,CELLIT BP-300,Cellulose Acetobutyrate,16.6,12.0,6.7,10.2
+2,CELLIDORA A,Cellulose Acetate,18.2,12.4,10.8,7.4
+3,ETHOCEL HE10,Ethyl Cellulose,17.9,4.3,3.9,5.9
+4,ETHOCEL STD 20,Ethyl Cellulose,20.1,6.9,5.9,9.9
+5,ARALDITE DY O25,Epoxy,14.0,7.4,9.4,13.7
+6,EPIKOTE 828,Epoxy,23.1,14.6,5.0,20.5
+7,EPIKOTE 1001,Epoxy,20.0,10.32,10.11,10.02
+8,EPIKOTE 1004,Epoxy,17.4,10.5,9.0,7.9
+9,EPIKOTE 1007,Epoxy,21.0,11.1,13.4,11.7
+10,EPIKOTE 1009,Epoxy,19.3,9.37,10.95,8.26
+11,PKHH,Epoxy,23.4,7.2,14.8,14.9
+12,VERSAMID 100,Epoxy Curing Agents,23.8,5.3,16.2,16.1
+13,VERSAMID 115,Epoxy Curing Agents,20.3,6.6,14.1,9.6
+14,VERSAMID 125,Epoxy Curing Agents,24.9,3.1,18.7,20.3
+15,VERSAMID 140,Epoxy Curing Agents,26.9,2.4,18.5,24.0
+16,DESMOPHEN 651,Polyurethane,17.7,10.6,11.6,9.5
+17,DESMOPHEN 800,Polyurethane,19.1,12.2,9.9,8.0
+18,DESMOPHEN 850,Polyurethane,21.54,14.94,12.28,16.78
+19,DESMOPHEN 1100,Polyurethane,16.0,13.1,9.2,11.4
+20,DESMOPHEN 1150,Polyurethane,20.6,7.8,11.6,13.1
+21,DESMOPHEN 1200,Polyurethane,19.4,7.4,6.0,9.8
+22,DESMOPHEN 1700,Polyurethane,17.9,9.6,5.9,8.2
+23,DESMOLAC 4200,Polyurethane,18.7,9.6,9.9,8.2
+24,MACRYNAL SM 510N,Polyurethane,19.9,8.1,6.0,9.8
+25,SUPER BECKACITE 1001,Phenolic Resins,23.26,6.55,8.35,19.85
+26,PHENODUR 373U,Phenolic Resins,19.74,11.62,14.59,12.69
+27,PLIOLYTE S-100,Hydrocarbon Resins,16.47,0.37,2.84,8.59
+28,PICCOPALE 110,Hydrocarbon Resins,17.55,1.19,3.6,6.55
+29,PICCORONE 450L,Hydrocarbon Resins,19.42,5.48,5.77,9.62
+30,POLYSAR 5630,Styrene-Butadiene (SBR),17.55,3.35,2.7,6.55
+31,HYCAR 1052,Acrylonitrile-Butadiene,18.62,8.78,4.17,9.62
+32,BUNA HULS B10,Polybutadiene,17.53,2.25,3.42,6.55
+33,CARIFLEX IR 305,Polyisoprene,16.57,1.41,-0.82,9.62
+34,LUTONAL IC/1203,Polyisobutylene,14.2,2.5,4.6,12.4
+35,LUTANAL I60,Polyisobutylene,16.9,2.5,4.0,7.2
+36,POLYVINYLBUTYL ETHER,Polyisobutylene,17.4,4.3,8.4,7.4
+37,LIGNIN,Special,20.17,14.61,15.04,11.66
+38,MODAFLOW,Special,16.1,3.7,7.9,8.9
+39,VIPLA KR (PVC),Polyvinylchloride,18.4,6.6,8.0,3.0
+40,CERECLOR 70,Chloroparaffin,20.0,8.3,6.8,9.8
+41,CHLOROPAR 40,Chloroparaffin,17.0,7.6,7.9,11.9
+42,PERGUT S 5,Chlorinated Rubber,17.4,9.5,3.8,10.0
+43,ALLOPREN R10,Chlorinated Rubber,17.4,4.3,3.9,6.1
+44,PARLON P 10,Chlorinated Polypropylene,20.26,6.32,5.4,10.64
+45,HYPALON 20,Chlorosulfonated PE,18.1,3.4,4.9,3.6
+46,HYPALON 30,Chlorosulfonated PE,18.2,4.7,2.0,5.0
+47,ALPEX,Cyclized Rubber,19.9,0.0,0.0,9.4
+48,1/2-sec.-NITRO CELLULOSE H 23,Nitrocellulose,15.41,14.73,8.84,11.46
+49,CELLOLYN 102,Rosin Derivatives,21.73,0.94,8.53,15.75
+50,PENTALYN 255,Rosin Derivatives,17.55,9.37,14.32,10.64
+51,PENTALYN 830,Rosin Derivatives,20.03,5.81,10.93,11.66
+52,ESTER GUM BL,Rosin Derivatives,19.64,4.73,7.77,10.64
+53,VERSAMID 930,Polyamide,17.43,-1.92,14.89,9.62
+54,VERSAMID 961,Polyamide,18.9,9.6,11.1,6.2
+55,VERSAMID 965,Polyamide,20.15,6.04,12.9,9.2
+56,DESMODUR L,Isocyanate,17.5,11.3,5.9,8.5
+57,DESMODUR N,Isocyanate,17.6,10.0,3.7,9.3
+58,SUPRASEC F-5100,Isocyanate,19.7,12.9,12.8,11.4
+59,MOWITAL B 30 H,Polyvinylbutyral,18.6,12.9,10.3,8.3
+60,MOWITAL B 60 H,Polyvinylbutyral,20.2,11.2,13.3,11.2
+61,BUTVAR B 76,Polyvinylbutyral,18.6,4.36,13.03,10.64
+62,LUCITE 2042 PEMA,Polyacrylate,17.6,9.66,3.97,10.64
+63,LUCITE 2044 PMMA,Polyacrylate,16.2,6.8,5.7,9.1
+64,PLEXIGUM MB319,Polyacrylate,18.6,10.8,4.1,11.5
+65,PLEXIGUM M527,Polyacrylate,18.4,9.4,6.5,10.7
+66,PMMA,Polyacrylate,18.64,10.52,7.51,8.59
+67,MOWILITH 50 PVAC,Polyvinylacetate,20.93,11.27,9.66,13.71
+68,POLYSTYRENE LG,Polystyrene,22.28,5.75,4.3,12.68
+69,LAROFLEX MP 45,Vinyl Chloride Copolymers,18.4,8.4,5.8,9.0
+70,VILIT MB 30,Vinyl Chloride Copolymers,20.0,8.3,6.7,9.4
+71,VILIT MC 31,Vinyl Chloride Copolymers,20.0,8.3,6.7,9.4
+72,VILIT MC 39,Vinyl Chloride Copolymers,18.4,7.6,6.7,6.8
+73,VINYLITE VAGD,Vinyl Chloride Copolymers,17.1,10.4,6.5,7.5
+74,VINYLITE VAGH,Vinyl Chloride Copolymers,16.5,10.9,6.4,7.7
+75,VINYLITE VMCA,Vinyl Chloride Copolymers,17.7,11.1,6.9,8.7
+76,VINYLITE VMCC,Vinyl Chloride Copolymers,17.6,11.1,6.8,8.8
+77,VINYLITE VMCH,Vinyl Chloride Copolymers,17.6,11.1,6.4,8.6
+78,VINYLITE VYHH,Vinyl Chloride Copolymers,17.4,10.2,5.9,7.8
+79,VINYLITE VYLF,Vinyl Chloride Copolymers,18.1,10.3,4.2,8.3
+80,ALFTALAT AC 366,Binders in Solution: Alkyds and Polyesters,18.6,10.0,5.0,10.4
+81,ALFTALAT AM 756,Binders in Solution: Alkyds and Polyesters,23.0,2.2,4.2,16.9
+82,ALFTALAT AN 896,Binders in Solution: Alkyds and Polyesters,22.9,15.2,7.6,18.1
+83,ALFTALAT AN 950,Binders in Solution: Alkyds and Polyesters,22.6,13.8,8.1,17.1
+84,ALFTALAT AT 316,Binders in Solution: Alkyds and Polyesters,20.5,9.3,9.1,12.4
+85,ALFTALAT AT 576,Binders in Solution: Alkyds and Polyesters,19.2,5.3,6.3,11.9
+86,ALKYDAL F 261 HS,Binders in Solution: Alkyds and Polyesters,23.6,1.0,7.6,19.0
+87,ALKYDAL F 41,Binders in Solution: Alkyds and Polyesters,20.6,4.6,5.5,12.6
+88,DUROFTAL T 354,Binders in Solution: Alkyds and Polyesters,17.3,4.2,7.9,9.3
+89,DYNAPOL L 812,Binders in Solution: Alkyds and Polyesters,22.6,13.1,5.8,16.8
+90,DYNAPOL L 850,Binders in Solution: Alkyds and Polyesters,20.0,6.2,7.0,9.5
+91,PLEXAL C-34,Binders in Solution: Alkyds and Polyesters,18.5,9.21,4.91,10.64
+92,SOALKYD 1935-EGAX,Binders in Solution: Alkyds and Polyesters,18.0,11.6,8.5,9.0
+93,VESTURIT BL 908,Binders in Solution: Alkyds and Polyesters,18.8,12.0,6.0,11.5
+94,VESTURIT BL 915,Binders in Solution: Alkyds and Polyesters,17.7,13.0,7.6,11.5
+95,BE 370,Amino Resins,20.7,6.1,12.7,14.8
+96,BEETLE 681,Amino Resins,22.2,-0.4,10.1,18.4
+97,CYMEL 300,Amino Resins,19.35,12.83,12.87,9.82
+98,CYMEL 325,Amino Resins,25.5,15.2,9.5,22.2
+99,DYNOMIN MM 9,Amino Resins,18.8,14.0,12.3,10.5
+100,DYNOMIN UM 15,Amino Resins,19.9,15.8,13.4,11.7
+101,SOAMIN M 60,Amino Resins,15.9,8.1,6.5,10.6
+102,SYNRESIN A 560,Amino Resins,22.1,5.0,11.3,15.5
+103,PLASTOPAL H,Amino Resins,20.81,8.29,14.96,12.69
+104,UFORMITE MX-61,Amino Resins,22.7,2.8,5.4,16.2
+105,URACRON 15,Acrylate Resins,19.2,7.7,5.7,10.6
+106,PARALOID P 400,Acrylate Resins,19.2,9.6,9.3,12.2
+107,PARALOID P 410,Acrylate Resins,19.6,9.1,6.8,12.2
+108,PARALOID EXPER. RES. QR 954,Acrylate Resins,18.4,9.8,10.0,12.4
+109,BAYSILON UD 125,Silicone Resins,19.4,9.9,10.1,6.9
+110,TEFLON (SL2-),Silicone Resins,17.1,8.1,1.3,4.7
+111,DOW EPOXY NOVOLAC 438,Special Data,20.3,15.4,5.3,15.1
+112,DOW EPOXY NOVOLAC 444,Special Data,19.5,11.6,9.3,10.0
+113,ZINK SILICATE - CHEMICAL RES.,Special Data,23.5,17.5,16.8,15.6
+114,2-COMP EPOXY CHEMICAL RES.,Special Data,18.4,9.4,10.1,7.0
+115,POLYVINYLIDINE FLUORIDE SOL.,Special Data,17.0,12.1,10.2,4.1
+116,COAL TAR PITCH SOL.,Special Data,18.7,7.5,8.9,5.8
+117,NITRILE 20 MIN,Practical Film Thickness,17.5,7.3,6.5,5.1
+118,NITRILE 1 HR,Practical Film Thickness,16.6,9.1,4.4,10.0
+119,NITRILE 4 HR,Practical Film Thickness,19.0,12.6,3.8,13.3
+120,BUTYL 20 MIN,Practical Film Thickness,16.5,1.0,5.1,5.0
+121,BUTYL 1 HR,Practical Film Thickness,15.8,-2.1,4.0,8.2
+122,BUTYL 4 HR (2),Practical Film Thickness,17.6,2.1,2.1,7.0
+123,NATURAL RUBBER 20 MIN,Practical Film Thickness,14.5,7.3,4.5,11.0
+124,NATURAL RUBBER 1 HR,Practical Film Thickness,15.6,3.4,9.1,14.0
+125,NATURAL RUBBER 4 HR,Practical Film Thickness,19.4,13.2,7.7,19.0
+126,PVC 20 MIN,Practical Film Thickness,16.1,7.1,5.9,9.3
+127,PVC 1 HR,Practical Film Thickness,14.9,11.1,3.8,13.2
+128,PVC 4 HR,Practical Film Thickness,24.4,4.9,9.9,22.7
+129,POLYVINYLALCOHOL 20 MIN,Practical Film Thickness,11.2,12.4,13.0,12.1
+130,POLYVINYLALCOHOL 1 HR,Practical Film Thickness,15.3,13.2,13.5,8.8
+131,POLYVINYLALCOHOL 4 HR,Practical Film Thickness,17.2,13.6,15.4,10.9
+132,POLYETHYLENE 20 MIN,Practical Film Thickness,16.9,3.3,4.1,8.1
+133,POLYETHYLENE 1 HR,Practical Film Thickness,17.1,3.1,5.2,8.2
+134,POLYETHYLENE 4 HR,Practical Film Thickness,24.1,14.9,0.3,24.3
+135,VITON 20 MIN,Practical Film Thickness,10.9,14.5,3.1,14.1
+136,VITON 1 HR,Practical Film Thickness,16.5,8.1,8.3,6.6
+137,VITON 4 HR,Practical Film Thickness,13.6,15.4,8.6,14.4
+138,NEOPRENE 20 MIN,Practical Film Thickness,17.6,2.5,5.9,6.2
+139,NEOPRENE 1 HR,Practical Film Thickness,19.0,8.0,0.0,13.2
+140,NEOPRENE 4 HR,Practical Film Thickness,14.6,13.9,2.3,15.9
+141,CH 5100 3 HR,Practical Film Thickness,16.6,5.4,4.0,3.8
+142,CH 5200 3 HR,Practical Film Thickness,16.6,6.0,4.8,3.7
+143,PVDC (110C) SOLUBILITY,High Temperature Solubility of PVDC,17.6,9.1,7.8,3.9
+144,PVDC (130C) SOLUBILITY,High Temperature Solubility of PVDC,20.4,10.0,10.2,7.6
+145,PES L C=1,Chemical Resistance of High Performance and Other Polymers,18.7,10.5,7.6,9.1
+146,PES L B + C =1,Chemical Resistance of High Performance and Other Polymers,17.7,9.7,6.4,9.3
+147,PPS CR 93°C,Chemical Resistance of High Performance and Other Polymers,18.8,4.8,6.8,2.8
+148,PPS TS60%12MO,Chemical Resistance of High Performance and Other Polymers,18.7,5.3,3.7,6.7
+149,PA6 CR,Chemical Resistance of High Performance and Other Polymers,17.0,3.4,10.6,5.1
+150,PA66 SOL,Chemical Resistance of High Performance and Other Polymers,17.4,9.8,14.6,5.1
+151,PA11 CR,Chemical Resistance of High Performance and Other Polymers,17.0,4.4,10.6,5.1
+152,POMH+POMC CR,Chemical Resistance of High Performance and Other Polymers,17.1,3.1,10.7,5.2
+153,PETP CR,Chemical Resistance of High Performance and Other Polymers,18.2,6.4,6.6,5.0
+154,PTFE L80 CR,Chemical Resistance of High Performance and Other Polymers,16.2,1.8,3.4,3.9
+155,PMMA CR,Chemical Resistance of High Performance and Other Polymers,16.0,5.0,12.0,13.0
+156,PE? CR Q UESTIONABLE VALUES,Chemical Resistance of High Performance and Other Polymers,16.8,5.4,2.4,4.7
+157,PPO CR,Chemical Resistance of High Performance and Other Polymers,17.9,3.1,8.5,8.6
+158,PUR CR,Chemical Resistance of High Performance and Other Polymers,18.1,9.3,4.5,9.7
+159,ABS CR,Chemical Resistance of High Performance and Other Polymers,16.3,2.7,7.1,7.8
+160,PSU CR,Chemical Resistance of High Performance and Other Polymers,16.0,6.0,6.6,9.0
+161,VINYL SILANE,Chemical Resistance of High Performance and Other Polymers,16.4,3.7,4.5,10.0
+162,CELLOPHAN SW,Correlations for Some Barrier-Type Polymers,16.1,18.5,14.5,9.3
+163,EVOH SOL,Correlations for Some Barrier-Type Polymers,20.5,10.5,12.3,7.3
+164,SARANEX 4HR,Correlations for Some Barrier-Type Polymers,17.7,18.3,0.7,18.4
+165,4H 35°C,Correlations for Some Barrier-Type Polymers,19.4,13.4,18.0,8.6
+166,4H 35°C no plasticizer included,Correlations for Some Barrier-Type Polymers,20.5,11.3,10.3,6.7
+167,POLYVINYLALCOHOL,Correlations for Some Barrier-Type Polymers,15.0,17.2,17.8,10.2
+168,ACETAL CELANESE,Chemical Resistance Data - Modern Plastics Encylopedia,21.1,9.3,5.9,11.4
+169,ACETALHOMO-DUO,Chemical Resistance Data - Modern Plastics Encylopedia,19.0,5.0,8.0,5.0
+170,CELLULOSE ACETATE,Chemical Resistance Data - Modern Plastics Encylopedia,16.9,16.3,3.7,13.7
+171,CELL. ACET. BUTYRATE,Chemical Resistance Data - Modern Plastics Encylopedia,17.2,13.8,2.8,12.6
+172,CELL. ACET. PROPIONATE,Chemical Resistance Data - Modern Plastics Encylopedia,9.8,13.6,11.4,15.2
+173,PCTFE,Chemical Resistance Data - Modern Plastics Encylopedia,14.1,2.7,5.5,6.6
+174,FEP,Chemical Resistance Data - Modern Plastics Encylopedia,19.0,4.0,3.0,4.0
+175,FURAN,Chemical Resistance Data - Modern Plastics Encylopedia,19.0,6.0,8.0,5.0
+176,FURF ALC,Chemical Resistance Data - Modern Plastics Encylopedia,19.9,3.9,5.1,3.8
+177,PFA(?),Chemical Resistance Data - Modern Plastics Encylopedia,16.7,7.7,-0.5,8.1
+178,PHENOLIC,Chemical Resistance Data - Modern Plastics Encylopedia,21.6,5.2,18.8,15.4
+179,PETG,Chemical Resistance Data - Modern Plastics Encylopedia,18.0,3.0,4.0,6.0
+180,HDPE,Chemical Resistance Data - Modern Plastics Encylopedia,18.0,0.0,2.0,2.0
+181,PP,Chemical Resistance Data - Modern Plastics Encylopedia,18.0,0.0,1.0,6.0
+182,PECTFE SOL AT HIGH TEMP.,Poly(Ethylene/Chlorotrifluoroethylene),19.5,7.3,1.7,5.1
+183,PAN,Solubility of Polyacrylonitirile,21.7,14.1,9.1,10.9
+184,PEI 1200PSI,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.2,6.4,5.2,3.6
+185,PEI 2400PSI,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.4,4.6,9.0,7.2
+186,PEI 600PSI,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.3,5.3,4.7,3.3
+187,ESTER GUM,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.9,4.5,6.5,9.2
+188,ALKYD 45 SOYA,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.5,2.3,7.7,10.0
+189,SILICONE DC-1107?,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),19.6,3.4,10.8,9.8
+190,PVETHYLETHER?,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),15.1,3.1,11.9,12.9
+191,PBUTYLACRYLATE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.2,9.0,3.0,10.1
+192,PBMA?,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),15.9,5.5,5.9,8.5
+193,SILICONE DC 23?,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.4,0.0,7.8,5.5
+194,PE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.0,0.8,2.8,3.2
+195,GILSONITE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.1,2.1,3.9,4.9
+196,PVINYLBUTYLETHER,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.4,3.4,7.8,8.4
+197,NAT RUBBER,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.0,4.0,6.0,1.3
+198,HYP 20 CHLOROSULFONATED PE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.4,3.2,4.0,4.8
+199,ETHCEL N22?,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),22.7,0.5,16.5,20.1
+200,CHLORINATED RUBBER,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.9,6.3,5.1,7.6
+201,DAMMAR GUM,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.4,4.2,7.8,8.3
+202,VERSAMID 100?,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.8,3.0,9.2,7.8
+203,PS,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.5,4.5,2.9,5.3
+204,PVAC,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.6,2.2,4.0,4.1
+205,PVC,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.6,7.8,3.4,8.2
+206,PHENOLICS,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),19.8,7.2,10.8,12.8
+207,BUNA N B UTADIENE/ACRYLONITRILE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.8,3.2,3.4,3.7
+208,PMMA,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.1,10.5,5.1,9.5
+209,PEO 4000 ? HEATED SAMPLES,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),21.5,10.9,13.1,15.9
+210,POLYETHYLENESULFIDE (GOOD),PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.8,3.8,2.2,4.1
+211,PC,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.1,5.9,6.9,5.5
+212,PLIOLITE P1230,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.1,4.7,3.7,3.9
+213,MYLAR PET,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.0,6.2,6.2,5.0
+214,VCVA COPOLY,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.3,8.7,6.1,7.8
+215,PUR,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.9,6.9,3.7,2.7
+216,SAN,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.6,9.8,7.6,4.8
+217,VINSOL ROSIN,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.4,10.0,13.0,10.5
+218,EPON 1001,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.0,9.6,7.8,7.1
+219,SHELLAC,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),19.7,10.1,15.1,10.7
+220,POLYMETHACRYLONITRILE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.2,14.4,7.6,3.8
+221,CELLULOSE ACETATE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.3,16.5,11.9,8.8
+222,CELLULOSE NITRATE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.9,13.5,10.3,9.9
+223,"PVOH (NOT GOOD, SEE CHAP. 5)",PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.0,9.0,18.0,4.0
+224,NYLON 66,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.0,11.0,24.0,3.0
+225,ACRYLOID B-44,Acrylics - Solvent Range,19.4,11.2,4.4,10.5
+226,ACRYLOID B-66,Acrylics - Solvent Range,18.0,9.0,3.0,9.0
+227,ACRYLOID B-72,Acrylics - Solvent Range,19.2,11.2,1.8,11.0
+228,ACRYLOID B-82,Acrylics - Solvent Range,19.1,9.1,3.3,9.0
+229,R+H PBA,Acrylics - Solvent Range,16.0,8.0,8.0,12.0
+230,R+H PiMBA,Acrylics - Solvent Range,20.7,4.1,10.7,11.5
+231,R+H PNBMA,Acrylics - Solvent Range,16.0,6.2,6.6,9.5
+232,R+H PEMA,Acrylics - Solvent Range,19.0,9.0,8.0,11.0
+233,R+H PMAA,Acrylics - Solvent Range,25.6,11.2,19.6,20.3
+234,R+H PMMA,Acrylics - Solvent Range,19.1,11.3,4.1,10.3
+235,BMA/AN 80/20,Acrylics - Solvent Range,17.5,9.9,4.1,9.5
+236,ISOB MALANH/CYCLOL 75/25,Acrylics - Solvent Range,16.8,-0.4,7.2,8.5
+237,MAA/EA/ST 15/38/47,Acrylics - Solvent Range,17.6,5.2,7.0,4.5
+238,MAA/MA/VA 15/27.5/57.5,Acrylics - Solvent Range,28.5,15.7,18.1,21.5
+239,MAA/MA/VA 15/17.5/67.5,Acrylics - Solvent Range,25.5,15.7,18.1,21.5
+240,MMA/CYCLOL 58/42,Acrylics - Solvent Range,18.7,9.9,8.7,8.8
+241,MMA/EA 50/50,Acrylics - Solvent Range,17.5,9.9,4.1,9.5
+242,MMA/EA 25/75,Acrylics - Solvent Range,19.0,9.0,15.0,12.0
+243,MMA/EA/AGE 40/40/20,Acrylics - Solvent Range,17.6,9.8,5.6,9.7
+244,MMA/EA/AA,Acrylics - Solvent Range,15.9,15.9,11.5,11.1
+245,MMA/EA/AN 55/30/15?,Acrylics - Solvent Range,16.7,10.9,8.5,8.5
+246,MMA/EA/AN 40/40/20,Acrylics - Solvent Range,20.4,13.2,11.0,12.3
+247,MMA/EA/BAMA 40/40/20,Acrylics - Solvent Range,17.9,8.5,11.7,12.9
+248,MMA/EA/CYCLOL,Acrylics - Solvent Range,17.6,9.8,6.4,9.8
+249,MMA/EA/MAM 40/40/20,Acrylics - Solvent Range,19.0,9.0,15.0,12.0
+250,MMA/EA/MAM 45/45/10?,Acrylics - Solvent Range,19.5,11.1,8.7,11.2
+251,MMA/EA/BVBE 40/40/20,Acrylics - Solvent Range,17.8,10.0,6.6,9.8
+252,ACID DEGMP,Polyesters - Solvent Range,15.3,13.3,14.9,15.6
+253,CARB DEG PTH,Polyesters - Solvent Range,19.4,13.4,11.6,11.1
+254,CRYPLEX 1473-5,Polyesters - Solvent Range,19.2,9.4,5.6,8.9
+255,DEG ISOPH,Polyesters - Solvent Range,19.2,17.2,14.6,11.8
+256,DEG PHTH,Polyesters - Solvent Range,21.0,15.2,13.2,13.7
+257,DPG PHTH,Polyesters - Solvent Range,20.1,11.5,6.7,11.6
+258,DOW ADIP TEREP,Polyesters - Solvent Range,17.8,10.4,6.8,9.3
+259,DOW X-2635 MALEATE,Polyesters - Solvent Range,17.8,5.6,6.8,4.5
+260,VITEL PE LINEAR,Polyesters - Solvent Range,14.9,10.1,2.9,6.1
+261,VITEL PE101-X,Polyesters - Solvent Range,21.3,6.3,4.7,7.3
+262,HYD BIS A FUM ISPH,Polyesters - Solvent Range,17.0,4.4,6.2,5.0
+263,HYD BIS A PG FUM ISPH,Polyesters - Solvent Range,18.7,8.9,5.5,8.4
+264,PENTA BENZ MAL,Polyesters - Solvent Range,19.4,12.2,10.2,10.8
+265,SOL MYLAR 49001,Polyesters - Solvent Range,19.0,5.0,4.0,5.0
+266,SOL MYLAR 49002,Polyesters - Solvent Range,19.0,5.0,5.0,5.0
+267,TEG EG MAL TEREP,Polyesters - Solvent Range,18.8,11.4,9.2,10.2
+268,TEG MALEATE,Polyesters - Solvent Range,18.1,13.9,12.1,9.7
+269,VAREZ 123,Polyesters - Solvent Range,17.3,10.9,11.9,10.7
+270,AMOCO 18-290,Styrene Polymers And Copolymers - Solvent Range,19.3,3.7,7.9,7.8
+271,BUTON 100 B UTAD-STY,Styrene Polymers And Copolymers - Solvent Range,17.0,4.0,3.0,7.3
+272,BUTON 300,Styrene Polymers And Copolymers - Solvent Range,17.3,3.7,7.3,7.0
+273,KOPPERS KTPL-A,Styrene Polymers And Copolymers - Solvent Range,19.3,3.7,7.9,7.8
+274,RUBBER MOD PS,Styrene Polymers And Copolymers - Solvent Range,20.0,5.0,1.0,7.0
+275,STY MAL ANH,Styrene Polymers And Copolymers - Solvent Range,23.4,13.8,15.2,16.5
+276,LYTRON 820,Styrene Polymers And Copolymers - Solvent Range,21.1,13.1,14.5,14.4
+277,MARBON 9200,Styrene Polymers And Copolymers - Solvent Range,19.0,4.0,4.0,6.0
+278,PARAPOL S-50,Styrene Polymers And Copolymers - Solvent Range,17.9,3.9,4.9,3.9
+279,PARAPOL S-60,Styrene Polymers And Copolymers - Solvent Range,17.9,3.9,4.9,3.9
+280,PICCOFLEX 120,Styrene Polymers And Copolymers - Solvent Range,17.4,7.8,3.8,7.7
+281,SHELL POLYALDEHYDE EX 39,Styrene Polymers And Copolymers - Solvent Range,19.6,10.0,3.6,9.4
+282,SHELL POLYALDEHYDE EX 40,Styrene Polymers And Copolymers - Solvent Range,19.6,10.0,3.6,9.4
+283,SHELL X-450,Styrene Polymers And Copolymers - Solvent Range,19.3,9.5,11.1,11.1
+284,SMA 1430A,Styrene Polymers And Copolymers - Solvent Range,18.8,11.4,16.4,14.1
+285,SAN 85/15,Styrene Polymers And Copolymers - Solvent Range,19.1,9.5,3.1,8.7
+286,STY/BUTENOL 85/15,Styrene Polymers And Copolymers - Solvent Range,17.4,7.8,3.8,7.7
+287,STY/CYCLOL 82/18,Styrene Polymers And Copolymers - Solvent Range,18.2,5.6,7.2,5.7
+288,STY/2EHA/AA 81/11/8,Styrene Polymers And Copolymers - Solvent Range,17.7,4.9,5.9,5.9
+289,STY/MAA 90/10,Styrene Polymers And Copolymers - Solvent Range,18.7,6.3,7.3,6.7
+290,STY/MA 85/15,Styrene Polymers And Copolymers - Solvent Range,18.0,9.0,3.0,9.0
+291,STY/HALF ESTER MA 60/40,Styrene Polymers And Copolymers - Solvent Range,18.9,10.9,10.7,9.7
+292,STY/PROP HALF E MA 57/43,Styrene Polymers And Copolymers - Solvent Range,18.0,9.8,8.4,10.1
+293,STY/VBE 85/15,Styrene Polymers And Copolymers - Solvent Range,17.4,7.8,3.8,7.7
+294,STYRON 44OM-27 MOD PS,Styrene Polymers And Copolymers - Solvent Range,20.0,5.0,1.0,7.0
+295,STYRON 475M-27,Styrene Polymers And Copolymers - Solvent Range,20.0,5.0,1.0,7.0
+296,STYRON 480-27,Styrene Polymers And Copolymers - Solvent Range,20.0,6.0,4.0,5.3
+297,ACRYLOID K120N,Vinyl Resins - Solvent Range,17.6,10.0,3.8,9.5
+298,DODA 6225,Vinyl Resins - Solvent Range,19.0,2.0,1.0,3.0
+299,DODA 3457,Vinyl Resins - Solvent Range,19.0,2.0,1.0,3.0
+300,ELVAX 250,Vinyl Resins - Solvent Range,19.0,2.0,1.0,3.0
+301,ELVAX 150,Vinyl Resins - Solvent Range,18.7,2.3,0.7,6.0
+302,ELVAX EOD 3602-1,Vinyl Resins - Solvent Range,17.7,3.3,2.7,5.4
+303,EXON 470 PVC,Vinyl Resins - Solvent Range,17.4,7.8,3.8,7.7
+304,EXON 471,Vinyl Resins - Solvent Range,17.9,8.7,2.5,9.0
+305,EXON 473,Vinyl Resins - Solvent Range,17.4,7.8,3.8,7.7
+306,GEON 121,Vinyl Resins - Solvent Range,19.5,6.7,11.1,8.0
+307,POLYCYCLOLa,Vinyl Resins - Solvent Range,19.0,9.0,15.0,12.0
+308,PVBE,Vinyl Resins - Solvent Range,16.7,3.7,8.3,8.6
+309,PVEE,Vinyl Resins - Solvent Range,16.0,4.0,12.0,14.0
+310,FORMVAR 7/70E PVFORMAL,Vinyl Resins - Solvent Range,22.2,12.6,14.2,14.0
+311,FORMVAR 15/95E,Vinyl Resins - Solvent Range,22.2,12.6,14.2,14.0
+312,PVIBE,Vinyl Resins - Solvent Range,16.0,1.0,8.0,10.0
+313,SARAN F-120 VCL2/AN?,Vinyl Resins - Solvent Range,28.8,16.8,0.8,23.7
+314,SARAN F-220 ?,Vinyl Resins - Solvent Range,28.8,16.8,0.8,23.7
+315,SINCLAIR 3840A,Vinyl Resins - Solvent Range,18.4,4.0,9.6,7.3
+316,VA/EHA/MA 63/33/4,Vinyl Resins - Solvent Range,17.7,6.3,7.7,5.3
+317,VA/EHA/CYC/MAA/76/12/8/4,Vinyl Resins - Solvent Range,21.2,12.4,13.0,12.6
+318,VA/EA/CY 70/20/10,Vinyl Resins - Solvent Range,20.0,12.0,11.0,15.0
+319,VBE/AN/MAA 46/27/27,Vinyl Resins - Solvent Range,18.9,11.7,11.1,9.6
+320,VBE/MA/MAC46/27/27,Vinyl Resins - Solvent Range,19.4,13.0,13.8,12.3
+321,VDC/AA 75/25 ?,Vinyl Resins - Solvent Range,20.4,11.0,0.8,11.7
+322,VINYLITE AYAA PVAC,Vinyl Resins - Solvent Range,22.9,18.3,7.7,20.4
+323,VINYLITE VAGH,Vinyl Resins - Solvent Range,17.0,7.8,6.8,7.1
+324,VINYLITE VMCH,Vinyl Resins - Solvent Range,18.3,9.7,7.7,8.5
+325,VINYLITE VXCC,Vinyl Resins - Solvent Range,18.0,9.4,4.6,8.4
+326,VINYLITE VYHH,Vinyl Resins - Solvent Range,19.0,11.0,5.0,10.0
+327,VINYLITE VYLF,Vinyl Resins - Solvent Range,18.0,9.4,4.6,8.4
+328,VINYLITE XYHL PVB UTYRAL,Vinyl Resins - Solvent Range,19.0,9.0,15.0,12.0
+329,VINYLITE XYSG PVB UTYRAL,Vinyl Resins - Solvent Range,19.0,9.0,15.0,12.0
+330,VYSET 69,Vinyl Resins - Solvent Range,17.9,3.5,7.5,5.9
+331,ACRYLAMIDE MONOMER,Miscellaneous - Solvent Range,16.9,18.1,19.9,17.0
+332,BAKELITE SULFONE P-47,Miscellaneous - Solvent Range,20.0,3.0,6.0,3.0
+333,BECKOLIN 27 MODIF OIL,Miscellaneous - Solvent Range,11.4,0.0,3.0,18.1
+334,PEO 4000 ? SAMPLES HEA TED,Miscellaneous - Solvent Range,22.2,11.2,13.2,17.1
+335,CHLORINATED RUBBER,Miscellaneous - Solvent Range,18.0,6.0,5.0,7.0
+336,CONOCO H-35 HYDROCARBON M,Miscellaneous - Solvent Range,11.4,0.0,3.0,18.1
+337,DAMMAR GUM DEWAXED,Miscellaneous - Solvent Range,19.0,2.0,9.0,9.0
+338,EPOCRYL E-11 ?,Miscellaneous - Solvent Range,17.3,12.9,12.1,8.5
+339,ESTANE X-7 ?? DIO XANE ONLY,Miscellaneous - Solvent Range,19.0,1.8,7.4,1.0
+340,HEXADECYL MONOESTER TRIME,Miscellaneous - Solvent Range,19.0,11.6,14.0,11.9
+341,HYDR SPERM OIL WX135,Miscellaneous - Solvent Range,20.0,4.0,2.0,5.0
+342,HYPALON 20 CHL SULF PE,Miscellaneous - Solvent Range,17.8,3.2,4.4,4.1
+343,HYPALON 30,Miscellaneous - Solvent Range,17.8,3.4,3.2,5.1
+344,KETONE RESIN S588,Miscellaneous - Solvent Range,18.0,10.8,13.2,12.2
+345,SANTOLITE MHP ARYLSULFONA,Miscellaneous - Solvent Range,18.4,12.0,8.4,10.6
+346,pTOLSULFONAMIDE-FORMALDEH,Miscellaneous - Solvent Range,24.6,18.6,16.4,20.9
+347,VYHH-NIF REPT,Polymer Solubility Data from Various Sources,17.4,9.9,6.7,7.5
+348,PVF? (DMF ONLY GOOD SOLVENT),Polymer Solubility Data from Various Sources,17.4,13.7,11.3,2.0
+349,PES SOL,Polymer Solubility Data from Various Sources,19.6,10.8,9.2,6.2
+350,LARD 37C,Biologically Interesting Systems,15.9,1.16,5.41,12.03
+351,LARD 23C,Biologically Interesting Systems,17.69,2.66,4.36,7.98
+352,1%IN WATER -AMINES,Biologically Interesting Systems,15.07,20.44,16.5,18.12
+353,1%IN WATER +AMINES,Biologically Interesting Systems,14.96,18.33,15.15,16.22
+354,BLOOD SERUM,Biologically Interesting Systems,23.2,22.73,30.6,20.48
+355,SUCROSE,Biologically Interesting Systems,21.67,26.26,29.62,20.44
+356,UREA,Biologically Interesting Systems,20.9,18.7,26.4,19.42
+357,PSORIASIS SCALES,Biologically Interesting Systems,24.64,11.94,12.92,19.04
+358,LIGNIN,Biologically Interesting Systems,20.61,13.88,15.25,11.83
+359,CHOLESTEROL,Biologically Interesting Systems,20.4,2.8,9.4,12.6
+360,CHLOROPHYLL,Biologically Interesting Systems,20.2,15.6,18.2,11.1
+361,CELLULOSE-PAPER STRENGTH,Biologically Interesting Systems,25.4,18.6,24.8,21.7
+362,PSU ULTRASON S,Polysulfone PSU,19.7,8.3,8.3,8.0
+363,BAREX 210 CR,Barex,20.1,9.1,12.7,10.9
+364,BAREX 210 CR-STYRENE,Barex,17.7,8.9,10.9,6.4
+365,PARALOID B72,Polymers of Interest for Conservation of Paintings,17.6,7.4,5.6,9.4
+366,ESTIMATE DRIED OIL,Polymers of Interest for Conservation of Paintings,16.0,6.0,7.0,5.0
+367,DAMMAR DEWAXED,Polymers of Interest for Conservation of Paintings,19.0,2.0,9.0,9.0
+368,LDPE PERM>80,Permeation of LDPE by Organic Liquids,16.5,4.5,0.5,6.0
+369,LDPE PERM<0.8,Permeation of LDPE by Organic Liquids,15.3,5.3,2.5,10.1
+370,TOLONATE HDT (RH-POULENC),Tolonate Solubility,19.0,11.0,3.0,12.0
+371,TOLONATE HDB (RH-POULENC),Tolonate Solubility,19.0,11.0,2.0,11.3
+372,R ACM,Chemical Resistance of Elastomers,16.8,11.8,11.6,17.0
+373,R BUTYL,Chemical Resistance of Elastomers,18.0,0.0,3.0,9.0
+374,R ECO,Chemical Resistance of Elastomers,21.3,8.1,6.1,12.0
+375,R CSM,Chemical Resistance of Elastomers,28.0,14.0,3.4,28.3
+376,R EBONITE (DATA FIT 0.722),Chemical Resistance of Elastomers,18.7,6.1,2.7,6.6
+377,R ETHYLENE/PROPYLENE,Chemical Resistance of Elastomers,16.6,0.0,5.2,9.1
+378,R EPDM,Chemical Resistance of Elastomers,18.6,-3.4,4.4,10.7
+379,R FQ FL/SI,Chemical Resistance of Elastomers,15.9,20.1,6.9,16.8
+380,R FKM (VIT ON) (0.76 DATA FIT),Chemical Resistance of Elastomers,11.6,23.0,5.0,21.6
+381,R NR NAT RUB,Chemical Resistance of Elastomers,20.8,1.8,3.6,14.0
+382,R NBR,Chemical Resistance of Elastomers,19.8,17.8,3.2,19.0
+383,R CR CHLOROPRENE,Chemical Resistance of Elastomers,24.6,8.6,6.4,20.4
+384,R AU ESTER PU,Chemical Resistance of Elastomers,17.9,13.3,10.7,17.1
+385,R PEU ETHER PU,Chemical Resistance of Elastomers,17.9,13.3,10.7,17.1
+386,R T SULPHIDE,Chemical Resistance of Elastomers,25.3,17.3,6.7,23.6
+387,R Q SILICONE (0.748 D ATA FIT),Chemical Resistance of Elastomers,13.8,5.0,1.2,14.3
+388,R SBR,Chemical Resistance of Elastomers,17.2,6.0,4.6,9.8
+389,R TFP TETFLPROP (0.744 DATA FIT),Chemical Resistance of Elastomers,16.6,6.8,0.6,7.9
+390,R ABS,Chemical Resistance of Plastics,17.6,8.6,6.4,10.9
+391,R CELLULOSE ACETATE,Chemical Resistance of Plastics,14.9,7.1,11.1,12.4
+392,R CHLORINATED PVC,Chemical Resistance of Plastics,17.5,6.5,5.5,6.3
+393,R DIALLYLPHTHALATE,Chemical Resistance of Plastics,22.2,12.2,8.6,15.8
+394,R POM ACETAL,Chemical Resistance of Plastics,17.2,9.0,9.8,5.3
+395,R PA12,Chemical Resistance of Plastics,18.5,8.1,9.1,6.3
+396,R PA66,Chemical Resistance of Plastics,18.2,8.8,10.8,5.2
+397,R POLYAMIDEIMIDE,Chemical Resistance of Plastics,18.5,5.7,8.7,4.2
+398,R POLYBUTYLENETEREPH,Chemical Resistance of Plastics,18.0,5.6,8.4,4.5
+399,R POLYCARBONATE,Chemical Resistance of Plastics,19.1,10.9,5.1,12.1
+400,R HDPE/LDPE,Chemical Resistance of Plastics,17.5,4.3,8.3,3.9
+401,R PET,Chemical Resistance of Plastics,19.1,6.3,9.1,4.8
+402,R POLYIMIDES,Chemical Resistance of Plastics,24.3,19.5,22.9,21.6
+403,R PMMA,Chemical Resistance of Plastics,19.3,16.7,4.7,17.4
+404,R TPX,Chemical Resistance of Plastics,18.8,1.4,6.4,7.9
+405,R POLYPHENYLENEOXIDE,Chemical Resistance of Plastics,16.9,8.9,2.7,11.7
+406,R POLYSULPHONE,Chemical Resistance of Plastics,19.8,11.2,6.2,11.3
+407,R POLYPROPYLENE,Chemical Resistance of Plastics,17.2,5.6,-0.4,4.5
+408,R EPOXY COLD CURING,Chemical Resistance of Plastics,16.8,10.8,8.8,8.2
+409,R EPOXY HOT CURING,Chemical Resistance of Plastics,18.3,12.3,9.7,7.3
+410,R HET RESIN,Chemical Resistance of Plastics,17.5,11.3,8.3,8.6
+411,R ISOPHTHALIC,Chemical Resistance of Plastics,19.8,17.4,4.2,18.0
+412,R TEREPHTALIC,Chemical Resistance of Plastics,19.8,17.4,4.2,18.0
+413,EPIKOTE 828 (60%),Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,16.6,14.0,2.8,14.9
+414,EPIKOTE 828 (30%),Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,16.3,16.4,1.9,16.7
+415,EPIKOTE 1001 (60%),Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,15.8,16.3,3.3,16.4
+416,EPIKOTE 1001 (40%),Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,16.3,13.1,6.3,10.9
+417,EPIKOTE 1001 (20%),Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,19.8,13.6,8.9,12.0
+418,EPIKOTE 1001 (10%),Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,18.1,11.4,9.0,9.1
+419,EPIKOTE 1004 (60%),Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,17.7,10.1,7.6,9.8
+420,EPIKOTE 1004 (30%),Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,18.5,9.3,8.0,9.6
+421,EPIKOTE 1007 (30%),Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,18.6,10.6,8.1,8.8
+422,EPIKOTE 1009 (60%),Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,17.0,9.6,8.5,7.6
+423,EPIKOTE 1009 (30%),Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,19.8,10.6,10.3,9.7
+424,EPIKOTE 1009 (10%),Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,19.0,9.1,10.7,8.0
+425,PIBMA (10%),Acrylics,17.0,4.6,7.6,9.5
+426,PIBMA (30%),Acrylics,17.1,5.9,0.7,7.3
+427,PMMA (10%),Acrylics,17.8,10.4,2.9,9.6
+428,PMMA (30%),Acrylics,17.2,7.2,3.5,4.8
+429,PBMA (10%),Acrylics,20.6,3.5,7.2,12.8
+430,PBMA (30%),Acrylics,18.1,5.7,0.0,8.5
+431,PMMA (10%),Acrylics,17.6,10.1,5.8,9.4
+432,PMMA (30%),Acrylics,17.5,5.5,3.8,4.5
+433,PEMA (10%),Acrylics,16.5,8.7,5.0,10.4
+434,PEMA (30%),Acrylics,16.9,7.8,0.5,7.3
+435,CRODA AC500 THERMOSET (10%),Acrylics,17.8,6.4,4.7,10.7
+436,CRODA AC500 THERMOSET (30%),Acrylics,21.2,1.4,10.7,12.3
+437,CRODA AC550 THERMOSET (10%),Acrylics,16.3,10.6,7.4,12.9
+438,CRODA AC550 THERMOSET (30%),Acrylics,16.3,10.6,7.4,12.9
+439,LUMFLON LF200 (10%),Fluorinated Polyethers,18.5,5.4,6.9,9.9
+440,LUMFLON LF200 (30%),Fluorinated Polyethers,20.1,4.4,3.2,8.5
+441,LUMFLON LF916 (10%),Fluorinated Polyethers,17.5,6.8,10.5,12.5
+442,LUMFLON LF916 (30%),Fluorinated Polyethers,18.1,3.9,8.3,8.8
+443,PLASTOKYD S27 (30%),Acrylic Modified Alkyd,20.1,5.7,5.3,20.0
+444,PLASTOKYD SC140 (30%),Acrylic Modified Alkyd,25.2,9.2,3.7,20.0
+445,PLASTOKYD SC400 (30%),Acrylic Modified Alkyd,23.7,0.5,10.3,20.0
+446,PLASTOKYD AC4X (30%),Acrylic Modified Alkyd,23.9,7.8,8.8,19.9
+447,ALLOPRENE R10 (10%),Chlorinated Rubber,19.5,9.2,6.9,7.5
+448,ALLOPRENE R10 (30%),Chlorinated Rubber,17.9,5.6,6.7,5.8
+449,ALLOPRENE R10 (60%),Chlorinated Rubber,19.6,6.5,5.8,9.1
+450,HYPALON 20 (30%),Chlorosulfonated Polyethylene,20.3,3.2,0.7,11.3
+451,POLYISOPRENE SW,Polyisoprene Swelling,17.0,4.0,4.0,7.3
+452,BROMOBUTYL RUBBER S,Bromobutyl Rubber Swelling,17.6,1.7,2.0,6.0
+453,BROMOBUTYL RUBBER L,Bromobutyl Rubber Swelling,17.0,3.4,2.0,6.0
+454,NEOPRENE CR,Supplemental Chemical Resistance Corrlations,18.1,4.3,6.7,8.9
+455,HYTREL +/- OK,Supplemental Chemical Resistance Corrlations,24.2,14.6,13.2,18.8
+456,HYTREL +/- NOT OK,Supplemental Chemical Resistance Corrlations,26.4,18.8,7.4,26.3
+457,HYPALON +/- OK,Supplemental Chemical Resistance Corrlations,18.4,3.6,6.4,9.0
+458,HYPALON +/- NOT OK,Supplemental Chemical Resistance Corrlations,18.4,5.6,6.0,9.4
+459,EVA 4055 SOL,Ethylene Vinylacetate (EVA) Solubility,17.7,3.5,3.7,4.7
+460,TOPAS 6013 SOL,COC Solubility,18.0,3.0,2.0,5.0
+461,CZ RESIN SOL,COC Solubility,18.0,1.0,3.0,4.0
+462,KAURI GUM,Miscellaneous,18.7,8.1,13.0,8.2
+463,POLYVINYLPYRROLIDONE (PVP),Miscellaneous,21.4,11.6,21.6,17.3
+464,PALM OIL,Miscellaneous,17.7,3.5,3.7,4.7
+465,BETHOXAZIN,Miscellaneous,22.4,7.6,10.8,13.9
+466,CARBON-60,Miscellaneous,19.7,2.9,2.7,3.9
