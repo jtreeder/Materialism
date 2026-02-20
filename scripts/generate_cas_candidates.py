@@ -46,21 +46,8 @@ def pubchem_get(url, retries=3):
     return None
 
 
-def lookup_name(name):
-    """Query PubChem by name, return (cid, cas, iupac_name, synonyms[:5]) or None."""
-    encoded = urllib.parse.quote(name, safe="")
-    url = f"{BASE}/compound/name/{encoded}/property/IUPACName,MolecularFormula/JSON"
-    data = pubchem_get(url)
-    if not data:
-        return None
-    try:
-        props = data["PropertyTable"]["Properties"][0]
-        cid = props["CID"]
-        iupac = props.get("IUPACName", "")
-    except (KeyError, IndexError):
-        return None
-
-    # Get synonyms & CAS
+def _get_synonyms_and_cas(cid):
+    """Given a CID, return (cas, synonyms) from PubChem."""
     surl = f"{BASE}/compound/cid/{cid}/synonyms/JSON"
     sdata = pubchem_get(surl)
     cas = ""
@@ -75,13 +62,33 @@ def lookup_name(name):
                     break
         except (KeyError, IndexError):
             pass
-    return {"cid": cid, "cas": cas, "iupac": iupac, "synonyms": synonyms}
+    return cas, synonyms
+
+
+def lookup_name(name):
+    """Query PubChem by name, return dict with cid, cas, iupac, mw, synonyms or None."""
+    encoded = urllib.parse.quote(name, safe="")
+    url = f"{BASE}/compound/name/{encoded}/property/IUPACName,MolecularFormula,MolecularWeight/JSON"
+    data = pubchem_get(url)
+    if not data:
+        return None
+    try:
+        props = data["PropertyTable"]["Properties"][0]
+        cid = props["CID"]
+        iupac = props.get("IUPACName", "")
+        mw = props.get("MolecularWeight")
+        if mw is not None:
+            mw = float(mw)
+    except (KeyError, IndexError, ValueError):
+        return None
+    cas, synonyms = _get_synonyms_and_cas(cid)
+    return {"cid": cid, "cas": cas, "iupac": iupac, "mw": mw, "synonyms": synonyms}
 
 
 def lookup_smiles(smiles):
     """Query PubChem by SMILES, return same dict as lookup_name."""
     encoded = urllib.parse.quote(smiles, safe="")
-    url = f"{BASE}/compound/smiles/{encoded}/property/IUPACName,MolecularFormula/JSON"
+    url = f"{BASE}/compound/smiles/{encoded}/property/IUPACName,MolecularFormula,MolecularWeight/JSON"
     data = pubchem_get(url)
     if not data:
         return None
@@ -89,23 +96,23 @@ def lookup_smiles(smiles):
         props = data["PropertyTable"]["Properties"][0]
         cid = props["CID"]
         iupac = props.get("IUPACName", "")
-    except (KeyError, IndexError):
+        mw = props.get("MolecularWeight")
+        if mw is not None:
+            mw = float(mw)
+    except (KeyError, IndexError, ValueError):
         return None
-    surl = f"{BASE}/compound/cid/{cid}/synonyms/JSON"
-    sdata = pubchem_get(surl)
-    cas = ""
-    synonyms = []
-    if sdata:
-        try:
-            syns = sdata["InformationList"]["Information"][0]["Synonym"]
-            synonyms = syns[:8]
-            for s in syns:
-                if CAS_RE.match(s):
-                    cas = s
-                    break
-        except (KeyError, IndexError):
-            pass
-    return {"cid": cid, "cas": cas, "iupac": iupac, "synonyms": synonyms}
+    cas, synonyms = _get_synonyms_and_cas(cid)
+    return {"cid": cid, "cas": cas, "iupac": iupac, "mw": mw, "synonyms": synonyms}
+
+
+def lookup_by_mw(mw_target, tolerance=0.5):
+    """Search PubChem for compounds with a specific molecular weight.
+    Returns list of (cid, mw) tuples."""
+    lo = mw_target - tolerance
+    hi = mw_target + tolerance
+    url = f"{BASE}/compound/fastformula/weight/{lo}:{hi}/property/IUPACName,MolecularWeight/JSON"
+    # This endpoint is too broad; skip it - MW alone isn't discriminating enough
+    return []
 
 
 # ---- Name repair heuristics ----
@@ -354,6 +361,8 @@ def main():
         dd = row.get("delta_d", "")
         dp = row.get("delta_p", "")
         dh = row.get("delta_h", "")
+        known_mv_str = row.get("molar_volume", "").strip()
+        known_mv = float(known_mv_str) if known_mv_str else None
 
         entry = {
             "row_index": row_idx,
@@ -361,11 +370,51 @@ def main():
             "source": source,
             "smiles": smiles,
             "delta_d": dd, "delta_p": dp, "delta_h": dh,
+            "molar_volume": known_mv,
             "options": []
         }
 
         # Generate name guesses
         guesses = generate_name_guesses(name)
+
+        def _make_option(result, reason, base_conf, via_smiles=False):
+            """Build an option dict with molar volume validation."""
+            conf = base_conf
+            if result["cas"]:
+                conf = min(conf + 0.05, 0.99)
+            elif not via_smiles:
+                conf = max(conf - 0.15, 0.20)
+
+            pubchem_mw = result.get("mw")
+            mv_match = None  # None = can't compare, True = match, False = mismatch
+
+            if known_mv and pubchem_mw:
+                # Compute implied density = MW / MV
+                implied_density = pubchem_mw / known_mv
+                # Most organic solvents: density 0.6-1.8 g/mL
+                # If density is wildly off, wrong compound
+                density_plausible = 0.5 <= implied_density <= 2.5
+                if not density_plausible:
+                    mv_match = False
+                    conf = max(conf - 0.30, 0.05)
+                else:
+                    mv_match = True
+                    conf = min(conf + 0.08, 0.99)
+
+            opt = {
+                "corrected_name": result["synonyms"][0] if result["synonyms"] else (result.get("guess_text") or name),
+                "cas": result["cas"],
+                "iupac": result["iupac"],
+                "confidence": round(conf, 2),
+                "reason": reason,
+                "cid": result["cid"],
+                "synonyms": result["synonyms"],
+                "pubchem_mw": pubchem_mw,
+                "mv_match": mv_match,
+            }
+            if not via_smiles and result.get("guess_text"):
+                opt["guess_text"] = result["guess_text"]
+            return opt
 
         # Look up SMILES first (most reliable if available)
         smiles_result = None
@@ -373,16 +422,9 @@ def main():
             smiles_result = lookup_smiles(smiles)
             time.sleep(0.2)
             if smiles_result and smiles_result["cas"]:
-                # High confidence: SMILES match with CAS
-                entry["options"].append({
-                    "corrected_name": smiles_result["synonyms"][0] if smiles_result["synonyms"] else smiles_result["iupac"],
-                    "cas": smiles_result["cas"],
-                    "iupac": smiles_result["iupac"],
-                    "confidence": 0.95,
-                    "reason": "Matched via SMILES",
-                    "cid": smiles_result["cid"],
-                    "synonyms": smiles_result["synonyms"],
-                })
+                entry["options"].append(
+                    _make_option(smiles_result, "Matched via SMILES", 0.95, via_smiles=True)
+                )
 
         # Try each name guess
         seen_cids = set()
@@ -395,29 +437,14 @@ def main():
 
             if result and result["cid"] not in seen_cids:
                 seen_cids.add(result["cid"])
-                # Boost confidence if CAS found, reduce if not
-                conf = base_conf
-                if result["cas"]:
-                    conf = min(conf + 0.05, 0.99)
-                else:
-                    conf = max(conf - 0.15, 0.20)
 
-                # Check if this matches the SMILES result (same compound)
                 if smiles_result and result["cid"] == smiles_result["cid"]:
                     continue  # already covered
 
-                entry["options"].append({
-                    "corrected_name": result["synonyms"][0] if result["synonyms"] else guess,
-                    "cas": result["cas"],
-                    "iupac": result["iupac"],
-                    "confidence": round(conf, 2),
-                    "reason": reason,
-                    "cid": result["cid"],
-                    "synonyms": result["synonyms"],
-                    "guess_text": guess,
-                })
+                result["guess_text"] = guess
+                entry["options"].append(_make_option(result, reason, base_conf))
+
             elif result and result["cid"] in seen_cids:
-                # Same compound found by different guess — note the match but don't add duplicate
                 for opt in entry["options"]:
                     if opt.get("cid") == result["cid"]:
                         opt["confidence"] = min(round(opt["confidence"] + 0.05, 2), 0.99)
@@ -433,6 +460,8 @@ def main():
                 "reason": "No match found — needs manual review",
                 "cid": None,
                 "synonyms": [],
+                "pubchem_mw": None,
+                "mv_match": None,
             })
 
         # Sort options by confidence descending

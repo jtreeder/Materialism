@@ -118,6 +118,12 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
             <option value="medium">Medium (50-80%)</option>
             <option value="low">Low (<50%)</option>
         </select>
+        <select id="filter-mv" onchange="applyFilters()">
+            <option value="all">Any MV Status</option>
+            <option value="match">MV Validated</option>
+            <option value="mismatch">MV Mismatch</option>
+            <option value="nodata">No MV Data</option>
+        </select>
         <input type="text" id="filter-search" placeholder="Search by name..." oninput="applyFilters()">
     </div>
     <div style="margin-left:auto; display:flex; align-items:center; gap:12px;">
@@ -176,7 +182,9 @@ function renderCard(entry, idx) {
     html += '<span class="original-name">' + escHtml(entry.original_name) + '</span>';
     html += '<span class="source-badge">' + escHtml(entry.source) + '</span>';
     if (entry.smiles) html += '<span class="source-badge" title="SMILES: ' + escHtml(entry.smiles) + '">SMILES</span>';
-    html += '<span class="hsp-values">&delta;D=' + entry.delta_d + ' &delta;P=' + entry.delta_p + ' &delta;H=' + entry.delta_h + '</span>';
+    html += '<span class="hsp-values">&delta;D=' + entry.delta_d + ' &delta;P=' + entry.delta_p + ' &delta;H=' + entry.delta_h;
+    if (entry.molar_volume) html += ' MV=' + entry.molar_volume;
+    html += '</span>';
     html += statusBadge;
     html += '</div>';
 
@@ -206,6 +214,17 @@ function renderCard(entry, idx) {
         html += '<span class="option-reason">' + escHtml(opt.reason) + '</span>';
         if (opt.guess_text && opt.guess_text !== opt.corrected_name) {
             html += ' <span style="font-size:0.75rem;color:#b2bec3">query: "' + escHtml(opt.guess_text) + '"</span>';
+        }
+        // Molar volume validation
+        if (opt.pubchem_mw && entry.molar_volume) {
+            var impliedDensity = (opt.pubchem_mw / entry.molar_volume).toFixed(3);
+            if (opt.mv_match === true) {
+                html += '<div style="font-size:0.75rem;margin-top:3px"><span style="background:#d4edda;color:#155724;padding:2px 8px;border-radius:10px;display:inline-block">MW=' + opt.pubchem_mw.toFixed(1) + ' / MV=' + entry.molar_volume.toFixed(1) + ' &rarr; density=' + impliedDensity + ' g/mL &#10003;</span></div>';
+            } else if (opt.mv_match === false) {
+                html += '<div style="font-size:0.75rem;margin-top:3px"><span style="background:#f8d7da;color:#721c24;padding:2px 8px;border-radius:10px;display:inline-block">MW=' + opt.pubchem_mw.toFixed(1) + ' / MV=' + entry.molar_volume.toFixed(1) + ' &rarr; density=' + impliedDensity + ' g/mL &#10007; unlikely</span></div>';
+            }
+        } else if (opt.pubchem_mw) {
+            html += '<div style="font-size:0.75rem;margin-top:3px;color:#b2bec3">MW=' + opt.pubchem_mw.toFixed(1) + ' (no MV to compare)</div>';
         }
         html += '</div>';
         html += '<div class="confidence-bar"><div class="confidence-fill" style="width:' + confPct + '%;background:' + color + '"></div></div>';
@@ -364,6 +383,7 @@ function applyFilters() {
     var statusFilter = document.getElementById('filter-status').value;
     var sourceFilter = document.getElementById('filter-source').value;
     var confFilter = document.getElementById('filter-confidence').value;
+    var mvFilter = document.getElementById('filter-mv').value;
     var searchQ = document.getElementById('filter-search').value.trim().toLowerCase();
 
     FILTERED = DATA.filter(function(entry) {
@@ -377,6 +397,13 @@ function applyFilters() {
             if (confFilter === 'high' && c < 0.80) return false;
             if (confFilter === 'medium' && (c < 0.50 || c >= 0.80)) return false;
             if (confFilter === 'low' && c >= 0.50) return false;
+        }
+        if (mvFilter !== 'all') {
+            var bestOpt = entry.options[0];
+            var mv = bestOpt ? bestOpt.mv_match : null;
+            if (mvFilter === 'match' && mv !== true) return false;
+            if (mvFilter === 'mismatch' && mv !== false) return false;
+            if (mvFilter === 'nodata' && mv !== null) return false;
         }
         if (searchQ && entry.original_name.toLowerCase().indexOf(searchQ) === -1) return false;
         return true;

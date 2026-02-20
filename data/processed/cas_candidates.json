@@ -7,12 +7,13 @@
   "delta_d": "14.6",
   "delta_p": "10.7",
   "delta_h": "0.0",
+  "molar_volume": 64.6,
   "options": [
    {
     "corrected_name": "1,1,1-TRIFLUOROETHANE",
     "cas": "420-46-2",
     "iupac": "1,1,1-trifluoroethane",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026ethan \u2192 \u2026ethane",
     "cid": 9868,
     "synonyms": [
@@ -25,6 +26,8 @@
      "Ethane, 1,1,1-trifluoro-",
      "R 143a"
     ],
+    "pubchem_mw": 84.04,
+    "mv_match": true,
     "guess_text": "1,1,1-Trifluoroethane"
    }
   ]
@@ -37,6 +40,7 @@
   "delta_d": "15.0",
   "delta_p": "6.8",
   "delta_h": "3.6",
+  "molar_volume": 58.2,
   "options": [
    {
     "corrected_name": "1,1-Difluoroet ylene",
@@ -45,7 +49,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -57,12 +63,13 @@
   "delta_d": "14.9",
   "delta_p": "10.2",
   "delta_h": "3.0",
+  "molar_volume": 69.5,
   "options": [
    {
     "corrected_name": "1,1-DIFLUOROETHANE",
     "cas": "75-37-6",
     "iupac": "1,1-difluoroethane",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026ethan \u2192 \u2026ethane",
     "cid": 6368,
     "synonyms": [
@@ -75,6 +82,8 @@
      "Genetron 152a",
      "Algofrene type 67"
     ],
+    "pubchem_mw": 66.05,
+    "mv_match": true,
     "guess_text": "1,1-Difluoroethane"
    }
   ]
@@ -87,12 +96,13 @@
   "delta_d": "19.6",
   "delta_p": "2.0",
   "delta_h": "2.9",
+  "molar_volume": 136.0,
   "options": [
    {
     "corrected_name": "1,2,3,4-Tetrahydronaphthalene",
     "cas": "119-64-2",
     "iupac": "1,2,3,4-tetrahydronaphthalene",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 8404,
     "synonyms": [
@@ -105,6 +115,8 @@
      "Tetraline",
      "Naphthalene, 1,2,3,4-tetrahydro-"
     ],
+    "pubchem_mw": 132.2,
+    "mv_match": true,
     "guess_text": "1,2,3,4-Tetrahydronaphthalene"
    }
   ]
@@ -117,12 +129,13 @@
   "delta_d": "21.2",
   "delta_p": "10.7",
   "delta_h": "3.4",
+  "molar_volume": 116.2,
   "options": [
    {
     "corrected_name": "1,2,4,5-TETRACHLOROBENZENE",
     "cas": "95-94-3",
     "iupac": "1,2,4,5-tetrachlorobenzene",
-    "confidence": 0.77,
+    "confidence": 0.85,
     "reason": "Remove trailing fragment",
     "cid": 7270,
     "synonyms": [
@@ -135,6 +148,8 @@
      "DTXSID7024320",
      "5N27529KGH"
     ],
+    "pubchem_mw": 215.9,
+    "mv_match": true,
     "guess_text": "1,2,4,5-Tetrachlorobenzene"
    }
   ]
@@ -147,6 +162,7 @@
   "delta_d": "17.2",
   "delta_p": "6.6",
   "delta_h": "2.3",
+  "molar_volume": 78.7,
   "options": [
    {
     "corrected_name": "1,2-Chlorobromoethylene",
@@ -155,7 +171,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -167,12 +185,13 @@
   "delta_d": "19.2",
   "delta_p": "6.3",
   "delta_h": "3.3",
+  "molar_volume": 112.8,
   "options": [
    {
     "corrected_name": "1,2-DICHLOROBENZENE",
     "cas": "95-50-1",
     "iupac": "1,2-dichlorobenzene",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 7239,
     "synonyms": [
@@ -185,6 +204,8 @@
      "2-Dichlorobenzene",
      "ODCB"
     ],
+    "pubchem_mw": 147.0,
+    "mv_match": true,
     "guess_text": "1,2-Dichlorobenzene"
    }
   ]
@@ -197,6 +218,7 @@
   "delta_d": "17.0",
   "delta_p": "10.7",
   "delta_h": "2.8",
+  "molar_volume": 102.5,
   "options": [
    {
     "corrected_name": "1,3-Butadiene-1,2-Di-Chloro",
@@ -205,7 +227,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -217,6 +241,7 @@
   "delta_d": "15.6",
   "delta_p": "8.5",
   "delta_h": "2.0",
+  "molar_volume": 92.2,
   "options": [
    {
     "corrected_name": "1,3-Butadiene-1-Chloro",
@@ -225,7 +250,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -237,6 +264,7 @@
   "delta_d": "16.8",
   "delta_p": "9.1",
   "delta_h": "4.2",
+  "molar_volume": 194.4,
   "options": [
    {
     "corrected_name": "1,4-Butandiol Diacrylate",
@@ -245,7 +273,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -257,12 +287,13 @@
   "delta_d": "18.0",
   "delta_p": "0.0",
   "delta_h": "0.6",
+  "molar_volume": 156.9,
   "options": [
    {
     "corrected_name": "1,4-DIETHYLBENZENE",
     "cas": "105-05-5",
     "iupac": "1,4-diethylbenzene",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 7734,
     "synonyms": [
@@ -275,6 +306,8 @@
      "0PSM16X42D",
      "DTXSID4026711"
     ],
+    "pubchem_mw": 134.22,
+    "mv_match": true,
     "guess_text": "1,4-Diethylbenzene"
    }
   ]
@@ -287,6 +320,7 @@
   "delta_d": "15.9",
   "delta_p": "7.3",
   "delta_h": "8.5",
+  "molar_volume": 101.4,
   "options": [
    {
     "corrected_name": "1-Chloro Methyl Acrylate",
@@ -295,7 +329,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -307,6 +343,7 @@
   "delta_d": "16.8",
   "delta_p": "6.5",
   "delta_h": "5.7",
+  "molar_volume": 104.5,
   "options": [
    {
     "corrected_name": "1-Chloro Vinyl Ethyl Ether",
@@ -315,7 +352,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -327,6 +366,7 @@
   "delta_d": "15.4",
   "delta_p": "6.3",
   "delta_h": "6.0",
+  "molar_volume": 156.0,
   "options": [
    {
     "corrected_name": "1-Ethoxy Ethoxy-2-Propanol",
@@ -335,7 +375,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -347,6 +389,7 @@
   "delta_d": "15.3",
   "delta_p": "4.2",
   "delta_h": "4.6",
+  "molar_volume": 125.6,
   "options": [
    {
     "corrected_name": "1-Ethyl Vinyl Ethyl Ether",
@@ -355,7 +398,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -367,6 +412,7 @@
   "delta_d": "16.0",
   "delta_p": "8.7",
   "delta_h": "13.0",
+  "molar_volume": 90.0,
   "options": [
    {
     "corrected_name": "1-Fluoro Acrylic Acid",
@@ -375,7 +421,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -387,6 +435,7 @@
   "delta_d": "14.1",
   "delta_p": "15.4",
   "delta_h": "5.7",
+  "molar_volume": 88.8,
   "options": [
    {
     "corrected_name": "1-Fluoro Acrylonitrile",
@@ -395,7 +444,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -407,12 +458,13 @@
   "delta_d": "16.0",
   "delta_p": "7.8",
   "delta_h": "2.0",
+  "molar_volume": 88.1,
   "options": [
    {
     "corrected_name": "1-CHLOROPROPANE",
     "cas": "540-54-5",
     "iupac": "1-chloropropane",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 10899,
     "synonyms": [
@@ -425,6 +477,8 @@
      "TUV7462NWK",
      "DTXSID3051462"
     ],
+    "pubchem_mw": 78.54,
+    "mv_match": true,
     "guess_text": "1-Chloropropane"
    }
   ]
@@ -437,6 +491,7 @@
   "delta_d": "15.6",
   "delta_p": "6.3",
   "delta_h": "11.6",
+  "molar_volume": 98.2,
   "options": [
    {
     "corrected_name": "1Methoxy2Propanol",
@@ -445,7 +500,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -457,6 +514,7 @@
   "delta_d": "18.0",
   "delta_p": "12.3",
   "delta_h": "7.2",
+  "molar_volume": 96.6,
   "options": [
    {
     "corrected_name": "1Methyl2Pyrrolidinone",
@@ -465,7 +523,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -477,6 +537,7 @@
   "delta_d": "17.4",
   "delta_p": "5.3",
   "delta_h": "11.5",
+  "molar_volume": 143.2,
   "options": [
    {
     "corrected_name": "1Phenoxy2Propanol",
@@ -485,7 +546,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -497,12 +560,13 @@
   "delta_d": "14.3",
   "delta_p": "3.1",
   "delta_h": "9.0",
+  "molar_volume": 242.0,
   "options": [
    {
     "corrected_name": "1-TRIDECANOL",
     "cas": "112-70-9",
     "iupac": "tridecan-1-ol",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 8207,
     "synonyms": [
@@ -515,6 +579,8 @@
      "n-Tridecanol",
      "DTXSID2021947"
     ],
+    "pubchem_mw": 200.36,
+    "mv_match": true,
     "guess_text": "1-Tridecanol"
    }
   ]
@@ -527,6 +593,7 @@
   "delta_d": "21.0",
   "delta_p": "8.2",
   "delta_h": "8.4",
+  "molar_volume": 204.0,
   "options": [
    {
     "corrected_name": "2,2',5,5'-Tetrathiafulvalen",
@@ -535,7 +602,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -547,12 +616,13 @@
   "delta_d": "15.4",
   "delta_p": "8.3",
   "delta_h": "16.4",
+  "molar_volume": 72.3,
   "options": [
    {
     "corrected_name": "2,2,2-TRIFLUOROETHANOL",
     "cas": "75-89-8",
     "iupac": "2,2,2-trifluoroethanol",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026Ethano \u2192 \u2026Ethanol",
     "cid": 6409,
     "synonyms": [
@@ -565,6 +635,8 @@
      "Fluorinol 85",
      "beta,beta,beta-Trifluoroethyl alcohol"
     ],
+    "pubchem_mw": 100.04,
+    "mv_match": true,
     "guess_text": "2,2,2-Trifluoro Ethanol"
    }
   ]
@@ -577,6 +649,7 @@
   "delta_d": "16.0",
   "delta_p": "4.1",
   "delta_h": "8.2",
+  "molar_volume": 208.2,
   "options": [
    {
     "corrected_name": "2,2ButoxyethoxyEthylAcetate",
@@ -585,7 +658,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -597,12 +672,13 @@
   "delta_d": "19.5",
   "delta_p": "7.7",
   "delta_h": "3.5",
+  "molar_volume": 122.0,
   "options": [
    {
     "corrected_name": "1,2,3-Trifluoro-4-nitrobenzene",
     "cas": "771-69-7",
     "iupac": "1,2,3-trifluoro-4-nitrobenzene",
-    "confidence": 0.8,
+    "confidence": 0.88,
     "reason": "Join 'Trifluoro nitro' \u2192 'Trifluoronitro' + fix \u2026benzen",
     "cid": 69871,
     "synonyms": [
@@ -615,6 +691,8 @@
      "NKN86LZ8MM",
      "EINECS 212-238-4"
     ],
+    "pubchem_mw": 177.08,
+    "mv_match": true,
     "guess_text": "2,3,4-Trifluoronitrobenzene"
    }
   ]
@@ -627,6 +705,7 @@
   "delta_d": "17.7",
   "delta_p": "11.8",
   "delta_h": "6.4",
+  "molar_volume": 103.4,
   "options": [
    {
     "corrected_name": "2,3-Dibromoprene",
@@ -635,7 +714,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -647,12 +728,13 @@
   "delta_d": "19.9",
   "delta_p": "7.6",
   "delta_h": "3.7",
+  "molar_volume": 162.0,
   "options": [
    {
     "corrected_name": "2,4-Dichloro-5-nitrobenzotrifluoride",
     "cas": "400-70-4",
     "iupac": "1,5-dichloro-2-nitro-4-(trifluoromethyl)benzene",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026fluorid \u2192 \u2026fluoride",
     "cid": 621179,
     "synonyms": [
@@ -665,6 +747,8 @@
      "VLVNHMVSVDVAOA-UHFFFAOYSA-N",
      "1,5-Dichloro-2-nitro-4-(trifluoromethyl)benzene"
     ],
+    "pubchem_mw": 259.99,
+    "mv_match": true,
     "guess_text": "2,4-Dichloro-5-Nitrobenzotrifluoride"
    }
   ]
@@ -677,12 +761,13 @@
   "delta_d": "19.4",
   "delta_p": "11.0",
   "delta_h": "3.7",
+  "molar_volume": 109.6,
   "options": [
    {
     "corrected_name": "2,4-Difluoronitrobenzene",
     "cas": "446-35-5",
     "iupac": "2,4-difluoro-1-nitrobenzene",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026benzen \u2192 \u2026benzene",
     "cid": 67967,
     "synonyms": [
@@ -695,6 +780,8 @@
      "6398Y1D7JS",
      "NSC-10259"
     ],
+    "pubchem_mw": 159.09,
+    "mv_match": true,
     "guess_text": "2,4-Difluoronitrobenzene"
    }
   ]
@@ -707,12 +794,13 @@
   "delta_d": "20.0",
   "delta_p": "4.7",
   "delta_h": "2.4",
+  "molar_volume": 145.5,
   "options": [
    {
     "corrected_name": "2,5-Dichlorobenzotrifluoride",
     "cas": "320-50-3",
     "iupac": "1,4-dichloro-2-(trifluoromethyl)benzene",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026fluorid \u2192 \u2026fluoride",
     "cid": 35360,
     "synonyms": [
@@ -725,6 +813,8 @@
      "NSC 60712",
      "RefChem:562325"
     ],
+    "pubchem_mw": 215.0,
+    "mv_match": true,
     "guess_text": "2,5-Dichlorobenzotrifluoride"
    }
   ]
@@ -737,6 +827,7 @@
   "delta_d": "17.9",
   "delta_p": "8.5",
   "delta_h": "18.9",
+  "molar_volume": 114.5,
   "options": [
    {
     "corrected_name": "2,5-Tetrahydrofuran Dimethanol",
@@ -745,7 +836,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -757,12 +850,13 @@
   "delta_d": "18.8",
   "delta_p": "11.2",
   "delta_h": "3.2",
+  "molar_volume": 111.6,
   "options": [
    {
     "corrected_name": "2,6-Difluorobenzonitrile",
     "cas": "1897-52-5",
     "iupac": "2,6-difluorobenzonitrile",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026onitril \u2192 \u2026onitrile",
     "cid": 74695,
     "synonyms": [
@@ -775,6 +869,8 @@
      "217-589-7",
      "Benzonitrile, 2,6-difluoro-"
     ],
+    "pubchem_mw": 139.1,
+    "mv_match": true,
     "guess_text": "2,6-Difluorobenzonitrile"
    }
   ]
@@ -787,6 +883,7 @@
   "delta_d": "16.0",
   "delta_p": "3.7",
   "delta_h": "4.1",
+  "molar_volume": 177.1,
   "options": [
    {
     "corrected_name": "2,6Dimethyl4Heptanone",
@@ -795,7 +892,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -807,6 +906,7 @@
   "delta_d": "17.2",
   "delta_p": "5.0",
   "delta_h": "6.1",
+  "molar_volume": 116.9,
   "options": [
    {
     "corrected_name": "2-Chloroethyl Ethyl Sulfid",
@@ -815,7 +915,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -827,6 +929,7 @@
   "delta_d": "16.1",
   "delta_p": "8.0",
   "delta_h": "5.5",
+  "molar_volume": 115.2,
   "options": [
    {
     "corrected_name": "2-Ethyl Croton Aldehyde",
@@ -835,7 +938,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -847,12 +952,13 @@
   "delta_d": "14.8",
   "delta_p": "4.7",
   "delta_h": "3.4",
+  "molar_volume": 208.2,
   "options": [
    {
     "corrected_name": "2-ETHYLHEXYL ACRYLATE",
     "cas": "103-11-7",
     "iupac": "2-ethylhexyl prop-2-enoate",
-    "confidence": 0.77,
+    "confidence": 0.85,
     "reason": "Join 'Ethyl hexyl' \u2192 'Ethylhexyl'",
     "cid": 7636,
     "synonyms": [
@@ -865,6 +971,8 @@
      "1-Hexanol, 2-ethyl-, acrylate",
      "acrylic acid 2-ethylhexyl ester"
     ],
+    "pubchem_mw": 184.27,
+    "mv_match": true,
     "guess_text": "2-Ethylhexyl Acrylate"
    }
   ]
@@ -877,6 +985,7 @@
   "delta_d": "17.3",
   "delta_p": "6.2",
   "delta_h": "6.8",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Bis(2-ethylhexyl) phthalate",
@@ -895,6 +1004,8 @@
      "Vinicizer 80",
      "Dioctylphthalate"
     ],
+    "pubchem_mw": 390.6,
+    "mv_match": null,
     "guess_text": "2-Ethylhexyl Phthalate"
    }
   ]
@@ -907,6 +1018,7 @@
   "delta_d": "19.9",
   "delta_p": "5.6",
   "delta_h": "6.1",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "2-Iodo-1,3-butadiene",
@@ -915,7 +1027,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -927,6 +1041,7 @@
   "delta_d": "16.8",
   "delta_p": "5.2",
   "delta_h": "12.4",
+  "molar_volume": 83.9,
   "options": [
    {
     "corrected_name": "2-Methyl (cis) Acrylic Acid",
@@ -935,7 +1050,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -947,12 +1064,13 @@
   "delta_d": "16.0",
   "delta_p": "9.0",
   "delta_h": "5.1",
+  "molar_volume": 90.1,
   "options": [
    {
     "corrected_name": "2-Butanone",
     "cas": "78-93-3",
     "iupac": "butan-2-one",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 6569,
     "synonyms": [
@@ -965,6 +1083,8 @@
      "Methylethyl ketone",
      "Meetco"
     ],
+    "pubchem_mw": 72.11,
+    "mv_match": true,
     "guess_text": "2-Butanone"
    }
   ]
@@ -977,12 +1097,13 @@
   "delta_d": "15.3",
   "delta_p": "7.5",
   "delta_h": "6.8",
+  "molar_volume": 171.2,
   "options": [
    {
     "corrected_name": "2-Butoxyethyl acetate",
     "cas": "112-07-2",
     "iupac": "2-butoxyethyl acetate",
-    "confidence": 0.98,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 8160,
     "synonyms": [
@@ -995,6 +1116,8 @@
      "Ethylene glycol butyl ether acetate",
      "Butylcelosolvacetat"
     ],
+    "pubchem_mw": 160.21,
+    "mv_match": true,
     "guess_text": "2-ButoxyethylAcetate"
    }
   ]
@@ -1007,12 +1130,13 @@
   "delta_d": "18.8",
   "delta_p": "9.0",
   "delta_h": "5.7",
+  "molar_volume": 117.6,
   "options": [
    {
     "corrected_name": "111-44-4",
     "cas": "111-44-4",
     "iupac": "1-chloro-2-(2-chloroethoxy)ethane",
-    "confidence": 0.98,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 8115,
     "synonyms": [
@@ -1025,6 +1149,8 @@
      "Chlorex",
      "DCEE"
     ],
+    "pubchem_mw": 143.01,
+    "mv_match": true,
     "guess_text": "2-ChloroethylEther"
    }
   ]
@@ -1037,12 +1163,13 @@
   "delta_d": "16.0",
   "delta_p": "4.7",
   "delta_h": "10.6",
+  "molar_volume": 136.2,
   "options": [
    {
     "corrected_name": "2-Ethoxyethyl acetate",
     "cas": "111-15-9",
     "iupac": "2-ethoxyethyl acetate",
-    "confidence": 0.98,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 8095,
     "synonyms": [
@@ -1055,6 +1182,8 @@
      "2-Ethoxyethanol acetate",
      "Ethyl cellosolve acetate"
     ],
+    "pubchem_mw": 132.16,
+    "mv_match": true,
     "guess_text": "2-EthoxyethylAcetate"
    }
   ]
@@ -1067,12 +1196,13 @@
   "delta_d": "18.6",
   "delta_p": "14.9",
   "delta_h": "5.1",
+  "molar_volume": 83.2,
   "options": [
    {
     "corrected_name": "FURFURAL",
     "cas": "98-01-1",
     "iupac": "furan-2-carbaldehyde",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 7362,
     "synonyms": [
@@ -1085,6 +1215,8 @@
      "Furfuraldehyde",
      "2-Formylfuran"
     ],
+    "pubchem_mw": 96.08,
+    "mv_match": true,
     "guess_text": "2-Furaldehyde"
    }
   ]
@@ -1097,6 +1229,7 @@
   "delta_d": "20.0",
   "delta_p": "4.7",
   "delta_h": "2.4",
+  "molar_volume": 145.5,
   "options": [
    {
     "corrected_name": "3,4-Dichloro \u03b1,\u03b1,\u03b1-Trifluorotoluen",
@@ -1105,7 +1238,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1117,12 +1252,13 @@
   "delta_d": "18.8",
   "delta_p": "11.2",
   "delta_h": "3.2",
+  "molar_volume": 111.6,
   "options": [
    {
     "corrected_name": "3,5-Difluorobenzonitrile",
     "cas": "64248-63-1",
     "iupac": "3,5-difluorobenzonitrile",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026onitril \u2192 \u2026onitrile",
     "cid": 587204,
     "synonyms": [
@@ -1135,6 +1271,8 @@
      "264-752-3",
      "Benzonitrile, 3,5-difluoro-"
     ],
+    "pubchem_mw": 139.1,
+    "mv_match": true,
     "guess_text": "3,5-Difluorobenzonitrile"
    }
   ]
@@ -1147,6 +1285,7 @@
   "delta_d": "15.9",
   "delta_p": "5.5",
   "delta_h": "10.6",
+  "molar_volume": 166.3,
   "options": [
    {
     "corrected_name": "3-Butoxybutanol",
@@ -1155,7 +1294,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1167,12 +1308,13 @@
   "delta_d": "17.2",
   "delta_p": "18.8",
   "delta_h": "17.6",
+  "molar_volume": 68.3,
   "options": [
    {
     "corrected_name": "Hydracrylonitrile",
     "cas": "109-78-4",
     "iupac": "3-hydroxypropanenitrile",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 8011,
     "synonyms": [
@@ -1185,6 +1327,8 @@
      "2-Cyanoethanol",
      "Propanenitrile, 3-hydroxy-"
     ],
+    "pubchem_mw": 71.08,
+    "mv_match": true,
     "guess_text": "3-Hydroxypropionitrile"
    }
   ]
@@ -1197,6 +1341,7 @@
   "delta_d": "15.8",
   "delta_p": "5.2",
   "delta_h": "13.3",
+  "molar_volume": 109.3,
   "options": [
    {
     "corrected_name": "3Methyl1Butanol",
@@ -1205,7 +1350,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1217,12 +1364,13 @@
   "delta_d": "15.8",
   "delta_p": "7.6",
   "delta_h": "4.7",
+  "molar_volume": 106.4,
   "options": [
    {
     "corrected_name": "3-PENTANONE",
     "cas": "96-22-0",
     "iupac": "pentan-3-one",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 7288,
     "synonyms": [
@@ -1235,6 +1383,8 @@
      "Propione",
      "Metacetone"
     ],
+    "pubchem_mw": 86.13,
+    "mv_match": true,
     "guess_text": "3-Pentanone"
    }
   ]
@@ -1247,6 +1397,7 @@
   "delta_d": "18.8",
   "delta_p": "6.1",
   "delta_h": "3.5",
+  "molar_volume": 151.7,
   "options": [
    {
     "corrected_name": "4-(Trifluoromet yl) Acetophenone",
@@ -1255,7 +1406,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1267,6 +1420,7 @@
   "delta_d": "18.8",
   "delta_p": "10.3",
   "delta_h": "6.4",
+  "molar_volume": 162.6,
   "options": [
    {
     "corrected_name": "4-Ethoxy Acetophenone",
@@ -1275,7 +1429,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1287,6 +1443,7 @@
   "delta_d": "19.4",
   "delta_p": "7.2",
   "delta_h": "3.7",
+  "molar_volume": 108.4,
   "options": [
    {
     "corrected_name": "4-Fluoro-3-Nitrobenzofluorid",
@@ -1295,7 +1452,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1307,6 +1466,7 @@
   "delta_d": "15.8",
   "delta_p": "8.2",
   "delta_h": "10.8",
+  "molar_volume": 124.2,
   "options": [
    {
     "corrected_name": "4Hydroxy4Methyl2Pentanone",
@@ -1315,7 +1475,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1327,6 +1489,7 @@
   "delta_d": "17.9",
   "delta_p": "25.5",
   "delta_h": "17.4",
+  "molar_volume": 83.2,
   "options": [
    {
     "corrected_name": "4Hydroxymethyl1,3Dioxolan2One",
@@ -1335,7 +1498,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1347,12 +1512,13 @@
   "delta_d": "15.3",
   "delta_p": "3.3",
   "delta_h": "12.3",
+  "molar_volume": 127.2,
   "options": [
    {
     "corrected_name": "4-METHYL-2-PENTANOL",
     "cas": "108-11-2",
     "iupac": "4-methylpentan-2-ol",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 7910,
     "synonyms": [
@@ -1365,6 +1531,8 @@
      "2-Methyl-4-pentanol",
      "Methylisobutylcarbinol"
     ],
+    "pubchem_mw": 102.17,
+    "mv_match": true,
     "guess_text": "4-Methyl2-Pentanol"
    }
   ]
@@ -1377,6 +1545,7 @@
   "delta_d": "15.3",
   "delta_p": "6.1",
   "delta_h": "4.1",
+  "molar_volume": 125.8,
   "options": [
    {
     "corrected_name": "4Methyl2Pentanone",
@@ -1385,7 +1554,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1397,12 +1568,13 @@
   "delta_d": "16.0",
   "delta_p": "3.3",
   "delta_h": "11.9",
+  "molar_volume": 157.0,
   "options": [
    {
     "corrected_name": "4-OCTANOL",
     "cas": "589-62-8",
     "iupac": "octan-4-ol",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Insert hyphens: digit\u2192letter",
     "cid": 11515,
     "synonyms": [
@@ -1415,6 +1587,8 @@
      "NSC 66398",
      "NSC-66398"
     ],
+    "pubchem_mw": 130.23,
+    "mv_match": true,
     "guess_text": "4-Octanol"
    }
   ]
@@ -1427,12 +1601,13 @@
   "delta_d": "20.0",
   "delta_p": "6.0",
   "delta_h": "4.9",
+  "molar_volume": 150.1,
   "options": [
    {
     "corrected_name": "5-Bromo-2-nitrobenzotrifluoride",
     "cas": "344-38-7",
     "iupac": "4-bromo-1-nitro-2-(trifluoromethyl)benzene",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026fluorid \u2192 \u2026fluoride",
     "cid": 136171,
     "synonyms": [
@@ -1445,6 +1620,8 @@
      "ZHLYHEDQTJZYFI-UHFFFAOYSA-N",
      "4-Bromo-1-nitro-2-(trifluoromethyl)benzene"
     ],
+    "pubchem_mw": 270.0,
+    "mv_match": true,
     "guess_text": "5-Bromo-2-Nitrobenzotrifluoride"
    }
   ]
@@ -1457,6 +1634,7 @@
   "delta_d": "16.0",
   "delta_p": "5.7",
   "delta_h": "4.1",
+  "molar_volume": 142.8,
   "options": [
    {
     "corrected_name": "5Methyl2Hexanone",
@@ -1465,7 +1643,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1477,6 +1657,7 @@
   "delta_d": "16.6",
   "delta_p": "12.2",
   "delta_h": "15.5",
+  "molar_volume": 94.0,
   "options": [
    {
     "corrected_name": "Acetonecyanhydrin",
@@ -1485,7 +1666,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1497,6 +1680,7 @@
   "delta_d": "14.7",
   "delta_p": "4.6",
   "delta_h": "4.6",
+  "molar_volume": 96.7,
   "options": [
    {
     "corrected_name": "Acetonemethyloxime",
@@ -1505,7 +1689,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1517,12 +1703,13 @@
   "delta_d": "14.4",
   "delta_p": "4.2",
   "delta_h": "11.9",
+  "molar_volume": 42.1,
   "options": [
    {
     "corrected_name": "ACETYLENE",
     "cas": "74-86-2",
     "iupac": "acetylene",
-    "confidence": 0.85,
+    "confidence": 0.93,
     "reason": "Use name before parentheses",
     "cid": 6326,
     "synonyms": [
@@ -1535,6 +1722,8 @@
      "74-86-2",
      "OC7TV75O83"
     ],
+    "pubchem_mw": 26.04,
+    "mv_match": true,
     "guess_text": "Acetylene"
    }
   ]
@@ -1547,6 +1736,7 @@
   "delta_d": "14.7",
   "delta_p": "14.0",
   "delta_h": "5.7",
+  "molar_volume": 62.0,
   "options": [
    {
     "corrected_name": "Acetylfluorid",
@@ -1555,7 +1745,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1567,6 +1759,7 @@
   "delta_d": "20.0",
   "delta_p": "9.6",
   "delta_h": "5.7",
+  "molar_volume": 116.8,
   "options": [
    {
     "corrected_name": "alfa-Chloro Acetophenone",
@@ -1575,7 +1768,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1587,12 +1782,13 @@
   "delta_d": "18.5",
   "delta_p": "2.4",
   "delta_h": "2.4",
+  "molar_volume": 130.0,
   "options": [
    {
     "corrected_name": "alpha-Methylstyrene",
     "cas": "98-83-9",
     "iupac": "prop-1-en-2-ylbenzene",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "'alfa' \u2192 'alpha'",
     "cid": 7407,
     "synonyms": [
@@ -1605,6 +1801,8 @@
      "1-Methyl-1-phenylethylene",
      "alpha-Methylstyrol"
     ],
+    "pubchem_mw": 118.18,
+    "mv_match": true,
     "guess_text": "alpha-Methyl Styrene"
    }
   ]
@@ -1617,6 +1815,7 @@
   "delta_d": "17.5",
   "delta_p": "8.8",
   "delta_h": "0.0",
+  "molar_volume": 122.9,
   "options": [
    {
     "corrected_name": "alpha,alpha,alpha Trifluoro oluene",
@@ -1625,7 +1824,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1637,12 +1838,13 @@
   "delta_d": "19.4",
   "delta_p": "11.9",
   "delta_h": "8.3",
+  "molar_volume": 120.8,
   "options": [
    {
     "corrected_name": "4-Methoxybenzaldehyde",
     "cas": "123-11-5",
     "iupac": "4-methoxybenzaldehyde",
-    "confidence": 0.77,
+    "confidence": 0.85,
     "reason": "Remove incomplete parenthetical",
     "cid": 31244,
     "synonyms": [
@@ -1655,6 +1857,8 @@
      "Benzaldehyde, 4-methoxy-",
      "Crategine"
     ],
+    "pubchem_mw": 136.15,
+    "mv_match": true,
     "guess_text": "Anisaldehyde"
    }
   ]
@@ -1667,6 +1871,7 @@
   "delta_d": "19.0",
   "delta_p": "8.2",
   "delta_h": "5.1",
+  "molar_volume": 146.0,
   "options": [
    {
     "corrected_name": "Bis2ChloroisopropylEther",
@@ -1675,7 +1880,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1687,6 +1894,7 @@
   "delta_d": "17.0",
   "delta_p": "10.2",
   "delta_h": "6.9",
+  "molar_volume": 41.8,
   "options": [
    {
     "corrected_name": "Borine Carbonyl",
@@ -1695,7 +1903,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1707,6 +1917,7 @@
   "delta_d": "16.9",
   "delta_p": "6.4",
   "delta_h": "4.7",
+  "molar_volume": 95.2,
   "options": [
    {
     "corrected_name": "Bromoprene",
@@ -1715,7 +1926,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1727,6 +1940,7 @@
   "delta_d": "16.2",
   "delta_p": "11.7",
   "delta_h": "5.2",
+  "molar_volume": 93.7,
   "options": [
    {
     "corrected_name": "Butadiene-4-Cyano",
@@ -1735,7 +1949,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1747,6 +1963,7 @@
   "delta_d": "15.5",
   "delta_p": "6.5",
   "delta_h": "10.2",
+  "molar_volume": 185.9,
   "options": [
    {
     "corrected_name": "Butoxy Ethoxy Propanol",
@@ -1755,7 +1972,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1767,6 +1986,7 @@
   "delta_d": "14.8",
   "delta_p": "5.3",
   "delta_h": "5.0",
+  "molar_volume": 145.7,
   "options": [
    {
     "corrected_name": "Butyl Isopropenyl Ether",
@@ -1775,7 +1995,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1787,6 +2009,7 @@
   "delta_d": "16.1",
   "delta_p": "2.5",
   "delta_h": "5.7",
+  "molar_volume": 209.1,
   "options": [
    {
     "corrected_name": "Butyl-6-Methyl-3-Cyclohexene",
@@ -1795,7 +2018,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1807,6 +2032,7 @@
   "delta_d": "16.1",
   "delta_p": "2.5",
   "delta_h": "5.7",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Butyl-6-Methyl-3-Cyclohexene Carboxylate",
@@ -1815,7 +2041,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1827,12 +2055,13 @@
   "delta_d": "15.7",
   "delta_p": "5.5",
   "delta_h": "5.9",
+  "molar_volume": 149.3,
   "options": [
    {
     "corrected_name": "Butyl propionate",
     "cas": "590-01-2",
     "iupac": "butyl propanoate",
-    "confidence": 0.87,
+    "confidence": 0.95,
     "reason": "Split CamelCase words",
     "cid": 11529,
     "synonyms": [
@@ -1845,6 +2074,8 @@
      "Butyl propionate (natural)",
      "n-Butyl n-propionate"
     ],
+    "pubchem_mw": 130.18,
+    "mv_match": true,
     "guess_text": "Butyl Propionate"
    }
   ]
@@ -1857,12 +2088,13 @@
   "delta_d": "20.5",
   "delta_p": "0.0",
   "delta_h": "0.6",
+  "molar_volume": 60.0,
   "options": [
    {
     "corrected_name": "CARBON DISULFIDE",
     "cas": "75-15-0",
     "iupac": "methanedithione",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026sulfid \u2192 \u2026sulfide",
     "cid": 6348,
     "synonyms": [
@@ -1875,6 +2107,8 @@
      "methanedithione",
      "Schwefelkohlenstoff"
     ],
+    "pubchem_mw": 76.15,
+    "mv_match": true,
     "guess_text": "Carbon Disulfide"
    }
   ]
@@ -1887,6 +2121,7 @@
   "delta_d": "17.4",
   "delta_p": "3.7",
   "delta_h": "0.0",
+  "molar_volume": 51.0,
   "options": [
    {
     "corrected_name": "Carbonyl Sulfid",
@@ -1895,7 +2130,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1907,6 +2144,7 @@
   "delta_d": "15.9",
   "delta_p": "4.6",
   "delta_h": "12.0",
+  "molar_volume": 436.0,
   "options": [
    {
     "corrected_name": "Castor Oil",
@@ -1915,7 +2153,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -1927,12 +2167,13 @@
   "delta_d": "16.6",
   "delta_p": "6.4",
   "delta_h": "2.0",
+  "molar_volume": 95.0,
   "options": [
    {
     "corrected_name": "Bis(chloromethyl) sulfide",
     "cas": "3592-44-7",
     "iupac": "chloro(chloromethylsulfanyl)methane",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026sulfid \u2192 \u2026sulfide",
     "cid": 565560,
     "synonyms": [
@@ -1945,6 +2186,8 @@
      "Bis(chloromethyl)sulfide",
      "chloro(chloromethylsulfanyl)methane"
     ],
+    "pubchem_mw": 131.02,
+    "mv_match": true,
     "guess_text": "Chloromethylsulfide"
    }
   ]
@@ -1957,12 +2200,13 @@
   "delta_d": "15.3",
   "delta_p": "6.3",
   "delta_h": "0.0",
+  "molar_volume": 75.6,
   "options": [
    {
     "corrected_name": "CHLOROTRIFLUOROETHYLENE",
     "cas": "79-38-9",
     "iupac": "1-chloro-1,2,2-trifluoroethene",
-    "confidence": 0.83,
+    "confidence": 0.91,
     "reason": "Use parenthetical name",
     "cid": 6594,
     "synonyms": [
@@ -1975,6 +2219,8 @@
      "CTFE",
      "Trifluorovinyl chloride"
     ],
+    "pubchem_mw": 116.47,
+    "mv_match": true,
     "guess_text": "CTFE"
    }
   ]
@@ -1987,12 +2233,13 @@
   "delta_d": "16.1",
   "delta_p": "5.4",
   "delta_h": "2.1",
+  "molar_volume": 93.2,
   "options": [
    {
     "corrected_name": "CHLOROPRENE",
     "cas": "126-99-8",
     "iupac": "2-chlorobuta-1,3-diene",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Fix 'Chlorprene' \u2192 'Chloroprene'",
     "cid": 31369,
     "synonyms": [
@@ -2005,6 +2252,8 @@
      "1,3-Butadiene, 2-chloro-",
      "Chloropreen"
     ],
+    "pubchem_mw": 88.53,
+    "mv_match": true,
     "guess_text": "Chloroprene"
    }
   ]
@@ -2017,12 +2266,13 @@
   "delta_d": "16.7",
   "delta_p": "4.6",
   "delta_h": "3.4",
+  "molar_volume": 167.5,
   "options": [
    {
     "corrected_name": "Eucalyptol",
     "cas": "470-82-6",
     "iupac": "1,3,3-trimethyl-2-oxabicyclo[2.2.2]octane",
-    "confidence": 0.85,
+    "confidence": 0.93,
     "reason": "Use name before parentheses",
     "cid": 2758,
     "synonyms": [
@@ -2035,6 +2285,8 @@
      "Eucalyptole",
      "Eucapur"
     ],
+    "pubchem_mw": 154.25,
+    "mv_match": true,
     "guess_text": "Cineol"
    }
   ]
@@ -2047,6 +2299,7 @@
   "delta_d": "16.4",
   "delta_p": "2.2",
   "delta_h": "5.0",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Cyclohexane-1,2-Dicarboxylic Acid Di-Isononyl Ether",
@@ -2055,7 +2308,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2067,6 +2322,7 @@
   "delta_d": "16.7",
   "delta_p": "3.0",
   "delta_h": "6.7",
+  "molar_volume": 232.7,
   "options": [
    {
     "corrected_name": "Di Butyl Fumarate",
@@ -2075,7 +2331,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2087,12 +2345,13 @@
   "delta_d": "15.6",
   "delta_p": "0.8",
   "delta_h": "3.2",
+  "molar_volume": 301.5,
   "options": [
    {
     "corrected_name": "Bis(2-ethylhexyl)amine",
     "cas": "106-20-7",
     "iupac": "2-ethyl-N-(2-ethylhexyl)hexan-1-amine",
-    "confidence": 0.77,
+    "confidence": 0.85,
     "reason": "Join 'Ethyl hexyl' \u2192 'Ethylhexyl'",
     "cid": 7791,
     "synonyms": [
@@ -2105,6 +2364,8 @@
      "2-ethyl-N-(2-ethylhexyl)hexan-1-amine",
      "Diisooctylamine"
     ],
+    "pubchem_mw": 241.46,
+    "mv_match": true,
     "guess_text": "Di-2-Ethylhexyl Amine"
    }
   ]
@@ -2117,6 +2378,7 @@
   "delta_d": "16.4",
   "delta_p": "10.0",
   "delta_h": "5.7",
+  "molar_volume": 184.4,
   "options": [
    {
     "corrected_name": "Di-Isopropyl Methyl Phosphonate",
@@ -2125,7 +2387,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2137,6 +2401,7 @@
   "delta_d": "15.7",
   "delta_p": "10.2",
   "delta_h": "5.9",
+  "molar_volume": 174.5,
   "options": [
    {
     "corrected_name": "Di-Isopropyl Phosphonofluoridat",
@@ -2145,7 +2410,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2157,6 +2424,7 @@
   "delta_d": "16.2",
   "delta_p": "4.7",
   "delta_h": "8.4",
+  "molar_volume": 159.0,
   "options": [
    {
     "corrected_name": "Dibasic Esters (dupont) Mix of",
@@ -2165,7 +2433,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2177,12 +2447,13 @@
   "delta_d": "15.1",
   "delta_p": "8.3",
   "delta_h": "7.4",
+  "molar_volume": 141.5,
   "options": [
    {
     "corrected_name": "Disulfide, diethoxy",
     "cas": "28752-22-9",
     "iupac": "(ethoxydisulfanyl)oxyethane",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026sulfid \u2192 \u2026sulfide",
     "cid": 10898917,
     "synonyms": [
@@ -2195,6 +2466,8 @@
      "SCHEMBL8421475",
      "DTXSID90447561"
     ],
+    "pubchem_mw": 154.3,
+    "mv_match": true,
     "guess_text": "Diethoxy Disulfide"
    }
   ]
@@ -2207,6 +2480,7 @@
   "delta_d": "16.0",
   "delta_p": "20.3",
   "delta_h": "18.4",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "DIETHYLAMINE",
@@ -2225,6 +2499,8 @@
      "Dietilamina",
      "Dwuetyloamina"
     ],
+    "pubchem_mw": 73.14,
+    "mv_match": null,
     "guess_text": "Diethyl Amine"
    }
   ]
@@ -2237,6 +2513,7 @@
   "delta_d": "16.0",
   "delta_p": "20.3",
   "delta_h": "18.4",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "2-(Diethylamino)ethanol",
@@ -2255,6 +2532,8 @@
      "(Diethylamino)ethanol",
      "2-(Diethylamino)Ethan-1-Ol"
     ],
+    "pubchem_mw": 117.19,
+    "mv_match": null,
     "guess_text": "Diethyl Ethanolamine"
    }
   ]
@@ -2267,6 +2546,7 @@
   "delta_d": "16.8",
   "delta_p": "3.1",
   "delta_h": "2.0",
+  "molar_volume": 107.4,
   "options": [
    {
     "corrected_name": "Diethyl Sulfid",
@@ -2275,7 +2555,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2287,12 +2569,13 @@
   "delta_d": "16.0",
   "delta_p": "4.1",
   "delta_h": "8.2",
+  "molar_volume": 208.2,
   "options": [
    {
     "corrected_name": "2-(2-Butoxyethoxy)ethyl acetate",
     "cas": "124-17-4",
     "iupac": "2-(2-butoxyethoxy)ethyl acetate",
-    "confidence": 0.77,
+    "confidence": 0.85,
     "reason": "Remove 'Commercial'",
     "cid": 31288,
     "synonyms": [
@@ -2305,6 +2588,8 @@
      "Ethanol, 2-(2-butoxyethoxy)-, 1-acetate",
      "Glycol ether DB aceatate"
     ],
+    "pubchem_mw": 204.26,
+    "mv_match": true,
     "guess_text": "Diethylene Glycol Butyl Ether Acetate"
    }
   ]
@@ -2317,6 +2602,7 @@
   "delta_d": "16.0",
   "delta_p": "7.2",
   "delta_h": "7.2",
+  "molar_volume": 193.9,
   "options": [
    {
     "corrected_name": "Diethylene Glycol Methyl t-Butyl",
@@ -2325,7 +2611,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2337,6 +2625,7 @@
   "delta_d": "16.0",
   "delta_p": "7.2",
   "delta_h": "7.2",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Diethylene Glycol Methyl t-Butyl Ether",
@@ -2345,7 +2634,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2357,12 +2648,13 @@
   "delta_d": "16.0",
   "delta_p": "7.0",
   "delta_h": "10.6",
+  "molar_volume": 170.6,
   "options": [
    {
     "corrected_name": "2-(2-Butoxyethoxy)ethanol",
     "cas": "112-34-5",
     "iupac": "2-(2-butoxyethoxy)ethanol",
-    "confidence": 0.87,
+    "confidence": 0.95,
     "reason": "Split CamelCase words",
     "cid": 8177,
     "synonyms": [
@@ -2375,6 +2667,8 @@
      "Butyl diglycol",
      "Butyl dioxitol"
     ],
+    "pubchem_mw": 162.23,
+    "mv_match": true,
     "guess_text": "Diethylene Glycol Butyl Ether"
    }
   ]
@@ -2387,12 +2681,13 @@
   "delta_d": "16.2",
   "delta_p": "7.8",
   "delta_h": "12.7",
+  "molar_volume": 118.0,
   "options": [
    {
     "corrected_name": "2-(2-Methoxyethoxy)ethanol",
     "cas": "111-77-3",
     "iupac": "2-(2-methoxyethoxy)ethanol",
-    "confidence": 0.87,
+    "confidence": 0.95,
     "reason": "Split CamelCase words",
     "cid": 8134,
     "synonyms": [
@@ -2405,6 +2700,8 @@
      "Dowanol DM",
      "MECB"
     ],
+    "pubchem_mw": 120.15,
+    "mv_match": true,
     "guess_text": "Diethylene Glycol Methyl Ether"
    }
   ]
@@ -2417,6 +2714,7 @@
   "delta_d": "15.3",
   "delta_p": "4.8",
   "delta_h": "7.9",
+  "molar_volume": 132.4,
   "options": [
    {
     "corrected_name": "Dimethyl Amine-Dimer",
@@ -2425,7 +2723,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2437,6 +2737,7 @@
   "delta_d": "15.8",
   "delta_p": "6.1",
   "delta_h": "9.2",
+  "molar_volume": 142.0,
   "options": [
    {
     "corrected_name": "Dimethyl Diethylene Glycol",
@@ -2445,7 +2746,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2457,12 +2760,13 @@
   "delta_d": "17.3",
   "delta_p": "7.8",
   "delta_h": "6.5",
+  "molar_volume": 88.6,
   "options": [
    {
     "corrected_name": "Dimethyl disulfide",
     "cas": "624-92-0",
     "iupac": "(methyldisulfanyl)methane",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026sulfid \u2192 \u2026sulfide",
     "cid": 12232,
     "synonyms": [
@@ -2475,6 +2779,8 @@
      "Dimethyl disulphide",
      "2,3-Dithiabutane"
     ],
+    "pubchem_mw": 94.2,
+    "mv_match": true,
     "guess_text": "Dimethyl Disulfide"
    }
   ]
@@ -2487,6 +2793,7 @@
   "delta_d": "16.8",
   "delta_p": "19.8",
   "delta_h": "19.8",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "2-(Dimethylamino)ethanol",
@@ -2505,6 +2812,8 @@
      "Norcholine",
      "Bimanol"
     ],
+    "pubchem_mw": 89.14,
+    "mv_match": null,
     "guess_text": "Dimethyl Ethanolamine"
    }
   ]
@@ -2517,6 +2826,7 @@
   "delta_d": "17.2",
   "delta_p": "21.5",
   "delta_h": "22.5",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "2-(Dimethylamino)ethanol",
@@ -2535,6 +2845,8 @@
      "Norcholine",
      "Bimanol"
     ],
+    "pubchem_mw": 89.14,
+    "mv_match": null,
     "guess_text": "Dimethyl Ethanolamine"
    }
   ]
@@ -2547,6 +2859,7 @@
   "delta_d": "17.2",
   "delta_p": "18.8",
   "delta_h": "17.6",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "2-(Dimethylamino)ethanol",
@@ -2565,6 +2878,8 @@
      "Norcholine",
      "Bimanol"
     ],
+    "pubchem_mw": 89.14,
+    "mv_match": null,
     "guess_text": "Dimethyl Ethanolamine"
    }
   ]
@@ -2577,6 +2892,7 @@
   "delta_d": "17.2",
   "delta_p": "21.5",
   "delta_h": "22.5",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Dimethyl Ethanolamine/p-Toluene",
@@ -2585,7 +2901,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2597,6 +2915,7 @@
   "delta_d": "17.2",
   "delta_p": "21.5",
   "delta_h": "22.5",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Dimethyl Ethanolamine/Thioglycolic",
@@ -2605,7 +2924,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2617,6 +2938,7 @@
   "delta_d": "16.6",
   "delta_p": "19.4",
   "delta_h": "18.0",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "108-16-7",
@@ -2635,6 +2957,8 @@
      "Dimethyl(2-hydroxypropyl)amine",
      "2-PROPANOL, 1-(DIMETHYLAMINO)-"
     ],
+    "pubchem_mw": 103.16,
+    "mv_match": null,
     "guess_text": "DimethylIsopropanolAmine"
    }
   ]
@@ -2647,6 +2971,7 @@
   "delta_d": "16.1",
   "delta_p": "6.4",
   "delta_h": "7.4",
+  "molar_volume": 73.2,
   "options": [
    {
     "corrected_name": "Dimethyl Sulfid",
@@ -2655,7 +2980,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2667,6 +2994,7 @@
   "delta_d": "16.6",
   "delta_p": "7.0",
   "delta_h": "3.1",
+  "molar_volume": 277.0,
   "options": [
    {
     "corrected_name": "DiNOctylPhthalate",
@@ -2675,7 +3003,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2687,12 +3017,13 @@
   "delta_d": "20.1",
   "delta_p": "0.0",
   "delta_h": "3.2",
+  "molar_volume": 184.3,
   "options": [
    {
     "corrected_name": "DIPHENYLACETYLENE",
     "cas": "501-65-5",
     "iupac": "2-phenylethynylbenzene",
-    "confidence": 0.83,
+    "confidence": 0.91,
     "reason": "Remove 'P from/by\u2026' note",
     "cid": 10390,
     "synonyms": [
@@ -2705,6 +3036,8 @@
      "2-phenylethynylbenzene",
      "Biphenylacetylene"
     ],
+    "pubchem_mw": 178.23,
+    "mv_match": true,
     "guess_text": "Diphenyl Acetylene"
    }
   ]
@@ -2717,12 +3050,13 @@
   "delta_d": "20.1",
   "delta_p": "2.0",
   "delta_h": "3.2",
+  "molar_volume": 184.3,
   "options": [
    {
     "corrected_name": "DIPHENYLACETYLENE",
     "cas": "501-65-5",
     "iupac": "2-phenylethynylbenzene",
-    "confidence": 0.83,
+    "confidence": 0.91,
     "reason": "Remove 'P from/by\u2026' note",
     "cid": 10390,
     "synonyms": [
@@ -2735,6 +3069,8 @@
      "2-phenylethynylbenzene",
      "Biphenylacetylene"
     ],
+    "pubchem_mw": 178.23,
+    "mv_match": true,
     "guess_text": "Diphenyl Acetylene"
    }
   ]
@@ -2747,6 +3083,7 @@
   "delta_d": "15.7",
   "delta_p": "6.5",
   "delta_h": "10.0",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Dipropylene Glycol Mono n-Butyl Ether",
@@ -2755,7 +3092,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2767,6 +3106,7 @@
   "delta_d": "15.7",
   "delta_p": "6.5",
   "delta_h": "10.0",
+  "molar_volume": 211.2,
   "options": [
    {
     "corrected_name": "Dipropylene Glycol Mono n-Butyl Ether 1-(2-Butoxy-1-methyl-",
@@ -2775,7 +3115,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2787,6 +3129,7 @@
   "delta_d": "15.6",
   "delta_p": "6.1",
   "delta_h": "11.0",
+  "molar_volume": 185.6,
   "options": [
    {
     "corrected_name": "Dipropylene Glycol Mono n-Prop yl",
@@ -2795,7 +3138,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2807,6 +3152,7 @@
   "delta_d": "15.6",
   "delta_p": "6.1",
   "delta_h": "11.0",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Dipropylene Glycol Mono n-Propyl Ether",
@@ -2815,7 +3161,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2827,6 +3175,7 @@
   "delta_d": "15.7",
   "delta_p": "6.5",
   "delta_h": "10.0",
+  "molar_volume": 211.2,
   "options": [
    {
     "corrected_name": "DiPropyleneGlycolButylEther",
@@ -2835,7 +3184,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2847,6 +3198,7 @@
   "delta_d": "16.5",
   "delta_p": "4.6",
   "delta_h": "5.6",
+  "molar_volume": 93.6,
   "options": [
    {
     "corrected_name": "Divinyl Sulfid",
@@ -2855,7 +3207,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2867,6 +3221,7 @@
   "delta_d": "17.2",
   "delta_p": "1.8",
   "delta_h": "4.3",
+  "molar_volume": 162.9,
   "options": [
    {
     "corrected_name": "DLLimonene",
@@ -2875,7 +3230,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2887,12 +3244,13 @@
   "delta_d": "15.5",
   "delta_p": "5.7",
   "delta_h": "11.2",
+  "molar_volume": 156.1,
   "options": [
    {
     "corrected_name": "PPG-2 methyl ether",
     "cas": "34590-94-8",
     "iupac": "1-(1-methoxypropan-2-yloxy)propan-2-ol",
-    "confidence": 0.87,
+    "confidence": 0.95,
     "reason": "Split CamelCase words",
     "cid": 25484,
     "synonyms": [
@@ -2905,6 +3263,8 @@
      "Ucar solvent 2LM",
      "Dowanol-50B"
     ],
+    "pubchem_mw": 148.2,
+    "mv_match": true,
     "guess_text": "Dowanol Dpm"
    }
   ]
@@ -2917,6 +3277,7 @@
   "delta_d": "17.2",
   "delta_p": "20.3",
   "delta_h": "18.4",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Ethanolamine",
@@ -2935,6 +3296,8 @@
      "2-Hydroxyethylamine",
      "colamine"
     ],
+    "pubchem_mw": 61.08,
+    "mv_match": null,
     "guess_text": "Ethanolamine"
    }
   ]
@@ -2947,6 +3310,7 @@
   "delta_d": "16.2",
   "delta_p": "3.3",
   "delta_h": "8.8",
+  "molar_volume": 155.5,
   "options": [
    {
     "corrected_name": "Ethoxyethyl Propionate",
@@ -2955,7 +3319,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2967,6 +3333,7 @@
   "delta_d": "15.6",
   "delta_p": "15.2",
   "delta_h": "5.8",
+  "molar_volume": 74.4,
   "options": [
    {
     "corrected_name": "Ethyl Carbylamine",
@@ -2975,7 +3342,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -2987,6 +3356,7 @@
   "delta_d": "17.1",
   "delta_p": "4.8",
   "delta_h": "2.5",
+  "molar_volume": 91.2,
   "options": [
    {
     "corrected_name": "Ethyl Methyl Sulfid",
@@ -2995,7 +3365,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3007,6 +3379,7 @@
   "delta_d": "15.5",
   "delta_p": "5.2",
   "delta_h": "4.9",
+  "molar_volume": 157.2,
   "options": [
    {
     "corrected_name": "Ethylene Glycol Butyl Methyl Ether",
@@ -3015,7 +3388,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3027,6 +3402,7 @@
   "delta_d": "15.3",
   "delta_p": "5.1",
   "delta_h": "8.2",
+  "molar_volume": 157.4,
   "options": [
    {
     "corrected_name": "Ethylene Glycol Methyl t-Butyl",
@@ -3035,7 +3411,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3047,6 +3425,7 @@
   "delta_d": "15.3",
   "delta_p": "5.1",
   "delta_h": "8.2",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Ethylene Glycol Methyl t-Butyl Ether",
@@ -3055,7 +3434,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3067,6 +3448,7 @@
   "delta_d": "16.0",
   "delta_p": "4.1",
   "delta_h": "10.5",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Ethylene Glycol Mono 2-Ethyl Hexyl Ether",
@@ -3075,7 +3457,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3087,6 +3471,7 @@
   "delta_d": "16.0",
   "delta_p": "4.1",
   "delta_h": "10.5",
+  "molar_volume": 194.7,
   "options": [
    {
     "corrected_name": "Ethylene Glycol Mono-2-Ethyl Hexyl",
@@ -3095,7 +3480,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3107,6 +3494,7 @@
   "delta_d": "20.0",
   "delta_p": "15.9",
   "delta_h": "5.1",
+  "molar_volume": 75.1,
   "options": [
    {
     "corrected_name": "Ethylene Glycol Sulfit",
@@ -3115,7 +3503,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3127,6 +3517,7 @@
   "delta_d": "16.9",
   "delta_p": "9.3",
   "delta_h": "9.6",
+  "molar_volume": 97.9,
   "options": [
    {
     "corrected_name": "Ethylene Methyl Sulfonate",
@@ -3135,7 +3526,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3147,6 +3540,7 @@
   "delta_d": "19.3",
   "delta_p": "9.0",
   "delta_h": "6.5",
+  "molar_volume": 59.5,
   "options": [
    {
     "corrected_name": "Ethylene Sulfid",
@@ -3155,7 +3549,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3167,12 +3563,13 @@
   "delta_d": "16.0",
   "delta_p": "5.1",
   "delta_h": "12.3",
+  "molar_volume": 131.6,
   "options": [
    {
     "corrected_name": "2-Butoxyethanol",
     "cas": "111-76-2",
     "iupac": "2-butoxyethanol",
-    "confidence": 0.87,
+    "confidence": 0.95,
     "reason": "Split CamelCase words",
     "cid": 8133,
     "synonyms": [
@@ -3185,6 +3582,8 @@
      "Ethylene glycol butyl ether",
      "n-Butoxyethanol"
     ],
+    "pubchem_mw": 118.17,
+    "mv_match": true,
     "guess_text": "Ethylene Glycol Butyl Ether"
    }
   ]
@@ -3197,12 +3596,13 @@
   "delta_d": "17.8",
   "delta_p": "5.7",
   "delta_h": "14.3",
+  "molar_volume": 124.7,
   "options": [
    {
     "corrected_name": "2-PHENOXYETHANOL",
     "cas": "122-99-6",
     "iupac": "2-phenoxyethanol",
-    "confidence": 0.87,
+    "confidence": 0.95,
     "reason": "Split CamelCase words",
     "cid": 31236,
     "synonyms": [
@@ -3215,6 +3615,8 @@
      "Phenoxytol",
      "Ethanol, 2-phenoxy-"
     ],
+    "pubchem_mw": 138.16,
+    "mv_match": true,
     "guess_text": "Ethylene Glycol Monophenyl Ether"
    }
   ]
@@ -3227,6 +3629,7 @@
   "delta_d": "15.4",
   "delta_p": "3.8",
   "delta_h": "5.4",
+  "molar_volume": 104.1,
   "options": [
    {
     "corrected_name": "Ethynyl Propyl Ether",
@@ -3235,7 +3638,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3247,6 +3652,7 @@
   "delta_d": "16.9",
   "delta_p": "1.5",
   "delta_h": "3.1",
+  "molar_volume": 157.3,
   "options": [
    {
     "corrected_name": "Fenchene(Alfa)",
@@ -3255,7 +3661,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3267,6 +3675,7 @@
   "delta_d": "17.1",
   "delta_p": "14.7",
   "delta_h": "9.2",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Glycerol Carbonate Acetate",
@@ -3275,7 +3684,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3287,6 +3698,7 @@
   "delta_d": "16.8",
   "delta_p": "18.5",
   "delta_h": "8.7",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Glycerol Carbonate Ethyl Ether",
@@ -3295,7 +3707,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3307,6 +3721,7 @@
   "delta_d": "17.2",
   "delta_p": "4.5",
   "delta_h": "14.7",
+  "molar_volume": 105.3,
   "options": [
    {
     "corrected_name": "Hexafluo o Isopropanol",
@@ -3315,7 +3730,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3327,6 +3744,7 @@
   "delta_d": "15.1",
   "delta_p": "4.4",
   "delta_h": "9.9",
+  "molar_volume": 123.3,
   "options": [
    {
     "corrected_name": "Hexafluo ohexanol",
@@ -3335,7 +3753,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3347,12 +3767,13 @@
   "delta_d": "13.8",
   "delta_p": "0.0",
   "delta_h": "0.0",
+  "molar_volume": 104.3,
   "options": [
    {
     "corrected_name": "Hexafluoro-1,3-butadiene",
     "cas": "685-63-2",
     "iupac": "1,1,2,3,4,4-hexafluorobuta-1,3-diene",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026dien \u2192 \u2026diene",
     "cid": 69636,
     "synonyms": [
@@ -3365,6 +3786,8 @@
      "Perfluorobutadiene-1,3",
      "CF2=CFCF=CF2"
     ],
+    "pubchem_mw": 162.03,
+    "mv_match": true,
     "guess_text": "Hexafluoro 1,3-Butadiene"
    }
   ]
@@ -3377,12 +3800,13 @@
   "delta_d": "16.9",
   "delta_p": "0.0",
   "delta_h": "0.0",
+  "molar_volume": 115.8,
   "options": [
    {
     "corrected_name": "HEXAFLUOROBENZENE",
     "cas": "392-56-3",
     "iupac": "1,2,3,4,5,6-hexafluorobenzene",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026benzen \u2192 \u2026benzene",
     "cid": 9805,
     "synonyms": [
@@ -3395,6 +3819,8 @@
      "NSC-21628",
      "DTXSID5043924"
     ],
+    "pubchem_mw": 186.05,
+    "mv_match": true,
     "guess_text": "Hexafluorobenzene"
    }
   ]
@@ -3407,6 +3833,7 @@
   "delta_d": "15.1",
   "delta_p": "4.4",
   "delta_h": "9.9",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Hexafluorohexanol",
@@ -3415,7 +3842,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3427,6 +3856,7 @@
   "delta_d": "17.2",
   "delta_p": "2.5",
   "delta_h": "6.2",
+  "molar_volume": 104.2,
   "options": [
    {
     "corrected_name": "Iodoprene",
@@ -3435,7 +3865,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3447,6 +3879,7 @@
   "delta_d": "16.4",
   "delta_p": "11.3",
   "delta_h": "5.1",
+  "molar_volume": 97.7,
   "options": [
    {
     "corrected_name": "Methyl Allyl Cyanide",
@@ -3455,7 +3888,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3467,6 +3902,7 @@
   "delta_d": "19.6",
   "delta_p": "4.8",
   "delta_h": "4.7",
+  "molar_volume": 117.4,
   "options": [
    {
     "corrected_name": "Methyl Phenyl Sulfid",
@@ -3475,7 +3911,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3487,6 +3925,7 @@
   "delta_d": "14.0",
   "delta_p": "14.0",
   "delta_h": "8.4",
+  "molar_volume": 73.9,
   "options": [
    {
     "corrected_name": "Methyl Phosphonic Difluorid",
@@ -3495,7 +3934,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3507,6 +3948,7 @@
   "delta_d": "16.4",
   "delta_p": "4.9",
   "delta_h": "6.0",
+  "molar_volume": 82.1,
   "options": [
    {
     "corrected_name": "Methyl Vinyl Sulfid",
@@ -3515,7 +3957,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3527,6 +3971,7 @@
   "delta_d": "17.3",
   "delta_p": "6.2",
   "delta_h": "6.8",
+  "molar_volume": 265.0,
   "options": [
    {
     "corrected_name": "Mono 2-Ethyl-Hexyl Phthalate (MEHP) Phthalic acid mono-(2-",
@@ -3535,7 +3980,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3547,6 +3994,7 @@
   "delta_d": "17.2",
   "delta_p": "20.3",
   "delta_h": "18.4",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "MORPHOLINE",
@@ -3565,6 +4013,8 @@
      "Diethyleneimide oxide",
      "Diethylene imidoxide"
     ],
+    "pubchem_mw": 87.12,
+    "mv_match": null,
     "guess_text": "Morpholine"
    }
   ]
@@ -3577,6 +4027,7 @@
   "delta_d": "16.5",
   "delta_p": "7.5",
   "delta_h": "8.0",
+  "molar_volume": 90.8,
   "options": [
    {
     "corrected_name": "N,N-Dichloromethyl Amine",
@@ -3585,7 +4036,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3597,6 +4050,7 @@
   "delta_d": "15.3",
   "delta_p": "5.9",
   "delta_h": "11.0",
+  "molar_volume": 76.0,
   "options": [
    {
     "corrected_name": "N,NDimethylhydrazine",
@@ -3605,7 +4059,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3617,6 +4073,7 @@
   "delta_d": "16.0",
   "delta_p": "20.3",
   "delta_h": "18.4",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Butylamine",
@@ -3635,6 +4092,8 @@
      "1-Butylamine",
      "Monobutylamine"
     ],
+    "pubchem_mw": 73.14,
+    "mv_match": null,
     "guess_text": "N-Butyl Amine"
    }
   ]
@@ -3647,6 +4106,7 @@
   "delta_d": "17.5",
   "delta_p": "9.9",
   "delta_h": "5.8",
+  "molar_volume": 148.0,
   "options": [
    {
     "corrected_name": "N-Butyl Pyrrolidone",
@@ -3655,7 +4115,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3667,6 +4129,7 @@
   "delta_d": "18.5",
   "delta_p": "10.4",
   "delta_h": "7.6",
+  "molar_volume": 127.0,
   "options": [
    {
     "corrected_name": "N-Formyl Hexamethylene Imine",
@@ -3675,7 +4138,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3687,12 +4152,13 @@
   "delta_d": "18.0",
   "delta_p": "10.7",
   "delta_h": "24.1",
+  "molar_volume": 141.9,
   "options": [
    {
     "corrected_name": "phenylpropanolamine",
     "cas": "14838-15-4",
     "iupac": "(1R,2S)-2-amino-1-phenylpropan-1-ol",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Fix 'Norephedrin' \u2192 'Norephedrine'",
     "cid": 10297,
     "synonyms": [
@@ -3705,6 +4171,8 @@
      "Fenilpropanolamina",
      "14838-15-4"
     ],
+    "pubchem_mw": 151.21,
+    "mv_match": true,
     "guess_text": "Norephedrine"
    }
   ]
@@ -3717,12 +4185,13 @@
   "delta_d": "19.4",
   "delta_p": "8.7",
   "delta_h": "2.0",
+  "molar_volume": 104.9,
   "options": [
    {
     "corrected_name": "1-CHLORO-2-FLUOROBENZENE",
     "cas": "348-51-6",
     "iupac": "1-chloro-2-fluorobenzene",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026benzen \u2192 \u2026benzene",
     "cid": 9583,
     "synonyms": [
@@ -3735,6 +4204,8 @@
      "1-Fluoro-2-chlorobenzene",
      "1-chloro-2-fluoro-benzene"
     ],
+    "pubchem_mw": 130.55,
+    "mv_match": true,
     "guess_text": "o-Chlorofluorobenzene"
    }
   ]
@@ -3747,12 +4218,13 @@
   "delta_d": "18.0",
   "delta_p": "9.0",
   "delta_h": "1.0",
+  "molar_volume": 98.5,
   "options": [
    {
     "corrected_name": "1,2-DIFLUOROBENZENE",
     "cas": "367-11-3",
     "iupac": "1,2-difluorobenzene",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026benzen \u2192 \u2026benzene",
     "cid": 9706,
     "synonyms": [
@@ -3765,6 +4237,8 @@
      "DTXSID2075390",
      "CHEBI:38583"
     ],
+    "pubchem_mw": 114.09,
+    "mv_match": true,
     "guess_text": "o-Difluorobenzene"
    }
   ]
@@ -3777,6 +4251,7 @@
   "delta_d": "19.5",
   "delta_p": "8.8",
   "delta_h": "5.9",
+  "molar_volume": 205.7,
   "options": [
    {
     "corrected_name": "Paraquat 1,1'-Dimethyl-4,4'-",
@@ -3785,7 +4260,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3797,12 +4274,13 @@
   "delta_d": "19.3",
   "delta_p": "8.1",
   "delta_h": "5.4",
+  "molar_volume": 185.5,
   "options": [
    {
     "corrected_name": "2,3,4,5,6-Pentafluorobenzophenone",
     "cas": "1536-23-8",
     "iupac": "(2,3,4,5,6-pentafluorophenyl)-phenylmethanone",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026phenon \u2192 \u2026phenone",
     "cid": 73755,
     "synonyms": [
@@ -3815,6 +4293,8 @@
      "Benzophenone, 2,3,4,5,6-pentafluoro-",
      "DTXSID20165367"
     ],
+    "pubchem_mw": 272.17,
+    "mv_match": true,
     "guess_text": "Pentafluorobenzophenone"
    }
   ]
@@ -3827,6 +4307,7 @@
   "delta_d": "18.5",
   "delta_p": "6.3",
   "delta_h": "8.9",
+  "molar_volume": 103.6,
   "options": [
    {
     "corrected_name": "Pentamethylene Sulfid",
@@ -3835,7 +4316,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3847,12 +4330,13 @@
   "delta_d": "15.8",
   "delta_p": "3.3",
   "delta_h": "6.1",
+  "molar_volume": 148.0,
   "options": [
    {
     "corrected_name": "Amyl acetate",
     "cas": "628-63-7",
     "iupac": "pentyl acetate",
-    "confidence": 0.87,
+    "confidence": 0.95,
     "reason": "Split CamelCase words",
     "cid": 12348,
     "synonyms": [
@@ -3865,6 +4349,8 @@
      "Birnenoel",
      "Amyl acetic ester"
     ],
+    "pubchem_mw": 130.18,
+    "mv_match": true,
     "guess_text": "Pentyl Acetate"
    }
   ]
@@ -3877,6 +4363,7 @@
   "delta_d": "12.4",
   "delta_p": "0.0",
   "delta_h": "0.0",
+  "molar_volume": 217.4,
   "options": [
    {
     "corrected_name": "Perfluoro Dimet ylcyclohexane",
@@ -3885,7 +4372,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3897,6 +4386,7 @@
   "delta_d": "12.4",
   "delta_p": "0.0",
   "delta_h": "0.0",
+  "molar_volume": 196.0,
   "options": [
    {
     "corrected_name": "Perfluoromet ylcyclohexane",
@@ -3905,7 +4395,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3917,12 +4409,13 @@
   "delta_d": "18.1",
   "delta_p": "9.3",
   "delta_h": "0.0",
+  "molar_volume": 93.2,
   "options": [
    {
     "corrected_name": "PHOSPHORUS OXYCHLORIDE",
     "cas": "10025-87-3",
     "iupac": "phosphoryl trichloride",
-    "confidence": 0.77,
+    "confidence": 0.85,
     "reason": "Remove incomplete parenthetical",
     "cid": 24813,
     "synonyms": [
@@ -3935,6 +4428,8 @@
      "Trichlorophosphine oxide",
      "Phosphorus oxytrichloride"
     ],
+    "pubchem_mw": 153.33,
+    "mv_match": true,
     "guess_text": "Phosphorous Oxychloride"
    }
   ]
@@ -3947,6 +4442,7 @@
   "delta_d": "15.6",
   "delta_p": "3.0",
   "delta_h": "9.8",
+  "molar_volume": 155.0,
   "options": [
    {
     "corrected_name": "Pine Oil",
@@ -3955,7 +4451,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -3967,12 +4465,13 @@
   "delta_d": "17.5",
   "delta_p": "13.4",
   "delta_h": "9.8",
+  "molar_volume": 63.2,
   "options": [
    {
     "corrected_name": "GLYCIDALDEHYDE",
     "cas": "765-34-4",
     "iupac": "oxirane-2-carbaldehyde",
-    "confidence": 0.8,
+    "confidence": 0.88,
     "reason": "Invert name order",
     "cid": 13002,
     "synonyms": [
@@ -3985,6 +4484,8 @@
      "2,3-Epoxypropanal",
      "Epihydrinaldehyde"
     ],
+    "pubchem_mw": 72.06,
+    "mv_match": true,
     "guess_text": "2,3-Epoxypropionaldehyde"
    }
   ]
@@ -3997,12 +4498,13 @@
   "delta_d": "15.5",
   "delta_p": "5.6",
   "delta_h": "5.7",
+  "molar_volume": 132.5,
   "options": [
    {
     "corrected_name": "PROPYL PROPIONATE",
     "cas": "106-36-5",
     "iupac": "propyl propanoate",
-    "confidence": 0.87,
+    "confidence": 0.95,
     "reason": "Split CamelCase words",
     "cid": 7803,
     "synonyms": [
@@ -4015,6 +4517,8 @@
      "n-Propyl n-propionate",
      "Propylester kyseliny propionove"
     ],
+    "pubchem_mw": 116.16,
+    "mv_match": true,
     "guess_text": "Propyl Propionate"
    }
   ]
@@ -4027,12 +4531,13 @@
   "delta_d": "15.0",
   "delta_p": "3.7",
   "delta_h": "6.0",
+  "molar_volume": 134.8,
   "options": [
    {
     "corrected_name": "TERT-BUTYL ACETATE",
     "cas": "540-88-5",
     "iupac": "tert-butyl acetate",
-    "confidence": 0.87,
+    "confidence": 0.95,
     "reason": "Split CamelCase words",
     "cid": 10908,
     "synonyms": [
@@ -4045,6 +4550,8 @@
      "1,1-Dimethyl acetate",
      "76N22HKP3X"
     ],
+    "pubchem_mw": 116.16,
+    "mv_match": true,
     "guess_text": "Tert Butyl Acetate"
    }
   ]
@@ -4057,6 +4564,7 @@
   "delta_d": "18.6",
   "delta_p": "6.7",
   "delta_h": "9.1",
+  "molar_volume": 88.3,
   "options": [
    {
     "corrected_name": "Tetramethylene Sulfid",
@@ -4065,7 +4573,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4077,12 +4587,13 @@
   "delta_d": "20.3",
   "delta_p": "18.2",
   "delta_h": "10.9",
+  "molar_volume": 95.7,
   "options": [
    {
     "corrected_name": "SULFOLANE",
     "cas": "126-33-0",
     "iupac": "thiolane 1,1-dioxide",
-    "confidence": 0.85,
+    "confidence": 0.93,
     "reason": "Use name before parentheses",
     "cid": 31347,
     "synonyms": [
@@ -4095,6 +4606,8 @@
      "1,1-Dioxothiolan",
      "Sulpholane"
     ],
+    "pubchem_mw": 120.17,
+    "mv_match": true,
     "guess_text": "Tetramethylene Sulfone"
    }
   ]
@@ -4107,12 +4620,13 @@
   "delta_d": "16.0",
   "delta_p": "8.6",
   "delta_h": "14.8",
+  "molar_volume": 69.5,
   "options": [
    {
     "corrected_name": "mercaptoacetic acid",
     "cas": "68-11-1",
     "iupac": "2-sulfanylacetic acid",
-    "confidence": 0.77,
+    "confidence": 0.85,
     "reason": "Remove incomplete parenthetical",
     "cid": 1133,
     "synonyms": [
@@ -4125,6 +4639,8 @@
      "Thioglycollic acid",
      "Acetic acid, mercapto-"
     ],
+    "pubchem_mw": 92.12,
+    "mv_match": true,
     "guess_text": "Thioglycolic Acid"
    }
   ]
@@ -4137,12 +4653,13 @@
   "delta_d": "16.2",
   "delta_p": "12.9",
   "delta_h": "6.8",
+  "molar_volume": 96.6,
   "options": [
    {
     "corrected_name": "trans-2-Methyl-2-butenal",
     "cas": "497-03-0",
     "iupac": "(E)-2-methylbut-2-enal",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Fix 'Tigaldehyde' \u2192 'Tiglic aldehyde'",
     "cid": 5321950,
     "synonyms": [
@@ -4155,6 +4672,8 @@
      "2-Methylcrotonaldehyde",
      "E-2-Methyl-2-butenal"
     ],
+    "pubchem_mw": 84.12,
+    "mv_match": true,
     "guess_text": "Tiglic aldehyde"
    }
   ]
@@ -4167,6 +4686,7 @@
   "delta_d": "16.7",
   "delta_p": "2.5",
   "delta_h": "7.4",
+  "molar_volume": 384.3,
   "options": [
    {
     "corrected_name": "Tri-n-Butyl Acetyl Citrate",
@@ -4175,7 +4695,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4187,12 +4709,13 @@
   "delta_d": "16.5",
   "delta_p": "4.5",
   "delta_h": "9.1",
+  "molar_volume": 188.2,
   "options": [
    {
     "corrected_name": "triacetin",
     "cas": "102-76-1",
     "iupac": "2,3-diacetyloxypropyl acetate",
-    "confidence": 0.77,
+    "confidence": 0.85,
     "reason": "Remove incomplete parenthetical",
     "cid": 5541,
     "synonyms": [
@@ -4205,6 +4728,8 @@
      "Glycerin triacetate",
      "Triacetylglycerol"
     ],
+    "pubchem_mw": 218.2,
+    "mv_match": true,
     "guess_text": "Triacetin"
    }
   ]
@@ -4217,12 +4742,13 @@
   "delta_d": "18.3",
   "delta_p": "9.4",
   "delta_h": "8.0",
+  "molar_volume": 97.8,
   "options": [
    {
     "corrected_name": "Tribromoethylene",
     "cas": "598-16-3",
     "iupac": "1,1,2-tribromoethene",
-    "confidence": 0.77,
+    "confidence": 0.47,
     "reason": "Join 'Tribromo ethyl' \u2192 'Tribromoethyl'",
     "cid": 11712,
     "synonyms": [
@@ -4235,6 +4761,8 @@
      "tribromo-ethene",
      "RefChem:139145"
     ],
+    "pubchem_mw": 264.74,
+    "mv_match": false,
     "guess_text": "Tribromoethylene"
    }
   ]
@@ -4247,6 +4775,7 @@
   "delta_d": "17.2",
   "delta_p": "20.3",
   "delta_h": "18.4",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "TRIETHANOLAMINE",
@@ -4265,6 +4794,8 @@
      "Tris(2-hydroxyethyl)amine",
      "Nitrilotriethanol"
     ],
+    "pubchem_mw": 149.19,
+    "mv_match": null,
     "guess_text": "Triethanolamine"
    }
   ]
@@ -4277,12 +4808,13 @@
   "delta_d": "15.6",
   "delta_p": "9.9",
   "delta_h": "11.6",
+  "molar_volume": 74.2,
   "options": [
    {
     "corrected_name": "Trifluoroacetic acid",
     "cas": "76-05-1",
     "iupac": "2,2,2-trifluoroacetic acid",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026 Aci \u2192 \u2026 Acid",
     "cid": 6422,
     "synonyms": [
@@ -4295,6 +4827,8 @@
      "Acetic acid, trifluoro-",
      "Kyselina trifluoroctova"
     ],
+    "pubchem_mw": 114.02,
+    "mv_match": true,
     "guess_text": "Trifluoroacetic Acid"
    }
   ]
@@ -4307,6 +4841,7 @@
   "delta_d": "12.5",
   "delta_p": "0.0",
   "delta_h": "0.0",
+  "molar_volume": 196.0,
   "options": [
    {
     "corrected_name": "TrifluoromethylUndecafluorocyclohexane",
@@ -4315,7 +4850,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4327,6 +4864,7 @@
   "delta_d": "16.6",
   "delta_p": "5.7",
   "delta_h": "2.2",
+  "molar_volume": 602.9,
   "options": [
    {
     "corrected_name": "Triisononyl Trimellilate",
@@ -4335,7 +4873,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4347,6 +4887,7 @@
   "delta_d": "18.8",
   "delta_p": "7.8",
   "delta_h": "9.4",
+  "molar_volume": 72.8,
   "options": [
    {
     "corrected_name": "Trimethylenesulfid",
@@ -4355,7 +4896,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4367,12 +4910,13 @@
   "delta_d": "15.5",
   "delta_p": "10.3",
   "delta_h": "7.3",
+  "molar_volume": 94.6,
   "options": [
    {
     "corrected_name": "Trinitromethane",
     "cas": "517-25-9",
     "iupac": "trinitromethane",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Fix 'Trinitomethane' \u2192 'Trinitromethane'",
     "cid": 10602,
     "synonyms": [
@@ -4385,6 +4929,8 @@
      "BRN 1708361",
      "TRINITROMETHANE [MI]"
     ],
+    "pubchem_mw": 151.04,
+    "mv_match": true,
     "guess_text": "Trinitromethane"
    }
   ]
@@ -4397,12 +4943,13 @@
   "delta_d": "19.5",
   "delta_p": "3.7",
   "delta_h": "4.5",
+  "molar_volume": 137.6,
   "options": [
    {
     "corrected_name": "2,4,6-TRINITROTOLUENE",
     "cas": "118-96-7",
     "iupac": "2-methyl-1,3,5-trinitrobenzene",
-    "confidence": 0.77,
+    "confidence": 0.85,
     "reason": "Remove incomplete parenthetical",
     "cid": 8376,
     "synonyms": [
@@ -4415,6 +4962,8 @@
      "s-Trinitrotoluene",
      "2-Methyl-1,3,5-trinitrobenzene"
     ],
+    "pubchem_mw": 227.13,
+    "mv_match": true,
     "guess_text": "Trinitrotoluene"
    }
   ]
@@ -4427,6 +4976,7 @@
   "delta_d": "15.3",
   "delta_p": "5.5",
   "delta_h": "10.4",
+  "molar_volume": 214.0,
   "options": [
    {
     "corrected_name": "Tripropylene Glycol Monometh yl",
@@ -4435,7 +4985,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4447,12 +4999,13 @@
   "delta_d": "20.9",
   "delta_p": "18.7",
   "delta_h": "26.4",
+  "molar_volume": 45.8,
   "options": [
    {
     "corrected_name": "urea",
     "cas": "57-13-6",
     "iupac": "urea",
-    "confidence": 0.8,
+    "confidence": 0.88,
     "reason": "Use name before parentheses",
     "cid": 1176,
     "synonyms": [
@@ -4465,6 +5018,8 @@
      "Ureaphil",
      "Keratinamin"
     ],
+    "pubchem_mw": 60.056,
+    "mv_match": true,
     "guess_text": "Urea"
    }
   ]
@@ -4477,12 +5032,13 @@
   "delta_d": "19.4",
   "delta_p": "9.8",
   "delta_h": "11.2",
+  "molar_volume": 144.1,
   "options": [
    {
     "corrected_name": "vanillin",
     "cas": "121-33-5",
     "iupac": "4-hydroxy-3-methoxybenzaldehyde",
-    "confidence": 0.77,
+    "confidence": 0.85,
     "reason": "Remove incomplete parenthetical",
     "cid": 1183,
     "synonyms": [
@@ -4495,6 +5051,8 @@
      "Vanilline",
      "Lioxin"
     ],
+    "pubchem_mw": 152.15,
+    "mv_match": true,
     "guess_text": "Vanillin"
    }
   ]
@@ -4507,12 +5065,13 @@
   "delta_d": "16.3",
   "delta_p": "6.7",
   "delta_h": "5.8",
+  "molar_volume": 101.7,
   "options": [
    {
     "corrected_name": "2-CHLOROETHYL VINYL ETHER",
     "cas": "110-75-8",
     "iupac": "1-chloro-2-ethenoxyethane",
-    "confidence": 0.77,
+    "confidence": 0.85,
     "reason": "Join 'Chloro ethyl' \u2192 'Chloroethyl'",
     "cid": 8074,
     "synonyms": [
@@ -4525,6 +5084,8 @@
      "Ethene,(2-chloroethoxy)-",
      "Ether, 2-chloroethyl vinyl"
     ],
+    "pubchem_mw": 106.55,
+    "mv_match": true,
     "guess_text": "Vinyl 2-Chloroethyl Ether"
    }
   ]
@@ -4537,12 +5098,13 @@
   "delta_d": "15.9",
   "delta_p": "6.7",
   "delta_h": "6.8",
+  "molar_volume": 96.2,
   "options": [
    {
     "corrected_name": "2-Methoxyethyl vinyl ether",
     "cas": "1663-35-0",
     "iupac": "1-ethenoxy-2-methoxyethane",
-    "confidence": 0.77,
+    "confidence": 0.85,
     "reason": "Join 'Methoxy ethyl' \u2192 'Methoxyethyl'",
     "cid": 15457,
     "synonyms": [
@@ -4555,6 +5117,8 @@
      "Ethane, 1-methoxy-2-(vinyloxy)-",
      "(2-methoxyethoxy)ethene"
     ],
+    "pubchem_mw": 102.13,
+    "mv_match": true,
     "guess_text": "Vinyl 2-Methoxyethyl Ether"
    }
   ]
@@ -4567,6 +5131,7 @@
   "delta_d": "16.0",
   "delta_p": "5.0",
   "delta_h": "6.0",
+  "molar_volume": 206.2,
   "options": [
    {
     "corrected_name": "Vinyl Butyl Carbitol",
@@ -4575,7 +5140,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4587,6 +5154,7 @@
   "delta_d": "16.0",
   "delta_p": "5.0",
   "delta_h": "5.4",
+  "molar_volume": 136.7,
   "options": [
    {
     "corrected_name": "Vinyl Butyl Sulfid",
@@ -4595,7 +5163,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4607,6 +5177,7 @@
   "delta_d": "16.4",
   "delta_p": "5.8",
   "delta_h": "6.3",
+  "molar_volume": 101.3,
   "options": [
    {
     "corrected_name": "Vinyl Ethyl Sulfid",
@@ -4615,7 +5186,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4627,6 +5200,7 @@
   "delta_d": "15.6",
   "delta_p": "6.2",
   "delta_h": "6.8",
+  "molar_volume": 114.7,
   "options": [
    {
     "corrected_name": "Vinyl Methyl Cellosolve",
@@ -4635,7 +5209,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4647,6 +5223,7 @@
   "delta_d": "16.5",
   "delta_p": "5.0",
   "delta_h": "5.8",
+  "molar_volume": 174.0,
   "options": [
    {
     "corrected_name": "Vinyl S-Butyl Mercapto Butyl Ether",
@@ -4655,7 +5232,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4667,6 +5246,7 @@
   "delta_d": "16.5",
   "delta_p": "5.0",
   "delta_h": "5.8",
+  "molar_volume": null,
   "options": [
    {
     "corrected_name": "Vinyl S-Butyl Mercapto Ethyl Ether",
@@ -4675,7 +5255,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4687,6 +5269,7 @@
   "delta_d": "16.4",
   "delta_p": "7.0",
   "delta_h": "6.0",
+  "molar_volume": 139.7,
   "options": [
    {
     "corrected_name": "Vinyl S-Ethyl Mercapto Ethyl Ether",
@@ -4695,7 +5278,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4707,6 +5292,7 @@
   "delta_d": "13.9",
   "delta_p": "4.3",
   "delta_h": "7.6",
+  "molar_volume": 116.4,
   "options": [
    {
     "corrected_name": "Vinyl Trifluoro Acetate",
@@ -4715,7 +5301,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4727,6 +5315,7 @@
   "delta_d": "15.6",
   "delta_p": "2.7",
   "delta_h": "5.8",
+  "molar_volume": 196.0,
   "options": [
    {
     "corrected_name": "Vinyl-2-Ethyl Hexanoate",
@@ -4735,7 +5324,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4747,12 +5338,13 @@
   "delta_d": "17.3",
   "delta_p": "18.1",
   "delta_h": "9.6",
+  "molar_volume": 86.0,
   "options": [
    {
     "corrected_name": "VINYLENE CARBONATE",
     "cas": "872-36-6",
     "iupac": "1,3-dioxol-2-one",
-    "confidence": 0.93,
+    "confidence": 0.99,
     "reason": "Fix 'Vinylenecarbonate' \u2192 'Vinylene carbonate'",
     "cid": 13385,
     "synonyms": [
@@ -4765,6 +5357,8 @@
      "DTXSID1074888",
      "LBG-84922"
     ],
+    "pubchem_mw": 86.05,
+    "mv_match": true,
     "guess_text": "Vinylene carbonate"
    }
   ]
@@ -4777,6 +5371,7 @@
   "delta_d": "15.1",
   "delta_p": "20.4",
   "delta_h": "16.5",
+  "molar_volume": 18.0,
   "options": [
    {
     "corrected_name": "Water - 1% in Ro = 18.1",
@@ -4785,7 +5380,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  },
@@ -4797,6 +5394,7 @@
   "delta_d": "18.1",
   "delta_p": "17.1",
   "delta_h": "16.9",
+  "molar_volume": 18.0,
   "options": [
    {
     "corrected_name": "Water - Complete Miscibility",
@@ -4805,7 +5403,9 @@
     "confidence": 0.0,
     "reason": "No match found \u2014 needs manual review",
     "cid": null,
-    "synonyms": []
+    "synonyms": [],
+    "pubchem_mw": null,
+    "mv_match": null
    }
   ]
  }
