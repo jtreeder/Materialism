@@ -2,7 +2,10 @@
 
 For each chemical without a CAS, this script:
 1. Generates name-repair guesses (fix truncation, missing hyphens, OCR artifacts)
-2. Queries PubChem to validate each guess and retrieve CAS + canonical name
+2. Queries multiple reference sources to validate each guess:
+   - PubChem PUG REST API (primary, exact name) — https://pubchem.ncbi.nlm.nih.gov/rest/pug
+   - NCI/CADD Chemical Identifier Resolver (secondary) — https://cactus.nci.nih.gov
+   - PubChem Autocomplete (tertiary, fuzzy matching) — https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete
 3. Computes a confidence score for each candidate
 4. Outputs a JSON file consumed by the static review page
 
@@ -152,6 +155,53 @@ def lookup_smiles(smiles):
     result = {"cid": cid, "cas": cas, "iupac": iupac, "mw": mw, "synonyms": synonyms}
     _enrich_with_density(result)
     return result
+
+
+# ---- NCI Chemical Identifier Resolver (CIR) ----
+# https://cactus.nci.nih.gov/chemical/structure
+
+def _cir_resolve(name):
+    """Query NCI/CADD Chemical Identifier Resolver for a CAS number.
+    Returns CAS string or None."""
+    encoded = urllib.parse.quote(name, safe="")
+    url = f"https://cactus.nci.nih.gov/chemical/structure/{encoded}/cas"
+    try:
+        req = urllib.request.Request(url)
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            text = resp.read().decode("utf-8").strip()
+            for line in text.split("\n"):
+                line = line.strip()
+                if CAS_RE.match(line):
+                    return line
+    except Exception:
+        pass
+    return None
+
+
+# ---- PubChem Autocomplete (fuzzy name matching) ----
+# https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete
+
+def _pubchem_autocomplete(name):
+    """Use PubChem's autocomplete to fuzzy-match a chemical name.
+    Returns list of suggested canonical names, or empty list."""
+    encoded = urllib.parse.quote(name, safe="")
+    url = f"https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete/compound/{encoded}/json?limit=3"
+    try:
+        req = urllib.request.Request(url, headers={"Accept": "application/json"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read())
+            terms = data.get("dictionary_terms", {}).get("compound", [])
+            # Deduplicate while preserving order
+            seen = set()
+            unique = []
+            for t in terms:
+                if t.lower() not in seen:
+                    seen.add(t.lower())
+                    unique.append(t)
+            return unique
+    except Exception:
+        pass
+    return []
 
 
 # ---- Name repair heuristics ----
@@ -410,6 +460,32 @@ def generate_name_guesses(name):
             lower_fixed = f"{mult}-n-{first.lower()} {rest_parts.lower()}"
             _add(guesses, lower_fixed, f"Expand '{mult}' compound (lowercase)", 0.78)
 
+    # ── Bis/Tris with numbered substituent → add parentheses ──────────
+    # "Bis2ChloroisopropylEther" → "Bis(2-chloroisopropyl) ether"
+    # "Bis2EthylhexylPhthalate" → "Bis(2-ethylhexyl) phthalate"
+    if re.match(r"^(Bis|Tris|Tetrakis?)\d", o):
+        paren_prefix_m = re.match(r"^(Bis|Tris|Tetrakis?)", o)
+        mult = paren_prefix_m.group(1)
+        rest = o[len(mult):]
+        # Split rest at CamelCase boundaries (lowercase→uppercase)
+        parts = re.split(r"(?<=[a-z])(?=[A-Z])", rest)
+        if len(parts) >= 2:
+            # Group = all parts except last, base = last part
+            group = "".join(parts[:-1])
+            base = parts[-1]
+            # Insert hyphens at digit→letter boundaries within the group
+            group_fixed = re.sub(r"(\d)([A-Za-z])", r"\1-\2", group)
+            # Parenthesized form: "Bis(2-chloroisopropyl) ether"
+            _add(guesses, f"{mult}({group_fixed.lower()}) {base.lower()}",
+                 f"Add parens: {mult}(...) + base", 0.90)
+            _add(guesses, f"{mult}({group_fixed}) {base}",
+                 f"Add parens: {mult}(...) + base (original case)", 0.88)
+            # If base has further CamelCase, split it too
+            base_spaced = re.sub(r"([a-z])([A-Z])", r"\1 \2", base)
+            if base_spaced != base:
+                _add(guesses, f"{mult}({group_fixed.lower()}) {base_spaced.lower()}",
+                     f"Add parens + split base", 0.87)
+
     # ── "Ro = XX" or "Water - ..." special cases → skip material ────────
     if re.search(r"Ro?\s*=\s*\d", o) or o.startswith("Water -"):
         _add(guesses, o, "Special entry (may not be a standard chemical)", 0.10)
@@ -557,7 +633,28 @@ def main():
 
         for guess, reason, base_conf in guesses:
             result = lookup_name(guess)
+            source_tag = ""
             time.sleep(0.2)
+
+            # If PubChem missed, try NCI/CIR
+            if not result:
+                cas = _cir_resolve(guess)
+                if cas:
+                    result = lookup_name(cas)
+                    if result:
+                        source_tag = " [via NCI/CIR]"
+                time.sleep(0.2)
+
+            # If CIR missed too, try PubChem autocomplete (fuzzy matching)
+            if not result:
+                suggestions = _pubchem_autocomplete(guess)
+                for suggestion in suggestions:
+                    result = lookup_name(suggestion)
+                    if result:
+                        source_tag = " [via PubChem autocomplete]"
+                        break
+                    time.sleep(0.15)
+                time.sleep(0.2)
 
             if result and result["cid"] not in seen_cids:
                 seen_cids.add(result["cid"])
@@ -566,7 +663,9 @@ def main():
                     continue  # already covered
 
                 result["guess_text"] = guess
-                entry["options"].append(_make_option(result, reason, base_conf))
+                entry["options"].append(
+                    _make_option(result, reason + source_tag, base_conf)
+                )
 
             elif result and result["cid"] in seen_cids:
                 for opt in entry["options"]:
