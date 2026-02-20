@@ -119,6 +119,10 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 .custom-input input:focus { border-color: #e94560; }
 .custom-input input.name-input { width: 260px; }
 .custom-input input.cas-input { width: 120px; font-family: monospace; }
+.custom-input .lookup-btn { background: #0984e3; color: white; }
+.custom-input .lookup-btn:hover { background: #0770c2; }
+.custom-input .lookup-btn:disabled { background: #b2bec3; cursor: wait; }
+.custom-input .lookup-status { font-size: 0.75rem; color: #636e72; }
 
 .card-actions { padding: 8px 20px; border-top: 1px solid #f0f2f5; display: flex; gap: 8px; justify-content: flex-end; }
 
@@ -368,10 +372,12 @@ function renderMatchCol(entry) {
     var skipSel = d && d.action === 'skip' ? ' selected' : '';
     html += '<div class="option-skip' + skipSel + '" onclick="skipEntry(' + entry.row_index + ')">Skip — no correction needed or can\'t determine</div>';
 
-    // Custom input
+    // Custom input — CAS first with lookup, then name autofills
     html += '<div class="custom-input" id="custom-' + entry.row_index + '">';
-    html += '<input class="name-input" type="text" placeholder="Custom name..." id="custom-name-' + entry.row_index + '">';
-    html += '<input class="cas-input" type="text" placeholder="CAS #" id="custom-cas-' + entry.row_index + '">';
+    html += '<input class="cas-input" type="text" placeholder="CAS #" id="custom-cas-' + entry.row_index + '" onkeydown="if(event.key===\'Enter\'){event.preventDefault();lookupCAS(' + entry.row_index + ')}">';
+    html += '<button class="btn btn-sm lookup-btn" onclick="lookupCAS(' + entry.row_index + ')" id="lookup-btn-' + entry.row_index + '">Lookup</button>';
+    html += '<input class="name-input" type="text" placeholder="Name (autofills from lookup)" id="custom-name-' + entry.row_index + '">';
+    html += '<span class="lookup-status" id="lookup-status-' + entry.row_index + '"></span>';
     html += '<button class="btn btn-primary btn-sm" onclick="approveCustom(' + entry.row_index + ')">Apply</button>';
     html += '<button class="btn btn-secondary btn-sm" onclick="toggleCustom(' + entry.row_index + ')">Cancel</button>';
     html += '</div>';
@@ -487,8 +493,76 @@ function toggleCustom(rowIndex) {
     if (el) el.classList.toggle('visible');
 }
 
+// PubChem CAS lookup — fetches name, IUPAC, CID for a CAS number
+var _lookupCache = {};  // cas -> {name, iupac, cid}
+
+function lookupCAS(rowIndex) {
+    var casInput = document.getElementById('custom-cas-' + rowIndex);
+    var nameInput = document.getElementById('custom-name-' + rowIndex);
+    var statusEl = document.getElementById('lookup-status-' + rowIndex);
+    var btn = document.getElementById('lookup-btn-' + rowIndex);
+    var cas = casInput.value.trim();
+    if (!cas) { statusEl.textContent = 'Enter a CAS number first'; return; }
+
+    // Check cache
+    if (_lookupCache[cas]) {
+        var cached = _lookupCache[cas];
+        nameInput.value = cached.name;
+        nameInput.dataset.iupac = cached.iupac || '';
+        nameInput.dataset.cid = cached.cid || '';
+        statusEl.textContent = cached.name ? 'Found: ' + cached.name : 'Not found';
+        statusEl.style.color = cached.name ? '#00b894' : '#d63031';
+        return;
+    }
+
+    btn.disabled = true;
+    statusEl.textContent = 'Looking up...';
+    statusEl.style.color = '#636e72';
+
+    var encoded = encodeURIComponent(cas);
+    var url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encoded + '/property/IUPACName,MolecularWeight/JSON';
+
+    fetch(url)
+        .then(function(r) {
+            if (!r.ok) throw new Error('Not found');
+            return r.json();
+        })
+        .then(function(data) {
+            var props = data.PropertyTable.Properties[0];
+            var cid = props.CID;
+            var iupac = props.IUPACName || '';
+            // Fetch synonyms to get the common name
+            return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + cid + '/synonyms/JSON')
+                .then(function(r) { return r.json(); })
+                .then(function(sdata) {
+                    var syns = [];
+                    try { syns = sdata.InformationList.Information[0].Synonym; } catch(e) {}
+                    // First synonym is usually the best common name
+                    var bestName = syns.length ? syns[0] : iupac;
+                    return { name: bestName, iupac: iupac, cid: cid, synonyms: syns.slice(0, 5) };
+                });
+        })
+        .then(function(result) {
+            _lookupCache[cas] = result;
+            nameInput.value = result.name;
+            nameInput.dataset.iupac = result.iupac;
+            nameInput.dataset.cid = result.cid;
+            statusEl.textContent = 'Found: ' + result.name + (result.iupac ? ' (' + result.iupac + ')' : '');
+            statusEl.style.color = '#00b894';
+        })
+        .catch(function() {
+            statusEl.textContent = 'Not found in PubChem';
+            statusEl.style.color = '#d63031';
+            _lookupCache[cas] = { name: '', iupac: '', cid: '' };
+        })
+        .finally(function() {
+            btn.disabled = false;
+        });
+}
+
 function approveCustom(rowIndex) {
-    var name = document.getElementById('custom-name-' + rowIndex).value.trim();
+    var nameInput = document.getElementById('custom-name-' + rowIndex);
+    var name = nameInput.value.trim();
     var cas = document.getElementById('custom-cas-' + rowIndex).value.trim();
     var entry = DATA.find(function(e) { return e.row_index === rowIndex; });
     if (!name && !cas) return;
@@ -496,8 +570,8 @@ function approveCustom(rowIndex) {
         action: 'approve',
         name: name || (entry ? entry.original_name : ''),
         cas: cas,
-        iupac: '',
-        cid: null,
+        iupac: nameInput.dataset.iupac || '',
+        cid: nameInput.dataset.cid ? parseInt(nameInput.dataset.cid) : null,
         original_name: entry ? entry.original_name : ''
     };
     saveDecisions();
