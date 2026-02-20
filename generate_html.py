@@ -298,7 +298,7 @@ full_html = f"""<!DOCTYPE html>
 <body>
     <div class="header">
         <h1 onclick="goHome()">Materialism</h1>
-        <div class="stats"><a href="#" onclick="goHome();switchHomeTab('solvents');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(solvents)} solvents</a> &middot; <a href="#" onclick="goHome();switchHomeTab('polymers');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(poly_data)} polymers</a> &middot; Hansen Solubility Parameters &middot; <a href="editor.html" style="color:#e94560;text-decoration:none;border-bottom:1px dotted #e94560;cursor:pointer;font-weight:600">View/Edit Data</a></div>
+        <div class="stats"><a href="#" onclick="goHome();switchHomeTab('solvents');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(solvents)} solvents</a> &middot; <a href="#" onclick="goHome();switchHomeTab('polymers');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(poly_data)} polymers</a> &middot; Hansen Solubility Parameters &middot; <a href="editor.html" style="color:#e94560;text-decoration:none;border-bottom:1px dotted #e94560;cursor:pointer;font-weight:600">View/Edit Data</a> &middot; <a href="cas_review.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">CAS Review</a></div>
     </div>
 
     <div class="search-bar">

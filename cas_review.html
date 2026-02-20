@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Materialism — CAS Review Tool</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+.header { background: #fff; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #dfe6e9; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.header h1 { font-size: 1.5rem; color: #e94560; }
+.header h1 a { color: #e94560; text-decoration: none; }
+.header .stats { color: #636e72; font-size: 0.9rem; display: flex; align-items: center; gap: 16px; }
+
+.toolbar { background: #fff; padding: 12px 30px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #dfe6e9; flex-wrap: wrap; }
+.toolbar .progress-info { font-size: 0.85rem; color: #636e72; }
+.toolbar .progress-info strong { color: #e94560; }
+.progress-bar { flex: 1; max-width: 300px; height: 8px; background: #dfe6e9; border-radius: 4px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: #00b894; border-radius: 4px; transition: width 0.3s; }
+
+.btn { padding: 8px 18px; font-size: 0.85rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+.btn-primary { background: #e94560; color: white; }
+.btn-primary:hover { background: #c73652; }
+.btn-secondary { background: #dfe6e9; color: #2d3436; }
+.btn-secondary:hover { background: #c8d6db; }
+.btn-success { background: #00b894; color: white; }
+.btn-success:hover { background: #00a080; }
+.btn-sm { padding: 5px 12px; font-size: 0.8rem; }
+
+.content { padding: 20px 30px; max-width: 1200px; margin: 0 auto; }
+
+.card { background: #fff; border: 1px solid #dfe6e9; border-radius: 8px; margin-bottom: 16px; overflow: hidden; transition: border-color 0.2s; }
+.card.resolved { border-color: #00b894; }
+.card.skipped { border-color: #fdcb6e; opacity: 0.7; }
+.card-header { padding: 14px 20px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #f0f2f5; }
+.card-header .original-name { font-size: 1.05rem; font-weight: 700; color: #2d3436; }
+.card-header .source-badge { font-size: 0.75rem; background: #f0f2f5; color: #636e72; padding: 3px 10px; border-radius: 12px; white-space: nowrap; }
+.card-header .hsp-values { font-size: 0.8rem; color: #636e72; margin-left: auto; white-space: nowrap; }
+.card-header .status-badge { font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; font-weight: 600; white-space: nowrap; }
+.status-pending { background: #ffeaa7; color: #856404; }
+.status-approved { background: #d4edda; color: #155724; }
+.status-skipped { background: #f8d7da; color: #721c24; }
+
+.card-body { padding: 16px 20px; }
+
+.option-row { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border: 2px solid transparent; border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: all 0.15s; }
+.option-row:hover { background: #f8f9fa; border-color: #dfe6e9; }
+.option-row.selected { background: #e8f8f5; border-color: #00b894; }
+
+.option-radio { width: 20px; height: 20px; border: 2px solid #b2bec3; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.option-row.selected .option-radio { border-color: #00b894; }
+.option-row.selected .option-radio::after { content: ''; width: 10px; height: 10px; background: #00b894; border-radius: 50%; }
+
+.option-details { flex: 1; min-width: 0; }
+.option-name { font-weight: 600; font-size: 0.95rem; }
+.option-cas { color: #0984e3; font-family: monospace; font-size: 0.9rem; margin-left: 8px; }
+.option-no-cas { color: #d63031; font-size: 0.8rem; font-style: italic; margin-left: 8px; }
+.option-meta { font-size: 0.8rem; color: #636e72; margin-top: 2px; }
+.option-iupac { font-size: 0.8rem; color: #636e72; font-style: italic; }
+.option-synonyms { font-size: 0.75rem; color: #b2bec3; margin-top: 2px; }
+.option-reason { font-size: 0.75rem; color: #6c5ce7; background: #f0edff; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-top: 3px; }
+
+.confidence-bar { width: 60px; height: 6px; background: #dfe6e9; border-radius: 3px; overflow: hidden; flex-shrink: 0; }
+.confidence-fill { height: 100%; border-radius: 3px; }
+.confidence-text { font-size: 0.75rem; color: #636e72; width: 35px; text-align: right; flex-shrink: 0; }
+
+.option-skip { padding: 10px 14px; border: 2px dashed #dfe6e9; border-radius: 6px; cursor: pointer; color: #b2bec3; text-align: center; font-size: 0.85rem; transition: all 0.15s; }
+.option-skip:hover { background: #fff5f5; border-color: #fab1a0; color: #d63031; }
+.option-skip.selected { background: #fff5f5; border-color: #d63031; color: #d63031; }
+
+.custom-input { display: none; margin-top: 8px; }
+.custom-input.visible { display: flex; gap: 8px; align-items: center; }
+.custom-input input { border: 2px solid #dfe6e9; border-radius: 4px; padding: 6px 10px; font-size: 0.85rem; outline: none; }
+.custom-input input:focus { border-color: #e94560; }
+.custom-input input.name-input { width: 300px; }
+.custom-input input.cas-input { width: 120px; font-family: monospace; }
+
+.card-actions { padding: 10px 20px; border-top: 1px solid #f0f2f5; display: flex; gap: 8px; justify-content: flex-end; }
+
+.nav-buttons { display: flex; gap: 12px; align-items: center; margin-top: 16px; justify-content: center; }
+
+.filter-row { display: flex; gap: 12px; align-items: center; }
+.filter-row select { border: 2px solid #dfe6e9; border-radius: 4px; padding: 6px 10px; font-size: 0.85rem; outline: none; background: #fff; }
+.filter-row select:focus { border-color: #e94560; }
+.filter-row input { border: 2px solid #dfe6e9; border-radius: 4px; padding: 6px 10px; font-size: 0.85rem; outline: none; width: 200px; }
+.filter-row input:focus { border-color: #e94560; }
+
+.empty-state { text-align: center; padding: 60px 20px; color: #b2bec3; }
+.empty-state h2 { color: #636e72; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1><a href="materialism.html">Materialism</a> — CAS Review Tool</h1>
+    <div class="stats">
+        <span id="status-text">Loading...</span>
+        <button class="btn btn-success btn-sm" onclick="downloadApproved()" id="download-btn" style="display:none">Download Approved</button>
+        <button class="btn btn-secondary btn-sm" onclick="downloadAll()" id="download-all-btn" style="display:none">Export All Decisions</button>
+    </div>
+</div>
+
+<div class="toolbar">
+    <div class="filter-row">
+        <select id="filter-status" onchange="applyFilters()">
+            <option value="all">All</option>
+            <option value="pending" selected>Pending</option>
+            <option value="approved">Approved</option>
+            <option value="skipped">Skipped</option>
+        </select>
+        <select id="filter-source" onchange="applyFilters()">
+            <option value="all">All Sources</option>
+        </select>
+        <select id="filter-confidence" onchange="applyFilters()">
+            <option value="all">Any Confidence</option>
+            <option value="high">High (>80%)</option>
+            <option value="medium">Medium (50-80%)</option>
+            <option value="low">Low (<50%)</option>
+        </select>
+        <input type="text" id="filter-search" placeholder="Search by name..." oninput="applyFilters()">
+    </div>
+    <div style="margin-left:auto; display:flex; align-items:center; gap:12px;">
+        <div class="progress-info">
+            <strong id="progress-count">0</strong> / <span id="total-count">0</span> reviewed
+        </div>
+        <div class="progress-bar"><div class="progress-bar-fill" id="progress-fill"></div></div>
+        <button class="btn btn-primary btn-sm" onclick="autoApproveHigh()">Auto-approve >90%</button>
+    </div>
+</div>
+
+<div class="content" id="cards-container">
+    <div class="empty-state" id="loading-state">
+        <h2>Loading candidate data...</h2>
+        <p>Make sure <code>data/processed/cas_candidates.json</code> exists.<br>
+        Run <code>python scripts/generate_cas_candidates.py</code> first.</p>
+    </div>
+</div>
+
+<script>
+var DATA = [];       // All candidate entries
+var DECISIONS = {};  // row_index -> { action: 'approve'|'skip', name, cas } or null
+var FILTERED = [];   // Currently visible subset
+
+// Persistence via localStorage
+var STORAGE_KEY = 'materialism_cas_decisions';
+
+function loadDecisions() {
+    try {
+        var saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) DECISIONS = JSON.parse(saved);
+    } catch(e) {}
+}
+
+function saveDecisions() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(DECISIONS)); } catch(e) {}
+}
+
+function confColor(c) {
+    if (c >= 0.85) return '#00b894';
+    if (c >= 0.65) return '#fdcb6e';
+    if (c >= 0.40) return '#e17055';
+    return '#d63031';
+}
+
+function renderCard(entry, idx) {
+    var d = DECISIONS[entry.row_index];
+    var status = d ? d.action : 'pending';
+    var statusClass = status === 'approve' ? 'resolved' : status === 'skip' ? 'skipped' : '';
+    var statusBadge = status === 'approve' ? '<span class="status-badge status-approved">Approved</span>'
+                    : status === 'skip' ? '<span class="status-badge status-skipped">Skipped</span>'
+                    : '<span class="status-badge status-pending">Pending</span>';
+
+    var html = '<div class="card ' + statusClass + '" id="card-' + entry.row_index + '">';
+    html += '<div class="card-header">';
+    html += '<span class="original-name">' + escHtml(entry.original_name) + '</span>';
+    html += '<span class="source-badge">' + escHtml(entry.source) + '</span>';
+    if (entry.smiles) html += '<span class="source-badge" title="SMILES: ' + escHtml(entry.smiles) + '">SMILES</span>';
+    html += '<span class="hsp-values">&delta;D=' + entry.delta_d + ' &delta;P=' + entry.delta_p + ' &delta;H=' + entry.delta_h + '</span>';
+    html += statusBadge;
+    html += '</div>';
+
+    html += '<div class="card-body">';
+
+    // Options
+    entry.options.forEach(function(opt, oi) {
+        var isSelected = d && d.action === 'approve' && d.cas === opt.cas && d.name === (opt.corrected_name || opt.guess_text || entry.original_name);
+        var selClass = isSelected ? ' selected' : '';
+        var conf = opt.confidence;
+        var confPct = Math.round(conf * 100);
+        var color = confColor(conf);
+
+        html += '<div class="option-row' + selClass + '" onclick="selectOption(' + entry.row_index + ',' + oi + ')">';
+        html += '<div class="option-radio"></div>';
+        html += '<div class="option-details">';
+        html += '<span class="option-name">' + escHtml(opt.corrected_name || entry.original_name) + '</span>';
+        if (opt.cas) {
+            html += '<span class="option-cas">' + escHtml(opt.cas) + '</span>';
+        } else {
+            html += '<span class="option-no-cas">no CAS found</span>';
+        }
+        if (opt.iupac) html += '<div class="option-iupac">IUPAC: ' + escHtml(opt.iupac) + '</div>';
+        if (opt.synonyms && opt.synonyms.length > 1) {
+            html += '<div class="option-synonyms">Also: ' + opt.synonyms.slice(0, 5).map(escHtml).join(', ') + '</div>';
+        }
+        html += '<span class="option-reason">' + escHtml(opt.reason) + '</span>';
+        if (opt.guess_text && opt.guess_text !== opt.corrected_name) {
+            html += ' <span style="font-size:0.75rem;color:#b2bec3">query: "' + escHtml(opt.guess_text) + '"</span>';
+        }
+        html += '</div>';
+        html += '<div class="confidence-bar"><div class="confidence-fill" style="width:' + confPct + '%;background:' + color + '"></div></div>';
+        html += '<div class="confidence-text">' + confPct + '%</div>';
+        html += '</div>';
+    });
+
+    // Skip option
+    var skipSel = d && d.action === 'skip' ? ' selected' : '';
+    html += '<div class="option-skip' + skipSel + '" onclick="skipEntry(' + entry.row_index + ')">Skip — no correction needed or can\'t determine</div>';
+
+    // Custom input
+    html += '<div class="custom-input" id="custom-' + entry.row_index + '">';
+    html += '<input class="name-input" type="text" placeholder="Custom name..." id="custom-name-' + entry.row_index + '">';
+    html += '<input class="cas-input" type="text" placeholder="CAS #" id="custom-cas-' + entry.row_index + '">';
+    html += '<button class="btn btn-primary btn-sm" onclick="approveCustom(' + entry.row_index + ')">Apply</button>';
+    html += '<button class="btn btn-secondary btn-sm" onclick="toggleCustom(' + entry.row_index + ')">Cancel</button>';
+    html += '</div>';
+
+    html += '</div>'; // card-body
+
+    html += '<div class="card-actions">';
+    html += '<button class="btn btn-secondary btn-sm" onclick="toggleCustom(' + entry.row_index + ')">Custom entry</button>';
+    if (d) html += '<button class="btn btn-secondary btn-sm" onclick="clearDecision(' + entry.row_index + ')">Reset</button>';
+    html += '</div>';
+
+    html += '</div>';
+    return html;
+}
+
+function renderAll() {
+    var container = document.getElementById('cards-container');
+    if (!FILTERED.length) {
+        container.innerHTML = '<div class="empty-state"><h2>No items match your filter</h2><p>Try changing the filter settings above.</p></div>';
+        return;
+    }
+    // Render in chunks for performance
+    var html = '';
+    FILTERED.forEach(function(entry, i) {
+        html += renderCard(entry, i);
+    });
+    container.innerHTML = html;
+}
+
+function updateProgress() {
+    var total = DATA.length;
+    var reviewed = Object.keys(DECISIONS).length;
+    document.getElementById('progress-count').textContent = reviewed;
+    document.getElementById('total-count').textContent = total;
+    var pct = total ? (reviewed / total * 100) : 0;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    var approved = 0, skipped = 0;
+    for (var k in DECISIONS) {
+        if (DECISIONS[k].action === 'approve') approved++;
+        else if (DECISIONS[k].action === 'skip') skipped++;
+    }
+    document.getElementById('status-text').textContent = approved + ' approved, ' + skipped + ' skipped, ' + (total - reviewed) + ' pending';
+    document.getElementById('download-btn').style.display = approved > 0 ? '' : 'none';
+    document.getElementById('download-all-btn').style.display = reviewed > 0 ? '' : 'none';
+}
+
+function selectOption(rowIndex, optIndex) {
+    var entry = DATA.find(function(e) { return e.row_index === rowIndex; });
+    if (!entry) return;
+    var opt = entry.options[optIndex];
+    DECISIONS[rowIndex] = {
+        action: 'approve',
+        name: opt.corrected_name || entry.original_name,
+        cas: opt.cas || '',
+        iupac: opt.iupac || '',
+        cid: opt.cid || null,
+        original_name: entry.original_name
+    };
+    saveDecisions();
+    rerenderCard(rowIndex);
+    updateProgress();
+}
+
+function skipEntry(rowIndex) {
+    var entry = DATA.find(function(e) { return e.row_index === rowIndex; });
+    DECISIONS[rowIndex] = {
+        action: 'skip',
+        original_name: entry ? entry.original_name : ''
+    };
+    saveDecisions();
+    rerenderCard(rowIndex);
+    updateProgress();
+}
+
+function clearDecision(rowIndex) {
+    delete DECISIONS[rowIndex];
+    saveDecisions();
+    rerenderCard(rowIndex);
+    updateProgress();
+}
+
+function toggleCustom(rowIndex) {
+    var el = document.getElementById('custom-' + rowIndex);
+    if (el) el.classList.toggle('visible');
+}
+
+function approveCustom(rowIndex) {
+    var name = document.getElementById('custom-name-' + rowIndex).value.trim();
+    var cas = document.getElementById('custom-cas-' + rowIndex).value.trim();
+    var entry = DATA.find(function(e) { return e.row_index === rowIndex; });
+    if (!name && !cas) return;
+    DECISIONS[rowIndex] = {
+        action: 'approve',
+        name: name || (entry ? entry.original_name : ''),
+        cas: cas,
+        iupac: '',
+        cid: null,
+        original_name: entry ? entry.original_name : ''
+    };
+    saveDecisions();
+    rerenderCard(rowIndex);
+    updateProgress();
+}
+
+function rerenderCard(rowIndex) {
+    var entry = DATA.find(function(e) { return e.row_index === rowIndex; });
+    if (!entry) return;
+    var card = document.getElementById('card-' + rowIndex);
+    if (!card) return;
+    var tmp = document.createElement('div');
+    tmp.innerHTML = renderCard(entry, 0);
+    card.replaceWith(tmp.firstChild);
+}
+
+function autoApproveHigh() {
+    var count = 0;
+    DATA.forEach(function(entry) {
+        if (DECISIONS[entry.row_index]) return;
+        var best = entry.options[0];
+        if (best && best.confidence >= 0.90 && best.cas) {
+            DECISIONS[entry.row_index] = {
+                action: 'approve',
+                name: best.corrected_name || entry.original_name,
+                cas: best.cas,
+                iupac: best.iupac || '',
+                cid: best.cid || null,
+                original_name: entry.original_name
+            };
+            count++;
+        }
+    });
+    if (count) {
+        saveDecisions();
+        renderAll();
+        updateProgress();
+    }
+    alert('Auto-approved ' + count + ' entries with >90% confidence.');
+}
+
+function applyFilters() {
+    var statusFilter = document.getElementById('filter-status').value;
+    var sourceFilter = document.getElementById('filter-source').value;
+    var confFilter = document.getElementById('filter-confidence').value;
+    var searchQ = document.getElementById('filter-search').value.trim().toLowerCase();
+
+    FILTERED = DATA.filter(function(entry) {
+        var d = DECISIONS[entry.row_index];
+        var status = d ? (d.action === 'approve' ? 'approved' : 'skipped') : 'pending';
+        if (statusFilter !== 'all' && status !== statusFilter) return false;
+        if (sourceFilter !== 'all' && entry.source !== sourceFilter) return false;
+        if (confFilter !== 'all') {
+            var best = entry.options[0];
+            var c = best ? best.confidence : 0;
+            if (confFilter === 'high' && c < 0.80) return false;
+            if (confFilter === 'medium' && (c < 0.50 || c >= 0.80)) return false;
+            if (confFilter === 'low' && c >= 0.50) return false;
+        }
+        if (searchQ && entry.original_name.toLowerCase().indexOf(searchQ) === -1) return false;
+        return true;
+    });
+
+    renderAll();
+}
+
+function downloadApproved() {
+    var lines = ['original_name,corrected_name,cas_number,iupac_name'];
+    DATA.forEach(function(entry) {
+        var d = DECISIONS[entry.row_index];
+        if (d && d.action === 'approve') {
+            lines.push(csvRow([entry.original_name, d.name, d.cas, d.iupac || '']));
+        }
+    });
+    downloadCSV(lines.join('\n'), 'cas_corrections.csv');
+}
+
+function downloadAll() {
+    var lines = ['original_name,action,corrected_name,cas_number,iupac_name'];
+    DATA.forEach(function(entry) {
+        var d = DECISIONS[entry.row_index];
+        if (d) {
+            lines.push(csvRow([entry.original_name, d.action, d.name || '', d.cas || '', d.iupac || '']));
+        }
+    });
+    downloadCSV(lines.join('\n'), 'cas_decisions.csv');
+}
+
+function csvRow(vals) {
+    return vals.map(function(v) {
+        v = String(v);
+        if (v.indexOf(',') !== -1 || v.indexOf('"') !== -1 || v.indexOf('\n') !== -1) {
+            return '"' + v.replace(/"/g, '""') + '"';
+        }
+        return v;
+    }).join(',');
+}
+
+function downloadCSV(content, filename) {
+    var blob = new Blob([content], { type: 'text/csv' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+}
+
+function escHtml(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e) {
+    // 1-9 to select option for focused card
+    if (e.key >= '1' && e.key <= '9') {
+        var cards = document.querySelectorAll('.card');
+        // find first pending card in view
+        for (var i = 0; i < cards.length; i++) {
+            var rect = cards[i].getBoundingClientRect();
+            if (rect.top >= 0 && rect.top < window.innerHeight * 0.7) {
+                var rowIndex = parseInt(cards[i].id.replace('card-', ''));
+                var optIdx = parseInt(e.key) - 1;
+                var entry = DATA.find(function(en) { return en.row_index === rowIndex; });
+                if (entry && entry.options[optIdx]) {
+                    selectOption(rowIndex, optIdx);
+                    // scroll to next pending
+                    scrollToNextPending(cards[i]);
+                }
+                break;
+            }
+        }
+    }
+    // 's' to skip
+    if (e.key === 's' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT') {
+        var cards = document.querySelectorAll('.card');
+        for (var i = 0; i < cards.length; i++) {
+            var rect = cards[i].getBoundingClientRect();
+            if (rect.top >= 0 && rect.top < window.innerHeight * 0.7) {
+                var rowIndex = parseInt(cards[i].id.replace('card-', ''));
+                skipEntry(rowIndex);
+                scrollToNextPending(cards[i]);
+                break;
+            }
+        }
+    }
+});
+
+function scrollToNextPending(currentCard) {
+    var next = currentCard.nextElementSibling;
+    if (next) {
+        next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// Load data
+function init() {
+    loadDecisions();
+
+    fetch('data/processed/cas_candidates.json')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            DATA = data;
+
+            // Populate source filter
+            var sources = {};
+            DATA.forEach(function(e) { if (e.source) sources[e.source] = true; });
+            var sel = document.getElementById('filter-source');
+            Object.keys(sources).sort().forEach(function(s) {
+                var opt = document.createElement('option');
+                opt.value = s; opt.textContent = s;
+                sel.appendChild(opt);
+            });
+
+            updateProgress();
+            applyFilters();
+        })
+        .catch(function(err) {
+            document.getElementById('cards-container').innerHTML =
+                '<div class="empty-state"><h2>Could not load candidate data</h2>' +
+                '<p>Error: ' + escHtml(err.message) + '</p>' +
+                '<p>Run <code>python scripts/generate_cas_candidates.py</code> first, then serve this page via HTTP.</p></div>';
+        });
+}
+
+init();
+</script>
+</body>
+</html>
