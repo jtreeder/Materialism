@@ -65,8 +65,53 @@ def _get_synonyms_and_cas(cid):
     return cas, synonyms
 
 
+def _get_density(cid):
+    """Fetch experimental density (g/mL) for a CID from PubChem pug_view.
+    Returns float or None."""
+    url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/{cid}/JSON?heading=Density"
+    data = pubchem_get(url)
+    if not data:
+        return None
+    # Walk nested JSON to find the first numeric density value
+    density_re = re.compile(r"(\d+\.?\d*)\s*(?:g/(?:cu\s*cm|mL|ml)|at\s+\d)")
+    def _walk(obj):
+        if isinstance(obj, dict):
+            if "StringWithMarkup" in obj:
+                for s in obj["StringWithMarkup"]:
+                    text = s.get("String", "")
+                    m = density_re.search(text)
+                    if m:
+                        val = float(m.group(1))
+                        if 0.3 <= val <= 3.0:
+                            return val
+            for v in obj.values():
+                r = _walk(v)
+                if r is not None:
+                    return r
+        elif isinstance(obj, list):
+            for item in obj:
+                r = _walk(item)
+                if r is not None:
+                    return r
+        return None
+    return _walk(data)
+
+
+def _enrich_with_density(result):
+    """Add computed reference molar volume to a lookup result dict."""
+    cid = result.get("cid")
+    mw = result.get("mw")
+    if not cid or not mw:
+        return
+    density = _get_density(cid)
+    if density:
+        result["density"] = round(density, 4)
+        result["ref_mv"] = round(mw / density, 1)
+    time.sleep(0.15)
+
+
 def lookup_name(name):
-    """Query PubChem by name, return dict with cid, cas, iupac, mw, synonyms or None."""
+    """Query PubChem by name, return dict with cid, cas, iupac, mw, density, ref_mv, synonyms or None."""
     encoded = urllib.parse.quote(name, safe="")
     url = f"{BASE}/compound/name/{encoded}/property/IUPACName,MolecularFormula,MolecularWeight/JSON"
     data = pubchem_get(url)
@@ -82,7 +127,9 @@ def lookup_name(name):
     except (KeyError, IndexError, ValueError):
         return None
     cas, synonyms = _get_synonyms_and_cas(cid)
-    return {"cid": cid, "cas": cas, "iupac": iupac, "mw": mw, "synonyms": synonyms}
+    result = {"cid": cid, "cas": cas, "iupac": iupac, "mw": mw, "synonyms": synonyms}
+    _enrich_with_density(result)
+    return result
 
 
 def lookup_smiles(smiles):
@@ -102,17 +149,9 @@ def lookup_smiles(smiles):
     except (KeyError, IndexError, ValueError):
         return None
     cas, synonyms = _get_synonyms_and_cas(cid)
-    return {"cid": cid, "cas": cas, "iupac": iupac, "mw": mw, "synonyms": synonyms}
-
-
-def lookup_by_mw(mw_target, tolerance=0.5):
-    """Search PubChem for compounds with a specific molecular weight.
-    Returns list of (cid, mw) tuples."""
-    lo = mw_target - tolerance
-    hi = mw_target + tolerance
-    url = f"{BASE}/compound/fastformula/weight/{lo}:{hi}/property/IUPACName,MolecularWeight/JSON"
-    # This endpoint is too broad; skip it - MW alone isn't discriminating enough
-    return []
+    result = {"cid": cid, "cas": cas, "iupac": iupac, "mw": mw, "synonyms": synonyms}
+    _enrich_with_density(result)
+    return result
 
 
 # ---- Name repair heuristics ----
@@ -386,20 +425,36 @@ def main():
                 conf = max(conf - 0.15, 0.20)
 
             pubchem_mw = result.get("mw")
-            mv_match = None  # None = can't compare, True = match, False = mismatch
+            ref_mv = result.get("ref_mv")       # MW / density from PubChem
+            ref_density = result.get("density")  # g/mL from PubChem
+            mv_match = None   # None = can't compare, True = close, False = mismatch
+            mv_pct_diff = None  # percentage difference between known MV and ref MV
 
-            if known_mv and pubchem_mw:
-                # Compute implied density = MW / MV
+            if known_mv and ref_mv:
+                # Direct comparison: our MV vs PubChem's MW/density
+                mv_pct_diff = round(abs(known_mv - ref_mv) / known_mv * 100, 1)
+                if mv_pct_diff <= 15:
+                    mv_match = True
+                    # Scale bonus: <5% → +0.12, 5-10% → +0.08, 10-15% → +0.04
+                    if mv_pct_diff <= 5:
+                        conf = min(conf + 0.12, 0.99)
+                    elif mv_pct_diff <= 10:
+                        conf = min(conf + 0.08, 0.99)
+                    else:
+                        conf = min(conf + 0.04, 0.99)
+                else:
+                    mv_match = False
+                    # Penalty scales with how far off: >30% → −0.30, 15-30% → −0.15
+                    if mv_pct_diff > 30:
+                        conf = max(conf - 0.30, 0.05)
+                    else:
+                        conf = max(conf - 0.15, 0.10)
+            elif known_mv and pubchem_mw:
+                # Fallback: no density from PubChem, use implied density check
                 implied_density = pubchem_mw / known_mv
-                # Most organic solvents: density 0.6-1.8 g/mL
-                # If density is wildly off, wrong compound
-                density_plausible = 0.5 <= implied_density <= 2.5
-                if not density_plausible:
+                if not (0.5 <= implied_density <= 2.5):
                     mv_match = False
                     conf = max(conf - 0.30, 0.05)
-                else:
-                    mv_match = True
-                    conf = min(conf + 0.08, 0.99)
 
             opt = {
                 "corrected_name": result["synonyms"][0] if result["synonyms"] else (result.get("guess_text") or name),
@@ -410,7 +465,10 @@ def main():
                 "cid": result["cid"],
                 "synonyms": result["synonyms"],
                 "pubchem_mw": pubchem_mw,
+                "ref_mv": ref_mv,
+                "ref_density": ref_density,
                 "mv_match": mv_match,
+                "mv_pct_diff": mv_pct_diff,
             }
             if not via_smiles and result.get("guess_text"):
                 opt["guess_text"] = result["guess_text"]
@@ -461,7 +519,10 @@ def main():
                 "cid": None,
                 "synonyms": [],
                 "pubchem_mw": None,
+                "ref_mv": None,
+                "ref_density": None,
                 "mv_match": None,
+                "mv_pct_diff": None,
             })
 
         # Sort options by confidence descending

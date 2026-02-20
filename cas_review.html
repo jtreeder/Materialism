@@ -216,15 +216,32 @@ function renderCard(entry, idx) {
             html += ' <span style="font-size:0.75rem;color:#b2bec3">query: "' + escHtml(opt.guess_text) + '"</span>';
         }
         // Molar volume validation
-        if (opt.pubchem_mw && entry.molar_volume) {
-            var impliedDensity = (opt.pubchem_mw / entry.molar_volume).toFixed(3);
+        if (opt.ref_mv && entry.molar_volume) {
+            var pctDiff = opt.mv_pct_diff != null ? opt.mv_pct_diff : Math.abs(entry.molar_volume - opt.ref_mv) / entry.molar_volume * 100;
+            var pctStr = pctDiff.toFixed(1);
             if (opt.mv_match === true) {
-                html += '<div style="font-size:0.75rem;margin-top:3px"><span style="background:#d4edda;color:#155724;padding:2px 8px;border-radius:10px;display:inline-block">MW=' + opt.pubchem_mw.toFixed(1) + ' / MV=' + entry.molar_volume.toFixed(1) + ' &rarr; density=' + impliedDensity + ' g/mL &#10003;</span></div>';
+                html += '<div style="font-size:0.75rem;margin-top:3px"><span style="background:#d4edda;color:#155724;padding:2px 8px;border-radius:10px;display:inline-block">';
+                html += 'MV: ours=' + entry.molar_volume.toFixed(1) + ' vs ref=' + opt.ref_mv.toFixed(1);
+                html += ' (' + pctStr + '% diff)';
+                if (opt.ref_density) html += ' [d=' + opt.ref_density.toFixed(3) + ', MW=' + opt.pubchem_mw.toFixed(1) + ']';
+                html += ' &#10003;</span></div>';
             } else if (opt.mv_match === false) {
-                html += '<div style="font-size:0.75rem;margin-top:3px"><span style="background:#f8d7da;color:#721c24;padding:2px 8px;border-radius:10px;display:inline-block">MW=' + opt.pubchem_mw.toFixed(1) + ' / MV=' + entry.molar_volume.toFixed(1) + ' &rarr; density=' + impliedDensity + ' g/mL &#10007; unlikely</span></div>';
+                html += '<div style="font-size:0.75rem;margin-top:3px"><span style="background:#f8d7da;color:#721c24;padding:2px 8px;border-radius:10px;display:inline-block">';
+                html += 'MV: ours=' + entry.molar_volume.toFixed(1) + ' vs ref=' + opt.ref_mv.toFixed(1);
+                html += ' (' + pctStr + '% diff)';
+                if (opt.ref_density) html += ' [d=' + opt.ref_density.toFixed(3) + ', MW=' + opt.pubchem_mw.toFixed(1) + ']';
+                html += ' &#10007; mismatch</span></div>';
             }
-        } else if (opt.pubchem_mw) {
-            html += '<div style="font-size:0.75rem;margin-top:3px;color:#b2bec3">MW=' + opt.pubchem_mw.toFixed(1) + ' (no MV to compare)</div>';
+        } else if (opt.pubchem_mw && entry.molar_volume && !opt.ref_mv) {
+            // No density from PubChem; show implied density as fallback
+            var impliedDensity = (opt.pubchem_mw / entry.molar_volume).toFixed(3);
+            if (opt.mv_match === false) {
+                html += '<div style="font-size:0.75rem;margin-top:3px"><span style="background:#f8d7da;color:#721c24;padding:2px 8px;border-radius:10px;display:inline-block">MW=' + opt.pubchem_mw.toFixed(1) + ' / MV=' + entry.molar_volume.toFixed(1) + ' &rarr; implied d=' + impliedDensity + ' g/mL &#10007; unlikely</span></div>';
+            } else {
+                html += '<div style="font-size:0.75rem;margin-top:3px;color:#b2bec3">MW=' + opt.pubchem_mw.toFixed(1) + ' (no ref density for MV comparison)</div>';
+            }
+        } else if (opt.pubchem_mw && !entry.molar_volume) {
+            html += '<div style="font-size:0.75rem;margin-top:3px;color:#b2bec3">MW=' + opt.pubchem_mw.toFixed(1) + ' (no MV in our data)</div>';
         }
         html += '</div>';
         html += '<div class="confidence-bar"><div class="confidence-fill" style="width:' + confPct + '%;background:' + color + '"></div></div>';
