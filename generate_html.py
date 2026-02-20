@@ -33,6 +33,159 @@ SOURCE_NAMES = {
     "accudyne": "Accudyne Test",
 }
 
+# Common solvents: readily available lab/industrial solvents
+# Identified by CAS number for precise matching
+COMMON_SOLVENT_CAS = {
+    "7732-18-5",   # Water
+    "67-56-1",     # Methanol
+    "64-17-5",     # Ethanol
+    "67-63-0",     # 2-Propanol (isopropanol)
+    "71-36-3",     # 1-Butanol
+    "71-23-8",     # 1-Propanol
+    "78-83-1",     # Isobutanol
+    "75-65-0",     # tert-Butanol
+    "111-87-5",    # 1-Octanol
+    "111-27-3",    # 1-Hexanol
+    "98-00-0",     # Furfuryl alcohol
+    "107-21-1",    # Ethylene glycol
+    "57-55-6",     # Propylene glycol
+    "56-81-5",     # Glycerol
+    "67-64-1",     # Acetone
+    "78-93-3",     # Methyl ethyl ketone (MEK)
+    "108-10-1",    # MIBK
+    "591-78-6",    # 2-Hexanone
+    "108-94-1",    # Cyclohexanone
+    "108-88-3",    # Toluene
+    "1330-20-7",   # Xylene (mixed)
+    "100-41-4",    # Ethylbenzene
+    "71-43-2",     # Benzene
+    "110-82-7",    # Cyclohexane
+    "110-54-3",    # n-Hexane
+    "142-82-5",    # n-Heptane
+    "111-65-9",    # n-Octane
+    "109-66-0",    # n-Pentane
+    "75-09-2",     # Dichloromethane (DCM)
+    "67-66-3",     # Chloroform
+    "56-23-5",     # Carbon tetrachloride
+    "71-55-6",     # 1,1,1-Trichloroethane
+    "79-01-6",     # Trichloroethylene
+    "127-18-4",    # Tetrachloroethylene (PERC)
+    "107-06-2",    # 1,2-Dichloroethane
+    "141-78-6",    # Ethyl acetate
+    "123-86-4",    # Butyl acetate
+    "108-21-4",    # Isopropyl acetate
+    "79-20-9",     # Methyl acetate
+    "109-60-4",    # Propyl acetate
+    "68-12-2",     # DMF
+    "67-68-5",     # DMSO
+    "872-50-4",    # NMP (1-Methyl-2-pyrrolidinone)
+    "127-19-5",    # DMAc
+    "109-99-9",    # THF
+    "60-29-7",     # Diethyl ether
+    "1634-04-4",   # MTBE
+    "75-05-8",     # Acetonitrile
+    "110-86-1",    # Pyridine
+    "68-12-2",     # N,N-Dimethylformamide
+    "64-19-7",     # Acetic acid
+    "88-99-3",     # Formic acid
+    "75-07-0",     # Acetaldehyde
+    "108-95-2",    # Phenol
+    "91-22-5",     # Quinoline
+    "110-91-8",    # Morpholine
+    "109-89-7",    # Diethylamine
+    "75-50-3",     # Trimethylamine
+    "100-42-5",    # Styrene
+    "75-15-0",     # Carbon disulfide
+    "108-90-7",    # Chlorobenzene
+    "95-50-1",     # 1,2-Dichlorobenzene
+    "98-95-3",     # Nitrobenzene
+    "98-86-2",     # Acetophenone
+    "100-66-3",    # Anisole
+    "100-51-6",    # Benzyl alcohol
+    "98-01-1",     # Furfural
+    "96-48-0",     # gamma-Butyrolactone
+    "120-92-3",    # Cyclopentanone
+    "78-92-2",     # 2-Butanol
+    "108-32-7",    # Propylene carbonate
+    "96-49-1",     # Ethylene carbonate
+    "110-80-5",    # 2-Ethoxyethanol
+    "111-76-2",    # 2-Butoxyethanol
+    "109-86-4",    # 2-Methoxyethanol
+    "112-07-2",    # 2-Butoxyethyl acetate
+    "110-49-6",    # 2-Methoxyethyl acetate
+    "111-15-9",    # 2-Ethoxyethyl acetate
+    "112-34-5",    # Diethylene glycol monobutyl ether
+    "111-90-0",    # Diethylene glycol monoethyl ether
+    "64-18-6",     # Formic acid
+    "124-38-9",    # Carbon dioxide (supercritical)
+    "78-70-6",     # Linalool
+    "5989-27-5",   # d-Limonene
+    "8052-41-3",   # Stoddard solvent / mineral spirits
+    "64742-88-7",  # Mineral spirits
+    "7664-41-7",   # Ammonia
+    "302-01-2",    # Hydrazine
+}
+
+# Common solvents also identified by name (for entries without CAS)
+COMMON_SOLVENT_NAMES = {n.lower() for n in [
+    "water", "methanol", "ethanol", "isopropanol", "2-propanol", "acetone",
+    "toluene", "xylene", "hexane", "heptane", "benzene", "cyclohexane",
+    "dichloromethane", "chloroform", "ethyl acetate", "butyl acetate",
+    "thf", "tetrahydrofuran", "diethyl ether", "acetonitrile", "dmf",
+    "dmso", "nmp", "pyridine", "acetic acid", "methyl ethyl ketone",
+    "mek", "mibk", "chlorobenzene", "carbon tetrachloride", "pentane",
+    "octane", "phenol", "nitrobenzene", "carbon disulfide", "glycerol",
+    "ethylene glycol", "propylene glycol", "formic acid", "styrene",
+    "cyclohexanone", "furfural", "morpholine", "aniline", "benzyl alcohol",
+    "anisole", "d-limonene", "mineral spirits", "turpentine",
+    "1-butanol", "2-butanol", "1-propanol", "1-hexanol", "1-octanol",
+    "acetophenone", "propylene carbonate", "gamma-butyrolactone",
+    "2-butoxyethanol", "2-ethoxyethanol", "2-methoxyethanol",
+    "trichloroethylene", "tetrachloroethylene",
+]}
+
+# Common polymers identified by name patterns
+COMMON_POLYMER_NAMES = {n.lower() for n in [
+    "polystyrene", "polyethylene", "polypropylene", "pvc",
+    "poly(vinyl chloride)", "pmma", "poly(methyl methacrylate)",
+    "nylon 6,6", "nylon", "polyamide", "polyester", "pet",
+    "poly(ethylene terephthalate)", "polyurethane", "polycarbonate",
+    "epoxy", "silicone", "polybutadiene", "abs",
+    "poly(vinyl acetate)", "pvac", "pvdf",
+    "poly(vinylidene fluoride)", "ptfe", "teflon", "polytetrafluoroethylene",
+    "cellulose acetate", "cellulose nitrate", "nitrocellulose",
+    "polyisoprene", "natural rubber", "sbr", "neoprene",
+    "poly(vinyl alcohol)", "pva", "polyacetal", "polyimide",
+    "polysulfone", "peek", "pei", "pps", "pbt",
+    "poly(ethylene oxide)", "peo", "polylactic acid", "pla",
+    "acrylic", "alkyd", "shellac", "polyvinyl butyral",
+    "chlorinated rubber", "poly(vinyl butyral)", "phenolic",
+    "phenol formaldehyde", "urea formaldehyde", "melamine formaldehyde",
+    "poly(dimethyl siloxane)", "pdms",
+]}
+
+
+def _is_common_solvent(name, cas):
+    """Check if a solvent is in the common materials list."""
+    if cas and cas in COMMON_SOLVENT_CAS:
+        return True
+    if name and name.lower() in COMMON_SOLVENT_NAMES:
+        return True
+    return False
+
+
+def _is_common_polymer(name):
+    """Check if a polymer is in the common materials list."""
+    nl = name.lower()
+    if nl in COMMON_POLYMER_NAMES:
+        return True
+    # Also match partial names like "polystyrene (gp)" or "nylon 6"
+    for cn in COMMON_POLYMER_NAMES:
+        if cn in nl or nl in cn:
+            return True
+    return False
+
+
 solvents = []
 with open(CHEM_CSV) as f:
     for row in csv.DictReader(f):
@@ -49,9 +202,11 @@ with open(CHEM_CSV) as f:
         bp_val = row.get("boiling_point", "").strip()
         if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
             continue
+        chem_name = row["name"].strip()
+        chem_cas = row.get("cas_number", "").strip()
         solvents.append({
-            "name": row["name"].strip(),
-            "cas": row.get("cas_number", "").strip(),
+            "name": chem_name,
+            "cas": chem_cas,
             "dd": float(dd), "dp": float(dp), "dh": float(dh),
             "mw": float(mw_val) if mw_val else None,
             "bp": float(bp_val) if bp_val else None,
@@ -61,6 +216,7 @@ with open(CHEM_CSV) as f:
             "srcUrl": src_url,
             "mwSrc": mw_src if mw_val else "",
             "bpSrc": bp_src if bp_val else "",
+            "common": _is_common_solvent(chem_name, chem_cas),
         })
 
 poly_data = []
@@ -76,14 +232,16 @@ with open(POLY_CSV) as f:
         r_val = row.get("radius", "").strip()
         if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
             continue
+        poly_name = row["name"].strip()
         poly_data.append({
-            "name": row["name"].strip(),
+            "name": poly_name,
             "dd": float(dd), "dp": float(dp), "dh": float(dh),
             "r": float(r_val) if r_val else None,
             "type": row.get("type", "").strip(),
             "cas": row.get("cas_number", "").strip(),
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": src_url,
+            "common": _is_common_polymer(poly_name),
         })
 
 CATEGORY_COLORS = {
@@ -197,6 +355,24 @@ full_html = f"""<!DOCTYPE html>
             transition: background 0.2s;
         }}
         .search-bar button:hover {{ background: #c73652; }}
+        .simple-toggle {{
+            display: flex; align-items: center; gap: 8px; cursor: pointer;
+            user-select: none; white-space: nowrap;
+        }}
+        .simple-toggle input {{ display: none; }}
+        .simple-slider {{
+            position: relative; width: 36px; height: 20px; background: #dfe6e9;
+            border-radius: 10px; transition: background 0.2s;
+        }}
+        .simple-slider::after {{
+            content: ''; position: absolute; top: 2px; left: 2px;
+            width: 16px; height: 16px; background: #fff; border-radius: 50%;
+            transition: transform 0.2s;
+        }}
+        .simple-toggle input:checked + .simple-slider {{ background: #e94560; }}
+        .simple-toggle input:checked + .simple-slider::after {{ transform: translateX(16px); }}
+        .simple-label {{ font-size: 0.85rem; color: #636e72; font-weight: 600; }}
+        .simple-toggle input:checked ~ .simple-label {{ color: #e94560; }}
         .search-options {{
             display: flex; align-items: center; justify-content: space-between;
             padding: 4px 20px 10px; background: #fff;
@@ -305,6 +481,11 @@ full_html = f"""<!DOCTYPE html>
         <input type="text" id="nl-search" placeholder="Ask anything — e.g. &quot;good solvents for polystyrene&quot;"
                onkeydown="if(event.key==='Enter')runSearch()">
         <button onclick="runSearch()">Search</button>
+        <label class="simple-toggle" title="When enabled, results show only common, readily accessible solvents and polymers">
+            <input type="checkbox" id="simple-mode" onchange="onSimpleModeChange()">
+            <span class="simple-slider"></span>
+            <span class="simple-label">Simple</span>
+        </label>
     </div>
     <div class="search-options">
         <div class="search-examples">
@@ -469,13 +650,26 @@ full_html = f"""<!DOCTYPE html>
             'san': 'Styrene acrylonitrile (SAN)',
         }};
 
+        // ===================== SIMPLE MODE =====================
+        var simpleMode = false;
+        function onSimpleModeChange() {{
+            simpleMode = document.getElementById('simple-mode').checked;
+            // Re-run last search if there was one
+            if (lastSearchQuery) {{
+                document.getElementById('nl-search').value = lastSearchQuery;
+                runSearch();
+            }}
+        }}
+
         // ===================== HSP MATH =====================
         // Pre-compute typed arrays for fast distance calculations
         var _sDD = new Float64Array(SOLVENTS.length);
         var _sDP = new Float64Array(SOLVENTS.length);
         var _sDH = new Float64Array(SOLVENTS.length);
+        var _sCommon = new Uint8Array(SOLVENTS.length);
         for (var _si = 0; _si < SOLVENTS.length; _si++) {{
             _sDD[_si] = SOLVENTS[_si].dd; _sDP[_si] = SOLVENTS[_si].dp; _sDH[_si] = SOLVENTS[_si].dh;
+            _sCommon[_si] = SOLVENTS[_si].common ? 1 : 0;
         }}
 
         function hspDistance(a, b) {{
@@ -810,6 +1004,7 @@ full_html = f"""<!DOCTYPE html>
                     }}
                     scored[si] = {{ _i: si, combinedScore: cs }};
                 }}
+                if (simpleMode) scored = scored.filter(function(x) {{ return _sCommon[x._i]; }});
                 var top = topK(scored, resultCount, function(x) {{ return x.combinedScore; }});
                 var results = top.map(function(x) {{
                     var s = SOLVENTS[x._i], info = {{ ...s, reds: {{}}, ras: {{}}, combinedScore: x.combinedScore }};
@@ -836,6 +1031,7 @@ full_html = f"""<!DOCTYPE html>
                     var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
                     scored[si] = {{ _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) }};
                 }}
+                if (simpleMode) scored = scored.filter(function(x) {{ return _sCommon[x._i]; }});
                 var top;
                 if (intent === 'good_solvents') {{
                     top = topK(scored, resultCount, function(x) {{ return x.ra; }});
@@ -847,10 +1043,11 @@ full_html = f"""<!DOCTYPE html>
                     return {{ ...s, ra: x.ra, red: (target.r && target.r > 0) ? x.ra / target.r : null }};
                 }});
                 chatContext = {{ intent, target, targetType: 'polymer' }};
+                var simpleSuffix = simpleMode ? ' (Common solvents only)' : '';
                 if (intent === 'good_solvents') {{
-                    return {{ intent, target, results, description: 'Top ' + resultCount + ' solvents by HSP distance (Ra). RED < 1 = inside solubility sphere = compatible.', targetType: 'polymer' }};
+                    return {{ intent, target, results, description: 'Top ' + resultCount + ' solvents by HSP distance (Ra). RED < 1 = inside solubility sphere = compatible.' + simpleSuffix, targetType: 'polymer' }};
                 }} else {{
-                    return {{ intent, target, results, description: 'Top ' + resultCount + ' most incompatible solvents by HSP distance (Ra). RED > 1 = outside sphere.', targetType: 'polymer' }};
+                    return {{ intent, target, results, description: 'Top ' + resultCount + ' most incompatible solvents by HSP distance (Ra). RED > 1 = outside sphere.' + simpleSuffix, targetType: 'polymer' }};
                 }}
             }}
 
@@ -862,20 +1059,23 @@ full_html = f"""<!DOCTYPE html>
                 var scored = [];
                 for (var si = 0; si < SOLVENTS.length; si++) {{
                     if (SOLVENTS[si].name === target.name) continue;
+                    if (simpleMode && !_sCommon[si]) continue;
                     var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
                     scored.push({{ _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) }});
                 }}
                 var top = topK(scored, resultCount, function(x) {{ return x.ra; }});
                 var results = top.map(function(x) {{ return {{ ...SOLVENTS[x._i], ra: x.ra }}; }});
                 chatContext = {{ intent, target, targetType: 'solvent' }};
-                return {{ intent, target, results, description: 'Solvents closest to ' + target.name + ' in Hansen space.', targetType: 'solvent' }};
+                return {{ intent, target, results, description: 'Solvents closest to ' + target.name + ' in Hansen space.' + (simpleMode ? ' (Simple mode: common solvents only)' : ''), targetType: 'solvent' }};
             }}
 
             if (intent === 'similar_polymers') {{
                 let target = findPolymer(material);
                 if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findPolymer(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find polymer "' + material + '". Try "polystyrene", "epoxy", "PMMA", etc.' }};
-                const scored = POLYMERS.filter(p => p.name !== target.name).map(p => ({{ ...p, ra: hspDistance(p, target) }}));
+                var scored = POLYMERS.filter(p => p.name !== target.name);
+                if (simpleMode) scored = scored.filter(function(p) {{ return p.common; }});
+                scored = scored.map(p => ({{ ...p, ra: hspDistance(p, target) }}));
                 var results = topK(scored, resultCount, function(x) {{ return x.ra; }});
                 chatContext = {{ intent, target, targetType: 'polymer' }};
                 return {{ intent, target, results, description: 'Polymers closest to ' + target.name + ' in Hansen space.', targetType: 'polymer' }};
@@ -885,7 +1085,9 @@ full_html = f"""<!DOCTYPE html>
                 let target = findSolvent(material);
                 if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findSolvent(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find solvent "' + material + '". Try "toluene", "acetone", "NMP", "DMSO", etc.' }};
-                const scored = POLYMERS.filter(p => p.r && p.r > 0).map(p => ({{ ...p, ra: hspDistance(target, p), red: redNumber(target, p) }}));
+                var scored = POLYMERS.filter(p => p.r && p.r > 0);
+                if (simpleMode) scored = scored.filter(function(p) {{ return p.common; }});
+                scored = scored.map(p => ({{ ...p, ra: hspDistance(target, p), red: redNumber(target, p) }}));
                 var results = topK(scored, resultCount, function(x) {{ return x.ra; }});
                 chatContext = {{ intent: 'polymers_for_solvent', target, targetType: 'solvent' }};
                 return {{ intent: 'polymers_for_solvent', target, results, description: 'Polymers most easily dissolved by ' + target.name + '. RED < 1 = inside solubility sphere = compatible.', targetType: 'solvent' }};

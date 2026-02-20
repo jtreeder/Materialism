@@ -54,9 +54,12 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 .col-match h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #b2bec3; margin-bottom: 10px; }
 
 /* Source image */
-.source-crop { width: 100%; border: 1px solid #dfe6e9; border-radius: 4px; margin-bottom: 10px; background: #fff; }
+.source-crop { width: 100%; border: 1px solid #dfe6e9; border-radius: 4px; margin-bottom: 6px; background: #fff; }
 .source-crop img { width: 100%; display: block; border-radius: 3px; image-rendering: auto; }
+.source-crop-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.3px; color: #b2bec3; margin-bottom: 3px; margin-top: 8px; }
 .source-no-image { background: #f0f2f5; border: 1px dashed #dfe6e9; border-radius: 4px; padding: 20px; text-align: center; color: #b2bec3; font-size: 0.8rem; margin-bottom: 10px; }
+.structure-crop { width: 70%; border: 1px solid #e8dff5; border-radius: 4px; margin-bottom: 10px; background: #faf8ff; }
+.structure-crop img { width: 100%; display: block; border-radius: 3px; }
 
 /* Source data table */
 .source-data { font-size: 0.82rem; margin-bottom: 8px; }
@@ -232,11 +235,18 @@ function renderSourceCol(entry) {
 
     var ref = entry.source_ref || {};
 
-    // PDF source: show cropped image
+    // PDF source: show cropped data image AND structure image
     if (ref.type === 'pdf' && ref.crop_file) {
+        html += '<div class="source-crop-label">Data Row</div>';
         html += '<div class="source-crop">';
         html += '<img src="data/processed/' + escHtml(ref.crop_file) + '" alt="PDF source row" loading="lazy">';
         html += '</div>';
+        if (ref.structure_file) {
+            html += '<div class="source-crop-label">Structure</div>';
+            html += '<div class="structure-crop">';
+            html += '<img src="data/processed/' + escHtml(ref.structure_file) + '" alt="Molecular structure" loading="lazy">';
+            html += '</div>';
+        }
         if (ref.page) {
             html += '<div class="source-page">PDF page ' + ref.page + ' of ' + (ref.total_pages || '?') + '</div>';
         }
@@ -263,6 +273,9 @@ function renderSourceCol(entry) {
     // Always show OCR'd / parsed data
     html += '<div class="source-data"><table>';
     html += '<tr><td>Name</td><td><strong>' + escHtml(entry.original_name) + '</strong></td></tr>';
+    if (ref.acd_name) {
+        html += '<tr><td>ACD Name</td><td style="color:#6c5ce7;font-weight:500">' + escHtml(ref.acd_name) + '</td></tr>';
+    }
     if (entry.smiles) {
         html += '<tr><td>SMILES</td><td style="font-family:monospace;font-size:0.75rem;word-break:break-all">' + escHtml(entry.smiles) + '</td></tr>';
     }
