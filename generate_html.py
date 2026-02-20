@@ -107,8 +107,9 @@ for s in sorted(solvents, key=lambda x: x["name"]):
         if url:
             return f'<a href="{url}" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none" title="Source">{v}</a>'
         return v
+    src_cell = f'<a href="{s["srcUrl"]}" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">{s["src"]}</a>' if s['srcUrl'] else s['src']
     table_rows += f"""<tr>
-        <td>{s['name']}</td><td>{s['cas']}</td>
+        <td>{s['name']}</td><td>{s['cas']}</td><td>{src_cell}</td>
         <td>{_link(s['dd'], s['srcUrl'])}</td><td>{_link(s['dp'], s['srcUrl'])}</td><td>{_link(s['dh'], s['srcUrl'])}</td>
         <td>{_link(s['mw'], s['mwSrc'])}</td><td>{_link(s['bp'], s['bpSrc'])}</td>
         <td>{s['cat']}</td>
@@ -123,8 +124,9 @@ for p in sorted(poly_data, key=lambda x: x["name"]):
         if url:
             return f'<a href="{url}" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none" title="Source">{v}</a>'
         return v
+    src_cell = f'<a href="{p["srcUrl"]}" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">{p["src"]}</a>' if p['srcUrl'] else p['src']
     polymer_rows += f"""<tr>
-        <td>{p['name']}</td><td>{p['cas']}</td>
+        <td>{p['name']}</td><td>{p['cas']}</td><td>{src_cell}</td>
         <td>{_link(p['dd'], p['srcUrl'])}</td><td>{_link(p['dp'], p['srcUrl'])}</td><td>{_link(p['dh'], p['srcUrl'])}</td>
         <td>{_link(p['r'], p['srcUrl'])}</td><td>{p['type']}</td>
     </tr>"""
@@ -1289,14 +1291,14 @@ full_html = f"""<!DOCTYPE html>
 
             if (homeTab === 'solvents') {{
                 headerHtml = '<tr>';
-                ['Name','CAS','&delta;D','&delta;P','&delta;H','MW','BP &deg;C','Category'].forEach(function(label, i) {{
+                ['Name','CAS','Source','&delta;D','&delta;P','&delta;H','MW','BP &deg;C','Category'].forEach(function(label, i) {{
                     headerHtml += '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + i + ')" style="cursor:pointer">' + label + '</th>';
                 }});
                 headerHtml += '</tr>';
                 var filtered = SOLVENTS;
                 if (homeFilterText) {{
                     var q = homeFilterText.toLowerCase();
-                    filtered = SOLVENTS.filter(function(s) {{ return s.name.toLowerCase().indexOf(q) !== -1 || (s.cas && s.cas.indexOf(q) !== -1); }});
+                    filtered = SOLVENTS.filter(function(s) {{ return s.name.toLowerCase().indexOf(q) !== -1 || (s.cas && s.cas.indexOf(q) !== -1) || (s.src && s.src.toLowerCase().indexOf(q) !== -1); }});
                 }}
                 countEl.textContent = filtered.length + ' solvents';
                 rowsHtml = '';
@@ -1307,6 +1309,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<tr data-name="' + s.name.replace(/"/g, '&quot;') + '" style="border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name" onclick="highlightInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
                     rowsHtml += '<td>' + (s.cas || '') + '</td>';
+                    rowsHtml += '<td>' + ((s.src && s.srcUrl) ? '<a href="' + s.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + s.src + '</a>' : (s.src || '')) + '</td>';
                     rowsHtml += '<td>' + lnk(s.dd, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.dp, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.dh, s.srcUrl) + '</td>';
@@ -1317,14 +1320,14 @@ full_html = f"""<!DOCTYPE html>
                 }}
             }} else {{
                 headerHtml = '<tr>';
-                ['Name','CAS','&delta;D','&delta;P','&delta;H','R&#8320;','Type'].forEach(function(label, i) {{
+                ['Name','CAS','Source','&delta;D','&delta;P','&delta;H','R&#8320;','Type'].forEach(function(label, i) {{
                     headerHtml += '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + i + ')" style="cursor:pointer">' + label + '</th>';
                 }});
                 headerHtml += '</tr>';
                 var filtered = POLYMERS;
                 if (homeFilterText) {{
                     var q = homeFilterText.toLowerCase();
-                    filtered = POLYMERS.filter(function(p) {{ return p.name.toLowerCase().indexOf(q) !== -1 || (p.cas && p.cas.indexOf(q) !== -1); }});
+                    filtered = POLYMERS.filter(function(p) {{ return p.name.toLowerCase().indexOf(q) !== -1 || (p.cas && p.cas.indexOf(q) !== -1) || (p.src && p.src.toLowerCase().indexOf(q) !== -1); }});
                 }}
                 countEl.textContent = filtered.length + ' polymers';
                 rowsHtml = '';
@@ -1334,6 +1337,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '">';
                     rowsHtml += '<td><span class="hoverable-name" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)">' + p.name + '</span></td>';
                     rowsHtml += '<td>' + (p.cas || '') + '</td>';
+                    rowsHtml += '<td>' + ((p.src && p.srcUrl) ? '<a href="' + p.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + p.src + '</a>' : (p.src || '')) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dd, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
@@ -1573,15 +1577,15 @@ def gen_db_page(title, headers, rows_html, search_placeholder, filename):
 
 gen_db_page(
     "Solvent Database",
-    ["Name", "CAS", "&delta;D", "&delta;P", "&delta;H", "MW", "BP &deg;C", "Category"],
+    ["Name", "CAS", "Source", "&delta;D", "&delta;P", "&delta;H", "MW", "BP &deg;C", "Category"],
     table_rows,
-    "Search solvents by name or CAS...",
+    "Search solvents by name, CAS, or source...",
     "solvents.html"
 )
 
 gen_db_page(
     "Polymer Database",
-    ["Name", "CAS", "&delta;D", "&delta;P", "&delta;H", "R\u2080", "Type"],
+    ["Name", "CAS", "Source", "&delta;D", "&delta;P", "&delta;H", "R\u2080", "Type"],
     polymer_rows,
     "Search polymers...",
     "polymers.html"

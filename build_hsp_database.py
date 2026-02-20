@@ -934,6 +934,22 @@ def main():
 
     print(f"  Result: {len(merged_chems)} unique chemicals, {len(merged_polys)} unique polymers")
 
+    # Enrich CAS numbers from cache (built by scripts/enrich_cas.py)
+    cas_cache_path = os.path.join(OUT_DIR, ".cas_cache.json")
+    if os.path.exists(cas_cache_path):
+        import json as _json
+        with open(cas_cache_path) as _f:
+            cas_cache = _json.load(_f)
+        enriched = 0
+        for chem in merged_chems:
+            if not chem.get("cas_number"):
+                cached = cas_cache.get(chem["name"].lower().strip(), "")
+                if cached:
+                    chem["cas_number"] = cached
+                    enriched += 1
+        if enriched:
+            print(f"  CAS enrichment from cache: {enriched} additional CAS numbers")
+
     # Sort
     merged_chems.sort(key=lambda x: x["name"].lower())
     merged_polys.sort(key=lambda x: x["name"].lower())
