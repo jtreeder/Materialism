@@ -47,6 +47,8 @@ with open(CHEM_CSV) as f:
         bp_src = row.get("bp_source", "").strip() or src_url
         mw_val = row.get("molecular_weight", "").strip()
         bp_val = row.get("boiling_point", "").strip()
+        if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
+            continue
         solvents.append({
             "name": row["name"].strip(),
             "cas": row.get("cas_number", "").strip(),
@@ -72,6 +74,8 @@ with open(POLY_CSV) as f:
         src_key = row.get("source", "").strip()
         src_url = row.get("source_url", "").strip()
         r_val = row.get("radius", "").strip()
+        if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
+            continue
         poly_data.append({
             "name": row["name"].strip(),
             "dd": float(dd), "dp": float(dp), "dh": float(dh),
@@ -292,7 +296,7 @@ full_html = f"""<!DOCTYPE html>
 <body>
     <div class="header">
         <h1 onclick="goHome()">Materialism</h1>
-        <div class="stats"><a href="#" onclick="goHome();switchHomeTab('solvents');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(solvents)} solvents</a> &middot; <a href="#" onclick="goHome();switchHomeTab('polymers');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(poly_data)} polymers</a> &middot; Hansen Solubility Parameters</div>
+        <div class="stats"><a href="#" onclick="goHome();switchHomeTab('solvents');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(solvents)} solvents</a> &middot; <a href="#" onclick="goHome();switchHomeTab('polymers');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(poly_data)} polymers</a> &middot; Hansen Solubility Parameters &middot; <a href="http://localhost:5555" target="_blank" style="color:#e94560;text-decoration:none;border-bottom:1px dotted #e94560;cursor:pointer;font-weight:600">View/Edit Data</a></div>
     </div>
 
     <div class="search-bar">
