@@ -198,23 +198,39 @@ def generate_name_guesses(name):
     # "2Butanone" → "2-Butanone"
     # "1Methoxy2Propanol" → "1-Methoxy-2-Propanol"
     # "4Hydroxy4Methyl2Pentanone" → "4-Hydroxy-4-Methyl-2-Pentanone"
+    # "2,6Dimethyl4Heptanone" → "2,6-Dimethyl-4-Heptanone"
     if re.search(r"\d[A-Z]", o) and not re.search(r"\s", o):
+        # Insert hyphens at BOTH digit→uppercase AND lowercase→digit boundaries
         fixed = re.sub(r"(\d)([A-Z])", r"\1-\2", o)
+        fixed = re.sub(r"([a-z])(\d)", r"\1-\2", fixed)
+        # Also handle comma-digit boundaries: "2,6D" → "2,6-D"
+        fixed = re.sub(r"(\d,\d+)([A-Z])", r"\1-\2", fixed)
         if fixed != o:
-            _add(guesses, fixed, "Insert hyphens: digit→letter", 0.88)
-            # Also try with spaces instead of hyphens for multi-word
-            if fixed.count("-") > 2:
-                spaced = re.sub(r"(?<=\d)-(?=[A-Z])", "-", fixed)
-                _add(guesses, spaced, "Insert hyphens at digit boundaries", 0.85)
+            _add(guesses, fixed, "Insert hyphens at digit↔letter boundaries", 0.90)
+
+    # ── Stereo/substitution prefixes ──────────────────────────────────────
+    # "DLLimonene" → "DL-Limonene", "N,NDimethylhydrazine" → "N,N-Dimethylhydrazine"
+    stereo_m = re.match(r"^(DL|D|L|meso|cis|trans|sec|tert|n)([A-Z][a-z])", o)
+    if stereo_m:
+        fixed = stereo_m.group(1) + "-" + o[stereo_m.end(1):]
+        _add(guesses, fixed, f"Insert hyphen after '{stereo_m.group(1)}' prefix", 0.90)
+    subst_m = re.match(r"^([A-Z],)+[A-Z]([A-Z][a-z])", o)
+    if subst_m:
+        # e.g. "N,NDimethylhydrazine" → insert hyphen after "N,N"
+        prefix_end = subst_m.start(2)
+        fixed = o[:prefix_end] + "-" + o[prefix_end:]
+        _add(guesses, fixed, "Insert hyphen after substitution prefix", 0.90)
 
     # CamelCase → spaces: "DiethyleneGlycolButylEther" → "Diethylene Glycol Butyl Ether"
     if re.search(r"[a-z][A-Z]", o) and not re.search(r"\s", o):
         spaced = re.sub(r"([a-z])([A-Z])", r"\1 \2", o)
         if spaced != o:
             _add(guesses, spaced, "Split CamelCase words", 0.82)
-            # Combined: digit-hyphens + CamelCase spaces
-            combined = re.sub(r"([a-z])([A-Z])", r"\1 \2",
-                              re.sub(r"(\d)([A-Z])", r"\1-\2", o))
+            # Combined: full digit-hyphens + CamelCase spaces
+            combined = re.sub(r"(\d)([A-Z])", r"\1-\2", o)
+            combined = re.sub(r"([a-z])(\d)", r"\1-\2", combined)
+            combined = re.sub(r"(\d,\d+)([A-Z])", r"\1-\2", combined)
+            combined = re.sub(r"([a-z])([A-Z])", r"\1 \2", combined)
             if combined != spaced and combined != o:
                 _add(guesses, combined, "Split CamelCase + digit hyphens", 0.85)
 
@@ -343,6 +359,56 @@ def generate_name_guesses(name):
                 fixed = o[:m2.start()] + prefix + part + o[m2.end():]
                 if fixed.lower() != o.lower():
                     _add(guesses, fixed, f"Join '{prefix} {part}' → '{prefix}{part}'", 0.72)
+
+    # ── Join space-separated chemical prefixes (pang2024 style) ───────────
+    # "1-Chloro Vinyl Ethyl Ether" → "1-Chlorovinyl Ethyl Ether"
+    # "Butoxy Ethoxy Propanol" → "Butoxyethoxypropanol" / "Butoxyethoxy Propanol"
+    # These have functional-group prefixes separated by spaces that should be joined
+    chem_prefixes = ["Chloro", "Bromo", "Fluoro", "Nitro", "Amino", "Hydroxy",
+                     "Methoxy", "Ethoxy", "Butoxy", "Propoxy", "Phenoxy",
+                     "Methyl", "Ethyl", "Propyl", "Butyl", "Vinyl", "Phenyl",
+                     "Acetoxy", "Carboxy"]
+    if " " in o:
+        for prefix in chem_prefixes:
+            # Match "prefix word" where prefix ends and next word starts with lowercase
+            pat = re.compile(re.escape(prefix) + r"\s+([a-z])", re.IGNORECASE)
+            m2 = pat.search(o)
+            if m2:
+                # Join the prefix to the next word (remove the space)
+                start = m2.start()
+                fixed = o[:start] + o[start:m2.end()].replace(" ", "")
+                fixed += o[m2.end():]
+                if fixed != o:
+                    _add(guesses, fixed, f"Join prefix '{prefix}' to following word", 0.78)
+        # Also try: join ALL space-separated words if result looks like one compound
+        words = o.split()
+        if 2 <= len(words) <= 4 and all(w[0:1].isalpha() for w in words):
+            joined = "".join(words)
+            if joined != o:
+                _add(guesses, joined, "Join all words into single compound name", 0.60)
+            # Hyphenated version for numbered prefixes
+            if words[0][:1].isdigit():
+                hyph = words[0] + "-" + "".join(words[1:])
+                _add(guesses, hyph, "Hyphenate first word + join rest", 0.65)
+
+    # ── "Di/Tri + CamelCase" compounds ──────────────────────────────────
+    # "DiNOctylPhthalate" → "Di-n-Octyl Phthalate"
+    # "DiPropyleneGlycolButylEther" → "Dipropylene Glycol Butyl Ether"
+    di_m = re.match(r"^(Di|Tri|Bis|Tetra)(N?)([A-Z][a-z]+)(.+)$", o)
+    if di_m:
+        mult, n_prefix, first, rest = di_m.groups()
+        # Split rest at CamelCase boundaries
+        rest_parts = re.sub(r"([a-z])([A-Z])", r"\1 \2", rest)
+        if n_prefix:
+            fixed = f"{mult}-n-{first} {rest_parts}"
+        else:
+            fixed = f"{mult}{first.lower()} {rest_parts}"
+        if fixed != o:
+            _add(guesses, fixed, f"Expand '{mult}' compound name", 0.80)
+        # Also try: "Di-n-octyl phthalate" (fully lowercase after prefix)
+        if n_prefix:
+            lower_fixed = f"{mult}-n-{first.lower()} {rest_parts.lower()}"
+            _add(guesses, lower_fixed, f"Expand '{mult}' compound (lowercase)", 0.78)
 
     # ── "Ro = XX" or "Water - ..." special cases → skip material ────────
     if re.search(r"Ro?\s*=\s*\d", o) or o.startswith("Water -"):

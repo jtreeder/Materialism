@@ -112,7 +112,7 @@
     "cas": "119-64-2",
     "iupac": "1,2,3,4-tetrahydronaphthalene",
     "confidence": 0.99,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 8404,
     "synonyms": [
      "1,2,3,4-Tetrahydronaphthalene",
@@ -210,7 +210,7 @@
     "cas": "95-50-1",
     "iupac": "1,2-dichlorobenzene",
     "confidence": 0.99,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 7239,
     "synonyms": [
      "1,2-DICHLOROBENZENE",
@@ -323,8 +323,8 @@
     "corrected_name": "1,4-DIETHYLBENZENE",
     "cas": "105-05-5",
     "iupac": "1,4-diethylbenzene",
-    "confidence": 0.93,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "confidence": 0.95,
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 7734,
     "synonyms": [
      "1,4-DIETHYLBENZENE",
@@ -516,7 +516,7 @@
     "cas": "540-54-5",
     "iupac": "1-chloropropane",
     "confidence": 0.99,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 10899,
     "synonyms": [
      "1-CHLOROPROPANE",
@@ -548,18 +548,28 @@
   "molar_volume": 98.2,
   "options": [
    {
-    "corrected_name": "1Methoxy2Propanol",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "1-Methoxy-2-propanol",
+    "cas": "107-98-2",
+    "iupac": "1-methoxypropan-2-ol",
+    "confidence": 0.99,
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
+    "cid": 7900,
+    "synonyms": [
+     "1-Methoxy-2-propanol",
+     "107-98-2",
+     "1-Methoxypropan-2-ol",
+     "Methoxyisopropanol",
+     "Closol",
+     "PGME",
+     "2-Propanol, 1-methoxy-",
+     "1-Methoxy-2-hydroxypropane"
+    ],
+    "pubchem_mw": 90.12,
+    "ref_mv": 97.5,
+    "ref_density": 0.924,
+    "mv_match": true,
+    "mv_pct_diff": 0.7,
+    "guess_text": "1-Methoxy-2-Propanol"
    }
   ]
  },
@@ -574,18 +584,28 @@
   "molar_volume": 96.6,
   "options": [
    {
-    "corrected_name": "1Methyl2Pyrrolidinone",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "1-METHYL-2-PYRROLIDINONE",
+    "cas": "872-50-4",
+    "iupac": "1-methylpyrrolidin-2-one",
+    "confidence": 0.99,
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
+    "cid": 13387,
+    "synonyms": [
+     "1-METHYL-2-PYRROLIDINONE",
+     "872-50-4",
+     "N-Methyl-2-pyrrolidone",
+     "N-Methylpyrrolidone",
+     "N-Methyl-2-pyrrolidinone",
+     "Methylpyrrolidone",
+     "1-Methyl-2-pyrrolidone",
+     "Methyl pyrrolidone"
+    ],
+    "pubchem_mw": 99.13,
+    "ref_mv": 96.2,
+    "ref_density": 1.03,
+    "mv_match": true,
+    "mv_pct_diff": 0.4,
+    "guess_text": "1-Methyl-2-Pyrrolidinone"
    }
   ]
  },
@@ -600,18 +620,28 @@
   "molar_volume": 143.2,
   "options": [
    {
-    "corrected_name": "1Phenoxy2Propanol",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "1-Phenoxy-2-propanol",
+    "cas": "770-35-4",
+    "iupac": "1-phenoxypropan-2-ol",
+    "confidence": 0.99,
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
+    "cid": 92839,
+    "synonyms": [
+     "1-Phenoxy-2-propanol",
+     "770-35-4",
+     "Propylene phenoxetol",
+     "2-Propanol, 1-phenoxy-",
+     "Propylene glycol phenyl ether",
+     "2-Phenoxy-1-methylethanol",
+     "beta-Phenoxyisopropanol",
+     "DTXSID9027312"
+    ],
+    "pubchem_mw": 152.19,
+    "ref_mv": 143.3,
+    "ref_density": 1.0622,
+    "mv_match": true,
+    "mv_pct_diff": 0.1,
+    "guess_text": "1-Phenoxy-2-Propanol"
    }
   ]
  },
@@ -630,7 +660,7 @@
     "cas": "112-70-9",
     "iupac": "tridecan-1-ol",
     "confidence": 0.99,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 8207,
     "synonyms": [
      "1-TRIDECANOL",
@@ -691,7 +721,7 @@
     "corrected_name": "2,2,2-TRIFLUOROETHANOL",
     "cas": "75-89-8",
     "iupac": "2,2,2-trifluoroethanol",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Fix truncation: \u2026Ethano \u2192 \u2026Ethanol",
     "cid": 6409,
     "synonyms": [
@@ -982,18 +1012,28 @@
   "molar_volume": 177.1,
   "options": [
    {
-    "corrected_name": "2,6Dimethyl4Heptanone",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "2,6-Dimethyl-4-heptanone",
+    "cas": "108-83-8",
+    "iupac": "2,6-dimethylheptan-4-one",
+    "confidence": 0.99,
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
+    "cid": 7958,
+    "synonyms": [
+     "2,6-Dimethyl-4-heptanone",
+     "2,6-Dimethylheptan-4-one",
+     "108-83-8",
+     "DIISOBUTYL KETONE",
+     "Isovalerone",
+     "Isobutyl ketone",
+     "s-Diisopropylacetone",
+     "Valerone"
+    ],
+    "pubchem_mw": 142.24,
+    "ref_mv": 176.5,
+    "ref_density": 0.806,
+    "mv_match": true,
+    "mv_pct_diff": 0.3,
+    "guess_text": "2,6-Dimethyl-4-Heptanone"
    }
   ]
  },
@@ -1188,7 +1228,7 @@
     "cas": "78-93-3",
     "iupac": "butan-2-one",
     "confidence": 0.99,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 6569,
     "synonyms": [
      "2-Butanone",
@@ -1224,7 +1264,7 @@
     "cas": "112-07-2",
     "iupac": "2-butoxyethyl acetate",
     "confidence": 0.99,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 8160,
     "synonyms": [
      "2-Butoxyethyl acetate",
@@ -1260,7 +1300,7 @@
     "cas": "111-44-4",
     "iupac": "1-chloro-2-(2-chloroethoxy)ethane",
     "confidence": 0.99,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 8115,
     "synonyms": [
      "111-44-4",
@@ -1296,7 +1336,7 @@
     "cas": "111-15-9",
     "iupac": "2-ethoxyethyl acetate",
     "confidence": 0.99,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 8095,
     "synonyms": [
      "2-Ethoxyethyl acetate",
@@ -1332,7 +1372,7 @@
     "cas": "98-01-1",
     "iupac": "furan-2-carbaldehyde",
     "confidence": 0.99,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 7362,
     "synonyms": [
      "FURFURAL",
@@ -1456,7 +1496,7 @@
     "cas": "109-78-4",
     "iupac": "3-hydroxypropanenitrile",
     "confidence": 0.99,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 8011,
     "synonyms": [
      "Hydracrylonitrile",
@@ -1488,18 +1528,28 @@
   "molar_volume": 109.3,
   "options": [
    {
-    "corrected_name": "3Methyl1Butanol",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "Isoamyl alcohol",
+    "cas": "123-51-3",
+    "iupac": "3-methylbutan-1-ol",
+    "confidence": 0.99,
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
+    "cid": 31260,
+    "synonyms": [
+     "Isoamyl alcohol",
+     "3-Methyl-1-butanol",
+     "Isopentyl alcohol",
+     "3-Methylbutan-1-ol",
+     "123-51-3",
+     "Isopentanol",
+     "3-Methylbutanol",
+     "1-Butanol, 3-methyl-"
+    ],
+    "pubchem_mw": 88.15,
+    "ref_mv": 108.8,
+    "ref_density": 0.81,
+    "mv_match": true,
+    "mv_pct_diff": 0.5,
+    "guess_text": "3-Methyl-1-Butanol"
    }
   ]
  },
@@ -1518,7 +1568,7 @@
     "cas": "96-22-0",
     "iupac": "pentan-3-one",
     "confidence": 0.99,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 7288,
     "synonyms": [
      "3-PENTANONE",
@@ -1576,18 +1626,28 @@
   "molar_volume": 162.6,
   "options": [
    {
-    "corrected_name": "4-Ethoxy Acetophenone",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
+    "corrected_name": "4'-Ethoxyacetophenone",
+    "cas": "1676-63-7",
+    "iupac": "1-(4-ethoxyphenyl)ethanone",
+    "confidence": 0.83,
+    "reason": "Join prefix 'Ethoxy' to following word",
+    "cid": 72872,
+    "synonyms": [
+     "4'-Ethoxyacetophenone",
+     "1676-63-7",
+     "1-(4-Ethoxyphenyl)ethanone",
+     "p-Ethoxyacetophenone",
+     "Ethanone, 1-(4-ethoxyphenyl)-",
+     "1-(4-Ethoxyphenyl)ethan-1-one",
+     "Acetophenone, p-ethoxy-",
+     "Acetophenone, 4'-ethoxy-"
+    ],
+    "pubchem_mw": 164.2,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "guess_text": "4-EthoxyAcetophenone"
    }
   ]
  },
@@ -1628,18 +1688,28 @@
   "molar_volume": 124.2,
   "options": [
    {
-    "corrected_name": "4Hydroxy4Methyl2Pentanone",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "Diacetone alcohol",
+    "cas": "123-42-2",
+    "iupac": "4-hydroxy-4-methylpentan-2-one",
+    "confidence": 0.99,
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
+    "cid": 31256,
+    "synonyms": [
+     "Diacetone alcohol",
+     "4-HYDROXY-4-METHYL-2-PENTANONE",
+     "123-42-2",
+     "4-Hydroxy-4-methylpentan-2-one",
+     "Diacetonalkohol",
+     "Diketone alcohol",
+     "Diacetonalcohol",
+     "Tyranton"
+    ],
+    "pubchem_mw": 116.16,
+    "ref_mv": 123.8,
+    "ref_density": 0.938,
+    "mv_match": true,
+    "mv_pct_diff": 0.3,
+    "guess_text": "4-Hydroxy-4-Methyl-2-Pentanone"
    }
   ]
  },
@@ -1654,18 +1724,28 @@
   "molar_volume": 83.2,
   "options": [
    {
-    "corrected_name": "4Hydroxymethyl1,3Dioxolan2One",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
+    "corrected_name": "931-40-8",
+    "cas": "931-40-8",
+    "iupac": "4-(hydroxymethyl)-1,3-dioxolan-2-one",
+    "confidence": 0.95,
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
+    "cid": 97944,
+    "synonyms": [
+     "931-40-8",
+     "4-Hydroxymethyl-1,3-dioxolan-2-one",
+     "1,3-Dioxolan-2-one, 4-(hydroxymethyl)-",
+     "glycerol carbonate",
+     "hydroxymethyl dioxolanone",
+     "C15K4UUJ1E",
+     "MACKADERM GC",
+     "NSC-60535"
+    ],
+    "pubchem_mw": 118.09,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "guess_text": "4-Hydroxymethyl-1,3-Dioxolan-2-One"
    }
   ]
  },
@@ -1684,7 +1764,7 @@
     "cas": "108-11-2",
     "iupac": "4-methylpentan-2-ol",
     "confidence": 0.99,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 7910,
     "synonyms": [
      "4-METHYL-2-PENTANOL",
@@ -1701,7 +1781,7 @@
     "ref_density": 0.807,
     "mv_match": true,
     "mv_pct_diff": 0.5,
-    "guess_text": "4-Methyl2-Pentanol"
+    "guess_text": "4-Methyl-2-Pentanol"
    }
   ]
  },
@@ -1716,18 +1796,28 @@
   "molar_volume": 125.8,
   "options": [
    {
-    "corrected_name": "4Methyl2Pentanone",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "4-Methyl-2-pentanone",
+    "cas": "108-10-1",
+    "iupac": "4-methylpentan-2-one",
+    "confidence": 0.99,
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
+    "cid": 7909,
+    "synonyms": [
+     "4-Methyl-2-pentanone",
+     "METHYL ISOBUTYL KETONE",
+     "4-Methylpentan-2-one",
+     "108-10-1",
+     "Isopropylacetone",
+     "Isobutyl methyl ketone",
+     "Hexone",
+     "MIBK"
+    ],
+    "pubchem_mw": 100.16,
+    "ref_mv": 124.9,
+    "ref_density": 0.802,
+    "mv_match": true,
+    "mv_pct_diff": 0.7,
+    "guess_text": "4-Methyl-2-Pentanone"
    }
   ]
  },
@@ -1745,8 +1835,8 @@
     "corrected_name": "4-OCTANOL",
     "cas": "589-62-8",
     "iupac": "octan-4-ol",
-    "confidence": 0.93,
-    "reason": "Insert hyphens: digit\u2192letter",
+    "confidence": 0.95,
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
     "cid": 11515,
     "synonyms": [
      "4-OCTANOL",
@@ -1814,18 +1904,28 @@
   "molar_volume": 142.8,
   "options": [
    {
-    "corrected_name": "5Methyl2Hexanone",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "5-METHYL-2-HEXANONE",
+    "cas": "110-12-3",
+    "iupac": "5-methylhexan-2-one",
+    "confidence": 0.99,
+    "reason": "Insert hyphens at digit\u2194letter boundaries",
+    "cid": 8034,
+    "synonyms": [
+     "5-METHYL-2-HEXANONE",
+     "110-12-3",
+     "5-Methylhexan-2-one",
+     "2-Hexanone, 5-methyl-",
+     "Isoamyl methyl ketone",
+     "Methyl isoamyl ketone",
+     "Isopentyl methyl ketone",
+     "MIAK"
+    ],
+    "pubchem_mw": 114.19,
+    "ref_mv": 128.6,
+    "ref_density": 0.888,
+    "mv_match": true,
+    "mv_pct_diff": 9.9,
+    "guess_text": "5-Methyl-2-Hexanone"
    }
   ]
  },
@@ -2828,18 +2928,28 @@
   "molar_volume": 107.4,
   "options": [
    {
-    "corrected_name": "Diethyl Sulfid",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "Diethyl sulfide",
+    "cas": "352-93-2",
+    "iupac": "ethylsulfanylethane",
+    "confidence": 0.95,
+    "reason": "Join prefix 'Ethyl' to following word",
+    "cid": 9609,
+    "synonyms": [
+     "Diethyl sulfide",
+     "Ethyl sulfide",
+     "352-93-2",
+     "ethylsulfanylethane",
+     "Ethyl thioether",
+     "Ethylthioethane",
+     "Diethyl thioether",
+     "Ethane, 1,1'-thiobis-"
+    ],
+    "pubchem_mw": 90.19,
+    "ref_mv": 107.9,
+    "ref_density": 0.8362,
+    "mv_match": true,
+    "mv_pct_diff": 0.5,
+    "guess_text": "DiethylSulfid"
    }
   ]
  },
@@ -3040,18 +3150,25 @@
   "molar_volume": 142.0,
   "options": [
    {
-    "corrected_name": "Dimethyl Diethylene Glycol",
+    "corrected_name": "dimethyldiethylene glycol",
     "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
+    "iupac": "1-(2-hydroxyethoxy)-2-methylpropan-2-ol",
+    "confidence": 0.63,
+    "reason": "Join prefix 'Methyl' to following word",
+    "cid": 22145508,
+    "synonyms": [
+     "dimethyldiethylene glycol",
+     "SCHEMBL118210",
+     "SCHEMBL28079806",
+     "NIOYEYDJTAEDFH-UHFFFAOYSA-N",
+     "1-(2-hydroxyethoxy)-2-methyl-2-propanol"
+    ],
+    "pubchem_mw": 134.17,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "guess_text": "DimethylDiethylene Glycol"
    }
   ]
  },
@@ -3298,18 +3415,28 @@
   "molar_volume": 73.2,
   "options": [
    {
-    "corrected_name": "Dimethyl Sulfid",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "dimethyl sulfide",
+    "cas": "75-18-3",
+    "iupac": "methylsulfanylmethane",
+    "confidence": 0.95,
+    "reason": "Join prefix 'Methyl' to following word",
+    "cid": 1068,
+    "synonyms": [
+     "dimethyl sulfide",
+     "Methyl sulfide",
+     "75-18-3",
+     "Methane, thiobis-",
+     "Methyl thioether",
+     "dimethyl sulphide",
+     "dimethylsulfide",
+     "2-Thiapropane"
+    ],
+    "pubchem_mw": 62.14,
+    "ref_mv": 73.1,
+    "ref_density": 0.85,
+    "mv_match": true,
+    "mv_pct_diff": 0.1,
+    "guess_text": "DimethylSulfid"
    }
   ]
  },
@@ -3324,18 +3451,28 @@
   "molar_volume": 277.0,
   "options": [
    {
-    "corrected_name": "DiNOctylPhthalate",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "Dioctyl phthalate",
+    "cas": "117-84-0",
+    "iupac": "dioctyl benzene-1,2-dicarboxylate",
+    "confidence": 0.55,
+    "reason": "Expand 'Di' compound name",
+    "cid": 8346,
+    "synonyms": [
+     "Dioctyl phthalate",
+     "DI-N-OCTYL PHTHALATE",
+     "117-84-0",
+     "DNOP",
+     "Dinopol NOP",
+     "Vinicizer 85",
+     "n-Octyl phthalate",
+     "Celluflex DOP"
+    ],
+    "pubchem_mw": 390.6,
+    "ref_mv": 398.6,
+    "ref_density": 0.98,
+    "mv_match": false,
+    "mv_pct_diff": 43.9,
+    "guess_text": "Di-n-Octyl Phthalate"
    }
   ]
  },
@@ -3526,18 +3663,28 @@
   "molar_volume": 211.2,
   "options": [
    {
-    "corrected_name": "DiPropyleneGlycolButylEther",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
+    "corrected_name": "29911-28-2",
+    "cas": "29911-28-2",
+    "iupac": "1-(1-butoxypropan-2-yloxy)propan-2-ol",
+    "confidence": 0.85,
+    "reason": "Expand 'Di' compound name",
+    "cid": 24752,
+    "synonyms": [
+     "29911-28-2",
+     "1-(2-Butoxy-1-methylethoxy)propan-2-ol",
+     "2-Propanol, 1-(2-butoxy-1-methylethoxy)-",
+     "Dowanol DPnB",
+     "1-(2-BUTOXY-1-METHYLETHOXY)-2-PROPANOL",
+     "EINECS 249-951-5",
+     "T6ECP5S4P4",
+     "BRN 1743918"
+    ],
+    "pubchem_mw": 190.28,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "guess_text": "Dipropylene Glycol Butyl Ether"
    }
   ]
  },
@@ -3578,18 +3725,28 @@
   "molar_volume": 162.9,
   "options": [
    {
-    "corrected_name": "DLLimonene",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "1-methyl-4-prop-1-en-2-ylcyclohexene",
+    "cas": "138-86-3",
+    "iupac": "1-methyl-4-prop-1-en-2-ylcyclohexene",
+    "confidence": 0.99,
+    "reason": "Insert hyphen after 'DL' prefix",
+    "cid": 22311,
+    "synonyms": [
+     "1-methyl-4-prop-1-en-2-ylcyclohexene",
+     "RefChem:1055817",
+     "LIMONENE",
+     "Dipentene",
+     "138-86-3",
+     "Cinene",
+     "Cajeputene",
+     "DL-Limonene"
+    ],
+    "pubchem_mw": 136.23,
+    "ref_mv": 161.8,
+    "ref_density": 0.842,
+    "mv_match": true,
+    "mv_pct_diff": 0.7,
+    "guess_text": "DL-Limonene"
    }
   ]
  },
@@ -4366,18 +4523,28 @@
   "molar_volume": 73.9,
   "options": [
    {
-    "corrected_name": "Methyl Phosphonic Difluorid",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "Methylphosphonic difluoride",
+    "cas": "676-99-3",
+    "iupac": "difluorophosphorylmethane",
+    "confidence": 0.98,
+    "reason": "Join prefix 'Methyl' to following word + fix \u2026fluorid",
+    "cid": 69610,
+    "synonyms": [
+     "Methylphosphonic difluoride",
+     "RefChem:818684",
+     "Difluoro",
+     "Methylphosphonyl difluoride",
+     "Methyl difluorophosphite",
+     "Methylphosphonyldifluoride",
+     "Phosphonic difluoride, methyl-",
+     "Difluoromethylphosphine oxide"
+    ],
+    "pubchem_mw": 100.004,
+    "ref_mv": 75.1,
+    "ref_density": 1.3314,
+    "mv_match": true,
+    "mv_pct_diff": 1.6,
+    "guess_text": "MethylPhosphonic Difluoride"
    }
   ]
  },
@@ -4480,18 +4647,28 @@
   "molar_volume": 90.8,
   "options": [
    {
-    "corrected_name": "N,N-Dichloromethyl Amine",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
+    "corrected_name": "Methyldichloramine",
+    "cas": "7651-91-4",
+    "iupac": "N,N-dichloromethanamine",
+    "confidence": 0.83,
+    "reason": "Join prefix 'Methyl' to following word",
+    "cid": 123255,
+    "synonyms": [
+     "Methyldichloramine",
+     "N,N-Dichloromethanamine",
+     "Methanamine, N,N-dichloro-",
+     "7651-91-4",
+     "N,N-Dichloromethylamine",
+     "UNII-77TPU30564",
+     "77TPU30564",
+     "DTXSID50227326"
+    ],
+    "pubchem_mw": 99.94,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "guess_text": "N,N-DichloromethylAmine"
    }
   ]
  },
@@ -4506,18 +4683,28 @@
   "molar_volume": 76.0,
   "options": [
    {
-    "corrected_name": "N,NDimethylhydrazine",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null
+    "corrected_name": "1,1-DIMETHYLHYDRAZINE",
+    "cas": "57-14-7",
+    "iupac": "1,1-dimethylhydrazine",
+    "confidence": 0.99,
+    "reason": "Insert hyphen after substitution prefix",
+    "cid": 5976,
+    "synonyms": [
+     "1,1-DIMETHYLHYDRAZINE",
+     "57-14-7",
+     "N,N-Dimethylhydrazine",
+     "Dimazine",
+     "Unsymmetrical dimethylhydrazine",
+     "gem-Dimethylhydrazine",
+     "UDMH",
+     "1,1-Dimethylhydrazin"
+    ],
+    "pubchem_mw": 60.1,
+    "ref_mv": 75.9,
+    "ref_density": 0.7914,
+    "mv_match": true,
+    "mv_pct_diff": 0.1,
+    "guess_text": "N,N-Dimethylhydrazine"
    }
   ]
  },
@@ -4568,18 +4755,28 @@
   "molar_volume": 148.0,
   "options": [
    {
-    "corrected_name": "N-Butyl Pyrrolidone",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
+    "corrected_name": "1-Butylpyrrolidin-2-one",
+    "cas": "3470-98-2",
+    "iupac": "1-butylpyrrolidin-2-one",
+    "confidence": 0.83,
+    "reason": "Join prefix 'Butyl' to following word",
+    "cid": 18984,
+    "synonyms": [
+     "1-Butylpyrrolidin-2-one",
+     "3470-98-2",
+     "1-Butyl-2-pyrrolidinone",
+     "2-PYRROLIDINONE, 1-BUTYL-",
+     "N-Butylpyrrolidone",
+     "N-Butylpyrrolidinone",
+     "N-Butyl-2-pyrrolidone",
+     "BRN 0111543"
+    ],
+    "pubchem_mw": 141.21,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "guess_text": "N-ButylPyrrolidone"
    }
   ]
  },
@@ -4594,18 +4791,28 @@
   "molar_volume": 127.0,
   "options": [
    {
-    "corrected_name": "N-Formyl Hexamethylene Imine",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
+    "corrected_name": "Hexahydro-1H-azepine-1-carbaldehyde",
+    "cas": "25114-81-2",
+    "iupac": "azepane-1-carbaldehyde",
+    "confidence": 0.65,
+    "reason": "Join all words into single compound name",
+    "cid": 91280,
+    "synonyms": [
+     "Hexahydro-1H-azepine-1-carbaldehyde",
+     "EINECS 246-630-1",
+     "DTXSID60179802",
+     "NSC 89712",
+     "RefChem:786119",
+     "DTXCID80102293",
+     "246-630-1",
+     "azepane-1-carbaldehyde"
+    ],
+    "pubchem_mw": 127.18,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "guess_text": "N-FormylHexamethyleneImine"
    }
   ]
  },
@@ -5880,18 +6087,28 @@
   "molar_volume": 116.4,
   "options": [
    {
-    "corrected_name": "Vinyl Trifluoro Acetate",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
+    "corrected_name": "Vinyl trifluoroacetate",
+    "cas": "433-28-3",
+    "iupac": "ethenyl 2,2,2-trifluoroacetate",
+    "confidence": 0.83,
+    "reason": "Join prefix 'Fluoro' to following word",
+    "cid": 79011,
+    "synonyms": [
+     "Vinyl trifluoroacetate",
+     "433-28-3",
+     "ethenyl 2,2,2-trifluoroacetate",
+     "AD7HFM535P",
+     "DTXSID90195813",
+     "RefChem:901935",
+     "DTXCID30118304",
+     "207-088-1"
+    ],
+    "pubchem_mw": 140.06,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "guess_text": "Vinyl TrifluoroAcetate"
    }
   ]
  },
@@ -5906,18 +6123,28 @@
   "molar_volume": 196.0,
   "options": [
    {
-    "corrected_name": "Vinyl-2-Ethyl Hexanoate",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
+    "corrected_name": "VINYL 2-ETHYLHEXANOATE",
+    "cas": "94-04-2",
+    "iupac": "ethenyl 2-ethylhexanoate",
+    "confidence": 0.83,
+    "reason": "Join prefix 'Ethyl' to following word",
+    "cid": 62343,
+    "synonyms": [
+     "VINYL 2-ETHYLHEXANOATE",
+     "94-04-2",
+     "Vinyl 2-ethylhexoate",
+     "Vynate 2EH",
+     "Hexanoic acid, 2-ethyl-, ethenyl ester",
+     "2-Ethylhexoic acid, vinyl ester",
+     "Vinyl-2-ethylhexanoate",
+     "2-Ethylhexanoic acid, vinyl ester"
+    ],
+    "pubchem_mw": 170.25,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "guess_text": "Vinyl-2-EthylHexanoate"
    }
   ]
  },
