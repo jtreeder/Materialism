@@ -296,7 +296,7 @@ full_html = f"""<!DOCTYPE html>
 <body>
     <div class="header">
         <h1 onclick="goHome()">Materialism</h1>
-        <div class="stats"><a href="#" onclick="goHome();switchHomeTab('solvents');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(solvents)} solvents</a> &middot; <a href="#" onclick="goHome();switchHomeTab('polymers');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(poly_data)} polymers</a> &middot; Hansen Solubility Parameters &middot; <a href="http://localhost:5555" target="_blank" style="color:#e94560;text-decoration:none;border-bottom:1px dotted #e94560;cursor:pointer;font-weight:600">View/Edit Data</a></div>
+        <div class="stats"><a href="#" onclick="goHome();switchHomeTab('solvents');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(solvents)} solvents</a> &middot; <a href="#" onclick="goHome();switchHomeTab('polymers');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(poly_data)} polymers</a> &middot; Hansen Solubility Parameters &middot; <a href="editor.html" style="color:#e94560;text-decoration:none;border-bottom:1px dotted #e94560;cursor:pointer;font-weight:600">View/Edit Data</a></div>
     </div>
 
     <div class="search-bar">
@@ -1586,3 +1586,366 @@ gen_db_page(
     "Search polymers...",
     "polymers.html"
 )
+
+# ===================== Generate editor page =====================
+# Load ALL rows from CSVs (including hidden) for the editor
+all_solvents_raw = []
+with open(CHEM_CSV) as f:
+    _reader = csv.DictReader(f)
+    solvent_fields = list(_reader.fieldnames)
+    for row in _reader:
+        all_solvents_raw.append({k: row.get(k, "") for k in solvent_fields})
+
+all_polymers_raw = []
+with open(POLY_CSV) as f:
+    _reader = csv.DictReader(f)
+    polymer_fields = list(_reader.fieldnames)
+    for row in _reader:
+        all_polymers_raw.append({k: row.get(k, "") for k in polymer_fields})
+
+editor_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Materialism — View/Edit Data</title>
+<style>
+* {{ margin: 0; padding: 0; box-sizing: border-box; }}
+body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }}
+
+.header {{ background: #fff; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #dfe6e9; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }}
+.header h1 {{ font-size: 1.5rem; color: #e94560; }}
+.header h1 a {{ color: #e94560; text-decoration: none; }}
+.header .actions {{ display: flex; align-items: center; gap: 12px; }}
+
+.toolbar {{ background: #fff; padding: 10px 30px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #dfe6e9; flex-wrap: wrap; }}
+.toolbar .tabs {{ display: flex; gap: 0; }}
+.toolbar .tab {{ padding: 8px 20px; cursor: pointer; border: none; background: transparent; color: #636e72; font-size: 0.9rem; transition: all 0.2s; border-bottom: 2px solid transparent; }}
+.toolbar .tab:hover {{ color: #2d3436; background: #f5f6fa; }}
+.toolbar .tab.active {{ color: #e94560; border-bottom-color: #e94560; }}
+.toolbar input[type="text"] {{ background: #f5f6fa; border: 2px solid #dfe6e9; color: #2d3436; padding: 8px 14px; border-radius: 6px; width: 300px; font-size: 0.9rem; outline: none; }}
+.toolbar input[type="text"]:focus {{ border-color: #e94560; }}
+
+.btn {{ padding: 8px 18px; font-size: 0.85rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s; }}
+.btn-primary {{ background: #e94560; color: white; }}
+.btn-primary:hover {{ background: #c73652; }}
+.btn-secondary {{ background: #dfe6e9; color: #2d3436; }}
+.btn-secondary:hover {{ background: #c8d6db; }}
+
+.status {{ font-size: 0.8rem; color: #636e72; display: flex; align-items: center; gap: 6px; }}
+.status .dot {{ width: 8px; height: 8px; border-radius: 50%; display: inline-block; }}
+.dot-clean {{ background: #00b894; }}
+.dot-dirty {{ background: #e94560; }}
+
+.table-wrapper {{ overflow: auto; max-height: calc(100vh - 155px); }}
+
+table {{ width: max-content; min-width: 100%; border-collapse: collapse; font-size: 0.82rem; }}
+thead {{ position: sticky; top: 0; z-index: 10; }}
+th {{ background: #f0f2f5; color: #e94560; padding: 8px 10px; text-align: left; font-weight: 600; border-bottom: 2px solid #dfe6e9; cursor: pointer; white-space: nowrap; user-select: none; }}
+th:hover {{ background: #e8eaed; }}
+th.sort-asc::after {{ content: ' \\25B2'; font-size: 0.7em; }}
+th.sort-desc::after {{ content: ' \\25BC'; font-size: 0.7em; }}
+
+td {{ padding: 0; border-bottom: 1px solid #eee; position: relative; }}
+td .cell {{ padding: 6px 8px; min-height: 30px; cursor: text; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }}
+td .cell:focus {{ outline: 2px solid #e94560; outline-offset: -2px; background: #fff8f0; white-space: normal; overflow: visible; max-width: none; min-width: 200px; }}
+td .cell.dirty {{ background: #ffeaa7; }}
+
+tr:hover {{ background: #f8f9fa; }}
+tr.hidden-row {{ opacity: 0.4; }}
+tr.hidden-row:hover {{ opacity: 0.65; }}
+
+.vis-btn {{ cursor: pointer; border: none; background: transparent; font-size: 1rem; padding: 4px 8px; transition: opacity 0.2s; }}
+.vis-btn:hover {{ opacity: 0.6; }}
+
+.col-idx {{ color: #b2bec3; font-size: 0.75rem; font-variant-numeric: tabular-nums; text-align: right; padding: 6px 8px; width: 45px; }}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1><a href="materialism.html">Materialism</a> — View/Edit Data</h1>
+    <div class="actions">
+        <div class="status" id="edit-status"><span class="dot dot-clean"></span> No changes</div>
+        <button class="btn btn-primary" onclick="downloadCSV()">Download Modified CSV</button>
+    </div>
+</div>
+
+<div class="toolbar">
+    <div class="tabs">
+        <button class="tab active" id="tab-solvents" onclick="switchTab('solvents')">Solvents ({len(all_solvents_raw)})</button>
+        <button class="tab" id="tab-polymers" onclick="switchTab('polymers')">Polymers ({len(all_polymers_raw)})</button>
+    </div>
+    <input type="text" id="filter-input" placeholder="Filter by name, CAS, category..." oninput="renderTable()">
+    <label style="font-size:0.82rem;color:#636e72;display:flex;align-items:center;gap:4px;">
+        <input type="checkbox" id="show-hidden" checked onchange="renderTable()"> Show hidden
+    </label>
+    <span style="flex:1"></span>
+    <span id="stats-info" style="font-size:0.8rem;color:#636e72"></span>
+</div>
+
+<div class="table-wrapper" id="table-wrapper">
+    <table>
+        <thead id="data-thead"></thead>
+        <tbody id="data-tbody"></tbody>
+    </table>
+</div>
+
+<script>
+// ===================== DATA =====================
+var DATA = {{
+    solvents: {{ fields: {json.dumps(solvent_fields)}, rows: {json.dumps(all_solvents_raw)} }},
+    polymers: {{ fields: {json.dumps(polymer_fields)}, rows: {json.dumps(all_polymers_raw)} }}
+}};
+
+// Column display configs (subset of fields shown as columns)
+var COLS = {{
+    solvents: [
+        {{ key: 'name', label: 'Name', w: '200px' }},
+        {{ key: 'cas_number', label: 'CAS', w: '110px' }},
+        {{ key: 'smiles', label: 'SMILES', w: '160px' }},
+        {{ key: 'molecular_formula', label: 'Formula', w: '100px' }},
+        {{ key: 'delta_d', label: '\\u03B4D', w: '60px' }},
+        {{ key: 'delta_p', label: '\\u03B4P', w: '60px' }},
+        {{ key: 'delta_h', label: '\\u03B4H', w: '60px' }},
+        {{ key: 'molecular_weight', label: 'MW', w: '70px' }},
+        {{ key: 'boiling_point', label: 'BP \\u00B0C', w: '70px' }},
+        {{ key: 'density', label: 'Density', w: '70px' }},
+        {{ key: 'molar_volume', label: 'Vm', w: '80px' }},
+        {{ key: 'category', label: 'Category', w: '100px' }},
+        {{ key: 'ghs_hazard', label: 'GHS', w: '110px' }},
+        {{ key: 'source', label: 'Source', w: '80px' }}
+    ],
+    polymers: [
+        {{ key: 'name', label: 'Name', w: '250px' }},
+        {{ key: 'cas_number', label: 'CAS', w: '110px' }},
+        {{ key: 'delta_d', label: '\\u03B4D', w: '60px' }},
+        {{ key: 'delta_p', label: '\\u03B4P', w: '60px' }},
+        {{ key: 'delta_h', label: '\\u03B4H', w: '60px' }},
+        {{ key: 'radius', label: 'R\\u2080', w: '60px' }},
+        {{ key: 'type', label: 'Type', w: '120px' }},
+        {{ key: 'source', label: 'Source', w: '80px' }}
+    ]
+}};
+
+var activeTab = 'solvents';
+var editCount = 0;
+var sortState = {{ col: null, asc: true }};
+
+// ===================== TAB SWITCHING =====================
+function switchTab(tab) {{
+    activeTab = tab;
+    sortState = {{ col: null, asc: true }};
+    document.getElementById('tab-solvents').className = 'tab' + (tab === 'solvents' ? ' active' : '');
+    document.getElementById('tab-polymers').className = 'tab' + (tab === 'polymers' ? ' active' : '');
+    renderTable();
+}}
+
+// ===================== RENDERING =====================
+function renderTable() {{
+    var cols = COLS[activeTab];
+    var rows = DATA[activeTab].rows;
+
+    // Build header
+    var hdr = '<tr><th style="width:45px">#</th><th style="width:42px">Vis</th>';
+    for (var ci = 0; ci < cols.length; ci++) {{
+        var c = cols[ci];
+        var cls = '';
+        if (sortState.col === c.key) cls = sortState.asc ? 'sort-asc' : 'sort-desc';
+        hdr += '<th class="' + cls + '" style="width:' + c.w + '" data-key="' + c.key + '" onclick="sortBy(this.dataset.key)">' + c.label + '</th>';
+    }}
+    hdr += '</tr>';
+    document.getElementById('data-thead').innerHTML = hdr;
+
+    // Build sorted index
+    var indices = [];
+    for (var i = 0; i < rows.length; i++) indices.push(i);
+    if (sortState.col) {{
+        var sk = sortState.col, sd = sortState.asc ? 1 : -1;
+        indices.sort(function(a, b) {{
+            var va = rows[a][sk] || '', vb = rows[b][sk] || '';
+            var na = parseFloat(va), nb = parseFloat(vb);
+            if (!isNaN(na) && !isNaN(nb)) return (na - nb) * sd;
+            return va.localeCompare(vb) * sd;
+        }});
+    }}
+
+    // Filter
+    var fq = (document.getElementById('filter-input').value || '').toLowerCase();
+    var showHidden = document.getElementById('show-hidden').checked;
+
+    var filtered = indices.filter(function(idx) {{
+        var r = rows[idx];
+        var h = (r.hidden || '').toLowerCase();
+        var isH = h === '1' || h === 'true' || h === 'yes';
+        if (!showHidden && isH) return false;
+        if (!fq) return true;
+        var txt = '';
+        for (var k in r) txt += (r[k] || '') + ' ';
+        return txt.toLowerCase().indexOf(fq) !== -1;
+    }});
+
+    // Count hidden
+    var nHidden = 0;
+    for (var hi = 0; hi < rows.length; hi++) {{
+        var hv = (rows[hi].hidden || '').toLowerCase();
+        if (hv === '1' || hv === 'true' || hv === 'yes') nHidden++;
+    }}
+    document.getElementById('stats-info').textContent = 'Showing ' + filtered.length + ' of ' + rows.length + (nHidden > 0 ? ' (' + nHidden + ' hidden)' : '');
+
+    // Body — render in chunks
+    var tbody = document.getElementById('data-tbody');
+    tbody.innerHTML = '';
+    var CHUNK = 200, pos = 0;
+
+    function renderChunk() {{
+        var frag = document.createDocumentFragment();
+        var end = Math.min(pos + CHUNK, filtered.length);
+        for (var fi = pos; fi < end; fi++) {{
+            var idx = filtered[fi];
+            var row = rows[idx];
+            var hVal = (row.hidden || '').toLowerCase();
+            var isHidden = hVal === '1' || hVal === 'true' || hVal === 'yes';
+
+            var tr = document.createElement('tr');
+            if (isHidden) tr.className = 'hidden-row';
+
+            // Row number
+            var tdN = document.createElement('td');
+            tdN.className = 'col-idx';
+            tdN.textContent = idx + 1;
+            tr.appendChild(tdN);
+
+            // Visibility toggle
+            var tdV = document.createElement('td');
+            tdV.style.textAlign = 'center';
+            var btn = document.createElement('button');
+            btn.className = 'vis-btn';
+            btn.textContent = isHidden ? '\\u{{1F6AB}}' : '\\u{{1F441}}';
+            btn.title = isHidden ? 'Hidden from search (click to unhide)' : 'Visible in search (click to hide)';
+            btn.setAttribute('data-idx', idx);
+            btn.onclick = function() {{ toggleHidden(parseInt(this.getAttribute('data-idx'))); }};
+            tdV.appendChild(btn);
+            tr.appendChild(tdV);
+
+            // Data cells
+            for (var ci2 = 0; ci2 < cols.length; ci2++) {{
+                var c2 = cols[ci2];
+                var td = document.createElement('td');
+                var div = document.createElement('div');
+                div.className = 'cell';
+                div.contentEditable = 'true';
+                div.spellcheck = false;
+                div.textContent = row[c2.key] || '';
+                div.setAttribute('data-idx', idx);
+                div.setAttribute('data-field', c2.key);
+                div.style.maxWidth = c2.w;
+                div.addEventListener('focus', onCellFocus);
+                div.addEventListener('blur', onCellBlur);
+                div.addEventListener('keydown', onCellKey);
+                td.appendChild(div);
+                tr.appendChild(td);
+            }}
+            frag.appendChild(tr);
+        }}
+        tbody.appendChild(frag);
+        pos = end;
+        if (pos < filtered.length) requestAnimationFrame(renderChunk);
+    }}
+    renderChunk();
+}}
+
+// ===================== CELL EDITING =====================
+var origVal = '';
+function onCellFocus(e) {{ origVal = e.target.textContent; }}
+function onCellBlur(e) {{
+    var cell = e.target;
+    var nv = cell.textContent.trim();
+    if (nv !== origVal) {{
+        var idx = parseInt(cell.getAttribute('data-idx'));
+        var field = cell.getAttribute('data-field');
+        DATA[activeTab].rows[idx][field] = nv;
+        cell.classList.add('dirty');
+        editCount++;
+        updateStatus();
+    }}
+}}
+function onCellKey(e) {{
+    if (e.key === 'Enter' && !e.shiftKey) {{ e.preventDefault(); e.target.blur(); }}
+    if (e.key === 'Escape') {{ e.target.textContent = origVal; e.target.blur(); }}
+    if (e.key === 'Tab') {{
+        e.preventDefault();
+        e.target.blur();
+        var cells = Array.from(document.querySelectorAll('.cell[contenteditable]'));
+        var ci = cells.indexOf(e.target);
+        var next = e.shiftKey ? ci - 1 : ci + 1;
+        if (next >= 0 && next < cells.length) cells[next].focus();
+    }}
+}}
+
+// ===================== HIDE/UNHIDE =====================
+function toggleHidden(idx) {{
+    var row = DATA[activeTab].rows[idx];
+    var hv = (row.hidden || '').toLowerCase();
+    var isH = hv === '1' || hv === 'true' || hv === 'yes';
+    row.hidden = isH ? '' : '1';
+    editCount++;
+    updateStatus();
+    renderTable();
+}}
+
+// ===================== STATUS =====================
+function updateStatus() {{
+    var el = document.getElementById('edit-status');
+    if (editCount > 0) {{
+        el.innerHTML = '<span class="dot dot-dirty"></span> ' + editCount + ' edit' + (editCount !== 1 ? 's' : '') + ' (unsaved)';
+    }} else {{
+        el.innerHTML = '<span class="dot dot-clean"></span> No changes';
+    }}
+}}
+
+// ===================== SORT =====================
+function sortBy(col) {{
+    if (sortState.col === col) {{ sortState.asc = !sortState.asc; }}
+    else {{ sortState.col = col; sortState.asc = true; }}
+    renderTable();
+}}
+
+// ===================== DOWNLOAD CSV =====================
+function downloadCSV() {{
+    var d = DATA[activeTab];
+    var fields = d.fields;
+    var rows = d.rows;
+    // Build CSV string
+    var lines = [fields.join(',')];
+    for (var i = 0; i < rows.length; i++) {{
+        var vals = [];
+        for (var fi = 0; fi < fields.length; fi++) {{
+            var v = rows[i][fields[fi]] || '';
+            // Quote if contains comma, newline, or quote
+            if (v.indexOf(',') !== -1 || v.indexOf('\\n') !== -1 || v.indexOf('"') !== -1) {{
+                v = '"' + v.replace(/"/g, '""') + '"';
+            }}
+            vals.push(v);
+        }}
+        lines.push(vals.join(','));
+    }}
+    var blob = new Blob([lines.join('\\n')], {{ type: 'text/csv' }});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = activeTab === 'solvents' ? 'hsp_chemicals.csv' : 'hsp_polymers.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+}}
+
+// ===================== INIT =====================
+renderTable();
+</script>
+</body>
+</html>"""
+
+editor_path = os.path.join(os.path.dirname(__file__), "editor.html")
+with open(editor_path, "w") as f:
+    f.write(editor_html)
+print(f"Generated: {editor_path} ({os.path.getsize(editor_path) / 1024:.0f} KB)")
