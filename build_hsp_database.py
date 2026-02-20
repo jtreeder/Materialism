@@ -51,8 +51,9 @@ def normalize_name(name):
 
 
 # --- Hansen A1 Name Splitting ---
-# The raw HSP_A1_Final.csv has "CommonName IUPACName" concatenated in the Name column.
-# These functions extract just the common (trivial) name.
+# Legacy helper: extract_common_name() was used when the old HSP_A1_Final.csv
+# had "CommonName IUPACName" concatenated. Now table_a1.csv has separate columns,
+# but these functions are kept for any other callers.
 
 # IUPAC carbon-chain stems
 _IUPAC_STEMS = re.compile(
