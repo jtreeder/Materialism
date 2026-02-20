@@ -695,13 +695,12 @@ def load_hansen_1k():
 
 
 def load_hansen_a1():
-    """Load Hansen Appendix Table A.1 (583 solvents).
+    """Load Hansen Appendix Table A.1 solvents from cleaned OCR output.
 
-    The Name column contains the common name followed by the IUPAC name,
-    e.g. "Acetaldehyde* Acetaldehyde" or "Allyl Alcohol Prop-2-en-1-ol".
-    We extract just the common name (first part before the IUPAC suffix).
+    New CSV has separate columns: no, solvent_name, autonom_acd_name,
+    dispersion, polarity, hydrogen_bonding, molar_volume
     """
-    filepath = os.path.join(RAW_DIR, "HSP_A1_Final.csv")
+    filepath = os.path.join(OUT_DIR, "table_a1.csv")
     if not os.path.exists(filepath):
         print(f"  Warning: {filepath} not found")
         return []
@@ -710,16 +709,13 @@ def load_hansen_a1():
     with open(filepath, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            raw_name = row.get("Name", "").strip()
-            if not raw_name:
+            name = row.get("solvent_name", "").strip()
+            if not name:
                 continue
-            # The Name field has "CommonName IUPACName" concatenated.
-            # Extract just the common name.
-            name = extract_common_name(raw_name)
 
-            dd = parse_float(row.get("D"))
-            dp = parse_float(row.get("P"))
-            dh = parse_float(row.get("H"))
+            dd = parse_float(row.get("dispersion"))
+            dp = parse_float(row.get("polarity"))
+            dh = parse_float(row.get("hydrogen_bonding"))
             if dd is None or dp is None or dh is None:
                 continue
 
@@ -732,7 +728,7 @@ def load_hansen_a1():
                 "molecular_weight": None,
                 "boiling_point": None,
                 "density": None,
-                "molar_volume": parse_float(row.get("V")),
+                "molar_volume": parse_float(row.get("molar_volume")),
                 "category": "",
                 "ghs_hazard": "",
                 "source": "hansen_a1",
@@ -743,11 +739,12 @@ def load_hansen_a1():
 
 
 def load_hansen_a2():
-    """Load Hansen Appendix Table A.2 (458 polymers/materials).
+    """Load Hansen Appendix Table A.2 polymers from cleaned OCR output.
 
-    Columns: No, Material, D, P, H, Ro
+    New CSV columns: number, polymer_name, category, dispersion, polar,
+    hydrogen_bonding, interaction_radius
     """
-    filepath = os.path.join(RAW_DIR, "HSP_A2_Final.csv")
+    filepath = os.path.join(OUT_DIR, "table_a2.csv")
     if not os.path.exists(filepath):
         print(f"  Warning: {filepath} not found")
         return []
@@ -756,20 +753,20 @@ def load_hansen_a2():
     with open(filepath, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            name = row.get("Material", "").strip()
+            name = row.get("polymer_name", "").strip()
             if not name:
                 continue
 
-            dd = parse_float(row.get("D"))
-            dp = parse_float(row.get("P"))
-            dh = parse_float(row.get("H"))
+            dd = parse_float(row.get("dispersion"))
+            dp = parse_float(row.get("polar"))
+            dh = parse_float(row.get("hydrogen_bonding"))
             if dd is None or dp is None or dh is None:
                 continue
 
             polymers.append({
                 "name": name,
                 "delta_d": dd, "delta_p": dp, "delta_h": dh,
-                "radius": parse_float(row.get("Ro")),
+                "radius": parse_float(row.get("interaction_radius")),
                 "type": "",
                 "cas_number": "",
                 "source": "hansen_a2",
