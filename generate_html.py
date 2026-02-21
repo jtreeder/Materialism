@@ -454,6 +454,14 @@ full_html = f"""<!DOCTYPE html>
         .hoverable-name {{ cursor: help; border-bottom: 1px dotted #b2bec3; }}
         th.sort-asc::after {{ content: ' ▲'; font-size: 0.7em; color: #e94560; }}
         th.sort-desc::after {{ content: ' ▼'; font-size: 0.7em; color: #e94560; }}
+        .plot-tooltip {{
+            display: none; position: absolute; z-index: 1000;
+            background: #1f2937; color: #fff; border-radius: 4px;
+            padding: 8px 12px; font-size: 13px; line-height: 1.55;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            pointer-events: none; white-space: nowrap;
+        }}
         .conf-tip {{
             display: none; position: fixed; z-index: 9999;
             background: #2d3436; color: #dfe6e9; border-radius: 6px; padding: 10px 14px;
@@ -1429,7 +1437,7 @@ full_html = f"""<!DOCTYPE html>
             results.forEach((r, i) => {{
                 if (r.notFound) {{ h.push('<tr><td class="rank">', (i + 1), '</td><td colspan="11" style="color:#EF553B">Could not find "', r.queryName, '" in the database</td></tr>'); return; }}
                 var enc = encodeURIComponent(r.name);
-                h.push('<tr data-name="', r.name.replace(/"/g, '&quot;'), '" onclick="highlightInPlot(\\x27', enc, '\\x27)" style="cursor:pointer"><td class="rank">', (i + 1), '</td><td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27', enc, '\\x27)" onmouseleave="hideStructure()">', r.name, '</span></td>');
+                h.push('<tr data-name="', r.name.replace(/"/g, '&quot;'), '" onclick="highlightInPlot(\\x27', enc, '\\x27)" onmouseenter="hoverInPlot(\\x27', enc, '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer"><td class="rank">', (i + 1), '</td><td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27', enc, '\\x27)" onmouseleave="hideStructure()">', r.name, '</span></td>');
                 h.push('<td>', (r.cas || ''), '</td>');
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
@@ -1455,16 +1463,16 @@ full_html = f"""<!DOCTYPE html>
                     type: 'scatter3d', mode: 'markers',
                     name: 'Solvents',
                     x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
-                    text: SOLVENTS.map(s => s.name + '<br>CAS: ' + s.cas + '<br>MW: ' + s.mw + '<br>BP: ' + s.bp + '°C'),
-                    hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
+                    text: SOLVENTS.map(s => s.name),
+                    hoverinfo: 'none',
                     marker: {{ size: 5, color: _solventColors, opacity: 0.85 }},
                 }},
                 {{
                     type: 'scatter3d', mode: 'markers',
                     name: 'Polymers',
                     x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
-                    text: POLYMERS.map(p => p.name + '<br>R₀=' + p.r),
-                    hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
+                    text: POLYMERS.map(p => p.name),
+                    hoverinfo: 'none',
                     marker: {{ size: 7, color: 'gold', symbol: 'diamond', opacity: 0.95 }},
                 }},
             ];
@@ -1690,51 +1698,102 @@ full_html = f"""<!DOCTYPE html>
             Plotly.restyle(plotDiv, {{ visible: false }}, [_highlightIdx]);
             // Restore base traces to full appearance
             _restoreBaseTraces();
-            Plotly.relayout(plotDiv, {{ 'title.text': 'Hansen Solubility Parameter Space', 'scene.annotations': [] }});
+            unpinAll();
+            Plotly.relayout(plotDiv, {{ 'title.text': 'Hansen Solubility Parameter Space' }});
         }}
 
-        // ===================== HIGHLIGHT IN PLOT =====================
-        var _highlightIdx = -1; // index of the pre-allocated highlight trace (kept for search use)
-        function _buildAnnotationText(mat, isSolvent) {{
-            var t = '<b>' + mat.name + '</b>';
-            if (isSolvent) {{
-                if (mat.cas) t += '<br>CAS: ' + mat.cas;
-                if (mat.mw != null) t += '<br>MW: ' + mat.mw;
-                if (mat.bp != null) t += '<br>BP: ' + mat.bp + '°C';
-            }} else {{
-                if (mat.r != null) t += '<br>R₀ = ' + mat.r;
-            }}
-            t += '<br>δD = ' + mat.dd.toFixed(1) + ', δP = ' + mat.dp.toFixed(1) + ', δH = ' + mat.dh.toFixed(1);
-            return t;
+        // ===================== TOOLTIP SYSTEM =====================
+        var _highlightIdx = -1; // kept for search result traces
+        var _plotTooltip = null;
+        var _pinnedName = null;
+
+        function _tooltipDiv() {{
+            if (_plotTooltip) return _plotTooltip;
+            _plotTooltip = document.createElement('div');
+            _plotTooltip.className = 'plot-tooltip';
+            plotDiv.style.position = 'relative';
+            plotDiv.appendChild(_plotTooltip);
+            return _plotTooltip;
         }}
-        function highlightInPlot(encodedName) {{
-            const name = decodeURIComponent(encodedName);
-            let mat = _solventMap.get(name);
-            let isSolvent = !!mat;
-            if (!mat) {{ mat = _polymerMap.get(name); }}
+
+        function _tooltipHtml(mat, isSolvent) {{
+            var h = '<b>' + mat.name + '</b>';
+            if (isSolvent) {{
+                if (mat.cas) h += '<br>CAS: ' + mat.cas;
+                if (mat.mw != null) h += '<br>MW: ' + mat.mw;
+                if (mat.bp != null) h += '<br>BP: ' + mat.bp + '°C';
+            }} else {{
+                if (mat.r != null) h += '<br>R₀=' + mat.r;
+            }}
+            h += '<br>δD=' + mat.dd.toFixed(1) + ', δP=' + mat.dp.toFixed(1) + ', δH=' + mat.dh.toFixed(1);
+            return h;
+        }}
+
+        function showTooltip(name, clientX, clientY) {{
+            var mat = _solventMap.get(name);
+            var isSolvent = !!mat;
+            if (!mat) mat = _polymerMap.get(name);
             if (!mat) return;
-            // Show a persistent annotation text box at the material's position
-            // (no marker change — the original marker stays as-is)
-            Plotly.relayout(plotDiv, {{
-                'scene.annotations': [{{
-                    x: mat.dd, y: mat.dp, z: mat.dh,
-                    text: _buildAnnotationText(mat, isSolvent),
-                    bgcolor: 'rgba(255, 255, 255, 0.92)',
-                    bordercolor: '#636e72',
-                    borderwidth: 1,
-                    borderpad: 6,
-                    font: {{ size: 12, color: '#2d3436', family: '-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif' }},
-                    showarrow: true,
-                    arrowhead: 2, arrowsize: 1, arrowwidth: 1.5, arrowcolor: '#636e72',
-                    ax: 0, ay: -70,
-                    opacity: 0.95,
-                }}]
-            }});
-            // Defer DOM work to next frame so Plotly can finish rendering first
+            var tip = _tooltipDiv();
+            tip.innerHTML = _tooltipHtml(mat, isSolvent);
+            tip.style.display = 'block';
+            var pr = plotDiv.getBoundingClientRect();
+            var x, y;
+            if (clientX != null && clientY != null) {{
+                x = clientX - pr.left + 12;
+                y = clientY - pr.top - 12;
+            }} else {{
+                // Table-triggered: show at top-center of plot
+                x = pr.width / 2 - 60;
+                y = 20;
+            }}
+            // Keep tooltip inside the plot bounds
+            tip.style.left = Math.max(4, Math.min(x, pr.width - tip.offsetWidth - 4)) + 'px';
+            tip.style.top = Math.max(4, Math.min(y, pr.height - tip.offsetHeight - 4)) + 'px';
+        }}
+
+        function hideTooltip() {{
+            if (_plotTooltip) _plotTooltip.style.display = 'none';
+        }}
+
+        function pinMaterial(name) {{
+            if (_pinnedName === name) {{
+                // Toggle off
+                _pinnedName = null;
+                hideTooltip();
+                if (_prevHighlightedRow) {{ _prevHighlightedRow.style.background = ''; _prevHighlightedRow = null; }}
+                return;
+            }}
+            _pinnedName = name;
+        }}
+
+        function unpinAll() {{
+            _pinnedName = null;
+            hideTooltip();
+            if (_prevHighlightedRow) {{ _prevHighlightedRow.style.background = ''; _prevHighlightedRow = null; }}
+        }}
+
+        // Called from table row onclick
+        function highlightInPlot(encodedName) {{
+            var name = decodeURIComponent(encodedName);
+            if (_pinnedName === name) {{
+                unpinAll();
+                return;
+            }}
+            _pinnedName = name;
+            showTooltip(name, null, null);
             requestAnimationFrame(function() {{ selectInTable(name); }});
         }}
-        function clearPlotAnnotation() {{
-            Plotly.relayout(plotDiv, {{ 'scene.annotations': [] }});
+
+        // Called from table row onmouseenter
+        function hoverInPlot(encodedName) {{
+            if (_pinnedName) return; // don't override a pinned tooltip
+            showTooltip(decodeURIComponent(encodedName), null, null);
+        }}
+
+        // Called from table row onmouseleave
+        function unhoverInPlot() {{
+            if (!_pinnedName) hideTooltip();
         }}
 
         var _prevHighlightedRow = null;
@@ -1830,7 +1889,7 @@ full_html = f"""<!DOCTYPE html>
                     var s = filtered[i];
                     var catColor = CAT_COLORS[s.cat] || '#888';
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
-                    rowsHtml += '<tr data-name="' + s.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
+                    rowsHtml += '<tr data-name="' + s.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
                     rowsHtml += '<td>' + (s.cas || '') + '</td>';
                     rowsHtml += '<td>' + lnk(s.dd, s.srcUrl) + '</td>';
@@ -1870,7 +1929,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var i = 0; i < filtered.length; i++) {{
                     var p = filtered[i];
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
-                    rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" style="cursor:pointer">';
+                    rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer">';
                     rowsHtml += '<td><span class="hoverable-name">' + p.name + '</span></td>';
                     rowsHtml += '<td>' + (p.cas || '') + '</td>';
                     rowsHtml += '<td>' + lnk(p.dd, p.srcUrl) + '</td>';
@@ -2034,19 +2093,43 @@ full_html = f"""<!DOCTYPE html>
             loadLockedWidths();
             buildFullPlot();
             buildHomeTable();
+            // Tooltip: show on hover, persist on click, toggle off on re-click
+            plotDiv.on('plotly_hover', function(data) {{
+                if (_pinnedName) return;
+                try {{
+                    var pt = data.points[0];
+                    var name = '';
+                    if (pt.curveNumber === 0 && SOLVENTS[pt.pointNumber]) name = SOLVENTS[pt.pointNumber].name;
+                    else if (pt.curveNumber === 1 && POLYMERS[pt.pointNumber]) name = POLYMERS[pt.pointNumber].name;
+                    if (name && data.event) showTooltip(name, data.event.clientX, data.event.clientY);
+                }} catch(e) {{}}
+            }});
+            plotDiv.on('plotly_unhover', function() {{
+                if (!_pinnedName) hideTooltip();
+            }});
             plotDiv.on('plotly_click', function(data) {{
                 try {{
                     if (!data || !data.points || !data.points.length) return;
                     var pt = data.points[0];
                     var name = '';
-                    if (pt.text) {{
-                        name = pt.text.replace(/^★\s*/, '').replace(/<br>.*/, '').replace(/^\d+\.\s*/, '');
-                    }}
-                    if (name) {{
-                        highlightInPlot(encodeURIComponent(name));
-                        // selectInTable is already called from within highlightInPlot
+                    if (pt.curveNumber === 0 && SOLVENTS[pt.pointNumber]) name = SOLVENTS[pt.pointNumber].name;
+                    else if (pt.curveNumber === 1 && POLYMERS[pt.pointNumber]) name = POLYMERS[pt.pointNumber].name;
+                    if (!name) return;
+                    if (_pinnedName === name) {{
+                        unpinAll();
+                    }} else {{
+                        _pinnedName = name;
+                        if (data.event) showTooltip(name, data.event.clientX, data.event.clientY);
+                        selectInTable(name);
                     }}
                 }} catch(e) {{ console.error('plotly_click error:', e); }}
+            }});
+            // Click outside plot or table row clears pin
+            document.addEventListener('click', function(e) {{
+                if (!_pinnedName) return;
+                if (plotDiv.contains(e.target)) return;
+                if (e.target.closest('tr[data-name]')) return;
+                unpinAll();
             }});
         }});
     </script>
