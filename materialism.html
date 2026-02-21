@@ -5004,10 +5004,12 @@ return Plotly;
             ];
             // Pre-allocate a hidden highlight trace so clicking in the home table works
             fullTraces.push({
-                type: 'scatter3d', mode: 'markers',
+                type: 'scatter3d', mode: 'markers+text',
                 name: '★ Highlighted',
                 x: [0], y: [0], z: [0],
                 text: [''],
+                textposition: 'top center',
+                textfont: { size: 13, color: '#FFD700' },
                 hovertemplate: '<b>%{text}</b><br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}<extra></extra>',
                 marker: { size: 16, color: '#e94560', symbol: 'circle', opacity: 1, line: { width: 2, color: 'white' } },
                 visible: false,
@@ -5269,7 +5271,7 @@ return Plotly;
             for (var ci = 0; ci < containers.length; ci++) {
                 var c = containers[ci];
                 if (!c || c.style.display === 'none' || !c.classList.contains('visible') && ci === 0) continue;
-                var row = c.querySelector('tr[data-name="' + CSS.escape(name) + '"]');
+                var row = c.querySelector('tr[data-name="' + name.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"]');
                 if (row) {
                     row.style.background = '#fff3cd';
                     _prevHighlightedRow = row;
@@ -5544,16 +5546,18 @@ return Plotly;
             buildFullPlot();
             buildHomeTable();
             plotDiv.on('plotly_click', function(data) {
-                if (!data || !data.points || !data.points.length) return;
-                var pt = data.points[0];
-                var name = '';
-                if (pt.text) {
-                    name = pt.text.replace(/^★\s*/, '').replace(/<br>.*/, '').replace(/^\d+\.\s*/, '');
-                }
-                if (name) {
-                    highlightInPlot(encodeURIComponent(name));
-                    // selectInTable is already called from within highlightInPlot
-                }
+                try {
+                    if (!data || !data.points || !data.points.length) return;
+                    var pt = data.points[0];
+                    var name = '';
+                    if (pt.text) {
+                        name = pt.text.replace(/^★\s*/, '').replace(/<br>.*/, '').replace(/^\d+\.\s*/, '');
+                    }
+                    if (name) {
+                        highlightInPlot(encodeURIComponent(name));
+                        // selectInTable is already called from within highlightInPlot
+                    }
+                } catch(e) { console.error('plotly_click error:', e); }
             });
         });
     </script>
