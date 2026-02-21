@@ -1690,28 +1690,51 @@ full_html = f"""<!DOCTYPE html>
             Plotly.restyle(plotDiv, {{ visible: false }}, [_highlightIdx]);
             // Restore base traces to full appearance
             _restoreBaseTraces();
-            Plotly.relayout(plotDiv, {{ 'title.text': 'Hansen Solubility Parameter Space' }});
+            Plotly.relayout(plotDiv, {{ 'title.text': 'Hansen Solubility Parameter Space', 'scene.annotations': [] }});
         }}
 
         // ===================== HIGHLIGHT IN PLOT =====================
-        var _highlightIdx = -1; // index of the pre-allocated highlight trace
+        var _highlightIdx = -1; // index of the pre-allocated highlight trace (kept for search use)
+        function _buildAnnotationText(mat, isSolvent) {{
+            var t = '<b>' + mat.name + '</b>';
+            if (isSolvent) {{
+                if (mat.cas) t += '<br>CAS: ' + mat.cas;
+                if (mat.mw != null) t += '<br>MW: ' + mat.mw;
+                if (mat.bp != null) t += '<br>BP: ' + mat.bp + '°C';
+            }} else {{
+                if (mat.r != null) t += '<br>R₀ = ' + mat.r;
+            }}
+            t += '<br>δD = ' + mat.dd.toFixed(1) + ', δP = ' + mat.dp.toFixed(1) + ', δH = ' + mat.dh.toFixed(1);
+            return t;
+        }}
         function highlightInPlot(encodedName) {{
             const name = decodeURIComponent(encodedName);
             let mat = _solventMap.get(name);
-            let sym = 'circle';
-            if (!mat) {{ mat = _polymerMap.get(name); sym = 'diamond'; }}
-            if (!mat || _highlightIdx < 0) return;
-            // Restyle the pre-allocated highlight trace — no addTraces/deleteTraces,
-            // no scene rebuild, camera stays exactly where it is.
-            Plotly.restyle(plotDiv, {{
-                x: [[mat.dd]], y: [[mat.dp]], z: [[mat.dh]],
-                text: [['★ ' + mat.name]],
-                hovertemplate: ['<b>' + mat.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>'],
-                'marker.symbol': sym,
-                visible: true,
-            }}, [_highlightIdx]);
+            let isSolvent = !!mat;
+            if (!mat) {{ mat = _polymerMap.get(name); }}
+            if (!mat) return;
+            // Show a persistent annotation text box at the material's position
+            // (no marker change — the original marker stays as-is)
+            Plotly.relayout(plotDiv, {{
+                'scene.annotations': [{{
+                    x: mat.dd, y: mat.dp, z: mat.dh,
+                    text: _buildAnnotationText(mat, isSolvent),
+                    bgcolor: 'rgba(255, 255, 255, 0.92)',
+                    bordercolor: '#636e72',
+                    borderwidth: 1,
+                    borderpad: 6,
+                    font: {{ size: 12, color: '#2d3436', family: '-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif' }},
+                    showarrow: true,
+                    arrowhead: 2, arrowsize: 1, arrowwidth: 1.5, arrowcolor: '#636e72',
+                    ax: 0, ay: -70,
+                    opacity: 0.95,
+                }}]
+            }});
             // Defer DOM work to next frame so Plotly can finish rendering first
             requestAnimationFrame(function() {{ selectInTable(name); }});
+        }}
+        function clearPlotAnnotation() {{
+            Plotly.relayout(plotDiv, {{ 'scene.annotations': [] }});
         }}
 
         var _prevHighlightedRow = null;
