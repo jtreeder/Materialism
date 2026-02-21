@@ -377,8 +377,7 @@ def parse_table_a2(lines):
                 not stripped.startswith('Data ') and
                 not stripped.startswith('See ') and
                 not stripped.startswith('Impro') and
-                not stripped.startswith('Results') and
-                not stripped.startswith('Based')):
+                not stripped.startswith('Results')):
                 leading = len(line) - len(line.lstrip())
                 if leading > 20:
                     current_category = stripped

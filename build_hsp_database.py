@@ -768,7 +768,7 @@ def load_hansen_a2():
                 "name": name,
                 "delta_d": dd, "delta_p": dp, "delta_h": dh,
                 "radius": parse_float(row.get("interaction_radius")),
-                "type": "",
+                "type": row.get("category", "").strip(),
                 "cas_number": "",
                 "source": "hansen_a2",
                 "source_url": SOURCE_URLS["hansen_a2"],
@@ -837,6 +837,8 @@ def merge_polymers(all_sources):
                 existing["cas_number"] = poly["cas_number"]
             if not existing.get("radius") and poly.get("radius"):
                 existing["radius"] = poly["radius"]
+            if not existing.get("type") and poly.get("type"):
+                existing["type"] = poly["type"]
             continue
 
         result.append(poly)
@@ -847,23 +849,82 @@ def merge_polymers(all_sources):
 
 
 def classify_polymer(name):
-    """Classify polymer type based on name."""
+    """Classify polymer type based on name, using specific type labels
+    matching the section headers from the Hansen Appendix A.2 table."""
     nl = name.lower()
-    if any(x in nl for x in ["rubber", "elastomer", "silicone", "pdms",
-                               "butadiene", "neoprene", "epdm"]):
-        return "elastomer"
-    if any(x in nl for x in ["epoxy", "epoxies", "polyurethane", "phenolic",
-                               "thermoset", "melamine", "urea", "alkyd",
-                               "polyimide", "polyester resin"]):
-        return "thermoset"
-    if any(x in nl for x in ["ptfe", "pvdf", "fluoropolymer", "teflon",
+
+    # Specific polymer types (ordered from most to least specific)
+    if any(x in nl for x in ["epoxy", "epoxies", "epon", "epikote"]):
+        return "Epoxy"
+    if any(x in nl for x in ["polyurethane", "polyurethanes"]):
+        return "Polyurethane"
+    if any(x in nl for x in ["polyimide", "polyamideimide"]):
+        return "Polyimide"
+    if any(x in nl for x in ["nylon", "polyamide", "pa6", "pa11", "pa12"]):
+        return "Polyamide"
+    if any(x in nl for x in ["polycarbonate"]):
+        return "Polycarbonate"
+    if any(x in nl for x in ["polysulfone", "polysulphone"]):
+        return "Polysulfone PSU"
+    if any(x in nl for x in ["polystyrene", "abs"]):
+        return "Polystyrene"
+    if any(x in nl for x in ["polyvinyl chloride", "pvc"]):
+        return "Polyvinylchloride"
+    if any(x in nl for x in ["polyvinyl acetate", "pvac"]):
+        return "Polyvinylacetate"
+    if any(x in nl for x in ["polyvinyl alcohol", "pva)", "pvoh"]):
+        return "Polyvinyl Alcohol"
+    if any(x in nl for x in ["polyvinyl butyral", "pvb"]):
+        return "Polyvinylbutyral"
+    if any(x in nl for x in ["polyvinylidene", "pvdc", "saran"]):
+        return "Polyvinylidene Chloride"
+    if any(x in nl for x in ["polyvinylpyrrolidone", "pvp"]):
+        return "Polyvinylpyrrolidone"
+    if any(x in nl for x in ["pmma", "pema", "pibma", "pbma", "methacrylate",
+                               "acrylate", "acrylic", "plexiglas"]):
+        return "Polyacrylate"
+    if any(x in nl for x in ["polyacrylonitrile", "pan)"]):
+        return "Polyacrylonitrile"
+    if any(x in nl for x in ["polyethylene terephthalate", "pet)", "pla)",
+                               "polylactic"]):
+        return "Polyester"
+    if any(x in nl for x in ["polyethylene", "hdpe", "ldpe", "pe)"]):
+        return "Polyethylene"
+    if any(x in nl for x in ["polypropylene", "pp)"]):
+        return "Polypropylene"
+    if any(x in nl for x in ["polyisoprene", "pip)"]):
+        return "Polyisoprene"
+    if any(x in nl for x in ["polybutadiene"]):
+        return "Polybutadiene"
+    if any(x in nl for x in ["polyphenylene oxide", "ppo"]):
+        return "Polyphenylene Oxide"
+    if any(x in nl for x in ["polyphenylene sulfide", "pps"]):
+        return "Polyphenylene Sulfide"
+    if any(x in nl for x in ["polyetherimide", "pei)"]):
+        return "Polyetherimide"
+    if any(x in nl for x in ["polyethersulfone", "pes)"]):
+        return "Polyethersulfone"
+    if any(x in nl for x in ["polychlorotrifluoroethylene", "pctfe",
+                               "ptfe", "pvdf", "fluoropolymer", "teflon",
                                "fep", "fluorinated ethylene", "pfa"]):
-        return "fluoropolymer"
-    if any(x in nl for x in ["cellulose", "starch", "lignin", "shellac",
-                               "rosin", "bitumen", "natural", "chitosan",
-                               "chitin", "cellophane", "zein", "collagen"]):
-        return "natural"
-    return "thermoplastic"
+        return "Fluoropolymer"
+    if any(x in nl for x in ["phenolic"]):
+        return "Phenolic Resins"
+    if any(x in nl for x in ["alkyd"]):
+        return "Alkyd"
+    if any(x in nl for x in ["rubber", "elastomer", "neoprene", "epdm"]):
+        return "Elastomer"
+    if any(x in nl for x in ["silicone", "pdms"]):
+        return "Silicone Resins"
+    if any(x in nl for x in ["cellulose", "cellophane"]):
+        return "Cellulose"
+    if any(x in nl for x in ["starch", "lignin", "shellac", "rosin",
+                               "bitumen", "natural", "chitosan", "chitin",
+                               "zein", "collagen"]):
+        return "Natural"
+    if any(x in nl for x in ["nitrocellulose"]):
+        return "Nitrocellulose"
+    return ""
 
 
 # ---------------------------------------------------------------------------

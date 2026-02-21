@@ -185,44 +185,44 @@ number,polymer_name,category,dispersion,polar,hydrogen_bonding,interaction_radiu
 184,PEI 1200PSI,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.2,6.4,5.2,3.6
 185,PEI 2400PSI,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.4,4.6,9.0,7.2
 186,PEI 600PSI,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.3,5.3,4.7,3.3
-187,ESTER GUM,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.9,4.5,6.5,9.2
-188,ALKYD 45 SOYA,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.5,2.3,7.7,10.0
-189,SILICONE DC-1107?,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),19.6,3.4,10.8,9.8
-190,PVETHYLETHER?,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),15.1,3.1,11.9,12.9
-191,PBUTYLACRYLATE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.2,9.0,3.0,10.1
-192,PBMA?,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),15.9,5.5,5.9,8.5
-193,SILICONE DC 23?,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.4,0.0,7.8,5.5
-194,PE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.0,0.8,2.8,3.2
-195,GILSONITE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.1,2.1,3.9,4.9
-196,PVINYLBUTYLETHER,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.4,3.4,7.8,8.4
-197,NAT RUBBER,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.0,4.0,6.0,1.3
-198,HYP 20 CHLOROSULFONATED PE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.4,3.2,4.0,4.8
-199,ETHCEL N22?,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),22.7,0.5,16.5,20.1
-200,CHLORINATED RUBBER,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.9,6.3,5.1,7.6
-201,DAMMAR GUM,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.4,4.2,7.8,8.3
-202,VERSAMID 100?,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.8,3.0,9.2,7.8
-203,PS,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.5,4.5,2.9,5.3
-204,PVAC,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.6,2.2,4.0,4.1
-205,PVC,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.6,7.8,3.4,8.2
-206,PHENOLICS,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),19.8,7.2,10.8,12.8
-207,BUNA N B UTADIENE/ACRYLONITRILE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.8,3.2,3.4,3.7
-208,PMMA,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.1,10.5,5.1,9.5
-209,PEO 4000 ? HEATED SAMPLES,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),21.5,10.9,13.1,15.9
-210,POLYETHYLENESULFIDE (GOOD),PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.8,3.8,2.2,4.1
-211,PC,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.1,5.9,6.9,5.5
-212,PLIOLITE P1230,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.1,4.7,3.7,3.9
-213,MYLAR PET,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.0,6.2,6.2,5.0
-214,VCVA COPOLY,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.3,8.7,6.1,7.8
-215,PUR,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.9,6.9,3.7,2.7
-216,SAN,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.6,9.8,7.6,4.8
-217,VINSOL ROSIN,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.4,10.0,13.0,10.5
-218,EPON 1001,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.0,9.6,7.8,7.1
-219,SHELLAC,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),19.7,10.1,15.1,10.7
-220,POLYMETHACRYLONITRILE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.2,14.4,7.6,3.8
-221,CELLULOSE ACETATE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),18.3,16.5,11.9,8.8
-222,CELLULOSE NITRATE,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.9,13.5,10.3,9.9
-223,"PVOH (NOT GOOD, SEE CHAP. 5)",PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),17.0,9.0,18.0,4.0
-224,NYLON 66,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),16.0,11.0,24.0,3.0
+187,ESTER GUM,Based on Solvent Range Solubility Data - Not too Reliable,16.9,4.5,6.5,9.2
+188,ALKYD 45 SOYA,Based on Solvent Range Solubility Data - Not too Reliable,17.5,2.3,7.7,10.0
+189,SILICONE DC-1107?,Based on Solvent Range Solubility Data - Not too Reliable,19.6,3.4,10.8,9.8
+190,PVETHYLETHER?,Based on Solvent Range Solubility Data - Not too Reliable,15.1,3.1,11.9,12.9
+191,PBUTYLACRYLATE,Based on Solvent Range Solubility Data - Not too Reliable,16.2,9.0,3.0,10.1
+192,PBMA?,Based on Solvent Range Solubility Data - Not too Reliable,15.9,5.5,5.9,8.5
+193,SILICONE DC 23?,Based on Solvent Range Solubility Data - Not too Reliable,16.4,0.0,7.8,5.5
+194,PE,Based on Solvent Range Solubility Data - Not too Reliable,16.0,0.8,2.8,3.2
+195,GILSONITE,Based on Solvent Range Solubility Data - Not too Reliable,17.1,2.1,3.9,4.9
+196,PVINYLBUTYLETHER,Based on Solvent Range Solubility Data - Not too Reliable,17.4,3.4,7.8,8.4
+197,NAT RUBBER,Based on Solvent Range Solubility Data - Not too Reliable,16.0,4.0,6.0,1.3
+198,HYP 20 CHLOROSULFONATED PE,Based on Solvent Range Solubility Data - Not too Reliable,17.4,3.2,4.0,4.8
+199,ETHCEL N22?,Based on Solvent Range Solubility Data - Not too Reliable,22.7,0.5,16.5,20.1
+200,CHLORINATED RUBBER,Based on Solvent Range Solubility Data - Not too Reliable,17.9,6.3,5.1,7.6
+201,DAMMAR GUM,Based on Solvent Range Solubility Data - Not too Reliable,18.4,4.2,7.8,8.3
+202,VERSAMID 100?,Based on Solvent Range Solubility Data - Not too Reliable,18.8,3.0,9.2,7.8
+203,PS,Based on Solvent Range Solubility Data - Not too Reliable,18.5,4.5,2.9,5.3
+204,PVAC,Based on Solvent Range Solubility Data - Not too Reliable,17.6,2.2,4.0,4.1
+205,PVC,Based on Solvent Range Solubility Data - Not too Reliable,17.6,7.8,3.4,8.2
+206,PHENOLICS,Based on Solvent Range Solubility Data - Not too Reliable,19.8,7.2,10.8,12.8
+207,BUNA N B UTADIENE/ACRYLONITRILE,Based on Solvent Range Solubility Data - Not too Reliable,17.8,3.2,3.4,3.7
+208,PMMA,Based on Solvent Range Solubility Data - Not too Reliable,18.1,10.5,5.1,9.5
+209,PEO 4000 ? HEATED SAMPLES,Based on Solvent Range Solubility Data - Not too Reliable,21.5,10.9,13.1,15.9
+210,POLYETHYLENESULFIDE (GOOD),Based on Solvent Range Solubility Data - Not too Reliable,17.8,3.8,2.2,4.1
+211,PC,Based on Solvent Range Solubility Data - Not too Reliable,18.1,5.9,6.9,5.5
+212,PLIOLITE P1230,Based on Solvent Range Solubility Data - Not too Reliable,18.1,4.7,3.7,3.9
+213,MYLAR PET,Based on Solvent Range Solubility Data - Not too Reliable,18.0,6.2,6.2,5.0
+214,VCVA COPOLY,Based on Solvent Range Solubility Data - Not too Reliable,17.3,8.7,6.1,7.8
+215,PUR,Based on Solvent Range Solubility Data - Not too Reliable,17.9,6.9,3.7,2.7
+216,SAN,Based on Solvent Range Solubility Data - Not too Reliable,16.6,9.8,7.6,4.8
+217,VINSOL ROSIN,Based on Solvent Range Solubility Data - Not too Reliable,17.4,10.0,13.0,10.5
+218,EPON 1001,Based on Solvent Range Solubility Data - Not too Reliable,17.0,9.6,7.8,7.1
+219,SHELLAC,Based on Solvent Range Solubility Data - Not too Reliable,19.7,10.1,15.1,10.7
+220,POLYMETHACRYLONITRILE,Based on Solvent Range Solubility Data - Not too Reliable,17.2,14.4,7.6,3.8
+221,CELLULOSE ACETATE,Based on Solvent Range Solubility Data - Not too Reliable,18.3,16.5,11.9,8.8
+222,CELLULOSE NITRATE,Based on Solvent Range Solubility Data - Not too Reliable,16.9,13.5,10.3,9.9
+223,"PVOH (NOT GOOD, SEE CHAP. 5)",Based on Solvent Range Solubility Data - Not too Reliable,17.0,9.0,18.0,4.0
+224,NYLON 66,Based on Solvent Range Solubility Data - Not too Reliable,16.0,11.0,24.0,3.0
 225,ACRYLOID B-44,Acrylics - Solvent Range,19.4,11.2,4.4,10.5
 226,ACRYLOID B-66,Acrylics - Solvent Range,18.0,9.0,3.0,9.0
 227,ACRYLOID B-72,Acrylics - Solvent Range,19.2,11.2,1.8,11.0
