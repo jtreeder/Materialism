@@ -363,8 +363,8 @@ function renderMatchCol(entry) {
         html += ' <span style="font-size:0.75rem;color:#b2bec3">query: "' + escHtml(best.guess_text) + '"</span>';
     }
     html += '<div>' + renderMvBadge(best, entry) + '</div>';
-    if (best.cid) {
-        html += '<div class="candidate-structure"><img src="https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + best.cid + '/PNG?image_size=200x200" alt="Structure" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
+    if (best.structure_file) {
+        html += '<div class="candidate-structure"><img src="data/processed/' + escHtml(best.structure_file) + '" alt="Structure" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
     }
     html += '</div>';
 
@@ -377,8 +377,8 @@ function renderMatchCol(entry) {
             var isSelected = d && d.action === 'approve' && d.cas === opt.cas && d.name === (opt.corrected_name || opt.guess_text || entry.original_name);
             html += '<div class="option-secondary' + (isSelected ? ' selected' : '') + '" onclick="selectOption(' + entry.row_index + ',' + oi + ')">';
             html += '<div class="option-radio"></div>';
-            if (opt.cid) {
-                html += '<div class="candidate-structure-sm"><img src="https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + opt.cid + '/PNG?image_size=150x150" alt="Structure" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
+            if (opt.structure_file) {
+                html += '<div class="candidate-structure-sm"><img src="data/processed/' + escHtml(opt.structure_file) + '" alt="Structure" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
             }
             html += '<div style="flex:1;min-width:0">';
             html += '<span class="sec-name">' + escHtml(opt.corrected_name || entry.original_name) + '</span>';

@@ -16,6 +16,9 @@ import csv
 import json
 import os
 import re
+import time
+import urllib.request
+import urllib.error
 
 import fitz  # PyMuPDF
 
@@ -38,6 +41,7 @@ PAGE_MARGIN_LEFT = 55   # left margin to start crop (skip page number gutter)
 PAGE_MARGIN_RIGHT = 10  # right margin
 STRUCT_DPI = 250     # higher DPI for structure diagrams
 STRUCT_X_RIGHT = 210 # right boundary of structure column (before ACD name column)
+CAND_STRUCT_DIR = os.path.join(PROC_DIR, "candidate_structures")  # PubChem structure PNGs
 
 
 def _load_wolfram_index():
@@ -282,9 +286,26 @@ def _render_structure_crop(doc, page_idx, rect, out_path):
     return True
 
 
+def _download_pubchem_structure(cid, out_path):
+    """Download a 2D structure PNG from PubChem for a given CID."""
+    url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cid}/PNG?image_size=300x300"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Materialism/1.0"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = resp.read()
+            if len(data) > 100:  # sanity check
+                with open(out_path, "wb") as f:
+                    f.write(data)
+                return True
+    except (urllib.error.URLError, urllib.error.HTTPError, OSError):
+        pass
+    return False
+
+
 def main():
     os.makedirs(CROP_DIR, exist_ok=True)
     os.makedirs(STRUCT_DIR, exist_ok=True)
+    os.makedirs(CAND_STRUCT_DIR, exist_ok=True)
 
     with open(CANDIDATES_JSON) as f:
         candidates = json.load(f)
@@ -393,6 +414,38 @@ def main():
                 }
 
     doc.close()
+
+    # Download PubChem 2D structure PNGs for candidate options
+    print(f"\nDownloading candidate structure images from PubChem...")
+    cids_seen = set()
+    cid_download_count = 0
+    cid_skip_count = 0
+    for entry in candidates:
+        for opt in entry.get("options", []):
+            cid = opt.get("cid")
+            if not cid or cid in cids_seen:
+                continue
+            cids_seen.add(cid)
+            rel_path = f"candidate_structures/{cid}.png"
+            abs_path = os.path.join(PROC_DIR, rel_path)
+            if os.path.exists(abs_path):
+                opt["structure_file"] = rel_path
+                cid_skip_count += 1
+                continue
+            ok = _download_pubchem_structure(cid, abs_path)
+            if ok:
+                opt["structure_file"] = rel_path
+                cid_download_count += 1
+            time.sleep(0.15)  # rate limit
+    # Second pass: set structure_file for all options with same CID
+    for entry in candidates:
+        for opt in entry.get("options", []):
+            cid = opt.get("cid")
+            if cid and "structure_file" not in opt:
+                rel_path = f"candidate_structures/{cid}.png"
+                if os.path.exists(os.path.join(PROC_DIR, rel_path)):
+                    opt["structure_file"] = rel_path
+    print(f"  Downloaded: {cid_download_count}, already cached: {cid_skip_count}, total CIDs: {len(cids_seen)}")
 
     # Save enriched candidates
     with open(CANDIDATES_JSON, "w") as f:

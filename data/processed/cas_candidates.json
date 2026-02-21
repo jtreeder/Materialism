@@ -31,7 +31,8 @@
     "ref_density": 1.176,
     "mv_match": true,
     "mv_pct_diff": 10.7,
-    "guess_text": "1,1,1-Trifluoro-ethan"
+    "guess_text": "1,1,1-Trifluoro-ethan",
+    "structure_file": "candidate_structures/9868.png"
    }
   ],
   "source_ref": {
@@ -76,7 +77,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,1-Difluoroetylene"
+    "guess_text": "1,1-Difluoroetylene",
+    "structure_file": "candidate_structures/6592.png"
    },
    {
     "corrected_name": "1-bromo-4-(difluoromethyl)benzene",
@@ -100,7 +102,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "1,1-Difluoro-ethen"
+    "guess_text": "1,1-Difluoro-ethen",
+    "structure_file": "candidate_structures/2761183.png"
    }
   ],
   "source_ref": {
@@ -145,7 +148,8 @@
     "ref_density": 0.95,
     "mv_match": true,
     "mv_pct_diff": 0.0,
-    "guess_text": "1,1-Difluoroethane"
+    "guess_text": "1,1-Difluoroethane",
+    "structure_file": "candidate_structures/6368.png"
    },
    {
     "corrected_name": "Chlorodifluoroethane",
@@ -169,7 +173,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,1-Difluoro-ethan"
+    "guess_text": "1,1-Difluoro-ethan",
+    "structure_file": "candidate_structures/2736499.png"
    },
    {
     "corrected_name": "1,1-difluoroethane-1-sulfonamide",
@@ -193,7 +198,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,1-Difluoroethan"
+    "guess_text": "1,1-Difluoroethan",
+    "structure_file": "candidate_structures/57536606.png"
    }
   ],
   "source_ref": {
@@ -238,7 +244,8 @@
     "ref_density": 0.974,
     "mv_match": true,
     "mv_pct_diff": 0.2,
-    "guess_text": "1,2,3,4-Tetrahydronaphthalene"
+    "guess_text": "1,2,3,4-Tetrahydronaphthalene",
+    "structure_file": "candidate_structures/8404.png"
    }
   ],
   "source_ref": {
@@ -287,7 +294,8 @@
     "ref_mv": 116.2,
     "ref_density": 1.858,
     "mv_match": true,
-    "mv_pct_diff": 0.0
+    "mv_pct_diff": 0.0,
+    "structure_file": "candidate_structures/7270.png"
    },
    {
     "corrected_name": "TETRACHLOROPHTHALIC ANHYDRIDE",
@@ -311,7 +319,8 @@
     "ref_density": 1.49,
     "mv_match": false,
     "mv_pct_diff": 65.1,
-    "guess_text": "etrachloro"
+    "guess_text": "etrachloro",
+    "structure_file": "candidate_structures/8326.png"
    }
   ],
   "source_ref": {
@@ -356,7 +365,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Bromo-2-chloro"
+    "guess_text": "1-Bromo-2-chloro",
+    "structure_file": "candidate_structures/12754.png"
    },
    {
     "corrected_name": "Clodronic Acid",
@@ -380,7 +390,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "1,2-Chlorobromoethylene"
+    "guess_text": "1,2-Chlorobromoethylene",
+    "structure_file": "candidate_structures/25419.png"
    }
   ],
   "source_ref": {
@@ -425,7 +436,8 @@
     "ref_density": 1.306,
     "mv_match": true,
     "mv_pct_diff": 0.2,
-    "guess_text": "1,2-Dichlorobenzene"
+    "guess_text": "1,2-Dichlorobenzene",
+    "structure_file": "candidate_structures/7239.png"
    }
   ],
   "source_ref": {
@@ -475,7 +487,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,2-Dichloro-buta-1,3"
+    "guess_text": "1,2-Dichloro-buta-1,3",
+    "structure_file": "candidate_structures/12017.png"
    },
    {
     "corrected_name": "Butyltrichlorosilane",
@@ -499,7 +512,8 @@
     "ref_density": 1.16,
     "mv_match": false,
     "mv_pct_diff": 61.1,
-    "guess_text": "1,3-Butadiene-1,2-Di-Chloro"
+    "guess_text": "1,3-Butadiene-1,2-Di-Chloro",
+    "structure_file": "candidate_structures/24142.png"
    }
   ],
   "source_ref": {
@@ -544,7 +558,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Chloro-buta-1,3-diene"
+    "guess_text": "1-Chloro-buta-1,3-diene",
+    "structure_file": "candidate_structures/12311.png"
    },
    {
     "corrected_name": "CHLOROPRENE",
@@ -568,7 +583,8 @@
     "ref_density": 0.9583,
     "mv_match": true,
     "mv_pct_diff": 0.2,
-    "guess_text": "1,3-Butadiene-1-Chloro"
+    "guess_text": "1,3-Butadiene-1-Chloro",
+    "structure_file": "candidate_structures/31369.png"
    }
   ],
   "source_ref": {
@@ -613,7 +629,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,4-Butandiol Diacrylate"
+    "guess_text": "1,4-Butandiol Diacrylate",
+    "structure_file": "candidate_structures/62784.png"
    }
   ],
   "source_ref": {
@@ -662,7 +679,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,4-Diethylbenzene"
+    "guess_text": "1,4-Diethylbenzene",
+    "structure_file": "candidate_structures/7734.png"
    }
   ],
   "source_ref": {
@@ -711,7 +729,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/543682.png"
    },
    {
     "corrected_name": "Methyl 4-chlorophenylacetate",
@@ -735,7 +754,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Chloro MethylAcrylate"
+    "guess_text": "1-Chloro MethylAcrylate",
+    "structure_file": "candidate_structures/104196.png"
    },
    {
     "corrected_name": "METHYL 2-(CHLOROMETHYL)ACRYLATE",
@@ -759,7 +779,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Chloromethyl Acrylate"
+    "guess_text": "1-Chloromethyl Acrylate",
+    "structure_file": "candidate_structures/12446954.png"
    },
    {
     "corrected_name": "ACRYLIC ACID",
@@ -783,7 +804,8 @@
     "ref_density": 1.0497,
     "mv_match": false,
     "mv_pct_diff": 32.3,
-    "guess_text": "Acrylic acid"
+    "guess_text": "Acrylic acid",
+    "structure_file": "candidate_structures/6581.png"
    },
    {
     "corrected_name": "Ethyl 2-chloroethylcarbamate",
@@ -807,7 +829,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Chloro Methyl Acrylate"
+    "guess_text": "1-Chloro Methyl Acrylate",
+    "structure_file": "candidate_structures/80621.png"
    }
   ],
   "source_ref": {
@@ -852,7 +875,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Chloro Vinyl EthylEther"
+    "guess_text": "1-Chloro Vinyl EthylEther",
+    "structure_file": "candidate_structures/42062.png"
    },
    {
     "corrected_name": "(2-Chloroethylthio)ethyl ethyl ether",
@@ -876,7 +900,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Chlorovinyl Ethyl Ether"
+    "guess_text": "1-Chlorovinyl Ethyl Ether",
+    "structure_file": "candidate_structures/189241.png"
    },
    {
     "corrected_name": "78704-49-1",
@@ -900,7 +925,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Chloro Vinylethyl Ether"
+    "guess_text": "1-Chloro Vinylethyl Ether",
+    "structure_file": "candidate_structures/3337298.png"
    }
   ],
   "source_ref": {
@@ -949,7 +975,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Ethoxyethoxy-2-Propanol"
+    "guess_text": "1-Ethoxyethoxy-2-Propanol",
+    "structure_file": "candidate_structures/400539.png"
    },
    {
     "corrected_name": "1-ethoxycyclopropanol",
@@ -973,7 +1000,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Ethoxy Ethoxy-2-Propanol"
+    "guess_text": "1-Ethoxy Ethoxy-2-Propanol",
+    "structure_file": "candidate_structures/10964426.png"
    }
   ],
   "source_ref": {
@@ -1022,7 +1050,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Ethylvinyl Ethyl Ether"
+    "guess_text": "1-Ethylvinyl Ethyl Ether",
+    "structure_file": "candidate_structures/15457.png"
    },
    {
     "corrected_name": "Ethyl (ethoxymethylene)cyanoacetate",
@@ -1046,7 +1075,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Ethyl Vinylethyl Ether"
+    "guess_text": "1-Ethyl Vinylethyl Ether",
+    "structure_file": "candidate_structures/1715183.png"
    }
   ],
   "source_ref": {
@@ -1095,7 +1125,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Fluoro-acrylic acid"
+    "guess_text": "2-Fluoro-acrylic acid",
+    "structure_file": "candidate_structures/2782523.png"
    }
   ],
   "source_ref": {
@@ -1140,7 +1171,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Fluoro-acrylonitrile"
+    "guess_text": "2-Fluoro-acrylonitrile",
+    "structure_file": "candidate_structures/70198.png"
    }
   ],
   "source_ref": {
@@ -1185,7 +1217,8 @@
     "ref_density": 0.8899,
     "mv_match": true,
     "mv_pct_diff": 0.2,
-    "guess_text": "1-Chloropropane"
+    "guess_text": "1-Chloropropane",
+    "structure_file": "candidate_structures/10899.png"
    }
   ],
   "source_ref": {
@@ -1235,7 +1268,8 @@
     "ref_density": 0.924,
     "mv_match": true,
     "mv_pct_diff": 0.7,
-    "guess_text": "1-Methoxy-2-Propanol"
+    "guess_text": "1-Methoxy-2-Propanol",
+    "structure_file": "candidate_structures/7900.png"
    }
   ],
   "source_ref": {
@@ -1285,7 +1319,8 @@
     "ref_density": 1.03,
     "mv_match": true,
     "mv_pct_diff": 0.4,
-    "guess_text": "1-Methyl-2-Pyrrolidinone"
+    "guess_text": "1-Methyl-2-Pyrrolidinone",
+    "structure_file": "candidate_structures/13387.png"
    }
   ],
   "source_ref": {
@@ -1335,7 +1370,8 @@
     "ref_density": 1.0622,
     "mv_match": true,
     "mv_pct_diff": 0.1,
-    "guess_text": "1-Phenoxy-2-Propanol"
+    "guess_text": "1-Phenoxy-2-Propanol",
+    "structure_file": "candidate_structures/92839.png"
    }
   ],
   "source_ref": {
@@ -1385,7 +1421,8 @@
     "ref_density": 0.846,
     "mv_match": true,
     "mv_pct_diff": 2.1,
-    "guess_text": "1-Tridecanol"
+    "guess_text": "1-Tridecanol",
+    "structure_file": "candidate_structures/8207.png"
    }
   ],
   "source_ref": {
@@ -1435,7 +1472,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2,2',5,5'-Tetrathiafulvalene"
+    "guess_text": "2,2',5,5'-Tetrathiafulvalene",
+    "structure_file": "candidate_structures/99451.png"
    },
    {
     "corrected_name": "N,N'-Dibenzyldithiooxamide",
@@ -1459,7 +1497,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "[2,2']Bi[[1,3]dithiolylide"
+    "guess_text": "[2,2']Bi[[1,3]dithiolylide",
+    "structure_file": "candidate_structures/678653.png"
    }
   ],
   "source_ref": {
@@ -1504,7 +1543,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2,2,2-Trifluoro Ethanol"
+    "guess_text": "2,2,2-Trifluoro Ethanol",
+    "structure_file": "candidate_structures/6409.png"
    },
    {
     "corrected_name": "2,2,2-Trifluoroethyl formate",
@@ -1528,7 +1568,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2,2,2-Trifluoro-ethano"
+    "guess_text": "2,2,2-Trifluoro-ethano",
+    "structure_file": "candidate_structures/141681.png"
    },
    {
     "corrected_name": "1-Cyclohexyl-2,2,2-trifluoro-ethanone",
@@ -1552,7 +1593,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2,2,2-Trifluoro Ethano"
+    "guess_text": "2,2,2-Trifluoro Ethano",
+    "structure_file": "candidate_structures/238415.png"
    }
   ],
   "source_ref": {
@@ -1597,7 +1639,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2,2-ButoxyethoxyEthylAcetate"
+    "guess_text": "2,2-ButoxyethoxyEthylAcetate",
+    "structure_file": "candidate_structures/44146926.png"
    },
    {
     "corrected_name": "2-(2-Butoxyethoxy)ethyl acetate",
@@ -1621,7 +1664,8 @@
     "ref_density": 0.985,
     "mv_match": true,
     "mv_pct_diff": 0.4,
-    "guess_text": "2,2-Butoxyethoxy Ethyl Acetate"
+    "guess_text": "2,2-Butoxyethoxy Ethyl Acetate",
+    "structure_file": "candidate_structures/31288.png"
    },
    {
     "corrected_name": "29056-06-2",
@@ -1645,7 +1689,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2,2Butoxyethoxy Ethyl Acetate"
+    "guess_text": "2,2Butoxyethoxy Ethyl Acetate",
+    "structure_file": "candidate_structures/120122.png"
    }
   ],
   "source_ref": {
@@ -1694,7 +1739,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/69871.png"
    }
   ],
   "source_ref": {
@@ -1739,7 +1785,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2,3-Dibromo-buta-1,3"
+    "guess_text": "2,3-Dibromo-buta-1,3",
+    "structure_file": "candidate_structures/8056.png"
    },
    {
     "corrected_name": "1,6-dibromopyrene",
@@ -1763,7 +1810,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "2,3-Dibromoprene"
+    "guess_text": "2,3-Dibromoprene",
+    "structure_file": "candidate_structures/176470.png"
    }
   ],
   "source_ref": {
@@ -1808,7 +1856,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2,4-Dichloro-5-Nitrobenzotrifluoride"
+    "guess_text": "2,4-Dichloro-5-Nitrobenzotrifluoride",
+    "structure_file": "candidate_structures/621179.png"
    },
    {
     "corrected_name": "2,4-dichloro-5-nitro-1,3-thiazole",
@@ -1832,7 +1881,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,5-Dichloro-2-nitro-4"
+    "guess_text": "1,5-Dichloro-2-nitro-4",
+    "structure_file": "candidate_structures/13851817.png"
    }
   ],
   "source_ref": {
@@ -1876,7 +1926,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/67967.png"
    }
   ],
   "source_ref": {
@@ -1920,7 +1971,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/35360.png"
    },
    {
     "corrected_name": "2,5-Dichlorobenzyl chloride",
@@ -1944,7 +1996,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,4-Dichloro-2"
+    "guess_text": "1,4-Dichloro-2",
+    "structure_file": "candidate_structures/75976.png"
    }
   ],
   "source_ref": {
@@ -1989,7 +2042,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "(5-Hydroxymethyl"
+    "guess_text": "(5-Hydroxymethyl",
+    "structure_file": "candidate_structures/76360.png"
    },
    {
     "corrected_name": "104-80-3",
@@ -2012,7 +2066,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/97792.png"
    }
   ],
   "source_ref": {
@@ -2056,7 +2111,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/74695.png"
    },
    {
     "corrected_name": "2,6-Difluoro-4-nitroaniline",
@@ -2080,7 +2136,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2,6-Difluoro"
+    "guess_text": "2,6-Difluoro",
+    "structure_file": "candidate_structures/2774175.png"
    }
   ],
   "source_ref": {
@@ -2125,7 +2182,8 @@
     "ref_density": 0.806,
     "mv_match": true,
     "mv_pct_diff": 0.3,
-    "guess_text": "2,6-Dimethyl-4-Heptanone"
+    "guess_text": "2,6-Dimethyl-4-Heptanone",
+    "structure_file": "candidate_structures/7958.png"
    }
   ],
   "source_ref": {
@@ -2175,7 +2233,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Chloro-2"
+    "guess_text": "1-Chloro-2",
+    "structure_file": "candidate_structures/136438.png"
    },
    {
     "corrected_name": "Propylcyclohexane",
@@ -2198,7 +2257,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/15505.png"
    },
    {
     "corrected_name": "Ethyldimethylchlorosilane",
@@ -2222,7 +2282,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Chloroethylethyl Sulfid"
+    "guess_text": "2-Chloroethylethyl Sulfid",
+    "structure_file": "candidate_structures/138863.png"
    },
    {
     "corrected_name": "2-CHLOROETHYL ETHYL SULFIDE",
@@ -2246,7 +2307,8 @@
     "ref_density": 1.0663,
     "mv_match": true,
     "mv_pct_diff": 0.0,
-    "guess_text": "2-Chloroethyl Ethyl Sulfid"
+    "guess_text": "2-Chloroethyl Ethyl Sulfid",
+    "structure_file": "candidate_structures/12733.png"
    }
   ],
   "source_ref": {
@@ -2291,7 +2353,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-EthylCroton Aldehyde"
+    "guess_text": "2-EthylCroton Aldehyde",
+    "structure_file": "candidate_structures/5362897.png"
    }
   ],
   "source_ref": {
@@ -2340,7 +2403,8 @@
     "ref_density": 0.885,
     "mv_match": true,
     "mv_pct_diff": 0.0,
-    "guess_text": "Acrylic acid 2-ethyl"
+    "guess_text": "Acrylic acid 2-ethyl",
+    "structure_file": "candidate_structures/7636.png"
    },
    {
     "corrected_name": "Methyl 3-Methoxyacrylate",
@@ -2364,7 +2428,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Ethyl Hexyl Acrylate"
+    "guess_text": "2-Ethyl Hexyl Acrylate",
+    "structure_file": "candidate_structures/5323651.png"
    }
   ],
   "source_ref": {
@@ -2409,7 +2474,8 @@
     "ref_density": 0.98,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Ethylhexyl Phthalate"
+    "guess_text": "2-Ethylhexyl Phthalate",
+    "structure_file": "candidate_structures/8343.png"
    },
    {
     "corrected_name": "Dimethyl 2-methylisophthalate",
@@ -2433,7 +2499,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Ethyl Hexyl Phthalate"
+    "guess_text": "2-Ethyl Hexyl Phthalate",
+    "structure_file": "candidate_structures/2753491.png"
    }
   ],
   "source_ref": {
@@ -2482,7 +2549,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Iodo-1,3-butadiene"
+    "guess_text": "2-Iodo-1,3-butadiene",
+    "structure_file": "candidate_structures/544364.png"
    }
   ],
   "source_ref": {
@@ -2531,7 +2599,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "(Z)-But-2-enoic acid"
+    "guess_text": "(Z)-But-2-enoic acid",
+    "structure_file": "candidate_structures/643792.png"
    },
    {
     "corrected_name": "2-methyl-1-(3-methylphenyl)piperazine",
@@ -2555,7 +2624,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Methyl"
+    "guess_text": "2-Methyl",
+    "structure_file": "candidate_structures/2723804.png"
    },
    {
     "corrected_name": "2-Cyanoacrylic acid",
@@ -2579,7 +2649,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "cis) Acrylic Acid"
+    "guess_text": "cis) Acrylic Acid",
+    "structure_file": "candidate_structures/27488.png"
    },
    {
     "corrected_name": "3,3-Dimethylacrylic acid",
@@ -2603,7 +2674,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Methyl (cis) Acrylic Acid"
+    "guess_text": "2-Methyl (cis) Acrylic Acid",
+    "structure_file": "candidate_structures/10931.png"
    }
   ],
   "source_ref": {
@@ -2648,7 +2720,8 @@
     "ref_density": 0.806,
     "mv_match": true,
     "mv_pct_diff": 0.7,
-    "guess_text": "2-Butanone"
+    "guess_text": "2-Butanone",
+    "structure_file": "candidate_structures/6569.png"
    }
   ],
   "source_ref": {
@@ -2698,7 +2771,8 @@
     "ref_density": 0.942,
     "mv_match": true,
     "mv_pct_diff": 0.6,
-    "guess_text": "2-ButoxyethylAcetate"
+    "guess_text": "2-ButoxyethylAcetate",
+    "structure_file": "candidate_structures/8160.png"
    },
    {
     "corrected_name": "29056-06-2",
@@ -2722,7 +2796,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2ButoxyethylAcetate"
+    "guess_text": "2ButoxyethylAcetate",
+    "structure_file": "candidate_structures/120122.png"
    }
   ],
   "source_ref": {
@@ -2772,7 +2847,8 @@
     "ref_density": 1.22,
     "mv_match": true,
     "mv_pct_diff": 0.3,
-    "guess_text": "2-ChloroethylEther"
+    "guess_text": "2-ChloroethylEther",
+    "structure_file": "candidate_structures/8115.png"
    }
   ],
   "source_ref": {
@@ -2822,7 +2898,8 @@
     "ref_density": 0.974,
     "mv_match": true,
     "mv_pct_diff": 0.4,
-    "guess_text": "2-EthoxyethylAcetate"
+    "guess_text": "2-EthoxyethylAcetate",
+    "structure_file": "candidate_structures/8095.png"
    },
    {
     "corrected_name": "Methyl 4-methoxyphenylacetate",
@@ -2846,7 +2923,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2EthoxyethylAcetate"
+    "guess_text": "2EthoxyethylAcetate",
+    "structure_file": "candidate_structures/90266.png"
    }
   ],
   "source_ref": {
@@ -2896,7 +2974,8 @@
     "ref_density": 1.159,
     "mv_match": true,
     "mv_pct_diff": 0.4,
-    "guess_text": "2-Furaldehyde"
+    "guess_text": "2-Furaldehyde",
+    "structure_file": "candidate_structures/7362.png"
    }
   ],
   "source_ref": {
@@ -2945,7 +3024,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/9481.png"
    },
    {
     "corrected_name": "1,2-Dichloro-4-iodobenzene",
@@ -2969,7 +3049,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,2-Dichloro-4"
+    "guess_text": "1,2-Dichloro-4",
+    "structure_file": "candidate_structures/88591.png"
    }
   ],
   "source_ref": {
@@ -3013,7 +3094,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/587204.png"
    },
    {
     "corrected_name": "3'',5-Difluoro-",
@@ -3034,7 +3116,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "3,5-Difluoro"
+    "guess_text": "3,5-Difluoro",
+    "structure_file": "candidate_structures/117852102.png"
    }
   ],
   "source_ref": {
@@ -3079,7 +3162,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "3-Butoxybutanol"
+    "guess_text": "3-Butoxybutanol",
+    "structure_file": "candidate_structures/20111.png"
    }
   ],
   "source_ref": {
@@ -3128,7 +3212,8 @@
     "ref_density": 1.047,
     "mv_match": true,
     "mv_pct_diff": 0.6,
-    "guess_text": "3-Hydroxypropionitrile"
+    "guess_text": "3-Hydroxypropionitrile",
+    "structure_file": "candidate_structures/8011.png"
    }
   ],
   "source_ref": {
@@ -3178,7 +3263,8 @@
     "ref_density": 0.81,
     "mv_match": true,
     "mv_pct_diff": 0.5,
-    "guess_text": "3-Methyl-1-Butanol"
+    "guess_text": "3-Methyl-1-Butanol",
+    "structure_file": "candidate_structures/31260.png"
    }
   ],
   "source_ref": {
@@ -3228,7 +3314,8 @@
     "ref_density": 0.8159,
     "mv_match": true,
     "mv_pct_diff": 0.8,
-    "guess_text": "3-Pentanone"
+    "guess_text": "3-Pentanone",
+    "structure_file": "candidate_structures/7288.png"
    }
   ],
   "source_ref": {
@@ -3278,7 +3365,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-(4-Trifluoromet yl"
+    "guess_text": "1-(4-Trifluoromet yl",
+    "structure_file": "candidate_structures/67990.png"
    },
    {
     "corrected_name": "1-[4-(Trifluoromethyl)phenyl]ethan-1-one",
@@ -3301,7 +3389,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/69731.png"
    },
    {
     "corrected_name": "3'-(Trifluoromethyl)acetophenone",
@@ -3325,7 +3414,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "4-(Trifluorometyl) Acetophenone"
+    "guess_text": "4-(Trifluorometyl) Acetophenone",
+    "structure_file": "candidate_structures/67682.png"
    },
    {
     "corrected_name": "3',4',5'-Trifluoroacetophenone",
@@ -3349,7 +3439,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "4-(Trifluoromet yl) Acetophenone"
+    "guess_text": "4-(Trifluoromet yl) Acetophenone",
+    "structure_file": "candidate_structures/2776907.png"
    }
   ],
   "source_ref": {
@@ -3393,7 +3484,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/72872.png"
    },
    {
     "corrected_name": "1-(4-ethoxyphenyl)piperazine",
@@ -3417,7 +3509,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-(4-Ethoxy-phenyl)"
+    "guess_text": "1-(4-Ethoxy-phenyl)",
+    "structure_file": "candidate_structures/231479.png"
    }
   ],
   "source_ref": {
@@ -3461,7 +3554,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/67767.png"
    },
    {
     "corrected_name": "3-Fluorobenzotrifluoride",
@@ -3485,7 +3579,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "4-Fluoro-3-Nitrobenzofluoride"
+    "guess_text": "4-Fluoro-3-Nitrobenzofluoride",
+    "structure_file": "candidate_structures/67867.png"
    },
    {
     "corrected_name": "5-chloro-2-fluoronitrobenzene",
@@ -3509,7 +3604,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "4-Fluoro-3-Nitrobenzofluorid"
+    "guess_text": "4-Fluoro-3-Nitrobenzofluorid",
+    "structure_file": "candidate_structures/67660.png"
    }
   ],
   "source_ref": {
@@ -3554,7 +3650,8 @@
     "ref_density": 0.938,
     "mv_match": true,
     "mv_pct_diff": 0.3,
-    "guess_text": "4-Hydroxy-4-Methyl-2-Pentanone"
+    "guess_text": "4-Hydroxy-4-Methyl-2-Pentanone",
+    "structure_file": "candidate_structures/31256.png"
    }
   ],
   "source_ref": {
@@ -3604,7 +3701,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "4-Hydroxymethyl-1,3-Dioxolan-2-One"
+    "guess_text": "4-Hydroxymethyl-1,3-Dioxolan-2-One",
+    "structure_file": "candidate_structures/97944.png"
    },
    {
     "corrected_name": "5-(hydroxymethyl)oxolan-2-one",
@@ -3628,7 +3726,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "4Hydroxymethyl1,3Dioxolan2One"
+    "guess_text": "4Hydroxymethyl1,3Dioxolan2One",
+    "structure_file": "candidate_structures/98431.png"
    }
   ],
   "source_ref": {
@@ -3678,7 +3777,8 @@
     "ref_density": 0.807,
     "mv_match": true,
     "mv_pct_diff": 0.5,
-    "guess_text": "4-Methyl-2-Pentanol"
+    "guess_text": "4-Methyl-2-Pentanol",
+    "structure_file": "candidate_structures/7910.png"
    },
    {
     "corrected_name": "2-Ethyl-4-methylpentan-1-ol",
@@ -3702,7 +3802,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "4Methyl2Pentanol"
+    "guess_text": "4Methyl2Pentanol",
+    "structure_file": "candidate_structures/7821.png"
    }
   ],
   "source_ref": {
@@ -3752,7 +3853,8 @@
     "ref_density": 0.802,
     "mv_match": true,
     "mv_pct_diff": 0.7,
-    "guess_text": "4-Methyl-2-Pentanone"
+    "guess_text": "4-Methyl-2-Pentanone",
+    "structure_file": "candidate_structures/7909.png"
    }
   ],
   "source_ref": {
@@ -3802,7 +3904,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "4-Octanol"
+    "guess_text": "4-Octanol",
+    "structure_file": "candidate_structures/11515.png"
    }
   ],
   "source_ref": {
@@ -3851,7 +3954,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/136171.png"
    }
   ],
   "source_ref": {
@@ -3896,7 +4000,8 @@
     "ref_density": 0.888,
     "mv_match": true,
     "mv_pct_diff": 9.9,
-    "guess_text": "5-Methyl-2-Hexanone"
+    "guess_text": "5-Methyl-2-Hexanone",
+    "structure_file": "candidate_structures/8034.png"
    }
   ],
   "source_ref": {
@@ -3946,7 +4051,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Hydroxy-2-methyl"
+    "guess_text": "2-Hydroxy-2-methyl",
+    "structure_file": "candidate_structures/81984.png"
    },
    {
     "corrected_name": "ACETONE CYANOHYDRIN",
@@ -3970,7 +4076,8 @@
     "ref_density": 0.9267,
     "mv_match": true,
     "mv_pct_diff": 2.3,
-    "guess_text": "Acetonecyanhydrin"
+    "guess_text": "Acetonecyanhydrin",
+    "structure_file": "candidate_structures/6406.png"
    }
   ],
   "source_ref": {
@@ -4015,7 +4122,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Propan-2-one O-methyl"
+    "guess_text": "Propan-2-one O-methyl",
+    "structure_file": "candidate_structures/137909.png"
    },
    {
     "corrected_name": "N,N-DIMETHYLACETAMIDE",
@@ -4039,7 +4147,8 @@
     "ref_density": 0.943,
     "mv_match": true,
     "mv_pct_diff": 4.4,
-    "guess_text": "Acetonemethyloxime"
+    "guess_text": "Acetonemethyloxime",
+    "structure_file": "candidate_structures/31374.png"
    }
   ],
   "source_ref": {
@@ -4084,7 +4193,8 @@
     "ref_density": 0.377,
     "mv_match": false,
     "mv_pct_diff": 64.1,
-    "guess_text": "Acetylene"
+    "guess_text": "Acetylene",
+    "structure_file": "candidate_structures/6326.png"
    },
    {
     "corrected_name": "Acetylurethane",
@@ -4108,7 +4218,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Acetylene (Ethyne)"
+    "guess_text": "Acetylene (Ethyne)",
+    "structure_file": "candidate_structures/17436.png"
    }
   ],
   "source_ref": {
@@ -4157,7 +4268,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Acetylfluoride"
+    "guess_text": "Acetylfluoride",
+    "structure_file": "candidate_structures/11204.png"
    },
    {
     "corrected_name": "677-67-8",
@@ -4181,7 +4293,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Acetyl fluorid"
+    "guess_text": "Acetyl fluorid",
+    "structure_file": "candidate_structures/69614.png"
    },
    {
     "corrected_name": "2-Acetylfluorene",
@@ -4205,7 +4318,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Acetylfluorid"
+    "guess_text": "Acetylfluorid",
+    "structure_file": "candidate_structures/69908.png"
    }
   ],
   "source_ref": {
@@ -4249,7 +4363,8 @@
     "ref_mv": 117.1,
     "ref_density": 1.32,
     "mv_match": true,
-    "mv_pct_diff": 0.3
+    "mv_pct_diff": 0.3,
+    "structure_file": "candidate_structures/10757.png"
    },
    {
     "corrected_name": "2-Chloro-1-phenylethanol",
@@ -4273,7 +4388,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Chloro-1-phenyl"
+    "guess_text": "2-Chloro-1-phenyl",
+    "structure_file": "candidate_structures/92898.png"
    },
    {
     "corrected_name": "2',4'-Dichloroacetophenone",
@@ -4297,7 +4413,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "alfa-ChloroAcetophenone"
+    "guess_text": "alfa-ChloroAcetophenone",
+    "structure_file": "candidate_structures/16693.png"
    }
   ],
   "source_ref": {
@@ -4341,7 +4458,8 @@
     "ref_mv": 130.2,
     "ref_density": 0.9077,
     "mv_match": true,
-    "mv_pct_diff": 0.2
+    "mv_pct_diff": 0.2,
+    "structure_file": "candidate_structures/11904.png"
    },
    {
     "corrected_name": "alpha-Methylstyrene",
@@ -4365,7 +4483,8 @@
     "ref_density": 0.91,
     "mv_match": true,
     "mv_pct_diff": 0.1,
-    "guess_text": "alpha-Methyl Styrene"
+    "guess_text": "alpha-Methyl Styrene",
+    "structure_file": "candidate_structures/7407.png"
    }
   ],
   "source_ref": {
@@ -4409,7 +4528,8 @@
     "ref_mv": 123.7,
     "ref_density": 1.1812,
     "mv_match": true,
-    "mv_pct_diff": 0.7
+    "mv_pct_diff": 0.7,
+    "structure_file": "candidate_structures/7368.png"
    },
    {
     "corrected_name": "2-Nitrobenzotrifluoride",
@@ -4433,7 +4553,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "alpha,alpha,alpha Trifluoro otoluene"
+    "guess_text": "alpha,alpha,alpha Trifluoro otoluene",
+    "structure_file": "candidate_structures/9795.png"
    }
   ],
   "source_ref": {
@@ -4477,7 +4598,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/8658.png"
    },
    {
     "corrected_name": "4-Methoxybenzaldehyde",
@@ -4501,7 +4623,8 @@
     "ref_density": 1.1191,
     "mv_match": true,
     "mv_pct_diff": 0.7,
-    "guess_text": "Anisaldehyde"
+    "guess_text": "Anisaldehyde",
+    "structure_file": "candidate_structures/31244.png"
    },
    {
     "corrected_name": "2-Methoxy-4-(methoxymethyl)phenol",
@@ -4525,7 +4648,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Methoxy"
+    "guess_text": "2-Methoxy",
+    "structure_file": "candidate_structures/79662.png"
    }
   ],
   "source_ref": {
@@ -4570,7 +4694,8 @@
     "ref_density": 1.1122,
     "mv_match": true,
     "mv_pct_diff": 5.3,
-    "guess_text": "Bis-2-Chloroisopropyl Ether"
+    "guess_text": "Bis-2-Chloroisopropyl Ether",
+    "structure_file": "candidate_structures/38307.png"
    },
    {
     "corrected_name": "5-Bromo-2-chloroisopropylbenzene",
@@ -4594,7 +4719,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Bis2Chloroisopropyl Ether"
+    "guess_text": "Bis2Chloroisopropyl Ether",
+    "structure_file": "candidate_structures/50997869.png"
    },
    {
     "corrected_name": "1,3-DICHLORO-2-PROPANOL",
@@ -4618,7 +4744,8 @@
     "ref_density": 1.3506,
     "mv_match": false,
     "mv_pct_diff": 34.6,
-    "guess_text": "Bis-2-ChloroisopropylEther"
+    "guess_text": "Bis-2-ChloroisopropylEther",
+    "structure_file": "candidate_structures/7289.png"
    }
   ],
   "source_ref": {
@@ -4668,7 +4795,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "BorineCarbonyl"
+    "guess_text": "BorineCarbonyl",
+    "structure_file": "candidate_structures/88279.png"
    }
   ],
   "source_ref": {
@@ -4713,7 +4841,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Bromobutadiene"
+    "guess_text": "2-Bromobutadiene",
+    "structure_file": "candidate_structures/8056.png"
    },
    {
     "corrected_name": "6-Bromopurine",
@@ -4737,7 +4866,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Bromoprene"
+    "guess_text": "Bromoprene",
+    "structure_file": "candidate_structures/5287830.png"
    }
   ],
   "source_ref": {
@@ -4782,7 +4912,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Penta-2,4-dienenitrile"
+    "guess_text": "Penta-2,4-dienenitrile",
+    "structure_file": "candidate_structures/5364328.png"
    },
    {
     "corrected_name": "cyanobutadiene",
@@ -4806,7 +4937,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "4-Cyanobutadiene"
+    "guess_text": "4-Cyanobutadiene",
+    "structure_file": "candidate_structures/108850.png"
    }
   ],
   "source_ref": {
@@ -4851,7 +4983,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Butoxy EthoxyPropanol"
+    "guess_text": "Butoxy EthoxyPropanol",
+    "structure_file": "candidate_structures/16000.png"
    },
    {
     "corrected_name": "1-Butoxyethoxy-2-propanol",
@@ -4875,7 +5008,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Butoxyethoxy Propanol"
+    "guess_text": "Butoxyethoxy Propanol",
+    "structure_file": "candidate_structures/31287.png"
    }
   ],
   "source_ref": {
@@ -4924,7 +5058,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "ButylIsopropenyl Ether"
+    "guess_text": "ButylIsopropenyl Ether",
+    "structure_file": "candidate_structures/82023.png"
    },
    {
     "corrected_name": "Butoxybenzene",
@@ -4948,7 +5083,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "ButylIsopropenylEther"
+    "guess_text": "ButylIsopropenylEther",
+    "structure_file": "candidate_structures/14311.png"
    },
    {
     "corrected_name": "3-METHYL-3-BUTEN-1-OL",
@@ -4972,7 +5108,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Butyl Isopropenyl Ether"
+    "guess_text": "Butyl Isopropenyl Ether",
+    "structure_file": "candidate_structures/12988.png"
    }
   ],
   "source_ref": {
@@ -5021,7 +5158,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "6-Methyl-cyclohex-3"
+    "guess_text": "6-Methyl-cyclohex-3",
+    "structure_file": "candidate_structures/11007985.png"
    },
    {
     "corrected_name": "3,5,5-Trimethylcyclohexene",
@@ -5045,7 +5183,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Butyl-6-Methyl-3-Cyclohexene"
+    "guess_text": "Butyl-6-Methyl-3-Cyclohexene",
+    "structure_file": "candidate_structures/79132.png"
    }
   ],
   "source_ref": {
@@ -5090,7 +5229,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Butyl-6-Methyl-3-CyclohexeneCarboxylate"
+    "guess_text": "Butyl-6-Methyl-3-CyclohexeneCarboxylate",
+    "structure_file": "candidate_structures/170993.png"
    },
    {
     "corrected_name": "934-69-0",
@@ -5114,7 +5254,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Butyl-6-Methyl-3-Cyclohexene Carboxylate"
+    "guess_text": "Butyl-6-Methyl-3-Cyclohexene Carboxylate",
+    "structure_file": "candidate_structures/14831547.png"
    }
   ],
   "source_ref": {
@@ -5163,7 +5304,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Butyl Propionate"
+    "guess_text": "Butyl Propionate",
+    "structure_file": "candidate_structures/11529.png"
    }
   ],
   "source_ref": {
@@ -5213,7 +5355,8 @@
     "ref_density": 1.2632,
     "mv_match": true,
     "mv_pct_diff": 0.5,
-    "guess_text": "Methanedithione"
+    "guess_text": "Methanedithione",
+    "structure_file": "candidate_structures/6348.png"
    },
    {
     "corrected_name": "Carbosulfan",
@@ -5237,7 +5380,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "CarbonDisulfid"
+    "guess_text": "CarbonDisulfid",
+    "structure_file": "candidate_structures/41384.png"
    }
   ],
   "source_ref": {
@@ -5282,7 +5426,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Thioxo-methanone"
+    "guess_text": "Thioxo-methanone",
+    "structure_file": "candidate_structures/69713.png"
    },
    {
     "corrected_name": "CYCLOHEXANE",
@@ -5305,7 +5450,8 @@
     "ref_mv": 108.0,
     "ref_density": 0.779,
     "mv_match": false,
-    "mv_pct_diff": 111.8
+    "mv_pct_diff": 111.8,
+    "structure_file": "candidate_structures/8078.png"
    },
    {
     "corrected_name": "CARBONYL SULFIDE",
@@ -5329,7 +5475,8 @@
     "ref_density": 1.274,
     "mv_match": true,
     "mv_pct_diff": 7.5,
-    "guess_text": "Carbonyl Sulfid"
+    "guess_text": "Carbonyl Sulfid",
+    "structure_file": "candidate_structures/10039.png"
    },
    {
     "corrected_name": "PHOSGENE",
@@ -5353,7 +5500,8 @@
     "ref_density": 1.432,
     "mv_match": false,
     "mv_pct_diff": 35.5,
-    "guess_text": "CarbonylSulfid"
+    "guess_text": "CarbonylSulfid",
+    "structure_file": "candidate_structures/6371.png"
    }
   ],
   "source_ref": {
@@ -5398,7 +5546,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "CastorOil"
+    "guess_text": "CastorOil",
+    "structure_file": "candidate_structures/71587467.png"
    },
    {
     "corrected_name": "CRIMIDINE",
@@ -5422,7 +5571,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Castor Oil"
+    "guess_text": "Castor Oil",
+    "structure_file": "candidate_structures/10813.png"
    }
   ],
   "source_ref": {
@@ -5467,7 +5617,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Chloromethylsulfide"
+    "guess_text": "Chloromethylsulfide",
+    "structure_file": "candidate_structures/565560.png"
    },
    {
     "corrected_name": "CHLOROFORM",
@@ -5491,7 +5642,8 @@
     "ref_density": 1.4832,
     "mv_match": false,
     "mv_pct_diff": 15.3,
-    "guess_text": "Chloro"
+    "guess_text": "Chloro",
+    "structure_file": "candidate_structures/6212.png"
    },
    {
     "corrected_name": "4-(Chloromethyl)benzoic acid",
@@ -5515,7 +5667,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Chloromethylsulfid"
+    "guess_text": "Chloromethylsulfid",
+    "structure_file": "candidate_structures/74234.png"
    }
   ],
   "source_ref": {
@@ -5560,7 +5713,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Chloro-1,2,2-trifluoro"
+    "guess_text": "1-Chloro-1,2,2-trifluoro",
+    "structure_file": "candidate_structures/79091.png"
    },
    {
     "corrected_name": "CHLOROTRIFLUOROETHYLENE",
@@ -5584,7 +5738,8 @@
     "ref_density": 1.307,
     "mv_match": false,
     "mv_pct_diff": 17.9,
-    "guess_text": "Chlorotrifluoroetylene (CTFE)"
+    "guess_text": "Chlorotrifluoroetylene (CTFE)",
+    "structure_file": "candidate_structures/6594.png"
    }
   ],
   "source_ref": {
@@ -5629,7 +5784,8 @@
     "ref_density": 0.9583,
     "mv_match": true,
     "mv_pct_diff": 0.9,
-    "guess_text": "2-Chloro-buta-1,3-diene"
+    "guess_text": "2-Chloro-buta-1,3-diene",
+    "structure_file": "candidate_structures/31369.png"
    },
    {
     "corrected_name": "3-Bromo-5-chlorophenol",
@@ -5653,7 +5809,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Chlorprene"
+    "guess_text": "Chlorprene",
+    "structure_file": "candidate_structures/22630180.png"
    }
   ],
   "source_ref": {
@@ -5698,7 +5855,8 @@
     "ref_density": 0.9267,
     "mv_match": true,
     "mv_pct_diff": 0.6,
-    "guess_text": "1,3,3-Trimethyl-2-oxa"
+    "guess_text": "1,3,3-Trimethyl-2-oxa",
+    "structure_file": "candidate_structures/2758.png"
    }
   ],
   "source_ref": {
@@ -5743,7 +5901,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Cyclohexane-1,2-DicarboxylicAcidDi-IsononylEther"
+    "guess_text": "Cyclohexane-1,2-DicarboxylicAcidDi-IsononylEther",
+    "structure_file": "candidate_structures/11265237.png"
    }
   ],
   "source_ref": {
@@ -5792,7 +5951,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Di ButylFumarate"
+    "guess_text": "Di ButylFumarate",
+    "structure_file": "candidate_structures/5282485.png"
    },
    {
     "corrected_name": "Dibutyl sulfate",
@@ -5816,7 +5976,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DiButylFumarate"
+    "guess_text": "DiButylFumarate",
+    "structure_file": "candidate_structures/12239.png"
    },
    {
     "corrected_name": "DI-SEC-BUTYL FUMARATE",
@@ -5840,7 +6001,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Di Butyl Fumarate"
+    "guess_text": "Di Butyl Fumarate",
+    "structure_file": "candidate_structures/5373436.png"
    }
   ],
   "source_ref": {
@@ -5888,7 +6050,8 @@
     "ref_mv": 299.5,
     "ref_density": 0.8062,
     "mv_match": true,
-    "mv_pct_diff": 0.7
+    "mv_pct_diff": 0.7,
+    "structure_file": "candidate_structures/7791.png"
    },
    {
     "corrected_name": "2-ETHYLHEXYL ACETATE",
@@ -5912,7 +6075,8 @@
     "ref_density": 0.873,
     "mv_match": false,
     "mv_pct_diff": 34.6,
-    "guess_text": "Bis-(2-ethyl-hexyl)"
+    "guess_text": "Bis-(2-ethyl-hexyl)",
+    "structure_file": "candidate_structures/7635.png"
    },
    {
     "corrected_name": "2-ETHYLHEXYLAMINE",
@@ -5936,7 +6100,8 @@
     "ref_density": 0.79,
     "mv_match": false,
     "mv_pct_diff": 45.7,
-    "guess_text": "Di-2-EthylHexylAmine"
+    "guess_text": "Di-2-EthylHexylAmine",
+    "structure_file": "candidate_structures/7719.png"
    },
    {
     "corrected_name": "N,N-Dimethylhexylamine",
@@ -5960,7 +6125,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Di-2-Ethyl Hexyl Amine"
+    "guess_text": "Di-2-Ethyl Hexyl Amine",
+    "structure_file": "candidate_structures/78090.png"
    }
   ],
   "source_ref": {
@@ -6005,7 +6171,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Methyl-phosphonic acid"
+    "guess_text": "Methyl-phosphonic acid",
+    "structure_file": "candidate_structures/13818.png"
    },
    {
     "corrected_name": "DIISOPROPYL METHYLPHOSPHONATE",
@@ -6029,7 +6196,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Di-Isopropyl MethylPhosphonate"
+    "guess_text": "Di-Isopropyl MethylPhosphonate",
+    "structure_file": "candidate_structures/3073.png"
    },
    {
     "corrected_name": "DIMETHYL METHYLPHOSPHONATE",
@@ -6053,7 +6221,8 @@
     "ref_density": 1.1596,
     "mv_match": false,
     "mv_pct_diff": 42.0,
-    "guess_text": "Di-Isopropylmethyl Phosphonate"
+    "guess_text": "Di-Isopropylmethyl Phosphonate",
+    "structure_file": "candidate_structures/12958.png"
    },
    {
     "corrected_name": "Isopropyl methyl phosphonate",
@@ -6077,7 +6246,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Di-Isopropyl Methyl Phosphonate"
+    "guess_text": "Di-Isopropyl Methyl Phosphonate",
+    "structure_file": "candidate_structures/6453137.png"
    }
   ],
   "source_ref": {
@@ -6121,7 +6291,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/5936.png"
    },
    {
     "corrected_name": "fluorophosphoric acid",
@@ -6145,7 +6316,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Phosphorofluoridic acid"
+    "guess_text": "Phosphorofluoridic acid",
+    "structure_file": "candidate_structures/24267.png"
    }
   ],
   "source_ref": {
@@ -6190,7 +6362,8 @@
     "ref_density": 1.424,
     "mv_match": false,
     "mv_pct_diff": 41.6,
-    "guess_text": "Pentanedioic acid"
+    "guess_text": "Pentanedioic acid",
+    "structure_file": "candidate_structures/743.png"
    },
    {
     "corrected_name": "7558-79-4",
@@ -6214,7 +6387,8 @@
     "ref_density": 2.5,
     "mv_match": false,
     "mv_pct_diff": 64.3,
-    "guess_text": "Dibasic Esters"
+    "guess_text": "Dibasic Esters",
+    "structure_file": "candidate_structures/24203.png"
    },
    {
     "corrected_name": "disulfiram",
@@ -6238,7 +6412,8 @@
     "ref_density": 1.27,
     "mv_match": false,
     "mv_pct_diff": 46.9,
-    "guess_text": "dupont) Mix of"
+    "guess_text": "dupont) Mix of",
+    "structure_file": "candidate_structures/3117.png"
    },
    {
     "corrected_name": "Estasol",
@@ -6262,7 +6437,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Dibasic Esters (dupont) Mix of"
+    "guess_text": "Dibasic Esters (dupont) Mix of",
+    "structure_file": "candidate_structures/125339.png"
    }
   ],
   "source_ref": {
@@ -6307,7 +6483,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "[(Ethoxydithio)oxy]etha"
+    "guess_text": "[(Ethoxydithio)oxy]etha",
+    "structure_file": "candidate_structures/8823.png"
    },
    {
     "corrected_name": "Disulfide, diethoxy",
@@ -6331,7 +6508,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Diethoxy Disulfide"
+    "guess_text": "Diethoxy Disulfide",
+    "structure_file": "candidate_structures/10898917.png"
    },
    {
     "corrected_name": "DIETHYL DISULFIDE",
@@ -6355,7 +6533,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DiethoxyDisulfid"
+    "guess_text": "DiethoxyDisulfid",
+    "structure_file": "candidate_structures/8077.png"
    },
    {
     "corrected_name": "CYCLOHEXANE",
@@ -6378,7 +6557,8 @@
     "ref_mv": 108.0,
     "ref_density": 0.779,
     "mv_match": false,
-    "mv_pct_diff": 23.7
+    "mv_pct_diff": 23.7,
+    "structure_file": "candidate_structures/8078.png"
    },
    {
     "corrected_name": "Dimethyl disulfide",
@@ -6402,7 +6582,8 @@
     "ref_density": 1.065,
     "mv_match": false,
     "mv_pct_diff": 37.5,
-    "guess_text": "DiethoxyDisulfide"
+    "guess_text": "DiethoxyDisulfide",
+    "structure_file": "candidate_structures/12232.png"
    }
   ],
   "source_ref": {
@@ -6447,7 +6628,8 @@
     "ref_density": 0.708,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Diethyl-amine"
+    "guess_text": "Diethyl-amine",
+    "structure_file": "candidate_structures/8021.png"
    },
    {
     "corrected_name": "N,N-dimethylglycine",
@@ -6471,7 +6653,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DiethylAmine/Acetic Acid"
+    "guess_text": "DiethylAmine/Acetic Acid",
+    "structure_file": "candidate_structures/673.png"
    },
    {
     "corrected_name": "1606-01-5",
@@ -6495,7 +6678,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DiethylAmine/AceticAcid"
+    "guess_text": "DiethylAmine/AceticAcid",
+    "structure_file": "candidate_structures/74151.png"
    }
   ],
   "source_ref": {
@@ -6540,7 +6724,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Acetate diethyl-(2"
+    "guess_text": "Acetate diethyl-(2",
+    "structure_file": "candidate_structures/506064.png"
    },
    {
     "corrected_name": "10549-59-4",
@@ -6564,7 +6749,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DiethylEthanolamine/Acetic Acid"
+    "guess_text": "DiethylEthanolamine/Acetic Acid",
+    "structure_file": "candidate_structures/116947.png"
    },
    {
     "corrected_name": "2-(Diethylamino)ethanol",
@@ -6588,7 +6774,8 @@
     "ref_density": 0.8921,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Diethyl Ethanolamine"
+    "guess_text": "Diethyl Ethanolamine",
+    "structure_file": "candidate_structures/7497.png"
    }
   ],
   "source_ref": {
@@ -6633,7 +6820,8 @@
     "ref_density": 0.8362,
     "mv_match": true,
     "mv_pct_diff": 0.5,
-    "guess_text": "Ethylsulfanyl-ethane"
+    "guess_text": "Ethylsulfanyl-ethane",
+    "structure_file": "candidate_structures/9609.png"
    }
   ],
   "source_ref": {
@@ -6678,7 +6866,8 @@
     "ref_density": 0.985,
     "mv_match": true,
     "mv_pct_diff": 0.4,
-    "guess_text": "Diethylene Glycol Butyl Ether Acetate"
+    "guess_text": "Diethylene Glycol Butyl Ether Acetate",
+    "structure_file": "candidate_structures/31288.png"
    },
    {
     "corrected_name": "2-Butoxyethyl chloroacetate",
@@ -6702,7 +6891,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Acetic acid 2-(2-butoxy"
+    "guess_text": "Acetic acid 2-(2-butoxy",
+    "structure_file": "candidate_structures/79237.png"
    }
   ],
   "source_ref": {
@@ -6747,7 +6937,8 @@
     "ref_density": 0.9063,
     "mv_match": true,
     "mv_pct_diff": 7.7,
-    "guess_text": "Diethylene Glycol Methylt-Butyl"
+    "guess_text": "Diethylene Glycol Methylt-Butyl",
+    "structure_file": "candidate_structures/8179.png"
    },
    {
     "corrected_name": "Tris(3-methoxyphenyl)phosphine",
@@ -6771,7 +6962,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-[2-(2-Methoxy"
+    "guess_text": "2-[2-(2-Methoxy",
+    "structure_file": "candidate_structures/141534.png"
    },
    {
     "corrected_name": "2-[2-(2-Methoxyethoxy)ethoxy]-2-methylpropane",
@@ -6795,7 +6987,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Diethylene Glycol Methyl t-Butyl"
+    "guess_text": "Diethylene Glycol Methyl t-Butyl",
+    "structure_file": "candidate_structures/104324.png"
    }
   ],
   "source_ref": {
@@ -6840,7 +7033,8 @@
     "ref_density": 0.9063,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Diethylene Glycol Methylt-Butyl Ether"
+    "guess_text": "Diethylene Glycol Methylt-Butyl Ether",
+    "structure_file": "candidate_structures/8179.png"
    },
    {
     "corrected_name": "Methyl 3-methylenecyclobutanecarboxylate",
@@ -6864,7 +7058,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Diethylene Glycol Methyl t-ButylEther"
+    "guess_text": "Diethylene Glycol Methyl t-ButylEther",
+    "structure_file": "candidate_structures/11051654.png"
    },
    {
     "corrected_name": "Ethanol, 2-[2-(pentyloxy)ethoxy]-",
@@ -6888,7 +7083,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Diethylene Glycolmethyl t-Butyl Ether"
+    "guess_text": "Diethylene Glycolmethyl t-Butyl Ether",
+    "structure_file": "candidate_structures/526900.png"
    },
    {
     "corrected_name": "2-[2-(2-Methoxyethoxy)ethoxy]-2-methylpropane",
@@ -6912,7 +7108,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Diethylene Glycol Methyl t-Butyl Ether"
+    "guess_text": "Diethylene Glycol Methyl t-Butyl Ether",
+    "structure_file": "candidate_structures/104324.png"
    }
   ],
   "source_ref": {
@@ -6961,7 +7158,8 @@
     "ref_density": 0.954,
     "mv_match": true,
     "mv_pct_diff": 0.3,
-    "guess_text": "Diethylene Glycol Butyl Ether"
+    "guess_text": "Diethylene Glycol Butyl Ether",
+    "structure_file": "candidate_structures/8177.png"
    },
    {
     "corrected_name": "DIETHYLENE GLYCOL DIETHYL ETHER",
@@ -6985,7 +7183,8 @@
     "ref_density": 0.9063,
     "mv_match": true,
     "mv_pct_diff": 4.9,
-    "guess_text": "DiethyleneGlycolButylEther"
+    "guess_text": "DiethyleneGlycolButylEther",
+    "structure_file": "candidate_structures/8179.png"
    }
   ],
   "source_ref": {
@@ -7035,7 +7234,8 @@
     "ref_density": 1.025,
     "mv_match": true,
     "mv_pct_diff": 0.7,
-    "guess_text": "Diethylene Glycol Methyl Ether"
+    "guess_text": "Diethylene Glycol Methyl Ether",
+    "structure_file": "candidate_structures/8134.png"
    },
    {
     "corrected_name": "DIETHYLENE GLYCOL DIETHYL ETHER",
@@ -7059,7 +7259,8 @@
     "ref_density": 0.9063,
     "mv_match": false,
     "mv_pct_diff": 51.7,
-    "guess_text": "DiethyleneGlycolMethylEther"
+    "guess_text": "DiethyleneGlycolMethylEther",
+    "structure_file": "candidate_structures/8179.png"
    }
   ],
   "source_ref": {
@@ -7109,7 +7310,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Dimethyl-amine;"
+    "guess_text": "Dimethyl-amine;",
+    "structure_file": "candidate_structures/15433.png"
    },
    {
     "corrected_name": "Dimethylamine hydrochloride",
@@ -7133,7 +7335,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DimethylAmine-Dimer"
+    "guess_text": "DimethylAmine-Dimer",
+    "structure_file": "candidate_structures/10473.png"
    }
   ],
   "source_ref": {
@@ -7178,7 +7381,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Methoxy-2-(2"
+    "guess_text": "1-Methoxy-2-(2",
+    "structure_file": "candidate_structures/71656190.png"
    },
    {
     "corrected_name": "dimethyldiethylene glycol",
@@ -7199,7 +7403,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DimethylDiethylene Glycol"
+    "guess_text": "DimethylDiethylene Glycol",
+    "structure_file": "candidate_structures/22145508.png"
    },
    {
     "corrected_name": "1,2-ETHANEDITHIOL",
@@ -7223,7 +7428,8 @@
     "ref_density": 1.123,
     "mv_match": false,
     "mv_pct_diff": 40.9,
-    "guess_text": "DimethylDiethyleneGlycol"
+    "guess_text": "DimethylDiethyleneGlycol",
+    "structure_file": "candidate_structures/10902.png"
    },
    {
     "corrected_name": "Diethylene glycol dibenzoate",
@@ -7247,7 +7453,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Dimethyl Diethylene Glycol"
+    "guess_text": "Dimethyl Diethylene Glycol",
+    "structure_file": "candidate_structures/8437.png"
    }
   ],
   "source_ref": {
@@ -7292,7 +7499,8 @@
     "ref_density": 1.065,
     "mv_match": true,
     "mv_pct_diff": 0.1,
-    "guess_text": "Dimethyl Disulfide"
+    "guess_text": "Dimethyl Disulfide",
+    "structure_file": "candidate_structures/12232.png"
    },
    {
     "corrected_name": "Methyldithio radical",
@@ -7314,7 +7522,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Methyldisulfanyl"
+    "guess_text": "Methyldisulfanyl",
+    "structure_file": "candidate_structures/141471.png"
    }
   ],
   "source_ref": {
@@ -7359,7 +7568,8 @@
     "ref_density": 0.887,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Dimethylamino"
+    "guess_text": "2-Dimethylamino",
+    "structure_file": "candidate_structures/7902.png"
    },
    {
     "corrected_name": "10549-59-4",
@@ -7383,7 +7593,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DimethylEthanolamine/AceticAcid"
+    "guess_text": "DimethylEthanolamine/AceticAcid",
+    "structure_file": "candidate_structures/116947.png"
    }
   ],
   "source_ref": {
@@ -7428,7 +7639,8 @@
     "ref_density": 0.887,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Dimethylamino"
+    "guess_text": "2-Dimethylamino",
+    "structure_file": "candidate_structures/7902.png"
    },
    {
     "corrected_name": "CYCLOHEXANE",
@@ -7451,7 +7663,8 @@
     "ref_mv": 108.0,
     "ref_density": 0.779,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/8078.png"
    },
    {
     "corrected_name": "10549-59-4",
@@ -7475,7 +7688,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DimethylEthanolamine/Formic Acid"
+    "guess_text": "DimethylEthanolamine/Formic Acid",
+    "structure_file": "candidate_structures/116947.png"
    }
   ],
   "source_ref": {
@@ -7520,7 +7734,8 @@
     "ref_density": 0.887,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Dimethylamino"
+    "guess_text": "2-Dimethylamino",
+    "structure_file": "candidate_structures/7902.png"
    }
   ],
   "source_ref": {
@@ -7565,7 +7780,8 @@
     "ref_density": 0.887,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Dimethyl Ethanolamine/p-Totoluene"
+    "guess_text": "Dimethyl Ethanolamine/p-Totoluene",
+    "structure_file": "candidate_structures/7902.png"
    },
    {
     "corrected_name": "Methyl p-toluenesulfonate",
@@ -7589,7 +7805,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Toluene-4-sulfonate (2"
+    "guess_text": "Toluene-4-sulfonate (2",
+    "structure_file": "candidate_structures/6645.png"
    },
    {
     "corrected_name": "4-Methylbenzenesulfonic acid",
@@ -7612,7 +7829,8 @@
     "ref_mv": 118.8,
     "ref_density": 1.45,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/6101.png"
    },
    {
     "corrected_name": "10549-59-4",
@@ -7636,7 +7854,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DimethylEthanolamine/p-Toluene"
+    "guess_text": "DimethylEthanolamine/p-Toluene",
+    "structure_file": "candidate_structures/116947.png"
    }
   ],
   "source_ref": {
@@ -7681,7 +7900,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Toluene-4-sulfonate (2"
+    "guess_text": "Toluene-4-sulfonate (2",
+    "structure_file": "candidate_structures/6645.png"
    },
    {
     "corrected_name": "2-(Dimethylamino)ethanol",
@@ -7705,7 +7925,8 @@
     "ref_density": 0.887,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DimethylEthanolamine/Thioglycolic"
+    "guess_text": "DimethylEthanolamine/Thioglycolic",
+    "structure_file": "candidate_structures/7902.png"
    }
   ],
   "source_ref": {
@@ -7750,7 +7971,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Acetate (2-hydroxy"
+    "guess_text": "Acetate (2-hydroxy",
+    "structure_file": "candidate_structures/71587459.png"
    },
    {
     "corrected_name": "108-16-7",
@@ -7774,7 +7996,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Dimethyl Isopropanol Amine"
+    "guess_text": "Dimethyl Isopropanol Amine",
+    "structure_file": "candidate_structures/37511.png"
    }
   ],
   "source_ref": {
@@ -7819,7 +8042,8 @@
     "ref_density": 0.85,
     "mv_match": true,
     "mv_pct_diff": 0.1,
-    "guess_text": "Methylsulfanyl-methane"
+    "guess_text": "Methylsulfanyl-methane",
+    "structure_file": "candidate_structures/1068.png"
    },
    {
     "corrected_name": "Dimethyl sulfide-d6",
@@ -7843,7 +8067,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Dimethyl Sulfid"
+    "guess_text": "Dimethyl Sulfid",
+    "structure_file": "candidate_structures/2724139.png"
    }
   ],
   "source_ref": {
@@ -7888,7 +8113,8 @@
     "ref_density": 0.98,
     "mv_match": false,
     "mv_pct_diff": 43.9,
-    "guess_text": "Di NOctyl Phthalate"
+    "guess_text": "Di NOctyl Phthalate",
+    "structure_file": "candidate_structures/8343.png"
    },
    {
     "corrected_name": "Dioctyl phthalate",
@@ -7912,7 +8138,8 @@
     "ref_density": 0.98,
     "mv_match": false,
     "mv_pct_diff": 43.9,
-    "guess_text": "Di-n-Octyl Phthalate"
+    "guess_text": "Di-n-Octyl Phthalate",
+    "structure_file": "candidate_structures/8346.png"
    }
   ],
   "source_ref": {
@@ -7961,7 +8188,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/10390.png"
    },
    {
     "corrected_name": "64984-31-2",
@@ -7985,7 +8213,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DiphenylAcetylene P from 0 Dipole"
+    "guess_text": "DiphenylAcetylene P from 0 Dipole",
+    "structure_file": "candidate_structures/327653.png"
    }
   ],
   "source_ref": {
@@ -8029,7 +8258,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/10390.png"
    },
    {
     "corrected_name": "1820-42-4",
@@ -8053,7 +8283,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Diphenyl Acetylene Pfrom Group Cont. (Phenylethynyl)benzene"
+    "guess_text": "Diphenyl Acetylene Pfrom Group Cont. (Phenylethynyl)benzene",
+    "structure_file": "candidate_structures/97372.png"
    },
    {
     "corrected_name": "5,6-Diphenylacenaphthylene",
@@ -8074,7 +8305,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "DiphenylAcetylene P from Group Cont. (Phenylethynyl)benzene"
+    "guess_text": "DiphenylAcetylene P from Group Cont. (Phenylethynyl)benzene",
+    "structure_file": "candidate_structures/71307445.png"
    },
    {
     "corrected_name": "1,4-Bis(phenylethynyl)benzene",
@@ -8098,7 +8330,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Phenylethynyl)benzene"
+    "guess_text": "Phenylethynyl)benzene",
+    "structure_file": "candidate_structures/624226.png"
    }
   ],
   "source_ref": {
@@ -8143,7 +8376,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Dipropylene Glycol Monon-Butyl Ether"
+    "guess_text": "Dipropylene Glycol Monon-Butyl Ether",
+    "structure_file": "candidate_structures/24752.png"
    },
    {
     "corrected_name": "Dipropylene glycol mono-tert-butyl ether",
@@ -8167,7 +8401,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Dipropylene Glycol Mono n-Butyl Ether"
+    "guess_text": "Dipropylene Glycol Mono n-Butyl Ether",
+    "structure_file": "candidate_structures/4077517.png"
    }
   ],
   "source_ref": {
@@ -8216,7 +8451,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Dipropylene Glycol Monon-Butyl Ether 1-(2-Butoxy-1-methyl-"
+    "guess_text": "Dipropylene Glycol Monon-Butyl Ether 1-(2-Butoxy-1-methyl-",
+    "structure_file": "candidate_structures/24752.png"
    },
    {
     "corrected_name": "557770-89-5",
@@ -8240,7 +8476,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "3-(3-Hydroxy-propoxy)"
+    "guess_text": "3-(3-Hydroxy-propoxy)",
+    "structure_file": "candidate_structures/135446305.png"
    }
   ],
   "source_ref": {
@@ -8285,7 +8522,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Dipropylene Glycol Monon-Prop yl"
+    "guess_text": "Dipropylene Glycol Monon-Prop yl",
+    "structure_file": "candidate_structures/24752.png"
    },
    {
     "corrected_name": "29911-27-1",
@@ -8309,7 +8547,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-(1-Methyl-2-propoxy"
+    "guess_text": "1-(1-Methyl-2-propoxy",
+    "structure_file": "candidate_structures/121752.png"
    }
   ],
   "source_ref": {
@@ -8354,7 +8593,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Dipropylene Glycol Monon-Propyl Ether"
+    "guess_text": "Dipropylene Glycol Monon-Propyl Ether",
+    "structure_file": "candidate_structures/24752.png"
    }
   ],
   "source_ref": {
@@ -8403,7 +8643,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Dipropylene Glycol Butyl Ether"
+    "guess_text": "Dipropylene Glycol Butyl Ether",
+    "structure_file": "candidate_structures/24752.png"
    },
    {
     "corrected_name": "2,4-D-2-butoxypropyl",
@@ -8427,7 +8668,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Di Propylene Glycol Butyl Ether"
+    "guess_text": "Di Propylene Glycol Butyl Ether",
+    "structure_file": "candidate_structures/14840.png"
    }
   ],
   "source_ref": {
@@ -8477,7 +8719,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinylsulfanyl-ethene"
+    "guess_text": "Vinylsulfanyl-ethene",
+    "structure_file": "candidate_structures/12321.png"
    },
    {
     "corrected_name": "Diethyl sulfide",
@@ -8501,7 +8744,8 @@
     "ref_density": 0.8362,
     "mv_match": false,
     "mv_pct_diff": 15.3,
-    "guess_text": "DivinylSulfid"
+    "guess_text": "DivinylSulfid",
+    "structure_file": "candidate_structures/9609.png"
    }
   ],
   "source_ref": {
@@ -8546,7 +8790,8 @@
     "ref_density": 0.842,
     "mv_match": true,
     "mv_pct_diff": 0.7,
-    "guess_text": "DL-Limonene"
+    "guess_text": "DL-Limonene",
+    "structure_file": "candidate_structures/22311.png"
    },
    {
     "corrected_name": "D-Limonene",
@@ -8570,7 +8815,8 @@
     "ref_density": 0.8411,
     "mv_match": true,
     "mv_pct_diff": 0.6,
-    "guess_text": "DLLimonene"
+    "guess_text": "DLLimonene",
+    "structure_file": "candidate_structures/440917.png"
    }
   ],
   "source_ref": {
@@ -8620,7 +8866,8 @@
     "ref_density": 0.951,
     "mv_match": true,
     "mv_pct_diff": 0.2,
-    "guess_text": "Dowanol Dpm"
+    "guess_text": "Dowanol Dpm",
+    "structure_file": "candidate_structures/25484.png"
    },
    {
     "corrected_name": "2-Butoxyethanol",
@@ -8644,7 +8891,8 @@
     "ref_density": 0.902,
     "mv_match": false,
     "mv_pct_diff": 16.1,
-    "guess_text": "DowanolDpme"
+    "guess_text": "DowanolDpme",
+    "structure_file": "candidate_structures/8133.png"
    }
   ],
   "source_ref": {
@@ -8694,7 +8942,8 @@
     "ref_density": 1.016,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethanolamine"
+    "guess_text": "Ethanolamine",
+    "structure_file": "candidate_structures/700.png"
    },
    {
     "corrected_name": "705941-45-3",
@@ -8718,7 +8967,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethanolamine/AceticAcid"
+    "guess_text": "Ethanolamine/AceticAcid",
+    "structure_file": "candidate_structures/2050656.png"
    },
    {
     "corrected_name": "sarcosine",
@@ -8742,7 +8992,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethanolamine/Acetic Acid"
+    "guess_text": "Ethanolamine/Acetic Acid",
+    "structure_file": "candidate_structures/1088.png"
    }
   ],
   "source_ref": {
@@ -8787,7 +9038,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "EthoxyethylPropionate"
+    "guess_text": "EthoxyethylPropionate",
+    "structure_file": "candidate_structures/97750.png"
    },
    {
     "corrected_name": "Ethyl 3-ethoxypropionate",
@@ -8811,7 +9063,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethoxyethyl Propionate"
+    "guess_text": "Ethoxyethyl Propionate",
+    "structure_file": "candidate_structures/12989.png"
    }
   ],
   "source_ref": {
@@ -8899,7 +9152,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Methylsulfanyl-ethane"
+    "guess_text": "Methylsulfanyl-ethane",
+    "structure_file": "candidate_structures/12230.png"
    },
    {
     "corrected_name": "Ethylmethylmalonic acid",
@@ -8923,7 +9177,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylmethyl Sulfid"
+    "guess_text": "Ethylmethyl Sulfid",
+    "structure_file": "candidate_structures/68991.png"
    }
   ],
   "source_ref": {
@@ -8968,7 +9223,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycol Butylmethyl Ether"
+    "guess_text": "Ethylene Glycol Butylmethyl Ether",
+    "structure_file": "candidate_structures/16492.png"
    },
    {
     "corrected_name": "Methyl 3-methylenecyclobutanecarboxylate",
@@ -8992,7 +9248,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycolbutyl Methyl Ether"
+    "guess_text": "Ethylene Glycolbutyl Methyl Ether",
+    "structure_file": "candidate_structures/11051654.png"
    },
    {
     "corrected_name": "TRIETHYLENE GLYCOL MONOBUTYL ETHER",
@@ -9016,7 +9273,8 @@
     "ref_density": 0.989,
     "mv_match": false,
     "mv_pct_diff": 32.7,
-    "guess_text": "Ethylene Glycol Butyl MethylEther"
+    "guess_text": "Ethylene Glycol Butyl MethylEther",
+    "structure_file": "candidate_structures/8923.png"
    }
   ],
   "source_ref": {
@@ -9065,7 +9323,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycol Methylt-Butyl"
+    "guess_text": "Ethylene Glycol Methylt-Butyl",
+    "structure_file": "candidate_structures/28875369.png"
    },
    {
     "corrected_name": "2-tert-Butoxyethanol",
@@ -9089,7 +9348,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycolmethyl t-Butyl"
+    "guess_text": "Ethylene Glycolmethyl t-Butyl",
+    "structure_file": "candidate_structures/24232.png"
    },
    {
     "corrected_name": "1,2-DIMETHOXYETHANE",
@@ -9113,7 +9373,8 @@
     "ref_density": 0.868,
     "mv_match": false,
     "mv_pct_diff": 34.1,
-    "guess_text": "EthyleneGlycolMethylt-Butyl"
+    "guess_text": "EthyleneGlycolMethylt-Butyl",
+    "structure_file": "candidate_structures/8071.png"
    },
    {
     "corrected_name": "2136-71-2",
@@ -9137,7 +9398,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycol Methyl t-Butyl"
+    "guess_text": "Ethylene Glycol Methyl t-Butyl",
+    "structure_file": "candidate_structures/16492.png"
    }
   ],
   "source_ref": {
@@ -9182,7 +9444,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycol Methylt-Butyl Ether"
+    "guess_text": "Ethylene Glycol Methylt-Butyl Ether",
+    "structure_file": "candidate_structures/28875369.png"
    },
    {
     "corrected_name": "2136-71-2",
@@ -9206,7 +9469,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycol Methyl t-ButylEther"
+    "guess_text": "Ethylene Glycol Methyl t-ButylEther",
+    "structure_file": "candidate_structures/16492.png"
    },
    {
     "corrected_name": "TRIETHYLENE GLYCOL MONOBUTYL ETHER",
@@ -9230,7 +9494,8 @@
     "ref_density": 0.989,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycolmethyl t-Butyl Ether"
+    "guess_text": "Ethylene Glycolmethyl t-Butyl Ether",
+    "structure_file": "candidate_structures/8923.png"
    },
    {
     "corrected_name": "3-Methyl-1-phenethylbutylamine",
@@ -9254,7 +9519,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycol Methyl t-Butyl Ether"
+    "guess_text": "Ethylene Glycol Methyl t-Butyl Ether",
+    "structure_file": "candidate_structures/110842.png"
    }
   ],
   "source_ref": {
@@ -9303,7 +9569,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycol Mono 2-Ethylhexyl Ether"
+    "guess_text": "Ethylene Glycol Mono 2-Ethylhexyl Ether",
+    "structure_file": "candidate_structures/15260.png"
    },
    {
     "corrected_name": "2-Isobutoxyethanol",
@@ -9327,7 +9594,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycol Mono 2-Ethyl Hexyl Ether"
+    "guess_text": "Ethylene Glycol Mono 2-Ethyl Hexyl Ether",
+    "structure_file": "candidate_structures/521158.png"
    }
   ],
   "source_ref": {
@@ -9374,7 +9642,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-(2-Ethyl-hexyloxy)"
+    "guess_text": "2-(2-Ethyl-hexyloxy)",
+    "structure_file": "candidate_structures/18798340.png"
    },
    {
     "corrected_name": "2-(2-Ethylhexyloxy)ethanol",
@@ -9398,7 +9667,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycol Mono-2-Ethylhexyl"
+    "guess_text": "Ethylene Glycol Mono-2-Ethylhexyl",
+    "structure_file": "candidate_structures/15260.png"
    },
    {
     "corrected_name": "2-(Octyloxy)ethanol",
@@ -9422,7 +9692,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "EthyleneGlycolMono-2-EthylHexyl"
+    "guess_text": "EthyleneGlycolMono-2-EthylHexyl",
+    "structure_file": "candidate_structures/82296.png"
    },
    {
     "corrected_name": "2-Isobutoxyethanol",
@@ -9446,7 +9717,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Glycol Mono-2-Ethyl Hexyl"
+    "guess_text": "Ethylene Glycol Mono-2-Ethyl Hexyl",
+    "structure_file": "candidate_structures/521158.png"
    }
   ],
   "source_ref": {
@@ -9491,7 +9763,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "[1,3,2]Dioxathiolane 2"
+    "guess_text": "[1,3,2]Dioxathiolane 2",
+    "structure_file": "candidate_structures/9964107.png"
    },
    {
     "corrected_name": "Ethylene sulfite",
@@ -9514,7 +9787,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/77342.png"
    },
    {
     "corrected_name": "3386-87-6",
@@ -9538,7 +9812,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "EthyleneGlycolSulfit"
+    "guess_text": "EthyleneGlycolSulfit",
+    "structure_file": "candidate_structures/76921.png"
    }
   ],
   "source_ref": {
@@ -9583,7 +9858,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylenemethyl Sulfonate"
+    "guess_text": "Ethylenemethyl Sulfonate",
+    "structure_file": "candidate_structures/3270262.png"
    },
    {
     "corrected_name": "Sodium 4-ethylbenzenesulfonate",
@@ -9607,7 +9883,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylene Methyl Sulfonate"
+    "guess_text": "Ethylene Methyl Sulfonate",
+    "structure_file": "candidate_structures/23675352.png"
    }
   ],
   "source_ref": {
@@ -9656,7 +9933,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Thiirane"
+    "guess_text": "Thiirane",
+    "structure_file": "candidate_structures/9865.png"
    },
    {
     "corrected_name": "VINYLSULFONIC ACID",
@@ -9680,7 +9958,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "EthyleneSulfid"
+    "guess_text": "EthyleneSulfid",
+    "structure_file": "candidate_structures/62474.png"
    }
   ],
   "source_ref": {
@@ -9725,7 +10004,8 @@
     "ref_density": 0.902,
     "mv_match": true,
     "mv_pct_diff": 0.5,
-    "guess_text": "Ethylene Glycol Butyl Ether"
+    "guess_text": "Ethylene Glycol Butyl Ether",
+    "structure_file": "candidate_structures/8133.png"
    },
    {
     "corrected_name": "2-(Octyloxy)ethanol",
@@ -9749,7 +10029,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "EthyleneGlycolButylEther"
+    "guess_text": "EthyleneGlycolButylEther",
+    "structure_file": "candidate_structures/82296.png"
    }
   ],
   "source_ref": {
@@ -9799,7 +10080,8 @@
     "ref_density": 1.1094,
     "mv_match": true,
     "mv_pct_diff": 0.2,
-    "guess_text": "Ethylene Glycol Monophenyl Ether"
+    "guess_text": "Ethylene Glycol Monophenyl Ether",
+    "structure_file": "candidate_structures/31236.png"
    },
    {
     "corrected_name": "6196-58-3",
@@ -9823,7 +10105,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "EthyleneGlycolMonophenylEther"
+    "guess_text": "EthyleneGlycolMonophenylEther",
+    "structure_file": "candidate_structures/522003.png"
    }
   ],
   "source_ref": {
@@ -9873,7 +10156,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethynyl PropylEther"
+    "guess_text": "Ethynyl PropylEther",
+    "structure_file": "candidate_structures/3782762.png"
    },
    {
     "corrected_name": "(1-Ethylpropyl)benzene",
@@ -9897,7 +10181,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethynylpropyl Ether"
+    "guess_text": "Ethynylpropyl Ether",
+    "structure_file": "candidate_structures/14527.png"
    },
    {
     "corrected_name": "3-Ethynylperylene",
@@ -9921,7 +10206,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "EthynylPropylEther"
+    "guess_text": "EthynylPropylEther",
+    "structure_file": "candidate_structures/125532.png"
    },
    {
     "corrected_name": "ethyl 2-[(cyclopropylmethyl)amino]acetate",
@@ -9945,7 +10231,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethynyl Propyl Ether"
+    "guess_text": "Ethynyl Propyl Ether",
+    "structure_file": "candidate_structures/22175907.png"
    }
   ],
   "source_ref": {
@@ -9994,7 +10281,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "7,7-Dimethyl-2"
+    "guess_text": "7,7-Dimethyl-2",
+    "structure_file": "candidate_structures/7943.png"
    },
    {
     "corrected_name": "2-Methyl-4-phenylbutanal",
@@ -10018,7 +10306,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Fenchene(alpha)"
+    "guess_text": "Fenchene(alpha)",
+    "structure_file": "candidate_structures/62911.png"
    },
    {
     "corrected_name": "alpha-Fenchene",
@@ -10041,7 +10330,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/28930.png"
    },
    {
     "corrected_name": "Fenchone",
@@ -10065,7 +10355,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Fenchene"
+    "guess_text": "Fenchene",
+    "structure_file": "candidate_structures/14525.png"
    },
    {
     "corrected_name": "alfacalcidol",
@@ -10089,7 +10380,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Alfa"
+    "guess_text": "Alfa",
+    "structure_file": "candidate_structures/5282181.png"
    }
   ],
   "source_ref": {
@@ -10134,7 +10426,8 @@
     "ref_density": 1.1583,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "GlycerolCarbonateAcetate"
+    "guess_text": "GlycerolCarbonateAcetate",
+    "structure_file": "candidate_structures/5541.png"
    },
    {
     "corrected_name": "methocarbamol",
@@ -10158,7 +10451,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Glycerol Carbonate Acetate"
+    "guess_text": "Glycerol Carbonate Acetate",
+    "structure_file": "candidate_structures/4107.png"
    }
   ],
   "source_ref": {
@@ -10207,7 +10501,8 @@
     "ref_density": 1.135,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Glycerol Carbonate EthylEther"
+    "guess_text": "Glycerol Carbonate EthylEther",
+    "structure_file": "candidate_structures/10928.png"
    },
    {
     "corrected_name": "2-METHOXYETHANOL",
@@ -10231,7 +10526,8 @@
     "ref_density": 0.966,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Glycerol Carbonateethyl Ether"
+    "guess_text": "Glycerol Carbonateethyl Ether",
+    "structure_file": "candidate_structures/8019.png"
    },
    {
     "corrected_name": "Dimethoxymethane",
@@ -10255,7 +10551,8 @@
     "ref_density": 0.861,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "GlycerolCarbonateEthylEther"
+    "guess_text": "GlycerolCarbonateEthylEther",
+    "structure_file": "candidate_structures/8020.png"
    }
   ],
   "source_ref": {
@@ -10303,7 +10600,8 @@
     "ref_mv": 105.3,
     "ref_density": 1.596,
     "mv_match": true,
-    "mv_pct_diff": 0.0
+    "mv_pct_diff": 0.0,
+    "structure_file": "candidate_structures/13529.png"
    }
   ],
   "source_ref": {
@@ -10348,7 +10646,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,2,3,4,5,6-Hexafluoro"
+    "guess_text": "1,2,3,4,5,6-Hexafluoro",
+    "structure_file": "candidate_structures/9805.png"
    },
    {
     "corrected_name": "2043-47-2",
@@ -10372,7 +10671,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Hexafluoohexanol"
+    "guess_text": "Hexafluoohexanol",
+    "structure_file": "candidate_structures/74883.png"
    },
    {
     "corrected_name": "1,1,1,6,6,6-HEXAFLUOROHEXANE",
@@ -10396,7 +10696,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Hexafluo ohexanol"
+    "guess_text": "Hexafluo ohexanol",
+    "structure_file": "candidate_structures/52991867.png"
    }
   ],
   "source_ref": {
@@ -10440,7 +10741,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/69636.png"
    },
    {
     "corrected_name": "1,1,2,3,4,4-hexafluorobutane",
@@ -10464,7 +10766,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,1,2,3,4,4-Hexafluoro"
+    "guess_text": "1,1,2,3,4,4-Hexafluoro",
+    "structure_file": "candidate_structures/13597428.png"
    }
   ],
   "source_ref": {
@@ -10508,7 +10811,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/9805.png"
    }
   ],
   "source_ref": {
@@ -10553,7 +10857,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Hexafluorohexanol"
+    "guess_text": "Hexafluorohexanol",
+    "structure_file": "candidate_structures/74883.png"
    }
   ],
   "source_ref": {
@@ -10598,7 +10903,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Iodo-buta-1,3-diene"
+    "guess_text": "2-Iodo-buta-1,3-diene",
+    "structure_file": "candidate_structures/12304722.png"
    },
    {
     "corrected_name": "1-Bromo-4-iodobutane",
@@ -10622,7 +10928,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "2-Iodo-1,3-butadiene"
+    "guess_text": "2-Iodo-1,3-butadiene",
+    "structure_file": "candidate_structures/544364.png"
    },
    {
     "corrected_name": "1-iodopyrene",
@@ -10646,7 +10953,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Iodoprene"
+    "guess_text": "Iodoprene",
+    "structure_file": "candidate_structures/13555714.png"
    }
   ],
   "source_ref": {
@@ -10691,7 +10999,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "MethylAllyl Cyanide"
+    "guess_text": "MethylAllyl Cyanide",
+    "structure_file": "candidate_structures/76141.png"
    },
    {
     "corrected_name": "N-Ethyl-2-methylallylamine",
@@ -10715,7 +11024,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Methyl Allyl Cyanide"
+    "guess_text": "Methyl Allyl Cyanide",
+    "structure_file": "candidate_structures/87587.png"
    }
   ],
   "source_ref": {
@@ -10763,7 +11073,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/7520.png"
    },
    {
     "corrected_name": "Ethyl 4-fluoro-2-methylphenyl sulfide",
@@ -10787,7 +11098,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Methylphenyl Sulfid"
+    "guess_text": "Methylphenyl Sulfid",
+    "structure_file": "candidate_structures/55270256.png"
    },
    {
     "corrected_name": "Ethylphenylsulfoxide",
@@ -10811,7 +11123,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "MethylPhenylSulfid"
+    "guess_text": "MethylPhenylSulfid",
+    "structure_file": "candidate_structures/138143.png"
    }
   ],
   "source_ref": {
@@ -10856,7 +11169,8 @@
     "ref_density": 1.3314,
     "mv_match": true,
     "mv_pct_diff": 1.6,
-    "guess_text": "Methyl Phosphonic Difluoride"
+    "guess_text": "Methyl Phosphonic Difluoride",
+    "structure_file": "candidate_structures/69610.png"
    },
    {
     "corrected_name": "Methylphosphonic acid",
@@ -10880,7 +11194,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Methylphosphonic"
+    "guess_text": "Methylphosphonic",
+    "structure_file": "candidate_structures/13818.png"
    },
    {
     "corrected_name": "Methylphosphonfluoridate",
@@ -10904,7 +11219,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "MethylPhosphonicDifluorid"
+    "guess_text": "MethylPhosphonicDifluorid",
+    "structure_file": "candidate_structures/196996.png"
    },
    {
     "corrected_name": "Ethyl methylphosphonofluoridate",
@@ -10928,7 +11244,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Methyl Phosphonic Difluorid"
+    "guess_text": "Methyl Phosphonic Difluorid",
+    "structure_file": "candidate_structures/160541.png"
    }
   ],
   "source_ref": {
@@ -10973,7 +11290,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Methylsulfanyl-ethene"
+    "guess_text": "Methylsulfanyl-ethene",
+    "structure_file": "candidate_structures/123131.png"
    },
    {
     "corrected_name": "Bis(dimethylamino)methylvinylsilane",
@@ -10997,7 +11315,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Methylvinyl Sulfid"
+    "guess_text": "Methylvinyl Sulfid",
+    "structure_file": "candidate_structures/83383.png"
    }
   ],
   "source_ref": {
@@ -11042,7 +11361,8 @@
     "ref_density": 1.0688,
     "mv_match": true,
     "mv_pct_diff": 1.7,
-    "guess_text": "Mono 2-Ethyl-Hexyl Phthalate (MEHP) Phthalicacid mono-(2-"
+    "guess_text": "Mono 2-Ethyl-Hexyl Phthalate (MEHP) Phthalicacid mono-(2-",
+    "structure_file": "candidate_structures/20393.png"
    },
    {
     "corrected_name": "Phthalazine-1-carboxylic acid",
@@ -11066,7 +11386,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Phthalic acid mono-(2"
+    "guess_text": "Phthalic acid mono-(2",
+    "structure_file": "candidate_structures/12665823.png"
    },
    {
     "corrected_name": "Diethyl phthalimidomalonate",
@@ -11090,7 +11411,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "MEHP) Phthalic acid mono-(2-"
+    "guess_text": "MEHP) Phthalic acid mono-(2-",
+    "structure_file": "candidate_structures/79760.png"
    }
   ],
   "source_ref": {
@@ -11135,7 +11457,8 @@
     "ref_density": 1.0,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Morpholine"
+    "guess_text": "Morpholine",
+    "structure_file": "candidate_structures/8083.png"
    },
    {
     "corrected_name": "3235-69-6",
@@ -11159,7 +11482,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Morpholine/AceticAcid"
+    "guess_text": "Morpholine/AceticAcid",
+    "structure_file": "candidate_structures/438968.png"
    }
   ],
   "source_ref": {
@@ -11204,7 +11528,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "N,N-DichloromethylAmine"
+    "guess_text": "N,N-DichloromethylAmine",
+    "structure_file": "candidate_structures/123255.png"
    },
    {
     "corrected_name": "25891-29-6",
@@ -11227,7 +11552,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "N,N-Dichloromethyl Amine"
+    "guess_text": "N,N-Dichloromethyl Amine",
+    "structure_file": "candidate_structures/12418771.png"
    }
   ],
   "source_ref": {
@@ -11276,7 +11602,8 @@
     "ref_density": 0.7914,
     "mv_match": true,
     "mv_pct_diff": 0.1,
-    "guess_text": "N,N-Dimethylhydrazine"
+    "guess_text": "N,N-Dimethylhydrazine",
+    "structure_file": "candidate_structures/5976.png"
    }
   ],
   "source_ref": {
@@ -11326,7 +11653,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Acetate butyl"
+    "guess_text": "Acetate butyl",
+    "structure_file": "candidate_structures/517044.png"
    },
    {
     "corrected_name": "N-ACETYLGLYCINE",
@@ -11350,7 +11678,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "N-ButylAmine/Acetic Acid"
+    "guess_text": "N-ButylAmine/Acetic Acid",
+    "structure_file": "candidate_structures/10972.png"
    },
    {
     "corrected_name": "Butylamine",
@@ -11374,7 +11703,8 @@
     "ref_density": 0.741,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "N-Butyl Amine"
+    "guess_text": "N-Butyl Amine",
+    "structure_file": "candidate_structures/8007.png"
    },
    {
     "corrected_name": "2-(tert-butylamino)acetic acid",
@@ -11398,7 +11728,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "N-ButylAmine/AceticAcid"
+    "guess_text": "N-ButylAmine/AceticAcid",
+    "structure_file": "candidate_structures/414246.png"
    }
   ],
   "source_ref": {
@@ -11442,7 +11773,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/18984.png"
    }
   ],
   "source_ref": {
@@ -11486,7 +11818,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/91280.png"
    },
    {
     "corrected_name": "1-(Dimethoxymethyl)hexahydro-1H-azepine",
@@ -11510,7 +11843,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "N-Formyl Hexamethylene Imine"
+    "guess_text": "N-Formyl Hexamethylene Imine",
+    "structure_file": "candidate_structures/118352.png"
    }
   ],
   "source_ref": {
@@ -11555,7 +11889,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Methylamino-1"
+    "guess_text": "2-Methylamino-1",
+    "structure_file": "candidate_structures/90645590.png"
    },
    {
     "corrected_name": "phenylpropanolamine",
@@ -11579,7 +11914,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Norephedrine"
+    "guess_text": "Norephedrine",
+    "structure_file": "candidate_structures/10297.png"
    },
    {
     "corrected_name": "racephedrine",
@@ -11602,7 +11938,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/5032.png"
    },
    {
     "corrected_name": "Norephedrine, 3,4-dihydroxy-N-isopropyl-",
@@ -11626,7 +11963,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Norephedrin"
+    "guess_text": "Norephedrin",
+    "structure_file": "candidate_structures/203060.png"
    }
   ],
   "source_ref": {
@@ -11670,7 +12008,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/9583.png"
    },
    {
     "corrected_name": "1-(1-Chloro-2-fluoroethyl)-3-fluorobenzene",
@@ -11691,7 +12030,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Chloro-2-fluoro"
+    "guess_text": "1-Chloro-2-fluoro",
+    "structure_file": "candidate_structures/129921070.png"
    }
   ],
   "source_ref": {
@@ -11735,7 +12075,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/9706.png"
    }
   ],
   "source_ref": {
@@ -11780,7 +12121,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Paraquat 1,1'-Dimethyl-4,4'-"
+    "guess_text": "Paraquat 1,1'-Dimethyl-4,4'-",
+    "structure_file": "candidate_structures/12980.png"
    }
   ],
   "source_ref": {
@@ -11825,7 +12167,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Pentafluorobenzophenone"
+    "guess_text": "Pentafluorobenzophenone",
+    "structure_file": "candidate_structures/73755.png"
    },
    {
     "corrected_name": "652-29-9",
@@ -11848,7 +12191,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/69546.png"
    },
    {
     "corrected_name": "Tris(pentafluorophenyl)borane",
@@ -11872,7 +12216,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "1-Pentafluorophe yl"
+    "guess_text": "1-Pentafluorophe yl",
+    "structure_file": "candidate_structures/582056.png"
    }
   ],
   "source_ref": {
@@ -11916,7 +12261,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/15367.png"
    },
    {
     "corrected_name": "N,N-Dimethyl-1-piperidinecarboxamide",
@@ -11940,7 +12286,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "PentamethyleneSulfid"
+    "guess_text": "PentamethyleneSulfid",
+    "structure_file": "candidate_structures/99268.png"
    }
   ],
   "source_ref": {
@@ -11985,7 +12332,8 @@
     "ref_density": 0.876,
     "mv_match": true,
     "mv_pct_diff": 0.4,
-    "guess_text": "Pentyl Acetate"
+    "guess_text": "Pentyl Acetate",
+    "structure_file": "candidate_structures/12348.png"
    }
   ],
   "source_ref": {
@@ -12035,7 +12383,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Perfluoro Dimetylcyclohexane"
+    "guess_text": "Perfluoro Dimetylcyclohexane",
+    "structure_file": "candidate_structures/78975.png"
    },
    {
     "corrected_name": "3,5-Dibromopyridine",
@@ -12059,7 +12408,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,1,2,2,3,4,4,5,5,6"
+    "guess_text": "1,1,2,2,3,4,4,5,5,6",
+    "structure_file": "candidate_structures/69369.png"
    },
    {
     "corrected_name": "374-77-6",
@@ -12082,7 +12432,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/221051.png"
    }
   ],
   "source_ref": {
@@ -12127,7 +12478,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,1,2,2,3,3,4,4,5,5,6"
+    "guess_text": "1,1,2,2,3,3,4,4,5,5,6",
+    "structure_file": "candidate_structures/69369.png"
    },
    {
     "corrected_name": "335-27-3",
@@ -12151,7 +12503,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Perfluorometylcyclohexane"
+    "guess_text": "Perfluorometylcyclohexane",
+    "structure_file": "candidate_structures/78975.png"
    },
    {
     "corrected_name": "Perfluoro(methylcyclohexane)",
@@ -12174,7 +12527,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/9637.png"
    }
   ],
   "source_ref": {
@@ -12219,7 +12573,8 @@
     "ref_density": 1.645,
     "mv_match": true,
     "mv_pct_diff": 0.0,
-    "guess_text": "Phosphoric trichloride"
+    "guess_text": "Phosphoric trichloride",
+    "structure_file": "candidate_structures/24813.png"
    },
    {
     "corrected_name": "oxophosphanyl",
@@ -12243,7 +12598,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Phosphoryl"
+    "guess_text": "Phosphoryl",
+    "structure_file": "candidate_structures/6857426.png"
    }
   ],
   "source_ref": {
@@ -12288,7 +12644,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "PineOil"
+    "guess_text": "PineOil",
+    "structure_file": "candidate_structures/101153.png"
    },
    {
     "corrected_name": "tryptamine",
@@ -12312,7 +12669,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Pine Oil"
+    "guess_text": "Pine Oil",
+    "structure_file": "candidate_structures/1150.png"
    }
   ],
   "source_ref": {
@@ -12357,7 +12715,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "* Oxirane-2-carbaldehyde"
+    "guess_text": "* Oxirane-2-carbaldehyde",
+    "structure_file": "candidate_structures/13002.png"
    }
   ],
   "source_ref": {
@@ -12402,7 +12761,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Propyl Propionate"
+    "guess_text": "Propyl Propionate",
+    "structure_file": "candidate_structures/7803.png"
    }
   ],
   "source_ref": {
@@ -12452,7 +12812,8 @@
     "ref_density": 0.8665,
     "mv_match": true,
     "mv_pct_diff": 0.5,
-    "guess_text": "Tert Butyl Acetate"
+    "guess_text": "Tert Butyl Acetate",
+    "structure_file": "candidate_structures/10908.png"
    },
    {
     "corrected_name": "Ethyl tert-butylacetate",
@@ -12476,7 +12837,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "TertButylAcetate"
+    "guess_text": "TertButylAcetate",
+    "structure_file": "candidate_structures/79284.png"
    }
   ],
   "source_ref": {
@@ -12526,7 +12888,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Tetrahydro-thiophene"
+    "guess_text": "Tetrahydro-thiophene",
+    "structure_file": "candidate_structures/1127.png"
    },
    {
     "corrected_name": "1,3-diazepan-2-one",
@@ -12550,7 +12913,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "TetramethyleneSulfid"
+    "guess_text": "TetramethyleneSulfid",
+    "structure_file": "candidate_structures/29396.png"
    }
   ],
   "source_ref": {
@@ -12594,7 +12958,8 @@
     "ref_mv": 95.4,
     "ref_density": 1.26,
     "mv_match": true,
-    "mv_pct_diff": 0.3
+    "mv_pct_diff": 0.3,
+    "structure_file": "candidate_structures/31347.png"
    },
    {
     "corrected_name": "tetrahydrothiophene",
@@ -12618,7 +12983,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Tetrahydro-thiophene"
+    "guess_text": "Tetrahydro-thiophene",
+    "structure_file": "candidate_structures/1127.png"
    },
    {
     "corrected_name": "50578-18-2",
@@ -12642,7 +13008,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Tetramethylene Sulfone (Sulfolane)"
+    "guess_text": "Tetramethylene Sulfone (Sulfolane)",
+    "structure_file": "candidate_structures/11274993.png"
    }
   ],
   "source_ref": {
@@ -12687,7 +13054,8 @@
     "ref_density": 1.3253,
     "mv_match": true,
     "mv_pct_diff": 0.0,
-    "guess_text": "Mercapto-acetic acid"
+    "guess_text": "Mercapto-acetic acid",
+    "structure_file": "candidate_structures/1133.png"
    }
   ],
   "source_ref": {
@@ -12732,7 +13100,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "(E)-2-Methyl-but-2-enal"
+    "guess_text": "(E)-2-Methyl-but-2-enal",
+    "structure_file": "candidate_structures/10336.png"
    },
    {
     "corrected_name": "CYCLOHEXANE",
@@ -12755,7 +13124,8 @@
     "ref_mv": 108.0,
     "ref_density": 0.779,
     "mv_match": true,
-    "mv_pct_diff": 11.8
+    "mv_pct_diff": 11.8,
+    "structure_file": "candidate_structures/8078.png"
    },
    {
     "corrected_name": "trans-2-Methyl-2-butenal",
@@ -12779,7 +13149,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Tiglic aldehyde"
+    "guess_text": "Tiglic aldehyde",
+    "structure_file": "candidate_structures/5321950.png"
    },
    {
     "corrected_name": "Adenosine dialdehyde",
@@ -12803,7 +13174,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Tigaldehyde"
+    "guess_text": "Tigaldehyde",
+    "structure_file": "candidate_structures/99920.png"
    }
   ],
   "source_ref": {
@@ -12848,7 +13220,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "3-Acetoxy-3"
+    "guess_text": "3-Acetoxy-3",
+    "structure_file": "candidate_structures/12399712.png"
    },
    {
     "corrected_name": "1522-34-5",
@@ -12872,7 +13245,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Tri-n-ButylAcetyl Citrate"
+    "guess_text": "Tri-n-ButylAcetyl Citrate",
+    "structure_file": "candidate_structures/538758.png"
    },
    {
     "corrected_name": "ACETYL TRIBUTYL CITRATE",
@@ -12896,7 +13270,8 @@
     "ref_density": 1.046,
     "mv_match": true,
     "mv_pct_diff": 0.1,
-    "guess_text": "Tri-n-Butyl Acetyl Citrate"
+    "guess_text": "Tri-n-Butyl Acetyl Citrate",
+    "structure_file": "candidate_structures/6505.png"
    },
    {
     "corrected_name": "Ethyl 2-acetylhexanoate",
@@ -12920,7 +13295,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Tri-n-ButylAcetylCitrate"
+    "guess_text": "Tri-n-ButylAcetylCitrate",
+    "structure_file": "candidate_structures/95466.png"
    }
   ],
   "source_ref": {
@@ -12965,7 +13341,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Acetic acid 2-acetoxy-1"
+    "guess_text": "Acetic acid 2-acetoxy-1",
+    "structure_file": "candidate_structures/3854540.png"
    },
    {
     "corrected_name": "Trimethyl 1,2,3-propanetricarboxylate",
@@ -12989,7 +13366,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Triacetin (1,2,3-Propanetriol Triacetate) Aceticacid 2-acetoxy-1-"
+    "guess_text": "Triacetin (1,2,3-Propanetriol Triacetate) Aceticacid 2-acetoxy-1-",
+    "structure_file": "candidate_structures/581486.png"
    },
    {
     "corrected_name": "triacetin",
@@ -13013,7 +13391,8 @@
     "ref_density": 1.1583,
     "mv_match": true,
     "mv_pct_diff": 0.1,
-    "guess_text": "Triacetin"
+    "guess_text": "Triacetin",
+    "structure_file": "candidate_structures/5541.png"
    },
    {
     "corrected_name": "ARG5RVD6RI",
@@ -13037,7 +13416,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,2,3-Propanetriol Triacetate) Acetic acid 2-acetoxy-1-"
+    "guess_text": "1,2,3-Propanetriol Triacetate) Acetic acid 2-acetoxy-1-",
+    "structure_file": "candidate_structures/146035712.png"
    }
   ],
   "source_ref": {
@@ -13082,7 +13462,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "* 1,1,2-Tribromo-ethene"
+    "guess_text": "* 1,1,2-Tribromo-ethene",
+    "structure_file": "candidate_structures/11712.png"
    }
   ],
   "source_ref": {
@@ -13127,7 +13508,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-[Bis-(2-hydroxy"
+    "guess_text": "2-[Bis-(2-hydroxy",
+    "structure_file": "candidate_structures/8430.png"
    },
    {
     "corrected_name": "TRIETHANOLAMINE",
@@ -13150,7 +13532,8 @@
     "ref_mv": 132.0,
     "ref_density": 1.13,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/7618.png"
    },
    {
     "corrected_name": "betaine",
@@ -13174,7 +13557,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Triethanolamine/AceticAcid"
+    "guess_text": "Triethanolamine/AceticAcid",
+    "structure_file": "candidate_structures/247.png"
    }
   ],
   "source_ref": {
@@ -13218,7 +13602,8 @@
     "ref_mv": 74.5,
     "ref_density": 1.531,
     "mv_match": true,
-    "mv_pct_diff": 0.4
+    "mv_pct_diff": 0.4,
+    "structure_file": "candidate_structures/6422.png"
    },
    {
     "corrected_name": "Trifluoroacetic acid-d",
@@ -13242,7 +13627,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Trifluoroacetic Aci"
+    "guess_text": "Trifluoroacetic Aci",
+    "structure_file": "candidate_structures/71502.png"
    }
   ],
   "source_ref": {
@@ -13287,7 +13673,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Trifluoromethyl Undecafluorocyclohexane"
+    "guess_text": "Trifluoromethyl Undecafluorocyclohexane",
+    "structure_file": "candidate_structures/9637.png"
    }
   ],
   "source_ref": {
@@ -13337,7 +13724,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Benzene-1,2,4"
+    "guess_text": "Benzene-1,2,4",
+    "structure_file": "candidate_structures/10708.png"
    },
    {
     "corrected_name": "Triisononylamine",
@@ -13361,7 +13749,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "TriisononylTrimellilate"
+    "guess_text": "TriisononylTrimellilate",
+    "structure_file": "candidate_structures/87508.png"
    },
    {
     "corrected_name": "Triallyl trimellitate",
@@ -13385,7 +13774,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Triisononyl Trimellilate"
+    "guess_text": "Triisononyl Trimellilate",
+    "structure_file": "candidate_structures/75903.png"
    }
   ],
   "source_ref": {
@@ -13430,7 +13820,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Thietane"
+    "guess_text": "Thietane",
+    "structure_file": "candidate_structures/9251.png"
    },
    {
     "corrected_name": "Oxetane",
@@ -13454,7 +13845,8 @@
     "ref_density": 0.893,
     "mv_match": true,
     "mv_pct_diff": 10.7,
-    "guess_text": "Trimethylenesulfid"
+    "guess_text": "Trimethylenesulfid",
+    "structure_file": "candidate_structures/10423.png"
    }
   ],
   "source_ref": {
@@ -13499,7 +13891,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Trinitro-methane"
+    "guess_text": "Trinitro-methane",
+    "structure_file": "candidate_structures/10602.png"
    }
   ],
   "source_ref": {
@@ -13544,7 +13937,8 @@
     "ref_density": 1.654,
     "mv_match": true,
     "mv_pct_diff": 0.2,
-    "guess_text": "2-Methyl-1,3,5-trinitro"
+    "guess_text": "2-Methyl-1,3,5-trinitro",
+    "structure_file": "candidate_structures/8376.png"
    },
    {
     "corrected_name": "14531-55-6",
@@ -13568,7 +13962,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "TNT) P by Dipole"
+    "guess_text": "TNT) P by Dipole",
+    "structure_file": "candidate_structures/146172.png"
    }
   ],
   "source_ref": {
@@ -13613,7 +14008,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Tripropylene Glycol Monomethyl"
+    "guess_text": "Tripropylene Glycol Monomethyl",
+    "structure_file": "candidate_structures/2737322.png"
    },
    {
     "corrected_name": "29911-28-2",
@@ -13637,7 +14033,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Tripropylene Glycol Monometh yl"
+    "guess_text": "Tripropylene Glycol Monometh yl",
+    "structure_file": "candidate_structures/24752.png"
    }
   ],
   "source_ref": {
@@ -13682,7 +14079,8 @@
     "ref_density": 1.34,
     "mv_match": true,
     "mv_pct_diff": 2.2,
-    "guess_text": "Urea"
+    "guess_text": "Urea",
+    "structure_file": "candidate_structures/1176.png"
    },
    {
     "corrected_name": "INDOLE-3-CARBOXALDEHYDE",
@@ -13706,7 +14104,8 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "Ro = 19.4"
+    "guess_text": "Ro = 19.4",
+    "structure_file": "candidate_structures/10256.png"
    }
   ],
   "source_ref": {
@@ -13750,7 +14149,8 @@
     "ref_mv": 144.1,
     "ref_density": 1.056,
     "mv_match": true,
-    "mv_pct_diff": 0.0
+    "mv_pct_diff": 0.0,
+    "structure_file": "candidate_structures/1183.png"
    },
    {
     "corrected_name": "Methyl 4-(2-hydroxyethoxy)benzoate",
@@ -13774,7 +14174,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vanillin (4-Hydroxy-3-Methoxy"
+    "guess_text": "Vanillin (4-Hydroxy-3-Methoxy",
+    "structure_file": "candidate_structures/76670.png"
    }
   ],
   "source_ref": {
@@ -13819,7 +14220,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "(2-Chloro-ethoxy)"
+    "guess_text": "(2-Chloro-ethoxy)",
+    "structure_file": "candidate_structures/45789860.png"
    },
    {
     "corrected_name": "2-CHLOROETHYL VINYL ETHER",
@@ -13843,7 +14245,8 @@
     "ref_density": 1.0475,
     "mv_match": true,
     "mv_pct_diff": 0.0,
-    "guess_text": "Vinyl 2-Chloroethyl Ether"
+    "guess_text": "Vinyl 2-Chloroethyl Ether",
+    "structure_file": "candidate_structures/8074.png"
    },
    {
     "corrected_name": "Dichloroethylvinylsilane",
@@ -13867,7 +14270,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl 2-Chloro EthylEther"
+    "guess_text": "Vinyl 2-Chloro EthylEther",
+    "structure_file": "candidate_structures/24985.png"
    },
    {
     "corrected_name": "(2-Chloroethylthio)ethyl ethyl ether",
@@ -13891,7 +14295,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl 2-Chloro Ethyl Ether"
+    "guess_text": "Vinyl 2-Chloro Ethyl Ether",
+    "structure_file": "candidate_structures/189241.png"
    }
   ],
   "source_ref": {
@@ -13936,7 +14341,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "(2-Methoxy-ethoxy)"
+    "guess_text": "(2-Methoxy-ethoxy)",
+    "structure_file": "candidate_structures/13313561.png"
    },
    {
     "corrected_name": "4-(dimethoxymethyl)-2-methylpyrimidine",
@@ -13960,7 +14366,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl 2-Methoxy EthylEther"
+    "guess_text": "Vinyl 2-Methoxy EthylEther",
+    "structure_file": "candidate_structures/2799572.png"
    },
    {
     "corrected_name": "2-Methoxyethyl vinyl ether",
@@ -13984,7 +14391,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl 2-Methoxyethyl Ether"
+    "guess_text": "Vinyl 2-Methoxyethyl Ether",
+    "structure_file": "candidate_structures/15457.png"
    },
    {
     "corrected_name": "Ethyl (ethoxymethylene)cyanoacetate",
@@ -14008,7 +14416,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl 2-Methoxy Ethyl Ether"
+    "guess_text": "Vinyl 2-Methoxy Ethyl Ether",
+    "structure_file": "candidate_structures/1715183.png"
    }
   ],
   "source_ref": {
@@ -14053,7 +14462,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-[2-(2-Vinyloxy"
+    "guess_text": "1-[2-(2-Vinyloxy",
+    "structure_file": "candidate_structures/80344.png"
    },
    {
     "corrected_name": "5,8,11,13,16,19-Hexaoxatricosane",
@@ -14077,7 +14487,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinylbutyl Carbitol"
+    "guess_text": "Vinylbutyl Carbitol",
+    "structure_file": "candidate_structures/8928.png"
    }
   ],
   "source_ref": {
@@ -14122,7 +14533,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Vinylsulfanyl-butane"
+    "guess_text": "1-Vinylsulfanyl-butane",
+    "structure_file": "candidate_structures/138353.png"
    },
    {
     "corrected_name": "Dibutyl sulfide",
@@ -14146,7 +14558,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl ButylSulfid"
+    "guess_text": "Vinyl ButylSulfid",
+    "structure_file": "candidate_structures/11002.png"
    },
    {
     "corrected_name": "1217500-98-5",
@@ -14170,7 +14583,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinylbutyl Sulfid"
+    "guess_text": "Vinylbutyl Sulfid",
+    "structure_file": "candidate_structures/46739630.png"
    },
    {
     "corrected_name": "Benzene, (ethenylsulfinyl)-",
@@ -14194,7 +14608,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl Butyl Sulfid"
+    "guess_text": "Vinyl Butyl Sulfid",
+    "structure_file": "candidate_structures/88544.png"
    }
   ],
   "source_ref": {
@@ -14239,7 +14654,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylsulfanyl-ethene"
+    "guess_text": "Ethylsulfanyl-ethene",
+    "structure_file": "candidate_structures/12320.png"
    },
    {
     "corrected_name": "1,3-BUTADIENE",
@@ -14263,7 +14679,8 @@
     "ref_density": 0.621,
     "mv_match": true,
     "mv_pct_diff": 14.0,
-    "guess_text": "Vinylethyl Sulfid"
+    "guess_text": "Vinylethyl Sulfid",
+    "structure_file": "candidate_structures/7845.png"
    },
    {
     "corrected_name": "dimethyl sulfide",
@@ -14287,7 +14704,8 @@
     "ref_density": 0.85,
     "mv_match": false,
     "mv_pct_diff": 27.8,
-    "guess_text": "Vinyl EthylSulfid"
+    "guess_text": "Vinyl EthylSulfid",
+    "structure_file": "candidate_structures/1068.png"
    },
    {
     "corrected_name": "17306-05-7",
@@ -14311,7 +14729,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl Ethyl Sulfid"
+    "guess_text": "Vinyl Ethyl Sulfid",
+    "structure_file": "candidate_structures/87042.png"
    }
   ],
   "source_ref": {
@@ -14356,7 +14775,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "(2-Methoxy-ethoxy)"
+    "guess_text": "(2-Methoxy-ethoxy)",
+    "structure_file": "candidate_structures/13313561.png"
    },
    {
     "corrected_name": "Bicyclo[4.1.0]hept-1(6)-ene",
@@ -14375,7 +14795,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/13595495.png"
    },
    {
     "corrected_name": "Dichloromethylvinylsilane",
@@ -14399,7 +14820,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinylmethyl Cellosolve"
+    "guess_text": "Vinylmethyl Cellosolve",
+    "structure_file": "candidate_structures/31299.png"
    },
    {
     "corrected_name": "2-METHOXYETHANOL",
@@ -14423,7 +14845,8 @@
     "ref_density": 0.966,
     "mv_match": false,
     "mv_pct_diff": 31.3,
-    "guess_text": "Vinyl MethylCellosolve"
+    "guess_text": "Vinyl MethylCellosolve",
+    "structure_file": "candidate_structures/8019.png"
    },
    {
     "corrected_name": "Chlorodimethylvinylsilane",
@@ -14447,7 +14870,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl Methyl Cellosolve"
+    "guess_text": "Vinyl Methyl Cellosolve",
+    "structure_file": "candidate_structures/519368.png"
    }
   ],
   "source_ref": {
@@ -14492,7 +14916,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Ethoxy-4"
+    "guess_text": "1-Ethoxy-4",
+    "structure_file": "candidate_structures/122887.png"
    },
    {
     "corrected_name": "Methyl-2-butylmercapto-4-catechol",
@@ -14516,7 +14941,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl S-Butyl Mercaptobutyl Ether"
+    "guess_text": "Vinyl S-Butyl Mercaptobutyl Ether",
+    "structure_file": "candidate_structures/127575.png"
    }
   ],
   "source_ref": {
@@ -14561,7 +14987,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl S-Butyl Mercaptoethyl Ether"
+    "guess_text": "Vinyl S-Butyl Mercaptoethyl Ether",
+    "structure_file": "candidate_structures/29044.png"
    },
    {
     "corrected_name": "Butylmercaptomethylpenicillin",
@@ -14585,7 +15012,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl S-ButylMercapto Ethyl Ether"
+    "guess_text": "Vinyl S-ButylMercapto Ethyl Ether",
+    "structure_file": "candidate_structures/201537.png"
    }
   ],
   "source_ref": {
@@ -14634,7 +15062,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl S-Ethyl Mercaptoethyl Ether"
+    "guess_text": "Vinyl S-Ethyl Mercaptoethyl Ether",
+    "structure_file": "candidate_structures/29044.png"
    }
   ],
   "source_ref": {
@@ -14682,7 +15111,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/79011.png"
    },
    {
     "corrected_name": "3-Hexyltrifluoroacetate",
@@ -14705,7 +15135,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "VinylTrifluoro Acetate"
+    "guess_text": "VinylTrifluoro Acetate",
+    "structure_file": "candidate_structures/136576.png"
    },
    {
     "corrected_name": "Trifluoroacetic acid",
@@ -14729,7 +15160,8 @@
     "ref_density": 1.531,
     "mv_match": false,
     "mv_pct_diff": 36.0,
-    "guess_text": "Trifluoro-acetic acid"
+    "guess_text": "Trifluoro-acetic acid",
+    "structure_file": "candidate_structures/6422.png"
    },
    {
     "corrected_name": "Potassium vinyltrifluoroborate",
@@ -14753,7 +15185,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl Trifluoro Acetate"
+    "guess_text": "Vinyl Trifluoro Acetate",
+    "structure_file": "candidate_structures/23679353.png"
    }
   ],
   "source_ref": {
@@ -14798,7 +15231,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl-2-EthylHexanoate"
+    "guess_text": "Vinyl-2-EthylHexanoate",
+    "structure_file": "candidate_structures/62343.png"
    },
    {
     "corrected_name": "ethyl 5,5-dimethylhexanoate",
@@ -14822,7 +15256,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl-2-Ethyl Hexanoate"
+    "guess_text": "Vinyl-2-Ethyl Hexanoate",
+    "structure_file": "candidate_structures/15760605.png"
    }
   ],
   "source_ref": {
@@ -14870,7 +15305,8 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "structure_file": "candidate_structures/13385.png"
    },
    {
     "corrected_name": "Benzyl N-ethenylcarbamate",
@@ -14894,7 +15330,8 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinylenecarbonate"
+    "guess_text": "Vinylenecarbonate",
+    "structure_file": "candidate_structures/10931982.png"
    }
   ],
   "source_ref": {
@@ -14939,7 +15376,8 @@
     "ref_density": 0.995,
     "mv_match": true,
     "mv_pct_diff": 0.6,
-    "guess_text": "Water"
+    "guess_text": "Water",
+    "structure_file": "candidate_structures/962.png"
    }
   ],
   "source_ref": {
@@ -14984,7 +15422,8 @@
     "ref_density": 0.995,
     "mv_match": true,
     "mv_pct_diff": 0.6,
-    "guess_text": "Water"
+    "guess_text": "Water",
+    "structure_file": "candidate_structures/962.png"
    }
   ],
   "source_ref": {
