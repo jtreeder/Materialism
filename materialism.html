@@ -4058,14 +4058,6 @@ return Plotly;
         .hoverable-name { cursor: help; border-bottom: 1px dotted #b2bec3; }
         th.sort-asc::after { content: ' ▲'; font-size: 0.7em; color: #e94560; }
         th.sort-desc::after { content: ' ▼'; font-size: 0.7em; color: #e94560; }
-        .plot-tooltip {
-            display: none; position: absolute; z-index: 1000;
-            color: #fff; border-radius: 4px;
-            padding: 8px 12px; font-size: 13px; line-height: 1.55;
-            font-family: 'Open Sans', verdana, arial, sans-serif;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            pointer-events: none; white-space: nowrap;
-        }
         .conf-tip {
             display: none; position: fixed; z-index: 9999;
             background: #2d3436; color: #dfe6e9; border-radius: 6px; padding: 10px 14px;
@@ -4465,13 +4457,13 @@ return Plotly;
         function _updatePlotForCommonFilter() {
             if (!plotDiv || !plotDiv.data) return;
             if (simpleMode) {
-                // Dim non-common materials but keep marker sizes unchanged
+                // Hide non-common materials (fully transparent) but keep marker sizes unchanged
                 var filteredColors = SOLVENTS.map(function(s, i) {
-                    return s.common ? (_solventColors[i] || '#888') : 'rgba(200,200,200,0.05)';
+                    return s.common ? (_solventColors[i] || '#888') : 'rgba(0,0,0,0)';
                 });
-                var filteredOpacity = SOLVENTS.map(function(s) { return s.common ? 0.9 : 0.03; });
-                var filteredPolyColors = POLYMERS.map(function(p) { return p.common ? 'gold' : 'rgba(200,200,200,0.05)'; });
-                var filteredPolyOpacity = POLYMERS.map(function(p) { return p.common ? 0.95 : 0.03; });
+                var filteredOpacity = SOLVENTS.map(function(s) { return s.common ? 0.9 : 0; });
+                var filteredPolyColors = POLYMERS.map(function(p) { return p.common ? 'gold' : 'rgba(0,0,0,0)'; });
+                var filteredPolyOpacity = POLYMERS.map(function(p) { return p.common ? 0.95 : 0; });
                 Plotly.restyle(plotDiv, {
                     'marker.color': [filteredColors, filteredPolyColors],
                     'marker.opacity': [filteredOpacity, filteredPolyOpacity],
@@ -5306,21 +5298,12 @@ return Plotly;
             Plotly.relayout(plotDiv, { 'title.text': 'Hansen Solubility Parameter Space' });
         }
 
-        // ===================== TOOLTIP SYSTEM =====================
+        // ===================== TOOLTIP SYSTEM (3D scene annotations) =====================
         var _highlightIdx = -1; // kept for search result traces
-        var _plotTooltip = null;
         var _pinnedName = null;
+        var _currentAnnotation = null;
 
-        function _tooltipDiv() {
-            if (_plotTooltip) return _plotTooltip;
-            _plotTooltip = document.createElement('div');
-            _plotTooltip.className = 'plot-tooltip';
-            plotDiv.style.position = 'relative';
-            plotDiv.appendChild(_plotTooltip);
-            return _plotTooltip;
-        }
-
-        function _tooltipHtml(mat, isSolvent) {
+        function _annotationText(mat, isSolvent) {
             var h = '<b>' + mat.name + '</b>';
             if (isSolvent) {
                 if (mat.cas) h += '<br>CAS: ' + mat.cas;
@@ -5333,48 +5316,41 @@ return Plotly;
             return h;
         }
 
-        function showTooltip(name, clientX, clientY) {
+        function showAnnotation(name) {
+            if (_currentAnnotation === name) return;
             var mat = _solventMap.get(name);
             var isSolvent = !!mat;
             if (!mat) mat = _polymerMap.get(name);
             if (!mat) return;
-            var tip = _tooltipDiv();
-            tip.innerHTML = _tooltipHtml(mat, isSolvent);
-            tip.style.background = isSolvent ? (CAT_COLORS[mat.cat] || '#888') : '#b8860b';
-            tip.style.display = 'block';
-            var pr = plotDiv.getBoundingClientRect();
-            var x, y;
-            if (clientX != null && clientY != null) {
-                x = clientX - pr.left + 12;
-                y = clientY - pr.top - 12;
-            } else {
-                // Table-triggered: show at top-center of plot
-                x = pr.width / 2 - 60;
-                y = 20;
-            }
-            // Keep tooltip inside the plot bounds
-            tip.style.left = Math.max(4, Math.min(x, pr.width - tip.offsetWidth - 4)) + 'px';
-            tip.style.top = Math.max(4, Math.min(y, pr.height - tip.offsetHeight - 4)) + 'px';
+            _currentAnnotation = name;
+            var bgColor = isSolvent ? (CAT_COLORS[mat.cat] || '#888') : 'gold';
+            Plotly.relayout(plotDiv, {
+                'scene.annotations': [{
+                    x: mat.dd, y: mat.dp, z: mat.dh,
+                    text: _annotationText(mat, isSolvent),
+                    showarrow: true,
+                    arrowhead: 2,
+                    arrowsize: 1,
+                    arrowwidth: 2,
+                    arrowcolor: bgColor,
+                    bgcolor: bgColor,
+                    font: { color: '#000', size: 13, family: 'Open Sans, verdana, arial, sans-serif' },
+                    bordercolor: bgColor,
+                    borderwidth: 1,
+                    borderpad: 6
+                }]
+            });
         }
 
-        function hideTooltip() {
-            if (_plotTooltip) _plotTooltip.style.display = 'none';
-        }
-
-        function pinMaterial(name) {
-            if (_pinnedName === name) {
-                // Toggle off
-                _pinnedName = null;
-                hideTooltip();
-                if (_prevHighlightedRow) { _prevHighlightedRow.style.background = ''; _prevHighlightedRow = null; }
-                return;
-            }
-            _pinnedName = name;
+        function hideAnnotation() {
+            if (!_currentAnnotation) return;
+            _currentAnnotation = null;
+            Plotly.relayout(plotDiv, { 'scene.annotations': [] });
         }
 
         function unpinAll() {
             _pinnedName = null;
-            hideTooltip();
+            hideAnnotation();
             if (_prevHighlightedRow) { _prevHighlightedRow.style.background = ''; _prevHighlightedRow = null; }
         }
 
@@ -5386,19 +5362,19 @@ return Plotly;
                 return;
             }
             _pinnedName = name;
-            showTooltip(name, null, null);
+            showAnnotation(name);
             requestAnimationFrame(function() { selectInTable(name); });
         }
 
         // Called from table row onmouseenter
         function hoverInPlot(encodedName) {
-            if (_pinnedName) return; // don't override a pinned tooltip
-            showTooltip(decodeURIComponent(encodedName), null, null);
+            if (_pinnedName) return;
+            showAnnotation(decodeURIComponent(encodedName));
         }
 
         // Called from table row onmouseleave
         function unhoverInPlot() {
-            if (!_pinnedName) hideTooltip();
+            if (!_pinnedName) hideAnnotation();
         }
 
         var _prevHighlightedRow = null;
@@ -5698,13 +5674,13 @@ return Plotly;
             loadLockedWidths();
             buildFullPlot();
             buildHomeTable();
-            // Native Plotly hover handles marker tooltips; custom tooltip is for pin + table hover
+            // Native Plotly hover handles marker tooltips; annotations for pin + table hover
             plotDiv.on('plotly_hover', function() {
-                // Clear any table-hover custom tooltip so it doesn't overlap native hover
-                if (!_pinnedName) hideTooltip();
+                // Clear any table-hover annotation so it doesn't overlap native hover
+                if (!_pinnedName) hideAnnotation();
             });
             plotDiv.on('plotly_unhover', function() {
-                if (!_pinnedName) hideTooltip();
+                if (!_pinnedName) hideAnnotation();
             });
             plotDiv.on('plotly_click', function(data) {
                 try {
@@ -5718,7 +5694,7 @@ return Plotly;
                         unpinAll();
                     } else {
                         _pinnedName = name;
-                        if (data.event) showTooltip(name, data.event.clientX, data.event.clientY);
+                        showAnnotation(name);
                         selectInTable(name);
                     }
                 } catch(e) { console.error('plotly_click error:', e); }
