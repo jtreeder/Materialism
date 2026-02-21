@@ -495,9 +495,7 @@ full_html = f"""<!DOCTYPE html>
         <div id="chat-panel" class="chat-panel"></div>
         <div id="home-panel" class="home-panel">
             <div class="home-panel-header">
-                <strong style="color:#e94560">All Materials</strong>
-                <span style="color:#636e72;font-size:0.8rem;margin-left:8px" id="home-count"></span>
-                <input type="text" id="home-filter" placeholder="Filter by name..." oninput="filterHomeTable(this.value)" style="margin-left:auto;width:180px;font-size:0.8rem;">
+                <input type="text" id="home-filter" placeholder="Filter by name..." oninput="filterHomeTable(this.value)" style="width:180px;font-size:0.8rem;">
                 <button id="col-lock-btn" class="col-lock-btn" onclick="toggleColumnLock()" title="Lock column widths">
                     <svg id="lock-icon-unlocked" viewBox="0 0 24 24"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h9V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3H7a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1z"/></svg>
                     <svg id="lock-icon-locked" viewBox="0 0 24 24" style="display:none"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1m-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3z"/></svg>
@@ -505,8 +503,8 @@ full_html = f"""<!DOCTYPE html>
                 </button>
             </div>
             <div class="home-tabs">
-                <button class="home-tab active" onclick="switchHomeTab('solvents')">Solvents</button>
-                <button class="home-tab" onclick="switchHomeTab('polymers')">Polymers</button>
+                <button id="tab-solvents" class="home-tab active" onclick="switchHomeTab('solvents')">Solvents</button>
+                <button id="tab-polymers" class="home-tab" onclick="switchHomeTab('polymers')">Polymers</button>
             </div>
             <div class="home-table-wrap">
                 <table id="home-table" class="results-table">
@@ -1597,7 +1595,6 @@ full_html = f"""<!DOCTYPE html>
         function buildHomeTable() {{
             var thead = document.getElementById('home-thead');
             var tbody = document.getElementById('home-tbody');
-            var countEl = document.getElementById('home-count');
             var tbl = document.getElementById('home-table');
             var headerHtml, rowsHtml;
 
@@ -1628,7 +1625,7 @@ full_html = f"""<!DOCTYPE html>
                     var q = homeFilterText.toLowerCase();
                     filtered = filtered.filter(function(s) {{ return s.name.toLowerCase().indexOf(q) !== -1 || (s.cas && s.cas.indexOf(q) !== -1) || (s.src && s.src.toLowerCase().indexOf(q) !== -1); }});
                 }}
-                countEl.textContent = filtered.length + ' solvents' + (simpleMode ? ' (common only)' : '');
+                document.getElementById('tab-solvents').textContent = 'Solvents (' + filtered.length + ')';
                 rowsHtml = '';
                 for (var i = 0; i < filtered.length; i++) {{
                     var s = filtered[i];
@@ -1668,7 +1665,7 @@ full_html = f"""<!DOCTYPE html>
                     var q = homeFilterText.toLowerCase();
                     filtered = filtered.filter(function(p) {{ return p.name.toLowerCase().indexOf(q) !== -1 || (p.cas && p.cas.indexOf(q) !== -1) || (p.src && p.src.toLowerCase().indexOf(q) !== -1); }});
                 }}
-                countEl.textContent = filtered.length + ' polymers' + (simpleMode ? ' (common only)' : '');
+                document.getElementById('tab-polymers').textContent = 'Polymers (' + filtered.length + ')';
                 rowsHtml = '';
                 for (var i = 0; i < filtered.length; i++) {{
                     var p = filtered[i];
@@ -1688,6 +1685,19 @@ full_html = f"""<!DOCTYPE html>
 
             thead.innerHTML = headerHtml;
             tbody.innerHTML = rowsHtml;
+
+            // Update the inactive tab count too
+            if (homeTab === 'solvents') {{
+                var pf = POLYMERS;
+                if (simpleMode) pf = pf.filter(function(p) {{ return p.common; }});
+                if (homeFilterText) {{ var q = homeFilterText.toLowerCase(); pf = pf.filter(function(p) {{ return p.name.toLowerCase().indexOf(q) !== -1 || (p.cas && p.cas.indexOf(q) !== -1) || (p.src && p.src.toLowerCase().indexOf(q) !== -1); }}); }}
+                document.getElementById('tab-polymers').textContent = 'Polymers (' + pf.length + ')';
+            }} else {{
+                var sf = SOLVENTS;
+                if (simpleMode) sf = sf.filter(function(s) {{ return s.common; }});
+                if (homeFilterText) {{ var q = homeFilterText.toLowerCase(); sf = sf.filter(function(s) {{ return s.name.toLowerCase().indexOf(q) !== -1 || (s.cas && s.cas.indexOf(q) !== -1) || (s.src && s.src.toLowerCase().indexOf(q) !== -1); }}); }}
+                document.getElementById('tab-solvents').textContent = 'Solvents (' + sf.length + ')';
+            }}
         }}
 
         function switchHomeTab(tab) {{
