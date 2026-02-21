@@ -4246,15 +4246,18 @@ return Plotly;
 
         function _updatePlotForCommonFilter() {
             if (!plotDiv || !plotDiv.data) return;
+            // If base traces are dimmed (search results showing), don't touch them —
+            // the search will re-run via onSimpleModeChange and handle everything.
+            if (_plotDimmed) return;
             if (simpleMode) {
                 // Dim non-common solvents, keep common ones bright
                 var filteredColors = SOLVENTS.map(function(s, i) {
                     return s.common ? (_solventColors[i] || '#888') : 'rgba(200,200,200,0.05)';
                 });
-                var filteredSizes = SOLVENTS.map(function(s) { return s.common ? 6 : 1; });
-                var filteredOpacity = SOLVENTS.map(function(s) { return s.common ? 0.9 : 0.03; });
+                var filteredSizes = SOLVENTS.map(function(s) { return s.common ? 5 : 1; });
+                var filteredOpacity = SOLVENTS.map(function(s) { return s.common ? 0.85 : 0.03; });
                 var filteredPolyColors = POLYMERS.map(function(p) { return p.common ? 'gold' : 'rgba(200,200,200,0.05)'; });
-                var filteredPolySizes = POLYMERS.map(function(p) { return p.common ? 8 : 1; });
+                var filteredPolySizes = POLYMERS.map(function(p) { return p.common ? 7 : 1; });
                 var filteredPolyOpacity = POLYMERS.map(function(p) { return p.common ? 0.95 : 0.03; });
                 Plotly.restyle(plotDiv, {
                     'marker.color': [filteredColors, filteredPolyColors],
