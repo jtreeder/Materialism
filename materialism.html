@@ -4765,13 +4765,13 @@ return Plotly;
             h.push('<table class="results-table" id="', tableId, '" style="margin-top:10px">');
             // Fixed column widths so table doesn't shift between queries
             h.push('<colgroup>');
-            h.push('<col style="width:35px">');   // #
-            h.push('<col style="width:22%">');     // Name
-            h.push('<col style="width:90px">');    // CAS
-            h.push('<col style="width:72px">');    // δD MPa½
-            h.push('<col style="width:72px">');    // δP MPa½
-            h.push('<col style="width:72px">');    // δH MPa½
-            h.push('<col style="width:68px">');    // MW g/mol
+            h.push('<col style="width:30px">');   // #
+            h.push('<col>');                        // Name (flexible)
+            h.push('<col style="width:100px">');   // CAS
+            h.push('<col style="width:78px">');    // δD MPa½
+            h.push('<col style="width:78px">');    // δP MPa½
+            h.push('<col style="width:78px">');    // δH MPa½
+            h.push('<col style="width:76px">');    // MW g/mol
             h.push('<col style="width:56px">');    // BP °C
             h.push('</colgroup>');
             h.push('<thead><tr>');
@@ -5164,8 +5164,8 @@ return Plotly;
 
             if (homeTab === 'solvents') {
                 // Name, CAS, δD, δP, δH, MW, BP, Category, Source
-                // Numeric cols fixed; Name gets most flex space; Source truncates
-                ['24%','90px','72px','72px','72px','68px','56px','80px',''].forEach(function(w) {
+                // Numeric cols fixed; Name flexible; Source truncates with ellipsis
+                ['','100px','78px','78px','78px','76px','56px','80px','90px'].forEach(function(w) {
                     var col = document.createElement('col');
                     col.style.width = w;
                     cg.appendChild(col);
@@ -5204,7 +5204,7 @@ return Plotly;
                 }
             } else {
                 // Name, CAS, δD, δP, δH, R₀, Type, Source
-                ['24%','90px','72px','72px','72px','72px','80px',''].forEach(function(w) {
+                ['','100px','78px','78px','78px','78px','80px','90px'].forEach(function(w) {
                     var col = document.createElement('col');
                     col.style.width = w;
                     cg.appendChild(col);
