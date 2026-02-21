@@ -1313,7 +1313,7 @@ full_html = f"""<!DOCTYPE html>
             results.forEach((r, i) => {{
                 if (r.notFound) {{ h.push('<tr><td class="rank">', (i + 1), '</td><td colspan="11" style="color:#EF553B">Could not find "', r.queryName, '" in the database</td></tr>'); return; }}
                 var enc = encodeURIComponent(r.name);
-                h.push('<tr data-name="', r.name.replace(/"/g, '&quot;'), '"><td class="rank">', (i + 1), '</td><td><span class="hoverable-name" onclick="highlightInPlot(\\x27', enc, '\\x27)" onmouseenter="showStructure(event,\\x27', enc, '\\x27)" onmouseleave="hideStructure()">', r.name, '</span></td>');
+                h.push('<tr data-name="', r.name.replace(/"/g, '&quot;'), '" onclick="highlightInPlot(\\x27', enc, '\\x27)" style="cursor:pointer"><td class="rank">', (i + 1), '</td><td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27', enc, '\\x27)" onmouseleave="hideStructure()">', r.name, '</span></td>');
                 h.push('<td>', (r.cas || ''), '</td>');
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
@@ -1674,8 +1674,8 @@ full_html = f"""<!DOCTYPE html>
                     var s = filtered[i];
                     var catColor = CAT_COLORS[s.cat] || '#888';
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
-                    rowsHtml += '<tr data-name="' + s.name.replace(/"/g, '&quot;') + '" style="border-left:3px solid ' + catColor + '">';
-                    rowsHtml += '<td><span class="hoverable-name" onclick="highlightInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
+                    rowsHtml += '<tr data-name="' + s.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
+                    rowsHtml += '<td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
                     rowsHtml += '<td>' + (s.cas || '') + '</td>';
                     rowsHtml += '<td>' + lnk(s.dd, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.dp, s.srcUrl) + '</td>';
@@ -1713,8 +1713,8 @@ full_html = f"""<!DOCTYPE html>
                 for (var i = 0; i < filtered.length; i++) {{
                     var p = filtered[i];
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
-                    rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '">';
-                    rowsHtml += '<td><span class="hoverable-name" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)">' + p.name + '</span></td>';
+                    rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" style="cursor:pointer">';
+                    rowsHtml += '<td><span class="hoverable-name">' + p.name + '</span></td>';
                     rowsHtml += '<td>' + (p.cas || '') + '</td>';
                     rowsHtml += '<td>' + lnk(p.dd, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
