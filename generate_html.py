@@ -1252,12 +1252,28 @@ full_html = f"""<!DOCTYPE html>
             h.push('</colgroup>');
             h.push('<thead><tr>');
             let colNum = 0;
-            const th = (label) => '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + (colNum++) + ')" style="cursor:pointer">' + label + '</th>';
-            h.push(th('#'), th('Name'), th('CAS'), th('&delta;D'), th('&delta;P'), th('&delta;H'), th('MW'), th('BP &deg;C'));
+            var _rColTips = {{
+                'CAS #': 'CAS Registry Number \u2014 unique identifier for chemical substances',
+                '&delta;D (MPa<sup>\u00bd</sup>)': 'Dispersion \u2014 van der Waals / London dispersion forces (MPa\u00bd)',
+                '&delta;P (MPa<sup>\u00bd</sup>)': 'Polarity \u2014 dipole-dipole intermolecular forces (MPa\u00bd)',
+                '&delta;H (MPa<sup>\u00bd</sup>)': 'Hydrogen bonding \u2014 hydrogen bond donor/acceptor capability (MPa\u00bd)',
+                'MW (g/mol)': 'Molecular weight (g/mol)',
+                'BP (&deg;C)': 'Boiling point in degrees Celsius',
+                'Ra (MPa<sup>\u00bd</sup>)': 'HSP distance between solvent and polymer in 3D Hansen space (MPa\u00bd)',
+                'R&#8320; (MPa<sup>\u00bd</sup>)': 'Interaction radius of the polymer solubility sphere (MPa\u00bd)',
+                'RED': 'Relative Energy Difference = Ra/R\u2080. RED < 1 = compatible, RED > 1 = incompatible'
+            }};
+            const th = (label) => {{
+                var tip = _rColTips[label] || '';
+                if (!tip && label.indexOf('Ra(') === 0) tip = _rColTips['Ra (MPa<sup>\u00bd</sup>)'];
+                if (!tip && label.indexOf('RED(') === 0) tip = _rColTips['RED'];
+                return '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + (colNum++) + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
+            }};
+            h.push(th('#'), th('Name'), th('CAS #'), th('&delta;D (MPa<sup>\u00bd</sup>)'), th('&delta;P (MPa<sup>\u00bd</sup>)'), th('&delta;H (MPa<sup>\u00bd</sup>)'), th('MW (g/mol)'), th('BP (&deg;C)'));
             if (isMulti) {{ result.targets.forEach(t => {{ h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }}); }}
-            else if (showRed) {{ h.push(th('Ra'), th('RED')); }}
-            else if (parentIntent === 'similar_solvents') {{ h.push(th('Ra'), th('Category')); }}
-            else {{ h.push(th('Ra'), th('R&#8320;'), th('Type')); }}
+            else if (showRed) {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('RED')); }}
+            else if (parentIntent === 'similar_solvents') {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('Category')); }}
+            else {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('R&#8320; (MPa<sup>\u00bd</sup>)'), th('Type')); }}
             h.push(th('Source'));
             h.push('</tr></thead><tbody>');
 
@@ -1355,9 +1371,9 @@ full_html = f"""<!DOCTYPE html>
             var cam = (plotDiv && plotDiv.layout && plotDiv.layout.scene && plotDiv.layout.scene.camera)
                 ? plotDiv.layout.scene.camera : undefined;
             var sceneObj = {{
-                    xaxis: Object.assign({{ title: {{ text: 'δD (Dispersion) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: FIXED_AXES.xRange.slice(), autorange: false }}, axisStyle),
-                    yaxis: Object.assign({{ title: {{ text: 'δP (Polar) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: FIXED_AXES.yRange.slice(), autorange: false }}, axisStyle),
-                    zaxis: Object.assign({{ title: {{ text: 'δH (H-bonding) MPa½', font: {{ size: 14, color: '#2d3436' }} }}, range: FIXED_AXES.zRange.slice(), autorange: false }}, axisStyle),
+                    xaxis: Object.assign({{ title: {{ text: '\u03b4D (Dispersion) MPa\u00b9\u2044\u00b2', font: {{ size: 14, color: '#2d3436' }} }}, range: FIXED_AXES.xRange.slice(), autorange: false }}, axisStyle),
+                    yaxis: Object.assign({{ title: {{ text: '\u03b4P (Polar) MPa\u00b9\u2044\u00b2', font: {{ size: 14, color: '#2d3436' }} }}, range: FIXED_AXES.yRange.slice(), autorange: false }}, axisStyle),
+                    zaxis: Object.assign({{ title: {{ text: '\u03b4H (H-bonding) MPa\u00b9\u2044\u00b2', font: {{ size: 14, color: '#2d3436' }} }}, range: FIXED_AXES.zRange.slice(), autorange: false }}, axisStyle),
                     aspectmode: 'cube',
             }};
             if (cam) sceneObj.camera = cam;
@@ -1598,13 +1614,29 @@ full_html = f"""<!DOCTYPE html>
             var tbl = document.getElementById('home-table');
             var headerHtml, rowsHtml;
 
+            var colTips = {{
+                'CAS #': 'CAS Registry Number \u2014 unique identifier for chemical substances',
+                '&delta;D (MPa<sup>\u00bd</sup>)': 'Dispersion \u2014 van der Waals / London dispersion forces (MPa\u00bd)',
+                '&delta;P (MPa<sup>\u00bd</sup>)': 'Polarity \u2014 dipole-dipole intermolecular forces (MPa\u00bd)',
+                '&delta;H (MPa<sup>\u00bd</sup>)': 'Hydrogen bonding \u2014 hydrogen bond donor/acceptor capability (MPa\u00bd)',
+                'MW (g/mol)': 'Molecular weight (g/mol)',
+                'BP (&deg;C)': 'Boiling point in degrees Celsius',
+                'Ra (MPa<sup>\u00bd</sup>)': 'HSP distance between solvent and polymer in 3D Hansen space (MPa\u00bd)',
+                'R&#8320; (MPa<sup>\u00bd</sup>)': 'Interaction radius of the polymer solubility sphere (MPa\u00bd)',
+                'RED': 'Relative Energy Difference = Ra/R\u2080. RED &lt; 1 = compatible, RED &gt; 1 = incompatible'
+            }};
+            function thWithTip(label, idx) {{
+                var tip = colTips[label] || '';
+                return '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + idx + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
+            }}
+
             // Set fixed colgroup for consistent column widths
             var existingCg = tbl.querySelector('colgroup');
             if (existingCg) existingCg.remove();
             var cg = document.createElement('colgroup');
 
             if (homeTab === 'solvents') {{
-                // Name, CAS, δD, δP, δH, MW, BP, Category, Source
+                // Name, CAS #, δD, δP, δH, MW, BP, Category, Source
                 var solWidths = getWidths('solvents');
                 solWidths.forEach(function(w) {{
                     var col = document.createElement('col');
@@ -1613,8 +1645,8 @@ full_html = f"""<!DOCTYPE html>
                 }});
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS','&delta;D','&delta;P','&delta;H','MW','BP &deg;C','Category','Source'].forEach(function(label, i) {{
-                    headerHtml += '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + i + ')" style="cursor:pointer">' + label + '</th>';
+                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)','Category','Source'].forEach(function(label, i) {{
+                    headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
                 var filtered = SOLVENTS;
@@ -1653,8 +1685,8 @@ full_html = f"""<!DOCTYPE html>
                 }});
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS','&delta;D','&delta;P','&delta;H','R&#8320;','Type','Source'].forEach(function(label, i) {{
-                    headerHtml += '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + i + ')" style="cursor:pointer">' + label + '</th>';
+                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)','Type','Source'].forEach(function(label, i) {{
+                    headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
                 var filtered = POLYMERS;
