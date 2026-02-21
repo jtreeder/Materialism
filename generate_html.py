@@ -1697,61 +1697,36 @@ full_html = f"""<!DOCTYPE html>
             Plotly.relayout(plotDiv, {{ 'title.text': 'Hansen Solubility Parameter Space' }});
         }}
 
-        // ===================== TOOLTIP SYSTEM (3D scene annotations) =====================
+        // ===================== TOOLTIP SYSTEM (native Plotly hover for all) =====================
         var _highlightIdx = -1; // kept for search result traces
         var _pinnedName = null;
         var _currentAnnotation = null;
 
-        function _annotationText(mat, isSolvent) {{
-            var h = '<b>' + mat.name + '</b>';
-            if (isSolvent) {{
-                if (mat.cas) h += '<br>CAS: ' + mat.cas;
-                if (mat.mw != null) h += '<br>MW: ' + mat.mw;
-                if (mat.bp != null) h += '<br>BP: ' + mat.bp + '°C';
-            }} else {{
-                if (mat.r != null) h += '<br>R₀=' + mat.r;
-            }}
-            h += '<br>δD=' + mat.dd.toFixed(1) + ', δP=' + mat.dp.toFixed(1) + ', δH=' + mat.dh.toFixed(1);
-            return h;
-        }}
+        // Build name → {{curveNumber, pointNumber}} lookup for Fx.hover
+        var _hoverIndex = {{}};
+        SOLVENTS.forEach(function(s, i) {{ _hoverIndex[s.name] = {{ curveNumber: 0, pointNumber: i }}; }});
+        POLYMERS.forEach(function(p, i) {{ _hoverIndex[p.name] = {{ curveNumber: 1, pointNumber: i }}; }});
 
-        function showAnnotation(name) {{
-            var mat = _solventMap.get(name);
-            var isSolvent = !!mat;
-            if (!mat) mat = _polymerMap.get(name);
-            if (!mat) return;
+        function showNativeHover(name) {{
+            var idx = _hoverIndex[name];
+            if (!idx) return;
             _currentAnnotation = name;
-            var bgColor = isSolvent ? (CAT_COLORS[mat.cat] || '#888') : 'gold';
-            Plotly.relayout(plotDiv, {{
-                'scene.annotations': [{{
-                    x: mat.dd, y: mat.dp, z: mat.dh,
-                    text: _annotationText(mat, isSolvent),
-                    align: 'left',
-                    showarrow: true,
-                    arrowhead: 2,
-                    arrowsize: 1,
-                    arrowwidth: 2,
-                    arrowcolor: bgColor,
-                    ax: 0,
-                    ay: -60,
-                    bgcolor: bgColor,
-                    font: {{ color: '#000', size: 13, family: 'Open Sans, verdana, arial, sans-serif' }},
-                    bordercolor: bgColor,
-                    borderwidth: 1,
-                    borderpad: 6
-                }}]
-            }});
+            try {{
+                Plotly.Fx.hover(plotDiv, [idx]);
+            }} catch(e) {{}}
         }}
 
-        function hideAnnotation() {{
+        function hideNativeHover() {{
             if (!_currentAnnotation) return;
             _currentAnnotation = null;
-            Plotly.relayout(plotDiv, {{ 'scene.annotations': [] }});
+            try {{
+                Plotly.Fx.unhover(plotDiv);
+            }} catch(e) {{}}
         }}
 
         function unpinAll() {{
             _pinnedName = null;
-            hideAnnotation();
+            hideNativeHover();
             if (_prevHighlightedRow) {{ _prevHighlightedRow.style.background = ''; _prevHighlightedRow = null; }}
         }}
 
@@ -1763,19 +1738,19 @@ full_html = f"""<!DOCTYPE html>
                 return;
             }}
             _pinnedName = name;
-            showAnnotation(name);
+            showNativeHover(name);
             requestAnimationFrame(function() {{ selectInTable(name); }});
         }}
 
         // Called from table row onmouseenter
         function hoverInPlot(encodedName) {{
             if (_pinnedName) return;
-            showAnnotation(decodeURIComponent(encodedName));
+            showNativeHover(decodeURIComponent(encodedName));
         }}
 
         // Called from table row onmouseleave
         function unhoverInPlot() {{
-            if (!_pinnedName) hideAnnotation();
+            if (!_pinnedName) hideNativeHover();
         }}
 
         var _prevHighlightedRow = null;
@@ -2075,14 +2050,10 @@ full_html = f"""<!DOCTYPE html>
             loadLockedWidths();
             buildFullPlot();
             buildHomeTable();
-            // Native Plotly hover handles plot marker tooltips;
-            // annotations handle table hover + click-to-pin
-            plotDiv.on('plotly_hover', function() {{
-                // Clear any table-hover annotation so it doesn't overlap native hover
-                if (!_pinnedName) hideAnnotation();
-            }});
+            // Native hover handles all plot tooltips automatically.
+            // On unhover, clear any programmatic hover if not pinned.
             plotDiv.on('plotly_unhover', function() {{
-                if (!_pinnedName) hideAnnotation();
+                if (!_pinnedName) hideNativeHover();
             }});
             plotDiv.on('plotly_click', function(data) {{
                 try {{
@@ -2096,7 +2067,7 @@ full_html = f"""<!DOCTYPE html>
                         unpinAll();
                     }} else {{
                         _pinnedName = name;
-                        showAnnotation(name);
+                        showNativeHover(name);
                         selectInTable(name);
                     }}
                 }} catch(e) {{ console.error('plotly_click error:', e); }}
