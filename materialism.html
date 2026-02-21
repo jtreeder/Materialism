@@ -4058,19 +4058,12 @@ return Plotly;
         .hoverable-name { cursor: help; border-bottom: 1px dotted #b2bec3; }
         th.sort-asc::after { content: ' ▲'; font-size: 0.7em; color: #e94560; }
         th.sort-desc::after { content: ' ▼'; font-size: 0.7em; color: #e94560; }
-        .conf-wrap { position: relative; display: inline-block; cursor: help; }
         .conf-tip {
-            display: none; position: absolute; bottom: calc(100% + 6px); left: 50%;
-            transform: translateX(-50%); z-index: 9999;
+            display: none; position: fixed; z-index: 9999;
             background: #2d3436; color: #dfe6e9; border-radius: 6px; padding: 10px 14px;
             font-size: 0.75rem; line-height: 1.5; white-space: nowrap;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3); pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-        .conf-tip::after {
-            content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-            border: 6px solid transparent; border-top-color: #2d3436;
-        }
-        .conf-wrap:hover .conf-tip { display: block; }
         .conf-row { display: flex; justify-content: space-between; gap: 18px; }
         .conf-row .conf-label { color: #b2bec3; }
         .conf-row .conf-val { font-weight: 600; }
@@ -4168,36 +4161,68 @@ return Plotly;
             'SolvPred (Fang)': 35, 'Accudyne Test': 40, 'Wolfram Data Repo': 35,
             'Pang et al. 2024': 30, 'Hansen Handbook A.1': 30, 'Hansen Handbook A.2': 30,
         };
-        // Confidence badge with hover tooltip breakdown
+        // Lightweight confidence badge — tooltip data stored in attributes, not inline HTML
         function confBadge(mat, isPoly) {
             if (!mat || mat.conf == null) return '';
             var pct = Math.round(mat.conf * 100);
-            var color, label;
-            if (mat.conf >= 0.8) { color = '#27ae60'; label = 'High'; }
-            else if (mat.conf >= 0.5) { color = '#f39c12'; label = 'Med'; }
-            else { color = '#e74c3c'; label = 'Low'; }
-            // Build breakdown rows
-            var base = SRC_TIERS[mat.src] || 25;
-            var hasCas = !!(mat.cas);
-            var hasSmiles = !isPoly && !!(mat.smiles);
-            var srcN = mat.srcN || 1;
+            var color;
+            if (mat.conf >= 0.8) color = '#27ae60';
+            else if (mat.conf >= 0.5) color = '#f39c12';
+            else color = '#e74c3c';
+            return '<span class="conf-badge" data-src="' + (mat.src || '').replace(/"/g, '&quot;') + '" data-cas="' + (mat.cas ? '1' : '0') + '" data-smi="' + (!isPoly && mat.smiles ? '1' : '0') + '" data-poly="' + (isPoly ? '1' : '0') + '" data-srcn="' + (mat.srcN || 1) + '" data-pct="' + pct + '" style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + color + ';cursor:help">' + pct + '%</span>';
+        }
+        // Shared confidence tooltip element (created once, positioned on hover)
+        var _confTip = null;
+        var _confBadgeActive = null;
+        function _showConfTip(badge) {
+            if (!_confTip) {
+                _confTip = document.createElement('div');
+                _confTip.className = 'conf-tip';
+                document.body.appendChild(_confTip);
+            }
+            _confBadgeActive = badge;
+            var src = badge.dataset.src || 'Unknown';
+            var base = SRC_TIERS[src] || 25;
+            var hasCas = badge.dataset.cas === '1';
+            var hasSmi = badge.dataset.smi === '1';
+            var isPoly = badge.dataset.poly === '1';
+            var srcN = parseInt(badge.dataset.srcn) || 1;
             var crossBonus = srcN > 1 ? Math.min((srcN - 1) * 15, 30) : 0;
+            var pct = badge.dataset.pct;
             function row(lbl, val) {
                 var cls = val > 0 ? 'pos' : 'zero';
-                var sign = val > 0 ? '+' : '';
-                return '<div class="conf-row"><span class="conf-label">' + lbl + '</span><span class="conf-val ' + cls + '">' + sign + val + '%</span></div>';
+                return '<div class="conf-row"><span class="conf-label">' + lbl + '</span><span class="conf-val ' + cls + '">' + (val > 0 ? '+' : '') + val + '%</span></div>';
             }
-            var tip = '<div class="conf-tip">';
-            tip += '<div style="font-weight:700;margin-bottom:4px;color:#fff">Confidence Breakdown</div>';
-            tip += row('Source: ' + (mat.src || 'Unknown'), base);
-            tip += row('CAS verified', hasCas ? 15 : 0);
-            if (!isPoly) tip += row('SMILES confirmed', hasSmiles ? 10 : 0);
-            if (srcN > 1) tip += row('Cross-ref (' + srcN + ' sources)', crossBonus);
-            tip += '<div class="conf-sep"></div>';
-            tip += '<div class="conf-row"><span class="conf-label" style="color:#fff">Total</span><span class="conf-val" style="color:#fff">' + pct + '%</span></div>';
-            tip += '</div>';
-            return '<span class="conf-wrap"><span style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + color + '">' + pct + '%</span>' + tip + '</span>';
+            var h = '<div style="font-weight:700;margin-bottom:4px;color:#fff">Confidence Breakdown</div>';
+            h += row('Source: ' + src, base);
+            h += row('CAS verified', hasCas ? 15 : 0);
+            if (!isPoly) h += row('SMILES confirmed', hasSmi ? 10 : 0);
+            if (srcN > 1) h += row('Cross-ref (' + srcN + ' sources)', crossBonus);
+            h += '<div class="conf-sep"></div>';
+            h += '<div class="conf-row"><span class="conf-label" style="color:#fff">Total</span><span class="conf-val" style="color:#fff">' + pct + '%</span></div>';
+            _confTip.innerHTML = h;
+            var rect = badge.getBoundingClientRect();
+            _confTip.style.display = 'block';
+            var tipW = _confTip.offsetWidth;
+            var tipH = _confTip.offsetHeight;
+            var left = rect.left + rect.width / 2 - tipW / 2;
+            // Position below badge; if it would go off-screen bottom, flip above
+            var top = rect.bottom + 8;
+            if (top + tipH > window.innerHeight) top = rect.top - tipH - 8;
+            if (left < 4) left = 4;
+            if (left + tipW > window.innerWidth - 4) left = window.innerWidth - tipW - 4;
+            _confTip.style.left = left + 'px';
+            _confTip.style.top = top + 'px';
         }
+        document.addEventListener('mouseover', function(e) {
+            var badge = e.target.closest('.conf-badge');
+            if (badge) {
+                if (badge !== _confBadgeActive) _showConfTip(badge);
+            } else if (_confTip && !_confTip.contains(e.target)) {
+                _confTip.style.display = 'none';
+                _confBadgeActive = null;
+            }
+        });
 
         // ===================== APPLY DATABASE EDITS =====================
         (function applyDbEdits() {
