@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Materialism — CAS Review Tool</title>
+<title>Materialism — Cross</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
@@ -208,8 +208,9 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 <body>
 
 <div class="header">
-    <h1><a href="materialism.html">Materialism</a> — CAS Review Tool</h1>
+    <h1><a href="materialism.html">Materialism</a> — Cross</h1>
     <div class="stats">
+        <a href="database.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer;margin-right:12px">Database</a>
         <span id="status-text">Loading...</span>
         <button class="btn btn-success btn-sm" onclick="downloadApproved()" id="download-btn" style="display:none">Download Approved</button>
         <button class="btn btn-secondary btn-sm" onclick="downloadAll()" id="download-all-btn" style="display:none">Export All Decisions</button>
@@ -583,8 +584,6 @@ function renderCard(entry) {
     if (cur) {
         html += renderReasonCallout(cur, entry);
         html += '<div class="card-bottom-controls">';
-        var skipSel = d && d.action === 'skip' ? ' selected' : '';
-        html += '<div class="option-skip' + skipSel + '" onclick="event.stopPropagation();skipEntry(' + ri + ')">Skip this material</div>';
         html += '<div class="custom-input" id="custom-' + ri + '" onclick="event.stopPropagation()">';
         html += '<input class="cas-input" type="text" placeholder="CAS #" id="custom-cas-' + ri + '" onkeydown="if(event.key===\'Enter\'){event.preventDefault();approveCustom(' + ri + ')}">';
         html += '<button class="btn btn-sm lookup-btn" onclick="lookupCAS(' + ri + ')" id="lookup-btn-' + ri + '">Lookup</button>';

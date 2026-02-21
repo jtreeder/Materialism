@@ -451,7 +451,7 @@ full_html = f"""<!DOCTYPE html>
 <body>
     <div class="header">
         <h1 onclick="goHome()">Materialism</h1>
-        <div class="stats"><a href="cas_review.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">CAS Review</a></div>
+        <div class="stats"><a href="cas_review.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">Cross</a> &middot; <a href="database.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">Database</a></div>
     </div>
 
     <div class="search-bar">
@@ -527,6 +527,34 @@ full_html = f"""<!DOCTYPE html>
         const SOLVENTS = {solvents_json};
         const POLYMERS = {polymers_json};
         const CAT_COLORS = {cat_colors_json};
+
+        // ===================== APPLY DATABASE EDITS =====================
+        (function applyDbEdits() {{
+            try {{
+                var raw = localStorage.getItem('materialism_db_edits');
+                if (!raw) return;
+                var edits = JSON.parse(raw);
+                for (var k in edits) {{
+                    var parts = k.split(':');
+                    var type = parts[0], idx = parseInt(parts[1]), field = parts[2];
+                    var arr = type === 'solvents' ? SOLVENTS : POLYMERS;
+                    if (!arr[idx]) continue;
+                    var val = edits[k];
+                    // Map database field names to materialism field names
+                    if (field === 'dd') arr[idx].dd = parseFloat(val) || arr[idx].dd;
+                    else if (field === 'dp') arr[idx].dp = parseFloat(val) || arr[idx].dp;
+                    else if (field === 'dh') arr[idx].dh = parseFloat(val) || arr[idx].dh;
+                    else if (field === 'mw') arr[idx].mw = parseFloat(val) || arr[idx].mw;
+                    else if (field === 'bp') arr[idx].bp = parseFloat(val) || arr[idx].bp;
+                    else if (field === 'name') arr[idx].name = val;
+                    else if (field === 'cas') arr[idx].cas = val;
+                    else if (field === 'cat') arr[idx].cat = val;
+                    else if (field === 'r' && type === 'polymers') arr[idx].r = parseFloat(val) || arr[idx].r;
+                    else if (field === 'type' && type === 'polymers') arr[idx].type = val;
+                    else if (field === 'src') arr[idx].src = val;
+                }}
+            }} catch(e) {{}}
+        }})();
 
         // ===================== COLUMN WIDTH LOCK =====================
         var columnWidthsLocked = false;
@@ -1898,3 +1926,341 @@ with open(output_path, "w") as f:
 print(f"Generated: {output_path}")
 print(f"File size: {os.path.getsize(output_path) / 1024 / 1024:.1f} MB")
 print(f"Contains: {len(solvents)} solvents, {len(poly_data)} polymers")
+
+# ===================== DATABASE PAGE =====================
+# Load full data for database page (all CSV columns)
+db_solvents = []
+with open(CHEM_CSV) as f:
+    for row in csv.DictReader(f):
+        dd = row.get("delta_d", "").strip()
+        dp = row.get("delta_p", "").strip()
+        dh = row.get("delta_h", "").strip()
+        if not (dd and dp and dh):
+            continue
+        if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
+            continue
+        src_key = row.get("source", "").strip()
+        db_solvents.append({
+            "name": row["name"].strip(),
+            "cas": row.get("cas_number", "").strip(),
+            "smiles": row.get("smiles", "").strip(),
+            "formula": row.get("molecular_formula", "").strip(),
+            "dd": dd, "dp": dp, "dh": dh,
+            "mw": row.get("molecular_weight", "").strip(),
+            "bp": row.get("boiling_point", "").strip(),
+            "density": row.get("density", "").strip(),
+            "mv": row.get("molar_volume", "").strip(),
+            "cat": row.get("category", "other").strip() or "other",
+            "ghs": row.get("ghs_hazard", "").strip(),
+            "src": SOURCE_NAMES.get(src_key, src_key),
+            "srcUrl": row.get("source_url", "").strip(),
+        })
+db_polymers = []
+with open(POLY_CSV) as f:
+    for row in csv.DictReader(f):
+        dd = row.get("delta_d", "").strip()
+        dp = row.get("delta_p", "").strip()
+        dh = row.get("delta_h", "").strip()
+        if not (dd and dp and dh):
+            continue
+        if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
+            continue
+        src_key = row.get("source", "").strip()
+        db_polymers.append({
+            "name": row["name"].strip(),
+            "cas": row.get("cas_number", "").strip(),
+            "dd": dd, "dp": dp, "dh": dh,
+            "r": row.get("radius", "").strip(),
+            "type": row.get("type", "").strip(),
+            "src": SOURCE_NAMES.get(src_key, src_key),
+            "srcUrl": row.get("source_url", "").strip(),
+        })
+
+db_solvents_json = json.dumps(db_solvents)
+db_polymers_json = json.dumps(db_polymers)
+
+database_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Materialism — Database</title>
+<style>
+* {{ margin: 0; padding: 0; box-sizing: border-box; }}
+body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }}
+.header {{ background: #fff; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #dfe6e9; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }}
+.header h1 {{ font-size: 1.5rem; color: #e94560; }}
+.header h1 a {{ color: #e94560; text-decoration: none; }}
+.header .nav-links {{ color: #636e72; font-size: 0.9rem; display: flex; align-items: center; gap: 12px; }}
+.header .nav-links a {{ color: #636e72; text-decoration: none; border-bottom: 1px dotted #b2bec3; cursor: pointer; }}
+.toolbar {{ background: #fff; padding: 10px 30px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #dfe6e9; }}
+.toolbar input {{ padding: 8px 12px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.85rem; width: 220px; }}
+.toolbar input:focus {{ outline: none; border-color: #e94560; }}
+.db-tabs {{ display: flex; gap: 0; }}
+.db-tab {{ padding: 8px 18px; cursor: pointer; border: none; background: transparent; color: #636e72; font-size: 0.85rem; transition: all 0.2s; }}
+.db-tab:hover {{ color: #2d3436; background: #f5f6fa; }}
+.db-tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #fff; }}
+.lock-btn {{
+    margin-left: auto; cursor: pointer; background: none; border: 1px solid #dfe6e9;
+    border-radius: 4px; padding: 5px 12px; display: flex; align-items: center; gap: 6px;
+    color: #636e72; font-size: 0.8rem; transition: all 0.2s;
+}}
+.lock-btn:hover {{ background: #f5f6fa; border-color: #b2bec3; }}
+.lock-btn.unlocked {{ color: #e94560; border-color: #e94560; background: #fff5f7; }}
+.lock-btn svg {{ width: 16px; height: 16px; fill: currentColor; }}
+.table-wrap {{ overflow: auto; height: calc(100vh - 130px); }}
+table {{ width: max-content; min-width: 100%; border-collapse: collapse; font-size: 0.8rem; }}
+th {{
+    background: #f0f2f5; color: #e94560; padding: 8px 10px; text-align: left;
+    font-weight: 600; position: sticky; top: 0; z-index: 1;
+    border-bottom: 2px solid #dfe6e9; white-space: nowrap; cursor: pointer;
+}}
+th:hover {{ background: #e8eaed; }}
+th.sort-asc::after {{ content: ' ▲'; font-size: 0.7em; color: #e94560; }}
+th.sort-desc::after {{ content: ' ▼'; font-size: 0.7em; color: #e94560; }}
+td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-width: 300px; overflow: hidden; text-overflow: ellipsis; }}
+tr:hover {{ background: #f8f9fa; }}
+td a {{ color: #0984e3; text-decoration: none; }}
+td a:hover {{ text-decoration: underline; }}
+td input {{
+    width: 100%; border: none; background: transparent; font: inherit; color: inherit;
+    padding: 2px 4px; outline: none;
+}}
+td input:focus {{ background: #fff3cd; border-radius: 2px; }}
+td.editing {{ padding: 2px 4px; background: #fffcf0; }}
+.edit-count {{ font-size: 0.8rem; color: #e94560; font-weight: 600; }}
+.cas-link {{ color: #0984e3; text-decoration: none; }}
+.cas-link:hover {{ text-decoration: underline; }}
+.save-indicator {{ display: none; color: #00b894; font-size: 0.8rem; font-weight: 600; }}
+.save-indicator.visible {{ display: inline; }}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1><a href="materialism.html">Materialism</a> — Database</h1>
+    <div class="nav-links">
+        <a href="cas_review.html">Cross</a>
+        <a href="materialism.html">Search</a>
+    </div>
+</div>
+<div class="toolbar">
+    <div class="db-tabs">
+        <button id="tab-solv" class="db-tab active" onclick="switchTab('solvents')">Solvents ({len(db_solvents)})</button>
+        <button id="tab-poly" class="db-tab" onclick="switchTab('polymers')">Polymers ({len(db_polymers)})</button>
+    </div>
+    <input type="text" id="db-filter" placeholder="Filter by name or CAS..." oninput="renderTable()">
+    <button id="lock-btn" class="lock-btn" onclick="toggleLock()" title="Click to unlock editing">
+        <svg id="icon-locked" viewBox="0 0 24 24"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1m-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3z"/></svg>
+        <svg id="icon-unlocked" viewBox="0 0 24 24" style="display:none"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h9V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3H7a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1z"/></svg>
+        <span id="lock-text">Locked</span>
+    </button>
+    <span class="edit-count" id="edit-count"></span>
+    <span class="save-indicator" id="save-ind">Saved</span>
+</div>
+<div class="table-wrap">
+    <table id="db-table">
+        <thead id="db-thead"></thead>
+        <tbody id="db-tbody"></tbody>
+    </table>
+</div>
+<script>
+var SOLVENTS = {db_solvents_json};
+var POLYMERS = {db_polymers_json};
+
+var SOLV_COLS = [
+    {{key:'name', label:'Name', w:'200px'}},
+    {{key:'cas', label:'CAS #', w:'110px'}},
+    {{key:'formula', label:'Formula', w:'110px'}},
+    {{key:'smiles', label:'SMILES', w:'160px'}},
+    {{key:'dd', label:'\\u03b4D (MPa\\u00bd)', w:'78px', tip:'Dispersion parameter'}},
+    {{key:'dp', label:'\\u03b4P (MPa\\u00bd)', w:'78px', tip:'Polarity parameter'}},
+    {{key:'dh', label:'\\u03b4H (MPa\\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
+    {{key:'mw', label:'MW (g/mol)', w:'80px', tip:'Molecular weight'}},
+    {{key:'bp', label:'BP (\\u00b0C)', w:'70px', tip:'Boiling point'}},
+    {{key:'density', label:'Density', w:'70px', tip:'Density (g/mL)'}},
+    {{key:'mv', label:'V\\u2098 (cm\\u00b3/mol)', w:'90px', tip:'Molar volume'}},
+    {{key:'cat', label:'Category', w:'100px'}},
+    {{key:'ghs', label:'GHS Hazard', w:'120px'}},
+    {{key:'src', label:'Source', w:'140px'}},
+];
+var POLY_COLS = [
+    {{key:'name', label:'Name', w:'250px'}},
+    {{key:'cas', label:'CAS #', w:'110px'}},
+    {{key:'dd', label:'\\u03b4D (MPa\\u00bd)', w:'78px', tip:'Dispersion parameter'}},
+    {{key:'dp', label:'\\u03b4P (MPa\\u00bd)', w:'78px', tip:'Polarity parameter'}},
+    {{key:'dh', label:'\\u03b4H (MPa\\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
+    {{key:'r', label:'R\\u2080 (MPa\\u00bd)', w:'70px', tip:'Interaction radius'}},
+    {{key:'type', label:'Type', w:'120px'}},
+    {{key:'src', label:'Source', w:'140px'}},
+];
+
+var activeTab = 'solvents';
+var editing = false;
+var edits = {{}};  // key: "type:index:field" -> value
+var sortCol = null, sortAsc = true;
+
+function loadEdits() {{
+    try {{
+        var saved = localStorage.getItem('materialism_db_edits');
+        if (saved) edits = JSON.parse(saved);
+    }} catch(e) {{}}
+    updateEditCount();
+}}
+
+function saveEdits() {{
+    try {{
+        localStorage.setItem('materialism_db_edits', JSON.stringify(edits));
+    }} catch(e) {{}}
+    updateEditCount();
+    var ind = document.getElementById('save-ind');
+    ind.classList.add('visible');
+    setTimeout(function() {{ ind.classList.remove('visible'); }}, 1500);
+}}
+
+function updateEditCount() {{
+    var n = Object.keys(edits).length;
+    var el = document.getElementById('edit-count');
+    el.textContent = n ? n + ' edit' + (n > 1 ? 's' : '') : '';
+}}
+
+function getVal(type, idx, field) {{
+    var k = type + ':' + idx + ':' + field;
+    if (edits.hasOwnProperty(k)) return edits[k];
+    var arr = type === 'solvents' ? SOLVENTS : POLYMERS;
+    return arr[idx][field] || '';
+}}
+
+function setVal(type, idx, field, val) {{
+    var k = type + ':' + idx + ':' + field;
+    var arr = type === 'solvents' ? SOLVENTS : POLYMERS;
+    var orig = arr[idx][field] || '';
+    if (val === orig) {{
+        delete edits[k];
+    }} else {{
+        edits[k] = val;
+    }}
+    saveEdits();
+}}
+
+function toggleLock() {{
+    editing = !editing;
+    var btn = document.getElementById('lock-btn');
+    var iconLocked = document.getElementById('icon-locked');
+    var iconUnlocked = document.getElementById('icon-unlocked');
+    var lockText = document.getElementById('lock-text');
+    if (editing) {{
+        btn.classList.add('unlocked');
+        btn.title = 'Click to lock and save';
+        iconLocked.style.display = 'none';
+        iconUnlocked.style.display = '';
+        lockText.textContent = 'Editing';
+    }} else {{
+        btn.classList.remove('unlocked');
+        btn.title = 'Click to unlock editing';
+        iconLocked.style.display = '';
+        iconUnlocked.style.display = 'none';
+        lockText.textContent = 'Locked';
+    }}
+    renderTable();
+}}
+
+function switchTab(tab) {{
+    activeTab = tab;
+    sortCol = null;
+    document.querySelectorAll('.db-tab').forEach(function(t) {{ t.classList.remove('active'); }});
+    if (tab === 'solvents') document.getElementById('tab-solv').classList.add('active');
+    else document.getElementById('tab-poly').classList.add('active');
+    renderTable();
+}}
+
+function sortBy(col) {{
+    if (sortCol === col) sortAsc = !sortAsc;
+    else {{ sortCol = col; sortAsc = true; }}
+    renderTable();
+}}
+
+function renderTable() {{
+    var cols = activeTab === 'solvents' ? SOLV_COLS : POLY_COLS;
+    var data = activeTab === 'solvents' ? SOLVENTS : POLYMERS;
+    var filter = document.getElementById('db-filter').value.toLowerCase().trim();
+
+    // Build index array for filtering
+    var indices = [];
+    for (var i = 0; i < data.length; i++) {{
+        if (filter) {{
+            var row = data[i];
+            var name = getVal(activeTab, i, 'name').toLowerCase();
+            var cas = getVal(activeTab, i, 'cas').toLowerCase();
+            if (name.indexOf(filter) === -1 && cas.indexOf(filter) === -1) continue;
+        }}
+        indices.push(i);
+    }}
+
+    // Sort
+    if (sortCol !== null) {{
+        var key = cols[sortCol].key;
+        indices.sort(function(a, b) {{
+            var va = getVal(activeTab, a, key);
+            var vb = getVal(activeTab, b, key);
+            var na = parseFloat(va), nb = parseFloat(vb);
+            if (!isNaN(na) && !isNaN(nb)) return sortAsc ? na - nb : nb - na;
+            return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+        }});
+    }}
+
+    // Header
+    var hdr = '<tr>';
+    for (var ci = 0; ci < cols.length; ci++) {{
+        var c = cols[ci];
+        var cls = '';
+        if (sortCol === ci) cls = sortAsc ? ' class="sort-asc"' : ' class="sort-desc"';
+        hdr += '<th' + cls + ' style="width:' + c.w + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="sortBy(' + ci + ')">' + c.label + '</th>';
+    }}
+    hdr += '</tr>';
+    document.getElementById('db-thead').innerHTML = hdr;
+
+    // Body
+    var html = '';
+    for (var ri = 0; ri < indices.length; ri++) {{
+        var idx = indices[ri];
+        html += '<tr>';
+        for (var ci = 0; ci < cols.length; ci++) {{
+            var c = cols[ci];
+            var val = getVal(activeTab, idx, c.key);
+            var editKey = activeTab + ':' + idx + ':' + c.key;
+            var isEdited = edits.hasOwnProperty(editKey);
+
+            if (editing) {{
+                html += '<td class="editing"' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>';
+                html += '<input type="text" value="' + String(val).replace(/"/g, '&quot;') + '" onchange="setVal(\\x27' + activeTab + '\\x27,' + idx + ',\\x27' + c.key + '\\x27,this.value)">';
+                html += '</td>';
+            }} else {{
+                var display = val;
+                // CAS link
+                if (c.key === 'cas' && val) {{
+                    display = '<a class="cas-link" href="https://commonchemistry.cas.org/detail?cas_rn=' + encodeURIComponent(val) + '" target="_blank" rel="noopener">' + val + '</a>';
+                }}
+                // Source link
+                if (c.key === 'src') {{
+                    var srcUrl = activeTab === 'solvents' ? SOLVENTS[idx].srcUrl : POLYMERS[idx].srcUrl;
+                    if (srcUrl) display = '<a href="' + srcUrl + '" target="_blank" rel="noopener">' + val + '</a>';
+                }}
+                html += '<td' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>' + display + '</td>';
+            }}
+        }}
+        html += '</tr>';
+    }}
+    document.getElementById('db-tbody').innerHTML = html;
+}}
+
+loadEdits();
+renderTable();
+</script>
+</body>
+</html>"""
+
+db_output_path = os.path.join(os.path.dirname(__file__), "database.html")
+with open(db_output_path, "w") as f:
+    f.write(database_html)
+print(f"Generated: {db_output_path}")
+print(f"Database page: {len(db_solvents)} solvents, {len(db_polymers)} polymers")
