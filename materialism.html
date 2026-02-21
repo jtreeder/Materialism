@@ -4012,12 +4012,13 @@ return Plotly;
         }
 
         /* --- Results Table --- */
-        .results-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; }
+        .results-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; table-layout: fixed; }
         .results-table th {
             background: #f0f2f5; color: #e94560; padding: 8px 10px;
             text-align: left; font-weight: 600; position: sticky; top: 0; z-index: 1; border-bottom: 2px solid #dfe6e9;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
-        .results-table td { padding: 8px 10px; border-bottom: 1px solid #eee; position: relative; }
+        .results-table td { padding: 8px 10px; border-bottom: 1px solid #eee; position: relative; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .results-table tr:hover { background: #f8f9fa; }
         .results-table .rank { color: #e94560; font-weight: bold; }
         .red-good { color: #00b894; font-weight: bold; }
@@ -4052,17 +4053,17 @@ return Plotly;
 <body>
     <div class="header">
         <h1 onclick="goHome()">Materialism</h1>
-        <div class="stats"><a href="#" onclick="goHome();switchHomeTab('solvents');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">1731 solvents</a> &middot; <a href="#" onclick="goHome();switchHomeTab('polymers');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">479 polymers</a> &middot; Hansen Solubility Parameters &middot; <a href="editor.html" style="color:#e94560;text-decoration:none;border-bottom:1px dotted #e94560;cursor:pointer;font-weight:600">View/Edit Data</a> &middot; <a href="cas_review.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">CAS Review</a></div>
+        <div class="stats"><a href="#" onclick="goHome();switchHomeTab('solvents');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">1731 solvents</a> &middot; <a href="#" onclick="goHome();switchHomeTab('polymers');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">479 polymers</a> &middot; <a href="cas_review.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">CAS Review</a></div>
     </div>
 
     <div class="search-bar">
         <input type="text" id="nl-search" placeholder="Ask anything — e.g. &quot;good solvents for polystyrene&quot;"
                onkeydown="if(event.key==='Enter')runSearch()">
         <button onclick="runSearch()">Search</button>
-        <label class="simple-toggle" title="When enabled, results show only common, readily accessible solvents and polymers">
+        <label class="simple-toggle" title="When enabled, show only common, readily accessible solvents and polymers">
             <input type="checkbox" id="simple-mode" onchange="onSimpleModeChange()">
             <span class="simple-slider"></span>
-            <span class="simple-label">Simple</span>
+            <span class="simple-label">Common Only</span>
         </label>
     </div>
     <div class="search-options">
@@ -4228,14 +4229,45 @@ return Plotly;
             'san': 'Styrene acrylonitrile (SAN)',
         };
 
-        // ===================== SIMPLE MODE =====================
+        // ===================== COMMON MATERIALS FILTER =====================
         var simpleMode = false;
         function onSimpleModeChange() {
             simpleMode = document.getElementById('simple-mode').checked;
+            // Update the 3D plot to show/hide non-common materials
+            _updatePlotForCommonFilter();
+            // Rebuild home table with filter applied
+            buildHomeTable();
             // Re-run last search if there was one
             if (lastSearchQuery) {
                 document.getElementById('nl-search').value = lastSearchQuery;
                 runSearch();
+            }
+        }
+
+        function _updatePlotForCommonFilter() {
+            if (!plotDiv || !plotDiv.data) return;
+            if (simpleMode) {
+                // Dim non-common solvents, keep common ones bright
+                var filteredColors = SOLVENTS.map(function(s, i) {
+                    return s.common ? (_solventColors[i] || '#888') : 'rgba(200,200,200,0.05)';
+                });
+                var filteredSizes = SOLVENTS.map(function(s) { return s.common ? 6 : 1; });
+                var filteredOpacity = SOLVENTS.map(function(s) { return s.common ? 0.9 : 0.03; });
+                var filteredPolyColors = POLYMERS.map(function(p) { return p.common ? 'gold' : 'rgba(200,200,200,0.05)'; });
+                var filteredPolySizes = POLYMERS.map(function(p) { return p.common ? 8 : 1; });
+                var filteredPolyOpacity = POLYMERS.map(function(p) { return p.common ? 0.95 : 0.03; });
+                Plotly.restyle(plotDiv, {
+                    'marker.color': [filteredColors, filteredPolyColors],
+                    'marker.size': [filteredSizes, filteredPolySizes],
+                    'marker.opacity': [filteredOpacity, filteredPolyOpacity],
+                }, [0, 1]);
+            } else {
+                // Restore normal appearance
+                Plotly.restyle(plotDiv, {
+                    'marker.color': [_solventColors, 'gold'],
+                    'marker.size': [5, 7],
+                    'marker.opacity': [0.85, 0.95],
+                }, [0, 1]);
             }
         }
 
@@ -4621,7 +4653,7 @@ return Plotly;
                     return { ...s, ra: x.ra, red: (target.r && target.r > 0) ? x.ra / target.r : null };
                 });
                 chatContext = { intent, target, targetType: 'polymer' };
-                var simpleSuffix = simpleMode ? ' (Common solvents only)' : '';
+                var simpleSuffix = simpleMode ? ' (Common materials only)' : '';
                 if (intent === 'good_solvents') {
                     return { intent, target, results, description: 'Top ' + resultCount + ' solvents by HSP distance (Ra). RED < 1 = inside solubility sphere = compatible.' + simpleSuffix, targetType: 'polymer' };
                 } else {
@@ -4644,7 +4676,7 @@ return Plotly;
                 var top = topK(scored, resultCount, function(x) { return x.ra; });
                 var results = top.map(function(x) { return { ...SOLVENTS[x._i], ra: x.ra }; });
                 chatContext = { intent, target, targetType: 'solvent' };
-                return { intent, target, results, description: 'Solvents closest to ' + target.name + ' in Hansen space.' + (simpleMode ? ' (Simple mode: common solvents only)' : ''), targetType: 'solvent' };
+                return { intent, target, results, description: 'Solvents closest to ' + target.name + ' in Hansen space.' + (simpleMode ? ' (Common materials only)' : ''), targetType: 'solvent' };
             }
 
             if (intent === 'similar_polymers') {
@@ -4726,7 +4758,20 @@ return Plotly;
 
             // --- Single unified table with shared columns ---
             const tableId = 'rt-' + Date.now();
-            h.push('<table class="results-table" id="', tableId, '" style="margin-top:10px"><thead><tr>');
+            h.push('<table class="results-table" id="', tableId, '" style="margin-top:10px">');
+            // Fixed column widths so table doesn't shift between queries
+            h.push('<colgroup>');
+            h.push('<col style="width:35px">');   // #
+            h.push('<col style="width:22%">');     // Name
+            h.push('<col style="width:10%">');     // CAS
+            h.push('<col style="width:11%">');     // Source
+            h.push('<col style="width:48px">');    // δD
+            h.push('<col style="width:48px">');    // δP
+            h.push('<col style="width:48px">');    // δH
+            h.push('<col style="width:52px">');    // MW
+            h.push('<col style="width:52px">');    // BP
+            h.push('</colgroup>');
+            h.push('<thead><tr>');
             let colNum = 0;
             const th = (label) => '<th onclick="sortResultsTable(this.closest(\x27table\x27),' + (colNum++) + ')" style="cursor:pointer">' + label + '</th>';
             h.push(th('#'), th('Name'), th('CAS'), th('Source'), th('&delta;D'), th('&delta;P'), th('&delta;H'), th('MW'), th('BP &deg;C'));
@@ -4893,6 +4938,8 @@ return Plotly;
                 'hoverinfo': ['all', 'all'],
                 'hovertemplate': [fullTraces[0].hovertemplate, fullTraces[1].hovertemplate],
             }, [0, 1]);
+            // Re-apply common filter if active
+            if (simpleMode) _updatePlotForCommonFilter();
         }
 
         function updatePlotWithResults(result) {
@@ -5068,20 +5115,36 @@ return Plotly;
             var thead = document.getElementById('home-thead');
             var tbody = document.getElementById('home-tbody');
             var countEl = document.getElementById('home-count');
+            var tbl = document.getElementById('home-table');
             var headerHtml, rowsHtml;
 
+            // Set fixed colgroup for consistent column widths
+            var existingCg = tbl.querySelector('colgroup');
+            if (existingCg) existingCg.remove();
+            var cg = document.createElement('colgroup');
+
             if (homeTab === 'solvents') {
+                // Name, CAS, Source, δD, δP, δH, MW, BP, Category
+                ['25%','10%','11%','48px','48px','48px','52px','52px','9%'].forEach(function(w) {
+                    var col = document.createElement('col');
+                    col.style.width = w;
+                    cg.appendChild(col);
+                });
+                tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
                 ['Name','CAS','Source','&delta;D','&delta;P','&delta;H','MW','BP &deg;C','Category'].forEach(function(label, i) {
                     headerHtml += '<th onclick="sortResultsTable(this.closest(\x27table\x27),' + i + ')" style="cursor:pointer">' + label + '</th>';
                 });
                 headerHtml += '</tr>';
                 var filtered = SOLVENTS;
+                if (simpleMode) {
+                    filtered = filtered.filter(function(s) { return s.common; });
+                }
                 if (homeFilterText) {
                     var q = homeFilterText.toLowerCase();
-                    filtered = SOLVENTS.filter(function(s) { return s.name.toLowerCase().indexOf(q) !== -1 || (s.cas && s.cas.indexOf(q) !== -1) || (s.src && s.src.toLowerCase().indexOf(q) !== -1); });
+                    filtered = filtered.filter(function(s) { return s.name.toLowerCase().indexOf(q) !== -1 || (s.cas && s.cas.indexOf(q) !== -1) || (s.src && s.src.toLowerCase().indexOf(q) !== -1); });
                 }
-                countEl.textContent = filtered.length + ' solvents';
+                countEl.textContent = filtered.length + ' solvents' + (simpleMode ? ' (common only)' : '');
                 rowsHtml = '';
                 for (var i = 0; i < filtered.length; i++) {
                     var s = filtered[i];
@@ -5100,17 +5163,27 @@ return Plotly;
                     rowsHtml += '</tr>';
                 }
             } else {
+                // Name, CAS, Source, δD, δP, δH, R₀, Type
+                ['25%','10%','11%','48px','48px','48px','52px','9%'].forEach(function(w) {
+                    var col = document.createElement('col');
+                    col.style.width = w;
+                    cg.appendChild(col);
+                });
+                tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
                 ['Name','CAS','Source','&delta;D','&delta;P','&delta;H','R&#8320;','Type'].forEach(function(label, i) {
                     headerHtml += '<th onclick="sortResultsTable(this.closest(\x27table\x27),' + i + ')" style="cursor:pointer">' + label + '</th>';
                 });
                 headerHtml += '</tr>';
                 var filtered = POLYMERS;
+                if (simpleMode) {
+                    filtered = filtered.filter(function(p) { return p.common; });
+                }
                 if (homeFilterText) {
                     var q = homeFilterText.toLowerCase();
-                    filtered = POLYMERS.filter(function(p) { return p.name.toLowerCase().indexOf(q) !== -1 || (p.cas && p.cas.indexOf(q) !== -1) || (p.src && p.src.toLowerCase().indexOf(q) !== -1); });
+                    filtered = filtered.filter(function(p) { return p.name.toLowerCase().indexOf(q) !== -1 || (p.cas && p.cas.indexOf(q) !== -1) || (p.src && p.src.toLowerCase().indexOf(q) !== -1); });
                 }
-                countEl.textContent = filtered.length + ' polymers';
+                countEl.textContent = filtered.length + ' polymers' + (simpleMode ? ' (common only)' : '');
                 rowsHtml = '';
                 for (var i = 0; i < filtered.length; i++) {
                     var p = filtered[i];

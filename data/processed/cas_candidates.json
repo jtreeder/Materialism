@@ -270,8 +270,8 @@
     "corrected_name": "1,2,4,5-TETRACHLOROBENZENE",
     "cas": "95-94-3",
     "iupac": "1,2,4,5-tetrachlorobenzene",
-    "confidence": 0.94,
-    "reason": "Remove trailing fragment",
+    "confidence": 0.99,
+    "reason": "Matched via structure image (OSRA)",
     "cid": 7270,
     "synonyms": [
      "1,2,4,5-TETRACHLOROBENZENE",
@@ -287,8 +287,7 @@
     "ref_mv": 116.2,
     "ref_density": 1.858,
     "mv_match": true,
-    "mv_pct_diff": 0.0,
-    "guess_text": "1,2,4,5-Tetrachlorobenzene"
+    "mv_pct_diff": 0.0
    },
    {
     "corrected_name": "TETRACHLOROPHTHALIC ANHYDRIDE",
@@ -691,6 +690,29 @@
   "delta_h": "8.5",
   "molar_volume": 101.4,
   "options": [
+   {
+    "corrected_name": "2-Propenoic acid, chloromethyl ester",
+    "cas": "27550-72-7",
+    "iupac": "chloromethyl prop-2-enoate",
+    "confidence": 0.9,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 543682,
+    "synonyms": [
+     "2-Propenoic acid, chloromethyl ester",
+     "27550-72-7",
+     "chloromethyl prop-2-enoate",
+     "Chloromethyl propenoate",
+     "a-Chlormethylacrylat",
+     "Chloromethyl acrylate #",
+     "SCHEMBL114085",
+     "DTXSID70337613"
+    ],
+    "pubchem_mw": 120.53,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null
+   },
    {
     "corrected_name": "Methyl 4-chlorophenylacetate",
     "cas": "52449-43-1",
@@ -1656,7 +1678,7 @@
     "cas": "771-69-7",
     "iupac": "1,2,3-trifluoro-4-nitrobenzene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 69871,
     "synonyms": [
      "1,2,3-Trifluoro-4-nitrobenzene",
@@ -1672,8 +1694,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "1,2,3-Trifluoro-4-nitro"
+    "mv_pct_diff": null
    }
   ],
   "source_ref": {
@@ -1839,7 +1860,7 @@
     "cas": "446-35-5",
     "iupac": "2,4-difluoro-1-nitrobenzene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 67967,
     "synonyms": [
      "2,4-Difluoronitrobenzene",
@@ -1855,8 +1876,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "2,4-Difluoro-1-nitro"
+    "mv_pct_diff": null
    }
   ],
   "source_ref": {
@@ -1884,7 +1904,7 @@
     "cas": "320-50-3",
     "iupac": "1,4-dichloro-2-(trifluoromethyl)benzene",
     "confidence": 0.99,
-    "reason": "Fix truncation: \u2026fluorid \u2192 \u2026fluoride",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 35360,
     "synonyms": [
      "2,5-Dichlorobenzotrifluoride",
@@ -1900,8 +1920,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "2,5-Dichlorobenzotrifluoride"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "2,5-Dichlorobenzyl chloride",
@@ -1976,8 +1995,8 @@
     "corrected_name": "104-80-3",
     "cas": "104-80-3",
     "iupac": "[5-(hydroxymethyl)oxolan-2-yl]methanol",
-    "confidence": 0.35,
-    "reason": "Original name [via PubChem autocomplete]",
+    "confidence": 0.95,
+    "reason": "Matched via structure image (OSRA)",
     "cid": 97792,
     "synonyms": [
      "104-80-3",
@@ -1993,8 +2012,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "2,5-Tetrahydrofuran Dimethanol"
+    "mv_pct_diff": null
    }
   ],
   "source_ref": {
@@ -2022,7 +2040,7 @@
     "cas": "1897-52-5",
     "iupac": "2,6-difluorobenzonitrile",
     "confidence": 0.99,
-    "reason": "Fix truncation: \u2026onitril \u2192 \u2026onitrile",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 74695,
     "synonyms": [
      "2,6-Difluorobenzonitrile",
@@ -2038,8 +2056,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "2,6-Difluorobenzonitrile"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "2,6-Difluoro-4-nitroaniline",
@@ -2159,6 +2176,29 @@
     "mv_match": null,
     "mv_pct_diff": null,
     "guess_text": "1-Chloro-2"
+   },
+   {
+    "corrected_name": "Propylcyclohexane",
+    "cas": "1678-92-8",
+    "iupac": "propylcyclohexane",
+    "confidence": 0.9,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 15505,
+    "synonyms": [
+     "Propylcyclohexane",
+     "1678-92-8",
+     "Cyclohexane, propyl-",
+     "N-PROPYLCYCLOHEXANE",
+     "T6QU2W806V",
+     "Cyclohexane, n-propyl-",
+     "EINECS 216-836-6",
+     "NSC 44885"
+    ],
+    "pubchem_mw": 126.24,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "Ethyldimethylchlorosilane",
@@ -2889,7 +2929,7 @@
     "cas": "328-84-7",
     "iupac": "1,2-dichloro-4-(trifluoromethyl)benzene",
     "confidence": 0.99,
-    "reason": "Fix truncation: \u2026toluen \u2192 \u2026toluene [via NCI/CIR]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 9481,
     "synonyms": [
      "3,4-DICHLOROBENZOTRIFLUORIDE",
@@ -2905,8 +2945,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "3,4-Dichloro \u03b1,\u03b1,\u03b1-Trifluorotoluene"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "1,2-Dichloro-4-iodobenzene",
@@ -2958,7 +2997,7 @@
     "cas": "64248-63-1",
     "iupac": "3,5-difluorobenzonitrile",
     "confidence": 0.99,
-    "reason": "Fix truncation: \u2026onitril \u2192 \u2026onitrile",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 587204,
     "synonyms": [
      "3,5-Difluorobenzonitrile",
@@ -2974,8 +3013,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "3,5-Difluorobenzonitrile"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "3'',5-Difluoro-",
@@ -3091,30 +3129,6 @@
     "mv_match": true,
     "mv_pct_diff": 0.6,
     "guess_text": "3-Hydroxypropionitrile"
-   },
-   {
-    "corrected_name": "Lactonitrile",
-    "cas": "78-97-7",
-    "iupac": "2-hydroxypropanenitrile",
-    "confidence": 0.43,
-    "reason": "Original name [via PubChem autocomplete]",
-    "cid": 6572,
-    "synonyms": [
-     "Lactonitrile",
-     "2-HYDROXYPROPANENITRILE",
-     "2-Hydroxypropionitrile",
-     "78-97-7",
-     "Propanenitrile, 2-hydroxy-",
-     "Acetocyanohydrin",
-     "Acetaldehyde, cyanohydrin",
-     "Propionitrile, 2-hydroxy-"
-    ],
-    "pubchem_mw": 71.08,
-    "ref_mv": 72.0,
-    "ref_density": 0.9877,
-    "mv_match": true,
-    "mv_pct_diff": 5.4,
-    "guess_text": "3Hydroxypropionitrile"
    }
   ],
   "source_ref": {
@@ -3267,6 +3281,29 @@
     "guess_text": "1-(4-Trifluoromet yl"
    },
    {
+    "corrected_name": "1-[4-(Trifluoromethyl)phenyl]ethan-1-one",
+    "cas": "709-63-7",
+    "iupac": "1-[4-(trifluoromethyl)phenyl]ethanone",
+    "confidence": 0.9,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 69731,
+    "synonyms": [
+     "1-[4-(Trifluoromethyl)phenyl]ethan-1-one",
+     "1-(4-(Trifluoromethyl)phenyl)ethan-1-one",
+     "EINECS 211-913-0",
+     "DTXSID80221130",
+     "NSC 88346",
+     "RefChem:424558",
+     "DTXCID80143621",
+     "211-913-0"
+    ],
+    "pubchem_mw": 188.15,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null
+   },
+   {
     "corrected_name": "3'-(Trifluoromethyl)acetophenone",
     "cas": "349-76-8",
     "iupac": "1-[3-(trifluoromethyl)phenyl]ethanone",
@@ -3336,6 +3373,29 @@
   "molar_volume": 162.6,
   "options": [
    {
+    "corrected_name": "4'-Ethoxyacetophenone",
+    "cas": "1676-63-7",
+    "iupac": "1-(4-ethoxyphenyl)ethanone",
+    "confidence": 0.99,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 72872,
+    "synonyms": [
+     "4'-Ethoxyacetophenone",
+     "1676-63-7",
+     "1-(4-Ethoxyphenyl)ethanone",
+     "p-Ethoxyacetophenone",
+     "Ethanone, 1-(4-ethoxyphenyl)-",
+     "1-(4-Ethoxyphenyl)ethan-1-one",
+     "Acetophenone, p-ethoxy-",
+     "Acetophenone, 4'-ethoxy-"
+    ],
+    "pubchem_mw": 164.2,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null
+   },
+   {
     "corrected_name": "1-(4-ethoxyphenyl)piperazine",
     "cas": "46415-29-6",
     "iupac": "1-(4-ethoxyphenyl)piperazine",
@@ -3358,30 +3418,6 @@
     "mv_match": null,
     "mv_pct_diff": null,
     "guess_text": "1-(4-Ethoxy-phenyl)"
-   },
-   {
-    "corrected_name": "4'-Ethoxyacetophenone",
-    "cas": "1676-63-7",
-    "iupac": "1-(4-ethoxyphenyl)ethanone",
-    "confidence": 0.88,
-    "reason": "Join prefix 'Ethoxy' to following word",
-    "cid": 72872,
-    "synonyms": [
-     "4'-Ethoxyacetophenone",
-     "1676-63-7",
-     "1-(4-Ethoxyphenyl)ethanone",
-     "p-Ethoxyacetophenone",
-     "Ethanone, 1-(4-ethoxyphenyl)-",
-     "1-(4-Ethoxyphenyl)ethan-1-one",
-     "Acetophenone, p-ethoxy-",
-     "Acetophenone, 4'-ethoxy-"
-    ],
-    "pubchem_mw": 164.2,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "4-EthoxyAcetophenone"
    }
   ],
   "source_ref": {
@@ -3408,8 +3444,8 @@
     "corrected_name": "2,5-Difluoronitrobenzene",
     "cas": "364-74-9",
     "iupac": "1,4-difluoro-2-nitrobenzene",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.95,
+    "reason": "Matched via structure image (OSRA)",
     "cid": 67767,
     "synonyms": [
      "2,5-Difluoronitrobenzene",
@@ -3425,8 +3461,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "1,4-Difluoro-2-nitro"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "3-Fluorobenzotrifluoride",
@@ -3800,7 +3835,7 @@
     "cas": "344-38-7",
     "iupac": "4-bromo-1-nitro-2-(trifluoromethyl)benzene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 136171,
     "synonyms": [
      "5-Bromo-2-nitrobenzotrifluoride",
@@ -3816,8 +3851,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "4-Bromo-1-nitro-2"
+    "mv_pct_diff": null
    }
   ],
   "source_ref": {
@@ -4199,7 +4233,7 @@
     "cas": "532-27-4",
     "iupac": "2-chloro-1-phenylethanone",
     "confidence": 0.99,
-    "reason": "'alfa' \u2192 'alpha' [via NCI/CIR]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 10757,
     "synonyms": [
      "2-CHLOROACETOPHENONE",
@@ -4215,8 +4249,7 @@
     "ref_mv": 117.1,
     "ref_density": 1.32,
     "mv_match": true,
-    "mv_pct_diff": 0.3,
-    "guess_text": "alpha-Chloro Acetophenone"
+    "mv_pct_diff": 0.3
    },
    {
     "corrected_name": "2-Chloro-1-phenylethanol",
@@ -4292,7 +4325,7 @@
     "cas": "611-15-4",
     "iupac": "1-ethenyl-2-methylbenzene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 11904,
     "synonyms": [
      "2-Methylstyrene",
@@ -4308,8 +4341,7 @@
     "ref_mv": 130.2,
     "ref_density": 0.9077,
     "mv_match": true,
-    "mv_pct_diff": 0.2,
-    "guess_text": "1-Methyl-2-vinyl"
+    "mv_pct_diff": 0.2
    },
    {
     "corrected_name": "alpha-Methylstyrene",
@@ -4361,7 +4393,7 @@
     "cas": "98-08-8",
     "iupac": "trifluoromethylbenzene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 7368,
     "synonyms": [
      "BENZOTRIFLUORIDE",
@@ -4377,8 +4409,7 @@
     "ref_mv": 123.7,
     "ref_density": 1.1812,
     "mv_match": true,
-    "mv_pct_diff": 0.7,
-    "guess_text": "Trifluoromethyl-benzen"
+    "mv_pct_diff": 0.7
    },
    {
     "corrected_name": "2-Nitrobenzotrifluoride",
@@ -4426,6 +4457,29 @@
   "molar_volume": 120.8,
   "options": [
    {
+    "corrected_name": "2-METHOXYBENZALDEHYDE",
+    "cas": "135-02-4",
+    "iupac": "2-methoxybenzaldehyde",
+    "confidence": 0.95,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 8658,
+    "synonyms": [
+     "2-METHOXYBENZALDEHYDE",
+     "o-Anisaldehyde",
+     "Benzaldehyde, 2-methoxy-",
+     "o-Methoxybenzaldehyde",
+     "2-methoxy-benzaldehyde",
+     "Formylanisole, o-",
+     "EINECS 205-171-7",
+     "UNII-7CP821WF2W"
+    ],
+    "pubchem_mw": 136.15,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null
+   },
+   {
     "corrected_name": "4-Methoxybenzaldehyde",
     "cas": "123-11-5",
     "iupac": "4-methoxybenzaldehyde",
@@ -4472,30 +4526,6 @@
     "mv_match": null,
     "mv_pct_diff": null,
     "guess_text": "2-Methoxy"
-   },
-   {
-    "corrected_name": "2-METHOXYBENZALDEHYDE",
-    "cas": "135-02-4",
-    "iupac": "2-methoxybenzaldehyde",
-    "confidence": 0.35,
-    "reason": "Original name [via PubChem autocomplete]",
-    "cid": 8658,
-    "synonyms": [
-     "2-METHOXYBENZALDEHYDE",
-     "o-Anisaldehyde",
-     "Benzaldehyde, 2-methoxy-",
-     "o-Methoxybenzaldehyde",
-     "2-methoxy-benzaldehyde",
-     "Formylanisole, o-",
-     "EINECS 205-171-7",
-     "UNII-7CP821WF2W"
-    ],
-    "pubchem_mw": 136.15,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Anisaldehyde (2-Methoxy"
    }
   ],
   "source_ref": {
@@ -5255,6 +5285,29 @@
     "guess_text": "Thioxo-methanone"
    },
    {
+    "corrected_name": "CYCLOHEXANE",
+    "cas": "110-82-7",
+    "iupac": "cyclohexane",
+    "confidence": 0.6,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 8078,
+    "synonyms": [
+     "CYCLOHEXANE",
+     "110-82-7",
+     "Hexamethylene",
+     "Hexahydrobenzene",
+     "Hexanaphthene",
+     "Cyclohexan",
+     "Cykloheksan",
+     "Benzene, hexahydro-"
+    ],
+    "pubchem_mw": 84.16,
+    "ref_mv": 108.0,
+    "ref_density": 0.779,
+    "mv_match": false,
+    "mv_pct_diff": 111.8
+   },
+   {
     "corrected_name": "CARBONYL SULFIDE",
     "cas": "463-58-1",
     "iupac": "sulfanylidenemethanone",
@@ -5818,8 +5871,8 @@
     "corrected_name": "Bis(2-ethylhexyl)amine",
     "cas": "106-20-7",
     "iupac": "2-ethyl-N-(2-ethylhexyl)hexan-1-amine",
-    "confidence": 0.89,
-    "reason": "Join 'Ethyl hexyl' \u2192 'Ethylhexyl'",
+    "confidence": 0.99,
+    "reason": "Matched via structure image (OSRA)",
     "cid": 7791,
     "synonyms": [
      "Bis(2-ethylhexyl)amine",
@@ -5835,8 +5888,7 @@
     "ref_mv": 299.5,
     "ref_density": 0.8062,
     "mv_match": true,
-    "mv_pct_diff": 0.7,
-    "guess_text": "Di-2-Ethylhexyl Amine"
+    "mv_pct_diff": 0.7
    },
    {
     "corrected_name": "2-ETHYLHEXYL ACETATE",
@@ -6053,7 +6105,7 @@
     "cas": "55-91-4",
     "iupac": "2-[fluoro(propan-2-yloxy)phosphoryl]oxypropane",
     "confidence": 0.99,
-    "reason": "Fix truncation: \u2026fluoridat \u2192 \u2026fluoridate [via PubChem autocomplete]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 5936,
     "synonyms": [
      "diisopropyl fluorophosphate",
@@ -6069,8 +6121,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Di-Isopropyl Phosphonofluoridate"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "fluorophosphoric acid",
@@ -6305,6 +6356,29 @@
     "mv_match": null,
     "mv_pct_diff": null,
     "guess_text": "DiethoxyDisulfid"
+   },
+   {
+    "corrected_name": "CYCLOHEXANE",
+    "cas": "110-82-7",
+    "iupac": "cyclohexane",
+    "confidence": 0.75,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 8078,
+    "synonyms": [
+     "CYCLOHEXANE",
+     "110-82-7",
+     "Hexamethylene",
+     "Hexahydrobenzene",
+     "Hexanaphthene",
+     "Cyclohexan",
+     "Cykloheksan",
+     "Benzene, hexahydro-"
+    ],
+    "pubchem_mw": 84.16,
+    "ref_mv": 108.0,
+    "ref_density": 0.779,
+    "mv_match": false,
+    "mv_pct_diff": 23.7
    },
    {
     "corrected_name": "Dimethyl disulfide",
@@ -7357,6 +7431,29 @@
     "guess_text": "2-Dimethylamino"
    },
    {
+    "corrected_name": "CYCLOHEXANE",
+    "cas": "110-82-7",
+    "iupac": "cyclohexane",
+    "confidence": 0.9,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 8078,
+    "synonyms": [
+     "CYCLOHEXANE",
+     "110-82-7",
+     "Hexamethylene",
+     "Hexahydrobenzene",
+     "Hexanaphthene",
+     "Cyclohexan",
+     "Cykloheksan",
+     "Benzene, hexahydro-"
+    ],
+    "pubchem_mw": 84.16,
+    "ref_mv": 108.0,
+    "ref_density": 0.779,
+    "mv_match": null,
+    "mv_pct_diff": null
+   },
+   {
     "corrected_name": "10549-59-4",
     "cas": "10549-59-4",
     "iupac": "4-[2-(dimethylamino)ethoxy]-4-oxobutanoic acid",
@@ -7493,6 +7590,29 @@
     "mv_match": null,
     "mv_pct_diff": null,
     "guess_text": "Toluene-4-sulfonate (2"
+   },
+   {
+    "corrected_name": "4-Methylbenzenesulfonic acid",
+    "cas": "104-15-4",
+    "iupac": "4-methylbenzenesulfonic acid",
+    "confidence": 0.9,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 6101,
+    "synonyms": [
+     "4-Methylbenzenesulfonic acid",
+     "P-TOLUENESULFONIC ACID",
+     "104-15-4",
+     "4-Toluenesulfonic acid",
+     "p-Toluenesulphonic acid",
+     "Tosic acid",
+     "Toluene-4-sulfonic acid",
+     "p-Tolylsulfonic acid"
+    ],
+    "pubchem_mw": 172.2,
+    "ref_mv": 118.8,
+    "ref_density": 1.45,
+    "mv_match": null,
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "10549-59-4",
@@ -7825,7 +7945,7 @@
     "cas": "501-65-5",
     "iupac": "2-phenylethynylbenzene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 10390,
     "synonyms": [
      "DIPHENYLACETYLENE",
@@ -7841,8 +7961,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "(Phenylethynyl)benzene"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "64984-31-2",
@@ -7894,7 +8013,7 @@
     "cas": "501-65-5",
     "iupac": "2-phenylethynylbenzene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 10390,
     "synonyms": [
      "DIPHENYLACETYLENE",
@@ -7910,8 +8029,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "(Phenylethynyl)benzene"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "1820-42-4",
@@ -9376,6 +9494,29 @@
     "guess_text": "[1,3,2]Dioxathiolane 2"
    },
    {
+    "corrected_name": "Ethylene sulfite",
+    "cas": "3741-38-6",
+    "iupac": "1,3,2-dioxathiolane 2-oxide",
+    "confidence": 0.9,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 77342,
+    "synonyms": [
+     "Ethylene sulfite",
+     "Glycol sulfite",
+     "3741-38-6",
+     "1,3,2-Dioxathiolane 2-oxide",
+     "1,3,2-Dioxathiolane, 2-oxide",
+     "Glycolsulfite",
+     "Cyclic ethylene sulfite",
+     "1,2-Ethylene sulfite"
+    ],
+    "pubchem_mw": 108.12,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null
+   },
+   {
     "corrected_name": "3386-87-6",
     "cas": "3386-87-6",
     "iupac": "3-[2-(2-cyanoethoxy)ethoxy]propanenitrile",
@@ -9880,6 +10021,29 @@
     "guess_text": "Fenchene(alpha)"
    },
    {
+    "corrected_name": "alpha-Fenchene",
+    "cas": "471-84-1",
+    "iupac": "7,7-dimethyl-2-methylidenebicyclo[2.2.1]heptane",
+    "confidence": 0.9,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 28930,
+    "synonyms": [
+     "alpha-Fenchene",
+     "Bicyclo[2.2.1]heptane, 7,7-dimethyl-2-methylene-",
+     "7,7-Dimethyl-2-methylenebicyclo(2.2.1)heptane",
+     "Bicyclo2.2.1heptane, 7,7-dimethyl-2-methylene-",
+     "Bicyclo(2.2.1)heptane, 7,7-dimethyl-2-methylene-",
+     "7,7-Dimethyl-2-methylenebicyclo[2.2.1]heptane",
+     "RefChem:555712",
+     "610-330-2"
+    ],
+    "pubchem_mw": 136.23,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null
+   },
+   {
     "corrected_name": "Fenchone",
     "cas": "1195-79-5",
     "iupac": "1,3,3-trimethylbicyclo[2.2.1]heptan-2-one",
@@ -10123,7 +10287,7 @@
     "cas": "920-66-1",
     "iupac": "1,1,1,3,3,3-hexafluoropropan-2-ol",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 13529,
     "synonyms": [
      "1,1,1,3,3,3-Hexafluoro-2-propanol",
@@ -10139,8 +10303,7 @@
     "ref_mv": 105.3,
     "ref_density": 1.596,
     "mv_match": true,
-    "mv_pct_diff": 0.0,
-    "guess_text": "1,1,1,3,3,3-Hexafluoro"
+    "mv_pct_diff": 0.0
    }
   ],
   "source_ref": {
@@ -10261,7 +10424,7 @@
     "cas": "685-63-2",
     "iupac": "1,1,2,3,4,4-hexafluorobuta-1,3-diene",
     "confidence": 0.99,
-    "reason": "Fix truncation: \u2026dien \u2192 \u2026diene",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 69636,
     "synonyms": [
      "Hexafluoro-1,3-butadiene",
@@ -10277,8 +10440,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Hexafluoro 1,3-Butadiene"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "1,1,2,3,4,4-hexafluorobutane",
@@ -10330,7 +10492,7 @@
     "cas": "392-56-3",
     "iupac": "1,2,3,4,5,6-hexafluorobenzene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 9805,
     "synonyms": [
      "HEXAFLUOROBENZENE",
@@ -10346,8 +10508,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "1,2,3,4,5,6-Hexafluoro"
+    "mv_pct_diff": null
    }
   ],
   "source_ref": {
@@ -10586,7 +10747,7 @@
     "cas": "100-68-5",
     "iupac": "methylsulfanylbenzene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 7520,
     "synonyms": [
      "Thioanisole",
@@ -10602,8 +10763,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Methylsulfanyl-benzene"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "Ethyl 4-fluoro-2-methylphenyl sulfide",
@@ -11266,7 +11426,7 @@
     "cas": "3470-98-2",
     "iupac": "1-butylpyrrolidin-2-one",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 18984,
     "synonyms": [
      "1-Butylpyrrolidin-2-one",
@@ -11282,8 +11442,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "1-Butyl-pyrrolidin-2-one"
+    "mv_pct_diff": null
    }
   ],
   "source_ref": {
@@ -11311,7 +11470,7 @@
     "cas": "25114-81-2",
     "iupac": "azepane-1-carbaldehyde",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 91280,
     "synonyms": [
      "Hexahydro-1H-azepine-1-carbaldehyde",
@@ -11327,8 +11486,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Azepane-1-carbaldehyde"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "1-(Dimethoxymethyl)hexahydro-1H-azepine",
@@ -11424,6 +11582,29 @@
     "guess_text": "Norephedrine"
    },
    {
+    "corrected_name": "racephedrine",
+    "cas": "90-81-3",
+    "iupac": "2-(methylamino)-1-phenylpropan-1-ol",
+    "confidence": 0.9,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 5032,
+    "synonyms": [
+     "racephedrine",
+     "2-(methylamino)-1-phenylpropan-1-ol",
+     "Racefedrina",
+     "Ephedrine dl-",
+     "racephedrinum",
+     "DL-Ephedrine",
+     "RefChem:1083897",
+     "202-017-0"
+    ],
+    "pubchem_mw": 165.23,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null
+   },
+   {
     "corrected_name": "Norephedrine, 3,4-dihydroxy-N-isopropyl-",
     "cas": "13725-13-8",
     "iupac": "4-[1-hydroxy-2-(propan-2-ylamino)propyl]benzene-1,2-diol",
@@ -11473,7 +11654,7 @@
     "cas": "348-51-6",
     "iupac": "1-chloro-2-fluorobenzene",
     "confidence": 0.99,
-    "reason": "Fix truncation: \u2026benzen \u2192 \u2026benzene",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 9583,
     "synonyms": [
      "1-CHLORO-2-FLUOROBENZENE",
@@ -11489,8 +11670,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "o-Chlorofluorobenzene"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "1-(1-Chloro-2-fluoroethyl)-3-fluorobenzene",
@@ -11539,7 +11719,7 @@
     "cas": "367-11-3",
     "iupac": "1,2-difluorobenzene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 9706,
     "synonyms": [
      "1,2-DIFLUOROBENZENE",
@@ -11555,8 +11735,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "1,2-Difluoro-benzen"
+    "mv_pct_diff": null
    }
   ],
   "source_ref": {
@@ -11649,6 +11828,29 @@
     "guess_text": "Pentafluorobenzophenone"
    },
    {
+    "corrected_name": "652-29-9",
+    "cas": "652-29-9",
+    "iupac": "1-(2,3,4,5,6-pentafluorophenyl)ethanone",
+    "confidence": 0.9,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 69546,
+    "synonyms": [
+     "652-29-9",
+     "2',3',4',5',6'-Pentafluoroacetophenone",
+     "1-(2,3,4,5,6-Pentafluorophenyl)ethanone",
+     "EINECS 211-487-6",
+     "DTXSID50215506",
+     "RefChem:439346",
+     "DTXCID10137997",
+     "211-487-6"
+    ],
+    "pubchem_mw": 210.1,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null
+   },
+   {
     "corrected_name": "Tris(pentafluorophenyl)borane",
     "cas": "1109-15-5",
     "iupac": "tris(2,3,4,5,6-pentafluorophenyl)borane",
@@ -11698,7 +11900,7 @@
     "cas": "1613-51-0",
     "iupac": "thiane",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 15367,
     "synonyms": [
      "Thiane",
@@ -11714,8 +11916,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Tetrahydro-thiopyran"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "N,N-Dimethyl-1-piperidinecarboxamide",
@@ -11859,6 +12060,29 @@
     "mv_match": null,
     "mv_pct_diff": null,
     "guess_text": "1,1,2,2,3,4,4,5,5,6"
+   },
+   {
+    "corrected_name": "374-77-6",
+    "cas": "374-77-6",
+    "iupac": "1,1,2,2,3,4,4,5,5,6-decafluoro-3,6-bis(trifluoromethyl)cyclohexane",
+    "confidence": 0.9,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 221051,
+    "synonyms": [
+     "374-77-6",
+     "Perfluoro(1,4-dimethylcyclohexane)",
+     "1,1,2,2,3,4,4,5,5,6-decafluoro-3,6-bis(trifluoromethyl)cyclohexane",
+     "perfluoro-1,4-dimethyl-cyclohexane",
+     "MFCD00045478",
+     "NSC4781",
+     "HEXADECAFLUORO-(1,4-DIMETHYLCYCLOHEXANE)",
+     "SCHEMBL709033"
+    ],
+    "pubchem_mw": 400.06,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null
    }
   ],
   "source_ref": {
@@ -11928,6 +12152,29 @@
     "mv_match": null,
     "mv_pct_diff": null,
     "guess_text": "Perfluorometylcyclohexane"
+   },
+   {
+    "corrected_name": "Perfluoro(methylcyclohexane)",
+    "cas": "355-02-2",
+    "iupac": "1,1,2,2,3,3,4,4,5,5,6-undecafluoro-6-(trifluoromethyl)cyclohexane",
+    "confidence": 0.9,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 9637,
+    "synonyms": [
+     "Perfluoro(methylcyclohexane)",
+     "355-02-2",
+     "PERFLUOROMETHYLCYCLOHEXANE",
+     "Flutec PP2",
+     "Tetradecafluoromethylcyclohexane",
+     "Undecafluoro(trifluoromethyl)cyclohexane",
+     "Cyclohexane, undecafluoro(trifluoromethyl)-",
+     "VJ9772YW63"
+    ],
+    "pubchem_mw": 350.05,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null
    }
   ],
   "source_ref": {
@@ -12327,6 +12574,29 @@
   "molar_volume": 95.7,
   "options": [
    {
+    "corrected_name": "SULFOLANE",
+    "cas": "126-33-0",
+    "iupac": "thiolane 1,1-dioxide",
+    "confidence": 0.99,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 31347,
+    "synonyms": [
+     "SULFOLANE",
+     "126-33-0",
+     "Tetrahydrothiophene 1,1-dioxide",
+     "Tetramethylene sulfone",
+     "Sulfolan",
+     "Thiophene, tetrahydro-, 1,1-dioxide",
+     "1,1-Dioxothiolan",
+     "Sulpholane"
+    ],
+    "pubchem_mw": 120.17,
+    "ref_mv": 95.4,
+    "ref_density": 1.26,
+    "mv_match": true,
+    "mv_pct_diff": 0.3
+   },
+   {
     "corrected_name": "tetrahydrothiophene",
     "cas": "110-01-0",
     "iupac": "thiolane",
@@ -12349,30 +12619,6 @@
     "mv_match": null,
     "mv_pct_diff": null,
     "guess_text": "Tetrahydro-thiophene"
-   },
-   {
-    "corrected_name": "SULFOLANE",
-    "cas": "126-33-0",
-    "iupac": "thiolane 1,1-dioxide",
-    "confidence": 0.97,
-    "reason": "Use name before parentheses",
-    "cid": 31347,
-    "synonyms": [
-     "SULFOLANE",
-     "126-33-0",
-     "Tetrahydrothiophene 1,1-dioxide",
-     "Tetramethylene sulfone",
-     "Sulfolan",
-     "Thiophene, tetrahydro-, 1,1-dioxide",
-     "1,1-Dioxothiolan",
-     "Sulpholane"
-    ],
-    "pubchem_mw": 120.17,
-    "ref_mv": 95.4,
-    "ref_density": 1.26,
-    "mv_match": true,
-    "mv_pct_diff": 0.3,
-    "guess_text": "Tetramethylene Sulfone"
    },
    {
     "corrected_name": "50578-18-2",
@@ -12487,6 +12733,29 @@
     "mv_match": null,
     "mv_pct_diff": null,
     "guess_text": "(E)-2-Methyl-but-2-enal"
+   },
+   {
+    "corrected_name": "CYCLOHEXANE",
+    "cas": "110-82-7",
+    "iupac": "cyclohexane",
+    "confidence": 0.94,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 8078,
+    "synonyms": [
+     "CYCLOHEXANE",
+     "110-82-7",
+     "Hexamethylene",
+     "Hexahydrobenzene",
+     "Hexanaphthene",
+     "Cyclohexan",
+     "Cykloheksan",
+     "Benzene, hexahydro-"
+    ],
+    "pubchem_mw": 84.16,
+    "ref_mv": 108.0,
+    "ref_density": 0.779,
+    "mv_match": true,
+    "mv_pct_diff": 11.8
    },
    {
     "corrected_name": "trans-2-Methyl-2-butenal",
@@ -12864,8 +13133,8 @@
     "corrected_name": "TRIETHANOLAMINE",
     "cas": "102-71-6",
     "iupac": "2-[bis(2-hydroxyethyl)amino]ethanol",
-    "confidence": 0.7,
-    "reason": "Use base compound (salt)",
+    "confidence": 0.95,
+    "reason": "Matched via structure image (OSRA)",
     "cid": 7618,
     "synonyms": [
      "TRIETHANOLAMINE",
@@ -12881,8 +13150,7 @@
     "ref_mv": 132.0,
     "ref_density": 1.13,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Triethanolamine"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "betaine",
@@ -12934,7 +13202,7 @@
     "cas": "76-05-1",
     "iupac": "2,2,2-trifluoroacetic acid",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 6422,
     "synonyms": [
      "Trifluoroacetic acid",
@@ -12950,8 +13218,7 @@
     "ref_mv": 74.5,
     "ref_density": 1.531,
     "mv_match": true,
-    "mv_pct_diff": 0.4,
-    "guess_text": "Trifluoro-acetic acid"
+    "mv_pct_diff": 0.4
    },
    {
     "corrected_name": "Trifluoroacetic acid-d",
@@ -13466,8 +13733,8 @@
     "corrected_name": "vanillin",
     "cas": "121-33-5",
     "iupac": "4-hydroxy-3-methoxybenzaldehyde",
-    "confidence": 0.94,
-    "reason": "Remove incomplete parenthetical",
+    "confidence": 0.99,
+    "reason": "Matched via structure image (OSRA)",
     "cid": 1183,
     "synonyms": [
      "vanillin",
@@ -13483,8 +13750,7 @@
     "ref_mv": 144.1,
     "ref_density": 1.056,
     "mv_match": true,
-    "mv_pct_diff": 0.0,
-    "guess_text": "Vanillin"
+    "mv_pct_diff": 0.0
    },
    {
     "corrected_name": "Methyl 4-(2-hydroxyethoxy)benzoate",
@@ -14093,6 +14359,25 @@
     "guess_text": "(2-Methoxy-ethoxy)"
    },
    {
+    "corrected_name": "Bicyclo[4.1.0]hept-1(6)-ene",
+    "cas": "66235-54-9",
+    "iupac": "bicyclo[4.1.0]hept-1(6)-ene",
+    "confidence": 0.9,
+    "reason": "Matched via structure image (OSRA)",
+    "cid": 13595495,
+    "synonyms": [
+     "Bicyclo[4.1.0]hept-1(6)-ene",
+     "cyclopropacyclohexane",
+     "66235-54-9",
+     "DTXSID40544630"
+    ],
+    "pubchem_mw": 94.15,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null
+   },
+   {
     "corrected_name": "Dichloromethylvinylsilane",
     "cas": "124-70-9",
     "iupac": "dichloro-ethenyl-methylsilane",
@@ -14380,8 +14665,8 @@
     "corrected_name": "Vinyl trifluoroacetate",
     "cas": "433-28-3",
     "iupac": "ethenyl 2,2,2-trifluoroacetate",
-    "confidence": 0.88,
-    "reason": "Join prefix 'Fluoro' to following word",
+    "confidence": 0.99,
+    "reason": "Matched via structure image (OSRA)",
     "cid": 79011,
     "synonyms": [
      "Vinyl trifluoroacetate",
@@ -14397,8 +14682,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Vinyl TrifluoroAcetate"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "3-Hexyltrifluoroacetate",
@@ -14570,7 +14854,7 @@
     "cas": "872-36-6",
     "iupac": "1,3-dioxol-2-one",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "reason": "Matched via structure image (OSRA)",
     "cid": 13385,
     "synonyms": [
      "VINYLENE CARBONATE",
@@ -14586,8 +14870,7 @@
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "[1,3]Dioxol-2-one"
+    "mv_pct_diff": null
    },
    {
     "corrected_name": "Benzyl N-ethenylcarbamate",

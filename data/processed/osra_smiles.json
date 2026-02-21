@@ -1,0 +1,404 @@
+{
+ "47": {
+  "smiles": "c1(c(cc(c(c1)Cl)Cl)Cl)Cl",
+  "cid": 7270,
+  "iupac": "1,2,4,5-tetrachlorobenzene",
+  "mw": 215.9
+ },
+ "127": {
+  "smiles": "C=CC(=O)OCCl",
+  "cid": 543682,
+  "iupac": "chloromethyl prop-2-enoate",
+  "mw": 120.53
+ },
+ "201": {
+  "smiles": "c1c(c(c(c(c1)[N+](=O)O)F)F)F",
+  "cid": 69871,
+  "iupac": "1,2,3-trifluoro-4-nitrobenzene",
+  "mw": 177.08
+ },
+ "222": {
+  "smiles": "[NH+](=O)c1cc(C(F)(F)F)c(Cl)cc1Cl",
+  "cid": 0,
+  "iupac": "",
+  "mw": 0.0
+ },
+ "228": {
+  "smiles": "c1c(cc(c(c1)[N+](=O)O)F)F",
+  "cid": 67967,
+  "iupac": "2,4-difluoro-1-nitrobenzene",
+  "mw": 159.09
+ },
+ "234": {
+  "smiles": "Clc1ccc(c(C(F)(F)F)c1)Cl",
+  "cid": 35360,
+  "iupac": "1,4-dichloro-2-(trifluoromethyl)benzene",
+  "mw": 215.0
+ },
+ "243": {
+  "smiles": "C1(CO)OC(CO)CC1",
+  "cid": 97792,
+  "iupac": "[5-(hydroxymethyl)oxolan-2-yl]methanol",
+  "mw": 132.16
+ },
+ "247": {
+  "smiles": "c1(F)c(C#N)c(F)ccc1",
+  "cid": 74695,
+  "iupac": "2,6-difluorobenzonitrile",
+  "mw": 139.1
+ },
+ "289": {
+  "smiles": "CCCC1CCCCC1",
+  "cid": 15505,
+  "iupac": "propylcyclohexane",
+  "mw": 126.24
+ },
+ "332": {
+  "smiles": "CCCC(C1C(CC1CCC1C2CCCC2(C)C1C12CC3(C1C3C)C2)CC)C",
+  "cid": 0,
+  "iupac": "",
+  "mw": 0.0
+ },
+ "394": {
+  "smiles": "C(c1cc(Cl)c(Cl)cc1)(F)(F)F",
+  "cid": 9481,
+  "iupac": "1,2-dichloro-4-(trifluoromethyl)benzene",
+  "mw": 215.0
+ },
+ "401": {
+  "smiles": "Fc1cc(cc(C#N)c1)F",
+  "cid": 587204,
+  "iupac": "3,5-difluorobenzonitrile",
+  "mw": 139.1
+ },
+ "454": {
+  "smiles": "FC(c1ccc(C(=O)C)cc1)(F)F",
+  "cid": 69731,
+  "iupac": "1-[4-(trifluoromethyl)phenyl]ethanone",
+  "mw": 188.15
+ },
+ "467": {
+  "smiles": "C(Oc1ccc(cc1)C(=O)C)C",
+  "cid": 72872,
+  "iupac": "1-(4-ethoxyphenyl)ethanone",
+  "mw": 164.2
+ },
+ "472": {
+  "smiles": "O[N+](=O)c1cc(ccc1F)F",
+  "cid": 67767,
+  "iupac": "1,4-difluoro-2-nitrobenzene",
+  "mw": 159.09
+ },
+ "499": {
+  "smiles": "Brc1cc(C(F)(F)F)c([N](=O)O)cc1",
+  "cid": 136171,
+  "iupac": "4-bromo-1-nitro-2-(trifluoromethyl)benzene",
+  "mw": 270.0
+ },
+ "546": {
+  "smiles": "c1cccc(c1)C(=O)CCl",
+  "cid": 10757,
+  "iupac": "2-chloro-1-phenylethanone",
+  "mw": 154.59
+ },
+ "547": {
+  "smiles": "Cc1c(C=C)cccc1",
+  "cid": 11904,
+  "iupac": "1-ethenyl-2-methylbenzene",
+  "mw": 118.18
+ },
+ "570": {
+  "smiles": "c1ccccc1C(F)(F)F",
+  "cid": 7368,
+  "iupac": "trifluoromethylbenzene",
+  "mw": 146.11
+ },
+ "579": {
+  "smiles": "c1cc(C=O)c(OC)cc1",
+  "cid": 8658,
+  "iupac": "2-methoxybenzaldehyde",
+  "mw": 136.15
+ },
+ "647": {
+  "smiles": "C1(C)C(C(=O)OCCCC)CC=CC1",
+  "cid": 86181957,
+  "iupac": "butyl 6-methylcyclohex-3-ene-1-carboxylate",
+  "mw": 196.29
+ },
+ "668": {
+  "smiles": "C1CCCCC1",
+  "cid": 8078,
+  "iupac": "cyclohexane",
+  "mw": 84.16
+ },
+ "737": {
+  "smiles": "[C@@H]12CCC31C(C)(C)O[C@]3(CC2)C",
+  "cid": 0,
+  "iupac": "",
+  "mw": 0.0
+ },
+ "808": {
+  "smiles": "C(CCCC)(CNCC(CCCC)CC)CC",
+  "cid": 7791,
+  "iupac": "2-ethyl-N-(2-ethylhexyl)hexan-1-amine",
+  "mw": 241.46
+ },
+ "817": {
+  "smiles": "C(=C)(C1CC(C(CCC)C)CC1)C",
+  "cid": 0,
+  "iupac": "",
+  "mw": 0.0
+ },
+ "818": {
+  "smiles": "CC(OP(=O)(F)OC(C)C)C",
+  "cid": 5936,
+  "iupac": "2-[fluoro(propan-2-yloxy)phosphoryl]oxypropane",
+  "mw": 184.15
+ },
+ "850": {
+  "smiles": "C1CCCCC1",
+  "cid": 8078,
+  "iupac": "cyclohexane",
+  "mw": 84.16
+ },
+ "854": {
+  "smiles": "[NH+](CCO)(CC)CC",
+  "cid": 3613796,
+  "iupac": "diethyl(2-hydroxyethyl)azanium",
+  "mw": 118.2
+ },
+ "871": {
+  "smiles": "O(C(=O)Cl)CCOCCOCCCC",
+  "cid": 13828791,
+  "iupac": "2-(2-butoxyethoxy)ethyl carbonochloridate",
+  "mw": 224.68
+ },
+ "910": {
+  "smiles": "C1CCCCC1",
+  "cid": 8078,
+  "iupac": "cyclohexane",
+  "mw": 84.16
+ },
+ "912": {
+  "smiles": "c1c(S(=O)(=O)O)ccc(c1)C",
+  "cid": 6101,
+  "iupac": "4-methylbenzenesulfonic acid",
+  "mw": 172.2
+ },
+ "917": {
+  "smiles": "[NH+](CC(O)C)(C)C",
+  "cid": 21661545,
+  "iupac": "2-hydroxypropyl(dimethyl)azanium",
+  "mw": 104.17
+ },
+ "939": {
+  "smiles": "c1cc(C#Cc2ccccc2)ccc1",
+  "cid": 10390,
+  "iupac": "2-phenylethynylbenzene",
+  "mw": 178.23
+ },
+ "940": {
+  "smiles": "c1(ccccc1)C#Cc1ccccc1",
+  "cid": 10390,
+  "iupac": "2-phenylethynylbenzene",
+  "mw": 178.23
+ },
+ "976": {
+  "smiles": "[NH+](CCO)(CC)CC",
+  "cid": 3613796,
+  "iupac": "diethyl(2-hydroxyethyl)azanium",
+  "mw": 118.2
+ },
+ "1054": {
+  "smiles": "O1CCOS1=O",
+  "cid": 77342,
+  "iupac": "1,3,2-dioxathiolane 2-oxide",
+  "mw": 108.12
+ },
+ "1070": {
+  "smiles": "C12CCC(C1(C)C)CC2=C",
+  "cid": 28930,
+  "iupac": "7,7-dimethyl-2-methylidenebicyclo[2.2.1]heptane",
+  "mw": 136.23
+ },
+ "1117": {
+  "smiles": "FC(F)(C(O)C(F)(F)F)F",
+  "cid": 13529,
+  "iupac": "1,1,1,3,3,3-hexafluoropropan-2-ol",
+  "mw": 168.04
+ },
+ "1118": {
+  "smiles": "C(C(CF)F)(C(F)C(C(F)O)F)F",
+  "cid": 87481869,
+  "iupac": "1,2,3,4,5,6-hexafluorohexan-1-ol",
+  "mw": 210.12
+ },
+ "1119": {
+  "smiles": "FC(=C(F)C(=C(F)F)F)F",
+  "cid": 69636,
+  "iupac": "1,1,2,3,4,4-hexafluorobuta-1,3-diene",
+  "mw": 162.03
+ },
+ "1121": {
+  "smiles": "c1(F)c(F)c(F)c(F)c(F)c1F",
+  "cid": 9805,
+  "iupac": "1,2,3,4,5,6-hexafluorobenzene",
+  "mw": 186.05
+ },
+ "1275": {
+  "smiles": "c1cccc(c1)SC",
+  "cid": 7520,
+  "iupac": "methylsulfanylbenzene",
+  "mw": 124.21
+ },
+ "1303": {
+  "smiles": "C1COCC[NH2+]1",
+  "cid": 5020115,
+  "iupac": "morpholin-4-ium",
+  "mw": 88.13
+ },
+ "1335": {
+  "smiles": "C1(=O)N(CCC1)CCCC",
+  "cid": 18984,
+  "iupac": "1-butylpyrrolidin-2-one",
+  "mw": 141.21
+ },
+ "1344": {
+  "smiles": "N1(CCCCCC1)C=O",
+  "cid": 91280,
+  "iupac": "azepane-1-carbaldehyde",
+  "mw": 127.18
+ },
+ "1384": {
+  "smiles": "c1cccc(c1)C(O)C(C)NC",
+  "cid": 5032,
+  "iupac": "2-(methylamino)-1-phenylpropan-1-ol",
+  "mw": 165.23
+ },
+ "1392": {
+  "smiles": "c1cc(F)c(Cl)cc1",
+  "cid": 9583,
+  "iupac": "1-chloro-2-fluorobenzene",
+  "mw": 130.55
+ },
+ "1399": {
+  "smiles": "c1cc(F)c(F)cc1",
+  "cid": 9706,
+  "iupac": "1,2-difluorobenzene",
+  "mw": 114.09
+ },
+ "1450": {
+  "smiles": "C1=C(C=C[N](=C1)CC)c1cc[n+](cc1)C",
+  "cid": 11710524,
+  "iupac": "1-ethyl-4-(1-methylpyridin-1-ium-4-yl)pyridin-1-ium",
+  "mw": 200.28
+ },
+ "1454": {
+  "smiles": "Fc1c(F)c(F)c(C(=O)C)c(F)c1F",
+  "cid": 69546,
+  "iupac": "1-(2,3,4,5,6-pentafluorophenyl)ethanone",
+  "mw": 210.1
+ },
+ "1456": {
+  "smiles": "C1CCSCC1",
+  "cid": 15367,
+  "iupac": "thiane",
+  "mw": 102.2
+ },
+ "1462": {
+  "smiles": "FC1(C(F)(C(F)(F)F)C(F)(F)C(F)(F)C(F)(C(F)(F)F)C1(F)F)F",
+  "cid": 221051,
+  "iupac": "1,1,2,2,3,4,4,5,5,6-decafluoro-3,6-bis(trifluoromethyl)cyclohexane",
+  "mw": 400.06
+ },
+ "1469": {
+  "smiles": "FC1(C(F)(C(F)(F)F)C(F)(F)C(F)(F)C(F)(F)C1(F)F)F",
+  "cid": 9637,
+  "iupac": "1,1,2,2,3,3,4,4,5,5,6-undecafluoro-6-(trifluoromethyl)cyclohexane",
+  "mw": 350.05
+ },
+ "1483": {
+  "smiles": "CC1(C2CCCCC2)C2C3(C(C4C(CC4)CC)C13)C1=CCC1C2",
+  "cid": 0,
+  "iupac": "",
+  "mw": 0.0
+ },
+ "1589": {
+  "smiles": "S1(=O)(=O)CCCC1",
+  "cid": 31347,
+  "iupac": "thiolane 1,1-dioxide",
+  "mw": 120.17
+ },
+ "1611": {
+  "smiles": "C1CCCCC1",
+  "cid": 8078,
+  "iupac": "cyclohexane",
+  "mw": 84.16
+ },
+ "1622": {
+  "smiles": "[BrH](C)C([BrH]C)C[BrH]C",
+  "cid": 0,
+  "iupac": "",
+  "mw": 0.0
+ },
+ "1636": {
+  "smiles": "N(CCO)(CCO)CCO",
+  "cid": 7618,
+  "iupac": "2-[bis(2-hydroxyethyl)amino]ethanol",
+  "mw": 149.19
+ },
+ "1644": {
+  "smiles": "FC(F)(C(=O)O)F",
+  "cid": 6422,
+  "iupac": "2,2,2-trifluoroacetic acid",
+  "mw": 114.02
+ },
+ "1648": {
+  "smiles": "C(C)(CCCCCCOC(=O)c1c(C(=O)OCCCCCCCC)ccc(C(=O)OCCCCCCC([ClH+])C)c1)C",
+  "cid": 0,
+  "iupac": "",
+  "mw": 0.0
+ },
+ "1654": {
+  "smiles": "C1=C2C(C31C(=C)CCC3)C2",
+  "cid": 0,
+  "iupac": "",
+  "mw": 0.0
+ },
+ "1655": {
+  "smiles": "O=[N+](C(N=O)[N+](=O)O)O",
+  "cid": 129657111,
+  "iupac": "dinitro(nitroso)methane",
+  "mw": 135.04
+ },
+ "1658": {
+  "smiles": "c1c(cc(c(c1[N+](=O)O)C)NO)N=O",
+  "cid": 0,
+  "iupac": "",
+  "mw": 0.0
+ },
+ "1670": {
+  "smiles": "c1(C=O)cc(c(O)cc1)OC",
+  "cid": 1183,
+  "iupac": "4-hydroxy-3-methoxybenzaldehyde",
+  "mw": 152.15
+ },
+ "1697": {
+  "smiles": "C1C2=C(CCC1)C2",
+  "cid": 13595495,
+  "iupac": "bicyclo[4.1.0]hept-1(6)-ene",
+  "mw": 94.15
+ },
+ "1705": {
+  "smiles": "C(F)(F)(C(=O)OC=C)F",
+  "cid": 79011,
+  "iupac": "ethenyl 2,2,2-trifluoroacetate",
+  "mw": 140.06
+ },
+ "1710": {
+  "smiles": "c1coc(=O)o1",
+  "cid": 13385,
+  "iupac": "1,3-dioxol-2-one",
+  "mw": 86.05
+ }
+}
