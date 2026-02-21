@@ -997,7 +997,7 @@ full_html = f"""<!DOCTYPE html>
         function findSolvent(query) {{
             const aliased = resolveAlias(query, SOLVENT_ALIASES);
             if (aliased) {{
-                const exact = SOLVENTS.find(s => s.name === aliased);
+                const exact = _solventMap.get(aliased);
                 if (exact) return exact;
             }}
             return fuzzyMatch(query, SOLVENTS, 'name');
@@ -1698,6 +1698,8 @@ full_html = f"""<!DOCTYPE html>
         var _pinnedName = null;
         var _currentAnnotation = null;
         var _tableHover = false; // true while mouse is over a table row
+        var _annotationTimer = 0; // debounce timer for relayout calls
+        var _pendingAnnotation = null; // name queued for next relayout (null = hide)
 
         function _annotationText(mat, isSolvent) {{
             var h = '<b>' + mat.name + '</b>';
@@ -1712,7 +1714,41 @@ full_html = f"""<!DOCTYPE html>
             return h;
         }}
 
-        function showAnnotation(name) {{
+        // Flush pending annotation change immediately (used by click/pin actions)
+        function _flushAnnotation() {{
+            clearTimeout(_annotationTimer);
+            _annotationTimer = 0;
+            var name = _pendingAnnotation;
+            _pendingAnnotation = null;
+            if (name) {{
+                _applyAnnotation(name);
+            }} else {{
+                if (!_currentAnnotation) return;
+                _currentAnnotation = null;
+                Plotly.relayout(plotDiv, {{ 'scene.annotations': [] }});
+            }}
+        }}
+
+        // Schedule annotation update; coalesces rapid hover events
+        function _scheduleAnnotation(name) {{
+            _pendingAnnotation = name;
+            if (_annotationTimer) return; // already scheduled
+            _annotationTimer = setTimeout(function() {{
+                _annotationTimer = 0;
+                var pending = _pendingAnnotation;
+                _pendingAnnotation = null;
+                if (pending) {{
+                    _applyAnnotation(pending);
+                }} else {{
+                    if (!_currentAnnotation) return;
+                    _currentAnnotation = null;
+                    Plotly.relayout(plotDiv, {{ 'scene.annotations': [] }});
+                }}
+            }}, 60);
+        }}
+
+        function _applyAnnotation(name) {{
+            if (_currentAnnotation === name) return; // already showing this one
             var mat = _solventMap.get(name);
             var isSolvent = !!mat;
             if (!mat) mat = _polymerMap.get(name);
@@ -1740,19 +1776,32 @@ full_html = f"""<!DOCTYPE html>
             }});
         }}
 
-        function hideAnnotation() {{
-            if (!_currentAnnotation) return;
-            _currentAnnotation = null;
-            Plotly.relayout(plotDiv, {{ 'scene.annotations': [] }});
+        // Public API: showAnnotation (debounced for hover, immediate for click)
+        function showAnnotation(name, immediate) {{
+            if (immediate) {{
+                _pendingAnnotation = name;
+                _flushAnnotation();
+            }} else {{
+                _scheduleAnnotation(name);
+            }}
+        }}
+
+        function hideAnnotation(immediate) {{
+            if (immediate) {{
+                _pendingAnnotation = null;
+                _flushAnnotation();
+            }} else {{
+                _scheduleAnnotation(null);
+            }}
         }}
 
         function unpinAll() {{
             _pinnedName = null;
-            hideAnnotation();
+            hideAnnotation(true);
             if (_prevHighlightedRow) {{ _prevHighlightedRow.style.background = ''; _prevHighlightedRow = null; }}
         }}
 
-        // Called from table row onclick
+        // Called from table row onclick — immediate (no debounce)
         function highlightInPlot(encodedName) {{
             var name = decodeURIComponent(encodedName);
             if (_pinnedName === name) {{
@@ -1760,18 +1809,18 @@ full_html = f"""<!DOCTYPE html>
                 return;
             }}
             _pinnedName = name;
-            showAnnotation(name);
+            showAnnotation(name, true);
             requestAnimationFrame(function() {{ selectInTable(name); }});
         }}
 
-        // Called from table row onmouseenter
+        // Called from table row onmouseenter — debounced
         function hoverInPlot(encodedName) {{
             _tableHover = true;
             if (_pinnedName) return;
             showAnnotation(decodeURIComponent(encodedName));
         }}
 
-        // Called from table row onmouseleave
+        // Called from table row onmouseleave — debounced
         function unhoverInPlot() {{
             _tableHover = false;
             if (!_pinnedName) hideAnnotation();
@@ -1991,7 +2040,7 @@ full_html = f"""<!DOCTYPE html>
             tooltip.el.style.display = 'block';
             positionTooltip(event);
             if (structCache[name] === 'error') {{ tooltip.el.style.display = 'none'; return; }}
-            const solvent = SOLVENTS.find(s => s.name === name);
+            const solvent = _solventMap.get(name);
             const casNum = (solvent && solvent.cas) ? solvent.cas : null;
             let url = casNum
                 ? 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(casNum) + '/PNG?image_size=200x200'
@@ -2100,7 +2149,7 @@ full_html = f"""<!DOCTYPE html>
                         unpinAll();
                     }} else {{
                         _pinnedName = name;
-                        showAnnotation(name);
+                        showAnnotation(name, true);
                         selectInTable(name);
                     }}
                 }} catch(e) {{ console.error('plotly_click error:', e); }}
