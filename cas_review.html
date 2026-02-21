@@ -132,17 +132,45 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 .raw-csv-row .field-key { color: #636e72; min-width: 55px; flex-shrink: 0; }
 .raw-csv-row .field-val { color: #2d3436; font-weight: 500; }
 
-/* ── Other candidates ── */
-.other-candidates { margin-top: 6px; }
-.alt-option { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border: 2px solid transparent; border-radius: 6px; cursor: pointer; transition: all 0.15s; margin-bottom: 3px; }
-.alt-option:hover { background: #f0f2f5; border-color: #dfe6e9; }
-.alt-option.selected { background: #e8f8f5; border-color: #00b894; }
-.alt-option-label { flex: 1; min-width: 0; font-size: 0.82rem; }
-.alt-option-label strong { font-weight: 600; }
-.alt-option-label .cas { color: #0984e3; font-family: monospace; font-size: 0.8rem; margin-left: 4px; }
-.alt-option-conf { font-size: 0.75rem; color: #636e72; white-space: nowrap; }
-.alt-structure-row { padding: 2px 0 6px 8px; }
-.divider-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; color: #b2bec3; margin: 6px 0 3px 0; }
+/* ── Candidate carousel navigation ── */
+.nav-arrow {
+    width: 40px; height: 40px; flex-shrink: 0;
+    border: 2px solid #dfe6e9; border-radius: 50%;
+    background: #fff; color: #636e72;
+    font-size: 1.3rem; line-height: 1;
+    cursor: pointer; transition: all 0.15s;
+    display: flex; align-items: center; justify-content: center;
+}
+.nav-arrow:hover { background: #e94560; color: #fff; border-color: #e94560; }
+.nav-arrow.hidden { visibility: hidden; }
+.page-indicator {
+    font-size: 0.72rem; color: #636e72; text-align: center; margin-top: 4px;
+}
+.page-indicator strong { color: #2d3436; }
+
+/* ── Card navigator (single-card view) ── */
+.card-navigator {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 0; margin-bottom: 8px; gap: 16px;
+}
+.card-navigator .nav-pos {
+    font-size: 1.05rem; font-weight: 700; color: #2d3436;
+}
+.card-navigator .nav-pos .nav-total { font-weight: 400; color: #636e72; }
+.card-nav-btn {
+    padding: 8px 18px; font-size: 0.85rem; border: 2px solid #dfe6e9;
+    border-radius: 6px; background: #fff; color: #636e72; cursor: pointer;
+    font-weight: 600; transition: all 0.15s;
+}
+.card-nav-btn:hover { background: #e94560; color: #fff; border-color: #e94560; }
+.card-nav-btn:disabled { opacity: 0.3; cursor: default; pointer-events: none; }
+.kbd-hint {
+    font-size: 0.75rem; color: #b2bec3; text-align: center;
+}
+.kbd-hint kbd {
+    background: #f0f2f5; border: 1px solid #dfe6e9; border-radius: 3px;
+    padding: 1px 6px; font-family: inherit; font-size: 0.72rem; color: #636e72;
+}
 
 .option-skip { padding: 5px 10px; border: 2px dashed #dfe6e9; border-radius: 6px; cursor: pointer; color: #b2bec3; text-align: center; font-size: 0.8rem; transition: all 0.15s; margin-top: 5px; }
 .option-skip:hover { background: #fff5f5; border-color: #fab1a0; color: #d63031; }
@@ -234,6 +262,8 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 var DATA = [];
 var DECISIONS = {};
 var FILTERED = [];
+var VIEW_INDEX = {};  // rowIndex → which option is currently being viewed (carousel)
+var FOCUSED_INDEX = 0; // index into FILTERED array — which card is currently shown
 var STORAGE_KEY = 'materialism_cas_decisions';
 
 function loadDecisions() {
@@ -380,28 +410,51 @@ function renderMvBadge(opt, entry) {
 }
 
 function onMatchColClick(e, rowIndex) {
-    if (e.target.closest && e.target.closest('.other-candidates')) return;
-    selectOption(rowIndex, 0);
+    // Allow text selection — don't fire if user selected text
+    var sel = window.getSelection();
+    if (sel && sel.toString().length > 0) return;
+    // Don't fire if clicking nav arrows or bottom controls
+    if (e.target.closest && (e.target.closest('.nav-arrow') || e.target.closest('.card-bottom-controls'))) return;
+    // Approve the currently viewed candidate
+    var vi = VIEW_INDEX[rowIndex] || 0;
+    selectOption(rowIndex, vi);
 }
 
-// ── Render card as a grid ───────────────────────────────────────
+function prevCandidate(rowIndex) {
+    var vi = VIEW_INDEX[rowIndex] || 0;
+    if (vi > 0) { VIEW_INDEX[rowIndex] = vi - 1; rerenderCard(rowIndex); }
+}
+
+function nextCandidate(rowIndex) {
+    var entry = DATA.find(function(e) { return e.row_index === rowIndex; });
+    if (!entry) return;
+    var vi = VIEW_INDEX[rowIndex] || 0;
+    if (vi < entry.options.length - 1) { VIEW_INDEX[rowIndex] = vi + 1; rerenderCard(rowIndex); }
+}
+
+// ── Render card as a grid with candidate carousel ───────────────
 function renderCard(entry) {
     var d = DECISIONS[entry.row_index];
+    var ri = entry.row_index;
     var status = d ? d.action : 'pending';
     var cardClass = status === 'approve' ? 'resolved' : status === 'skip' ? 'skipped' : '';
     var ref = entry.source_ref || {};
-    var best = (entry.options && entry.options.length) ? entry.options[0] : null;
-    var bestApproved = best && d && d.action === 'approve' && d.cas === best.cas
-                     && d.name === (best.corrected_name || best.guess_text || entry.original_name);
-    var confBg = best ? confBgColor(best.confidence) : 'transparent';
-    var matchBg = bestApproved ? 'approved-bg' : '';
-    var matchStyle = bestApproved ? '' : 'background:' + confBg;
+    var numOpts = entry.options ? entry.options.length : 0;
+    var vi = VIEW_INDEX[ri] || 0;
+    if (vi >= numOpts) vi = 0;
+    var cur = numOpts > 0 ? entry.options[vi] : null;
+    var curApproved = cur && d && d.action === 'approve' && d.cas === cur.cas
+                    && d.name === (cur.corrected_name || cur.guess_text || entry.original_name);
+    var confBg = cur ? confBgColor(cur.confidence) : 'transparent';
+    var matchBg = curApproved ? 'approved-bg' : '';
+    var matchStyle = curApproved ? '' : 'background:' + confBg;
+    var hasLeft = vi > 0;
+    var hasRight = vi < numOpts - 1;
 
-    var html = '<div class="card ' + cardClass + '" id="card-' + entry.row_index + '">';
+    var html = '<div class="card ' + cardClass + '" id="card-' + ri + '">';
     html += '<div class="card-body">';
 
     // ═══ ROW 1: Names ═══════════════════════════════════════════
-    // Source name
     html += '<div class="cell-name-src">';
     html += '<div class="cmp-name">' + escHtml(entry.original_name) + '</div>';
     if (ref.acd_name && ref.acd_name !== entry.original_name) {
@@ -411,32 +464,29 @@ function renderCard(entry) {
     }
     html += '</div>';
 
-    // Match name — diff-highlighted transformation IS the title
-    html += '<div class="cell-name-match ' + matchBg + '" style="' + matchStyle + '" onclick="onMatchColClick(event,' + entry.row_index + ')">';
-    if (bestApproved) html += '<span class="matched-badge">MATCHED</span>';
-    if (best) {
-        var guessText = best.guess_text || '';
-        var corrName = best.corrected_name || '';
+    // Match name — shows currently viewed candidate
+    html += '<div class="cell-name-match ' + matchBg + '" style="' + matchStyle + '" onclick="onMatchColClick(event,' + ri + ')">';
+    if (curApproved) html += '<span class="matched-badge">MATCHED</span>';
+    if (cur) {
+        var guessText = cur.guess_text || '';
+        var corrName = cur.corrected_name || '';
         var diffTarget = guessText || corrName;
-        // Show diff-highlighted name if a transformation happened
         html += '<div class="cmp-name">';
         if (diffTarget && diffTarget !== entry.original_name) {
             html += renderInlineDiff(entry.original_name, diffTarget);
         } else {
             html += escHtml(chemCase(corrName || entry.original_name));
         }
-        if (best.cas) html += ' <span class="badge-cas">' + escHtml(best.cas) + '</span>';
+        if (cur.cas) html += ' <span class="badge-cas">' + escHtml(cur.cas) + '</span>';
         html += '</div>';
-        // Subtitle: friendly reason (not IUPAC — that's in properties if needed)
-        html += '<div class="cmp-name-sub reason-sub">' + escHtml(friendlyReason(best.reason)) + '</div>';
+        html += '<div class="cmp-name-sub reason-sub">' + escHtml(friendlyReason(cur.reason)) + '</div>';
     } else {
         html += '<div class="cmp-name" style="color:#b2bec3">No candidates found</div>';
         html += '<div class="cmp-name-sub">&nbsp;</div>';
     }
     html += '</div>';
 
-    // ═══ ROW 2: Structures (horizontally aligned) ═══════════════
-    // Source structure
+    // ═══ ROW 2: Structures with carousel arrows ═════════════════
     html += '<div class="cell-struct-src">';
     if (ref.structure_file) {
         html += '<div class="cmp-structure"><img src="data/processed/' + escHtml(ref.structure_file) + '" alt="Source structure" loading="lazy"></div>';
@@ -445,22 +495,37 @@ function renderCard(entry) {
     }
     html += '</div>';
 
-    // Match structure
-    html += '<div class="cell-struct-match ' + matchBg + '" style="' + matchStyle + '" onclick="onMatchColClick(event,' + entry.row_index + ')">';
-    if (best) {
-        var bestImg = structImgUrl(best);
-        if (bestImg) {
-            html += '<div class="cmp-structure"><img src="' + bestImg + '" alt="Candidate structure" loading="lazy" onerror="this.parentElement.className=\'cmp-structure-empty\';this.replaceWith(document.createTextNode(\'Image unavailable\'))"></div>';
+    html += '<div class="cell-struct-match ' + matchBg + '" style="' + matchStyle + ';align-items:center" onclick="onMatchColClick(event,' + ri + ')">';
+    // Left arrow
+    if (numOpts > 1) {
+        html += '<button class="nav-arrow' + (hasLeft ? '' : ' hidden') + '" onclick="event.stopPropagation();prevCandidate(' + ri + ')" title="Previous candidate">&#9664;</button>';
+    }
+    // Structure
+    if (cur) {
+        var curImg = structImgUrl(cur);
+        if (curImg) {
+            html += '<div class="cmp-structure"><img src="' + curImg + '" alt="Candidate structure" loading="lazy" onerror="this.parentElement.className=\'cmp-structure-empty\';this.replaceWith(document.createTextNode(\'Image unavailable\'))"></div>';
         } else {
             html += '<div class="cmp-structure-empty">No structure</div>';
         }
     } else {
         html += '<div class="cmp-structure-empty">—</div>';
     }
+    // Right arrow
+    if (numOpts > 1) {
+        html += '<button class="nav-arrow' + (hasRight ? '' : ' hidden') + '" onclick="event.stopPropagation();nextCandidate(' + ri + ')" title="Next candidate">&#9654;</button>';
+    }
     html += '</div>';
 
-    // ═══ ROW 3: Properties (MV first for side-by-side comparison) ═══
-    // Source properties
+    // Page indicator (below structure, spanning match column)
+    // Rendered as a tiny row if multiple options
+    if (numOpts > 1) {
+        html += '<div style="grid-column:2;text-align:center;padding:0 20px 4px;' + matchStyle + '" class="' + matchBg + '">';
+        html += '<div class="page-indicator">Candidate <strong>' + (vi + 1) + '</strong> of <strong>' + numOpts + '</strong> &mdash; click to approve</div>';
+        html += '</div>';
+    }
+
+    // ═══ ROW 3: Properties (MV first) ════════════════════════════
     html += '<div class="cell-props-src">';
     html += '<div class="cmp-props"><table>';
     if (entry.molar_volume != null) {
@@ -474,29 +539,27 @@ function renderCard(entry) {
     }
     html += '</table></div></div>';
 
-    // Match properties
-    html += '<div class="cell-props-match ' + matchBg + '" style="' + matchStyle + '" onclick="onMatchColClick(event,' + entry.row_index + ')">';
-    if (best) {
+    html += '<div class="cell-props-match ' + matchBg + '" style="' + matchStyle + '" onclick="onMatchColClick(event,' + ri + ')">';
+    if (cur) {
         html += '<div class="cmp-props"><table>';
-        if (best.ref_mv) {
-            html += '<tr><td>MV</td><td><span class="val-highlight">' + best.ref_mv.toFixed(1) + '</span> cm&sup3;/mol</td></tr>';
+        if (cur.ref_mv) {
+            html += '<tr><td>MV</td><td><span class="val-highlight">' + cur.ref_mv.toFixed(1) + '</span> cm&sup3;/mol</td></tr>';
         }
-        if (best.pubchem_mw) {
-            html += '<tr><td>MW</td><td>' + best.pubchem_mw.toFixed(1) + '</td></tr>';
+        if (cur.pubchem_mw) {
+            html += '<tr><td>MW</td><td>' + cur.pubchem_mw.toFixed(1) + '</td></tr>';
         }
-        if (best.ref_density) {
-            html += '<tr><td>Density</td><td>' + best.ref_density.toFixed(3) + ' g/mL</td></tr>';
+        if (cur.ref_density) {
+            html += '<tr><td>Density</td><td>' + cur.ref_density.toFixed(3) + ' g/mL</td></tr>';
         }
-        if (best.synonyms && best.synonyms.length > 1) {
-            html += '<tr><td>Also</td><td style="font-size:0.72rem;color:#636e72">' + best.synonyms.slice(0, 3).map(function(s){return escHtml(chemCase(s))}).join(', ') + '</td></tr>';
+        if (cur.synonyms && cur.synonyms.length > 1) {
+            html += '<tr><td>Also</td><td style="font-size:0.72rem;color:#636e72">' + cur.synonyms.slice(0, 3).map(function(s){return escHtml(chemCase(s))}).join(', ') + '</td></tr>';
         }
         html += '</table></div>';
-        html += renderMvBadge(best, entry);
+        html += renderMvBadge(cur, entry);
     }
     html += '</div>';
 
-    // ═══ ROW 4: Source ref / Reason + candidates ════════════════
-    // Source reference (source badge + PDF row + page)
+    // ═══ ROW 4: Source ref / Reason + controls ══════════════════
     html += '<div class="cell-ref-src">';
     html += '<div class="source-ref-section">';
     html += '<div class="source-ref-label">Source</div>';
@@ -515,50 +578,31 @@ function renderCard(entry) {
     }
     html += '</div></div>';
 
-    // Reason callout + other candidates
-    html += '<div class="cell-extra-match ' + matchBg + '" style="' + matchStyle + '" onclick="onMatchColClick(event,' + entry.row_index + ')">';
-    if (best) {
-        html += renderReasonCallout(best, entry);
-
-        // Other candidates
-        html += '<div class="other-candidates">';
-        if (entry.options.length > 1) {
-            html += '<div class="divider-label">Other Candidates</div>';
-            var limit = Math.min(entry.options.length, 4);
-            for (var oi = 1; oi < limit; oi++) {
-                var opt = entry.options[oi];
-                var isSel = d && d.action === 'approve' && d.cas === opt.cas && d.name === (opt.corrected_name || opt.guess_text || entry.original_name);
-                html += '<div class="alt-option' + (isSel ? ' selected' : '') + '" onclick="event.stopPropagation();selectOption(' + entry.row_index + ',' + oi + ')">';
-                html += '<div class="alt-option-label"><strong>' + escHtml(chemCase(opt.corrected_name || entry.original_name)) + '</strong>';
-                if (opt.cas) html += '<span class="cas">' + escHtml(opt.cas) + '</span>';
-                html += '<br><span style="font-size:0.7rem;color:#636e72">' + escHtml(friendlyReason(opt.reason)) + '</span></div>';
-                html += '<span class="alt-option-conf">' + Math.round(opt.confidence * 100) + '%</span></div>';
-                var secImg = structImgUrl(opt);
-                if (secImg) {
-                    html += '<div class="alt-structure-row"><div class="cmp-structure"><img src="' + secImg + '" alt="Structure" loading="lazy" onerror="this.parentElement.parentElement.style.display=\'none\'"></div></div>';
-                }
-            }
-        }
+    // Reason callout + skip/custom controls (no more alt-option list)
+    html += '<div class="cell-extra-match ' + matchBg + '" style="' + matchStyle + '" onclick="onMatchColClick(event,' + ri + ')">';
+    if (cur) {
+        html += renderReasonCallout(cur, entry);
+        html += '<div class="card-bottom-controls">';
         var skipSel = d && d.action === 'skip' ? ' selected' : '';
-        html += '<div class="option-skip' + skipSel + '" onclick="event.stopPropagation();skipEntry(' + entry.row_index + ')">Skip</div>';
-        html += '<div class="custom-input" id="custom-' + entry.row_index + '" onclick="event.stopPropagation()">';
-        html += '<input class="cas-input" type="text" placeholder="CAS #" id="custom-cas-' + entry.row_index + '" onkeydown="if(event.key===\'Enter\'){event.preventDefault();approveCustom(' + entry.row_index + ')}">';
-        html += '<button class="btn btn-sm lookup-btn" onclick="lookupCAS(' + entry.row_index + ')" id="lookup-btn-' + entry.row_index + '">Lookup</button>';
-        html += '<input class="name-input" type="text" placeholder="Name (autofills)" id="custom-name-' + entry.row_index + '">';
-        html += '<span class="lookup-status" id="lookup-status-' + entry.row_index + '"></span>';
-        html += '<button class="btn btn-primary btn-sm" onclick="approveCustom(' + entry.row_index + ')">Apply</button>';
-        html += '<button class="btn btn-secondary btn-sm" onclick="toggleCustom(' + entry.row_index + ')">Cancel</button>';
+        html += '<div class="option-skip' + skipSel + '" onclick="event.stopPropagation();skipEntry(' + ri + ')">Skip this material</div>';
+        html += '<div class="custom-input" id="custom-' + ri + '" onclick="event.stopPropagation()">';
+        html += '<input class="cas-input" type="text" placeholder="CAS #" id="custom-cas-' + ri + '" onkeydown="if(event.key===\'Enter\'){event.preventDefault();approveCustom(' + ri + ')}">';
+        html += '<button class="btn btn-sm lookup-btn" onclick="lookupCAS(' + ri + ')" id="lookup-btn-' + ri + '">Lookup</button>';
+        html += '<input class="name-input" type="text" placeholder="Name (autofills)" id="custom-name-' + ri + '">';
+        html += '<span class="lookup-status" id="lookup-status-' + ri + '"></span>';
+        html += '<button class="btn btn-primary btn-sm" onclick="approveCustom(' + ri + ')">Apply</button>';
+        html += '<button class="btn btn-secondary btn-sm" onclick="toggleCustom(' + ri + ')">Cancel</button>';
         html += '</div>';
-        html += '</div>'; // other-candidates
+        html += '</div>';
     }
-    html += '</div>'; // cell-extra-match
+    html += '</div>';
 
     html += '</div>'; // card-body
 
     // Card footer
     html += '<div class="card-actions">';
-    html += '<button class="btn btn-secondary btn-sm" onclick="toggleCustom(' + entry.row_index + ')">Custom entry</button>';
-    if (d) html += '<button class="btn btn-secondary btn-sm" onclick="clearDecision(' + entry.row_index + ')">Reset</button>';
+    html += '<button class="btn btn-secondary btn-sm" onclick="toggleCustom(' + ri + ')">Custom entry</button>';
+    if (d) html += '<button class="btn btn-secondary btn-sm" onclick="clearDecision(' + ri + ')">Reset</button>';
     html += '</div>';
 
     html += '</div>'; // card
@@ -573,9 +617,31 @@ function renderAll() {
         container.innerHTML = '<div class="empty-state"><h2>No items match your filter</h2><p>Try changing the filter settings above.</p></div>';
         return;
     }
+    if (FOCUSED_INDEX >= FILTERED.length) FOCUSED_INDEX = FILTERED.length - 1;
+    if (FOCUSED_INDEX < 0) FOCUSED_INDEX = 0;
+    var entry = FILTERED[FOCUSED_INDEX];
     var html = '';
-    FILTERED.forEach(function(entry) { html += renderCard(entry); });
+    // Navigator bar
+    html += '<div class="card-navigator">';
+    html += '<button class="card-nav-btn" onclick="focusPrev()"' + (FOCUSED_INDEX <= 0 ? ' disabled' : '') + '>&uarr; Prev</button>';
+    html += '<div style="text-align:center">';
+    html += '<div class="nav-pos">' + (FOCUSED_INDEX + 1) + ' <span class="nav-total">of ' + FILTERED.length + '</span></div>';
+    html += '<div class="kbd-hint"><kbd>&uarr;</kbd><kbd>&darr;</kbd> cards &nbsp; <kbd>&larr;</kbd><kbd>&rarr;</kbd> candidates &nbsp; <kbd>Space</kbd> approve &nbsp; <kbd>S</kbd> skip</div>';
+    html += '</div>';
+    html += '<button class="card-nav-btn" onclick="focusNext()"' + (FOCUSED_INDEX >= FILTERED.length - 1 ? ' disabled' : '') + '>Next &darr;</button>';
+    html += '</div>';
+    // Single card
+    html += renderCard(entry);
     container.innerHTML = html;
+    // Scroll to top of card
+    container.scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+
+function focusPrev() {
+    if (FOCUSED_INDEX > 0) { FOCUSED_INDEX--; renderAll(); }
+}
+function focusNext() {
+    if (FOCUSED_INDEX < FILTERED.length - 1) { FOCUSED_INDEX++; renderAll(); }
 }
 
 function updateProgress() {
@@ -596,17 +662,23 @@ function selectOption(rowIndex, optIndex) {
     if (!entry) return;
     var opt = entry.options[optIndex];
     DECISIONS[rowIndex] = { action: 'approve', name: opt.corrected_name || entry.original_name, cas: opt.cas || '', iupac: opt.iupac || '', cid: opt.cid || null, original_name: entry.original_name };
-    saveDecisions(); rerenderCard(rowIndex); updateProgress();
+    saveDecisions(); updateProgress();
+    // Auto-advance to next card after approval
+    if (FOCUSED_INDEX < FILTERED.length - 1) { FOCUSED_INDEX++; }
+    renderAll();
 }
 
 function skipEntry(rowIndex) {
     var entry = DATA.find(function(e) { return e.row_index === rowIndex; });
     DECISIONS[rowIndex] = { action: 'skip', original_name: entry ? entry.original_name : '' };
-    saveDecisions(); rerenderCard(rowIndex); updateProgress();
+    saveDecisions(); updateProgress();
+    // Auto-advance to next card after skip
+    if (FOCUSED_INDEX < FILTERED.length - 1) { FOCUSED_INDEX++; }
+    renderAll();
 }
 
 function clearDecision(rowIndex) {
-    delete DECISIONS[rowIndex]; saveDecisions(); rerenderCard(rowIndex); updateProgress();
+    delete DECISIONS[rowIndex]; saveDecisions(); updateProgress(); renderAll();
 }
 
 function toggleCustom(rowIndex) {
@@ -717,6 +789,7 @@ function applyFilters() {
         if (q && entry.original_name.toLowerCase().indexOf(q) === -1) return false;
         return true;
     });
+    FOCUSED_INDEX = 0;
     renderAll();
 }
 
@@ -734,16 +807,41 @@ function csvRow(vals) { return vals.map(function(v){v=String(v);if(v.indexOf(','
 function downloadCSV(content, filename) { var b=new Blob([content],{type:'text/csv'}); var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=filename; a.click(); }
 
 document.addEventListener('keydown', function(e) {
-    if (e.key >= '1' && e.key <= '9') {
-        var cards = document.querySelectorAll('.card');
-        for (var i=0;i<cards.length;i++) { var r=cards[i].getBoundingClientRect(); if (r.top>=0&&r.top<window.innerHeight*0.7) { var ri=parseInt(cards[i].id.replace('card-','')); var oi=parseInt(e.key)-1; var en=DATA.find(function(x){return x.row_index===ri}); if (en&&en.options[oi]) { selectOption(ri,oi); scrollNext(cards[i]); } break; } }
-    }
-    if (e.key === 's' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT') {
-        var cards = document.querySelectorAll('.card');
-        for (var i=0;i<cards.length;i++) { var r=cards[i].getBoundingClientRect(); if (r.top>=0&&r.top<window.innerHeight*0.7) { skipEntry(parseInt(cards[i].id.replace('card-',''))); scrollNext(cards[i]); break; } }
+    // Don't intercept when typing in input fields
+    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+    if (!FILTERED.length) return;
+
+    var entry = FILTERED[FOCUSED_INDEX];
+    if (!entry) return;
+    var ri = entry.row_index;
+
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        focusNext();
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        focusPrev();
+    } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextCandidate(ri);
+    } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevCandidate(ri);
+    } else if (e.key === ' ') {
+        e.preventDefault();
+        var vi = VIEW_INDEX[ri] || 0;
+        selectOption(ri, vi);
+    } else if (e.key === 's' && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        skipEntry(ri);
+    } else if (e.key >= '1' && e.key <= '9') {
+        var oi = parseInt(e.key) - 1;
+        if (entry.options[oi]) {
+            VIEW_INDEX[ri] = oi;
+            selectOption(ri, oi);
+        }
     }
 });
-function scrollNext(card) { var n=card.nextElementSibling; if (n) n.scrollIntoView({behavior:'smooth',block:'start'}); }
 
 function init() {
     loadDecisions();
