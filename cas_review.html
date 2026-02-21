@@ -61,6 +61,12 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 .structure-crop { width: 70%; border: 1px solid #e8dff5; border-radius: 4px; margin-bottom: 10px; background: #faf8ff; }
 .structure-crop img { width: 100%; display: block; border-radius: 3px; }
 
+/* Candidate structure image */
+.candidate-structure { display: inline-block; width: 120px; height: 120px; border: 1px solid #dfe6e9; border-radius: 4px; margin-top: 6px; background: #fff; overflow: hidden; vertical-align: top; }
+.candidate-structure img { width: 100%; height: 100%; object-fit: contain; }
+.candidate-structure-sm { display: inline-block; width: 80px; height: 80px; border: 1px solid #dfe6e9; border-radius: 4px; background: #fff; overflow: hidden; vertical-align: middle; margin-right: 8px; flex-shrink: 0; }
+.candidate-structure-sm img { width: 100%; height: 100%; object-fit: contain; }
+
 /* Source data table */
 .source-data { font-size: 0.82rem; margin-bottom: 8px; }
 .source-data table { width: 100%; border-collapse: collapse; }
@@ -357,6 +363,9 @@ function renderMatchCol(entry) {
         html += ' <span style="font-size:0.75rem;color:#b2bec3">query: "' + escHtml(best.guess_text) + '"</span>';
     }
     html += '<div>' + renderMvBadge(best, entry) + '</div>';
+    if (best.cid) {
+        html += '<div class="candidate-structure"><img src="https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + best.cid + '/PNG?image_size=200x200" alt="Structure" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
+    }
     html += '</div>';
 
     // Secondary options
@@ -368,6 +377,9 @@ function renderMatchCol(entry) {
             var isSelected = d && d.action === 'approve' && d.cas === opt.cas && d.name === (opt.corrected_name || opt.guess_text || entry.original_name);
             html += '<div class="option-secondary' + (isSelected ? ' selected' : '') + '" onclick="selectOption(' + entry.row_index + ',' + oi + ')">';
             html += '<div class="option-radio"></div>';
+            if (opt.cid) {
+                html += '<div class="candidate-structure-sm"><img src="https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + opt.cid + '/PNG?image_size=150x150" alt="Structure" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
+            }
             html += '<div style="flex:1;min-width:0">';
             html += '<span class="sec-name">' + escHtml(opt.corrected_name || entry.original_name) + '</span>';
             if (opt.cas) {
