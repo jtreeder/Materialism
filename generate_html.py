@@ -394,6 +394,16 @@ full_html = f"""<!DOCTYPE html>
         .home-tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #fff; }}
         .home-table-wrap {{ flex: 1; overflow-y: auto; min-height: 0; }}
 
+        /* --- Column Lock Button --- */
+        .col-lock-btn {{
+            margin-left: auto; cursor: pointer; background: none; border: 1px solid #dfe6e9;
+            border-radius: 4px; padding: 3px 7px; display: flex; align-items: center; gap: 4px;
+            color: #636e72; font-size: 0.75rem; transition: all 0.2s;
+        }}
+        .col-lock-btn:hover {{ background: #f5f6fa; border-color: #b2bec3; }}
+        .col-lock-btn.locked {{ color: #e94560; border-color: #e94560; }}
+        .col-lock-btn svg {{ width: 14px; height: 14px; fill: currentColor; }}
+
         .chat-context {{
             display: inline-block; background: #f0f2f5; color: #636e72; padding: 2px 8px;
             border-radius: 4px; font-size: 0.75rem; margin-bottom: 8px;
@@ -441,7 +451,7 @@ full_html = f"""<!DOCTYPE html>
 <body>
     <div class="header">
         <h1 onclick="goHome()">Materialism</h1>
-        <div class="stats"><a href="#" onclick="goHome();switchHomeTab('solvents');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(solvents)} solvents</a> &middot; <a href="#" onclick="goHome();switchHomeTab('polymers');return false" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">{len(poly_data)} polymers</a> &middot; <a href="cas_review.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">CAS Review</a></div>
+        <div class="stats"><a href="cas_review.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">CAS Review</a></div>
     </div>
 
     <div class="search-bar">
@@ -488,6 +498,11 @@ full_html = f"""<!DOCTYPE html>
                 <strong style="color:#e94560">All Materials</strong>
                 <span style="color:#636e72;font-size:0.8rem;margin-left:8px" id="home-count"></span>
                 <input type="text" id="home-filter" placeholder="Filter by name..." oninput="filterHomeTable(this.value)" style="margin-left:auto;width:180px;font-size:0.8rem;">
+                <button id="col-lock-btn" class="col-lock-btn" onclick="toggleColumnLock()" title="Lock column widths">
+                    <svg id="lock-icon-unlocked" viewBox="0 0 24 24"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h9V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3H7a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1z"/></svg>
+                    <svg id="lock-icon-locked" viewBox="0 0 24 24" style="display:none"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1m-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3z"/></svg>
+                    <span id="lock-label">Widths</span>
+                </button>
             </div>
             <div class="home-tabs">
                 <button class="home-tab active" onclick="switchHomeTab('solvents')">Solvents</button>
@@ -514,6 +529,91 @@ full_html = f"""<!DOCTYPE html>
         const SOLVENTS = {solvents_json};
         const POLYMERS = {polymers_json};
         const CAT_COLORS = {cat_colors_json};
+
+        // ===================== COLUMN WIDTH LOCK =====================
+        var columnWidthsLocked = false;
+        // Default widths for each table context
+        var DEFAULT_WIDTHS = {{
+            solvents: ['25%','10%','48px','48px','48px','52px','52px','9%','11%'],
+            polymers: ['25%','10%','48px','48px','48px','52px','9%','11%'],
+            results:  ['35px','22%','10%','48px','48px','48px','52px','52px']
+        }};
+        // User-locked widths (saved to localStorage)
+        var lockedWidths = {{ solvents: null, polymers: null, results: null }};
+
+        function loadLockedWidths() {{
+            try {{
+                var saved = localStorage.getItem('materialism_col_widths');
+                if (saved) {{
+                    var parsed = JSON.parse(saved);
+                    lockedWidths = parsed.widths || lockedWidths;
+                    columnWidthsLocked = !!parsed.locked;
+                }}
+            }} catch(e) {{}}
+            updateLockUI();
+        }}
+
+        function saveLockedWidths() {{
+            try {{
+                localStorage.setItem('materialism_col_widths', JSON.stringify({{
+                    locked: columnWidthsLocked,
+                    widths: lockedWidths
+                }}));
+            }} catch(e) {{}}
+        }}
+
+        function captureCurrentWidths(tableEl, context) {{
+            if (!tableEl) return null;
+            var ths = tableEl.querySelectorAll('thead th');
+            if (!ths.length) return null;
+            var widths = [];
+            for (var i = 0; i < ths.length; i++) {{
+                widths.push(ths[i].offsetWidth + 'px');
+            }}
+            return widths;
+        }}
+
+        function toggleColumnLock() {{
+            if (!columnWidthsLocked) {{
+                // Locking: capture current pixel widths from whichever table is visible
+                var homeTbl = document.getElementById('home-table');
+                if (homeTbl && homeTbl.querySelector('thead th')) {{
+                    lockedWidths[homeTab] = captureCurrentWidths(homeTbl, homeTab);
+                }}
+                // Also capture the other home tab default (will be overridden when that tab is shown)
+                columnWidthsLocked = true;
+            }} else {{
+                columnWidthsLocked = false;
+            }}
+            saveLockedWidths();
+            updateLockUI();
+            buildHomeTable();
+        }}
+
+        function updateLockUI() {{
+            var btn = document.getElementById('col-lock-btn');
+            var iconUnlocked = document.getElementById('lock-icon-unlocked');
+            var iconLocked = document.getElementById('lock-icon-locked');
+            if (!btn) return;
+            if (columnWidthsLocked) {{
+                btn.classList.add('locked');
+                btn.title = 'Unlock column widths';
+                iconUnlocked.style.display = 'none';
+                iconLocked.style.display = '';
+            }} else {{
+                btn.classList.remove('locked');
+                btn.title = 'Lock column widths';
+                iconUnlocked.style.display = '';
+                iconLocked.style.display = 'none';
+            }}
+        }}
+
+        function getWidths(context) {{
+            if (columnWidthsLocked && lockedWidths[context]) {{
+                return lockedWidths[context];
+            }}
+            return DEFAULT_WIDTHS[context] || null;
+        }}
 
         // ===================== ALIASES =====================
         const SOLVENT_ALIASES = {{
@@ -1148,15 +1248,9 @@ full_html = f"""<!DOCTYPE html>
             const tableId = 'rt-' + Date.now();
             h.push('<table class="results-table" id="', tableId, '" style="margin-top:10px">');
             // Fixed column widths so table doesn't shift between queries
+            var rw = getWidths('results');
             h.push('<colgroup>');
-            h.push('<col style="width:35px">');   // #
-            h.push('<col style="width:22%">');     // Name
-            h.push('<col style="width:10%">');     // CAS
-            h.push('<col style="width:48px">');    // δD
-            h.push('<col style="width:48px">');    // δP
-            h.push('<col style="width:48px">');    // δH
-            h.push('<col style="width:52px">');    // MW
-            h.push('<col style="width:52px">');    // BP
+            rw.forEach(function(w) {{ h.push('<col style="width:', w, '">'); }});
             h.push('</colgroup>');
             h.push('<thead><tr>');
             let colNum = 0;
@@ -1514,7 +1608,8 @@ full_html = f"""<!DOCTYPE html>
 
             if (homeTab === 'solvents') {{
                 // Name, CAS, δD, δP, δH, MW, BP, Category, Source
-                ['25%','10%','48px','48px','48px','52px','52px','9%','11%'].forEach(function(w) {{
+                var solWidths = getWidths('solvents');
+                solWidths.forEach(function(w) {{
                     var col = document.createElement('col');
                     col.style.width = w;
                     cg.appendChild(col);
@@ -1553,7 +1648,8 @@ full_html = f"""<!DOCTYPE html>
                 }}
             }} else {{
                 // Name, CAS, δD, δP, δH, R₀, Type, Source
-                ['25%','10%','48px','48px','48px','52px','9%','11%'].forEach(function(w) {{
+                var polyWidths = getWidths('polymers');
+                polyWidths.forEach(function(w) {{
                     var col = document.createElement('col');
                     col.style.width = w;
                     cg.appendChild(col);
@@ -1595,6 +1691,15 @@ full_html = f"""<!DOCTYPE html>
         }}
 
         function switchHomeTab(tab) {{
+            // Capture current widths before switching if locked
+            if (columnWidthsLocked) {{
+                var curTbl = document.getElementById('home-table');
+                var captured = captureCurrentWidths(curTbl, homeTab);
+                if (captured) {{
+                    lockedWidths[homeTab] = captured;
+                    saveLockedWidths();
+                }}
+            }}
             homeTab = tab;
             document.querySelectorAll('.home-tab').forEach(function(t) {{ t.classList.remove('active'); }});
             var btns = document.querySelectorAll('.home-tab');
@@ -1713,6 +1818,7 @@ full_html = f"""<!DOCTYPE html>
 
         // ===================== INIT =====================
         document.addEventListener('DOMContentLoaded', function() {{
+            loadLockedWidths();
             buildFullPlot();
             buildHomeTable();
             plotDiv.on('plotly_click', function(data) {{
