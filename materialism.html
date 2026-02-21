@@ -4056,6 +4056,8 @@ return Plotly;
         .struct-tooltip.loading img { opacity: 0.3; }
         .struct-tooltip.error { display: none; }
         .hoverable-name { cursor: help; border-bottom: 1px dotted #b2bec3; }
+        /* Hide native Plotly hover labels — all tooltips use scene annotations */
+        .js-plotly-plot .hoverlayer .hovertext { display: none !important; visibility: hidden !important; }
         th.sort-asc::after { content: ' ▲'; font-size: 0.7em; color: #e94560; }
         th.sort-desc::after { content: ' ▼'; font-size: 0.7em; color: #e94560; }
         .conf-tip {
@@ -5059,18 +5061,14 @@ return Plotly;
                     type: 'scatter3d', mode: 'markers',
                     name: 'Solvents',
                     x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
-                    text: SOLVENTS.map(s => s.name + '<br>CAS: ' + s.cas + '<br>MW: ' + s.mw + '<br>BP: ' + s.bp + '°C'),
-                    hovertemplate: '<b>%{text}</b><br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}<extra></extra>',
-                    hoverlabel: { align: 'left' },
+                    hoverinfo: 'none',
                     marker: { size: 5, color: _solventColors, opacity: 0.85 },
                 },
                 {
                     type: 'scatter3d', mode: 'markers',
                     name: 'Polymers',
                     x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
-                    text: POLYMERS.map(p => p.name + '<br>R₀=' + p.r),
-                    hovertemplate: '<b>%{text}</b><br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}<extra></extra>',
-                    hoverlabel: { align: 'left' },
+                    hoverinfo: 'none',
                     marker: { size: 7, color: 'gold', symbol: 'diamond', opacity: 0.95 },
                 },
             ];
@@ -5082,8 +5080,7 @@ return Plotly;
                 text: [''],
                 textposition: 'top center',
                 textfont: { size: 13, color: '#FFD700' },
-                hovertemplate: '<b>%{text}</b><br>δD=%{x:.1f}, δP=%{y:.1f}, δH=%{z:.1f}<extra></extra>',
-                hoverlabel: { align: 'left' },
+                hoverinfo: 'none',
                 marker: { size: 16, color: '#e94560', symbol: 'circle', opacity: 1, line: { width: 2, color: 'white' } },
                 visible: false,
                 showlegend: false,
@@ -5169,8 +5166,7 @@ return Plotly;
                 'marker.size': [5, 7],
                 'marker.color': [_solventColors, 'gold'],
                 'marker.opacity': [0.85, 0.95],
-                'hoverinfo': ['all', 'all'],
-                'hovertemplate': [fullTraces[0].hovertemplate, fullTraces[1].hovertemplate],
+                'hoverinfo': ['none', 'none'],
             }, [0, 1]);
             // Re-apply common filter if active
             if (simpleMode) _updatePlotForCommonFilter();
@@ -5301,36 +5297,61 @@ return Plotly;
             Plotly.relayout(plotDiv, { 'title.text': 'Hansen Solubility Parameter Space' });
         }
 
-        // ===================== TOOLTIP SYSTEM (native Plotly hover for all) =====================
+        // ===================== TOOLTIP SYSTEM (scene annotations) =====================
         var _highlightIdx = -1; // kept for search result traces
         var _pinnedName = null;
         var _currentAnnotation = null;
 
-        // Build name → {curveNumber, pointNumber} lookup for Fx.hover
-        var _hoverIndex = {};
-        SOLVENTS.forEach(function(s, i) { _hoverIndex[s.name] = { curveNumber: 0, pointNumber: i }; });
-        POLYMERS.forEach(function(p, i) { _hoverIndex[p.name] = { curveNumber: 1, pointNumber: i }; });
-
-        function showNativeHover(name) {
-            var idx = _hoverIndex[name];
-            if (!idx) return;
-            _currentAnnotation = name;
-            try {
-                Plotly.Fx.hover(plotDiv, [idx]);
-            } catch(e) {}
+        function _annotationText(mat, isSolvent) {
+            var h = '<b>' + mat.name + '</b>';
+            if (isSolvent) {
+                if (mat.cas) h += '<br>CAS: ' + mat.cas;
+                if (mat.mw != null) h += '<br>MW: ' + mat.mw;
+                if (mat.bp != null) h += '<br>BP: ' + mat.bp + '°C';
+            } else {
+                if (mat.r != null) h += '<br>R₀=' + mat.r;
+            }
+            h += '<br>δD=' + mat.dd.toFixed(1) + ', δP=' + mat.dp.toFixed(1) + ', δH=' + mat.dh.toFixed(1);
+            return h;
         }
 
-        function hideNativeHover() {
+        function showAnnotation(name) {
+            var mat = _solventMap.get(name);
+            var isSolvent = !!mat;
+            if (!mat) mat = _polymerMap.get(name);
+            if (!mat) return;
+            _currentAnnotation = name;
+            var bgColor = isSolvent ? (CAT_COLORS[mat.cat] || '#888') : 'gold';
+            Plotly.relayout(plotDiv, {
+                'scene.annotations': [{
+                    x: mat.dd, y: mat.dp, z: mat.dh,
+                    text: _annotationText(mat, isSolvent),
+                    align: 'left',
+                    showarrow: true,
+                    arrowhead: 2,
+                    arrowsize: 1,
+                    arrowwidth: 2,
+                    arrowcolor: bgColor,
+                    ax: 50,
+                    ay: 0,
+                    bgcolor: bgColor,
+                    font: { color: '#000', size: 13, family: 'Open Sans, verdana, arial, sans-serif' },
+                    bordercolor: bgColor,
+                    borderwidth: 1,
+                    borderpad: 6
+                }]
+            });
+        }
+
+        function hideAnnotation() {
             if (!_currentAnnotation) return;
             _currentAnnotation = null;
-            try {
-                Plotly.Fx.unhover(plotDiv);
-            } catch(e) {}
+            Plotly.relayout(plotDiv, { 'scene.annotations': [] });
         }
 
         function unpinAll() {
             _pinnedName = null;
-            hideNativeHover();
+            hideAnnotation();
             if (_prevHighlightedRow) { _prevHighlightedRow.style.background = ''; _prevHighlightedRow = null; }
         }
 
@@ -5342,19 +5363,19 @@ return Plotly;
                 return;
             }
             _pinnedName = name;
-            showNativeHover(name);
+            showAnnotation(name);
             requestAnimationFrame(function() { selectInTable(name); });
         }
 
         // Called from table row onmouseenter
         function hoverInPlot(encodedName) {
             if (_pinnedName) return;
-            showNativeHover(decodeURIComponent(encodedName));
+            showAnnotation(decodeURIComponent(encodedName));
         }
 
         // Called from table row onmouseleave
         function unhoverInPlot() {
-            if (!_pinnedName) hideNativeHover();
+            if (!_pinnedName) hideAnnotation();
         }
 
         var _prevHighlightedRow = null;
@@ -5654,10 +5675,19 @@ return Plotly;
             loadLockedWidths();
             buildFullPlot();
             buildHomeTable();
-            // Native hover handles all plot tooltips automatically.
-            // On unhover, clear any programmatic hover if not pinned.
+            // All tooltips use scene annotations for one consistent style
+            plotDiv.on('plotly_hover', function(data) {
+                if (_pinnedName) return;
+                try {
+                    var pt = data.points[0];
+                    var name = '';
+                    if (pt.curveNumber === 0 && SOLVENTS[pt.pointNumber]) name = SOLVENTS[pt.pointNumber].name;
+                    else if (pt.curveNumber === 1 && POLYMERS[pt.pointNumber]) name = POLYMERS[pt.pointNumber].name;
+                    if (name) showAnnotation(name);
+                } catch(e) {}
+            });
             plotDiv.on('plotly_unhover', function() {
-                if (!_pinnedName) hideNativeHover();
+                if (!_pinnedName) hideAnnotation();
             });
             plotDiv.on('plotly_click', function(data) {
                 try {
@@ -5671,7 +5701,7 @@ return Plotly;
                         unpinAll();
                     } else {
                         _pinnedName = name;
-                        showNativeHover(name);
+                        showAnnotation(name);
                         selectInTable(name);
                     }
                 } catch(e) { console.error('plotly_click error:', e); }
