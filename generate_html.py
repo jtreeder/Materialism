@@ -1152,7 +1152,6 @@ full_html = f"""<!DOCTYPE html>
             h.push('<col style="width:35px">');   // #
             h.push('<col style="width:22%">');     // Name
             h.push('<col style="width:10%">');     // CAS
-            h.push('<col style="width:11%">');     // Source
             h.push('<col style="width:48px">');    // δD
             h.push('<col style="width:48px">');    // δP
             h.push('<col style="width:48px">');    // δH
@@ -1162,11 +1161,12 @@ full_html = f"""<!DOCTYPE html>
             h.push('<thead><tr>');
             let colNum = 0;
             const th = (label) => '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + (colNum++) + ')" style="cursor:pointer">' + label + '</th>';
-            h.push(th('#'), th('Name'), th('CAS'), th('Source'), th('&delta;D'), th('&delta;P'), th('&delta;H'), th('MW'), th('BP &deg;C'));
+            h.push(th('#'), th('Name'), th('CAS'), th('&delta;D'), th('&delta;P'), th('&delta;H'), th('MW'), th('BP &deg;C'));
             if (isMulti) {{ result.targets.forEach(t => {{ h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }}); }}
             else if (showRed) {{ h.push(th('Ra'), th('RED')); }}
             else if (parentIntent === 'similar_solvents') {{ h.push(th('Ra'), th('Category')); }}
             else {{ h.push(th('Ra'), th('R&#8320;'), th('Type')); }}
+            h.push(th('Source'));
             h.push('</tr></thead><tbody>');
 
             // --- Target material rows ---
@@ -1176,7 +1176,6 @@ full_html = f"""<!DOCTYPE html>
                         '<td style="color:#e94560;font-weight:bold">★</td>',
                         '<td><strong style="color:#e94560">', t.name, '</strong></td>',
                         '<td>', (t.cas || ''), '</td>',
-                        '<td>', ((t.src && t.srcUrl) ? '<a href="' + t.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + t.src + '</a>' : (t.src || '')), '</td>',
                         '<td>', (t.dd != null ? t.dd.toFixed(1) : ''), '</td>',
                         '<td>', (t.dp != null ? t.dp.toFixed(1) : ''), '</td>',
                         '<td>', (t.dh != null ? t.dh.toFixed(1) : ''), '</td>',
@@ -1197,6 +1196,7 @@ full_html = f"""<!DOCTYPE html>
                     }} else {{
                         h.push('<td></td><td>', (t.r || ''), '</td><td>', (t.type || ''), '</td>');
                     }}
+                    h.push('<td>', ((t.src && t.srcUrl) ? '<a href="' + t.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + t.src + '</a>' : (t.src || '')), '</td>');
                     h.push('</tr>');
                 }});
             }}
@@ -1206,11 +1206,12 @@ full_html = f"""<!DOCTYPE html>
                 if (r.notFound) {{ h.push('<tr><td class="rank">', (i + 1), '</td><td colspan="11" style="color:#EF553B">Could not find "', r.queryName, '" in the database</td></tr>'); return; }}
                 var enc = encodeURIComponent(r.name);
                 h.push('<tr data-name="', r.name.replace(/"/g, '&quot;'), '"><td class="rank">', (i + 1), '</td><td><span class="hoverable-name" onclick="highlightInPlot(\\x27', enc, '\\x27)" onmouseenter="showStructure(event,\\x27', enc, '\\x27)" onmouseleave="hideStructure()">', r.name, '</span></td>');
-                h.push('<td>', (r.cas || ''), '</td><td>', ((r.src && r.srcUrl) ? '<a href="' + r.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + r.src + '</a>' : (r.src || '')), '</td>');
+                h.push('<td>', (r.cas || ''), '</td>');
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
                 if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); }}
                 else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ h.push('<td>', (r.cat || ''), '</td>'); }} else {{ h.push('<td>', (r.r || ''), '</td><td>', (r.type || ''), '</td>'); }} }}
+                h.push('<td>', ((r.src && r.srcUrl) ? '<a href="' + r.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + r.src + '</a>' : (r.src || '')), '</td>');
                 h.push('</tr>');
             }});
             h.push('</tbody></table>');
@@ -1512,15 +1513,15 @@ full_html = f"""<!DOCTYPE html>
             var cg = document.createElement('colgroup');
 
             if (homeTab === 'solvents') {{
-                // Name, CAS, Source, δD, δP, δH, MW, BP, Category
-                ['25%','10%','11%','48px','48px','48px','52px','52px','9%'].forEach(function(w) {{
+                // Name, CAS, δD, δP, δH, MW, BP, Category, Source
+                ['25%','10%','48px','48px','48px','52px','52px','9%','11%'].forEach(function(w) {{
                     var col = document.createElement('col');
                     col.style.width = w;
                     cg.appendChild(col);
                 }});
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS','Source','&delta;D','&delta;P','&delta;H','MW','BP &deg;C','Category'].forEach(function(label, i) {{
+                ['Name','CAS','&delta;D','&delta;P','&delta;H','MW','BP &deg;C','Category','Source'].forEach(function(label, i) {{
                     headerHtml += '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + i + ')" style="cursor:pointer">' + label + '</th>';
                 }});
                 headerHtml += '</tr>';
@@ -1541,25 +1542,25 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<tr data-name="' + s.name.replace(/"/g, '&quot;') + '" style="border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name" onclick="highlightInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
                     rowsHtml += '<td>' + (s.cas || '') + '</td>';
-                    rowsHtml += '<td>' + ((s.src && s.srcUrl) ? '<a href="' + s.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + s.src + '</a>' : (s.src || '')) + '</td>';
                     rowsHtml += '<td>' + lnk(s.dd, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.dp, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.dh, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
                     rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
                     rowsHtml += '<td style="color:' + catColor + '">' + (s.cat || '') + '</td>';
+                    rowsHtml += '<td>' + ((s.src && s.srcUrl) ? '<a href="' + s.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + s.src + '</a>' : (s.src || '')) + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }} else {{
-                // Name, CAS, Source, δD, δP, δH, R₀, Type
-                ['25%','10%','11%','48px','48px','48px','52px','9%'].forEach(function(w) {{
+                // Name, CAS, δD, δP, δH, R₀, Type, Source
+                ['25%','10%','48px','48px','48px','52px','9%','11%'].forEach(function(w) {{
                     var col = document.createElement('col');
                     col.style.width = w;
                     cg.appendChild(col);
                 }});
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS','Source','&delta;D','&delta;P','&delta;H','R&#8320;','Type'].forEach(function(label, i) {{
+                ['Name','CAS','&delta;D','&delta;P','&delta;H','R&#8320;','Type','Source'].forEach(function(label, i) {{
                     headerHtml += '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + i + ')" style="cursor:pointer">' + label + '</th>';
                 }});
                 headerHtml += '</tr>';
@@ -1579,12 +1580,12 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '">';
                     rowsHtml += '<td><span class="hoverable-name" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)">' + p.name + '</span></td>';
                     rowsHtml += '<td>' + (p.cas || '') + '</td>';
-                    rowsHtml += '<td>' + ((p.src && p.srcUrl) ? '<a href="' + p.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + p.src + '</a>' : (p.src || '')) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dd, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
                     rowsHtml += '<td>' + (p.type || '') + '</td>';
+                    rowsHtml += '<td>' + ((p.src && p.srcUrl) ? '<a href="' + p.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + p.src + '</a>' : (p.src || '')) + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }}
