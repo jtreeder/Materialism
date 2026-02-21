@@ -1586,8 +1586,19 @@ full_html = f"""<!DOCTYPE html>
         }}
 
         function selectInTable(name) {{
+            // If the home panel is visible, switch tabs if needed so the material is in view
+            var homePanel = document.getElementById('home-panel');
+            if (homePanel && homePanel.style.display !== 'none') {{
+                var isSolvent = SOLVENTS.some(function(s) {{ return s.name === name; }});
+                var isPolymer = !isSolvent && POLYMERS.some(function(p) {{ return p.name === name; }});
+                if (isSolvent && homeTab !== 'solvents') {{
+                    switchHomeTab('solvents');
+                }} else if (isPolymer && homeTab !== 'polymers') {{
+                    switchHomeTab('polymers');
+                }}
+            }}
             // Highlight in whichever table is visible: results (chat-panel) or home table
-            var containers = [document.getElementById('chat-panel'), document.getElementById('home-panel')];
+            var containers = [document.getElementById('chat-panel'), homePanel];
             for (var ci = 0; ci < containers.length; ci++) {{
                 var c = containers[ci];
                 if (!c || c.style.display === 'none' || !c.classList.contains('visible') && ci === 0) continue;
