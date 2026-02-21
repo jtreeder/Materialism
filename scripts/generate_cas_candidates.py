@@ -601,16 +601,36 @@ def main():
             "options": []
         }
 
-        # Generate name guesses
+        # Generate name guesses from both the solvent name and ACD/Autonom name.
+        # The PDF table has two name columns: "Solvent Name" and "Solvent Name
+        # Autonom/ACD Name". Using both maximises the chance of a PubChem hit
+        # because one may be truncated or have OCR artefacts while the other is
+        # intact (or at least differently corrupted).
         guesses = generate_name_guesses(name)
 
-        # Add ACD/Autonom name as a high-priority guess (systematic names resolve better)
         acd_name = acd_names.get(row_idx)
         if acd_name and len(acd_name) > 2:
-            # ACD names may be hyphenated or truncated, try variations
             acd_clean = acd_name.strip().rstrip("-")
-            if acd_clean.lower() not in {g[0].lower() for g in guesses}:
-                guesses.insert(0, (acd_clean, "ACD/Autonom name from PDF", 0.92))
+            # Generate repair guesses from the ACD name too (it may also be
+            # truncated/hyphenated differently from the solvent name).
+            acd_guesses = generate_name_guesses(acd_clean)
+            # Tag ACD-derived guesses for provenance and give them higher
+            # base confidence since systematic names resolve better.
+            seen_lower = {g[0].lower() for g in guesses}
+            acd_tagged = []
+            for g_text, g_reason, g_conf in acd_guesses:
+                if g_text.lower() not in seen_lower:
+                    seen_lower.add(g_text.lower())
+                    acd_tagged.append((
+                        g_text,
+                        "ACD/Autonom: " + g_reason,
+                        max(g_conf, 0.88),  # floor ACD guesses at 0.88
+                    ))
+            # Insert the raw ACD name first if not already present
+            if acd_clean.lower() not in seen_lower:
+                acd_tagged.insert(0, (acd_clean, "ACD/Autonom name from PDF", 0.92))
+            # Prepend ACD guesses (higher priority than solvent-name guesses)
+            guesses = acd_tagged + guesses
 
         def _make_option(result, reason, base_conf, via_smiles=False):
             """Build an option dict with molar volume validation."""
