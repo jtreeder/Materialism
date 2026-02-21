@@ -46,16 +46,64 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 /* Two-column comparison body — equal width */
 .card-body { display: flex; gap: 0; }
 .col-source { width: 50%; padding: 16px 20px; border-right: 1px solid #f0f2f5; background: #fafbfc; flex-shrink: 0; }
-.col-match  { width: 50%; padding: 16px 20px; flex-shrink: 0; }
+
+/* ── Match column: clickable, confidence-tinted background ── */
+.col-match {
+    width: 50%; padding: 16px 20px; flex-shrink: 0;
+    cursor: pointer; transition: all 0.2s; position: relative;
+    border-left: 4px solid transparent;
+}
+.col-match:hover { filter: brightness(0.97); }
+.col-match.approved {
+    background: rgba(0,184,148,0.14) !important;
+    border-left: 4px solid #00b894;
+}
+.col-match.approved::after {
+    content: 'MATCHED';
+    position: absolute; top: 12px; right: 16px;
+    background: #00b894; color: #fff;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px;
+    padding: 3px 10px; border-radius: 10px;
+}
 
 /* Column labels */
 .col-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: #b2bec3; margin-bottom: 8px; }
 
-/* ── Comparison rows: name, structure, properties ── */
-
 /* Name row — aligned at top of each column */
 .cmp-name { font-weight: 700; font-size: 1.05rem; color: #2d3436; margin-bottom: 2px; min-height: 1.3em; }
 .cmp-name-sub { font-size: 0.82rem; color: #636e72; margin-bottom: 6px; min-height: 1.1em; }
+
+/* ── Reason callout: large, prominent explanation ── */
+.reason-callout {
+    background: #fff; border: 1px solid #e0e0e0;
+    border-left: 5px solid #6c5ce7;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px; margin: 10px 0;
+}
+.reason-headline {
+    font-size: 1rem; font-weight: 700; color: #2d3436; margin-bottom: 6px;
+}
+.reason-transform {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.88rem; line-height: 1.6;
+    margin-bottom: 6px; padding: 6px 10px;
+    background: #f8f9fa; border-radius: 4px;
+}
+.reason-transform .arrow { color: #6c5ce7; font-weight: 700; margin: 0 6px; }
+.diff-del {
+    background: #ffeef0; color: #c0392b;
+    text-decoration: line-through; padding: 1px 3px; border-radius: 2px;
+}
+.diff-ins {
+    background: #e6ffed; color: #00b894;
+    font-weight: 700; padding: 1px 3px; border-radius: 2px;
+}
+.reason-detail {
+    font-size: 0.82rem; color: #636e72; line-height: 1.4;
+}
+.reason-confidence {
+    font-size: 0.82rem; font-weight: 600; margin-top: 4px;
+}
 
 /* Structure images — identical fixed container on both sides */
 .cmp-structure { width: 100%; max-width: 280px; aspect-ratio: 1 / 1; border: 1px solid #e0e0e0; border-radius: 6px; background: #fff; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 10px; }
@@ -70,18 +118,10 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 .cmp-props td:last-child { font-weight: 500; word-break: break-all; }
 .val-highlight { background: #fff3cd; padding: 1px 4px; border-radius: 3px; }
 
-/* Confidence bar */
-.confidence-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.confidence-bar { width: 80px; height: 6px; background: #dfe6e9; border-radius: 3px; overflow: hidden; flex-shrink: 0; }
-.confidence-fill { height: 100%; border-radius: 3px; }
-.confidence-text { font-size: 0.8rem; font-weight: 600; }
-
 /* Badges */
 .badge { font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-top: 2px; margin-right: 4px; }
-.badge-reason { color: #6c5ce7; background: #f0edff; }
 .badge-mv-ok { background: #d4edda; color: #155724; }
 .badge-mv-bad { background: #f8d7da; color: #721c24; }
-.badge-mv-info { color: #b2bec3; background: none; padding: 0; }
 .badge-cas { color: #0984e3; font-family: monospace; font-size: 0.9rem; font-weight: 600; }
 
 /* Source-only extras */
@@ -94,21 +134,17 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 .raw-csv-row .field-key { color: #636e72; min-width: 65px; flex-shrink: 0; }
 .raw-csv-row .field-val { color: #2d3436; font-weight: 500; }
 
-/* ── Candidate options (selection UI) ── */
-.option-area { border-top: 1px solid #f0f2f5; margin-top: 10px; padding-top: 10px; }
-.option-row { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 2px solid transparent; border-radius: 6px; cursor: pointer; transition: all 0.15s; margin-bottom: 4px; }
-.option-row:hover { background: #f8f9fa; border-color: #dfe6e9; }
-.option-row.selected { background: #e8f8f5; border-color: #00b894; }
-.option-radio { width: 18px; height: 18px; border: 2px solid #b2bec3; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-.selected .option-radio { border-color: #00b894; }
-.selected .option-radio::after { content: ''; width: 10px; height: 10px; background: #00b894; border-radius: 50%; }
-.option-label { flex: 1; min-width: 0; font-size: 0.85rem; }
-.option-label strong { font-weight: 600; }
-.option-label .cas { color: #0984e3; font-family: monospace; font-size: 0.82rem; margin-left: 4px; }
-.option-conf { font-size: 0.75rem; color: #636e72; white-space: nowrap; }
+/* ── Other candidates area (below main comparison) ── */
+.other-candidates { border-top: 1px solid #f0f2f5; margin-top: 10px; padding-top: 8px; }
+.alt-option { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 2px solid transparent; border-radius: 6px; cursor: pointer; transition: all 0.15s; margin-bottom: 4px; }
+.alt-option:hover { background: #f0f2f5; border-color: #dfe6e9; }
+.alt-option.selected { background: #e8f8f5; border-color: #00b894; }
+.alt-option-label { flex: 1; min-width: 0; font-size: 0.85rem; }
+.alt-option-label strong { font-weight: 600; }
+.alt-option-label .cas { color: #0984e3; font-family: monospace; font-size: 0.82rem; margin-left: 4px; }
+.alt-option-conf { font-size: 0.75rem; color: #636e72; white-space: nowrap; }
 
-/* Alt candidate structure — appears below the option row when expanded */
-.alt-structure-row { padding: 4px 0 8px 34px; }
+.alt-structure-row { padding: 4px 0 8px 8px; }
 
 .option-skip { padding: 6px 10px; border: 2px dashed #dfe6e9; border-radius: 6px; cursor: pointer; color: #b2bec3; text-align: center; font-size: 0.82rem; transition: all 0.15s; margin-top: 6px; }
 .option-skip:hover { background: #fff5f5; border-color: #fab1a0; color: #d63031; }
@@ -223,6 +259,14 @@ function confColor(c) {
     return '#d63031';
 }
 
+// Light background tint derived from confidence level
+function confBgColor(c) {
+    if (c >= 0.85) return 'rgba(0,184,148,0.09)';
+    if (c >= 0.65) return 'rgba(253,203,110,0.18)';
+    if (c >= 0.40) return 'rgba(225,112,85,0.10)';
+    return 'rgba(214,48,49,0.08)';
+}
+
 function escHtml(s) {
     if (!s) return '';
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -232,6 +276,114 @@ function structImgUrl(opt) {
     if (opt.structure_file) return 'data/processed/' + escHtml(opt.structure_file);
     if (opt.pubchem_img) return opt.pubchem_img;
     return '';
+}
+
+// ── Human-friendly reason headline ──────────────────────────────
+function friendlyReason(reason) {
+    var r = reason || '';
+    if (r.indexOf('Manual lookup') !== -1) return 'Manually confirmed';
+    if (r.indexOf('SMILES') !== -1) return 'Matched via molecular structure (SMILES)';
+    if (r.indexOf('OSRA') !== -1 || r.indexOf('structure image') !== -1) return 'Matched via structure image recognition';
+    if (r.indexOf('ACD/Autonom') !== -1) return 'Matched using ACD systematic name';
+    if (r.indexOf('Insert hyphen') !== -1) return 'Missing hyphen inserted';
+    if (r.indexOf('stereo') !== -1 || (r.indexOf('prefix') !== -1 && r.indexOf('hyphen') !== -1)) return 'Stereo/substitution prefix hyphenated';
+    if (r.indexOf('Split CamelCase') !== -1) return 'CamelCase words separated';
+    if (r.indexOf('truncation') !== -1 || r.indexOf('Truncat') !== -1 || r.indexOf('Fix truncation') !== -1) return 'Truncated name completed';
+    if (r.indexOf('Append missing') !== -1) return 'Missing trailing letter added';
+    if (r.indexOf('OCR space') !== -1 || r.indexOf('Remove OCR') !== -1) return 'Spurious OCR space removed';
+    if (r.indexOf('alfa') !== -1 || r.indexOf('alpha') !== -1 || r.indexOf('α') !== -1) return 'Greek letter spelling corrected';
+    if (r.indexOf('Fix \'') !== -1) return 'Spelling correction applied';
+    if (r.indexOf('parenthetical') !== -1 || r.indexOf('parentheses') !== -1) return 'Name extracted from parenthetical';
+    if (r.indexOf('trailing fragment') !== -1) return 'Trailing fragment removed';
+    if (r.indexOf('Commercial') !== -1) return '"Commercial" annotation removed';
+    if (r.indexOf('Join') !== -1) return 'Split words joined into compound name';
+    if (r.indexOf('Hyphenate first') !== -1) return 'First word hyphenated to base';
+    if (r.indexOf('Expand') !== -1 || r.indexOf('Add parens') !== -1) return 'Multiplier prefix expanded';
+    if (r.indexOf('salt') !== -1 || r.indexOf('Salt') !== -1) return 'Base compound extracted from salt';
+    if (r.indexOf('Invert') !== -1) return 'Name component order inverted';
+    if (r.indexOf('No match') !== -1) return 'No match found';
+    if (r.indexOf('Special entry') !== -1) return 'Non-standard entry';
+    if (r.indexOf('Mixture') !== -1) return 'Mixture (may lack single CAS)';
+    if (r.indexOf('P from') !== -1 || r.indexOf('Remove') !== -1 && r.indexOf('note') !== -1) return 'Annotation removed from name';
+    if (r.indexOf('Original name') !== -1) return 'Original name looked up directly';
+    if (r.indexOf('NCI/CIR') !== -1) return 'Resolved via NCI Chemical Identifier';
+    if (r.indexOf('PubChem autocomplete') !== -1) return 'Fuzzy-matched via PubChem search';
+    if (r.indexOf('structure confirmed') !== -1) return 'Structure independently confirmed';
+    return r; // fallback
+}
+
+// ── Name diff highlighting ──────────────────────────────────────
+// Shows the transformation from original → corrected with inline diff marks
+function renderNameDiff(original, corrected) {
+    if (!original || !corrected) return '';
+    var a = original, b = corrected;
+    if (a === b) return '';
+
+    // Find common prefix length
+    var pLen = 0;
+    while (pLen < a.length && pLen < b.length && a[pLen] === b[pLen]) pLen++;
+
+    // Find common suffix length (from remaining chars)
+    var sLen = 0;
+    while (sLen < (a.length - pLen) && sLen < (b.length - pLen)
+            && a[a.length - 1 - sLen] === b[b.length - 1 - sLen]) sLen++;
+
+    var prefix = escHtml(a.substring(0, pLen));
+    var suffix = sLen > 0 ? escHtml(a.substring(a.length - sLen)) : '';
+    var oldMid = a.substring(pLen, a.length - sLen);
+    var newMid = b.substring(pLen, b.length - sLen);
+
+    var html = '<div class="reason-transform">';
+    html += prefix;
+    if (oldMid) html += '<span class="diff-del">' + escHtml(oldMid) + '</span>';
+    if (newMid) html += '<span class="diff-ins">' + escHtml(newMid) + '</span>';
+    html += suffix;
+    html += '</div>';
+    return html;
+}
+
+// ── Build the full reason callout ───────────────────────────────
+function renderReasonCallout(opt, entry) {
+    var headline = friendlyReason(opt.reason);
+    var conf = Math.round(opt.confidence * 100);
+    var color = confColor(opt.confidence);
+    var guessText = opt.guess_text || '';
+    var corrName = opt.corrected_name || '';
+    var origName = entry.original_name || '';
+
+    var html = '<div class="reason-callout">';
+    html += '<div class="reason-headline">' + escHtml(headline) + '</div>';
+
+    // Show name transformation diff if the name was changed
+    var diffFrom = origName;
+    var diffTo = guessText || corrName;
+    if (diffTo && diffTo !== origName) {
+        html += renderNameDiff(diffFrom, diffTo);
+    }
+    // If corrected_name differs from guess_text, show the PubChem resolution too
+    if (guessText && corrName && corrName !== guessText && corrName !== origName) {
+        html += '<div class="reason-detail" style="margin-bottom:4px">PubChem canonical: <strong>' + escHtml(corrName) + '</strong></div>';
+    }
+
+    // Detail: the raw engine reason
+    html += '<div class="reason-detail">' + escHtml(opt.reason) + '</div>';
+
+    // Confidence explanation
+    html += '<div class="reason-confidence" style="color:' + color + '">';
+    html += conf + '% confidence';
+    if (opt.mv_match === true) html += ' &middot; Molar volume validated';
+    else if (opt.mv_match === false) html += ' &middot; Molar volume MISMATCH';
+    html += '</div>';
+
+    html += '</div>';
+    return html;
+}
+
+// ── Click handler for match column ──────────────────────────────
+function onMatchColClick(e, rowIndex) {
+    // Don't trigger if clicking inside .other-candidates area
+    if (e.target.closest && e.target.closest('.other-candidates')) return;
+    selectOption(rowIndex, 0);
 }
 
 // ── Render SOURCE column (left) ─────────────────────────────────
@@ -321,21 +473,25 @@ function renderMvBadge(opt, entry) {
 // ── Render MATCH column (right) ─────────────────────────────────
 function renderMatchCol(entry) {
     var d = DECISIONS[entry.row_index];
-    var html = '<div class="col-match">';
+    var bestApproved = false;
 
     if (!entry.options || !entry.options.length) {
-        html += '<div class="col-label">Candidate</div>';
-        html += '<div class="cmp-name" style="color:#b2bec3">No candidates found</div>';
-        html += '</div>';
-        return html;
+        return '<div class="col-match" style="background:#fafbfc"><div class="col-label">Candidate</div>'
+             + '<div class="cmp-name" style="color:#b2bec3">No candidates found</div></div>';
     }
 
     var best = entry.options[0];
-    var bestSelected = d && d.action === 'approve' && d.cas === best.cas && d.name === (best.corrected_name || best.guess_text || entry.original_name);
+    bestApproved = d && d.action === 'approve' && d.cas === best.cas
+                 && d.name === (best.corrected_name || best.guess_text || entry.original_name);
 
-    html += '<div class="col-label">Best Match</div>';
+    // Determine background: green if approved for best, otherwise confidence color
+    var bgStyle = bestApproved ? '' : ('background:' + confBgColor(best.confidence));
+    var approvedClass = bestApproved ? ' approved' : '';
 
-    // 1. Name — aligned with source name
+    var html = '<div class="col-match' + approvedClass + '" style="' + bgStyle + '" onclick="onMatchColClick(event,' + entry.row_index + ')">';
+    html += '<div class="col-label">Best Match — click to approve</div>';
+
+    // 1. Name + CAS
     html += '<div class="cmp-name">' + escHtml(best.corrected_name || entry.original_name);
     if (best.cas) {
         html += ' <span class="badge-cas">' + escHtml(best.cas) + '</span>';
@@ -347,7 +503,10 @@ function renderMatchCol(entry) {
         html += '<div class="cmp-name-sub">&nbsp;</div>';
     }
 
-    // 2. Structure image — same container as source
+    // 2. Large reason callout
+    html += renderReasonCallout(best, entry);
+
+    // 3. Structure image
     var bestImg = structImgUrl(best);
     if (bestImg) {
         html += '<div class="cmp-structure">';
@@ -357,12 +516,7 @@ function renderMatchCol(entry) {
         html += '<div class="cmp-structure-empty">No structure image</div>';
     }
 
-    // 3. Properties + confidence + badges
-    html += '<div class="confidence-row">';
-    html += '<div class="confidence-bar"><div class="confidence-fill" style="width:' + Math.round(best.confidence * 100) + '%;background:' + confColor(best.confidence) + '"></div></div>';
-    html += '<span class="confidence-text" style="color:' + confColor(best.confidence) + '">' + Math.round(best.confidence * 100) + '%</span>';
-    html += '</div>';
-
+    // 4. Properties
     html += '<div class="cmp-props"><table>';
     if (best.pubchem_mw) {
         html += '<tr><td>MW</td><td>' + best.pubchem_mw.toFixed(1) + '</td></tr>';
@@ -378,41 +532,26 @@ function renderMatchCol(entry) {
     }
     html += '</table></div>';
 
-    // Badges: reason, MV comparison
-    html += '<div>';
-    html += '<span class="badge badge-reason">' + escHtml(best.reason) + '</span>';
-    if (best.guess_text && best.guess_text !== best.corrected_name) {
-        html += ' <span style="font-size:0.72rem;color:#b2bec3">query: "' + escHtml(best.guess_text) + '"</span>';
-    }
-    html += '</div>';
+    // MV comparison badge
     html += '<div>' + renderMvBadge(best, entry) + '</div>';
 
-    // ── Selection UI ────────────────────────────────────────────
-    html += '<div class="option-area">';
+    // ── Other candidates area (clicks here don't select best) ───
+    html += '<div class="other-candidates">';
 
-    // Best match radio
-    html += '<div class="option-row' + (bestSelected ? ' selected' : '') + '" onclick="selectOption(' + entry.row_index + ',0)">';
-    html += '<div class="option-radio"></div>';
-    html += '<span class="option-label"><strong>Select this match</strong></span>';
-    html += '</div>';
-
-    // Secondary options
     if (entry.options.length > 1) {
         html += '<div class="divider-label">Other Candidates</div>';
         var limit = Math.min(entry.options.length, 4);
         for (var oi = 1; oi < limit; oi++) {
             var opt = entry.options[oi];
             var isSelected = d && d.action === 'approve' && d.cas === opt.cas && d.name === (opt.corrected_name || opt.guess_text || entry.original_name);
-            html += '<div class="option-row' + (isSelected ? ' selected' : '') + '" onclick="selectOption(' + entry.row_index + ',' + oi + ')">';
-            html += '<div class="option-radio"></div>';
-            html += '<div class="option-label">';
+            html += '<div class="alt-option' + (isSelected ? ' selected' : '') + '" onclick="event.stopPropagation();selectOption(' + entry.row_index + ',' + oi + ')">';
+            html += '<div class="alt-option-label">';
             html += '<strong>' + escHtml(opt.corrected_name || entry.original_name) + '</strong>';
             if (opt.cas) html += '<span class="cas">' + escHtml(opt.cas) + '</span>';
-            html += '<br><span style="font-size:0.72rem;color:#636e72">' + escHtml(opt.reason) + '</span>';
+            html += '<br><span style="font-size:0.72rem;color:#636e72">' + escHtml(friendlyReason(opt.reason)) + '</span>';
             html += '</div>';
-            html += '<span class="option-conf">' + Math.round(opt.confidence * 100) + '%</span>';
+            html += '<span class="alt-option-conf">' + Math.round(opt.confidence * 100) + '%</span>';
             html += '</div>';
-            // Structure for alt candidate
             var secImg = structImgUrl(opt);
             if (secImg) {
                 html += '<div class="alt-structure-row"><div class="cmp-structure">';
@@ -424,10 +563,10 @@ function renderMatchCol(entry) {
 
     // Skip
     var skipSel = d && d.action === 'skip' ? ' selected' : '';
-    html += '<div class="option-skip' + skipSel + '" onclick="skipEntry(' + entry.row_index + ')">Skip</div>';
+    html += '<div class="option-skip' + skipSel + '" onclick="event.stopPropagation();skipEntry(' + entry.row_index + ')">Skip</div>';
 
     // Custom input
-    html += '<div class="custom-input" id="custom-' + entry.row_index + '">';
+    html += '<div class="custom-input" id="custom-' + entry.row_index + '" onclick="event.stopPropagation()">';
     html += '<input class="cas-input" type="text" placeholder="CAS #" id="custom-cas-' + entry.row_index + '" onkeydown="if(event.key===\'Enter\'){event.preventDefault();approveCustom(' + entry.row_index + ')}">';
     html += '<button class="btn btn-sm lookup-btn" onclick="lookupCAS(' + entry.row_index + ')" id="lookup-btn-' + entry.row_index + '">Lookup</button>';
     html += '<input class="name-input" type="text" placeholder="Name (autofills)" id="custom-name-' + entry.row_index + '">';
@@ -436,7 +575,7 @@ function renderMatchCol(entry) {
     html += '<button class="btn btn-secondary btn-sm" onclick="toggleCustom(' + entry.row_index + ')">Cancel</button>';
     html += '</div>';
 
-    html += '</div>'; // option-area
+    html += '</div>'; // other-candidates
     html += '</div>'; // col-match
     return html;
 }
@@ -642,7 +781,6 @@ function _commitCustomDecision(rowIndex, name, cas, nameInput) {
     var cid = (nameInput && nameInput.dataset.cid) ? parseInt(nameInput.dataset.cid) : null;
     var iupac = (nameInput && nameInput.dataset.iupac) || '';
 
-    // Insert as top option so it becomes the visible "Best Match"
     if (entry) {
         var newOpt = {
             corrected_name: name,
