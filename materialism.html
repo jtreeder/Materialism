@@ -3899,7 +3899,7 @@ return Plotly;
         .panel { display: none; padding: 20px; }
         .panel.active { display: block; }
         .results-layout { display: flex; gap: 0; height: calc(100vh - 140px); min-height: 500px; }
-        .plot-side { flex: 1 1 55%; min-width: 0; border-right: 1px solid #dfe6e9; overflow: hidden; background: #fff; display: flex; flex-direction: column; }
+        .plot-side { flex: 1 1 50%; min-width: 0; border-right: 1px solid #dfe6e9; overflow: hidden; background: #fff; display: flex; flex-direction: column; }
         .plot-container { width: 100%; flex: 1; min-height: 0; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
         th { background: #f0f2f5; color: #e94560; padding: 10px; text-align: left; position: sticky; top: 0; cursor: pointer; z-index: 1; border-bottom: 2px solid #dfe6e9; }
@@ -3978,7 +3978,7 @@ return Plotly;
 
         /* --- Chat Panel (right side of results layout) --- */
         .chat-panel {
-            display: none; flex: 1 1 45%; min-width: 0;
+            display: none; flex: 1 1 50%; min-width: 0;
             overflow-y: auto; padding: 12px 14px;
             height: calc(100vh - 140px); box-sizing: border-box;
             background: #fff;
@@ -3987,7 +3987,7 @@ return Plotly;
 
         /* --- Home Panel (right side, shown when no search results) --- */
         .home-panel {
-            flex: 1 1 45%; min-width: 0; display: flex; flex-direction: column;
+            flex: 1 1 50%; min-width: 0; display: flex; flex-direction: column;
             height: calc(100vh - 140px); box-sizing: border-box;
             background: #fff;
         }
@@ -4767,16 +4767,33 @@ return Plotly;
             h.push('<colgroup>');
             h.push('<col style="width:35px">');   // #
             h.push('<col style="width:22%">');     // Name
-            h.push('<col style="width:10%">');     // CAS
-            h.push('<col style="width:48px">');    // δD
-            h.push('<col style="width:48px">');    // δP
-            h.push('<col style="width:48px">');    // δH
-            h.push('<col style="width:52px">');    // MW
-            h.push('<col style="width:52px">');    // BP
+            h.push('<col style="width:90px">');    // CAS
+            h.push('<col style="width:52px">');    // δD
+            h.push('<col style="width:52px">');    // δP
+            h.push('<col style="width:52px">');    // δH
+            h.push('<col style="width:56px">');    // MW
+            h.push('<col style="width:56px">');    // BP
             h.push('</colgroup>');
             h.push('<thead><tr>');
             let colNum = 0;
-            const th = (label) => '<th onclick="sortResultsTable(this.closest(\x27table\x27),' + (colNum++) + ')" style="cursor:pointer">' + label + '</th>';
+            var _rColTips = {
+                'CAS': 'CAS Registry Number \u2014 unique identifier for chemical substances',
+                '&delta;D': 'Dispersion \u2014 van der Waals / London dispersion forces (MPa\u00BD)',
+                '&delta;P': 'Polarity \u2014 dipole-dipole intermolecular forces (MPa\u00BD)',
+                '&delta;H': 'Hydrogen bonding \u2014 hydrogen bond donor/acceptor capability (MPa\u00BD)',
+                'MW': 'Molecular weight (g/mol)',
+                'BP &deg;C': 'Boiling point in degrees Celsius',
+                'Ra': 'HSP distance between solvent and polymer in 3D Hansen space',
+                'R&#8320;': 'Interaction radius of the polymer solubility sphere',
+                'RED': 'Relative Energy Difference = Ra/R\u2080. RED < 1 = compatible, RED > 1 = incompatible'
+            };
+            const th = (label) => {
+                var tip = _rColTips[label] || '';
+                // Also check for Ra(...) and RED(...) patterns
+                if (!tip && label.indexOf('Ra(') === 0) tip = _rColTips['Ra'];
+                if (!tip && label.indexOf('RED(') === 0) tip = _rColTips['RED'];
+                return '<th onclick="sortResultsTable(this.closest(\x27table\x27),' + (colNum++) + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
+            };
             h.push(th('#'), th('Name'), th('CAS'), th('&delta;D'), th('&delta;P'), th('&delta;H'), th('MW'), th('BP &deg;C'));
             if (isMulti) { result.targets.forEach(t => { h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }); }
             else if (showRed) { h.push(th('Ra'), th('RED')); }
@@ -5129,9 +5146,26 @@ return Plotly;
             if (existingCg) existingCg.remove();
             var cg = document.createElement('colgroup');
 
+            var colTips = {
+                'CAS': 'CAS Registry Number — unique identifier for chemical substances',
+                '&delta;D': 'Dispersion — van der Waals / London dispersion forces (MPa\u00BD)',
+                '&delta;P': 'Polarity — dipole-dipole intermolecular forces (MPa\u00BD)',
+                '&delta;H': 'Hydrogen bonding — hydrogen bond donor/acceptor capability (MPa\u00BD)',
+                'MW': 'Molecular weight (g/mol)',
+                'BP &deg;C': 'Boiling point in degrees Celsius',
+                'Ra': 'HSP distance between solvent and polymer in 3D Hansen space',
+                'R&#8320;': 'Interaction radius of the polymer solubility sphere',
+                'RED': 'Relative Energy Difference = Ra/R\u2080. RED &lt; 1 = compatible, RED &gt; 1 = incompatible'
+            };
+            function thWithTip(label, idx) {
+                var tip = colTips[label] || '';
+                return '<th onclick="sortResultsTable(this.closest(\x27table\x27),' + idx + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
+            }
+
             if (homeTab === 'solvents') {
                 // Name, CAS, δD, δP, δH, MW, BP, Category, Source
-                ['25%','10%','48px','48px','48px','52px','52px','9%','11%'].forEach(function(w) {
+                // Numeric cols fixed; Name gets most flex space; Source truncates
+                ['24%','90px','52px','52px','52px','56px','56px','80px',''].forEach(function(w) {
                     var col = document.createElement('col');
                     col.style.width = w;
                     cg.appendChild(col);
@@ -5139,7 +5173,7 @@ return Plotly;
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
                 ['Name','CAS','&delta;D','&delta;P','&delta;H','MW','BP &deg;C','Category','Source'].forEach(function(label, i) {
-                    headerHtml += '<th onclick="sortResultsTable(this.closest(\x27table\x27),' + i + ')" style="cursor:pointer">' + label + '</th>';
+                    headerHtml += thWithTip(label, i);
                 });
                 headerHtml += '</tr>';
                 var filtered = SOLVENTS;
@@ -5170,7 +5204,7 @@ return Plotly;
                 }
             } else {
                 // Name, CAS, δD, δP, δH, R₀, Type, Source
-                ['25%','10%','48px','48px','48px','52px','9%','11%'].forEach(function(w) {
+                ['24%','90px','52px','52px','52px','56px','80px',''].forEach(function(w) {
                     var col = document.createElement('col');
                     col.style.width = w;
                     cg.appendChild(col);
@@ -5178,7 +5212,7 @@ return Plotly;
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
                 ['Name','CAS','&delta;D','&delta;P','&delta;H','R&#8320;','Type','Source'].forEach(function(label, i) {
-                    headerHtml += '<th onclick="sortResultsTable(this.closest(\x27table\x27),' + i + ')" style="cursor:pointer">' + label + '</th>';
+                    headerHtml += thWithTip(label, i);
                 });
                 headerHtml += '</tr>';
                 var filtered = POLYMERS;
