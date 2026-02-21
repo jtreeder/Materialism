@@ -77,7 +77,10 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 
 /* ── Name ── */
 .cmp-name { font-weight: 700; font-size: 1.05rem; color: #2d3436; margin-bottom: 2px; min-height: 1.3em; line-height: 1.3; }
+.cmp-name .diff-del { font-size: 1.05rem; padding: 1px 4px; }
+.cmp-name .diff-ins { font-size: 1.05rem; padding: 1px 4px; }
 .cmp-name-sub { font-size: 0.8rem; color: #636e72; margin-bottom: 2px; min-height: 1em; }
+.cmp-name-sub.reason-sub { color: #6c5ce7; font-weight: 600; }
 .badge-cas { color: #0984e3; font-family: monospace; font-size: 0.88rem; font-weight: 600; }
 
 /* ── Structure images ── */
@@ -310,44 +313,52 @@ function friendlyReason(reason) {
     return r;
 }
 
-function renderNameDiff(original, corrected) {
-    if (!original || !corrected) return '';
-    var a = original, b = corrected;
-    if (a === b) return '';
+// Compute diff parts between two strings
+function diffParts(original, corrected) {
+    var a = original || '', b = corrected || '';
+    if (!a || !b || a === b) return null;
     var pLen = 0;
     while (pLen < a.length && pLen < b.length && a[pLen] === b[pLen]) pLen++;
     var sLen = 0;
     while (sLen < (a.length - pLen) && sLen < (b.length - pLen)
             && a[a.length - 1 - sLen] === b[b.length - 1 - sLen]) sLen++;
-    var prefix = escHtml(a.substring(0, pLen));
-    var suffix = sLen > 0 ? escHtml(a.substring(a.length - sLen)) : '';
-    var oldMid = a.substring(pLen, a.length - sLen);
-    var newMid = b.substring(pLen, b.length - sLen);
+    return {
+        prefix: a.substring(0, pLen),
+        suffix: sLen > 0 ? a.substring(a.length - sLen) : '',
+        oldMid: a.substring(pLen, a.length - sLen),
+        newMid: b.substring(pLen, b.length - sLen)
+    };
+}
+
+// Render inline diff HTML (for use inside .cmp-name — no wrapper div)
+function renderInlineDiff(original, corrected) {
+    var d = diffParts(original, corrected);
+    if (!d) return escHtml(original);
+    var html = escHtml(d.prefix);
+    if (d.oldMid) html += '<span class="diff-del">' + escHtml(d.oldMid) + '</span>';
+    if (d.newMid) html += '<span class="diff-ins">' + escHtml(d.newMid) + '</span>';
+    html += escHtml(d.suffix);
+    return html;
+}
+
+// Render block-level diff (for reason callout — wrapped in a div)
+function renderNameDiff(original, corrected) {
+    var d = diffParts(original, corrected);
+    if (!d) return '';
     var html = '<div class="reason-transform">';
-    html += prefix;
-    if (oldMid) html += '<span class="diff-del">' + escHtml(oldMid) + '</span>';
-    if (newMid) html += '<span class="diff-ins">' + escHtml(newMid) + '</span>';
-    html += suffix;
+    html += escHtml(d.prefix);
+    if (d.oldMid) html += '<span class="diff-del">' + escHtml(d.oldMid) + '</span>';
+    if (d.newMid) html += '<span class="diff-ins">' + escHtml(d.newMid) + '</span>';
+    html += escHtml(d.suffix);
     return html + '</div>';
 }
 
+// Reason callout — no name diff here (it's shown as the card title instead)
 function renderReasonCallout(opt, entry) {
-    var headline = friendlyReason(opt.reason);
     var conf = Math.round(opt.confidence * 100);
     var color = confColor(opt.confidence);
-    var guessText = opt.guess_text || '';
-    var corrName = opt.corrected_name || '';
-    var origName = entry.original_name || '';
 
     var html = '<div class="reason-callout">';
-    html += '<div class="reason-headline">' + escHtml(headline) + '</div>';
-    var diffTo = guessText || corrName;
-    if (diffTo && diffTo !== origName) {
-        html += renderNameDiff(origName, diffTo);
-    }
-    if (guessText && corrName && corrName !== guessText && corrName !== origName) {
-        html += '<div class="reason-detail" style="margin-bottom:3px">PubChem canonical: <strong>' + escHtml(chemCase(corrName)) + '</strong></div>';
-    }
     html += '<div class="reason-detail">' + escHtml(opt.reason) + '</div>';
     html += '<div class="reason-confidence" style="color:' + color + '">' + conf + '% confidence';
     if (opt.mv_match === true) html += ' &middot; MV validated';
@@ -400,18 +411,24 @@ function renderCard(entry) {
     }
     html += '</div>';
 
-    // Match name
+    // Match name — diff-highlighted transformation IS the title
     html += '<div class="cell-name-match ' + matchBg + '" style="' + matchStyle + '" onclick="onMatchColClick(event,' + entry.row_index + ')">';
     if (bestApproved) html += '<span class="matched-badge">MATCHED</span>';
     if (best) {
-        html += '<div class="cmp-name">' + escHtml(chemCase(best.corrected_name || entry.original_name));
+        var guessText = best.guess_text || '';
+        var corrName = best.corrected_name || '';
+        var diffTarget = guessText || corrName;
+        // Show diff-highlighted name if a transformation happened
+        html += '<div class="cmp-name">';
+        if (diffTarget && diffTarget !== entry.original_name) {
+            html += renderInlineDiff(entry.original_name, diffTarget);
+        } else {
+            html += escHtml(chemCase(corrName || entry.original_name));
+        }
         if (best.cas) html += ' <span class="badge-cas">' + escHtml(best.cas) + '</span>';
         html += '</div>';
-        if (best.iupac) {
-            html += '<div class="cmp-name-sub">' + escHtml(chemCase(best.iupac)) + '</div>';
-        } else {
-            html += '<div class="cmp-name-sub">&nbsp;</div>';
-        }
+        // Subtitle: friendly reason (not IUPAC — that's in properties if needed)
+        html += '<div class="cmp-name-sub reason-sub">' + escHtml(friendlyReason(best.reason)) + '</div>';
     } else {
         html += '<div class="cmp-name" style="color:#b2bec3">No candidates found</div>';
         html += '<div class="cmp-name-sub">&nbsp;</div>';
