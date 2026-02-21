@@ -456,9 +456,9 @@ full_html = f"""<!DOCTYPE html>
         th.sort-desc::after {{ content: ' ▼'; font-size: 0.7em; color: #e94560; }}
         .plot-tooltip {{
             display: none; position: absolute; z-index: 1000;
-            background: #1f2937; color: #fff; border-radius: 4px;
+            color: #fff; border-radius: 4px;
             padding: 8px 12px; font-size: 13px; line-height: 1.55;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Open Sans', verdana, arial, sans-serif;
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             pointer-events: none; white-space: nowrap;
         }}
@@ -1463,16 +1463,16 @@ full_html = f"""<!DOCTYPE html>
                     type: 'scatter3d', mode: 'markers',
                     name: 'Solvents',
                     x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
-                    text: SOLVENTS.map(s => s.name),
-                    hoverinfo: 'none',
+                    text: SOLVENTS.map(s => s.name + '<br>CAS: ' + s.cas + '<br>MW: ' + s.mw + '<br>BP: ' + s.bp + '°C'),
+                    hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
                     marker: {{ size: 5, color: _solventColors, opacity: 0.85 }},
                 }},
                 {{
                     type: 'scatter3d', mode: 'markers',
                     name: 'Polymers',
                     x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
-                    text: POLYMERS.map(p => p.name),
-                    hoverinfo: 'none',
+                    text: POLYMERS.map(p => p.name + '<br>R₀=' + p.r),
+                    hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
                     marker: {{ size: 7, color: 'gold', symbol: 'diamond', opacity: 0.95 }},
                 }},
             ];
@@ -1736,6 +1736,7 @@ full_html = f"""<!DOCTYPE html>
             if (!mat) return;
             var tip = _tooltipDiv();
             tip.innerHTML = _tooltipHtml(mat, isSolvent);
+            tip.style.background = isSolvent ? (CAT_COLORS[mat.cat] || '#888') : '#b8860b';
             tip.style.display = 'block';
             var pr = plotDiv.getBoundingClientRect();
             var x, y;
@@ -2093,16 +2094,10 @@ full_html = f"""<!DOCTYPE html>
             loadLockedWidths();
             buildFullPlot();
             buildHomeTable();
-            // Tooltip: show on hover, persist on click, toggle off on re-click
-            plotDiv.on('plotly_hover', function(data) {{
-                if (_pinnedName) return;
-                try {{
-                    var pt = data.points[0];
-                    var name = '';
-                    if (pt.curveNumber === 0 && SOLVENTS[pt.pointNumber]) name = SOLVENTS[pt.pointNumber].name;
-                    else if (pt.curveNumber === 1 && POLYMERS[pt.pointNumber]) name = POLYMERS[pt.pointNumber].name;
-                    if (name && data.event) showTooltip(name, data.event.clientX, data.event.clientY);
-                }} catch(e) {{}}
+            // Native Plotly hover handles marker tooltips; custom tooltip is for pin + table hover
+            plotDiv.on('plotly_hover', function() {{
+                // Clear any table-hover custom tooltip so it doesn't overlap native hover
+                if (!_pinnedName) hideTooltip();
             }});
             plotDiv.on('plotly_unhover', function() {{
                 if (!_pinnedName) hideTooltip();
