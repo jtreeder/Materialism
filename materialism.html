@@ -4777,7 +4777,7 @@ return Plotly;
             h.push('<thead><tr>');
             let colNum = 0;
             var _rColTips = {
-                'CAS': 'CAS Registry Number \u2014 unique identifier for chemical substances',
+                'CAS #': 'CAS Registry Number \u2014 unique identifier for chemical substances',
                 '&delta;D (MPa<sup>½</sup>)': 'Dispersion \u2014 van der Waals / London dispersion forces (MPa\u00BD)',
                 '&delta;P (MPa<sup>½</sup>)': 'Polarity \u2014 dipole-dipole intermolecular forces (MPa\u00BD)',
                 '&delta;H (MPa<sup>½</sup>)': 'Hydrogen bonding \u2014 hydrogen bond donor/acceptor capability (MPa\u00BD)',
@@ -4794,7 +4794,7 @@ return Plotly;
                 if (!tip && label.indexOf('RED(') === 0) tip = _rColTips['RED'];
                 return '<th onclick="sortResultsTable(this.closest(\x27table\x27),' + (colNum++) + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
             };
-            h.push(th('#'), th('Name'), th('CAS'), th('&delta;D (MPa<sup>½</sup>)'), th('&delta;P (MPa<sup>½</sup>)'), th('&delta;H (MPa<sup>½</sup>)'), th('MW (g/mol)'), th('BP (&deg;C)'));
+            h.push(th('#'), th('Name'), th('CAS #'), th('&delta;D (MPa<sup>½</sup>)'), th('&delta;P (MPa<sup>½</sup>)'), th('&delta;H (MPa<sup>½</sup>)'), th('MW (g/mol)'), th('BP (&deg;C)'));
             if (isMulti) { result.targets.forEach(t => { h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }); }
             else if (showRed) { h.push(th('Ra (MPa<sup>½</sup>)'), th('RED')); }
             else if (parentIntent === 'similar_solvents') { h.push(th('Ra (MPa<sup>½</sup>)'), th('Category')); }
@@ -5147,7 +5147,7 @@ return Plotly;
             var cg = document.createElement('colgroup');
 
             var colTips = {
-                'CAS': 'CAS Registry Number — unique identifier for chemical substances',
+                'CAS #': 'CAS Registry Number — unique identifier for chemical substances',
                 '&delta;D (MPa<sup>½</sup>)': 'Dispersion — van der Waals / London dispersion forces (MPa\u00BD)',
                 '&delta;P (MPa<sup>½</sup>)': 'Polarity — dipole-dipole intermolecular forces (MPa\u00BD)',
                 '&delta;H (MPa<sup>½</sup>)': 'Hydrogen bonding — hydrogen bond donor/acceptor capability (MPa\u00BD)',
@@ -5172,7 +5172,7 @@ return Plotly;
                 });
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS','&delta;D (MPa<sup>½</sup>)','&delta;P (MPa<sup>½</sup>)','&delta;H (MPa<sup>½</sup>)','MW (g/mol)','BP (&deg;C)','Category','Source'].forEach(function(label, i) {
+                ['Name','CAS #','&delta;D (MPa<sup>½</sup>)','&delta;P (MPa<sup>½</sup>)','&delta;H (MPa<sup>½</sup>)','MW (g/mol)','BP (&deg;C)','Category','Source'].forEach(function(label, i) {
                     headerHtml += thWithTip(label, i);
                 });
                 headerHtml += '</tr>';
@@ -5211,7 +5211,7 @@ return Plotly;
                 });
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS','&delta;D (MPa<sup>½</sup>)','&delta;P (MPa<sup>½</sup>)','&delta;H (MPa<sup>½</sup>)','R&#8320; (MPa<sup>½</sup>)','Type','Source'].forEach(function(label, i) {
+                ['Name','CAS #','&delta;D (MPa<sup>½</sup>)','&delta;P (MPa<sup>½</sup>)','&delta;H (MPa<sup>½</sup>)','R&#8320; (MPa<sup>½</sup>)','Type','Source'].forEach(function(label, i) {
                     headerHtml += thWithTip(label, i);
                 });
                 headerHtml += '</tr>';
