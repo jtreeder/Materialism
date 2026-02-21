@@ -4768,37 +4768,37 @@ return Plotly;
             h.push('<col style="width:35px">');   // #
             h.push('<col style="width:22%">');     // Name
             h.push('<col style="width:90px">');    // CAS
-            h.push('<col style="width:52px">');    // δD
-            h.push('<col style="width:52px">');    // δP
-            h.push('<col style="width:52px">');    // δH
-            h.push('<col style="width:56px">');    // MW
-            h.push('<col style="width:56px">');    // BP
+            h.push('<col style="width:72px">');    // δD MPa½
+            h.push('<col style="width:72px">');    // δP MPa½
+            h.push('<col style="width:72px">');    // δH MPa½
+            h.push('<col style="width:68px">');    // MW g/mol
+            h.push('<col style="width:56px">');    // BP °C
             h.push('</colgroup>');
             h.push('<thead><tr>');
             let colNum = 0;
             var _rColTips = {
                 'CAS': 'CAS Registry Number \u2014 unique identifier for chemical substances',
-                '&delta;D': 'Dispersion \u2014 van der Waals / London dispersion forces (MPa\u00BD)',
-                '&delta;P': 'Polarity \u2014 dipole-dipole intermolecular forces (MPa\u00BD)',
-                '&delta;H': 'Hydrogen bonding \u2014 hydrogen bond donor/acceptor capability (MPa\u00BD)',
-                'MW': 'Molecular weight (g/mol)',
+                '&delta;D MPa&#189;': 'Dispersion \u2014 van der Waals / London dispersion forces (MPa\u00BD)',
+                '&delta;P MPa&#189;': 'Polarity \u2014 dipole-dipole intermolecular forces (MPa\u00BD)',
+                '&delta;H MPa&#189;': 'Hydrogen bonding \u2014 hydrogen bond donor/acceptor capability (MPa\u00BD)',
+                'MW g/mol': 'Molecular weight (g/mol)',
                 'BP &deg;C': 'Boiling point in degrees Celsius',
-                'Ra': 'HSP distance between solvent and polymer in 3D Hansen space',
-                'R&#8320;': 'Interaction radius of the polymer solubility sphere',
+                'Ra MPa&#189;': 'HSP distance between solvent and polymer in 3D Hansen space (MPa\u00BD)',
+                'R&#8320; MPa&#189;': 'Interaction radius of the polymer solubility sphere (MPa\u00BD)',
                 'RED': 'Relative Energy Difference = Ra/R\u2080. RED < 1 = compatible, RED > 1 = incompatible'
             };
             const th = (label) => {
                 var tip = _rColTips[label] || '';
                 // Also check for Ra(...) and RED(...) patterns
-                if (!tip && label.indexOf('Ra(') === 0) tip = _rColTips['Ra'];
+                if (!tip && label.indexOf('Ra(') === 0) tip = _rColTips['Ra MPa&#189;'];
                 if (!tip && label.indexOf('RED(') === 0) tip = _rColTips['RED'];
                 return '<th onclick="sortResultsTable(this.closest(\x27table\x27),' + (colNum++) + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
             };
-            h.push(th('#'), th('Name'), th('CAS'), th('&delta;D'), th('&delta;P'), th('&delta;H'), th('MW'), th('BP &deg;C'));
+            h.push(th('#'), th('Name'), th('CAS'), th('&delta;D MPa&#189;'), th('&delta;P MPa&#189;'), th('&delta;H MPa&#189;'), th('MW g/mol'), th('BP &deg;C'));
             if (isMulti) { result.targets.forEach(t => { h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }); }
-            else if (showRed) { h.push(th('Ra'), th('RED')); }
-            else if (parentIntent === 'similar_solvents') { h.push(th('Ra'), th('Category')); }
-            else { h.push(th('Ra'), th('R&#8320;'), th('Type')); }
+            else if (showRed) { h.push(th('Ra MPa&#189;'), th('RED')); }
+            else if (parentIntent === 'similar_solvents') { h.push(th('Ra MPa&#189;'), th('Category')); }
+            else { h.push(th('Ra MPa&#189;'), th('R&#8320; MPa&#189;'), th('Type')); }
             h.push(th('Source'));
             h.push('</tr></thead><tbody>');
 
@@ -5148,13 +5148,13 @@ return Plotly;
 
             var colTips = {
                 'CAS': 'CAS Registry Number — unique identifier for chemical substances',
-                '&delta;D': 'Dispersion — van der Waals / London dispersion forces (MPa\u00BD)',
-                '&delta;P': 'Polarity — dipole-dipole intermolecular forces (MPa\u00BD)',
-                '&delta;H': 'Hydrogen bonding — hydrogen bond donor/acceptor capability (MPa\u00BD)',
-                'MW': 'Molecular weight (g/mol)',
+                '&delta;D MPa&#189;': 'Dispersion — van der Waals / London dispersion forces (MPa\u00BD)',
+                '&delta;P MPa&#189;': 'Polarity — dipole-dipole intermolecular forces (MPa\u00BD)',
+                '&delta;H MPa&#189;': 'Hydrogen bonding — hydrogen bond donor/acceptor capability (MPa\u00BD)',
+                'MW g/mol': 'Molecular weight (g/mol)',
                 'BP &deg;C': 'Boiling point in degrees Celsius',
-                'Ra': 'HSP distance between solvent and polymer in 3D Hansen space',
-                'R&#8320;': 'Interaction radius of the polymer solubility sphere',
+                'Ra MPa&#189;': 'HSP distance between solvent and polymer in 3D Hansen space (MPa\u00BD)',
+                'R&#8320; MPa&#189;': 'Interaction radius of the polymer solubility sphere (MPa\u00BD)',
                 'RED': 'Relative Energy Difference = Ra/R\u2080. RED &lt; 1 = compatible, RED &gt; 1 = incompatible'
             };
             function thWithTip(label, idx) {
@@ -5165,14 +5165,14 @@ return Plotly;
             if (homeTab === 'solvents') {
                 // Name, CAS, δD, δP, δH, MW, BP, Category, Source
                 // Numeric cols fixed; Name gets most flex space; Source truncates
-                ['24%','90px','52px','52px','52px','56px','56px','80px',''].forEach(function(w) {
+                ['24%','90px','72px','72px','72px','68px','56px','80px',''].forEach(function(w) {
                     var col = document.createElement('col');
                     col.style.width = w;
                     cg.appendChild(col);
                 });
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS','&delta;D','&delta;P','&delta;H','MW','BP &deg;C','Category','Source'].forEach(function(label, i) {
+                ['Name','CAS','&delta;D MPa&#189;','&delta;P MPa&#189;','&delta;H MPa&#189;','MW g/mol','BP &deg;C','Category','Source'].forEach(function(label, i) {
                     headerHtml += thWithTip(label, i);
                 });
                 headerHtml += '</tr>';
@@ -5204,14 +5204,14 @@ return Plotly;
                 }
             } else {
                 // Name, CAS, δD, δP, δH, R₀, Type, Source
-                ['24%','90px','52px','52px','52px','56px','80px',''].forEach(function(w) {
+                ['24%','90px','72px','72px','72px','72px','80px',''].forEach(function(w) {
                     var col = document.createElement('col');
                     col.style.width = w;
                     cg.appendChild(col);
                 });
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS','&delta;D','&delta;P','&delta;H','R&#8320;','Type','Source'].forEach(function(label, i) {
+                ['Name','CAS','&delta;D MPa&#189;','&delta;P MPa&#189;','&delta;H MPa&#189;','R&#8320; MPa&#189;','Type','Source'].forEach(function(label, i) {
                     headerHtml += thWithTip(label, i);
                 });
                 headerHtml += '</tr>';
