@@ -30,139 +30,134 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 
 .content { padding: 20px 30px; max-width: 1400px; margin: 0 auto; }
 
-/* Card layout */
-.card { background: #fff; border: 1px solid #dfe6e9; border-radius: 8px; margin-bottom: 16px; overflow: hidden; transition: border-color 0.2s; }
-.card.resolved { border-color: #00b894; }
-.card.skipped { border-color: #fdcb6e; opacity: 0.7; }
+/* ── Card ── */
+.card { background: #fff; border: 1px solid #dfe6e9; border-radius: 8px; margin-bottom: 16px; overflow: hidden; transition: border-color 0.2s; border-left: 4px solid #dfe6e9; }
+.card.resolved { border-color: #00b894; border-left-color: #00b894; }
+.card.skipped { border-color: #fdcb6e; border-left-color: #fdcb6e; opacity: 0.7; }
 
-.card-header { padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #f0f2f5; }
-.card-header .original-name { font-size: 1rem; font-weight: 700; color: #2d3436; }
-.card-header .source-badge { font-size: 0.75rem; background: #f0f2f5; color: #636e72; padding: 3px 10px; border-radius: 12px; white-space: nowrap; }
-.card-header .status-badge { font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; font-weight: 600; white-space: nowrap; margin-left: auto; }
-.status-pending { background: #ffeaa7; color: #856404; }
-.status-approved { background: #d4edda; color: #155724; }
-.status-skipped { background: #f8d7da; color: #721c24; }
-
-/* Two-column comparison body — equal width */
-.card-body { display: flex; gap: 0; }
-.col-source { width: 50%; padding: 16px 20px; border-right: 1px solid #f0f2f5; background: #fafbfc; flex-shrink: 0; }
-
-/* ── Match column: clickable, confidence-tinted background ── */
-.col-match {
-    width: 50%; padding: 16px 20px; flex-shrink: 0;
-    cursor: pointer; transition: all 0.2s; position: relative;
-    border-left: 4px solid transparent;
+/* ── Two-column comparison: CSS grid with aligned rows ── */
+.card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto auto;
 }
-.col-match:hover { filter: brightness(0.97); }
-.col-match.approved {
+
+/* Column backgrounds via full-height wrappers aren't needed with grid;
+   instead we style individual cells */
+
+/* Row 1: Names */
+.cell-name-src { grid-column: 1; padding: 14px 20px 4px; background: #fafbfc; border-right: 1px solid #f0f2f5; }
+.cell-name-match { grid-column: 2; padding: 14px 20px 4px; cursor: pointer; transition: background 0.2s; position: relative; }
+
+/* Row 2: Structures */
+.cell-struct-src { grid-column: 1; padding: 4px 20px; background: #fafbfc; border-right: 1px solid #f0f2f5; display: flex; justify-content: center; }
+.cell-struct-match { grid-column: 2; padding: 4px 20px; cursor: pointer; transition: background 0.2s; display: flex; justify-content: center; }
+
+/* Row 3: Properties (MV side-by-side here) */
+.cell-props-src { grid-column: 1; padding: 4px 20px 8px; background: #fafbfc; border-right: 1px solid #f0f2f5; }
+.cell-props-match { grid-column: 2; padding: 4px 20px 8px; cursor: pointer; transition: background 0.2s; }
+
+/* Row 4: Source-specific reference / Reason callout + other candidates */
+.cell-ref-src { grid-column: 1; padding: 6px 20px 14px; background: #fafbfc; border-right: 1px solid #f0f2f5; border-top: 1px solid #f0f2f5; }
+.cell-extra-match { grid-column: 2; padding: 6px 20px 14px; cursor: pointer; transition: background 0.2s; border-top: 1px solid #f0f2f5; }
+
+/* Confidence background tint on all match cells */
+.card-body .conf-bg { /* applied via inline style */ }
+.card-body .approved-bg {
     background: rgba(0,184,148,0.14) !important;
-    border-left: 4px solid #00b894;
 }
-.col-match.approved::after {
-    content: 'MATCHED';
-    position: absolute; top: 12px; right: 16px;
+
+/* ── MATCHED badge ── */
+.matched-badge {
+    position: absolute; top: 8px; right: 14px;
     background: #00b894; color: #fff;
-    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px;
-    padding: 3px 10px; border-radius: 10px;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.5px;
+    padding: 2px 10px; border-radius: 10px;
 }
 
-/* Column labels */
-.col-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: #b2bec3; margin-bottom: 8px; }
+/* ── Name ── */
+.cmp-name { font-weight: 700; font-size: 1.05rem; color: #2d3436; margin-bottom: 2px; min-height: 1.3em; line-height: 1.3; }
+.cmp-name-sub { font-size: 0.8rem; color: #636e72; margin-bottom: 2px; min-height: 1em; }
+.badge-cas { color: #0984e3; font-family: monospace; font-size: 0.88rem; font-weight: 600; }
 
-/* Name row — aligned at top of each column */
-.cmp-name { font-weight: 700; font-size: 1.05rem; color: #2d3436; margin-bottom: 2px; min-height: 1.3em; }
-.cmp-name-sub { font-size: 0.82rem; color: #636e72; margin-bottom: 6px; min-height: 1.1em; }
+/* ── Structure images ── */
+.cmp-structure { width: 240px; height: 240px; border: 1px solid #e0e0e0; border-radius: 6px; background: #fff; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+.cmp-structure img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+.cmp-structure-empty { width: 240px; height: 240px; border: 1px dashed #dfe6e9; border-radius: 6px; background: #fafbfc; display: flex; align-items: center; justify-content: center; color: #b2bec3; font-size: 0.8rem; flex-shrink: 0; }
 
-/* ── Reason callout: large, prominent explanation ── */
+/* ── Properties table ── */
+.cmp-props { font-size: 0.82rem; }
+.cmp-props table { width: 100%; border-collapse: collapse; }
+.cmp-props td { padding: 2px 6px; border-bottom: 1px solid #f0f2f5; vertical-align: top; }
+.cmp-props td:first-child { color: #636e72; font-size: 0.75rem; white-space: nowrap; width: 55px; }
+.cmp-props td:last-child { font-weight: 500; word-break: break-all; }
+.val-highlight { background: #fff3cd; padding: 1px 4px; border-radius: 3px; }
+
+/* ── Reason callout ── */
 .reason-callout {
     background: #fff; border: 1px solid #e0e0e0;
     border-left: 5px solid #6c5ce7;
     border-radius: 0 8px 8px 0;
-    padding: 12px 16px; margin: 10px 0;
+    padding: 10px 14px; margin: 6px 0 8px;
 }
-.reason-headline {
-    font-size: 1rem; font-weight: 700; color: #2d3436; margin-bottom: 6px;
-}
+.reason-headline { font-size: 0.95rem; font-weight: 700; color: #2d3436; margin-bottom: 4px; }
 .reason-transform {
     font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 0.88rem; line-height: 1.6;
-    margin-bottom: 6px; padding: 6px 10px;
+    font-size: 0.85rem; line-height: 1.5;
+    margin-bottom: 4px; padding: 4px 8px;
     background: #f8f9fa; border-radius: 4px;
 }
-.reason-transform .arrow { color: #6c5ce7; font-weight: 700; margin: 0 6px; }
-.diff-del {
-    background: #ffeef0; color: #c0392b;
-    text-decoration: line-through; padding: 1px 3px; border-radius: 2px;
-}
-.diff-ins {
-    background: #e6ffed; color: #00b894;
-    font-weight: 700; padding: 1px 3px; border-radius: 2px;
-}
-.reason-detail {
-    font-size: 0.82rem; color: #636e72; line-height: 1.4;
-}
-.reason-confidence {
-    font-size: 0.82rem; font-weight: 600; margin-top: 4px;
-}
+.diff-del { background: #ffeef0; color: #c0392b; text-decoration: line-through; padding: 1px 3px; border-radius: 2px; }
+.diff-ins { background: #e6ffed; color: #00b894; font-weight: 700; padding: 1px 3px; border-radius: 2px; }
+.reason-detail { font-size: 0.78rem; color: #636e72; line-height: 1.3; }
+.reason-confidence { font-size: 0.8rem; font-weight: 600; margin-top: 3px; }
 
-/* Structure images — identical fixed container on both sides */
-.cmp-structure { width: 100%; max-width: 280px; aspect-ratio: 1 / 1; border: 1px solid #e0e0e0; border-radius: 6px; background: #fff; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 10px; }
-.cmp-structure img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-.cmp-structure-empty { width: 100%; max-width: 280px; aspect-ratio: 1 / 1; border: 1px dashed #dfe6e9; border-radius: 6px; background: #fafbfc; display: flex; align-items: center; justify-content: center; color: #b2bec3; font-size: 0.8rem; margin-bottom: 10px; }
-
-/* Properties table — compact key/value pairs */
-.cmp-props { font-size: 0.82rem; margin-bottom: 8px; }
-.cmp-props table { width: 100%; border-collapse: collapse; }
-.cmp-props td { padding: 2px 6px; border-bottom: 1px solid #f0f2f5; vertical-align: top; }
-.cmp-props td:first-child { color: #636e72; font-size: 0.75rem; white-space: nowrap; width: 65px; }
-.cmp-props td:last-child { font-weight: 500; word-break: break-all; }
-.val-highlight { background: #fff3cd; padding: 1px 4px; border-radius: 3px; }
-
-/* Badges */
+/* ── Badges ── */
 .badge { font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-top: 2px; margin-right: 4px; }
 .badge-mv-ok { background: #d4edda; color: #155724; }
 .badge-mv-bad { background: #f8d7da; color: #721c24; }
-.badge-cas { color: #0984e3; font-family: monospace; font-size: 0.9rem; font-weight: 600; }
 
-/* Source-only extras */
-.source-crop { width: 100%; border: 1px solid #dfe6e9; border-radius: 4px; margin-bottom: 6px; background: #fff; }
-.source-crop img { width: 100%; display: block; border-radius: 3px; image-rendering: auto; }
-.source-crop-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.3px; color: #b2bec3; margin-bottom: 2px; margin-top: 6px; }
+/* ── Source reference section ── */
+.source-ref-section { }
+.source-ref-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.3px; color: #b2bec3; margin-bottom: 3px; }
+.source-badge { font-size: 0.72rem; background: #f0f2f5; color: #636e72; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 4px; }
+.source-crop { width: 100%; border: 1px solid #dfe6e9; border-radius: 4px; margin-top: 4px; background: #fff; }
+.source-crop img { width: 100%; display: block; border-radius: 3px; }
 .source-page { font-size: 0.72rem; color: #b2bec3; margin-top: 2px; }
-.raw-csv-row { background: #fff; border: 1px solid #dfe6e9; border-radius: 4px; padding: 8px 10px; margin-bottom: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.75rem; line-height: 1.4; }
-.raw-csv-row .field { display: flex; gap: 6px; }
-.raw-csv-row .field-key { color: #636e72; min-width: 65px; flex-shrink: 0; }
+.raw-csv-row { background: #fff; border: 1px solid #dfe6e9; border-radius: 4px; padding: 6px 8px; margin-top: 4px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.72rem; line-height: 1.3; }
+.raw-csv-row .field { display: flex; gap: 4px; }
+.raw-csv-row .field-key { color: #636e72; min-width: 55px; flex-shrink: 0; }
 .raw-csv-row .field-val { color: #2d3436; font-weight: 500; }
 
-/* ── Other candidates area (below main comparison) ── */
-.other-candidates { border-top: 1px solid #f0f2f5; margin-top: 10px; padding-top: 8px; }
-.alt-option { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 2px solid transparent; border-radius: 6px; cursor: pointer; transition: all 0.15s; margin-bottom: 4px; }
+/* ── Other candidates ── */
+.other-candidates { margin-top: 6px; }
+.alt-option { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border: 2px solid transparent; border-radius: 6px; cursor: pointer; transition: all 0.15s; margin-bottom: 3px; }
 .alt-option:hover { background: #f0f2f5; border-color: #dfe6e9; }
 .alt-option.selected { background: #e8f8f5; border-color: #00b894; }
-.alt-option-label { flex: 1; min-width: 0; font-size: 0.85rem; }
+.alt-option-label { flex: 1; min-width: 0; font-size: 0.82rem; }
 .alt-option-label strong { font-weight: 600; }
-.alt-option-label .cas { color: #0984e3; font-family: monospace; font-size: 0.82rem; margin-left: 4px; }
+.alt-option-label .cas { color: #0984e3; font-family: monospace; font-size: 0.8rem; margin-left: 4px; }
 .alt-option-conf { font-size: 0.75rem; color: #636e72; white-space: nowrap; }
+.alt-structure-row { padding: 2px 0 6px 8px; }
+.divider-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; color: #b2bec3; margin: 6px 0 3px 0; }
 
-.alt-structure-row { padding: 4px 0 8px 8px; }
-
-.option-skip { padding: 6px 10px; border: 2px dashed #dfe6e9; border-radius: 6px; cursor: pointer; color: #b2bec3; text-align: center; font-size: 0.82rem; transition: all 0.15s; margin-top: 6px; }
+.option-skip { padding: 5px 10px; border: 2px dashed #dfe6e9; border-radius: 6px; cursor: pointer; color: #b2bec3; text-align: center; font-size: 0.8rem; transition: all 0.15s; margin-top: 5px; }
 .option-skip:hover { background: #fff5f5; border-color: #fab1a0; color: #d63031; }
 .option-skip.selected { background: #fff5f5; border-color: #d63031; color: #d63031; }
 
 /* Custom entry */
-.custom-input { display: none; margin-top: 8px; }
-.custom-input.visible { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.custom-input input { border: 2px solid #dfe6e9; border-radius: 4px; padding: 6px 10px; font-size: 0.85rem; outline: none; }
+.custom-input { display: none; margin-top: 6px; }
+.custom-input.visible { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.custom-input input { border: 2px solid #dfe6e9; border-radius: 4px; padding: 5px 8px; font-size: 0.82rem; outline: none; }
 .custom-input input:focus { border-color: #e94560; }
-.custom-input input.name-input { width: 220px; }
+.custom-input input.name-input { width: 200px; }
 .custom-input input.cas-input { width: 110px; font-family: monospace; }
 .custom-input .lookup-btn { background: #0984e3; color: white; }
 .custom-input .lookup-btn:hover { background: #0770c2; }
 .custom-input .lookup-btn:disabled { background: #b2bec3; cursor: wait; }
-.custom-input .lookup-status { font-size: 0.75rem; color: #636e72; }
+.custom-input .lookup-status { font-size: 0.72rem; color: #636e72; }
 
-.card-actions { padding: 6px 20px; border-top: 1px solid #f0f2f5; display: flex; gap: 8px; justify-content: flex-end; }
+.card-actions { padding: 5px 20px; border-top: 1px solid #f0f2f5; display: flex; gap: 8px; justify-content: flex-end; }
 
 .filter-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 .filter-row select, .filter-row input { border: 2px solid #dfe6e9; border-radius: 4px; padding: 6px 10px; font-size: 0.85rem; outline: none; background: #fff; }
@@ -172,13 +167,10 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 .empty-state { text-align: center; padding: 60px 20px; color: #b2bec3; }
 .empty-state h2 { color: #636e72; margin-bottom: 8px; }
 
-.divider-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.5px; color: #b2bec3; margin: 8px 0 4px 0; }
-
-/* Responsive: stack columns on narrow screens */
+/* Responsive */
 @media (max-width: 900px) {
-    .card-body { flex-direction: column; }
-    .col-source, .col-match { width: 100%; }
-    .col-source { border-right: none; border-bottom: 1px solid #f0f2f5; }
+    .card-body { grid-template-columns: 1fr; }
+    .cell-name-src, .cell-struct-src, .cell-props-src, .cell-ref-src { border-right: none; }
 }
 </style>
 </head>
@@ -242,12 +234,8 @@ var FILTERED = [];
 var STORAGE_KEY = 'materialism_cas_decisions';
 
 function loadDecisions() {
-    try {
-        var saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) DECISIONS = JSON.parse(saved);
-    } catch(e) {}
+    try { var s = localStorage.getItem(STORAGE_KEY); if (s) DECISIONS = JSON.parse(s); } catch(e) {}
 }
-
 function saveDecisions() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(DECISIONS)); } catch(e) {}
 }
@@ -258,8 +246,6 @@ function confColor(c) {
     if (c >= 0.40) return '#e17055';
     return '#d63031';
 }
-
-// Light background tint derived from confidence level
 function confBgColor(c) {
     if (c >= 0.85) return 'rgba(0,184,148,0.09)';
     if (c >= 0.65) return 'rgba(253,203,110,0.18)';
@@ -272,13 +258,25 @@ function escHtml(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+// Convert ALL-CAPS chemical names to title case
+// e.g. "DIETHYL ETHER" → "Diethyl Ether", "2-BUTANONE" → "2-Butanone"
+function chemCase(name) {
+    if (!name) return '';
+    // Only transform if the alphabetic chars are entirely uppercase
+    var letters = name.replace(/[^A-Za-z]/g, '');
+    if (letters.length < 3 || letters !== letters.toUpperCase()) return name;
+    return name.toLowerCase().replace(/(^|[\s\-\(\/])([a-z])/g, function(m, pre, ch) {
+        return pre + ch.toUpperCase();
+    });
+}
+
 function structImgUrl(opt) {
     if (opt.structure_file) return 'data/processed/' + escHtml(opt.structure_file);
     if (opt.pubchem_img) return opt.pubchem_img;
     return '';
 }
 
-// ── Human-friendly reason headline ──────────────────────────────
+// ── Friendly reason ─────────────────────────────────────────────
 function friendlyReason(reason) {
     var r = reason || '';
     if (r.indexOf('Manual lookup') !== -1) return 'Manually confirmed';
@@ -304,45 +302,35 @@ function friendlyReason(reason) {
     if (r.indexOf('No match') !== -1) return 'No match found';
     if (r.indexOf('Special entry') !== -1) return 'Non-standard entry';
     if (r.indexOf('Mixture') !== -1) return 'Mixture (may lack single CAS)';
-    if (r.indexOf('P from') !== -1 || r.indexOf('Remove') !== -1 && r.indexOf('note') !== -1) return 'Annotation removed from name';
+    if (r.indexOf('P from') !== -1 || (r.indexOf('Remove') !== -1 && r.indexOf('note') !== -1)) return 'Annotation removed from name';
     if (r.indexOf('Original name') !== -1) return 'Original name looked up directly';
     if (r.indexOf('NCI/CIR') !== -1) return 'Resolved via NCI Chemical Identifier';
     if (r.indexOf('PubChem autocomplete') !== -1) return 'Fuzzy-matched via PubChem search';
     if (r.indexOf('structure confirmed') !== -1) return 'Structure independently confirmed';
-    return r; // fallback
+    return r;
 }
 
-// ── Name diff highlighting ──────────────────────────────────────
-// Shows the transformation from original → corrected with inline diff marks
 function renderNameDiff(original, corrected) {
     if (!original || !corrected) return '';
     var a = original, b = corrected;
     if (a === b) return '';
-
-    // Find common prefix length
     var pLen = 0;
     while (pLen < a.length && pLen < b.length && a[pLen] === b[pLen]) pLen++;
-
-    // Find common suffix length (from remaining chars)
     var sLen = 0;
     while (sLen < (a.length - pLen) && sLen < (b.length - pLen)
             && a[a.length - 1 - sLen] === b[b.length - 1 - sLen]) sLen++;
-
     var prefix = escHtml(a.substring(0, pLen));
     var suffix = sLen > 0 ? escHtml(a.substring(a.length - sLen)) : '';
     var oldMid = a.substring(pLen, a.length - sLen);
     var newMid = b.substring(pLen, b.length - sLen);
-
     var html = '<div class="reason-transform">';
     html += prefix;
     if (oldMid) html += '<span class="diff-del">' + escHtml(oldMid) + '</span>';
     if (newMid) html += '<span class="diff-ins">' + escHtml(newMid) + '</span>';
     html += suffix;
-    html += '</div>';
-    return html;
+    return html + '</div>';
 }
 
-// ── Build the full reason callout ───────────────────────────────
 function renderReasonCallout(opt, entry) {
     var headline = friendlyReason(opt.reason);
     var conf = Math.round(opt.confidence * 100);
@@ -353,260 +341,210 @@ function renderReasonCallout(opt, entry) {
 
     var html = '<div class="reason-callout">';
     html += '<div class="reason-headline">' + escHtml(headline) + '</div>';
-
-    // Show name transformation diff if the name was changed
-    var diffFrom = origName;
     var diffTo = guessText || corrName;
     if (diffTo && diffTo !== origName) {
-        html += renderNameDiff(diffFrom, diffTo);
+        html += renderNameDiff(origName, diffTo);
     }
-    // If corrected_name differs from guess_text, show the PubChem resolution too
     if (guessText && corrName && corrName !== guessText && corrName !== origName) {
-        html += '<div class="reason-detail" style="margin-bottom:4px">PubChem canonical: <strong>' + escHtml(corrName) + '</strong></div>';
+        html += '<div class="reason-detail" style="margin-bottom:3px">PubChem canonical: <strong>' + escHtml(chemCase(corrName)) + '</strong></div>';
     }
-
-    // Detail: the raw engine reason
     html += '<div class="reason-detail">' + escHtml(opt.reason) + '</div>';
-
-    // Confidence explanation
-    html += '<div class="reason-confidence" style="color:' + color + '">';
-    html += conf + '% confidence';
-    if (opt.mv_match === true) html += ' &middot; Molar volume validated';
-    else if (opt.mv_match === false) html += ' &middot; Molar volume MISMATCH';
-    html += '</div>';
-
-    html += '</div>';
+    html += '<div class="reason-confidence" style="color:' + color + '">' + conf + '% confidence';
+    if (opt.mv_match === true) html += ' &middot; MV validated';
+    else if (opt.mv_match === false) html += ' &middot; MV mismatch';
+    html += '</div></div>';
     return html;
 }
 
-// ── Click handler for match column ──────────────────────────────
+function renderMvBadge(opt, entry) {
+    var html = '';
+    if (opt.ref_mv && entry.molar_volume) {
+        var pctDiff = opt.mv_pct_diff != null ? opt.mv_pct_diff : Math.abs(entry.molar_volume - opt.ref_mv) / entry.molar_volume * 100;
+        if (opt.mv_match === true) html += '<span class="badge badge-mv-ok">MV ' + opt.ref_mv.toFixed(1) + ' (' + pctDiff.toFixed(1) + '% diff) &#10003;</span>';
+        else if (opt.mv_match === false) html += '<span class="badge badge-mv-bad">MV ' + opt.ref_mv.toFixed(1) + ' (' + pctDiff.toFixed(1) + '% diff) &#10007;</span>';
+    } else if (opt.pubchem_mw && entry.molar_volume && !opt.ref_mv && opt.mv_match === false) {
+        html += '<span class="badge badge-mv-bad">MW=' + opt.pubchem_mw.toFixed(1) + ' d=' + (opt.pubchem_mw / entry.molar_volume).toFixed(3) + ' &#10007;</span>';
+    }
+    return html;
+}
+
 function onMatchColClick(e, rowIndex) {
-    // Don't trigger if clicking inside .other-candidates area
     if (e.target.closest && e.target.closest('.other-candidates')) return;
     selectOption(rowIndex, 0);
 }
 
-// ── Render SOURCE column (left) ─────────────────────────────────
-function renderSourceCol(entry) {
+// ── Render card as a grid ───────────────────────────────────────
+function renderCard(entry) {
+    var d = DECISIONS[entry.row_index];
+    var status = d ? d.action : 'pending';
+    var cardClass = status === 'approve' ? 'resolved' : status === 'skip' ? 'skipped' : '';
     var ref = entry.source_ref || {};
-    var html = '<div class="col-source">';
-    html += '<div class="col-label">Source (OCR)</div>';
+    var best = (entry.options && entry.options.length) ? entry.options[0] : null;
+    var bestApproved = best && d && d.action === 'approve' && d.cas === best.cas
+                     && d.name === (best.corrected_name || best.guess_text || entry.original_name);
+    var confBg = best ? confBgColor(best.confidence) : 'transparent';
+    var matchBg = bestApproved ? 'approved-bg' : '';
+    var matchStyle = bestApproved ? '' : 'background:' + confBg;
 
-    // 1. Name
+    var html = '<div class="card ' + cardClass + '" id="card-' + entry.row_index + '">';
+    html += '<div class="card-body">';
+
+    // ═══ ROW 1: Names ═══════════════════════════════════════════
+    // Source name
+    html += '<div class="cell-name-src">';
     html += '<div class="cmp-name">' + escHtml(entry.original_name) + '</div>';
     if (ref.acd_name && ref.acd_name !== entry.original_name) {
         html += '<div class="cmp-name-sub">' + escHtml(ref.acd_name) + '</div>';
     } else {
         html += '<div class="cmp-name-sub">&nbsp;</div>';
     }
+    html += '</div>';
 
-    // 2. Structure image
-    if (ref.structure_file) {
-        html += '<div class="cmp-structure">';
-        html += '<img src="data/processed/' + escHtml(ref.structure_file) + '" alt="Source structure" loading="lazy">';
+    // Match name
+    html += '<div class="cell-name-match ' + matchBg + '" style="' + matchStyle + '" onclick="onMatchColClick(event,' + entry.row_index + ')">';
+    if (bestApproved) html += '<span class="matched-badge">MATCHED</span>';
+    if (best) {
+        html += '<div class="cmp-name">' + escHtml(chemCase(best.corrected_name || entry.original_name));
+        if (best.cas) html += ' <span class="badge-cas">' + escHtml(best.cas) + '</span>';
         html += '</div>';
+        if (best.iupac) {
+            html += '<div class="cmp-name-sub">' + escHtml(chemCase(best.iupac)) + '</div>';
+        } else {
+            html += '<div class="cmp-name-sub">&nbsp;</div>';
+        }
     } else {
-        html += '<div class="cmp-structure-empty">No structure image</div>';
+        html += '<div class="cmp-name" style="color:#b2bec3">No candidates found</div>';
+        html += '<div class="cmp-name-sub">&nbsp;</div>';
     }
+    html += '</div>';
 
-    // 3. Properties
+    // ═══ ROW 2: Structures (horizontally aligned) ═══════════════
+    // Source structure
+    html += '<div class="cell-struct-src">';
+    if (ref.structure_file) {
+        html += '<div class="cmp-structure"><img src="data/processed/' + escHtml(ref.structure_file) + '" alt="Source structure" loading="lazy"></div>';
+    } else {
+        html += '<div class="cmp-structure-empty">No structure</div>';
+    }
+    html += '</div>';
+
+    // Match structure
+    html += '<div class="cell-struct-match ' + matchBg + '" style="' + matchStyle + '" onclick="onMatchColClick(event,' + entry.row_index + ')">';
+    if (best) {
+        var bestImg = structImgUrl(best);
+        if (bestImg) {
+            html += '<div class="cmp-structure"><img src="' + bestImg + '" alt="Candidate structure" loading="lazy" onerror="this.parentElement.className=\'cmp-structure-empty\';this.replaceWith(document.createTextNode(\'Image unavailable\'))"></div>';
+        } else {
+            html += '<div class="cmp-structure-empty">No structure</div>';
+        }
+    } else {
+        html += '<div class="cmp-structure-empty">—</div>';
+    }
+    html += '</div>';
+
+    // ═══ ROW 3: Properties (MV first for side-by-side comparison) ═══
+    // Source properties
+    html += '<div class="cell-props-src">';
     html += '<div class="cmp-props"><table>';
-    if (entry.smiles) {
-        html += '<tr><td>SMILES</td><td style="font-family:monospace;font-size:0.72rem">' + escHtml(entry.smiles) + '</td></tr>';
+    if (entry.molar_volume != null) {
+        html += '<tr><td>MV</td><td><span class="val-highlight">' + entry.molar_volume + '</span> cm&sup3;/mol</td></tr>';
     }
     html += '<tr><td>&delta;D</td><td>' + escHtml(entry.delta_d) + '</td></tr>';
     html += '<tr><td>&delta;P</td><td>' + escHtml(entry.delta_p) + '</td></tr>';
     html += '<tr><td>&delta;H</td><td>' + escHtml(entry.delta_h) + '</td></tr>';
-    if (entry.molar_volume != null) {
-        html += '<tr><td>MV</td><td><span class="val-highlight">' + entry.molar_volume + '</span> cm&sup3;/mol</td></tr>';
+    if (entry.smiles) {
+        html += '<tr><td>SMILES</td><td style="font-family:monospace;font-size:0.7rem">' + escHtml(entry.smiles) + '</td></tr>';
     }
-    html += '</table></div>';
+    html += '</table></div></div>';
 
-    // 4. Raw PDF row image (reference, below properties)
+    // Match properties
+    html += '<div class="cell-props-match ' + matchBg + '" style="' + matchStyle + '" onclick="onMatchColClick(event,' + entry.row_index + ')">';
+    if (best) {
+        html += '<div class="cmp-props"><table>';
+        if (best.ref_mv) {
+            html += '<tr><td>MV</td><td><span class="val-highlight">' + best.ref_mv.toFixed(1) + '</span> cm&sup3;/mol</td></tr>';
+        }
+        if (best.pubchem_mw) {
+            html += '<tr><td>MW</td><td>' + best.pubchem_mw.toFixed(1) + '</td></tr>';
+        }
+        if (best.ref_density) {
+            html += '<tr><td>Density</td><td>' + best.ref_density.toFixed(3) + ' g/mL</td></tr>';
+        }
+        if (best.synonyms && best.synonyms.length > 1) {
+            html += '<tr><td>Also</td><td style="font-size:0.72rem;color:#636e72">' + best.synonyms.slice(0, 3).map(function(s){return escHtml(chemCase(s))}).join(', ') + '</td></tr>';
+        }
+        html += '</table></div>';
+        html += renderMvBadge(best, entry);
+    }
+    html += '</div>';
+
+    // ═══ ROW 4: Source ref / Reason + candidates ════════════════
+    // Source reference (source badge + PDF row + page)
+    html += '<div class="cell-ref-src">';
+    html += '<div class="source-ref-section">';
+    html += '<div class="source-ref-label">Source</div>';
+    html += '<span class="source-badge">' + escHtml(entry.source) + '</span>';
     if (ref.type === 'pdf' && ref.crop_file) {
-        html += '<div class="source-crop-label">PDF data row</div>';
-        html += '<div class="source-crop">';
-        html += '<img src="data/processed/' + escHtml(ref.crop_file) + '" alt="PDF source row" loading="lazy">';
-        html += '</div>';
-        if (ref.page) {
-            html += '<div class="source-page">Page ' + ref.page + ' / ' + (ref.total_pages || '?') + '</div>';
-        }
+        html += '<div class="source-crop"><img src="data/processed/' + escHtml(ref.crop_file) + '" alt="PDF row" loading="lazy"></div>';
+        if (ref.page) html += '<div class="source-page">Page ' + ref.page + ' / ' + (ref.total_pages || '?') + '</div>';
     } else if (ref.type === 'csv' && ref.raw_row) {
-        html += '<div class="source-crop-label">CSV row</div>';
         html += '<div class="raw-csv-row">';
-        var row = ref.raw_row;
-        var keys = Object.keys(row);
+        var row = ref.raw_row, keys = Object.keys(row);
         for (var i = 0; i < keys.length; i++) {
-            html += '<div class="field"><span class="field-key">' + escHtml(keys[i]) + ':</span>';
-            html += '<span class="field-val">' + escHtml(row[keys[i]]) + '</span></div>';
+            html += '<div class="field"><span class="field-key">' + escHtml(keys[i]) + ':</span><span class="field-val">' + escHtml(row[keys[i]]) + '</span></div>';
         }
         html += '</div>';
-        if (ref.url) {
-            html += '<a style="font-size:0.72rem;color:#0984e3;text-decoration:none" href="' + escHtml(ref.url) + '" target="_blank">' + escHtml(ref.file) + '</a>';
-        }
+        if (ref.url) html += '<a style="font-size:0.7rem;color:#0984e3;text-decoration:none" href="' + escHtml(ref.url) + '" target="_blank">' + escHtml(ref.file) + '</a>';
     }
+    html += '</div></div>';
 
-    html += '</div>';
-    return html;
-}
+    // Reason callout + other candidates
+    html += '<div class="cell-extra-match ' + matchBg + '" style="' + matchStyle + '" onclick="onMatchColClick(event,' + entry.row_index + ')">';
+    if (best) {
+        html += renderReasonCallout(best, entry);
 
-// ── MV badge helper ─────────────────────────────────────────────
-function renderMvBadge(opt, entry) {
-    var html = '';
-    if (opt.ref_mv && entry.molar_volume) {
-        var pctDiff = opt.mv_pct_diff != null ? opt.mv_pct_diff : Math.abs(entry.molar_volume - opt.ref_mv) / entry.molar_volume * 100;
-        var pctStr = pctDiff.toFixed(1);
-        if (opt.mv_match === true) {
-            html += '<span class="badge badge-mv-ok">MV ' + opt.ref_mv.toFixed(1) + ' (' + pctStr + '% diff) &#10003;</span>';
-        } else if (opt.mv_match === false) {
-            html += '<span class="badge badge-mv-bad">MV ' + opt.ref_mv.toFixed(1) + ' (' + pctStr + '% diff) &#10007;</span>';
-        }
-    } else if (opt.pubchem_mw && entry.molar_volume && !opt.ref_mv) {
-        if (opt.mv_match === false) {
-            var impliedD = (opt.pubchem_mw / entry.molar_volume).toFixed(3);
-            html += '<span class="badge badge-mv-bad">MW=' + opt.pubchem_mw.toFixed(1) + ' d=' + impliedD + ' &#10007;</span>';
-        }
-    }
-    return html;
-}
-
-// ── Render MATCH column (right) ─────────────────────────────────
-function renderMatchCol(entry) {
-    var d = DECISIONS[entry.row_index];
-    var bestApproved = false;
-
-    if (!entry.options || !entry.options.length) {
-        return '<div class="col-match" style="background:#fafbfc"><div class="col-label">Candidate</div>'
-             + '<div class="cmp-name" style="color:#b2bec3">No candidates found</div></div>';
-    }
-
-    var best = entry.options[0];
-    bestApproved = d && d.action === 'approve' && d.cas === best.cas
-                 && d.name === (best.corrected_name || best.guess_text || entry.original_name);
-
-    // Determine background: green if approved for best, otherwise confidence color
-    var bgStyle = bestApproved ? '' : ('background:' + confBgColor(best.confidence));
-    var approvedClass = bestApproved ? ' approved' : '';
-
-    var html = '<div class="col-match' + approvedClass + '" style="' + bgStyle + '" onclick="onMatchColClick(event,' + entry.row_index + ')">';
-    html += '<div class="col-label">Best Match — click to approve</div>';
-
-    // 1. Name + CAS
-    html += '<div class="cmp-name">' + escHtml(best.corrected_name || entry.original_name);
-    if (best.cas) {
-        html += ' <span class="badge-cas">' + escHtml(best.cas) + '</span>';
-    }
-    html += '</div>';
-    if (best.iupac) {
-        html += '<div class="cmp-name-sub">' + escHtml(best.iupac) + '</div>';
-    } else {
-        html += '<div class="cmp-name-sub">&nbsp;</div>';
-    }
-
-    // 2. Large reason callout
-    html += renderReasonCallout(best, entry);
-
-    // 3. Structure image
-    var bestImg = structImgUrl(best);
-    if (bestImg) {
-        html += '<div class="cmp-structure">';
-        html += '<img src="' + bestImg + '" alt="Candidate structure" loading="lazy" onerror="this.parentElement.className=\'cmp-structure-empty\';this.replaceWith(document.createTextNode(\'Image unavailable\'))">';
-        html += '</div>';
-    } else {
-        html += '<div class="cmp-structure-empty">No structure image</div>';
-    }
-
-    // 4. Properties
-    html += '<div class="cmp-props"><table>';
-    if (best.pubchem_mw) {
-        html += '<tr><td>MW</td><td>' + best.pubchem_mw.toFixed(1) + '</td></tr>';
-    }
-    if (best.ref_mv) {
-        html += '<tr><td>MV</td><td>' + best.ref_mv.toFixed(1) + ' cm&sup3;/mol</td></tr>';
-    }
-    if (best.ref_density) {
-        html += '<tr><td>Density</td><td>' + best.ref_density.toFixed(3) + ' g/mL</td></tr>';
-    }
-    if (best.synonyms && best.synonyms.length > 1) {
-        html += '<tr><td>Also</td><td style="font-size:0.75rem;color:#636e72">' + best.synonyms.slice(0, 4).map(escHtml).join(', ') + '</td></tr>';
-    }
-    html += '</table></div>';
-
-    // MV comparison badge
-    html += '<div>' + renderMvBadge(best, entry) + '</div>';
-
-    // ── Other candidates area (clicks here don't select best) ───
-    html += '<div class="other-candidates">';
-
-    if (entry.options.length > 1) {
-        html += '<div class="divider-label">Other Candidates</div>';
-        var limit = Math.min(entry.options.length, 4);
-        for (var oi = 1; oi < limit; oi++) {
-            var opt = entry.options[oi];
-            var isSelected = d && d.action === 'approve' && d.cas === opt.cas && d.name === (opt.corrected_name || opt.guess_text || entry.original_name);
-            html += '<div class="alt-option' + (isSelected ? ' selected' : '') + '" onclick="event.stopPropagation();selectOption(' + entry.row_index + ',' + oi + ')">';
-            html += '<div class="alt-option-label">';
-            html += '<strong>' + escHtml(opt.corrected_name || entry.original_name) + '</strong>';
-            if (opt.cas) html += '<span class="cas">' + escHtml(opt.cas) + '</span>';
-            html += '<br><span style="font-size:0.72rem;color:#636e72">' + escHtml(friendlyReason(opt.reason)) + '</span>';
-            html += '</div>';
-            html += '<span class="alt-option-conf">' + Math.round(opt.confidence * 100) + '%</span>';
-            html += '</div>';
-            var secImg = structImgUrl(opt);
-            if (secImg) {
-                html += '<div class="alt-structure-row"><div class="cmp-structure">';
-                html += '<img src="' + secImg + '" alt="Structure" loading="lazy" onerror="this.parentElement.parentElement.style.display=\'none\'">';
-                html += '</div></div>';
+        // Other candidates
+        html += '<div class="other-candidates">';
+        if (entry.options.length > 1) {
+            html += '<div class="divider-label">Other Candidates</div>';
+            var limit = Math.min(entry.options.length, 4);
+            for (var oi = 1; oi < limit; oi++) {
+                var opt = entry.options[oi];
+                var isSel = d && d.action === 'approve' && d.cas === opt.cas && d.name === (opt.corrected_name || opt.guess_text || entry.original_name);
+                html += '<div class="alt-option' + (isSel ? ' selected' : '') + '" onclick="event.stopPropagation();selectOption(' + entry.row_index + ',' + oi + ')">';
+                html += '<div class="alt-option-label"><strong>' + escHtml(chemCase(opt.corrected_name || entry.original_name)) + '</strong>';
+                if (opt.cas) html += '<span class="cas">' + escHtml(opt.cas) + '</span>';
+                html += '<br><span style="font-size:0.7rem;color:#636e72">' + escHtml(friendlyReason(opt.reason)) + '</span></div>';
+                html += '<span class="alt-option-conf">' + Math.round(opt.confidence * 100) + '%</span></div>';
+                var secImg = structImgUrl(opt);
+                if (secImg) {
+                    html += '<div class="alt-structure-row"><div class="cmp-structure"><img src="' + secImg + '" alt="Structure" loading="lazy" onerror="this.parentElement.parentElement.style.display=\'none\'"></div></div>';
+                }
             }
         }
+        var skipSel = d && d.action === 'skip' ? ' selected' : '';
+        html += '<div class="option-skip' + skipSel + '" onclick="event.stopPropagation();skipEntry(' + entry.row_index + ')">Skip</div>';
+        html += '<div class="custom-input" id="custom-' + entry.row_index + '" onclick="event.stopPropagation()">';
+        html += '<input class="cas-input" type="text" placeholder="CAS #" id="custom-cas-' + entry.row_index + '" onkeydown="if(event.key===\'Enter\'){event.preventDefault();approveCustom(' + entry.row_index + ')}">';
+        html += '<button class="btn btn-sm lookup-btn" onclick="lookupCAS(' + entry.row_index + ')" id="lookup-btn-' + entry.row_index + '">Lookup</button>';
+        html += '<input class="name-input" type="text" placeholder="Name (autofills)" id="custom-name-' + entry.row_index + '">';
+        html += '<span class="lookup-status" id="lookup-status-' + entry.row_index + '"></span>';
+        html += '<button class="btn btn-primary btn-sm" onclick="approveCustom(' + entry.row_index + ')">Apply</button>';
+        html += '<button class="btn btn-secondary btn-sm" onclick="toggleCustom(' + entry.row_index + ')">Cancel</button>';
+        html += '</div>';
+        html += '</div>'; // other-candidates
     }
+    html += '</div>'; // cell-extra-match
 
-    // Skip
-    var skipSel = d && d.action === 'skip' ? ' selected' : '';
-    html += '<div class="option-skip' + skipSel + '" onclick="event.stopPropagation();skipEntry(' + entry.row_index + ')">Skip</div>';
+    html += '</div>'; // card-body
 
-    // Custom input
-    html += '<div class="custom-input" id="custom-' + entry.row_index + '" onclick="event.stopPropagation()">';
-    html += '<input class="cas-input" type="text" placeholder="CAS #" id="custom-cas-' + entry.row_index + '" onkeydown="if(event.key===\'Enter\'){event.preventDefault();approveCustom(' + entry.row_index + ')}">';
-    html += '<button class="btn btn-sm lookup-btn" onclick="lookupCAS(' + entry.row_index + ')" id="lookup-btn-' + entry.row_index + '">Lookup</button>';
-    html += '<input class="name-input" type="text" placeholder="Name (autofills)" id="custom-name-' + entry.row_index + '">';
-    html += '<span class="lookup-status" id="lookup-status-' + entry.row_index + '"></span>';
-    html += '<button class="btn btn-primary btn-sm" onclick="approveCustom(' + entry.row_index + ')">Apply</button>';
-    html += '<button class="btn btn-secondary btn-sm" onclick="toggleCustom(' + entry.row_index + ')">Cancel</button>';
-    html += '</div>';
-
-    html += '</div>'; // other-candidates
-    html += '</div>'; // col-match
-    return html;
-}
-
-// ── Render full card ────────────────────────────────────────────
-function renderCard(entry) {
-    var d = DECISIONS[entry.row_index];
-    var status = d ? d.action : 'pending';
-    var statusClass = status === 'approve' ? 'resolved' : status === 'skip' ? 'skipped' : '';
-    var statusBadge = status === 'approve' ? '<span class="status-badge status-approved">Approved</span>'
-                    : status === 'skip' ? '<span class="status-badge status-skipped">Skipped</span>'
-                    : '<span class="status-badge status-pending">Pending</span>';
-
-    var html = '<div class="card ' + statusClass + '" id="card-' + entry.row_index + '">';
-    html += '<div class="card-header">';
-    html += '<span class="original-name">' + escHtml(entry.original_name) + '</span>';
-    html += '<span class="source-badge">' + escHtml(entry.source) + '</span>';
-    html += statusBadge;
-    html += '</div>';
-
-    html += '<div class="card-body">';
-    html += renderSourceCol(entry);
-    html += renderMatchCol(entry);
-    html += '</div>';
-
+    // Card footer
     html += '<div class="card-actions">';
     html += '<button class="btn btn-secondary btn-sm" onclick="toggleCustom(' + entry.row_index + ')">Custom entry</button>';
     if (d) html += '<button class="btn btn-secondary btn-sm" onclick="clearDecision(' + entry.row_index + ')">Reset</button>';
     html += '</div>';
 
-    html += '</div>';
+    html += '</div>'; // card
     return html;
 }
 
@@ -619,9 +557,7 @@ function renderAll() {
         return;
     }
     var html = '';
-    FILTERED.forEach(function(entry) {
-        html += renderCard(entry);
-    });
+    FILTERED.forEach(function(entry) { html += renderCard(entry); });
     container.innerHTML = html;
 }
 
@@ -630,13 +566,9 @@ function updateProgress() {
     var reviewed = Object.keys(DECISIONS).length;
     document.getElementById('progress-count').textContent = reviewed;
     document.getElementById('total-count').textContent = total;
-    var pct = total ? (reviewed / total * 100) : 0;
-    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-fill').style.width = (total ? (reviewed / total * 100) : 0) + '%';
     var approved = 0, skipped = 0;
-    for (var k in DECISIONS) {
-        if (DECISIONS[k].action === 'approve') approved++;
-        else if (DECISIONS[k].action === 'skip') skipped++;
-    }
+    for (var k in DECISIONS) { if (DECISIONS[k].action === 'approve') approved++; else if (DECISIONS[k].action === 'skip') skipped++; }
     document.getElementById('status-text').textContent = approved + ' approved, ' + skipped + ' skipped, ' + (total - reviewed) + ' pending';
     document.getElementById('download-btn').style.display = approved > 0 ? '' : 'none';
     document.getElementById('download-all-btn').style.display = reviewed > 0 ? '' : 'none';
@@ -646,35 +578,18 @@ function selectOption(rowIndex, optIndex) {
     var entry = DATA.find(function(e) { return e.row_index === rowIndex; });
     if (!entry) return;
     var opt = entry.options[optIndex];
-    DECISIONS[rowIndex] = {
-        action: 'approve',
-        name: opt.corrected_name || entry.original_name,
-        cas: opt.cas || '',
-        iupac: opt.iupac || '',
-        cid: opt.cid || null,
-        original_name: entry.original_name
-    };
-    saveDecisions();
-    rerenderCard(rowIndex);
-    updateProgress();
+    DECISIONS[rowIndex] = { action: 'approve', name: opt.corrected_name || entry.original_name, cas: opt.cas || '', iupac: opt.iupac || '', cid: opt.cid || null, original_name: entry.original_name };
+    saveDecisions(); rerenderCard(rowIndex); updateProgress();
 }
 
 function skipEntry(rowIndex) {
     var entry = DATA.find(function(e) { return e.row_index === rowIndex; });
-    DECISIONS[rowIndex] = {
-        action: 'skip',
-        original_name: entry ? entry.original_name : ''
-    };
-    saveDecisions();
-    rerenderCard(rowIndex);
-    updateProgress();
+    DECISIONS[rowIndex] = { action: 'skip', original_name: entry ? entry.original_name : '' };
+    saveDecisions(); rerenderCard(rowIndex); updateProgress();
 }
 
 function clearDecision(rowIndex) {
-    delete DECISIONS[rowIndex];
-    saveDecisions();
-    rerenderCard(rowIndex);
-    updateProgress();
+    delete DECISIONS[rowIndex]; saveDecisions(); rerenderCard(rowIndex); updateProgress();
 }
 
 function toggleCustom(rowIndex) {
@@ -682,39 +597,19 @@ function toggleCustom(rowIndex) {
     if (el) el.classList.toggle('visible');
 }
 
-// PubChem CAS lookup
 var _lookupCache = {};
-
 function _doPubChemLookup(cas) {
     if (_lookupCache[cas]) return Promise.resolve(_lookupCache[cas]);
-    var encoded = encodeURIComponent(cas);
-    var url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encoded + '/property/IUPACName,MolecularWeight/JSON';
-
-    return fetch(url)
-        .then(function(r) {
-            if (!r.ok) throw new Error('Not found');
-            return r.json();
-        })
+    var url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(cas) + '/property/IUPACName,MolecularWeight/JSON';
+    return fetch(url).then(function(r) { if (!r.ok) throw new Error('Not found'); return r.json(); })
         .then(function(data) {
-            var props = data.PropertyTable.Properties[0];
-            var cid = props.CID;
-            var iupac = props.IUPACName || '';
-            return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + cid + '/synonyms/JSON')
-                .then(function(r) { return r.json(); })
-                .then(function(sdata) {
-                    var syns = [];
-                    try { syns = sdata.InformationList.Information[0].Synonym; } catch(e) {}
-                    var bestName = syns.length ? syns[0] : iupac;
-                    var result = { name: bestName, iupac: iupac, cid: cid, synonyms: syns.slice(0, 5), mw: props.MolecularWeight || null };
-                    _lookupCache[cas] = result;
-                    return result;
-                });
-        })
-        .catch(function() {
-            var empty = { name: '', iupac: '', cid: '' };
-            _lookupCache[cas] = empty;
-            return empty;
-        });
+            var props = data.PropertyTable.Properties[0]; var cid = props.CID; var iupac = props.IUPACName || '';
+            return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + cid + '/synonyms/JSON').then(function(r){return r.json()}).then(function(sd) {
+                var syns = []; try { syns = sd.InformationList.Information[0].Synonym; } catch(e) {}
+                var result = { name: syns.length ? syns[0] : iupac, iupac: iupac, cid: cid, synonyms: syns.slice(0,5), mw: props.MolecularWeight || null };
+                _lookupCache[cas] = result; return result;
+            });
+        }).catch(function() { var empty = {name:'',iupac:'',cid:''}; _lookupCache[cas]=empty; return empty; });
 }
 
 function lookupCAS(rowIndex) {
@@ -724,25 +619,12 @@ function lookupCAS(rowIndex) {
     var btn = document.getElementById('lookup-btn-' + rowIndex);
     var cas = casInput.value.trim();
     if (!cas) { statusEl.textContent = 'Enter a CAS number first'; return; }
-
-    btn.disabled = true;
-    statusEl.textContent = 'Looking up...';
-    statusEl.style.color = '#636e72';
-
-    _doPubChemLookup(cas)
-        .then(function(result) {
-            nameInput.value = result.name;
-            nameInput.dataset.iupac = result.iupac || '';
-            nameInput.dataset.cid = result.cid || '';
-            if (result.name) {
-                statusEl.textContent = 'Found: ' + result.name;
-                statusEl.style.color = '#00b894';
-            } else {
-                statusEl.textContent = 'Not found in PubChem';
-                statusEl.style.color = '#d63031';
-            }
-        })
-        .finally(function() { btn.disabled = false; });
+    btn.disabled = true; statusEl.textContent = 'Looking up...'; statusEl.style.color = '#636e72';
+    _doPubChemLookup(cas).then(function(result) {
+        nameInput.value = result.name; nameInput.dataset.iupac = result.iupac || ''; nameInput.dataset.cid = result.cid || '';
+        if (result.name) { statusEl.textContent = 'Found: ' + result.name; statusEl.style.color = '#00b894'; }
+        else { statusEl.textContent = 'Not found in PubChem'; statusEl.style.color = '#d63031'; }
+    }).finally(function() { btn.disabled = false; });
 }
 
 function approveCustom(rowIndex) {
@@ -751,71 +633,31 @@ function approveCustom(rowIndex) {
     var cas = document.getElementById('custom-cas-' + rowIndex).value.trim();
     var entry = DATA.find(function(e) { return e.row_index === rowIndex; });
     if (!name && !cas) return;
-
     if (cas && !name) {
         var statusEl = document.getElementById('lookup-status-' + rowIndex);
-        statusEl.textContent = 'Looking up before applying...';
-        statusEl.style.color = '#636e72';
-
+        statusEl.textContent = 'Looking up...'; statusEl.style.color = '#636e72';
         _doPubChemLookup(cas).then(function(result) {
-            nameInput.value = result.name || '';
-            nameInput.dataset.iupac = result.iupac || '';
-            nameInput.dataset.cid = result.cid || '';
-            if (result.name) {
-                statusEl.textContent = 'Found: ' + result.name;
-                statusEl.style.color = '#00b894';
-            } else {
-                statusEl.textContent = 'Not found — applying CAS only';
-                statusEl.style.color = '#e17055';
-            }
-            _commitCustomDecision(rowIndex, result.name || (entry ? entry.original_name : ''), cas, nameInput);
-        });
-        return;
+            nameInput.value = result.name||''; nameInput.dataset.iupac = result.iupac||''; nameInput.dataset.cid = result.cid||'';
+            _commitCustomDecision(rowIndex, result.name||(entry?entry.original_name:''), cas, nameInput);
+        }); return;
     }
-
-    _commitCustomDecision(rowIndex, name || (entry ? entry.original_name : ''), cas, nameInput);
+    _commitCustomDecision(rowIndex, name||(entry?entry.original_name:''), cas, nameInput);
 }
 
 function _commitCustomDecision(rowIndex, name, cas, nameInput) {
     var entry = DATA.find(function(e) { return e.row_index === rowIndex; });
-    var cid = (nameInput && nameInput.dataset.cid) ? parseInt(nameInput.dataset.cid) : null;
-    var iupac = (nameInput && nameInput.dataset.iupac) || '';
-
+    var cid = (nameInput&&nameInput.dataset.cid) ? parseInt(nameInput.dataset.cid) : null;
+    var iupac = (nameInput&&nameInput.dataset.iupac) || '';
     if (entry) {
-        var newOpt = {
-            corrected_name: name,
-            cas: cas,
-            iupac: iupac,
-            confidence: 0.99,
-            reason: 'Manual lookup',
-            cid: cid,
-            synonyms: (_lookupCache[cas] && _lookupCache[cas].synonyms) || [],
-            pubchem_mw: (_lookupCache[cas] && _lookupCache[cas].mw) || null,
-            ref_mv: null,
-            ref_density: null,
-            mv_match: null,
-            mv_pct_diff: null,
-        };
-        if (cid) {
-            newOpt.pubchem_img = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + cid + '/PNG?image_size=300x300';
-        }
-        if (cid) {
-            entry.options = entry.options.filter(function(o) { return o.cid !== cid; });
-        }
+        var newOpt = { corrected_name:name, cas:cas, iupac:iupac, confidence:0.99, reason:'Manual lookup', cid:cid,
+            synonyms:(_lookupCache[cas]&&_lookupCache[cas].synonyms)||[], pubchem_mw:(_lookupCache[cas]&&_lookupCache[cas].mw)||null,
+            ref_mv:null, ref_density:null, mv_match:null, mv_pct_diff:null };
+        if (cid) { newOpt.pubchem_img = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/'+cid+'/PNG?image_size=300x300'; }
+        if (cid) { entry.options = entry.options.filter(function(o){return o.cid!==cid}); }
         entry.options.unshift(newOpt);
     }
-
-    DECISIONS[rowIndex] = {
-        action: 'approve',
-        name: name,
-        cas: cas,
-        iupac: iupac,
-        cid: cid,
-        original_name: entry ? entry.original_name : ''
-    };
-    saveDecisions();
-    rerenderCard(rowIndex);
-    updateProgress();
+    DECISIONS[rowIndex] = { action:'approve', name:name, cas:cas, iupac:iupac, cid:cid, original_name:entry?entry.original_name:'' };
+    saveDecisions(); rerenderCard(rowIndex); updateProgress();
 }
 
 function rerenderCard(rowIndex) {
@@ -834,166 +676,71 @@ function autoApproveHigh() {
         if (DECISIONS[entry.row_index]) return;
         var best = entry.options[0];
         if (best && best.confidence >= 0.90 && best.cas) {
-            DECISIONS[entry.row_index] = {
-                action: 'approve',
-                name: best.corrected_name || entry.original_name,
-                cas: best.cas,
-                iupac: best.iupac || '',
-                cid: best.cid || null,
-                original_name: entry.original_name
-            };
+            DECISIONS[entry.row_index] = { action:'approve', name:best.corrected_name||entry.original_name, cas:best.cas, iupac:best.iupac||'', cid:best.cid||null, original_name:entry.original_name };
             count++;
         }
     });
-    if (count) {
-        saveDecisions();
-        renderAll();
-        updateProgress();
-    }
+    if (count) { saveDecisions(); renderAll(); updateProgress(); }
     alert('Auto-approved ' + count + ' entries with >90% confidence.');
 }
 
 function applyFilters() {
-    var statusFilter = document.getElementById('filter-status').value;
-    var sourceFilter = document.getElementById('filter-source').value;
-    var confFilter = document.getElementById('filter-confidence').value;
-    var mvFilter = document.getElementById('filter-mv').value;
-    var searchQ = document.getElementById('filter-search').value.trim().toLowerCase();
-
+    var sf = document.getElementById('filter-status').value;
+    var src = document.getElementById('filter-source').value;
+    var cf = document.getElementById('filter-confidence').value;
+    var mvf = document.getElementById('filter-mv').value;
+    var q = document.getElementById('filter-search').value.trim().toLowerCase();
     FILTERED = DATA.filter(function(entry) {
         var d = DECISIONS[entry.row_index];
-        var status = d ? (d.action === 'approve' ? 'approved' : 'skipped') : 'pending';
-        if (statusFilter !== 'all' && status !== statusFilter) return false;
-        if (sourceFilter !== 'all' && entry.source !== sourceFilter) return false;
-        if (confFilter !== 'all') {
-            var best = entry.options[0];
-            var c = best ? best.confidence : 0;
-            if (confFilter === 'high' && c < 0.80) return false;
-            if (confFilter === 'medium' && (c < 0.50 || c >= 0.80)) return false;
-            if (confFilter === 'low' && c >= 0.50) return false;
-        }
-        if (mvFilter !== 'all') {
-            var bestOpt = entry.options[0];
-            var mv = bestOpt ? bestOpt.mv_match : null;
-            if (mvFilter === 'match' && mv !== true) return false;
-            if (mvFilter === 'mismatch' && mv !== false) return false;
-            if (mvFilter === 'nodata' && mv !== null) return false;
-        }
-        if (searchQ && entry.original_name.toLowerCase().indexOf(searchQ) === -1) return false;
+        var status = d ? (d.action==='approve'?'approved':'skipped') : 'pending';
+        if (sf !== 'all' && status !== sf) return false;
+        if (src !== 'all' && entry.source !== src) return false;
+        if (cf !== 'all') { var c = entry.options[0] ? entry.options[0].confidence : 0; if (cf==='high'&&c<0.80) return false; if (cf==='medium'&&(c<0.50||c>=0.80)) return false; if (cf==='low'&&c>=0.50) return false; }
+        if (mvf !== 'all') { var mv = entry.options[0] ? entry.options[0].mv_match : null; if (mvf==='match'&&mv!==true) return false; if (mvf==='mismatch'&&mv!==false) return false; if (mvf==='nodata'&&mv!==null) return false; }
+        if (q && entry.original_name.toLowerCase().indexOf(q) === -1) return false;
         return true;
     });
-
     renderAll();
 }
 
 function downloadApproved() {
     var lines = ['original_name,corrected_name,cas_number,iupac_name'];
-    DATA.forEach(function(entry) {
-        var d = DECISIONS[entry.row_index];
-        if (d && d.action === 'approve') {
-            lines.push(csvRow([entry.original_name, d.name, d.cas, d.iupac || '']));
-        }
-    });
+    DATA.forEach(function(e) { var d=DECISIONS[e.row_index]; if (d&&d.action==='approve') lines.push(csvRow([e.original_name,d.name,d.cas,d.iupac||''])); });
     downloadCSV(lines.join('\n'), 'cas_corrections.csv');
 }
-
 function downloadAll() {
     var lines = ['original_name,action,corrected_name,cas_number,iupac_name'];
-    DATA.forEach(function(entry) {
-        var d = DECISIONS[entry.row_index];
-        if (d) {
-            lines.push(csvRow([entry.original_name, d.action, d.name || '', d.cas || '', d.iupac || '']));
-        }
-    });
+    DATA.forEach(function(e) { var d=DECISIONS[e.row_index]; if (d) lines.push(csvRow([e.original_name,d.action,d.name||'',d.cas||'',d.iupac||''])); });
     downloadCSV(lines.join('\n'), 'cas_decisions.csv');
 }
+function csvRow(vals) { return vals.map(function(v){v=String(v);if(v.indexOf(',')!==-1||v.indexOf('"')!==-1||v.indexOf('\n')!==-1)return '"'+v.replace(/"/g,'""')+'"';return v}).join(','); }
+function downloadCSV(content, filename) { var b=new Blob([content],{type:'text/csv'}); var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=filename; a.click(); }
 
-function csvRow(vals) {
-    return vals.map(function(v) {
-        v = String(v);
-        if (v.indexOf(',') !== -1 || v.indexOf('"') !== -1 || v.indexOf('\n') !== -1) {
-            return '"' + v.replace(/"/g, '""') + '"';
-        }
-        return v;
-    }).join(',');
-}
-
-function downloadCSV(content, filename) {
-    var blob = new Blob([content], { type: 'text/csv' });
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    a.click();
-}
-
-// Keyboard navigation
 document.addEventListener('keydown', function(e) {
     if (e.key >= '1' && e.key <= '9') {
         var cards = document.querySelectorAll('.card');
-        for (var i = 0; i < cards.length; i++) {
-            var rect = cards[i].getBoundingClientRect();
-            if (rect.top >= 0 && rect.top < window.innerHeight * 0.7) {
-                var rowIndex = parseInt(cards[i].id.replace('card-', ''));
-                var optIdx = parseInt(e.key) - 1;
-                var entry = DATA.find(function(en) { return en.row_index === rowIndex; });
-                if (entry && entry.options[optIdx]) {
-                    selectOption(rowIndex, optIdx);
-                    scrollToNextPending(cards[i]);
-                }
-                break;
-            }
-        }
+        for (var i=0;i<cards.length;i++) { var r=cards[i].getBoundingClientRect(); if (r.top>=0&&r.top<window.innerHeight*0.7) { var ri=parseInt(cards[i].id.replace('card-','')); var oi=parseInt(e.key)-1; var en=DATA.find(function(x){return x.row_index===ri}); if (en&&en.options[oi]) { selectOption(ri,oi); scrollNext(cards[i]); } break; } }
     }
     if (e.key === 's' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT') {
         var cards = document.querySelectorAll('.card');
-        for (var i = 0; i < cards.length; i++) {
-            var rect = cards[i].getBoundingClientRect();
-            if (rect.top >= 0 && rect.top < window.innerHeight * 0.7) {
-                var rowIndex = parseInt(cards[i].id.replace('card-', ''));
-                skipEntry(rowIndex);
-                scrollToNextPending(cards[i]);
-                break;
-            }
-        }
+        for (var i=0;i<cards.length;i++) { var r=cards[i].getBoundingClientRect(); if (r.top>=0&&r.top<window.innerHeight*0.7) { skipEntry(parseInt(cards[i].id.replace('card-',''))); scrollNext(cards[i]); break; } }
     }
 });
+function scrollNext(card) { var n=card.nextElementSibling; if (n) n.scrollIntoView({behavior:'smooth',block:'start'}); }
 
-function scrollToNextPending(currentCard) {
-    var next = currentCard.nextElementSibling;
-    if (next) {
-        next.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-
-// Load data
 function init() {
     loadDecisions();
-
-    fetch('data/processed/cas_candidates.json')
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-            DATA = data;
-
-            var sources = {};
-            DATA.forEach(function(e) { if (e.source) sources[e.source] = true; });
-            var sel = document.getElementById('filter-source');
-            Object.keys(sources).sort().forEach(function(s) {
-                var opt = document.createElement('option');
-                opt.value = s; opt.textContent = s;
-                sel.appendChild(opt);
-            });
-
-            updateProgress();
-            applyFilters();
-        })
-        .catch(function(err) {
-            document.getElementById('cards-container').innerHTML =
-                '<div class="empty-state"><h2>Could not load candidate data</h2>' +
-                '<p>Error: ' + escHtml(err.message) + '</p>' +
-                '<p>Run <code>python scripts/generate_cas_candidates.py</code> first, then serve this page via HTTP.</p></div>';
-        });
+    fetch('data/processed/cas_candidates.json').then(function(r){return r.json()}).then(function(data) {
+        DATA = data;
+        var sources = {};
+        DATA.forEach(function(e){if(e.source) sources[e.source]=true});
+        var sel = document.getElementById('filter-source');
+        Object.keys(sources).sort().forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o)});
+        updateProgress(); applyFilters();
+    }).catch(function(err) {
+        document.getElementById('cards-container').innerHTML = '<div class="empty-state"><h2>Could not load candidate data</h2><p>Error: '+escHtml(err.message)+'</p><p>Run <code>python scripts/generate_cas_candidates.py</code> first, then serve this page via HTTP.</p></div>';
+    });
 }
-
 init();
 </script>
 </body>
