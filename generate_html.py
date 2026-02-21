@@ -205,6 +205,7 @@ with open(CHEM_CSV) as f:
         chem_name = row["name"].strip()
         chem_cas = row.get("cas_number", "").strip()
         conf_val = row.get("confidence", "").strip()
+        srcn_val = row.get("source_count", "").strip()
         solvents.append({
             "name": chem_name,
             "cas": chem_cas,
@@ -214,6 +215,7 @@ with open(CHEM_CSV) as f:
             "cat": row.get("category", "other").strip() or "other",
             "smiles": row.get("smiles", "").strip(),
             "conf": float(conf_val) if conf_val else 0,
+            "srcN": int(srcn_val) if srcn_val else 1,
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": src_url,
             "mwSrc": mw_src if mw_val else "",
@@ -236,6 +238,7 @@ with open(POLY_CSV) as f:
             continue
         poly_name = row["name"].strip()
         pconf_val = row.get("confidence", "").strip()
+        psrcn_val = row.get("source_count", "").strip()
         poly_data.append({
             "name": poly_name,
             "dd": float(dd), "dp": float(dp), "dh": float(dh),
@@ -243,6 +246,7 @@ with open(POLY_CSV) as f:
             "type": row.get("type", "").strip(),
             "cas": row.get("cas_number", "").strip(),
             "conf": float(pconf_val) if pconf_val else 0,
+            "srcN": int(psrcn_val) if psrcn_val else 1,
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": src_url,
             "common": _is_common_polymer(poly_name),
@@ -450,6 +454,25 @@ full_html = f"""<!DOCTYPE html>
         .hoverable-name {{ cursor: help; border-bottom: 1px dotted #b2bec3; }}
         th.sort-asc::after {{ content: ' ▲'; font-size: 0.7em; color: #e94560; }}
         th.sort-desc::after {{ content: ' ▼'; font-size: 0.7em; color: #e94560; }}
+        .conf-wrap {{ position: relative; display: inline-block; cursor: help; }}
+        .conf-tip {{
+            display: none; position: absolute; bottom: calc(100% + 6px); left: 50%;
+            transform: translateX(-50%); z-index: 9999;
+            background: #2d3436; color: #dfe6e9; border-radius: 6px; padding: 10px 14px;
+            font-size: 0.75rem; line-height: 1.5; white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3); pointer-events: none;
+        }}
+        .conf-tip::after {{
+            content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+            border: 6px solid transparent; border-top-color: #2d3436;
+        }}
+        .conf-wrap:hover .conf-tip {{ display: block; }}
+        .conf-row {{ display: flex; justify-content: space-between; gap: 18px; }}
+        .conf-row .conf-label {{ color: #b2bec3; }}
+        .conf-row .conf-val {{ font-weight: 600; }}
+        .conf-row .conf-val.pos {{ color: #00b894; }}
+        .conf-row .conf-val.zero {{ color: #636e72; }}
+        .conf-sep {{ border-top: 1px solid #636e72; margin: 4px 0; }}
     </style>
 </head>
 <body>
@@ -535,15 +558,41 @@ full_html = f"""<!DOCTYPE html>
         const _polymerMap = new Map(POLYMERS.map(p => [p.name, p]));
         const CAT_COLORS = {cat_colors_json};
 
-        // Confidence badge: color-coded by level
-        function confBadge(val) {{
-            if (val == null) return '';
-            var pct = Math.round(val * 100);
+        // Source base confidence tiers (must match build_hsp_database.py)
+        var SRC_TIERS = {{
+            'Hansen Handbook 2007': 50, 'Mendeley (Langner 2022)': 40,
+            'SolvPred (Fang)': 35, 'Accudyne Test': 40, 'Wolfram Data Repo': 35,
+            'Pang et al. 2024': 30, 'Hansen Handbook A.1': 30, 'Hansen Handbook A.2': 30,
+        }};
+        // Confidence badge with hover tooltip breakdown
+        function confBadge(mat, isPoly) {{
+            if (!mat || mat.conf == null) return '';
+            var pct = Math.round(mat.conf * 100);
             var color, label;
-            if (val >= 0.8) {{ color = '#27ae60'; label = 'High'; }}
-            else if (val >= 0.5) {{ color = '#f39c12'; label = 'Med'; }}
+            if (mat.conf >= 0.8) {{ color = '#27ae60'; label = 'High'; }}
+            else if (mat.conf >= 0.5) {{ color = '#f39c12'; label = 'Med'; }}
             else {{ color = '#e74c3c'; label = 'Low'; }}
-            return '<span style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + color + '" title="Confidence: ' + pct + '% — ' + label + '">' + pct + '%</span>';
+            // Build breakdown rows
+            var base = SRC_TIERS[mat.src] || 25;
+            var hasCas = !!(mat.cas);
+            var hasSmiles = !isPoly && !!(mat.smiles);
+            var srcN = mat.srcN || 1;
+            var crossBonus = srcN > 1 ? Math.min((srcN - 1) * 15, 30) : 0;
+            function row(lbl, val) {{
+                var cls = val > 0 ? 'pos' : 'zero';
+                var sign = val > 0 ? '+' : '';
+                return '<div class="conf-row"><span class="conf-label">' + lbl + '</span><span class="conf-val ' + cls + '">' + sign + val + '%</span></div>';
+            }}
+            var tip = '<div class="conf-tip">';
+            tip += '<div style="font-weight:700;margin-bottom:4px;color:#fff">Confidence Breakdown</div>';
+            tip += row('Source: ' + (mat.src || 'Unknown'), base);
+            tip += row('CAS verified', hasCas ? 15 : 0);
+            if (!isPoly) tip += row('SMILES confirmed', hasSmiles ? 10 : 0);
+            if (srcN > 1) tip += row('Cross-ref (' + srcN + ' sources)', crossBonus);
+            tip += '<div class="conf-sep"></div>';
+            tip += '<div class="conf-row"><span class="conf-label" style="color:#fff">Total</span><span class="conf-val" style="color:#fff">' + pct + '%</span></div>';
+            tip += '</div>';
+            return '<span class="conf-wrap"><span style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + color + '">' + pct + '%</span>' + tip + '</span>';
         }}
 
         // ===================== APPLY DATABASE EDITS =====================
@@ -1742,7 +1791,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
                     rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
                     rowsHtml += '<td style="color:' + catColor + '">' + (s.cat || '') + '</td>';
-                    rowsHtml += '<td>' + confBadge(s.conf) + '</td>';
+                    rowsHtml += '<td>' + confBadge(s, false) + '</td>';
                     rowsHtml += '<td>' + ((s.src && s.srcUrl) ? '<a href="' + s.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + s.src + '</a>' : (s.src || '')) + '</td>';
                     rowsHtml += '</tr>';
                 }}
@@ -1781,7 +1830,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
                     rowsHtml += '<td>' + (p.type || '') + '</td>';
-                    rowsHtml += '<td>' + confBadge(p.conf) + '</td>';
+                    rowsHtml += '<td>' + confBadge(p, true) + '</td>';
                     rowsHtml += '<td>' + ((p.src && p.srcUrl) ? '<a href="' + p.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + p.src + '</a>' : (p.src || '')) + '</td>';
                     rowsHtml += '</tr>';
                 }}
@@ -1990,6 +2039,7 @@ with open(CHEM_CSV) as f:
             "cat": row.get("category", "other").strip() or "other",
             "ghs": row.get("ghs_hazard", "").strip(),
             "conf": row.get("confidence", "").strip(),
+            "srcN": int(row.get("source_count", "1").strip() or "1"),
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": row.get("source_url", "").strip(),
         })
@@ -2011,6 +2061,7 @@ with open(POLY_CSV) as f:
             "r": row.get("radius", "").strip(),
             "type": row.get("type", "").strip(),
             "conf": row.get("confidence", "").strip(),
+            "srcN": int(row.get("source_count", "1").strip() or "1"),
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": row.get("source_url", "").strip(),
         })
@@ -2072,6 +2123,25 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
 .cas-link:hover {{ text-decoration: underline; }}
 .save-indicator {{ display: none; color: #00b894; font-size: 0.8rem; font-weight: 600; }}
 .save-indicator.visible {{ display: inline; }}
+.conf-wrap {{ position: relative; display: inline-block; cursor: help; }}
+.conf-tip {{
+    display: none; position: absolute; bottom: calc(100% + 6px); left: 50%;
+    transform: translateX(-50%); z-index: 9999;
+    background: #2d3436; color: #dfe6e9; border-radius: 6px; padding: 10px 14px;
+    font-size: 0.75rem; line-height: 1.5; white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3); pointer-events: none;
+}}
+.conf-tip::after {{
+    content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 6px solid transparent; border-top-color: #2d3436;
+}}
+.conf-wrap:hover .conf-tip {{ display: block; }}
+.conf-row {{ display: flex; justify-content: space-between; gap: 18px; }}
+.conf-row .conf-label {{ color: #b2bec3; }}
+.conf-row .conf-val {{ font-weight: 600; }}
+.conf-row .conf-val.pos {{ color: #00b894; }}
+.conf-row .conf-val.zero {{ color: #636e72; }}
+.conf-sep {{ border-top: 1px solid #636e72; margin: 4px 0; }}
 </style>
 </head>
 <body>
@@ -2105,6 +2175,11 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
 <script>
 var SOLVENTS = {db_solvents_json};
 var POLYMERS = {db_polymers_json};
+var SRC_TIERS = {{
+    'Hansen Handbook 2007': 50, 'Mendeley (Langner 2022)': 40,
+    'SolvPred (Fang)': 35, 'Accudyne Test': 40, 'Wolfram Data Repo': 35,
+    'Pang et al. 2024': 30, 'Hansen Handbook A.1': 30, 'Hansen Handbook A.2': 30,
+}};
 
 var SOLV_COLS = [
     {{key:'name', label:'Name', w:'200px'}},
@@ -2290,11 +2365,32 @@ function renderTable() {{
                 if (c.key === 'conf' && val) {{
                     var cv = parseFloat(val);
                     var pct = Math.round(cv * 100);
-                    var cColor, cLabel;
-                    if (cv >= 0.8) {{ cColor = '#27ae60'; cLabel = 'High'; }}
-                    else if (cv >= 0.5) {{ cColor = '#f39c12'; cLabel = 'Med'; }}
-                    else {{ cColor = '#e74c3c'; cLabel = 'Low'; }}
-                    display = '<span style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + cColor + '" title="' + cLabel + ' confidence">' + pct + '%</span>';
+                    var cColor;
+                    if (cv >= 0.8) {{ cColor = '#27ae60'; }}
+                    else if (cv >= 0.5) {{ cColor = '#f39c12'; }}
+                    else {{ cColor = '#e74c3c'; }}
+                    var mat = (activeTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
+                    var isPoly = activeTab === 'polymers';
+                    var base = SRC_TIERS[mat.src] || 25;
+                    var hasCas = !!(mat.cas);
+                    var hasSmiles = !isPoly && !!(mat.smiles);
+                    var srcN = mat.srcN || 1;
+                    var crossBonus = srcN > 1 ? Math.min((srcN - 1) * 15, 30) : 0;
+                    function tipRow(lbl, v) {{
+                        var cls = v > 0 ? 'pos' : 'zero';
+                        var sign = v > 0 ? '+' : '';
+                        return '<div class="conf-row"><span class="conf-label">' + lbl + '</span><span class="conf-val ' + cls + '">' + sign + v + '%</span></div>';
+                    }}
+                    var tip = '<div class="conf-tip">';
+                    tip += '<div style="font-weight:700;margin-bottom:4px;color:#fff">Confidence Breakdown</div>';
+                    tip += tipRow('Source: ' + (mat.src || 'Unknown'), base);
+                    tip += tipRow('CAS verified', hasCas ? 15 : 0);
+                    if (!isPoly) tip += tipRow('SMILES confirmed', hasSmiles ? 10 : 0);
+                    if (srcN > 1) tip += tipRow('Cross-ref (' + srcN + ' sources)', crossBonus);
+                    tip += '<div class="conf-sep"></div>';
+                    tip += '<div class="conf-row"><span class="conf-label" style="color:#fff">Total</span><span class="conf-val" style="color:#fff">' + pct + '%</span></div>';
+                    tip += '</div>';
+                    display = '<span class="conf-wrap"><span style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + cColor + '">' + pct + '%</span>' + tip + '</span>';
                 }}
                 html += '<td' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>' + display + '</td>';
             }}

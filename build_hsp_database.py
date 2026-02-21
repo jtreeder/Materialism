@@ -1078,7 +1078,7 @@ def main():
         "name", "cas_number", "smiles", "molecular_formula",
         "delta_d", "delta_p", "delta_h",
         "molecular_weight", "boiling_point", "density", "molar_volume",
-        "category", "ghs_hazard", "confidence", "source", "source_url",
+        "category", "ghs_hazard", "confidence", "source_count", "source", "source_url",
     ]
 
     with open(chem_path, "w", newline="", encoding="utf-8") as f:
@@ -1097,7 +1097,7 @@ def main():
     poly_path = os.path.join(OUT_DIR, "hsp_polymers.csv")
     poly_fields = [
         "name", "cas_number", "delta_d", "delta_p", "delta_h",
-        "radius", "type", "confidence", "source", "source_url",
+        "radius", "type", "confidence", "source_count", "source", "source_url",
     ]
 
     with open(poly_path, "w", newline="", encoding="utf-8") as f:
