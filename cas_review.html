@@ -61,11 +61,9 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 .structure-crop { width: 70%; border: 1px solid #e8dff5; border-radius: 4px; margin-bottom: 10px; background: #faf8ff; }
 .structure-crop img { width: 100%; display: block; border-radius: 3px; }
 
-/* Candidate structure image */
+/* Candidate structure image — same size for all candidates (best + secondary) */
 .candidate-structure { width: 65%; border: 1px solid #dfe6e9; border-radius: 4px; margin-top: 8px; background: #fff; overflow: hidden; }
 .candidate-structure img { width: 100%; display: block; border-radius: 3px; }
-.candidate-structure-sm { width: 120px; height: 120px; border: 1px solid #dfe6e9; border-radius: 4px; background: #fff; overflow: hidden; flex-shrink: 0; }
-.candidate-structure-sm img { width: 100%; height: 100%; object-fit: contain; }
 
 /* Source data table */
 .source-data { font-size: 0.82rem; margin-bottom: 8px; }
@@ -363,8 +361,9 @@ function renderMatchCol(entry) {
         html += ' <span style="font-size:0.75rem;color:#b2bec3">query: "' + escHtml(best.guess_text) + '"</span>';
     }
     html += '<div>' + renderMvBadge(best, entry) + '</div>';
-    if (best.structure_file) {
-        html += '<div class="candidate-structure"><img src="data/processed/' + escHtml(best.structure_file) + '" alt="Structure" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
+    var bestImg = best.structure_file ? 'data/processed/' + escHtml(best.structure_file) : best.pubchem_img || '';
+    if (bestImg) {
+        html += '<div class="candidate-structure"><img src="' + bestImg + '" alt="Structure" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
     }
     html += '</div>';
 
@@ -375,11 +374,8 @@ function renderMatchCol(entry) {
         for (var oi = 1; oi < limit; oi++) {
             var opt = entry.options[oi];
             var isSelected = d && d.action === 'approve' && d.cas === opt.cas && d.name === (opt.corrected_name || opt.guess_text || entry.original_name);
-            html += '<div class="option-secondary' + (isSelected ? ' selected' : '') + '" onclick="selectOption(' + entry.row_index + ',' + oi + ')">';
+            html += '<div class="option-secondary' + (isSelected ? ' selected' : '') + '" onclick="selectOption(' + entry.row_index + ',' + oi + ')" style="flex-wrap:wrap">';
             html += '<div class="option-radio"></div>';
-            if (opt.structure_file) {
-                html += '<div class="candidate-structure-sm"><img src="data/processed/' + escHtml(opt.structure_file) + '" alt="Structure" loading="lazy" onerror="this.parentElement.style.display=\'none\'"></div>';
-            }
             html += '<div style="flex:1;min-width:0">';
             html += '<span class="sec-name">' + escHtml(opt.corrected_name || entry.original_name) + '</span>';
             if (opt.cas) {
@@ -389,6 +385,10 @@ function renderMatchCol(entry) {
             html += '</div>';
             html += '<div class="confidence-bar-sm"><div class="confidence-fill" style="width:' + Math.round(opt.confidence * 100) + '%;background:' + confColor(opt.confidence) + '"></div></div>';
             html += '<span class="confidence-text-sm">' + Math.round(opt.confidence * 100) + '%</span>';
+            var secImg = opt.structure_file ? 'data/processed/' + escHtml(opt.structure_file) : opt.pubchem_img || '';
+            if (secImg) {
+                html += '<div style="width:100%;padding-left:30px"><div class="candidate-structure"><img src="' + secImg + '" alt="Structure" loading="lazy" onerror="this.parentElement.parentElement.style.display=\'none\'"></div></div>';
+            }
             html += '</div>';
         }
     }
@@ -543,7 +543,7 @@ function _doPubChemLookup(cas) {
                     var syns = [];
                     try { syns = sdata.InformationList.Information[0].Synonym; } catch(e) {}
                     var bestName = syns.length ? syns[0] : iupac;
-                    var result = { name: bestName, iupac: iupac, cid: cid, synonyms: syns.slice(0, 5) };
+                    var result = { name: bestName, iupac: iupac, cid: cid, synonyms: syns.slice(0, 5), mw: props.MolecularWeight || null };
                     _lookupCache[cas] = result;
                     return result;
                 });
@@ -618,12 +618,43 @@ function approveCustom(rowIndex) {
 
 function _commitCustomDecision(rowIndex, name, cas, nameInput) {
     var entry = DATA.find(function(e) { return e.row_index === rowIndex; });
+    var cid = (nameInput && nameInput.dataset.cid) ? parseInt(nameInput.dataset.cid) : null;
+    var iupac = (nameInput && nameInput.dataset.iupac) || '';
+
+    // Insert a new option at the top of the list so the user-confirmed
+    // match becomes the visible "Best Match".
+    if (entry) {
+        var newOpt = {
+            corrected_name: name,
+            cas: cas,
+            iupac: iupac,
+            confidence: 0.99,
+            reason: 'Manual lookup',
+            cid: cid,
+            synonyms: (_lookupCache[cas] && _lookupCache[cas].synonyms) || [],
+            pubchem_mw: (_lookupCache[cas] && _lookupCache[cas].mw) || null,
+            ref_mv: null,
+            ref_density: null,
+            mv_match: null,
+            mv_pct_diff: null,
+        };
+        // Use PubChem 2D structure image if we have a CID
+        if (cid) {
+            newOpt.pubchem_img = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + cid + '/PNG?image_size=300x300';
+        }
+        // Remove any existing option with the same CID to avoid duplicates
+        if (cid) {
+            entry.options = entry.options.filter(function(o) { return o.cid !== cid; });
+        }
+        entry.options.unshift(newOpt);
+    }
+
     DECISIONS[rowIndex] = {
         action: 'approve',
         name: name,
         cas: cas,
-        iupac: (nameInput && nameInput.dataset.iupac) || '',
-        cid: (nameInput && nameInput.dataset.cid) ? parseInt(nameInput.dataset.cid) : null,
+        iupac: iupac,
+        cid: cid,
         original_name: entry ? entry.original_name : ''
     };
     saveDecisions();
