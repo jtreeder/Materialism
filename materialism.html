@@ -5319,6 +5319,7 @@ return Plotly;
 
         function goHome() {
             clearChat();
+            lastSearchQuery = '';
             document.getElementById('nl-search').value = '';
             document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
             document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
