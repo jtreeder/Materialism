@@ -451,7 +451,7 @@ full_html = f"""<!DOCTYPE html>
 <body>
     <div class="header">
         <h1 onclick="goHome()">Materialism</h1>
-        <div class="stats"><a href="cas_review.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">Cross</a> &middot; <a href="database.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">Database</a></div>
+        <div class="stats"><a href="cas_review.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">Crosslink</a></div>
     </div>
 
     <div class="search-bar">
@@ -1380,7 +1380,19 @@ full_html = f"""<!DOCTYPE html>
                     marker: {{ size: 7, color: 'gold', symbol: 'diamond', opacity: 0.95 }},
                 }},
             ];
+            // Pre-allocate a hidden highlight trace so clicking in the home table works
+            fullTraces.push({{
+                type: 'scatter3d', mode: 'markers',
+                name: '★ Highlighted',
+                x: [0], y: [0], z: [0],
+                text: [''],
+                hovertemplate: '<b>%{{text}}</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
+                marker: {{ size: 16, color: '#e94560', symbol: 'circle', opacity: 1, line: {{ width: 2, color: 'white' }} }},
+                visible: false,
+                showlegend: false,
+            }});
             _baseTraceCount = fullTraces.length;
+            _highlightIdx = _baseTraceCount - 1;
             Plotly.newPlot(plotDiv, fullTraces, makeLayout(), {{ responsive: true }});
         }}
 
@@ -1576,18 +1588,16 @@ full_html = f"""<!DOCTYPE html>
         }}
 
         function resetPlot() {{
-            _highlightIdx = -1;
-            // Remove any result/highlight traces
+            // Remove any result/highlight traces added by search
             if (_resultTraceCount > 0) {{
                 var idxs = [];
                 for (var i = 0; i < _resultTraceCount; i++) idxs.push(_baseTraceCount + i);
                 Plotly.deleteTraces(plotDiv, idxs);
                 _resultTraceCount = 0;
             }}
-            // Also remove stale highlight trace if present
-            for (var hi = plotDiv.data.length - 1; hi >= _baseTraceCount; hi--) {{
-                if (plotDiv.data[hi].name === '★ Highlighted') {{ Plotly.deleteTraces(plotDiv, hi); break; }}
-            }}
+            // Restore highlight index to the pre-allocated base highlight trace and hide it
+            _highlightIdx = _baseTraceCount - 1;
+            Plotly.restyle(plotDiv, {{ visible: false }}, [_highlightIdx]);
             // Restore base traces to full appearance
             _restoreBaseTraces();
             Plotly.relayout(plotDiv, {{ 'title.text': 'Hansen Solubility Parameter Space' }});
@@ -2039,7 +2049,7 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
 <div class="header">
     <h1><a href="materialism.html">Materialism</a> — Database</h1>
     <div class="nav-links">
-        <a href="cas_review.html">Cross</a>
+        <a href="cas_review.html">Crosslink</a>
         <a href="materialism.html">Search</a>
     </div>
 </div>
