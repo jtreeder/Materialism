@@ -451,7 +451,7 @@ full_html = f"""<!DOCTYPE html>
 <body>
     <div class="header">
         <h1 onclick="goHome()">Materialism</h1>
-        <div class="stats"><a href="cas_review.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">Crosslink</a></div>
+        <div class="stats"><a href="database.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">Database</a></div>
     </div>
 
     <div class="search-bar">
