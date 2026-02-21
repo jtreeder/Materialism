@@ -526,6 +526,9 @@ full_html = f"""<!DOCTYPE html>
         // ===================== DATA =====================
         const SOLVENTS = {solvents_json};
         const POLYMERS = {polymers_json};
+        // O(1) lookup maps for materials by name
+        const _solventMap = new Map(SOLVENTS.map(s => [s.name, s]));
+        const _polymerMap = new Map(POLYMERS.map(p => [p.name, p]));
         const CAT_COLORS = {cat_colors_json};
 
         // ===================== APPLY DATABASE EDITS =====================
@@ -1603,9 +1606,9 @@ full_html = f"""<!DOCTYPE html>
         var _highlightIdx = -1; // index of the pre-allocated highlight trace
         function highlightInPlot(encodedName) {{
             const name = decodeURIComponent(encodedName);
-            let mat = SOLVENTS.find(s => s.name === name);
+            let mat = _solventMap.get(name);
             let sym = 'circle';
-            if (!mat) {{ mat = POLYMERS.find(p => p.name === name); sym = 'diamond'; }}
+            if (!mat) {{ mat = _polymerMap.get(name); sym = 'diamond'; }}
             if (!mat || _highlightIdx < 0) return;
             // Restyle the pre-allocated highlight trace — no addTraces/deleteTraces,
             // no scene rebuild, camera stays exactly where it is.
@@ -1616,35 +1619,39 @@ full_html = f"""<!DOCTYPE html>
                 'marker.symbol': sym,
                 visible: true,
             }}, [_highlightIdx]);
-            selectInTable(name);
+            // Defer DOM work to next frame so Plotly can finish rendering first
+            requestAnimationFrame(function() {{ selectInTable(name); }});
         }}
 
+        var _prevHighlightedRow = null;
         function selectInTable(name) {{
             // If the home panel is visible, switch tabs if needed so the material is in view
             var homePanel = document.getElementById('home-panel');
             if (homePanel && homePanel.style.display !== 'none') {{
-                var isSolvent = SOLVENTS.some(function(s) {{ return s.name === name; }});
-                var isPolymer = !isSolvent && POLYMERS.some(function(p) {{ return p.name === name; }});
+                var isSolvent = _solventMap.has(name);
+                var isPolymer = !isSolvent && _polymerMap.has(name);
                 if (isSolvent && homeTab !== 'solvents') {{
                     switchHomeTab('solvents');
                 }} else if (isPolymer && homeTab !== 'polymers') {{
                     switchHomeTab('polymers');
                 }}
             }}
+            // Clear only the previously highlighted row instead of all rows
+            if (_prevHighlightedRow) {{
+                _prevHighlightedRow.style.background = '';
+                _prevHighlightedRow = null;
+            }}
             // Highlight in whichever table is visible: results (chat-panel) or home table
             var containers = [document.getElementById('chat-panel'), homePanel];
             for (var ci = 0; ci < containers.length; ci++) {{
                 var c = containers[ci];
                 if (!c || c.style.display === 'none' || !c.classList.contains('visible') && ci === 0) continue;
-                var rows = c.querySelectorAll('tr[data-name]');
-                if (!rows.length) continue;
-                rows.forEach(function(r) {{ r.style.background = ''; }});
-                for (var i = 0; i < rows.length; i++) {{
-                    if (rows[i].getAttribute('data-name') === name) {{
-                        rows[i].style.background = '#fff3cd';
-                        rows[i].scrollIntoView({{ block: 'center', behavior: 'smooth' }});
-                        return;
-                    }}
+                var row = c.querySelector('tr[data-name="' + CSS.escape(name) + '"]');
+                if (row) {{
+                    row.style.background = '#fff3cd';
+                    _prevHighlightedRow = row;
+                    row.scrollIntoView({{ block: 'center', behavior: 'auto' }});
+                    return;
                 }}
             }}
         }}
@@ -1795,9 +1802,11 @@ full_html = f"""<!DOCTYPE html>
             buildHomeTable();
         }}
 
+        var _filterTimer = 0;
         function filterHomeTable(val) {{
             homeFilterText = val.trim();
-            buildHomeTable();
+            clearTimeout(_filterTimer);
+            _filterTimer = setTimeout(buildHomeTable, 120);
         }}
 
         function showHomePanel() {{
@@ -1917,7 +1926,7 @@ full_html = f"""<!DOCTYPE html>
                 }}
                 if (name) {{
                     highlightInPlot(encodeURIComponent(name));
-                    selectInTable(name);
+                    // selectInTable is already called from within highlightInPlot
                 }}
             }});
         }});
