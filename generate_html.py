@@ -461,7 +461,7 @@ full_html = f"""<!DOCTYPE html>
         <label class="simple-toggle" title="When enabled, show only common, readily accessible solvents and polymers">
             <input type="checkbox" id="simple-mode" onchange="onSimpleModeChange()">
             <span class="simple-slider"></span>
-            <span class="simple-label">Common Only</span>
+            <span class="simple-label">Common Materials Only</span>
         </label>
     </div>
     <div class="search-options">
