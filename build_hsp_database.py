@@ -788,6 +788,12 @@ def _merge_metadata(existing, new):
                   "boiling_point", "density", "molar_volume", "ghs_hazard"]:
         if not existing.get(field) and new.get(field):
             existing[field] = new[field]
+    # Track how many independent sources corroborate this entry
+    if "source_count" not in existing:
+        existing["source_count"] = 1
+    new_src = new.get("source", "")
+    if new_src and new_src != existing.get("source", ""):
+        existing["source_count"] = existing.get("source_count", 1) + 1
 
 
 def merge_chemicals(all_sources):
@@ -928,6 +934,51 @@ def classify_polymer(name):
 
 
 # ---------------------------------------------------------------------------
+# Confidence scoring
+# ---------------------------------------------------------------------------
+
+# Source reliability tiers (higher = more reliable)
+SOURCE_CONFIDENCE = {
+    "handbook": 0.50,    # Curated seed data from Hansen Handbook
+    "mendeley": 0.40,    # Peer-reviewed dataset (Langner & Brabec 2022)
+    "solvpred": 0.35,    # Academic tool (Fang et al.)
+    "accudyne": 0.40,    # Manufacturer/test lab data
+    "wolfram": 0.35,     # Curated data repository
+    "pang2024": 0.30,    # HSPiP database extract
+    "hansen_a1": 0.30,   # OCR from Hansen Appendix A.1
+    "hansen_a2": 0.30,   # OCR from Hansen Appendix A.2
+}
+
+
+def compute_confidence(entry, is_polymer=False):
+    """Compute a confidence score (0.0-1.0) for a database entry.
+
+    Scoring factors:
+      - Base: source reliability tier (0.30-0.50)
+      - CAS number present: +0.15 (verified chemical identity)
+      - SMILES present: +0.10 (structural confirmation, chemicals only)
+      - Cross-referenced (>1 source): +0.15 per additional source (max +0.30)
+    """
+    source = entry.get("source", "")
+    score = SOURCE_CONFIDENCE.get(source, 0.25)
+
+    # CAS number = verified identity
+    if entry.get("cas_number"):
+        score += 0.15
+
+    # SMILES = structural confirmation (chemicals only)
+    if not is_polymer and entry.get("smiles"):
+        score += 0.10
+
+    # Cross-referencing bonus: each additional source adds confidence
+    source_count = entry.get("source_count", 1)
+    if source_count > 1:
+        score += min((source_count - 1) * 0.15, 0.30)
+
+    return round(min(score, 1.0), 2)
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -1011,6 +1062,12 @@ def main():
         if enriched:
             print(f"  CAS enrichment from cache: {enriched} additional CAS numbers")
 
+    # Compute confidence scores (after CAS enrichment so CAS bonus is accurate)
+    for chem in merged_chems:
+        chem["confidence"] = compute_confidence(chem, is_polymer=False)
+    for poly in merged_polys:
+        poly["confidence"] = compute_confidence(poly, is_polymer=True)
+
     # Sort
     merged_chems.sort(key=lambda x: x["name"].lower())
     merged_polys.sort(key=lambda x: x["name"].lower())
@@ -1021,7 +1078,7 @@ def main():
         "name", "cas_number", "smiles", "molecular_formula",
         "delta_d", "delta_p", "delta_h",
         "molecular_weight", "boiling_point", "density", "molar_volume",
-        "category", "ghs_hazard", "source", "source_url",
+        "category", "ghs_hazard", "confidence", "source", "source_url",
     ]
 
     with open(chem_path, "w", newline="", encoding="utf-8") as f:
@@ -1040,7 +1097,7 @@ def main():
     poly_path = os.path.join(OUT_DIR, "hsp_polymers.csv")
     poly_fields = [
         "name", "cas_number", "delta_d", "delta_p", "delta_h",
-        "radius", "type", "source", "source_url",
+        "radius", "type", "confidence", "source", "source_url",
     ]
 
     with open(poly_path, "w", newline="", encoding="utf-8") as f:

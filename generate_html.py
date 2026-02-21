@@ -204,6 +204,7 @@ with open(CHEM_CSV) as f:
             continue
         chem_name = row["name"].strip()
         chem_cas = row.get("cas_number", "").strip()
+        conf_val = row.get("confidence", "").strip()
         solvents.append({
             "name": chem_name,
             "cas": chem_cas,
@@ -212,6 +213,7 @@ with open(CHEM_CSV) as f:
             "bp": float(bp_val) if bp_val else None,
             "cat": row.get("category", "other").strip() or "other",
             "smiles": row.get("smiles", "").strip(),
+            "conf": float(conf_val) if conf_val else 0,
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": src_url,
             "mwSrc": mw_src if mw_val else "",
@@ -233,12 +235,14 @@ with open(POLY_CSV) as f:
         if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
             continue
         poly_name = row["name"].strip()
+        pconf_val = row.get("confidence", "").strip()
         poly_data.append({
             "name": poly_name,
             "dd": float(dd), "dp": float(dp), "dh": float(dh),
             "r": float(r_val) if r_val else None,
             "type": row.get("type", "").strip(),
             "cas": row.get("cas_number", "").strip(),
+            "conf": float(pconf_val) if pconf_val else 0,
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": src_url,
             "common": _is_common_polymer(poly_name),
@@ -531,6 +535,17 @@ full_html = f"""<!DOCTYPE html>
         const _polymerMap = new Map(POLYMERS.map(p => [p.name, p]));
         const CAT_COLORS = {cat_colors_json};
 
+        // Confidence badge: color-coded by level
+        function confBadge(val) {{
+            if (val == null) return '';
+            var pct = Math.round(val * 100);
+            var color, label;
+            if (val >= 0.8) {{ color = '#27ae60'; label = 'High'; }}
+            else if (val >= 0.5) {{ color = '#f39c12'; label = 'Med'; }}
+            else {{ color = '#e74c3c'; label = 'Low'; }}
+            return '<span style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + color + '" title="Confidence: ' + pct + '% — ' + label + '">' + pct + '%</span>';
+        }}
+
         // ===================== APPLY DATABASE EDITS =====================
         (function applyDbEdits() {{
             try {{
@@ -563,8 +578,8 @@ full_html = f"""<!DOCTYPE html>
         var columnWidthsLocked = false;
         // Default widths for each table context
         var DEFAULT_WIDTHS = {{
-            solvents: ['25%','10%','48px','48px','48px','52px','52px','9%','11%'],
-            polymers: ['25%','10%','48px','48px','48px','52px','9%','11%'],
+            solvents: ['22%','10%','48px','48px','48px','52px','52px','9%','50px','11%'],
+            polymers: ['22%','10%','48px','48px','48px','52px','9%','50px','11%'],
             results:  ['35px','22%','10%','48px','48px','48px','52px','52px']
         }};
         // User-locked widths (saved to localStorage)
@@ -1675,7 +1690,8 @@ full_html = f"""<!DOCTYPE html>
                 'BP (&deg;C)': 'Boiling point in degrees Celsius',
                 'Ra (MPa<sup>\u00bd</sup>)': 'HSP distance between solvent and polymer in 3D Hansen space (MPa\u00bd)',
                 'R&#8320; (MPa<sup>\u00bd</sup>)': 'Interaction radius of the polymer solubility sphere (MPa\u00bd)',
-                'RED': 'Relative Energy Difference = Ra/R\u2080. RED &lt; 1 = compatible, RED &gt; 1 = incompatible'
+                'RED': 'Relative Energy Difference = Ra/R\u2080. RED &lt; 1 = compatible, RED &gt; 1 = incompatible',
+                'Conf.': 'Data confidence: High (\u226580%) = cross-referenced with CAS/SMILES, Med (50-79%) = verified identity, Low (&lt;50%) = single source only'
             }};
             function thWithTip(label, idx) {{
                 var tip = colTips[label] || '';
@@ -1688,7 +1704,7 @@ full_html = f"""<!DOCTYPE html>
             var cg = document.createElement('colgroup');
 
             if (homeTab === 'solvents') {{
-                // Name, CAS #, δD, δP, δH, MW, BP, Category, Source
+                // Name, CAS #, δD, δP, δH, MW, BP, Category, Confidence, Source
                 var solWidths = getWidths('solvents');
                 solWidths.forEach(function(w) {{
                     var col = document.createElement('col');
@@ -1697,7 +1713,7 @@ full_html = f"""<!DOCTYPE html>
                 }});
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)','Category','Source'].forEach(function(label, i) {{
+                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)','Category','Conf.','Source'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
@@ -1724,11 +1740,12 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
                     rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
                     rowsHtml += '<td style="color:' + catColor + '">' + (s.cat || '') + '</td>';
+                    rowsHtml += '<td>' + confBadge(s.conf) + '</td>';
                     rowsHtml += '<td>' + ((s.src && s.srcUrl) ? '<a href="' + s.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + s.src + '</a>' : (s.src || '')) + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }} else {{
-                // Name, CAS, δD, δP, δH, R₀, Type, Source
+                // Name, CAS, δD, δP, δH, R₀, Type, Confidence, Source
                 var polyWidths = getWidths('polymers');
                 polyWidths.forEach(function(w) {{
                     var col = document.createElement('col');
@@ -1737,7 +1754,7 @@ full_html = f"""<!DOCTYPE html>
                 }});
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)','Type','Source'].forEach(function(label, i) {{
+                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)','Type','Conf.','Source'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
@@ -1762,6 +1779,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
                     rowsHtml += '<td>' + (p.type || '') + '</td>';
+                    rowsHtml += '<td>' + confBadge(p.conf) + '</td>';
                     rowsHtml += '<td>' + ((p.src && p.srcUrl) ? '<a href="' + p.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + p.src + '</a>' : (p.src || '')) + '</td>';
                     rowsHtml += '</tr>';
                 }}
@@ -1967,6 +1985,7 @@ with open(CHEM_CSV) as f:
             "mv": row.get("molar_volume", "").strip(),
             "cat": row.get("category", "other").strip() or "other",
             "ghs": row.get("ghs_hazard", "").strip(),
+            "conf": row.get("confidence", "").strip(),
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": row.get("source_url", "").strip(),
         })
@@ -1987,6 +2006,7 @@ with open(POLY_CSV) as f:
             "dd": dd, "dp": dp, "dh": dh,
             "r": row.get("radius", "").strip(),
             "type": row.get("type", "").strip(),
+            "conf": row.get("confidence", "").strip(),
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": row.get("source_url", "").strip(),
         })
@@ -2096,6 +2116,7 @@ var SOLV_COLS = [
     {{key:'mv', label:'V\\u2098 (cm\\u00b3/mol)', w:'90px', tip:'Molar volume'}},
     {{key:'cat', label:'Category', w:'100px'}},
     {{key:'ghs', label:'GHS Hazard', w:'120px'}},
+    {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
     {{key:'src', label:'Source', w:'140px'}},
 ];
 var POLY_COLS = [
@@ -2106,6 +2127,7 @@ var POLY_COLS = [
     {{key:'dh', label:'\\u03b4H (MPa\\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
     {{key:'r', label:'R\\u2080 (MPa\\u00bd)', w:'70px', tip:'Interaction radius'}},
     {{key:'type', label:'Type', w:'120px'}},
+    {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
     {{key:'src', label:'Source', w:'140px'}},
 ];
 
@@ -2259,6 +2281,16 @@ function renderTable() {{
                 if (c.key === 'src') {{
                     var srcUrl = activeTab === 'solvents' ? SOLVENTS[idx].srcUrl : POLYMERS[idx].srcUrl;
                     if (srcUrl) display = '<a href="' + srcUrl + '" target="_blank" rel="noopener">' + val + '</a>';
+                }}
+                // Confidence badge
+                if (c.key === 'conf' && val) {{
+                    var cv = parseFloat(val);
+                    var pct = Math.round(cv * 100);
+                    var cColor, cLabel;
+                    if (cv >= 0.8) {{ cColor = '#27ae60'; cLabel = 'High'; }}
+                    else if (cv >= 0.5) {{ cColor = '#f39c12'; cLabel = 'Med'; }}
+                    else {{ cColor = '#e74c3c'; cLabel = 'Low'; }}
+                    display = '<span style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + cColor + '" title="' + cLabel + ' confidence">' + pct + '%</span>';
                 }}
                 html += '<td' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>' + display + '</td>';
             }}
