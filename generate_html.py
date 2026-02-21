@@ -1697,6 +1697,7 @@ full_html = f"""<!DOCTYPE html>
         var _highlightIdx = -1; // kept for search result traces
         var _pinnedName = null;
         var _currentAnnotation = null;
+        var _tableHover = false; // true while mouse is over a table row
 
         function _annotationText(mat, isSolvent) {{
             var h = '<b>' + mat.name + '</b>';
@@ -1765,12 +1766,14 @@ full_html = f"""<!DOCTYPE html>
 
         // Called from table row onmouseenter
         function hoverInPlot(encodedName) {{
+            _tableHover = true;
             if (_pinnedName) return;
             showAnnotation(decodeURIComponent(encodedName));
         }}
 
         // Called from table row onmouseleave
         function unhoverInPlot() {{
+            _tableHover = false;
             if (!_pinnedName) hideAnnotation();
         }}
 
@@ -2073,7 +2076,7 @@ full_html = f"""<!DOCTYPE html>
             buildHomeTable();
             // All tooltips use scene annotations for one consistent style
             plotDiv.on('plotly_hover', function(data) {{
-                if (_pinnedName) return;
+                if (_pinnedName || _tableHover) return;
                 try {{
                     var pt = data.points[0];
                     var name = '';
@@ -2083,7 +2086,7 @@ full_html = f"""<!DOCTYPE html>
                 }} catch(e) {{}}
             }});
             plotDiv.on('plotly_unhover', function() {{
-                if (!_pinnedName) hideAnnotation();
+                if (!_pinnedName && !_tableHover) hideAnnotation();
             }});
             plotDiv.on('plotly_click', function(data) {{
                 try {{
