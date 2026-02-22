@@ -845,11 +845,6 @@ full_html = f"""<!DOCTYPE html>
             _updatePlotForCommonFilter();
             // Rebuild home table with filter applied
             buildHomeTable();
-            // Re-run last search if there was one
-            if (lastSearchQuery) {{
-                document.getElementById('nl-search').value = lastSearchQuery;
-                runSearch();
-            }}
         }}
 
         function _updatePlotForCommonFilter() {{

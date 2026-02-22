@@ -14,7 +14,7 @@
     "cas": "420-46-2",
     "iupac": "1,1,1-trifluoroethane",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "reason": "ACD/Autonom: Fix truncation: \u2026ethan \u2192 \u2026ethane",
     "cid": 9868,
     "synonyms": [
      "1,1,1-TRIFLUOROETHANE",
@@ -31,7 +31,7 @@
     "ref_density": 1.176,
     "mv_match": true,
     "mv_pct_diff": 10.7,
-    "guess_text": "1,1,1-Trifluoro-ethan",
+    "guess_text": "1,1,1-Trifluoro-ethane",
     "structure_file": "candidate_structures/9868.png"
    }
   ],
@@ -84,8 +84,8 @@
     "corrected_name": "1-bromo-4-(difluoromethyl)benzene",
     "cas": "51776-71-7",
     "iupac": "1-bromo-4-(difluoromethyl)benzene",
-    "confidence": 0.67,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.63,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 2761183,
     "synonyms": [
      "1-bromo-4-(difluoromethyl)benzene",
@@ -131,7 +131,7 @@
     "cas": "75-37-6",
     "iupac": "1,1-difluoroethane",
     "confidence": 0.99,
-    "reason": "Fix truncation: \u2026ethan \u2192 \u2026ethane",
+    "reason": "ACD/Autonom: Fix truncation: \u2026ethan \u2192 \u2026ethane",
     "cid": 6368,
     "synonyms": [
      "1,1-DIFLUOROETHANE",
@@ -148,15 +148,15 @@
     "ref_density": 0.95,
     "mv_match": true,
     "mv_pct_diff": 0.0,
-    "guess_text": "1,1-Difluoroethane",
+    "guess_text": "1,1-Difluoro-ethane",
     "structure_file": "candidate_structures/6368.png"
    },
    {
     "corrected_name": "Chlorodifluoroethane",
     "cas": "25497-29-4",
     "iupac": "2-chloro-1,1-difluoroethane",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 2736499,
     "synonyms": [
      "Chlorodifluoroethane",
@@ -301,8 +301,8 @@
     "corrected_name": "TETRACHLOROPHTHALIC ANHYDRIDE",
     "cas": "117-08-8",
     "iupac": "4,5,6,7-tetrachloro-2-benzofuran-1,3-dione",
-    "confidence": 0.67,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.63,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 8326,
     "synonyms": [
      "TETRACHLOROPHTHALIC ANHYDRIDE",
@@ -344,29 +344,54 @@
   "molar_volume": 78.7,
   "options": [
    {
-    "corrected_name": "1-Bromo-2-chlorobenzene",
-    "cas": "694-80-4",
-    "iupac": "1-bromo-2-chlorobenzene",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 12754,
+    "corrected_name": "1-Bromo-2-chloroethene",
+    "cas": "",
+    "iupac": "1-bromo-2-chloroethene",
+    "confidence": 0.75,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethene'",
+    "cid": 137797,
     "synonyms": [
-     "1-Bromo-2-chlorobenzene",
-     "2-BROMOCHLOROBENZENE",
-     "o-Bromochlorobenzene",
-     "Benzene, 1-bromo-2-chloro-",
-     "UNII-PEC7Z3YX6P",
-     "PEC7Z3YX6P",
-     "2-chlorophenyl bromide",
-     "EINECS 211-775-1"
+     "1-Bromo-2-chloroethene",
+     "RefChem:1055031",
+     "DTXCID40818681",
+     "DTXSID50871005",
+     "SCHEMBL3948303",
+     "SCHEMBL4180255",
+     "SCHEMBL4180258",
+     "SCHEMBL7732017"
     ],
-    "pubchem_mw": 191.45,
+    "pubchem_mw": 141.39,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Bromo-2-chloro",
-    "structure_file": "candidate_structures/12754.png"
+    "guess_text": "1-Bromo-2-chloroethene",
+    "structure_file": "candidate_structures/137797.png"
+   },
+   {
+    "corrected_name": "BROMOTRICHLOROMETHANE",
+    "cas": "75-62-7",
+    "iupac": "bromo(trichloro)methane",
+    "confidence": 0.63,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 6383,
+    "synonyms": [
+     "BROMOTRICHLOROMETHANE",
+     "75-62-7",
+     "Trichlorobromomethane",
+     "Methane, bromotrichloro-",
+     "Carbon bromotrichloride",
+     "Monobromotrichloromethane",
+     "Carbon trichlorobromide",
+     "Trichloromethyl bromide"
+    ],
+    "pubchem_mw": 198.27,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": false,
+    "mv_pct_diff": null,
+    "guess_text": "1-Bromo-2-chloro-ethene",
+    "structure_file": "candidate_structures/6383.png"
    },
    {
     "corrected_name": "Clodronic Acid",
@@ -401,7 +426,7 @@
    "crop_file": "source_crops/50.png",
    "structure_file": "structure_crops/50.png",
    "raw_line": "151 1,2-Chlorobromoethylene 1-Bromo-2-chloro- 17.2 6.6 2.3 78.7",
-   "acd_name": "1-Bromo-2-chloro-"
+   "acd_name": "1-Bromo-2-chloro-ethene"
   }
  },
  {
@@ -466,29 +491,25 @@
   "molar_volume": 102.5,
   "options": [
    {
-    "corrected_name": "1,2-DICHLOROBUTANE",
-    "cas": "616-21-7",
-    "iupac": "1,2-dichlorobutane",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 12017,
+    "corrected_name": "SCHEMBL7106364",
+    "cas": "",
+    "iupac": "1,2-dichlorobuta-1,3-diene",
+    "confidence": 0.73,
+    "reason": "ACD/Autonom: Original name",
+    "cid": 34284,
     "synonyms": [
-     "1,2-DICHLOROBUTANE",
-     "Butane, 1,2-dichloro-",
-     "HSDB 5717",
-     "EINECS 210-469-5",
-     "NSC 93880",
-     "DTXSID8027244",
-     "UNII-45N8M9T967",
-     "1,2-Butylene chloride"
+     "SCHEMBL7106364",
+     "SCHEMBL9842776",
+     "1,2-dichloro-buta-1,3-diene",
+     "SCHEMBL28323654"
     ],
-    "pubchem_mw": 127.01,
+    "pubchem_mw": 122.98,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,2-Dichloro-buta-1,3",
-    "structure_file": "candidate_structures/12017.png"
+    "guess_text": "1,2-Dichloro-buta-1,3-diene",
+    "structure_file": "candidate_structures/34284.png"
    },
    {
     "corrected_name": "Butyltrichlorosilane",
@@ -523,7 +544,7 @@
    "crop_file": "source_crops/78.png",
    "structure_file": "structure_crops/78.png",
    "raw_line": "84 1,3-Butadiene-1,2-Di-Chloro 1,2-Dichloro-buta-1,3- 17.0 10.7 2.8 102.5",
-   "acd_name": "1,2-Dichloro-buta-1,3-"
+   "acd_name": "1,2-Dichloro-buta-1,3-diene"
   }
  },
  {
@@ -540,8 +561,8 @@
     "corrected_name": "DTXSID00871797",
     "cas": "627-22-5",
     "iupac": "1-chlorobuta-1,3-diene",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name",
     "cid": 12311,
     "synonyms": [
      "DTXSID00871797",
@@ -607,6 +628,31 @@
   "delta_h": "4.2",
   "molar_volume": 194.4,
   "options": [
+   {
+    "corrected_name": "methacryloyloxyacetic acid",
+    "cas": "6852-90-0",
+    "iupac": "2-(2-methylprop-2-enoyloxy)acetic acid",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Remove OCR space: 'Acrylic acid'\u2192'Acrylicacid' [via PubChem autocomplete]",
+    "cid": 13060939,
+    "synonyms": [
+     "methacryloyloxyacetic acid",
+     "6852-90-0",
+     "2-(Methacryloyloxy)acetic acid",
+     "2-Propenoic acid, 2-methyl-, carboxymethyl ester",
+     "2-(2-methylprop-2-enoyloxy)acetic acid",
+     "starbld0003471",
+     "carboxymethyl methacrylate",
+     "SCHEMBL75506"
+    ],
+    "pubchem_mw": 144.12,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acrylicacid 4-O acryloyloxy-butyl ester",
+    "structure_file": "candidate_structures/13060939.png"
+   },
    {
     "corrected_name": "1,3-Propanediol diacrylate",
     "cas": "24493-53-6",
@@ -709,6 +755,105 @@
   "molar_volume": 101.4,
   "options": [
    {
+    "corrected_name": "Carbonic acid, methyl trichloromethyl ester",
+    "cas": "101970-86-9",
+    "iupac": "methyl trichloromethyl carbonate",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Remove OCR space: 'Acrylic acid'\u2192'Acrylicacid' [via PubChem autocomplete]",
+    "cid": 11542920,
+    "synonyms": [
+     "Carbonic acid, methyl trichloromethyl ester",
+     "101970-86-9",
+     "DTXSID90468291",
+     "RefChem:333425",
+     "DTXCID20419110",
+     "Methyl Trichloromethyl Carbonate",
+     "SCHEMBL575452"
+    ],
+    "pubchem_mw": 193.41,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acrylicacid chloromethyl ester",
+    "structure_file": "candidate_structures/11542920.png"
+   },
+   {
+    "corrected_name": "(Dichloromethyl)boronic acid",
+    "cas": "62260-98-4",
+    "iupac": "dichloromethylboronic acid",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove OCR space: 'acid chloromethyl'\u2192'acidchloromethyl' [via PubChem autocomplete]",
+    "cid": 12776544,
+    "synonyms": [
+     "(Dichloromethyl)boronic acid",
+     "62260-98-4",
+     "DTXSID80509566",
+     "RefChem:210367",
+     "DTXCID10460373",
+     "(dichloromethyl)dihydroxyborane",
+     "SCHEMBL7353232",
+     "EN300-220862"
+    ],
+    "pubchem_mw": 128.75,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acrylic acidchloromethyl ester",
+    "structure_file": "candidate_structures/12776544.png"
+   },
+   {
+    "corrected_name": "1-chloroethyl benzoate",
+    "cas": "5819-19-2",
+    "iupac": "1-chloroethyl benzoate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove OCR space: 'chloromethyl ester'\u2192'chloromethylester' [via PubChem autocomplete]",
+    "cid": 14894177,
+    "synonyms": [
+     "1-chloroethyl benzoate",
+     "5819-19-2",
+     "Benzoicacid1-chloroethylester",
+     "BENZOIC ACID 1-CHLOROETHYL ESTER",
+     "alpha-Chloroethyl Benzoate",
+     "SCHEMBL1594032",
+     "benzoic acid-1-chloroethyl ester",
+     "DTXSID40565062"
+    ],
+    "pubchem_mw": 184.62,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acrylic acid chloromethylester",
+    "structure_file": "candidate_structures/14894177.png"
+   },
+   {
+    "corrected_name": "5458-59-3",
+    "cas": "5458-59-3",
+    "iupac": "propan-2-yl octanoate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Join all words into single compound name [via PubChem autocomplete]",
+    "cid": 21606,
+    "synonyms": [
+     "5458-59-3",
+     "ISOPROPYL OCTANOATE",
+     "isopropyl caprylate",
+     "Octanoic acid, 1-methylethyl ester",
+     "GHK5I7U9ZD",
+     "Octanoic acid, isopropyl ester",
+     "EINECS 226-721-2",
+     "NSC-23737"
+    ],
+    "pubchem_mw": 186.29,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acrylicacidchloromethylester",
+    "structure_file": "candidate_structures/21606.png"
+   },
+   {
     "corrected_name": "2-Propenoic acid, chloromethyl ester",
     "cas": "27550-72-7",
     "iupac": "chloromethyl prop-2-enoate",
@@ -783,31 +928,6 @@
     "structure_file": "candidate_structures/12446954.png"
    },
    {
-    "corrected_name": "ACRYLIC ACID",
-    "cas": "79-10-7",
-    "iupac": "prop-2-enoic acid",
-    "confidence": 0.67,
-    "reason": "ACD/Autonom name from PDF",
-    "cid": 6581,
-    "synonyms": [
-     "ACRYLIC ACID",
-     "2-Propenoic acid",
-     "79-10-7",
-     "prop-2-enoic acid",
-     "Propenoic acid",
-     "Vinylformic acid",
-     "Acroleic acid",
-     "Ethylenecarboxylic acid"
-    ],
-    "pubchem_mw": 72.06,
-    "ref_mv": 68.6,
-    "ref_density": 1.0497,
-    "mv_match": false,
-    "mv_pct_diff": 32.3,
-    "guess_text": "Acrylic acid",
-    "structure_file": "candidate_structures/6581.png"
-   },
-   {
     "corrected_name": "Ethyl 2-chloroethylcarbamate",
     "cas": "6329-26-6",
     "iupac": "ethyl N-(2-chloroethyl)carbamate",
@@ -840,7 +960,7 @@
    "crop_file": "source_crops/127.png",
    "structure_file": "structure_crops/127.png",
    "raw_line": "132 1-Chloro Methyl Acrylate Acrylic acid 15.9 7.3 8.5 101.4",
-   "acd_name": "Acrylic acid"
+   "acd_name": "Acrylic acid chloromethyl ester"
   }
  },
  {
@@ -853,6 +973,55 @@
   "delta_h": "5.7",
   "molar_volume": 104.5,
   "options": [
+   {
+    "corrected_name": "CHLOROMETHYL ETHYL ETHER",
+    "cas": "3188-13-4",
+    "iupac": "chloromethoxyethane",
+    "confidence": 0.97,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 18523,
+    "synonyms": [
+     "CHLOROMETHYL ETHYL ETHER",
+     "3188-13-4",
+     "Chloromethoxyethane",
+     "(chloromethoxy)ethane",
+     "Ethane, (chloromethoxy)-",
+     "Ethoxymethyl chloride",
+     "Ethyl chloromethyl ether",
+     "Ethoxychloromethane"
+    ],
+    "pubchem_mw": 94.54,
+    "ref_mv": 92.8,
+    "ref_density": 1.0188,
+    "mv_match": true,
+    "mv_pct_diff": 11.2,
+    "guess_text": "1-Chloro-1-ethoxy-ethene",
+    "structure_file": "candidate_structures/18523.png"
+   },
+   {
+    "corrected_name": "Ethene, 1-chloro-2-ethoxy-",
+    "cas": "928-56-3",
+    "iupac": "(Z)-1-chloro-2-ethoxyethene",
+    "confidence": 0.95,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethene' [via PubChem autocomplete]",
+    "cid": 5463044,
+    "synonyms": [
+     "Ethene, 1-chloro-2-ethoxy-",
+     "(Z)-1-chloro-2-ethoxyethene",
+     "(1Z)-1-chloro-2-ethoxyethene",
+     "928-56-3",
+     "23679-21-2",
+     "cis-2-Chlorovinyl ethyl ether",
+     "SCHEMBL172058"
+    ],
+    "pubchem_mw": 106.55,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1-Chloro-1-ethoxyethene",
+    "structure_file": "candidate_structures/5463044.png"
+   },
    {
     "corrected_name": "1-Chloro-2-(chlorophenylmethyl)benzene",
     "cas": "56961-47-8",
@@ -954,6 +1123,55 @@
   "molar_volume": 156.0,
   "options": [
    {
+    "corrected_name": "1-ethoxycyclopropanol",
+    "cas": "13837-45-1",
+    "iupac": "1-ethoxycyclopropan-1-ol",
+    "confidence": 0.99,
+    "reason": "Join substituent to parent chain 'propanol' [via PubChem autocomplete]",
+    "cid": 10964426,
+    "synonyms": [
+     "1-ethoxycyclopropanol",
+     "13837-45-1",
+     "DTXSID70449927",
+     "RefChem:230152",
+     "DTXCID00400748",
+     "1-ethoxycyclopropan-1-ol",
+     "Cyclopropanol, 1-ethoxy-",
+     "MFCD15143691"
+    ],
+    "pubchem_mw": 102.13,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1-Ethoxy Ethoxy-2Propanol",
+    "structure_file": "candidate_structures/10964426.png"
+   },
+   {
+    "corrected_name": "3-chloro-1,1-diethoxy-propan-2-ol",
+    "cas": "125781-03-5",
+    "iupac": "3-chloro-1,1-diethoxypropan-2-ol",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 10749964,
+    "synonyms": [
+     "3-chloro-1,1-diethoxy-propan-2-ol",
+     "3-CHLORO-1,1-DIETHOXYPROPAN-2-OL",
+     "125781-03-5",
+     "DTXSID30444312",
+     "AKOS006289581",
+     "EN300-1738107",
+     "174500-67-5"
+    ],
+    "pubchem_mw": 182.64,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1,3-Diethoxy-propan-2",
+    "structure_file": "candidate_structures/10749964.png"
+   },
+   {
     "corrected_name": "184110-41-6",
     "cas": "184110-41-6",
     "iupac": "(2R)-2-(1-ethoxyethoxy)propan-1-ol",
@@ -977,31 +1195,6 @@
     "mv_pct_diff": null,
     "guess_text": "1-Ethoxyethoxy-2-Propanol",
     "structure_file": "candidate_structures/400539.png"
-   },
-   {
-    "corrected_name": "1-ethoxycyclopropanol",
-    "cas": "13837-45-1",
-    "iupac": "1-ethoxycyclopropan-1-ol",
-    "confidence": 0.35,
-    "reason": "Original name [via PubChem autocomplete]",
-    "cid": 10964426,
-    "synonyms": [
-     "1-ethoxycyclopropanol",
-     "13837-45-1",
-     "DTXSID70449927",
-     "RefChem:230152",
-     "DTXCID00400748",
-     "1-ethoxycyclopropan-1-ol",
-     "Cyclopropanol, 1-ethoxy-",
-     "MFCD15143691"
-    ],
-    "pubchem_mw": 102.13,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "1-Ethoxy Ethoxy-2-Propanol",
-    "structure_file": "candidate_structures/10964426.png"
    }
   ],
   "source_ref": {
@@ -1028,6 +1221,31 @@
   "delta_h": "4.6",
   "molar_volume": 125.6,
   "options": [
+   {
+    "corrected_name": "4-(2,2-Diethoxy-ethoxy)-but-1-ene",
+    "cas": "1343915-25-2",
+    "iupac": "4-(2,2-diethoxyethoxy)but-1-ene",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 63628074,
+    "synonyms": [
+     "4-(2,2-Diethoxy-ethoxy)-but-1-ene",
+     "1343915-25-2",
+     "4-(2,2-diethoxyethoxy)but-1-ene",
+     "MFCD18848577",
+     "SCHEMBL14716733",
+     "VFWYDSSANGOYJI-UHFFFAOYSA-N",
+     "AKOS012938192",
+     "SB32930"
+    ],
+    "pubchem_mw": 188.26,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-Ethoxy-but-1-ene",
+    "structure_file": "candidate_structures/63628074.png"
+   },
    {
     "corrected_name": "2-Methoxyethyl vinyl ether",
     "cas": "1663-35-0",
@@ -1108,7 +1326,7 @@
     "cas": "430-99-9",
     "iupac": "2-fluoroprop-2-enoic acid",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "reason": "ACD/Autonom: Remove OCR space: '2-Fluoro-acrylic acid'\u2192'2-Fluoro-acrylicacid' [via PubChem autocomplete]",
     "cid": 2782523,
     "synonyms": [
      "2-Fluoroacrylic acid",
@@ -1125,7 +1343,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Fluoro-acrylic acid",
+    "guess_text": "2-Fluoro-acrylicacid",
     "structure_file": "candidate_structures/2782523.png"
    }
   ],
@@ -1154,7 +1372,7 @@
     "cas": "920-37-6",
     "iupac": "2-chloroprop-2-enenitrile",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 70198,
     "synonyms": [
      "2-Chloroacrylonitrile",
@@ -1479,8 +1697,8 @@
     "corrected_name": "N,N'-Dibenzyldithiooxamide",
     "cas": "122-65-6",
     "iupac": "N,N'-dibenzylethanedithioamide",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 678653,
     "synonyms": [
      "N,N'-Dibenzyldithiooxamide",
@@ -1550,8 +1768,8 @@
     "corrected_name": "2,2,2-Trifluoroethyl formate",
     "cas": "32042-38-9",
     "iupac": "2,2,2-trifluoroethyl formate",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 141681,
     "synonyms": [
      "2,2,2-Trifluoroethyl formate",
@@ -1750,7 +1968,7 @@
    "crop_file": "source_crops/201.png",
    "structure_file": "structure_crops/201.png",
    "raw_line": "795 2,3,4-Trifluoro Nitrobenzen 1,2,3-Trifluoro-4-nitro 19.5 7.7 3.5 122.0",
-   "acd_name": "1,2,3-Trifluoro-4-nitro"
+   "acd_name": "1,2,3-Trifluoro-4-nitro benzene"
   }
  },
  {
@@ -1764,29 +1982,29 @@
   "molar_volume": 103.4,
   "options": [
    {
-    "corrected_name": "1,4-DIBROMOBUTANE",
-    "cas": "110-52-1",
-    "iupac": "1,4-dibromobutane",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 8056,
+    "corrected_name": "2,3-Dibromo-1,4-butanediol",
+    "cas": "20163-90-0",
+    "iupac": "2,3-dibromobutane-1,4-diol",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 16041,
     "synonyms": [
-     "1,4-DIBROMOBUTANE",
-     "110-52-1",
-     "Tetramethylene dibromide",
-     "Butane, 1,4-dibromo-",
-     "Tetramethylenebromide",
-     "G49PHR6JFU",
-     "DTXSID5044364",
-     "NSC-71435"
+     "2,3-Dibromo-1,4-butanediol",
+     "RefChem:441962",
+     "631-543-7",
+     "2,3-Dibromobutane-1,4-diol",
+     "20163-90-0",
+     "1947-58-6",
+     "MFCD00011549",
+     "1,4-Butanediol, d,l-2,3-dibromo-"
     ],
-    "pubchem_mw": 215.91,
+    "pubchem_mw": 247.91,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2,3-Dibromo-buta-1,3",
-    "structure_file": "candidate_structures/8056.png"
+    "guess_text": "2,3-Dibromo-buta-1,3-diene",
+    "structure_file": "candidate_structures/16041.png"
    },
    {
     "corrected_name": "1,6-dibromopyrene",
@@ -1821,7 +2039,7 @@
    "crop_file": "source_crops/206.png",
    "structure_file": "structure_crops/206.png",
    "raw_line": "218 2,3-Dibromoprene 2,3-Dibromo-buta-1,3- 17.7 11.8 6.4 103.4",
-   "acd_name": "2,3-Dibromo-buta-1,3-"
+   "acd_name": "2,3-Dibromo-buta-1,3-diene"
   }
  },
  {
@@ -1863,8 +2081,8 @@
     "corrected_name": "2,4-dichloro-5-nitro-1,3-thiazole",
     "cas": "107190-42-1",
     "iupac": "2,4-dichloro-5-nitro-1,3-thiazole",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 13851817,
     "synonyms": [
      "2,4-dichloro-5-nitro-1,3-thiazole",
@@ -1937,7 +2155,7 @@
    "crop_file": "source_crops/228.png",
    "structure_file": "structure_crops/228.png",
    "raw_line": "823 2,4-Difluoronitrobenzen 2,4-Difluoro-1-nitro 19.4 11.0 3.7 109.6",
-   "acd_name": "2,4-Difluoro-1-nitro"
+   "acd_name": "2,4-Difluoro-1-nitro benzene"
   }
  },
  {
@@ -1975,29 +2193,54 @@
     "structure_file": "candidate_structures/35360.png"
    },
    {
-    "corrected_name": "2,5-Dichlorobenzyl chloride",
-    "cas": "2745-49-5",
-    "iupac": "1,4-dichloro-2-(chloromethyl)benzene",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 75976,
+    "corrected_name": "3,4-Dichlorothiophenol",
+    "cas": "5858-17-3",
+    "iupac": "3,4-dichlorobenzenethiol",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 79964,
     "synonyms": [
-     "2,5-Dichlorobenzyl chloride",
-     "1,4-Dichloro-2-(chloromethyl)benzene",
-     "Benzene, 1,4-dichloro-2-(chloromethyl)-",
-     "EINECS 220-382-4",
-     "UNII-G46I9555FB",
-     "G46I9555FB",
-     "DTXSID80181866",
-     "TOLUENE, .ALPHA.,2,5-TRICHLORO-"
+     "3,4-Dichlorothiophenol",
+     "5858-17-3",
+     "3,4-Dichlorobenzenethiol",
+     "DTXSID80207292",
+     "RefChem:91047",
+     "DTXCID80129783",
+     "227-485-3",
+     "1,2-Dichloro-4-benzenethiol"
     ],
-    "pubchem_mw": 195.5,
+    "pubchem_mw": 179.07,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,4-Dichloro-2",
-    "structure_file": "candidate_structures/75976.png"
+    "guess_text": "1,4-Dichloro-2-benzene",
+    "structure_file": "candidate_structures/79964.png"
+   },
+   {
+    "corrected_name": "1,4-DICHLOROBENZENE",
+    "cas": "106-46-7",
+    "iupac": "1,4-dichlorobenzene",
+    "confidence": 0.65,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'benzene' [via PubChem autocomplete]",
+    "cid": 4685,
+    "synonyms": [
+     "1,4-DICHLOROBENZENE",
+     "106-46-7",
+     "p-Dichlorobenzene",
+     "paradichlorobenzene",
+     "Paracide",
+     "Paramoth",
+     "Paradow",
+     "Paranuggets"
+    ],
+    "pubchem_mw": 147.0,
+    "ref_mv": 100.8,
+    "ref_density": 1.458,
+    "mv_match": false,
+    "mv_pct_diff": 30.7,
+    "guess_text": "1,4-Dichloro-2benzene",
+    "structure_file": "candidate_structures/4685.png"
    }
   ],
   "source_ref": {
@@ -2007,7 +2250,7 @@
    "crop_file": "source_crops/234.png",
    "structure_file": "structure_crops/234.png",
    "raw_line": "826 2,5-Dichlorobenzotrifluorid 1,4-Dichloro-2- 20.0 4.7 2.4 145.5",
-   "acd_name": "1,4-Dichloro-2-"
+   "acd_name": "1,4-Dichloro-2-benzene"
   }
  },
  {
@@ -2021,35 +2264,10 @@
   "molar_volume": 114.5,
   "options": [
    {
-    "corrected_name": "4-(Hydroxymethyl)benzoic acid",
-    "cas": "3006-96-0",
-    "iupac": "4-(hydroxymethyl)benzoic acid",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 76360,
-    "synonyms": [
-     "4-(Hydroxymethyl)benzoic acid",
-     "3006-96-0",
-     "Benzoic acid, 4-(hydroxymethyl)-",
-     "UNII-9Z28L8STHD",
-     "9Z28L8STHD",
-     "p-(hydroxymethyl)benzoic acid",
-     "P-CARBOXYBENZYL ALCOHOL",
-     "DTXSID40184111"
-    ],
-    "pubchem_mw": 152.15,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "(5-Hydroxymethyl",
-    "structure_file": "candidate_structures/76360.png"
-   },
-   {
     "corrected_name": "104-80-3",
     "cas": "104-80-3",
     "iupac": "[5-(hydroxymethyl)oxolan-2-yl]methanol",
-    "confidence": 0.95,
+    "confidence": 0.99,
     "reason": "Matched via structure image (OSRA)",
     "cid": 97792,
     "synonyms": [
@@ -2077,7 +2295,7 @@
    "crop_file": "source_crops/243.png",
    "structure_file": "structure_crops/243.png",
    "raw_line": "999 2,5-Tetrahydrofuran Dimethanol (5-Hydroxymethyl- 17.9 8.5 18.9 114.5",
-   "acd_name": "(5-Hydroxymethyl-"
+   "acd_name": "(5-Hydroxymethyl-tetrahydro-furan-2-yl)-methanol"
   }
  },
  {
@@ -2118,8 +2336,8 @@
     "corrected_name": "2,6-Difluoro-4-nitroaniline",
     "cas": "23156-27-6",
     "iupac": "2,6-difluoro-4-nitroaniline",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 2774175,
     "synonyms": [
      "2,6-Difluoro-4-nitroaniline",
@@ -2212,29 +2430,29 @@
   "molar_volume": 116.9,
   "options": [
    {
-    "corrected_name": "1-Chloro-2-iodoethane",
-    "cas": "624-70-4",
-    "iupac": "1-chloro-2-iodoethane",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 136438,
+    "corrected_name": "2-CHLOROETHYL ETHYL SULFIDE",
+    "cas": "693-07-2",
+    "iupac": "1-chloro-2-ethylsulfanylethane",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethane'",
+    "cid": 12733,
     "synonyms": [
-     "1-Chloro-2-iodoethane",
-     "624-70-4",
-     "1,2-Chloroiodoethane",
-     "JTWWWQGSFTWWDL-UHFFFAOYSA-",
-     "DTXSID60211458",
-     "RefChem:431227",
-     "DTXCID60133949",
-     "677-827-4"
+     "2-CHLOROETHYL ETHYL SULFIDE",
+     "693-07-2",
+     "1-Chloro-2-(ethylthio)ethane",
+     "2-Ethylthioethyl chloride",
+     "Ethyl 2-chloroethyl sulfide",
+     "2-(Ethylthio)chloroethane",
+     "Sulfide, 2-chloroethyl ethyl",
+     "Sulfide, chloroethyl ethyl"
     ],
-    "pubchem_mw": 190.41,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "1-Chloro-2",
-    "structure_file": "candidate_structures/136438.png"
+    "pubchem_mw": 124.63,
+    "ref_mv": 116.9,
+    "ref_density": 1.0663,
+    "mv_match": true,
+    "mv_pct_diff": 0.0,
+    "guess_text": "1-Chloro-2-ethylsulfanylethane",
+    "structure_file": "candidate_structures/12733.png"
    },
    {
     "corrected_name": "Propylcyclohexane",
@@ -2284,31 +2502,6 @@
     "mv_pct_diff": null,
     "guess_text": "2-Chloroethylethyl Sulfid",
     "structure_file": "candidate_structures/138863.png"
-   },
-   {
-    "corrected_name": "2-CHLOROETHYL ETHYL SULFIDE",
-    "cas": "693-07-2",
-    "iupac": "1-chloro-2-ethylsulfanylethane",
-    "confidence": 0.47,
-    "reason": "Original name [via PubChem autocomplete]",
-    "cid": 12733,
-    "synonyms": [
-     "2-CHLOROETHYL ETHYL SULFIDE",
-     "693-07-2",
-     "1-Chloro-2-(ethylthio)ethane",
-     "2-Ethylthioethyl chloride",
-     "Ethyl 2-chloroethyl sulfide",
-     "2-(Ethylthio)chloroethane",
-     "Sulfide, 2-chloroethyl ethyl",
-     "Sulfide, chloroethyl ethyl"
-    ],
-    "pubchem_mw": 124.63,
-    "ref_mv": 116.9,
-    "ref_density": 1.0663,
-    "mv_match": true,
-    "mv_pct_diff": 0.0,
-    "guess_text": "2-Chloroethyl Ethyl Sulfid",
-    "structure_file": "candidate_structures/12733.png"
    }
   ],
   "source_ref": {
@@ -2318,7 +2511,7 @@
    "crop_file": "source_crops/289.png",
    "structure_file": "structure_crops/289.png",
    "raw_line": "834 2-Chloroethyl Ethyl Sulfid 1-Chloro-2- 17.2 5.0 6.1 116.9",
-   "acd_name": "1-Chloro-2-"
+   "acd_name": "1-Chloro-2-ethylsulfanyl-ethane"
   }
  },
  {
@@ -2355,6 +2548,31 @@
     "mv_pct_diff": null,
     "guess_text": "2-EthylCroton Aldehyde",
     "structure_file": "candidate_structures/5362897.png"
+   },
+   {
+    "corrected_name": "2-ethyl-but-2-enal",
+    "cas": "",
+    "iupac": "2-ethylbut-2-enal",
+    "confidence": 0.73,
+    "reason": "ACD/Autonom: Original name",
+    "cid": 29773,
+    "synonyms": [
+     "2-ethyl-but-2-enal",
+     "2-Ethylbutenal",
+     "2-ethyl-butenal",
+     "SCHEMBL258732",
+     "SCHEMBL2162572",
+     "DB-044966",
+     "DB-082480",
+     "NS00047688"
+    ],
+    "pubchem_mw": 98.14,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-Ethyl-but-2-enal",
+    "structure_file": "candidate_structures/29773.png"
    }
   ],
   "source_ref": {
@@ -2382,11 +2600,61 @@
   "molar_volume": 208.2,
   "options": [
    {
+    "corrected_name": "6-Acrylamidohexanoic Acid",
+    "cas": "20766-85-2",
+    "iupac": "6-(prop-2-enoylamino)hexanoic acid",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Remove OCR space: 'yl-O hexyl'\u2192'yl-Ohexyl' [via PubChem autocomplete]",
+    "cid": 324200,
+    "synonyms": [
+     "6-Acrylamidohexanoic Acid",
+     "DTXSID60314796",
+     "RefChem:540033",
+     "DTXCID40265919",
+     "677-101-7",
+     "20766-85-2",
+     "6-(prop-2-enoylamino)hexanoic acid",
+     "6-(PROP-2-ENAMIDO)HEXANOIC ACID"
+    ],
+    "pubchem_mw": 185.22,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acrylic acid 2-eth yl-Ohexyl ester",
+    "structure_file": "candidate_structures/324200.png"
+   },
+   {
+    "corrected_name": "73019-16-6",
+    "cas": "73019-16-6",
+    "iupac": "3,5,5-trimethylhexyl hexanoate",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Remove OCR space: 'Acrylic acid'\u2192'Acrylicacid' [via PubChem autocomplete]",
+    "cid": 21156097,
+    "synonyms": [
+     "73019-16-6",
+     "Hexanoic acid, 3,5,5-trimethylhexyl ester",
+     "DTXSID60888361",
+     "RefChem:146222",
+     "DTXCID601027641",
+     "3,5,5-Trimethylhexyl hexanoate",
+     "SCHEMBL28374637",
+     "WZMVJDFJGFHBEJ-UHFFFAOYSA-N"
+    ],
+    "pubchem_mw": 242.4,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acrylicacid 2-eth yl-O hexyl ester",
+    "structure_file": "candidate_structures/21156097.png"
+   },
+   {
     "corrected_name": "2-ETHYLHEXYL ACRYLATE",
     "cas": "103-11-7",
     "iupac": "2-ethylhexyl prop-2-enoate",
-    "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.89,
+    "reason": "Join 'Ethyl hexyl' \u2192 'Ethylhexyl'",
     "cid": 7636,
     "synonyms": [
      "2-ETHYLHEXYL ACRYLATE",
@@ -2403,7 +2671,7 @@
     "ref_density": 0.885,
     "mv_match": true,
     "mv_pct_diff": 0.0,
-    "guess_text": "Acrylic acid 2-ethyl",
+    "guess_text": "2-Ethylhexyl Acrylate",
     "structure_file": "candidate_structures/7636.png"
    },
    {
@@ -2439,7 +2707,7 @@
    "crop_file": "source_crops/304.png",
    "structure_file": "structure_crops/304.png",
    "raw_line": "347 2-Ethyl Hexyl Acrylate Acrylic acid 2-ethyl- 14.8 4.7 3.4 208.2",
-   "acd_name": "Acrylic acid 2-ethyl-"
+   "acd_name": "Acrylic acid 2-eth yl-O hexyl ester"
   }
  },
  {
@@ -2581,8 +2849,8 @@
     "corrected_name": "Isocrotonic acid",
     "cas": "6213-90-7",
     "iupac": "(Z)-but-2-enoic acid",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Remove OCR space: '(Z)-But-2-enoic acid'\u2192'(Z)-But-2-enoicacid' [via NCI/CIR]",
     "cid": 643792,
     "synonyms": [
      "Isocrotonic acid",
@@ -2599,7 +2867,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "(Z)-But-2-enoic acid",
+    "guess_text": "(Z)-But-2-enoicacid",
     "structure_file": "candidate_structures/643792.png"
    },
    {
@@ -3028,29 +3296,54 @@
     "structure_file": "candidate_structures/9481.png"
    },
    {
-    "corrected_name": "1,2-Dichloro-4-iodobenzene",
-    "cas": "20555-91-3",
-    "iupac": "1,2-dichloro-4-iodobenzene",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 88591,
+    "corrected_name": "3,4-Dichlorothiophenol",
+    "cas": "5858-17-3",
+    "iupac": "3,4-dichlorobenzenethiol",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 79964,
     "synonyms": [
-     "1,2-Dichloro-4-iodobenzene",
-     "Benzene, 1,2-dichloro-4-iodo-",
-     "EINECS 243-874-0",
-     "DTXSID9066625",
-     "RefChem:117288",
-     "DTXCID0036342",
-     "243-874-0",
-     "NADPFZNWCQIJJW-UHFFFAOYSA-N"
+     "3,4-Dichlorothiophenol",
+     "5858-17-3",
+     "3,4-Dichlorobenzenethiol",
+     "DTXSID80207292",
+     "RefChem:91047",
+     "DTXCID80129783",
+     "227-485-3",
+     "1,2-Dichloro-4-benzenethiol"
     ],
-    "pubchem_mw": 272.89,
+    "pubchem_mw": 179.07,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,2-Dichloro-4",
-    "structure_file": "candidate_structures/88591.png"
+    "guess_text": "1,2-Dichloro-4-benzene",
+    "structure_file": "candidate_structures/79964.png"
+   },
+   {
+    "corrected_name": "1,4-DICHLOROBENZENE",
+    "cas": "106-46-7",
+    "iupac": "1,4-dichlorobenzene",
+    "confidence": 0.65,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'benzene' [via PubChem autocomplete]",
+    "cid": 4685,
+    "synonyms": [
+     "1,4-DICHLOROBENZENE",
+     "106-46-7",
+     "p-Dichlorobenzene",
+     "paradichlorobenzene",
+     "Paracide",
+     "Paramoth",
+     "Paradow",
+     "Paranuggets"
+    ],
+    "pubchem_mw": 147.0,
+    "ref_mv": 100.8,
+    "ref_density": 1.458,
+    "mv_match": false,
+    "mv_pct_diff": 30.7,
+    "guess_text": "1,2-Dichloro-4benzene",
+    "structure_file": "candidate_structures/4685.png"
    }
   ],
   "source_ref": {
@@ -3060,7 +3353,7 @@
    "crop_file": "source_crops/394.png",
    "structure_file": "structure_crops/394.png",
    "raw_line": "700 3,4-Dichloro \u03b1,\u03b1,\u03b1-Trifluorotoluen 1,2-Dichloro-4- 20.0 4.7 2.4 145.5",
-   "acd_name": "1,2-Dichloro-4-"
+   "acd_name": "1,2-Dichloro-4-benzene"
   }
  },
  {
@@ -3101,8 +3394,8 @@
     "corrected_name": "3'',5-Difluoro-",
     "cas": "",
     "iupac": "2-(1-methylpyrrolidin-2-yl)ethyl N-[2-(3-chlorophenyl)-4-fluorophenyl]carbamate",
-    "confidence": 0.47,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.43,
+    "reason": "ACD/Autonom: Original name",
     "cid": 117852102,
     "synonyms": [
      "3'',5-Difluoro-",
@@ -3144,8 +3437,8 @@
     "corrected_name": "4-butoxybutan-1-ol",
     "cas": "4161-24-4",
     "iupac": "4-butoxybutan-1-ol",
-    "confidence": 0.35,
-    "reason": "Original name [via PubChem autocomplete]",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 20111,
     "synonyms": [
      "4-butoxybutan-1-ol",
@@ -3162,7 +3455,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "3-Butoxybutanol",
+    "guess_text": "3-Butoxy-butan-1-ol",
     "structure_file": "candidate_structures/20111.png"
    }
   ],
@@ -3347,8 +3640,8 @@
     "corrected_name": "3-(Trifluoromethyl)benzaldehyde",
     "cas": "454-89-7",
     "iupac": "3-(trifluoromethyl)benzaldehyde",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Remove OCR space: '1-(4-Trifluoromet yl'\u2192'1-(4-Trifluorometyl' [via PubChem autocomplete]",
     "cid": 67990,
     "synonyms": [
      "3-(Trifluoromethyl)benzaldehyde",
@@ -3365,7 +3658,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-(4-Trifluoromet yl",
+    "guess_text": "1-(4-Trifluorometyl",
     "structure_file": "candidate_structures/67990.png"
    },
    {
@@ -3491,8 +3784,8 @@
     "corrected_name": "1-(4-ethoxyphenyl)piperazine",
     "cas": "46415-29-6",
     "iupac": "1-(4-ethoxyphenyl)piperazine",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 231479,
     "synonyms": [
      "1-(4-ethoxyphenyl)piperazine",
@@ -3956,6 +4249,56 @@
     "mv_match": null,
     "mv_pct_diff": null,
     "structure_file": "candidate_structures/136171.png"
+   },
+   {
+    "corrected_name": "1,4-Dibromo-2-nitrobenzene",
+    "cas": "3460-18-2",
+    "iupac": "1,4-dibromo-2-nitrobenzene",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove OCR space: '4-Bromo-1-nitro-2-O benzene'\u2192'4-Bromo-1-nitro-2-Obenzene' [via PubChem autocomplete]",
+    "cid": 77004,
+    "synonyms": [
+     "1,4-Dibromo-2-nitrobenzene",
+     "2,5-Dibromonitrobenzene",
+     "3460-18-2",
+     "EINECS 222-404-8",
+     "DTXSID20188172",
+     "RefChem:416700",
+     "DTXCID50110663",
+     "222-404-8"
+    ],
+    "pubchem_mw": 280.9,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "4-Bromo-1-nitro-2-Obenzene",
+    "structure_file": "candidate_structures/77004.png"
+   },
+   {
+    "corrected_name": "2-Bromo-4-nitro-1-(trifluoromethyl)benzene",
+    "cas": "875238-74-7",
+    "iupac": "2-bromo-4-nitro-1-(trifluoromethyl)benzene",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 66545383,
+    "synonyms": [
+     "2-Bromo-4-nitro-1-(trifluoromethyl)benzene",
+     "875238-74-7",
+     "DTXSID20735180",
+     "RefChem:257259",
+     "DTXCID70685924",
+     "862-662-4",
+     "3-BROMO-4-TRIFLUOROMETHYLNITROBENZENE",
+     "MFCD16606317"
+    ],
+    "pubchem_mw": 270.0,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "4-Bromo-1-nitro-2-O benzene",
+    "structure_file": "candidate_structures/66545383.png"
    }
   ],
   "source_ref": {
@@ -3965,7 +4308,7 @@
    "crop_file": "source_crops/499.png",
    "structure_file": "structure_crops/499.png",
    "raw_line": "854 5-Bromo-2-Nitrobenzotrifluorid 4-Bromo-1-nitro-2- 20.0 6.0 4.9 150.1",
-   "acd_name": "4-Bromo-1-nitro-2-"
+   "acd_name": "4-Bromo-1-nitro-2-O benzene"
   }
  },
  {
@@ -4030,36 +4373,11 @@
   "molar_volume": 94.0,
   "options": [
    {
-    "corrected_name": "2-Hydroxy-2-methylpropiophenone",
-    "cas": "7473-98-5",
-    "iupac": "2-hydroxy-2-methyl-1-phenylpropan-1-one",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 81984,
-    "synonyms": [
-     "2-Hydroxy-2-methylpropiophenone",
-     "7473-98-5",
-     "2-hydroxy-2-methyl-1-phenylpropan-1-one",
-     "benzoyl isopropanol",
-     "1-Propanone, 2-hydroxy-2-methyl-1-phenyl-",
-     "Z0LRG273AD",
-     "DTXSID8044830",
-     "NSC-401744"
-    ],
-    "pubchem_mw": 164.2,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "2-Hydroxy-2-methyl",
-    "structure_file": "candidate_structures/81984.png"
-   },
-   {
     "corrected_name": "ACETONE CYANOHYDRIN",
     "cas": "75-86-5",
     "iupac": "2-hydroxy-2-methylpropanenitrile",
-    "confidence": 0.47,
-    "reason": "Original name [via PubChem autocomplete]",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Original name",
     "cid": 6406,
     "synonyms": [
      "ACETONE CYANOHYDRIN",
@@ -4076,7 +4394,7 @@
     "ref_density": 0.9267,
     "mv_match": true,
     "mv_pct_diff": 2.3,
-    "guess_text": "Acetonecyanhydrin",
+    "guess_text": "2-Hydroxy-2-methyl-propionitrile",
     "structure_file": "candidate_structures/6406.png"
    }
   ],
@@ -4087,7 +4405,7 @@
    "crop_file": "source_crops/522.png",
    "structure_file": "structure_crops/522.png",
    "raw_line": "8 Acetonecyanhydrin 2-Hydroxy-2-methyl- 16.6 12.2 15.5 94.0",
-   "acd_name": "2-Hydroxy-2-methyl-"
+   "acd_name": "2-Hydroxy-2-methyl-propionitrile"
   }
  },
  {
@@ -4101,11 +4419,36 @@
   "molar_volume": 96.7,
   "options": [
    {
+    "corrected_name": "1-methylthio-2-propanone",
+    "cas": "14109-72-9",
+    "iupac": "1-methylsulfanylpropan-2-one",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Join all words into single compound name [via PubChem autocomplete]",
+    "cid": 6430713,
+    "synonyms": [
+     "1-methylthio-2-propanone",
+     "14109-72-9",
+     "(Methylthio)acetone",
+     "2-Propanone, 1-(methylthio)-",
+     "1-(methylsulfanyl)propan-2-one",
+     "2-Thia-4-pentanone",
+     "1-(methylthio)-2-propanone",
+     "FEMA No. 3882"
+    ],
+    "pubchem_mw": 104.17,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Propan-2-oneO-methyl",
+    "structure_file": "candidate_structures/6430713.png"
+   },
+   {
     "corrected_name": "2-Propanone, o-methyloxime",
     "cas": "3376-35-0",
     "iupac": "N-methoxypropan-2-imine",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 137909,
     "synonyms": [
      "2-Propanone, o-methyloxime",
@@ -4250,8 +4593,8 @@
     "corrected_name": "ACETYL FLUORIDE",
     "cas": "557-99-3",
     "iupac": "acetyl fluoride",
-    "confidence": 0.95,
-    "reason": "Fix truncation: \u2026fluorid \u2192 \u2026fluoride [via NCI/CIR]",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Fix truncation: \u2026fluorid \u2192 \u2026fluoride",
     "cid": 11204,
     "synonyms": [
      "ACETYL FLUORIDE",
@@ -4268,15 +4611,15 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Acetylfluoride",
+    "guess_text": "Acetyl fluoride",
     "structure_file": "candidate_structures/11204.png"
    },
    {
     "corrected_name": "677-67-8",
     "cas": "677-67-8",
     "iupac": "2,2-difluoro-2-fluorosulfonylacetyl fluoride",
-    "confidence": 0.67,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.63,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 69614,
     "synonyms": [
      "677-67-8",
@@ -4370,8 +4713,8 @@
     "corrected_name": "2-Chloro-1-phenylethanol",
     "cas": "1674-30-2",
     "iupac": "2-chloro-1-phenylethanol",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 92898,
     "synonyms": [
      "2-Chloro-1-phenylethanol",
@@ -4820,6 +5163,31 @@
   "molar_volume": 95.2,
   "options": [
    {
+    "corrected_name": "2-bromo-1,3-butadiene",
+    "cas": "1822-86-2",
+    "iupac": "2-bromobuta-1,3-diene",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name",
+    "cid": 12302090,
+    "synonyms": [
+     "2-bromo-1,3-butadiene",
+     "1822-86-2",
+     "DTXSID40486627",
+     "RefChem:1062417",
+     "DTXCID40437437",
+     "2-BROMOBUTA-1,3-DIENE",
+     "2-bromo-buta-1,3-diene",
+     "Bromopren"
+    ],
+    "pubchem_mw": 132.99,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-Bromo-buta-1,3-diene",
+    "structure_file": "candidate_structures/12302090.png"
+   },
+   {
     "corrected_name": "1,4-DIBROMOBUTANE",
     "cas": "110-52-1",
     "iupac": "1,4-dibromobutane",
@@ -4877,7 +5245,7 @@
    "crop_file": "source_crops/632.png",
    "structure_file": "structure_crops/632.png",
    "raw_line": "32 Allyl Bromide (3-Bromoprene) 3-Bromo-propene 16.5 7.3 4.9 86.5",
-   "acd_name": null
+   "acd_name": "2-Bromo-buta-1,3-diene"
   }
  },
  {
@@ -4894,8 +5262,8 @@
     "corrected_name": "1-Cyano-1,3-butadiene",
     "cas": "2180-68-9",
     "iupac": "(2E)-penta-2,4-dienenitrile",
-    "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Original name",
     "cid": 5364328,
     "synonyms": [
      "1-Cyano-1,3-butadiene",
@@ -4914,6 +5282,31 @@
     "mv_pct_diff": null,
     "guess_text": "Penta-2,4-dienenitrile",
     "structure_file": "candidate_structures/5364328.png"
+   },
+   {
+    "corrected_name": "3,7-Dimethylnona-2,6-dienenitrile",
+    "cas": "61792-11-8",
+    "iupac": "3,7-dimethylnona-2,6-dienenitrile",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Invert name order [via PubChem autocomplete]",
+    "cid": 112446,
+    "synonyms": [
+     "3,7-Dimethylnona-2,6-dienenitrile",
+     "Lemonile",
+     "3,7-Dimethyl-2,6-nonadienenitrile",
+     "2,6-Nonadienenitrile, 3,7-dimethyl-",
+     "EINECS 263-214-5",
+     "UNII-B8MK5EZU56",
+     "B8MK5EZU56",
+     "DTXSID1052296"
+    ],
+    "pubchem_mw": 163.26,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2,4-dienenitrilepenta",
+    "structure_file": "candidate_structures/112446.png"
    },
    {
     "corrected_name": "cyanobutadiene",
@@ -5037,6 +5430,56 @@
   "molar_volume": 145.7,
   "options": [
    {
+    "corrected_name": "Diisopentyl acetal",
+    "cas": "13285-51-3",
+    "iupac": "3-methyl-1,1-bis(3-methylbutoxy)butane",
+    "confidence": 0.95,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'butane' [via PubChem autocomplete]",
+    "cid": 57347944,
+    "synonyms": [
+     "Diisopentyl acetal",
+     "3-METHYL-1,1-DI-ISOPENTYLOXYBUTANE",
+     "13285-51-3",
+     "Butane, 3-methyl-1,1-bis(3-methylbutoxy)-",
+     "763NZ587J5",
+     "RefChem:503341",
+     "3-METHYL-1,1-BIS(3-METHYLBUTOXY)-ISOVALERALDEHYDE",
+     "UNII-763NZ587J5"
+    ],
+    "pubchem_mw": 244.41,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1-Isopropenyloxybutane",
+    "structure_file": "candidate_structures/57347944.png"
+   },
+   {
+    "corrected_name": "2-Isopropyloxetane",
+    "cas": "15045-60-0",
+    "iupac": "2-propan-2-yloxetane",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 537236,
+    "synonyms": [
+     "2-Isopropyloxetane",
+     "Pentane, 1,3-epoxy-4-methyl-",
+     "15045-60-0",
+     "DTXSID20336914",
+     "RefChem:262358",
+     "DTXCID40288002",
+     "RIELPFLYWOXARA-UHFFFAOYSA-N",
+     "2-propan-2-yloxetane"
+    ],
+    "pubchem_mw": 100.16,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1-Isopropenyloxy-butane",
+    "structure_file": "candidate_structures/537236.png"
+   },
+   {
     "corrected_name": "2-Propanamine, 2-methyl-N-(1-methylethyl)-",
     "cas": "7515-80-2",
     "iupac": "2-methyl-N-propan-2-ylpropan-2-amine",
@@ -5140,8 +5583,8 @@
     "corrected_name": "Methyl Cyclohex-2-ene-1-carboxylate",
     "cas": "25662-37-7",
     "iupac": "methyl cyclohex-2-ene-1-carboxylate",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 11007985,
     "synonyms": [
      "Methyl Cyclohex-2-ene-1-carboxylate",
@@ -5338,7 +5781,7 @@
     "cas": "75-15-0",
     "iupac": "methanedithione",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "ACD/Autonom: Original name",
     "cid": 6348,
     "synonyms": [
      "CARBON DISULFIDE",
@@ -5408,8 +5851,8 @@
     "corrected_name": "704-38-1",
     "cas": "704-38-1",
     "iupac": "dithiophen-2-ylmethanone",
-    "confidence": 0.67,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.63,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 69713,
     "synonyms": [
      "704-38-1",
@@ -5599,8 +6042,8 @@
     "corrected_name": "Bis(chloromethyl) sulfide",
     "cas": "3592-44-7",
     "iupac": "chloro(chloromethylsulfanyl)methane",
-    "confidence": 0.95,
-    "reason": "Fix truncation: \u2026sulfid \u2192 \u2026sulfide",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 565560,
     "synonyms": [
      "Bis(chloromethyl) sulfide",
@@ -5617,33 +6060,33 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Chloromethylsulfide",
+    "guess_text": "Chloro-chloromethylsulfanyl-methane",
     "structure_file": "candidate_structures/565560.png"
    },
    {
-    "corrected_name": "CHLOROFORM",
-    "cas": "67-66-3",
-    "iupac": "chloroform",
-    "confidence": 0.82,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 6212,
+    "corrected_name": "Chloromethyl phenyl sulphide",
+    "cas": "7205-91-6",
+    "iupac": "chloromethylsulfanylbenzene",
+    "confidence": 0.95,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'methane' [via PubChem autocomplete]",
+    "cid": 81623,
     "synonyms": [
-     "CHLOROFORM",
-     "Trichloromethane",
-     "67-66-3",
-     "Trichlormethan",
-     "Trichloroform",
-     "Formyl trichloride",
-     "Methane, trichloro-",
-     "Methenyl trichloride"
+     "Chloromethyl phenyl sulphide",
+     "Chloromethylthiobenzene",
+     "(Phenylthio)methyl chloride",
+     "[(Chloromethyl)thio]benzene",
+     "Phenyl chloromethyl sulfide",
+     "Sulfide, chloromethyl phenyl",
+     "Benzene, [(chloromethyl)thio]-",
+     "Benzene, ((chloromethyl)thio)-"
     ],
-    "pubchem_mw": 119.37,
-    "ref_mv": 80.5,
-    "ref_density": 1.4832,
-    "mv_match": false,
-    "mv_pct_diff": 15.3,
-    "guess_text": "Chloro",
-    "structure_file": "candidate_structures/6212.png"
+    "pubchem_mw": 158.65,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Chloro-chloromethylsulfanylmethane",
+    "structure_file": "candidate_structures/81623.png"
    },
    {
     "corrected_name": "4-(Chloromethyl)benzoic acid",
@@ -5678,7 +6121,7 @@
    "crop_file": "source_crops/730.png",
    "structure_file": "structure_crops/730.png",
    "raw_line": "158 Chloromethylsulfid Chloro- 16.6 6.4 2.0 95.0",
-   "acd_name": "Chloro-"
+   "acd_name": "Chloro-chloromethylsulfanyl-methane"
   }
  },
  {
@@ -5692,36 +6135,11 @@
   "molar_volume": 75.6,
   "options": [
    {
-    "corrected_name": "1-Chloro-1,2,2-trifluorocyclobutane",
-    "cas": "661-71-2",
-    "iupac": "1-chloro-1,2,2-trifluorocyclobutane",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 79091,
-    "synonyms": [
-     "1-Chloro-1,2,2-trifluorocyclobutane",
-     "661-71-2",
-     "1-Ctfcb",
-     "DTXSID40984597",
-     "RefChem:75310",
-     "DTXCID201411810",
-     "MFCD00042139",
-     "Cyclobutane, 1-chloro-1,2,2-trifluoro-"
-    ],
-    "pubchem_mw": 144.52,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "1-Chloro-1,2,2-trifluoro",
-    "structure_file": "candidate_structures/79091.png"
-   },
-   {
     "corrected_name": "CHLOROTRIFLUOROETHYLENE",
     "cas": "79-38-9",
     "iupac": "1-chloro-1,2,2-trifluoroethene",
-    "confidence": 0.9,
-    "reason": "Remove OCR space: 'Chlorotrifluoroet ylene'\u2192'Chlorotrifluoroetylene' [via PubChem autocomplete]",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Remove OCR space: '1-Chloro-1,2,2-trifluoro ethene'\u2192'1-Chloro-1,2,2-trifluoroethene'",
     "cid": 6594,
     "synonyms": [
      "CHLOROTRIFLUOROETHYLENE",
@@ -5738,7 +6156,7 @@
     "ref_density": 1.307,
     "mv_match": false,
     "mv_pct_diff": 17.9,
-    "guess_text": "Chlorotrifluoroetylene (CTFE)",
+    "guess_text": "1-Chloro-1,2,2-trifluoroethene",
     "structure_file": "candidate_structures/6594.png"
    }
   ],
@@ -5749,7 +6167,7 @@
    "crop_file": "source_crops/734.png",
    "structure_file": "structure_crops/734.png",
    "raw_line": "134 Chlorotrifluoroet ylene (CTFE) 1-Chloro-1,2,2-trifluoro 15.3 6.3 0 75.6",
-   "acd_name": "1-Chloro-1,2,2-trifluoro"
+   "acd_name": "1-Chloro-1,2,2-trifluoro ethene"
   }
  },
  {
@@ -5767,7 +6185,7 @@
     "cas": "126-99-8",
     "iupac": "2-chlorobuta-1,3-diene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "reason": "ACD/Autonom: Original name [via NCI/CIR]",
     "cid": 31369,
     "synonyms": [
      "CHLOROPRENE",
@@ -5838,7 +6256,7 @@
     "cas": "470-82-6",
     "iupac": "1,3,3-trimethyl-2-oxabicyclo[2.2.2]octane",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 2758,
     "synonyms": [
      "Eucalyptol",
@@ -6054,29 +6472,29 @@
     "structure_file": "candidate_structures/7791.png"
    },
    {
-    "corrected_name": "2-ETHYLHEXYL ACETATE",
-    "cas": "103-09-3",
-    "iupac": "2-ethylhexyl acetate",
-    "confidence": 0.67,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 7635,
+    "corrected_name": "N,N-Dimethylhexylamine",
+    "cas": "4385-04-0",
+    "iupac": "N,N-dimethylhexan-1-amine",
+    "confidence": 0.7,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'amine' [via PubChem autocomplete]",
+    "cid": 78090,
     "synonyms": [
-     "2-ETHYLHEXYL ACETATE",
-     "103-09-3",
-     "Acetic acid, 2-ethylhexyl ester",
-     "2-Ethyl-1-hexanol acetate",
-     "2-Ethyl-1-hexyl acetate",
-     "2-Ethylhexyl ethanoate",
-     "2-Ethylhexanyl acetate",
-     "ethylhexyl acetate"
+     "N,N-Dimethylhexylamine",
+     "4385-04-0",
+     "N,N-dimethylhexan-1-amine",
+     "1-Dimethylaminohexane",
+     "B3C6KTC8LE",
+     "N,N-Dimethyl-n-hexylamine",
+     "N,N-Dimethyl-1-hexanamine",
+     "EINECS 224-491-8"
     ],
-    "pubchem_mw": 172.26,
-    "ref_mv": 197.3,
-    "ref_density": 0.873,
+    "pubchem_mw": 129.24,
+    "ref_mv": null,
+    "ref_density": null,
     "mv_match": false,
-    "mv_pct_diff": 34.6,
-    "guess_text": "Bis-(2-ethyl-hexyl)",
-    "structure_file": "candidate_structures/7635.png"
+    "mv_pct_diff": null,
+    "guess_text": "Bis-(2-ethyl-hexyl)amine",
+    "structure_file": "candidate_structures/78090.png"
    },
    {
     "corrected_name": "2-ETHYLHEXYLAMINE",
@@ -6102,31 +6520,6 @@
     "mv_pct_diff": 45.7,
     "guess_text": "Di-2-EthylHexylAmine",
     "structure_file": "candidate_structures/7719.png"
-   },
-   {
-    "corrected_name": "N,N-Dimethylhexylamine",
-    "cas": "4385-04-0",
-    "iupac": "N,N-dimethylhexan-1-amine",
-    "confidence": 0.05,
-    "reason": "Original name [via PubChem autocomplete]",
-    "cid": 78090,
-    "synonyms": [
-     "N,N-Dimethylhexylamine",
-     "4385-04-0",
-     "N,N-dimethylhexan-1-amine",
-     "1-Dimethylaminohexane",
-     "B3C6KTC8LE",
-     "N,N-Dimethyl-n-hexylamine",
-     "N,N-Dimethyl-1-hexanamine",
-     "EINECS 224-491-8"
-    ],
-    "pubchem_mw": 129.24,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": false,
-    "mv_pct_diff": null,
-    "guess_text": "Di-2-Ethyl Hexyl Amine",
-    "structure_file": "candidate_structures/78090.png"
    }
   ],
   "source_ref": {
@@ -6136,7 +6529,7 @@
    "crop_file": "source_crops/808.png",
    "structure_file": "structure_crops/808.png",
    "raw_line": "205 Di-2-Ethyl Hexyl Amine Bis-(2-ethyl-hexyl)- 15.6 0.8 3.2 301.5",
-   "acd_name": "Bis-(2-ethyl-hexyl)-"
+   "acd_name": "Bis-(2-ethyl-hexyl)-amine"
   }
  },
  {
@@ -6153,8 +6546,8 @@
     "corrected_name": "Methylphosphonic acid",
     "cas": "993-13-5",
     "iupac": "methylphosphonic acid",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Remove OCR space: 'Methyl-phosphonic acid'\u2192'Methyl-phosphonicacid' [via NCI/CIR]",
     "cid": 13818,
     "synonyms": [
      "Methylphosphonic acid",
@@ -6171,7 +6564,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Methyl-phosphonic acid",
+    "guess_text": "Methyl-phosphonicacid",
     "structure_file": "candidate_structures/13818.png"
    },
    {
@@ -6298,8 +6691,8 @@
     "corrected_name": "fluorophosphoric acid",
     "cas": "13537-32-1",
     "iupac": "fluorophosphonic acid",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Remove OCR space: 'Phosphorofluoridic acid'\u2192'Phosphorofluoridicacid' [via NCI/CIR]",
     "cid": 24267,
     "synonyms": [
      "fluorophosphoric acid",
@@ -6316,7 +6709,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Phosphorofluoridic acid",
+    "guess_text": "Phosphorofluoridicacid",
     "structure_file": "candidate_structures/24267.png"
    }
   ],
@@ -6341,11 +6734,36 @@
   "molar_volume": 159.0,
   "options": [
    {
+    "corrected_name": "2-Bromopentanedioic acid",
+    "cas": "51528-22-4",
+    "iupac": "2-bromopentanedioic acid",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove OCR space: 'Pentanedioic acid'\u2192'Pentanedioicacid' [via PubChem autocomplete]",
+    "cid": 18539513,
+    "synonyms": [
+     "2-Bromopentanedioic acid",
+     "51528-22-4",
+     "DTXSID90594923",
+     "RefChem:257684",
+     "DTXCID80545686",
+     "Pentanedioicacid, 2-bromo-",
+     "2-Bromopentanedioic Acid (>85%)",
+     "a-Brom-glutarsaure"
+    ],
+    "pubchem_mw": 211.01,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Pentanedioicacid",
+    "structure_file": "candidate_structures/18539513.png"
+   },
+   {
     "corrected_name": "GLUTARIC ACID",
     "cas": "110-94-1",
     "iupac": "pentanedioic acid",
-    "confidence": 0.67,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.63,
+    "reason": "ACD/Autonom: Original name",
     "cid": 743,
     "synonyms": [
      "GLUTARIC ACID",
@@ -6462,31 +6880,6 @@
   "molar_volume": 141.5,
   "options": [
    {
-    "corrected_name": "ETHYLXANTHATE",
-    "cas": "151-01-9",
-    "iupac": "ethoxymethanedithioic acid",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 8823,
-    "synonyms": [
-     "ETHYLXANTHATE",
-     "Ethyl xanthogenate",
-     "Ethyl xanthate",
-     "Ethylxanthic acid",
-     "151-01-9",
-     "Ethoxydithioformic acid",
-     "Ethylxanthogenic acid",
-     "Xanthic acid, ethyl-"
-    ],
-    "pubchem_mw": 122.21,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "[(Ethoxydithio)oxy]etha",
-    "structure_file": "candidate_structures/8823.png"
-   },
-   {
     "corrected_name": "Disulfide, diethoxy",
     "cas": "28752-22-9",
     "iupac": "(ethoxydisulfanyl)oxyethane",
@@ -6510,6 +6903,31 @@
     "mv_pct_diff": null,
     "guess_text": "Diethoxy Disulfide",
     "structure_file": "candidate_structures/10898917.png"
+   },
+   {
+    "corrected_name": "ETHYLXANTHATE",
+    "cas": "151-01-9",
+    "iupac": "ethoxymethanedithioic acid",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 8823,
+    "synonyms": [
+     "ETHYLXANTHATE",
+     "Ethyl xanthogenate",
+     "Ethyl xanthate",
+     "Ethylxanthic acid",
+     "151-01-9",
+     "Ethoxydithioformic acid",
+     "Ethylxanthogenic acid",
+     "Xanthic acid, ethyl-"
+    ],
+    "pubchem_mw": 122.21,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "[(Ethoxydithio)oxy]etha",
+    "structure_file": "candidate_structures/8823.png"
    },
    {
     "corrected_name": "DIETHYL DISULFIDE",
@@ -6607,29 +7025,29 @@
   "molar_volume": null,
   "options": [
    {
-    "corrected_name": "DIETHYLAMINE",
-    "cas": "109-89-7",
-    "iupac": "N-ethylethanamine",
-    "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
-    "cid": 8021,
+    "corrected_name": "Tetramethylammonium acetate",
+    "cas": "10581-12-1",
+    "iupac": "tetramethylazanium acetate",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Remove OCR space: 'Acetate diethyl-16.0'\u2192'Acetatediethyl-16.0' [via PubChem autocomplete]",
+    "cid": 82741,
     "synonyms": [
-     "DIETHYLAMINE",
-     "109-89-7",
-     "N-Ethylethanamine",
-     "N,N-Diethylamine",
-     "Ethanamine, N-ethyl-",
-     "Diaethylamin",
-     "Dietilamina",
-     "Dwuetyloamina"
+     "Tetramethylammonium acetate",
+     "Methanaminium, N,N,N-trimethyl-, acetate",
+     "Ammonium, tetramethyl-, acetate",
+     "EINECS 234-179-3",
+     "NSC 97381",
+     "DTXSID1065132",
+     "Methanaminium, N,N,N-trimethyl-, acetate (1:1)",
+     "RefChem:188763"
     ],
-    "pubchem_mw": 73.14,
-    "ref_mv": 103.3,
-    "ref_density": 0.708,
+    "pubchem_mw": 133.19,
+    "ref_mv": null,
+    "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Diethyl-amine",
-    "structure_file": "candidate_structures/8021.png"
+    "guess_text": "Acetatediethyl-16.0 20.3 18.4 ammonium;",
+    "structure_file": "candidate_structures/82741.png"
    },
    {
     "corrected_name": "N,N-dimethylglycine",
@@ -6655,6 +7073,31 @@
     "mv_pct_diff": null,
     "guess_text": "DiethylAmine/Acetic Acid",
     "structure_file": "candidate_structures/673.png"
+   },
+   {
+    "corrected_name": "DIETHYLAMINE",
+    "cas": "109-89-7",
+    "iupac": "N-ethylethanamine",
+    "confidence": 0.75,
+    "reason": "Use base compound (salt)",
+    "cid": 8021,
+    "synonyms": [
+     "DIETHYLAMINE",
+     "109-89-7",
+     "N-Ethylethanamine",
+     "N,N-Diethylamine",
+     "Ethanamine, N-ethyl-",
+     "Diaethylamin",
+     "Dietilamina",
+     "Dwuetyloamina"
+    ],
+    "pubchem_mw": 73.14,
+    "ref_mv": 103.3,
+    "ref_density": 0.708,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Diethyl Amine",
+    "structure_file": "candidate_structures/8021.png"
    },
    {
     "corrected_name": "1606-01-5",
@@ -6689,7 +7132,7 @@
    "crop_file": "source_crops/852.png",
    "structure_file": "structure_crops/852.png",
    "raw_line": "1183 Diethyl Amine/Acetic Acid Acetate diethyl- 16.0 20.3 18.4",
-   "acd_name": "Diethyl-amine"
+   "acd_name": "Acetate diethyl-16.0 20.3 18.4 ammonium;"
   }
  },
  {
@@ -6703,29 +7146,29 @@
   "molar_volume": null,
   "options": [
    {
-    "corrected_name": "4-(acetamidomethyl)benzoic acid",
-    "cas": "1205-58-9",
-    "iupac": "4-(acetamidomethyl)benzoic acid",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 506064,
+    "corrected_name": "Tetramethylammonium acetate",
+    "cas": "10581-12-1",
+    "iupac": "tetramethylazanium acetate",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Remove OCR space: 'Acetate diethyl-(2-16.0'\u2192'Acetatediethyl-(2-16.0' [via PubChem autocomplete]",
+    "cid": 82741,
     "synonyms": [
-     "4-(acetamidomethyl)benzoic acid",
-     "1205-58-9",
-     "DTXSID80333444",
-     "RefChem:288420",
-     "DTXCID90284534",
-     "861-352-6",
-     "4-[(acetylamino)methyl]benzoic acid",
-     "MFCD06655692"
+     "Tetramethylammonium acetate",
+     "Methanaminium, N,N,N-trimethyl-, acetate",
+     "Ammonium, tetramethyl-, acetate",
+     "EINECS 234-179-3",
+     "NSC 97381",
+     "DTXSID1065132",
+     "Methanaminium, N,N,N-trimethyl-, acetate (1:1)",
+     "RefChem:188763"
     ],
-    "pubchem_mw": 193.2,
+    "pubchem_mw": 133.19,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Acetate diethyl-(2",
-    "structure_file": "candidate_structures/506064.png"
+    "guess_text": "Acetatediethyl-(2-16.0 20.3 18.4 hydroxy-ethyl)-ammonium;",
+    "structure_file": "candidate_structures/82741.png"
    },
    {
     "corrected_name": "10549-59-4",
@@ -6785,7 +7228,7 @@
    "crop_file": "source_crops/854.png",
    "structure_file": "structure_crops/854.png",
    "raw_line": "1184 Diethyl Ethanolamine/Acetic Acid Acetate diethyl-(2- 16.0 20.3 18.4",
-   "acd_name": "Acetate diethyl-(2-"
+   "acd_name": "Acetate diethyl-(2-16.0 20.3 18.4 hydroxy-ethyl)-ammonium;"
   }
  },
  {
@@ -6803,7 +7246,7 @@
     "cas": "352-93-2",
     "iupac": "ethylsulfanylethane",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethane'",
     "cid": 9609,
     "synonyms": [
      "Diethyl sulfide",
@@ -6820,7 +7263,7 @@
     "ref_density": 0.8362,
     "mv_match": true,
     "mv_pct_diff": 0.5,
-    "guess_text": "Ethylsulfanyl-ethane",
+    "guess_text": "Ethylsulfanylethane",
     "structure_file": "candidate_structures/9609.png"
    }
   ],
@@ -6849,7 +7292,7 @@
     "cas": "124-17-4",
     "iupac": "2-(2-butoxyethoxy)ethyl acetate",
     "confidence": 0.99,
-    "reason": "Remove 'Commercial'",
+    "reason": "ACD/Autonom: Remove OCR space: 'Acetic acid'\u2192'Aceticacid' [via NCI/CIR]",
     "cid": 31288,
     "synonyms": [
      "2-(2-Butoxyethoxy)ethyl acetate",
@@ -6866,33 +7309,8 @@
     "ref_density": 0.985,
     "mv_match": true,
     "mv_pct_diff": 0.4,
-    "guess_text": "Diethylene Glycol Butyl Ether Acetate",
+    "guess_text": "Aceticacid 2-(2-butoxy-ethoxy)-ethyl ester",
     "structure_file": "candidate_structures/31288.png"
-   },
-   {
-    "corrected_name": "2-Butoxyethyl chloroacetate",
-    "cas": "5330-17-6",
-    "iupac": "2-butoxyethyl 2-chloroacetate",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 79237,
-    "synonyms": [
-     "2-Butoxyethyl chloroacetate",
-     "Acetic acid, chloro-, 2-butoxyethyl ester",
-     "Acetic acid, 2-chloro-, 2-butoxyethyl ester",
-     "AI3-07400",
-     "NSC 2646",
-     "EINECS 226-221-4",
-     "DTXSID5063782",
-     "RefChem:86012"
-    ],
-    "pubchem_mw": 194.65,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Acetic acid 2-(2-butoxy",
-    "structure_file": "candidate_structures/79237.png"
    }
   ],
   "source_ref": {
@@ -6902,7 +7320,7 @@
    "crop_file": "source_crops/871.png",
    "structure_file": "structure_crops/871.png",
    "raw_line": "264 Diethylene Glycol Butyl Ether Acetate Acetic acid 2-(2-butoxy- 16.0 4.1 8.2 208.2",
-   "acd_name": "Acetic acid 2-(2-butoxy-"
+   "acd_name": "Acetic acid 2-(2-butoxy-ethoxy)-ethyl ester"
   }
  },
  {
@@ -6941,29 +7359,54 @@
     "structure_file": "candidate_structures/8179.png"
    },
    {
-    "corrected_name": "Tris(3-methoxyphenyl)phosphine",
-    "cas": "29949-84-6",
-    "iupac": "tris(3-methoxyphenyl)phosphane",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 141534,
+    "corrected_name": "1-Bromo-3-methoxypropane",
+    "cas": "36865-41-5",
+    "iupac": "1-bromo-3-methoxypropane",
+    "confidence": 0.95,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'propane' [via PubChem autocomplete]",
+    "cid": 524551,
     "synonyms": [
-     "Tris(3-methoxyphenyl)phosphine",
-     "29949-84-6",
-     "DTXSID80184054",
-     "NSC 132543",
-     "RefChem:900229",
-     "DTXCID90106545",
-     "631-150-0",
-     "tris(3-methoxyphenyl)phosphane"
+     "1-Bromo-3-methoxypropane",
+     "36865-41-5",
+     "DTXSID00335324",
+     "RefChem:430500",
+     "DTXCID50286413",
+     "609-300-1",
+     "3-Bromo-1-methoxypropane",
+     "3-Bromopropyl Methyl Ether"
     ],
-    "pubchem_mw": 352.4,
+    "pubchem_mw": 153.02,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-[2-(2-Methoxy",
-    "structure_file": "candidate_structures/141534.png"
+    "guess_text": "2-[2-(2-Methoxy-methylpropane",
+    "structure_file": "candidate_structures/524551.png"
+   },
+   {
+    "corrected_name": "100683-08-7",
+    "cas": "100683-08-7",
+    "iupac": "1-methoxycyclopropane-1-carboxylic acid",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 22484226,
+    "synonyms": [
+     "100683-08-7",
+     "1-Methoxycyclopropane-1-carboxylic acid",
+     "DTXSID40626066",
+     "RefChem:231374",
+     "DTXCID80576819",
+     "852-719-1",
+     "Cyclopropanecarboxylic acid, 1-methoxy-",
+     "1-methoxycyclopropanecarboxylic acid"
+    ],
+    "pubchem_mw": 116.11,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-[2-(2-Methoxy-methyl-propane",
+    "structure_file": "candidate_structures/22484226.png"
    },
    {
     "corrected_name": "2-[2-(2-Methoxyethoxy)ethoxy]-2-methylpropane",
@@ -6998,7 +7441,7 @@
    "crop_file": "source_crops/876.png",
    "structure_file": "structure_crops/876.png",
    "raw_line": "266 Diethylene Glycol Methyl t-Butyl 2-[2-(2-Methoxy- 16.0 7.2 7.2 193.9",
-   "acd_name": "2-[2-(2-Methoxy-"
+   "acd_name": "2-[2-(2-Methoxy-methyl-propane"
   }
  },
  {
@@ -7289,29 +7732,104 @@
   "molar_volume": 132.4,
   "options": [
    {
-    "corrected_name": "1643-20-5",
-    "cas": "1643-20-5",
-    "iupac": "N,N-dimethyldodecan-1-amine oxide",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 15433,
+    "corrected_name": "14779-78-3",
+    "cas": "14779-78-3",
+    "iupac": "pentyl 4-(dimethylamino)benzoate",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Remove OCR space: 'compound with'\u2192'compoundwith' [via PubChem autocomplete]",
+    "cid": 26890,
     "synonyms": [
-     "1643-20-5",
-     "Lauramine oxide",
-     "Lauryldimethylamine oxide",
-     "1-Dodecanamine, N,N-dimethyl-, N-oxide",
-     "LDAO",
-     "Dodecyldimethylamine oxide",
-     "Lauryldimethylamine N-oxide",
-     "Ammonyx AO"
+     "14779-78-3",
+     "Padimate A",
+     "Amyl-p-dimethylaminobenzoate",
+     "Amyl dimethyl-PABA",
+     "Pentyl dimethyl PABA",
+     "Amyl 4-(dimethylamino)benzoate",
+     "Amyl P-(Dimethylamino)benzoate",
+     "Benzoic acid, 4-(dimethylamino)-, pentyl ester"
     ],
-    "pubchem_mw": 229.4,
+    "pubchem_mw": 235.32,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Dimethyl-amine;",
-    "structure_file": "candidate_structures/15433.png"
+    "guess_text": "Dimethyl-amine; compoundwith",
+    "structure_file": "candidate_structures/26890.png"
+   },
+   {
+    "corrected_name": "6-dimethylaminopurine",
+    "cas": "938-55-6",
+    "iupac": "N,N-dimethyl-7H-purin-6-amine",
+    "confidence": 0.95,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'amine' [via PubChem autocomplete]",
+    "cid": 3134,
+    "synonyms": [
+     "6-dimethylaminopurine",
+     "N,N-dimethyl-7H-purin-6-amine",
+     "6-(Dimethylamino)purine",
+     "N,N-Dimethyladenine",
+     "N(6),N(6)-Dimethyladenine",
+     "Dimethyladenine",
+     "N,N-Dimethyl-9H-purin-6-amine",
+     "6,6-Dimethyladenine"
+    ],
+    "pubchem_mw": 163.18,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Dimethylamine; compound with",
+    "structure_file": "candidate_structures/3134.png"
+   },
+   {
+    "corrected_name": "(3-aminobutyl)dimethylamine",
+    "cas": "13022-87-2",
+    "iupac": "1-N,1-N-dimethylbutane-1,3-diamine",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Append missing final 'e' [via PubChem autocomplete]",
+    "cid": 12639038,
+    "synonyms": [
+     "(3-aminobutyl)dimethylamine",
+     "13022-87-2",
+     "RefChem:399883",
+     "842-448-7",
+     "18246-86-1",
+     "MFCD09742179",
+     "1-N,1-N-dimethylbutane-1,3-diamine",
+     "N1,N1-Dimethylbutane-1,3-diamine dihydrochloride"
+    ],
+    "pubchem_mw": 116.2,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Dimethyl-amine; compound withe",
+    "structure_file": "candidate_structures/12639038.png"
+   },
+   {
+    "corrected_name": "4-Amino-N,N-dimethylbenzylamine",
+    "cas": "6406-74-2",
+    "iupac": "4-[(dimethylamino)methyl]aniline",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 308051,
+    "synonyms": [
+     "4-Amino-N,N-dimethylbenzylamine",
+     "p-Aminobenzyldimethylamine",
+     "Benzenemethanamine, 4-amino-N,N-dimethyl-",
+     "4-((Dimethylamino)methyl)benzenamine",
+     "DTXSID90884295",
+     "RefChem:563278",
+     "DTXCID001023746",
+     "229-033-0"
+    ],
+    "pubchem_mw": 150.22,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Dimethyl-amine; compound with",
+    "structure_file": "candidate_structures/308051.png"
    },
    {
     "corrected_name": "Dimethylamine hydrochloride",
@@ -7346,7 +7864,7 @@
    "crop_file": "source_crops/901.png",
    "structure_file": "structure_crops/901.png",
    "raw_line": "288 Dimethyl Amine-Dimer Dimethyl-amine; 15.3 4.8 7.9 132.4",
-   "acd_name": "Dimethyl-amine;"
+   "acd_name": "Dimethyl-amine; compound with"
   }
  },
  {
@@ -7360,29 +7878,79 @@
   "molar_volume": 142.0,
   "options": [
    {
-    "corrected_name": "Iboxygaine",
-    "cas": "82-55-3",
-    "iupac": "(1S)-1-[(1R,15S,17R,18R)-7-methoxy-3,13-diazapentacyclo[13.3.1.02,10.04,9.013,18]nonadeca-2(10),4(9),5,7-tetraen-17-yl]ethanol",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 71656190,
+    "corrected_name": "37143-54-7",
+    "cas": "37143-54-7",
+    "iupac": "1-methoxypropan-2-amine",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Use name before parentheses [via PubChem autocomplete]",
+    "cid": 123458,
     "synonyms": [
-     "Iboxygaine",
-     "(-)-Iboxygaine",
-     "(4alpha)-12-Methoxyibogamin-20S-ol",
-     "Ibogamin-20-ol, 12-methoxy-, (4alpha,20S)-",
-     "DTXSID90231508",
-     "82-55-3",
-     "(1S)-1-[(1R,15S,17R,18R)-7-methoxy-3,13-diazapentacyclo[13.3.1.02,10.04,9.013,18]nonadeca-2(10),4(9),5,7-tetraen-17-yl]ethanol",
-     "(1S)-1-((1R,15S,17R,18R)-7-methoxy-3,13-diazapentacyclo(13.3.1.02,10.04,9.013,18)nonadeca-2(10),4(9),5,7-tetraen-17-yl)ethanol"
+     "37143-54-7",
+     "1-Methoxy-2-propylamine",
+     "2-Amino-1-methoxypropane",
+     "2-Propanamine, 1-methoxy-",
+     "1-Methoxy-2-propanamine",
+     "DL-Alaninol methyl ether",
+     "Methoxyisopropylamine",
+     "1-Methyl-2-methoxyethylamine"
     ],
-    "pubchem_mw": 326.4,
+    "pubchem_mw": 89.14,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Methoxy-2-(2",
-    "structure_file": "candidate_structures/71656190.png"
+    "guess_text": "1-Methoxy-2-",
+    "structure_file": "candidate_structures/123458.png"
+   },
+   {
+    "corrected_name": "4-(2-Methoxyethoxy)phenol",
+    "cas": "51980-60-0",
+    "iupac": "4-(2-methoxyethoxy)phenol",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Use parenthetical name [via PubChem autocomplete]",
+    "cid": 13313561,
+    "synonyms": [
+     "4-(2-Methoxyethoxy)phenol",
+     "51980-60-0",
+     "DTXSID00536435",
+     "RefChem:97066",
+     "DTXCID30487224",
+     "826-063-1",
+     "4-(2-Methoxy-ethoxy)-phenol",
+     "MFCD04114941"
+    ],
+    "pubchem_mw": 168.19,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-methoxy-ethoxy",
+    "structure_file": "candidate_structures/13313561.png"
+   },
+   {
+    "corrected_name": "4-methoxy-3-(2-methoxyethoxy)benzaldehyde",
+    "cas": "116168-89-9",
+    "iupac": "4-methoxy-3-(2-methoxyethoxy)benzaldehyde",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 6484657,
+    "synonyms": [
+     "4-methoxy-3-(2-methoxyethoxy)benzaldehyde",
+     "4-Methoxy-3-(2-methoxy-ethoxy)-benzaldehyde",
+     "116168-89-9",
+     "MFCD07801178",
+     "4-Methoxy-3-(2-methoxyethoxy)-benzaldehyde",
+     "SCHEMBL1515797",
+     "DTXSID00424469",
+     "ZMRITOOPJGZGIK-UHFFFAOYSA-N"
+    ],
+    "pubchem_mw": 210.23,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1-Methoxy-2-(2-methoxy-ethoxy)",
+    "structure_file": "candidate_structures/6484657.png"
    },
    {
     "corrected_name": "dimethyldiethylene glycol",
@@ -7464,7 +8032,7 @@
    "crop_file": "source_crops/904.png",
    "structure_file": "structure_crops/904.png",
    "raw_line": "292 Dimethyl Diethylene Glycol 1-Methoxy-2-(2- 15.8 6.1 9.2 142.0",
-   "acd_name": "1-Methoxy-2-(2-"
+   "acd_name": "1-Methoxy-2-(2-methoxy-ethoxy)-"
   }
  },
  {
@@ -7482,7 +8050,7 @@
     "cas": "624-92-0",
     "iupac": "(methyldisulfanyl)methane",
     "confidence": 0.99,
-    "reason": "Fix truncation: \u2026sulfid \u2192 \u2026sulfide",
+    "reason": "ACD/Autonom: Join substituent to parent chain 'methane'",
     "cid": 12232,
     "synonyms": [
      "Dimethyl disulfide",
@@ -7499,31 +8067,8 @@
     "ref_density": 1.065,
     "mv_match": true,
     "mv_pct_diff": 0.1,
-    "guess_text": "Dimethyl Disulfide",
+    "guess_text": "Methyldisulfanylmethane",
     "structure_file": "candidate_structures/12232.png"
-   },
-   {
-    "corrected_name": "Methyldithio radical",
-    "cas": "29245-72-5",
-    "iupac": "",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF",
-    "cid": 141471,
-    "synonyms": [
-     "Methyldithio radical",
-     "29245-72-5",
-     "CH3SS",
-     "methyldithio",
-     "methyldisulfanyl",
-     "DTXSID20183506"
-    ],
-    "pubchem_mw": 79.17,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Methyldisulfanyl",
-    "structure_file": "candidate_structures/141471.png"
    }
   ],
   "source_ref": {
@@ -7533,7 +8078,7 @@
    "crop_file": "source_crops/906.png",
    "structure_file": "structure_crops/906.png",
    "raw_line": "294 Dimethyl Disulfid Methyldisulfanyl- 17.3 7.8 6.5 88.6",
-   "acd_name": "Methyldisulfanyl-"
+   "acd_name": "Methyldisulfanyl-methane"
   }
  },
  {
@@ -7547,11 +8092,86 @@
   "molar_volume": null,
   "options": [
    {
+    "corrected_name": "acetate",
+    "cas": "71-50-1",
+    "iupac": "acetate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove incomplete parenthetical",
+    "cid": 175,
+    "synonyms": [
+     "acetate",
+     "Acetate Ion",
+     "71-50-1",
+     "Acetic acid, ion(1-)",
+     "Acetate ions",
+     "Acetate anion",
+     "Acetoxy ion",
+     "Acetic acid anion"
+    ],
+    "pubchem_mw": 59.04,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acetate",
+    "structure_file": "candidate_structures/175.png"
+   },
+   {
+    "corrected_name": "4-(Hydroxymethyl)benzoic acid",
+    "cas": "3006-96-0",
+    "iupac": "4-(hydroxymethyl)benzoic acid",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Use parenthetical as name [via PubChem autocomplete]",
+    "cid": 76360,
+    "synonyms": [
+     "4-(Hydroxymethyl)benzoic acid",
+     "3006-96-0",
+     "Benzoic acid, 4-(hydroxymethyl)-",
+     "UNII-9Z28L8STHD",
+     "9Z28L8STHD",
+     "p-(hydroxymethyl)benzoic acid",
+     "P-CARBOXYBENZYL ALCOHOL",
+     "DTXSID40184111"
+    ],
+    "pubchem_mw": 152.15,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-hydroxy-16.8 19.8 19.8 ethyl)-dimethyl",
+    "structure_file": "candidate_structures/76360.png"
+   },
+   {
+    "corrected_name": "N-(Hydroxymethyl)acetamide",
+    "cas": "625-51-4",
+    "iupac": "N-(hydroxymethyl)acetamide",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 69365,
+    "synonyms": [
+     "N-(Hydroxymethyl)acetamide",
+     "625-51-4",
+     "Formicin",
+     "Acetamide, N-(hydroxymethyl)-",
+     "formaldehyde acetamide",
+     "EINECS 210-897-2",
+     "RCG03A51MO",
+     "BRN 0506226"
+    ],
+    "pubchem_mw": 89.09,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acetate (2-hydroxy-16.8 19.8 19.8 ethyl)-dimethyl",
+    "structure_file": "candidate_structures/69365.png"
+   },
+   {
     "corrected_name": "2-(Dimethylamino)ethanol",
     "cas": "108-01-0",
     "iupac": "2-(dimethylamino)ethanol",
-    "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.85,
+    "reason": "Use base compound (salt)",
     "cid": 7902,
     "synonyms": [
      "2-(Dimethylamino)ethanol",
@@ -7568,7 +8188,7 @@
     "ref_density": 0.887,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Dimethylamino",
+    "guess_text": "Dimethyl Ethanolamine",
     "structure_file": "candidate_structures/7902.png"
    },
    {
@@ -7604,7 +8224,7 @@
    "crop_file": "source_crops/909.png",
    "structure_file": "structure_crops/909.png",
    "raw_line": "1189 Dimethyl Ethanolamine/Acetic Acid Acetate (2-hydroxy- 16.8 19.8 19.8",
-   "acd_name": "2-Dimethylamino-"
+   "acd_name": "Acetate (2-hydroxy-16.8 19.8 19.8 ethyl)-dimethyl-"
   }
  },
  {
@@ -7618,29 +8238,79 @@
   "molar_volume": null,
   "options": [
    {
-    "corrected_name": "2-(Dimethylamino)ethanol",
-    "cas": "108-01-0",
-    "iupac": "2-(dimethylamino)ethanol",
-    "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
-    "cid": 7902,
+    "corrected_name": "formate",
+    "cas": "71-47-6",
+    "iupac": "formate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove incomplete parenthetical",
+    "cid": 283,
     "synonyms": [
-     "2-(Dimethylamino)ethanol",
-     "Deanol",
-     "108-01-0",
-     "N,N-Dimethylethanolamine",
-     "Dimethylaminoethanol",
-     "2-DIMETHYLAMINOETHANOL",
-     "Norcholine",
-     "Bimanol"
+     "formate",
+     "CHEBI:15740",
+     "RefChem:921764",
+     "Formic acid, ion(1-)",
+     "71-47-6",
+     "HCO2 anion",
+     "aminate",
+     "formylate"
     ],
-    "pubchem_mw": 89.14,
-    "ref_mv": 100.5,
-    "ref_density": 0.887,
+    "pubchem_mw": 45.017,
+    "ref_mv": null,
+    "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Dimethylamino",
-    "structure_file": "candidate_structures/7902.png"
+    "guess_text": "Formate",
+    "structure_file": "candidate_structures/283.png"
+   },
+   {
+    "corrected_name": "4-(Hydroxymethyl)benzoic acid",
+    "cas": "3006-96-0",
+    "iupac": "4-(hydroxymethyl)benzoic acid",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Use parenthetical as name [via PubChem autocomplete]",
+    "cid": 76360,
+    "synonyms": [
+     "4-(Hydroxymethyl)benzoic acid",
+     "3006-96-0",
+     "Benzoic acid, 4-(hydroxymethyl)-",
+     "UNII-9Z28L8STHD",
+     "9Z28L8STHD",
+     "p-(hydroxymethyl)benzoic acid",
+     "P-CARBOXYBENZYL ALCOHOL",
+     "DTXSID40184111"
+    ],
+    "pubchem_mw": 152.15,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-hydroxy-17.2 21.5 22.5 ethyl)-dimethyl",
+    "structure_file": "candidate_structures/76360.png"
+   },
+   {
+    "corrected_name": "N-(Hydroxymethyl)formamide",
+    "cas": "13052-19-2",
+    "iupac": "N-(hydroxymethyl)formamide",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 83086,
+    "synonyms": [
+     "N-(Hydroxymethyl)formamide",
+     "13052-19-2",
+     "N-Methylolformamide",
+     "Formamide, N-(hydroxymethyl)-",
+     "N-Hydroxymethylformamide",
+     "(Hydroxymethyl)formamide",
+     "WT1OKZ795I",
+     "NSC-348403"
+    ],
+    "pubchem_mw": 75.07,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Formate (2-hydroxy-17.2 21.5 22.5 ethyl)-dimethyl",
+    "structure_file": "candidate_structures/83086.png"
    },
    {
     "corrected_name": "CYCLOHEXANE",
@@ -7690,34 +8360,13 @@
     "mv_pct_diff": null,
     "guess_text": "DimethylEthanolamine/Formic Acid",
     "structure_file": "candidate_structures/116947.png"
-   }
-  ],
-  "source_ref": {
-   "type": "pdf",
-   "page": 57,
-   "total_pages": 159,
-   "crop_file": "source_crops/910.png",
-   "structure_file": "structure_crops/910.png",
-   "raw_line": "1188 Dimethyl Ethanolamine/Formic Acid Formate (2-hydroxy- 17.2 21.5 22.5",
-   "acd_name": "2-Dimethylamino-"
-  }
- },
- {
-  "row_index": 911,
-  "original_name": "Dimethyl Ethanolamine/Methacrylic",
-  "source": "hansen_a1",
-  "smiles": "",
-  "delta_d": "17.2",
-  "delta_p": "18.8",
-  "delta_h": "17.6",
-  "molar_volume": null,
-  "options": [
+   },
    {
     "corrected_name": "2-(Dimethylamino)ethanol",
     "cas": "108-01-0",
     "iupac": "2-(dimethylamino)ethanol",
-    "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.8,
+    "reason": "Use base compound (salt)",
     "cid": 7902,
     "synonyms": [
      "2-(Dimethylamino)ethanol",
@@ -7734,7 +8383,153 @@
     "ref_density": 0.887,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-Dimethylamino",
+    "guess_text": "Dimethyl Ethanolamine",
+    "structure_file": "candidate_structures/7902.png"
+   }
+  ],
+  "source_ref": {
+   "type": "pdf",
+   "page": 57,
+   "total_pages": 159,
+   "crop_file": "source_crops/910.png",
+   "structure_file": "structure_crops/910.png",
+   "raw_line": "1188 Dimethyl Ethanolamine/Formic Acid Formate (2-hydroxy- 17.2 21.5 22.5",
+   "acd_name": "Formate (2-hydroxy-17.2 21.5 22.5 ethyl)-dimethyl-"
+  }
+ },
+ {
+  "row_index": 911,
+  "original_name": "Dimethyl Ethanolamine/Methacrylic",
+  "source": "hansen_a1",
+  "smiles": "",
+  "delta_d": "17.2",
+  "delta_p": "18.8",
+  "delta_h": "17.6",
+  "molar_volume": null,
+  "options": [
+   {
+    "corrected_name": "Tetramethylammonium acrylate",
+    "cas": "16431-85-9",
+    "iupac": "prop-2-enoate;tetramethylazanium",
+    "confidence": 0.95,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'acrylate' [via PubChem autocomplete]",
+    "cid": 3014934,
+    "synonyms": [
+     "Tetramethylammonium acrylate",
+     "Methanaminium, N,N,N-trimethyl-, 2-propenoate",
+     "Methanaminium, N,N,N-trimethyl-, 2-propenoate (1:1)",
+     "DTXSID8066054",
+     "RefChem:156868",
+     "DTXCID2035279",
+     "16431-85-9",
+     "prop-2-enoate;tetramethylazanium"
+    ],
+    "pubchem_mw": 145.2,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-Methylacrylate (2-17.2 18.8 17.6 dimethyl-ammonium;",
+    "structure_file": "candidate_structures/3014934.png"
+   },
+   {
+    "corrected_name": "Methacrylate",
+    "cas": "18358-13-9",
+    "iupac": "2-methylprop-2-enoate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove incomplete parenthetical [via NCI/CIR]",
+    "cid": 87595,
+    "synonyms": [
+     "Methacrylate",
+     "2-Methyl-2-propenoate",
+     "CHEBI:25218",
+     "RefChem:1089026",
+     "2-methylprop-2-enoate",
+     "18358-13-9",
+     "2-Propenoic acid, 2-methyl-, ion(1-)",
+     "2-Methacrylic Acid"
+    ],
+    "pubchem_mw": 85.08,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-Methyl-acrylate",
+    "structure_file": "candidate_structures/87595.png"
+   },
+   {
+    "corrected_name": "148788-55-0",
+    "cas": "148788-55-0",
+    "iupac": "bis(didecyl(dimethyl)azanium);carbonate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Use parenthetical as name [via PubChem autocomplete]",
+    "cid": 11513226,
+    "synonyms": [
+     "148788-55-0",
+     "didecyl dimethyl ammonium carbonate",
+     "Didecyldimonium carbonate",
+     "1-Decanaminium, N-decyl-N,N-dimethyl-, carbonate (2:1)",
+     "UNII-6P2116RFY9",
+     "6P2116RFY9",
+     "DDABC",
+     "CARBOSHIELD 1000"
+    ],
+    "pubchem_mw": 713.3,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-17.2 18.8 17.6 dimethyl-ammonium;",
+    "structure_file": "candidate_structures/11513226.png"
+   },
+   {
+    "corrected_name": "(METHACRYLOXYMETHYL)METHYLDIMETHOXYSILANE",
+    "cas": "121177-93-3",
+    "iupac": "[dimethoxy(methyl)silyl]methyl 2-methylprop-2-enoate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 16225406,
+    "synonyms": [
+     "(METHACRYLOXYMETHYL)METHYLDIMETHOXYSILANE",
+     "2-Propenoic acid, 2-methyl-, (dimethoxymethylsilyl)methyl ester",
+     "RefChem:406586",
+     "805-200-9",
+     "121177-93-3",
+     "(Dimethoxy(methyl)silyl)methyl methacrylate",
+     "[dimethoxy(methyl)silyl]methyl 2-methylprop-2-enoate",
+     "MFCD07777082"
+    ],
+    "pubchem_mw": 204.3,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-Methyl-acrylate (2-17.2 18.8 17.6 dimethyl-ammonium;",
+    "structure_file": "candidate_structures/16225406.png"
+   },
+   {
+    "corrected_name": "2-(Dimethylamino)ethanol",
+    "cas": "108-01-0",
+    "iupac": "2-(dimethylamino)ethanol",
+    "confidence": 0.85,
+    "reason": "Use base compound (salt)",
+    "cid": 7902,
+    "synonyms": [
+     "2-(Dimethylamino)ethanol",
+     "Deanol",
+     "108-01-0",
+     "N,N-Dimethylethanolamine",
+     "Dimethylaminoethanol",
+     "2-DIMETHYLAMINOETHANOL",
+     "Norcholine",
+     "Bimanol"
+    ],
+    "pubchem_mw": 89.14,
+    "ref_mv": 100.5,
+    "ref_density": 0.887,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Dimethyl Ethanolamine",
     "structure_file": "candidate_structures/7902.png"
    }
   ],
@@ -7745,7 +8540,7 @@
    "crop_file": "source_crops/911.png",
    "structure_file": "structure_crops/911.png",
    "raw_line": "1185 Dimethyl Ethanolamine/Methacrylic 2-Methyl-acrylate (2- 17.2 18.8 17.6",
-   "acd_name": "2-Dimethylamino-"
+   "acd_name": "2-Methyl-acrylate (2-17.2 18.8 17.6 dimethyl-ammonium;"
   }
  },
  {
@@ -7784,29 +8579,104 @@
     "structure_file": "candidate_structures/7902.png"
    },
    {
-    "corrected_name": "Methyl p-toluenesulfonate",
-    "cas": "80-48-8",
-    "iupac": "methyl 4-methylbenzenesulfonate",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 6645,
+    "corrected_name": "10549-59-4",
+    "cas": "10549-59-4",
+    "iupac": "4-[2-(dimethylamino)ethoxy]-4-oxobutanoic acid",
+    "confidence": 0.98,
+    "reason": "Join prefix 'Methyl' to following word [via PubChem autocomplete]",
+    "cid": 116947,
     "synonyms": [
-     "Methyl p-toluenesulfonate",
-     "80-48-8",
-     "Methyl 4-methylbenzenesulfonate",
-     "Methyl tosylate",
-     "Methyl-p-toluenesulfonate",
-     "Methyl p-tosylate",
-     "Methyl toluene-4-sulfonate",
-     "Methyl toluenesulfonate"
+     "10549-59-4",
+     "4-[2-(dimethylamino)ethoxy]-4-oxobutanoic acid",
+     "DIMETHYLETHANOLAMINESUCCINATE",
+     "MFCD00792398",
+     "4-(2-(dimethylamino)ethoxy)-4-oxobutanoic acid",
+     "SCHEMBL4081055",
+     "UNZHTDWDYPKUFZ-UHFFFAOYSA-N",
+     "KAA54959"
     ],
-    "pubchem_mw": 186.23,
+    "pubchem_mw": 189.21,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Toluene-4-sulfonate (2",
-    "structure_file": "candidate_structures/6645.png"
+    "guess_text": "DimethylEthanolamine/p-Toluene",
+    "structure_file": "candidate_structures/116947.png"
+   },
+   {
+    "corrected_name": "4-Toluene sulfonate",
+    "cas": "16722-51-3",
+    "iupac": "4-methylbenzenesulfonate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove incomplete parenthetical",
+    "cid": 85570,
+    "synonyms": [
+     "4-Toluene sulfonate",
+     "16722-51-3",
+     "p-Toluenesulfonate",
+     "RefChem:928472",
+     "4-Methylbenzenesulfonate",
+     "tosylate",
+     "Toluene-4-sulfonate",
+     "4-Toluenesulfonate"
+    ],
+    "pubchem_mw": 171.2,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Toluene-4-sulfonate",
+    "structure_file": "candidate_structures/85570.png"
+   },
+   {
+    "corrected_name": "148788-55-0",
+    "cas": "148788-55-0",
+    "iupac": "bis(didecyl(dimethyl)azanium);carbonate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Use parenthetical as name [via PubChem autocomplete]",
+    "cid": 11513226,
+    "synonyms": [
+     "148788-55-0",
+     "didecyl dimethyl ammonium carbonate",
+     "Didecyldimonium carbonate",
+     "1-Decanaminium, N-decyl-N,N-dimethyl-, carbonate (2:1)",
+     "UNII-6P2116RFY9",
+     "6P2116RFY9",
+     "DDABC",
+     "CARBOSHIELD 1000"
+    ],
+    "pubchem_mw": 713.3,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-17.2 21.5 22.5 dimethyl-ammonium;",
+    "structure_file": "candidate_structures/11513226.png"
+   },
+   {
+    "corrected_name": "3-Pentanone p-Toluenesulfonylhydrazone",
+    "cas": "28495-72-9",
+    "iupac": "4-methyl-N-(pentan-3-ylideneamino)benzenesulfonamide",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 277909,
+    "synonyms": [
+     "3-Pentanone p-Toluenesulfonylhydrazone",
+     "DTXSID80298923",
+     "RefChem:504727",
+     "DTXCID20250060",
+     "678-468-6",
+     "28495-72-9",
+     "Benzenesulfonic acid, 4-methyl-, 2-(1-ethylpropylidene)hydrazide",
+     "MFCD03367534"
+    ],
+    "pubchem_mw": 254.35,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Toluene-4-sulfonate (2-17.2 21.5 22.5 dimethyl-ammonium;",
+    "structure_file": "candidate_structures/277909.png"
    },
    {
     "corrected_name": "4-Methylbenzenesulfonic acid",
@@ -7831,31 +8701,6 @@
     "mv_match": null,
     "mv_pct_diff": null,
     "structure_file": "candidate_structures/6101.png"
-   },
-   {
-    "corrected_name": "10549-59-4",
-    "cas": "10549-59-4",
-    "iupac": "4-[2-(dimethylamino)ethoxy]-4-oxobutanoic acid",
-    "confidence": 0.88,
-    "reason": "Join prefix 'Methyl' to following word [via PubChem autocomplete]",
-    "cid": 116947,
-    "synonyms": [
-     "10549-59-4",
-     "4-[2-(dimethylamino)ethoxy]-4-oxobutanoic acid",
-     "DIMETHYLETHANOLAMINESUCCINATE",
-     "MFCD00792398",
-     "4-(2-(dimethylamino)ethoxy)-4-oxobutanoic acid",
-     "SCHEMBL4081055",
-     "UNZHTDWDYPKUFZ-UHFFFAOYSA-N",
-     "KAA54959"
-    ],
-    "pubchem_mw": 189.21,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "DimethylEthanolamine/p-Toluene",
-    "structure_file": "candidate_structures/116947.png"
    }
   ],
   "source_ref": {
@@ -7865,7 +8710,7 @@
    "crop_file": "source_crops/912.png",
    "structure_file": "structure_crops/912.png",
    "raw_line": "1186 Dimethyl Ethanolamine/p-Toluene Toluene-4-sulfonate (2- 17.2 21.5 22.5",
-   "acd_name": "Toluene-4-sulfonate (2-"
+   "acd_name": "Toluene-4-sulfonate (2-17.2 21.5 22.5 dimethyl-ammonium;"
   }
  },
  {
@@ -7879,29 +8724,79 @@
   "molar_volume": null,
   "options": [
    {
-    "corrected_name": "Methyl p-toluenesulfonate",
-    "cas": "80-48-8",
-    "iupac": "methyl 4-methylbenzenesulfonate",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 6645,
+    "corrected_name": "Mercaptoacetaldehyde",
+    "cas": "4124-63-4",
+    "iupac": "2-sulfanylacetaldehyde",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'acetate' [via PubChem autocomplete]",
+    "cid": 77775,
     "synonyms": [
-     "Methyl p-toluenesulfonate",
-     "80-48-8",
-     "Methyl 4-methylbenzenesulfonate",
-     "Methyl tosylate",
-     "Methyl-p-toluenesulfonate",
-     "Methyl p-tosylate",
-     "Methyl toluene-4-sulfonate",
-     "Methyl toluenesulfonate"
+     "Mercaptoacetaldehyde",
+     "Acetaldehyde, mercapto-",
+     "UNII-M7I29I8T38",
+     "M7I29I8T38",
+     "EINECS 223-929-5",
+     "DTXSID10194161",
+     ".ALPHA.-MERCAPTOACETALDEHYDE",
+     "alpha-mercaptoacetaldehyde"
     ],
-    "pubchem_mw": 186.23,
+    "pubchem_mw": 76.12,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Toluene-4-sulfonate (2",
-    "structure_file": "candidate_structures/6645.png"
+    "guess_text": "Mercaptoacetate (2-17.2 21.5 22.5 dimethyl-ammonium;",
+    "structure_file": "candidate_structures/77775.png"
+   },
+   {
+    "corrected_name": "2-(Acetylthio)benzoic acid",
+    "cas": "55819-78-8",
+    "iupac": "2-acetylsulfanylbenzoic acid",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove incomplete parenthetical [via PubChem autocomplete]",
+    "cid": 96035,
+    "synonyms": [
+     "2-(Acetylthio)benzoic acid",
+     "55819-78-8",
+     "Acetylthiosalicylic acid",
+     "Benzoic acid, o-mercapto-, acetate",
+     "o-Mercaptobenzoic acid acetate",
+     "Benzoic acid, 2-(acetylthio)-",
+     "thioaspirin",
+     "S-acetylthiosalicylic acid"
+    ],
+    "pubchem_mw": 196.22,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Mercapto-acetate",
+    "structure_file": "candidate_structures/96035.png"
+   },
+   {
+    "corrected_name": "148788-55-0",
+    "cas": "148788-55-0",
+    "iupac": "bis(didecyl(dimethyl)azanium);carbonate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Use parenthetical as name [via PubChem autocomplete]",
+    "cid": 11513226,
+    "synonyms": [
+     "148788-55-0",
+     "didecyl dimethyl ammonium carbonate",
+     "Didecyldimonium carbonate",
+     "1-Decanaminium, N-decyl-N,N-dimethyl-, carbonate (2:1)",
+     "UNII-6P2116RFY9",
+     "6P2116RFY9",
+     "DDABC",
+     "CARBOSHIELD 1000"
+    ],
+    "pubchem_mw": 713.3,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-17.2 21.5 22.5 dimethyl-ammonium;",
+    "structure_file": "candidate_structures/11513226.png"
    },
    {
     "corrected_name": "2-(Dimethylamino)ethanol",
@@ -7936,7 +8831,7 @@
    "crop_file": "source_crops/913.png",
    "structure_file": "structure_crops/913.png",
    "raw_line": "1187 Dimethyl Ethanolamine/Thioglycolic Mercapto-acetate (2- 17.2 21.5 22.5",
-   "acd_name": "Toluene-4-sulfonate (2-"
+   "acd_name": "Mercapto-acetate (2-17.2 21.5 22.5 dimethyl-ammonium;"
   }
  },
  {
@@ -7950,29 +8845,54 @@
   "molar_volume": null,
   "options": [
    {
-    "corrected_name": "15beta-Hydroxyosaterone acetate",
-    "cas": "124530-41-2",
-    "iupac": "[(1R,3R,3aS,3bR,9aR,9bS,11aS)-1-acetyl-5-chloro-3-hydroxy-9a,11a-dimethyl-7-oxo-2,3,3a,3b,9,9b,10,11-octahydroindeno[4,5-h]isochromen-1-yl] acetate",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 71587459,
+    "corrected_name": "ethanolamine acetate",
+    "cas": "54300-24-2",
+    "iupac": "acetic acid;2-aminoethanol",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Use parenthetical as name [via PubChem autocomplete]",
+    "cid": 108573,
     "synonyms": [
-     "15beta-Hydroxyosaterone acetate",
-     "TZP-5294",
-     "UNII-T1FE32X91Z",
-     "T1FE32X91Z",
-     "Osaterone acetate, 15beta-hydroxy-",
-     "124530-41-2",
-     "DTXSID90154425",
-     "2-Oxapregna-4,6-diene-3,20-dione, 17-(acetyloxy)-6-chloro-15-hydroxy-, (15beta)-"
+     "ethanolamine acetate",
+     "2-Aminoethanol acetate",
+     "54300-24-2",
+     "2-Hydroxyethylammonium acetate",
+     "Ethanolamine acetate (salt)",
+     "UNII-S20U1L1S25",
+     "DTXSID5068940",
+     "S20U1L1S25"
     ],
-    "pubchem_mw": 422.9,
+    "pubchem_mw": 121.14,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Acetate (2-hydroxy",
-    "structure_file": "candidate_structures/71587459.png"
+    "guess_text": "2-hydroxy-16.6 19.4 18.0 ammonium;",
+    "structure_file": "candidate_structures/108573.png"
+   },
+   {
+    "corrected_name": "acetate",
+    "cas": "71-50-1",
+    "iupac": "acetate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove incomplete parenthetical",
+    "cid": 175,
+    "synonyms": [
+     "acetate",
+     "Acetate Ion",
+     "71-50-1",
+     "Acetic acid, ion(1-)",
+     "Acetate ions",
+     "Acetate anion",
+     "Acetoxy ion",
+     "Acetic acid anion"
+    ],
+    "pubchem_mw": 59.04,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acetate",
+    "structure_file": "candidate_structures/175.png"
    },
    {
     "corrected_name": "108-16-7",
@@ -8007,7 +8927,7 @@
    "crop_file": "source_crops/917.png",
    "structure_file": "structure_crops/917.png",
    "raw_line": "1190 Dimethyl Isopropanol Amine/Acetic Acetate (2-hydroxy- 16.6 19.4 18.0",
-   "acd_name": "Acetate (2-hydroxy-"
+   "acd_name": "Acetate (2-hydroxy-16.6 19.4 18.0 ammonium;"
   }
  },
  {
@@ -8025,7 +8945,7 @@
     "cas": "75-18-3",
     "iupac": "methylsulfanylmethane",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "reason": "ACD/Autonom: Join substituent to parent chain 'methane'",
     "cid": 1068,
     "synonyms": [
      "dimethyl sulfide",
@@ -8042,7 +8962,7 @@
     "ref_density": 0.85,
     "mv_match": true,
     "mv_pct_diff": 0.1,
-    "guess_text": "Methylsulfanyl-methane",
+    "guess_text": "Methylsulfanylmethane",
     "structure_file": "candidate_structures/1068.png"
    },
    {
@@ -8455,29 +9375,29 @@
     "structure_file": "candidate_structures/24752.png"
    },
    {
-    "corrected_name": "557770-89-5",
-    "cas": "557770-89-5",
-    "iupac": "7-(3-hydroxypropoxy)-3H-quinazolin-4-one",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 135446305,
+    "corrected_name": "116422-39-0",
+    "cas": "116422-39-0",
+    "iupac": "(2S)-2-methoxypropan-1-ol",
+    "confidence": 0.63,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 642402,
     "synonyms": [
-     "557770-89-5",
-     "7-(3-Hydroxypropoxy)quinazolin-4(3H)-one",
-     "7-(3-Hydroxy-propoxy)-3H-quinazolin-4-one",
-     "MFCD08443686",
-     "7-(3-HYDROXYPROPOXY)-1H-QUINAZOLIN-4-ONE",
-     "7-(3-hydroxypropoxy)-3H-quinazolin-4-one",
-     "7-(3-hydroxypropoxy)-4(3H)-Quinazolinone",
-     "7-(3-hydroxypropoxy)quinazolin-4-ol"
+     "116422-39-0",
+     "(S)-(+)-2-methoxypropanol",
+     "(2S)-2-methoxypropan-1-ol",
+     "1-Propanol, 2-methoxy-, (2S)-",
+     "(S)-2-Methoxy-1-propanol",
+     "2-Methoxy-1-propanol, (2S)-",
+     "2-(S)-Methoxypropan-1-ol",
+     "1-Propanol, 2-methoxy-, (S)-"
     ],
-    "pubchem_mw": 220.22,
+    "pubchem_mw": 90.12,
     "ref_mv": null,
     "ref_density": null,
-    "mv_match": null,
+    "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "3-(3-Hydroxy-propoxy)",
-    "structure_file": "candidate_structures/135446305.png"
+    "guess_text": "ethoxy)-propan-2-ol",
+    "structure_file": "candidate_structures/642402.png"
    }
   ],
   "source_ref": {
@@ -8487,7 +9407,7 @@
    "crop_file": "source_crops/952.png",
    "structure_file": "structure_crops/952.png",
    "raw_line": "1007 Dipropylene Glycol Mono n-Butyl Ether 1-(2-Butoxy-1-methyl- 15.7 6.5 10.0 211.2",
-   "acd_name": "3-(3-Hydroxy-propoxy)-"
+   "acd_name": "ethoxy)-propan-2-ol"
   }
  },
  {
@@ -8529,8 +9449,8 @@
     "corrected_name": "29911-27-1",
     "cas": "29911-27-1",
     "iupac": "1-(1-propoxypropan-2-yloxy)propan-2-ol",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 121752,
     "synonyms": [
      "29911-27-1",
@@ -8702,7 +9622,7 @@
     "cas": "627-51-0",
     "iupac": "ethenylsulfanylethene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethene' [via NCI/CIR]",
     "cid": 12321,
     "synonyms": [
      "Divinyl sulfide",
@@ -8719,7 +9639,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinylsulfanyl-ethene",
+    "guess_text": "Vinylsulfanylethene",
     "structure_file": "candidate_structures/12321.png"
    },
    {
@@ -8921,6 +9841,31 @@
   "molar_volume": null,
   "options": [
    {
+    "corrected_name": "5835-28-9",
+    "cas": "5835-28-9",
+    "iupac": "2-(2-hydroxyethylamino)acetic acid",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 225935,
+    "synonyms": [
+     "5835-28-9",
+     "N-(2-HYDROXYETHYL)GLYCINE",
+     "Petalonine",
+     "2-(2-hydroxyethylamino)acetic acid",
+     "n-(hydroxyethyl)glycine",
+     "N-(2-Hydroxyethyl)aminoacetic Acid",
+     "NSC-15828",
+     "Glycine, N-(2-hydroxyethyl)-"
+    ],
+    "pubchem_mw": 119.12,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acetate 2-hydroxy-17.2 20.3 18.4 ethyl-ammonium;",
+    "structure_file": "candidate_structures/225935.png"
+   },
+   {
     "corrected_name": "Ethanolamine",
     "cas": "141-43-5",
     "iupac": "2-aminoethanol",
@@ -9003,7 +9948,7 @@
    "crop_file": "source_crops/976.png",
    "structure_file": "structure_crops/976.png",
    "raw_line": "1184 Diethyl Ethanolamine/Acetic Acid Acetate diethyl-(2- 16.0 20.3 18.4",
-   "acd_name": null
+   "acd_name": "Acetate 2-hydroxy-17.2 20.3 18.4 ethyl-ammonium;"
   }
  },
  {
@@ -9016,6 +9961,81 @@
   "delta_h": "8.8",
   "molar_volume": 155.5,
   "options": [
+   {
+    "corrected_name": "Ethyl 3-ethoxypropionate",
+    "cas": "763-69-9",
+    "iupac": "ethyl 3-ethoxypropanoate",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 12989,
+    "synonyms": [
+     "Ethyl 3-ethoxypropionate",
+     "763-69-9",
+     "Propanoic acid, 3-ethoxy-, ethyl ester",
+     "Ethyl-3-ethoxypropionate",
+     "Ethyl beta-ethoxypropionate",
+     "EC38RSJ79J",
+     "DTXSID0027309",
+     "NSC-8870"
+    ],
+    "pubchem_mw": 146.18,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Propionic acid 2-ethoxy-ethyl ester",
+    "structure_file": "candidate_structures/12989.png"
+   },
+   {
+    "corrected_name": "(R)-2-m-Tolyl-propionic acid",
+    "cas": "213406-28-1",
+    "iupac": "(2R)-2-(3-methylphenyl)propanoic acid",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove OCR space: 'Propionic acid'\u2192'Propionicacid' [via PubChem autocomplete]",
+    "cid": 67108859,
+    "synonyms": [
+     "(R)-2-m-Tolyl-propionic acid",
+     "213406-28-1",
+     "(R)-2-m-Tolyl-propionicacid",
+     "(2R)-2-(3-methylphenyl)propanoic acid",
+     "MFCD20641849",
+     "(R)-2-(m-Tolyl)propanoic acid",
+     "(r)-2-m-tolylpropanoic acid",
+     "SCHEMBL1651840"
+    ],
+    "pubchem_mw": 164.2,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Propionicacid 2-ethoxy-ethyl ester",
+    "structure_file": "candidate_structures/67108859.png"
+   },
+   {
+    "corrected_name": "Diethyl ethoxymethylenemalonate",
+    "cas": "87-13-8",
+    "iupac": "diethyl 2-(ethoxymethylidene)propanedioate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove OCR space: '2-ethoxy-ethyl ester'\u2192'2-ethoxy-ethylester' [via PubChem autocomplete]",
+    "cid": 6871,
+    "synonyms": [
+     "Diethyl ethoxymethylenemalonate",
+     "87-13-8",
+     "Diethyl (ethoxymethylene)malonate",
+     "Ethoxymethylenemalonic acid diethyl ester",
+     "Diethyl EMME",
+     "Propanedioic acid, (ethoxymethylene)-, diethyl ester",
+     "MALONIC ACID, (ETHOXYMETHYLENE)-, DIETHYL ESTER",
+     "DTXSID5052591"
+    ],
+    "pubchem_mw": 216.23,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Propionic acid 2-ethoxy-ethylester",
+    "structure_file": "candidate_structures/6871.png"
+   },
    {
     "corrected_name": "Diethyl 2-methyl-3-oxosuccinate",
     "cas": "759-65-9",
@@ -9040,31 +10060,6 @@
     "mv_pct_diff": null,
     "guess_text": "EthoxyethylPropionate",
     "structure_file": "candidate_structures/97750.png"
-   },
-   {
-    "corrected_name": "Ethyl 3-ethoxypropionate",
-    "cas": "763-69-9",
-    "iupac": "ethyl 3-ethoxypropanoate",
-    "confidence": 0.35,
-    "reason": "Original name [via PubChem autocomplete]",
-    "cid": 12989,
-    "synonyms": [
-     "Ethyl 3-ethoxypropionate",
-     "763-69-9",
-     "Propanoic acid, 3-ethoxy-, ethyl ester",
-     "Ethyl-3-ethoxypropionate",
-     "Ethyl beta-ethoxypropionate",
-     "EC38RSJ79J",
-     "DTXSID0027309",
-     "NSC-8870"
-    ],
-    "pubchem_mw": 146.18,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Ethoxyethyl Propionate",
-    "structure_file": "candidate_structures/12989.png"
    }
   ],
   "source_ref": {
@@ -9092,18 +10087,29 @@
   "molar_volume": 74.4,
   "options": [
    {
-    "corrected_name": "Ethyl Carbylamine",
-    "cas": "",
-    "iupac": "",
-    "confidence": 0.0,
-    "reason": "No match found \u2014 needs manual review",
-    "cid": null,
-    "synonyms": [],
-    "pubchem_mw": null,
+    "corrected_name": "Isocyanoethane",
+    "cas": "624-79-3",
+    "iupac": "isocyanoethane",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethane'",
+    "cid": 12226,
+    "synonyms": [
+     "Isocyanoethane",
+     "624-79-3",
+     "Ethane, isocyano-",
+     "DTXSID90977959",
+     "RefChem:1084352",
+     "DTXCID001405289",
+     "210-863-7",
+     "Ethylisokyanid [Czech]"
+    ],
+    "pubchem_mw": 55.08,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
-    "mv_pct_diff": null
+    "mv_pct_diff": null,
+    "guess_text": "Isocyanoethane",
+    "structure_file": "candidate_structures/12226.png"
    }
   ],
   "source_ref": {
@@ -9135,7 +10141,7 @@
     "cas": "624-89-5",
     "iupac": "methylsulfanylethane",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethane'",
     "cid": 12230,
     "synonyms": [
      "Ethyl methyl sulfide",
@@ -9152,7 +10158,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Methylsulfanyl-ethane",
+    "guess_text": "Methylsulfanylethane",
     "structure_file": "candidate_structures/12230.png"
    },
    {
@@ -9201,6 +10207,31 @@
   "delta_h": "4.9",
   "molar_volume": 157.2,
   "options": [
+   {
+    "corrected_name": "Butyl 2-methoxyethyl ether",
+    "cas": "13343-98-1",
+    "iupac": "1-(2-methoxyethoxy)butane",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'butane' [via NCI/CIR]",
+    "cid": 83358,
+    "synonyms": [
+     "Butyl 2-methoxyethyl ether",
+     "13343-98-1",
+     "1-(2-Methoxyethoxy)butane",
+     "2,5-Dioxanonane",
+     "1-Butoxy-2-methoxyethane",
+     "Butane, 1-(2-methoxyethoxy)-",
+     "Ethane, 1-butoxy-2-methoxy-",
+     "MFCD01366355"
+    ],
+    "pubchem_mw": 132.2,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1-(2-Methoxy-ethoxy)butane",
+    "structure_file": "candidate_structures/83358.png"
+   },
    {
     "corrected_name": "2136-71-2",
     "cas": "2136-71-2",
@@ -9301,6 +10332,27 @@
   "delta_h": "8.2",
   "molar_volume": 157.4,
   "options": [
+   {
+    "corrected_name": "2-(2-Methoxy-ethoxy)-3-nitro-benzoic acid",
+    "cas": "1708252-25-8",
+    "iupac": "2-(2-methoxyethoxy)-3-nitrobenzoic acid",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 112576163,
+    "synonyms": [
+     "2-(2-Methoxy-ethoxy)-3-nitro-benzoic acid",
+     "1708252-25-8",
+     "2-(2-methoxyethoxy)-3-nitrobenzoic acid",
+     "A1-29893"
+    ],
+    "pubchem_mw": 241.2,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-(2-Methoxy-ethoxy)",
+    "structure_file": "candidate_structures/112576163.png"
+   },
    {
     "corrected_name": "tert-butyl N-(3-methylidenecyclobutyl)carbamate",
     "cas": "130369-04-9",
@@ -9409,7 +10461,7 @@
    "crop_file": "source_crops/1038.png",
    "structure_file": "structure_crops/1038.png",
    "raw_line": "266 Diethylene Glycol Methyl t-Butyl 2-[2-(2-Methoxy- 16.0 7.2 7.2 193.9",
-   "acd_name": null
+   "acd_name": "2-(2-Methoxy-ethoxy)-"
   }
  },
  {
@@ -9626,8 +10678,8 @@
     "corrected_name": "4-(2-Ethyl-hexyloxy)-phenol",
     "cas": "35107-98-3",
     "iupac": "4-(2-ethylhexoxy)phenol",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 18798340,
     "synonyms": [
      "4-(2-Ethyl-hexyloxy)-phenol",
@@ -9742,35 +10794,10 @@
   "molar_volume": 75.1,
   "options": [
    {
-    "corrected_name": "4-methyl-1,3,2-dioxathiolane 2,2-dioxide",
-    "cas": "5689-83-8",
-    "iupac": "4-methyl-1,3,2-dioxathiolane 2,2-dioxide",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 9964107,
-    "synonyms": [
-     "4-methyl-1,3,2-dioxathiolane 2,2-dioxide",
-     "RefChem:524880",
-     "806-954-1",
-     "5689-83-8",
-     "PROPANE 1,2-CYCLIC SULFATE",
-     "1,2-Propanediol-cyclic sulfate",
-     "propylene sulfate",
-     "1,3,2-Dioxathiolane, 4-methyl-, 2,2-dioxide"
-    ],
-    "pubchem_mw": 138.14,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "[1,3,2]Dioxathiolane 2",
-    "structure_file": "candidate_structures/9964107.png"
-   },
-   {
     "corrected_name": "Ethylene sulfite",
     "cas": "3741-38-6",
     "iupac": "1,3,2-dioxathiolane 2-oxide",
-    "confidence": 0.9,
+    "confidence": 0.95,
     "reason": "Matched via structure image (OSRA)",
     "cid": 77342,
     "synonyms": [
@@ -9823,7 +10850,7 @@
    "crop_file": "source_crops/1054.png",
    "structure_file": "structure_crops/1054.png",
    "raw_line": "789 Ethylene Glycol Sulfit [1,3,2]Dioxathiolane 2- 20.0 15.9 5.1 75.1",
-   "acd_name": "[1,3,2]Dioxathiolane 2-"
+   "acd_name": "[1,3,2]Dioxathiolane 2-oxide"
   }
  },
  {
@@ -9836,6 +10863,31 @@
   "delta_h": "9.6",
   "molar_volume": 97.9,
   "options": [
+   {
+    "corrected_name": "Ethylene dimethanesulfonate",
+    "cas": "4672-49-5",
+    "iupac": "2-methylsulfonyloxyethyl methanesulfonate",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Remove OCR space: 'Methanesulfonic acid'\u2192'Methanesulfonicacid' [via NCI/CIR]",
+    "cid": 20796,
+    "synonyms": [
+     "Ethylene dimethanesulfonate",
+     "4672-49-5",
+     "1,2-Bis(mesyloxy)ethane",
+     "Ethylene bis(methanesulfonate)",
+     "1,2-Ethanediyl dimethanesulfonate",
+     "Ethane 1,2-dimethanesulfonate",
+     "1,2-bis(methanesulfonyloxy)ethane",
+     "ethylene dimethane sulfonate"
+    ],
+    "pubchem_mw": 218.3,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Methanesulfonicacid 2-methanesulfonyloxy-ethyl ester",
+    "structure_file": "candidate_structures/20796.png"
+   },
    {
     "corrected_name": "3039-83-6",
     "cas": "3039-83-6",
@@ -9915,8 +10967,8 @@
     "corrected_name": "Thiirane",
     "cas": "420-12-2",
     "iupac": "thiirane",
-    "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Original name",
     "cid": 9865,
     "synonyms": [
      "Thiirane",
@@ -10135,6 +11187,56 @@
   "molar_volume": 104.1,
   "options": [
    {
+    "corrected_name": "1-Bromo-3-methoxypropane",
+    "cas": "36865-41-5",
+    "iupac": "1-bromo-3-methoxypropane",
+    "confidence": 0.95,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'propane' [via PubChem autocomplete]",
+    "cid": 524551,
+    "synonyms": [
+     "1-Bromo-3-methoxypropane",
+     "36865-41-5",
+     "DTXSID00335324",
+     "RefChem:430500",
+     "DTXCID50286413",
+     "609-300-1",
+     "3-Bromo-1-methoxypropane",
+     "3-Bromopropyl Methyl Ether"
+    ],
+    "pubchem_mw": 153.02,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1-Ethynyloxypropane",
+    "structure_file": "candidate_structures/524551.png"
+   },
+   {
+    "corrected_name": "1-Chloro-3-ethoxypropane",
+    "cas": "36865-38-0",
+    "iupac": "1-chloro-3-ethoxypropane",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 520820,
+    "synonyms": [
+     "1-Chloro-3-ethoxypropane",
+     "36865-38-0",
+     "DTXSID70334465",
+     "RefChem:1055244",
+     "DTXCID80285555",
+     "Propane, 1-chloro-3-ethoxy-",
+     "MFCD07787549",
+     "1-Chloro-3-ethoxypropane #"
+    ],
+    "pubchem_mw": 122.59,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1-Ethynyloxy-propane",
+    "structure_file": "candidate_structures/520820.png"
+   },
+   {
     "corrected_name": "890591-87-4",
     "cas": "890591-87-4",
     "iupac": "2-(1-cyclopropylethyl)pyrazol-3-amine",
@@ -10260,31 +11362,6 @@
   "molar_volume": 157.3,
   "options": [
    {
-    "corrected_name": "Dimethyl malonate",
-    "cas": "108-59-8",
-    "iupac": "dimethyl propanedioate",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 7943,
-    "synonyms": [
-     "Dimethyl malonate",
-     "108-59-8",
-     "Dimethyl propanedioate",
-     "Methyl malonate",
-     "MALONIC ACID, DIMETHYL ESTER",
-     "DTXSID4029145",
-     "EM8Y79998C",
-     "DTXCID309145"
-    ],
-    "pubchem_mw": 132.11,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "7,7-Dimethyl-2",
-    "structure_file": "candidate_structures/7943.png"
-   },
-   {
     "corrected_name": "2-Methyl-4-phenylbutanal",
     "cas": "40654-82-8",
     "iupac": "2-methyl-4-phenylbutanal",
@@ -10359,6 +11436,31 @@
     "structure_file": "candidate_structures/14525.png"
    },
    {
+    "corrected_name": "Dimethylmethylenehydrazine",
+    "cas": "2035-89-4",
+    "iupac": "N-methyl-N-(methylideneamino)methanamine",
+    "confidence": 0.63,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 74857,
+    "synonyms": [
+     "Dimethylmethylenehydrazine",
+     "2035-89-4",
+     "Formaldehyde dimethylhydrazone",
+     "FORMALDEHYDE, DIMETHYLHYDRAZONE",
+     "Formaldehyde 2,2-dimethylhydrazone",
+     "Formaldehyde dimethylhydrazine",
+     "BRN 1737195",
+     "D2TM49V35A"
+    ],
+    "pubchem_mw": 72.11,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": false,
+    "mv_pct_diff": null,
+    "guess_text": "7,7-Dimethyl-2-CH3 methylene-bicyclo[2.2.1]heptane",
+    "structure_file": "candidate_structures/74857.png"
+   },
+   {
     "corrected_name": "alfacalcidol",
     "cas": "41294-56-8",
     "iupac": "trans-(1R,3S,5Z)-5-[(2E)-2-[(1R,3aS,7aR)-7a-methyl-1-[(2R)-6-methylheptan-2-yl]-2,3,3a,5,6,7-hexahydro-1H-inden-4-ylidene]ethylidene]-4-methylidenecyclohexane-1,3-diol",
@@ -10391,7 +11493,7 @@
    "crop_file": "source_crops/1070.png",
    "structure_file": "structure_crops/1070.png",
    "raw_line": "898 Fenchene(Alfa) 7,7-Dimethyl-2- 16.9 1.5 3.1 157.3",
-   "acd_name": "7,7-Dimethyl-2-"
+   "acd_name": "7,7-Dimethyl-2-CH3 methylene-bicyclo[2.2.1]heptane"
   }
  },
  {
@@ -10611,7 +11713,7 @@
    "crop_file": "source_crops/1117.png",
    "structure_file": "structure_crops/1117.png",
    "raw_line": "414 Hexafluo o Isopropanol 1,1,1,3,3,3-Hexafluoro 17.2 4.5 14.7 105.3",
-   "acd_name": "1,1,1,3,3,3-Hexafluoro"
+   "acd_name": "1,1,1,3,3,3-Hexafluoro propan-2-ol"
   }
  },
  {
@@ -10625,29 +11727,29 @@
   "molar_volume": 123.3,
   "options": [
    {
-    "corrected_name": "HEXAFLUOROBENZENE",
-    "cas": "392-56-3",
-    "iupac": "1,2,3,4,5,6-hexafluorobenzene",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 9805,
+    "corrected_name": "1,1,1,6,6,6-HEXAFLUOROHEXANE",
+    "cas": "3834-39-7",
+    "iupac": "1,1,1,6,6,6-hexafluorohexane",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 52991867,
     "synonyms": [
-     "HEXAFLUOROBENZENE",
-     "392-56-3",
-     "Perfluorobenzene",
-     "1,2,3,4,5,6-Hexafluorobenzene",
-     "CP 28",
-     "CMC18T611K",
-     "NSC-21628",
-     "DTXSID5043924"
+     "1,1,1,6,6,6-HEXAFLUOROHEXANE",
+     "3834-39-7",
+     "MFCD18074321",
+     "C6H8F6",
+     "SCHEMBL6499018",
+     "SCHEMBL8984071",
+     "JVCQYWPFVBWOIW-UHFFFAOYSA-N",
+     "AKOS007930534"
     ],
-    "pubchem_mw": 186.05,
+    "pubchem_mw": 194.12,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,2,3,4,5,6-Hexafluoro",
-    "structure_file": "candidate_structures/9805.png"
+    "guess_text": "1,2,3,4,5,6-Hexafluoro hexan-1-ol",
+    "structure_file": "candidate_structures/52991867.png"
    },
    {
     "corrected_name": "2043-47-2",
@@ -10673,31 +11775,6 @@
     "mv_pct_diff": null,
     "guess_text": "Hexafluoohexanol",
     "structure_file": "candidate_structures/74883.png"
-   },
-   {
-    "corrected_name": "1,1,1,6,6,6-HEXAFLUOROHEXANE",
-    "cas": "3834-39-7",
-    "iupac": "1,1,1,6,6,6-hexafluorohexane",
-    "confidence": 0.35,
-    "reason": "Original name [via PubChem autocomplete]",
-    "cid": 52991867,
-    "synonyms": [
-     "1,1,1,6,6,6-HEXAFLUOROHEXANE",
-     "3834-39-7",
-     "MFCD18074321",
-     "C6H8F6",
-     "SCHEMBL6499018",
-     "SCHEMBL8984071",
-     "JVCQYWPFVBWOIW-UHFFFAOYSA-N",
-     "AKOS007930534"
-    ],
-    "pubchem_mw": 194.12,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Hexafluo ohexanol",
-    "structure_file": "candidate_structures/52991867.png"
    }
   ],
   "source_ref": {
@@ -10707,7 +11784,7 @@
    "crop_file": "source_crops/1118.png",
    "structure_file": "structure_crops/1118.png",
    "raw_line": "415 Hexafluo ohexanol 1,2,3,4,5,6-Hexafluoro 15.1 4.4 9.9 123.3",
-   "acd_name": "1,2,3,4,5,6-Hexafluoro"
+   "acd_name": "1,2,3,4,5,6-Hexafluoro hexan-1-ol"
   }
  },
  {
@@ -10743,31 +11820,6 @@
     "mv_match": null,
     "mv_pct_diff": null,
     "structure_file": "candidate_structures/69636.png"
-   },
-   {
-    "corrected_name": "1,1,2,3,4,4-hexafluorobutane",
-    "cas": "392-45-0",
-    "iupac": "1,1,2,3,4,4-hexafluorobutane",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 13597428,
-    "synonyms": [
-     "1,1,2,3,4,4-hexafluorobutane",
-     "392-45-0",
-     "DTXSID30544669",
-     "RefChem:213198",
-     "DTXCID20495454",
-     "SCHEMBL32349",
-     "SCHEMBL15403092",
-     "INUAOGWHRYYQDP-UHFFFAOYSA-N"
-    ],
-    "pubchem_mw": 166.06,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "1,1,2,3,4,4-Hexafluoro",
-    "structure_file": "candidate_structures/13597428.png"
    }
   ],
   "source_ref": {
@@ -10777,7 +11829,7 @@
    "crop_file": "source_crops/1119.png",
    "structure_file": "structure_crops/1119.png",
    "raw_line": "413 Hexafluoro 1,3-Butadien 1,1,2,3,4,4-Hexafluoro 13.8 0 0 104.3",
-   "acd_name": "1,1,2,3,4,4-Hexafluoro"
+   "acd_name": "1,1,2,3,4,4-Hexafluoro buta-1,3-diene"
   }
  },
  {
@@ -10889,8 +11941,8 @@
     "corrected_name": "2-iodobuta-1,3-diene",
     "cas": "",
     "iupac": "2-iodobuta-1,3-diene",
-    "confidence": 0.77,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.73,
+    "reason": "ACD/Autonom: Original name",
     "cid": 12304722,
     "synonyms": [
      "2-iodobuta-1,3-diene",
@@ -10977,6 +12029,31 @@
   "delta_h": "5.1",
   "molar_volume": 97.7,
   "options": [
+   {
+    "corrected_name": "2-METHYL-3-BUTENENITRILE",
+    "cas": "16529-56-9",
+    "iupac": "2-methylbut-3-enenitrile",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Original name",
+    "cid": 27909,
+    "synonyms": [
+     "2-METHYL-3-BUTENENITRILE",
+     "16529-56-9",
+     "3-Butenenitrile, 2-methyl-",
+     "3-Cyanobut-1-ene",
+     "CCRIS 6056",
+     "2-Methyl-3-butenonitrile",
+     "EINECS 240-596-1",
+     "5UB332ATH2"
+    ],
+    "pubchem_mw": 81.12,
+    "ref_mv": 99.8,
+    "ref_density": 0.813,
+    "mv_match": true,
+    "mv_pct_diff": 2.1,
+    "guess_text": "2-Methyl-but-3-enenitrile",
+    "structure_file": "candidate_structures/27909.png"
+   },
    {
     "corrected_name": "2-Methylallylamine",
     "cas": "2878-14-0",
@@ -11173,31 +12250,6 @@
     "structure_file": "candidate_structures/69610.png"
    },
    {
-    "corrected_name": "Methylphosphonic acid",
-    "cas": "993-13-5",
-    "iupac": "methylphosphonic acid",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 13818,
-    "synonyms": [
-     "Methylphosphonic acid",
-     "993-13-5",
-     "Methanephosphonic acid",
-     "Phosphonic acid, methyl-",
-     "METHYL PHOSPHONIC ACID",
-     "329W4YM10Z",
-     "NSC-119358",
-     "DTXSID5047748"
-    ],
-    "pubchem_mw": 96.022,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Methylphosphonic",
-    "structure_file": "candidate_structures/13818.png"
-   },
-   {
     "corrected_name": "Methylphosphonfluoridate",
     "cas": "1511-67-7",
     "iupac": "fluoro(methyl)phosphinic acid",
@@ -11255,7 +12307,7 @@
    "crop_file": "source_crops/1278.png",
    "structure_file": "structure_crops/1278.png",
    "raw_line": "841 Methyl Phosphonic Difluorid Methylphosphonic 14.0 14.0 8.4 73.9",
-   "acd_name": "Methylphosphonic"
+   "acd_name": "Methylphosphonic difluorid"
   }
  },
  {
@@ -11273,7 +12325,7 @@
     "cas": "1822-74-8",
     "iupac": "methylsulfanylethene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethene'",
     "cid": 123131,
     "synonyms": [
      "1822-74-8",
@@ -11290,7 +12342,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Methylsulfanyl-ethene",
+    "guess_text": "Methylsulfanylethene",
     "structure_file": "candidate_structures/123131.png"
    },
    {
@@ -11344,7 +12396,7 @@
     "cas": "4376-20-9",
     "iupac": "2-(2-ethylhexoxycarbonyl)benzoic acid",
     "confidence": 0.99,
-    "reason": "Remove OCR space: 'Phthalic acid'\u2192'Phthalicacid' [via PubChem autocomplete]",
+    "reason": "ACD/Autonom: Remove OCR space: 'Phthalic acid'\u2192'Phthalicacid' [via NCI/CIR]",
     "cid": 20393,
     "synonyms": [
      "4376-20-9",
@@ -11361,33 +12413,58 @@
     "ref_density": 1.0688,
     "mv_match": true,
     "mv_pct_diff": 1.7,
-    "guess_text": "Mono 2-Ethyl-Hexyl Phthalate (MEHP) Phthalicacid mono-(2-",
+    "guess_text": "Phthalicacid mono-(2-ethyl-hexyl) ester",
     "structure_file": "candidate_structures/20393.png"
    },
    {
-    "corrected_name": "Phthalazine-1-carboxylic acid",
-    "cas": "801161-36-4",
-    "iupac": "phthalazine-1-carboxylic acid",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 12665823,
+    "corrected_name": "16320-15-3",
+    "cas": "16320-15-3",
+    "iupac": "ethyl 4-[(1,3-dioxoisoindol-2-yl)methylamino]benzoate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove OCR space: 'acid mono-(2-ethyl-hexyl)'\u2192'acidmono-(2-ethyl-hexyl)' [via PubChem autocomplete]",
+    "cid": 707052,
     "synonyms": [
-     "Phthalazine-1-carboxylic acid",
-     "801161-36-4",
-     "DTXSID90506182",
-     "RefChem:371550",
-     "DTXCID90456991",
-     "832-738-1",
-     "1-Phthalazinecarboxylic acid",
-     "phthalazinecarboxylic"
+     "16320-15-3",
+     "ETHYL 4-(PHTHALIMIDOMETHYLAMINO)BENZOATE",
+     "RefChem:595275",
+     "653-711-9",
+     "ethyl 4-{[(1,3-dioxo-2,3-dihydro-1H-isoindol-2-yl)methyl]amino}benzoate",
+     "Ethyl 4-(((1,3-dioxoisoindolin-2-yl)methyl)amino)benzoate",
+     "Maybridge1_007119",
+     "Oprea1_449553"
     ],
-    "pubchem_mw": 174.16,
+    "pubchem_mw": 324.3,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Phthalic acid mono-(2",
-    "structure_file": "candidate_structures/12665823.png"
+    "guess_text": "Phthalic acidmono-(2-ethyl-hexyl) ester",
+    "structure_file": "candidate_structures/707052.png"
+   },
+   {
+    "corrected_name": "6974-10-3",
+    "cas": "6974-10-3",
+    "iupac": "ethyl 2-(1,3-dioxoisoindol-2-yl)acetate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Join all words into single compound name [via PubChem autocomplete]",
+    "cid": 95202,
+    "synonyms": [
+     "6974-10-3",
+     "Ethyl phthalimidoacetate",
+     "DCV2ZHH9RJ",
+     "NSC-23179",
+     "NSC-255094",
+     "RefChem:1085091",
+     "Ethyl 2-(1,3-dioxoisoindolin-2-yl)acetate",
+     "ethyl 2-(1,3-dioxoisoindol-2-yl)acetate"
+    ],
+    "pubchem_mw": 233.22,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Phthalicacidmono-(2-ethyl-hexyl)ester",
+    "structure_file": "candidate_structures/95202.png"
    },
    {
     "corrected_name": "Diethyl phthalimidomalonate",
@@ -11422,7 +12499,7 @@
    "crop_file": "source_crops/1301.png",
    "structure_file": "structure_crops/1301.png",
    "raw_line": "1153 Mono 2-Ethyl-Hexyl Phthalate (MEHP) Phthalic acid mono-(2- 17.3 6.2 6.8 265.0",
-   "acd_name": "Phthalic acid mono-(2-"
+   "acd_name": "Phthalic acid mono-(2-ethyl-hexyl) ester"
   }
  },
  {
@@ -11435,6 +12512,54 @@
   "delta_h": "18.4",
   "molar_volume": null,
   "options": [
+   {
+    "corrected_name": "2-(4-acetylmorpholin-2-yl)acetic acid",
+    "cas": "1504454-79-8",
+    "iupac": "2-(4-acetylmorpholin-2-yl)acetic acid",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove OCR space: 'Acetate morpholin-4-17.2'\u2192'Acetatemorpholin-4-17.2' [via PubChem autocomplete]",
+    "cid": 66422346,
+    "synonyms": [
+     "2-(4-acetylmorpholin-2-yl)acetic acid",
+     "1504454-79-8",
+     "SCHEMBL23182185",
+     "AKOS015767459",
+     "CS-0345801",
+     "EN300-886425"
+    ],
+    "pubchem_mw": 187.19,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acetatemorpholin-4-17.2 20.3 18.4 ium;",
+    "structure_file": "candidate_structures/66422346.png"
+   },
+   {
+    "corrected_name": "1696-20-4",
+    "cas": "1696-20-4",
+    "iupac": "1-morpholin-4-ylethanone",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 15543,
+    "synonyms": [
+     "1696-20-4",
+     "4-Acetylmorpholine",
+     "N-ACETYLMORPHOLINE",
+     "Ethanone, 1-(4-morpholinyl)-",
+     "NSC 2764",
+     "EINECS 216-913-4",
+     "BRN 0111971",
+     "DTXSID9061889"
+    ],
+    "pubchem_mw": 129.16,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Acetate morpholin-4-17.2 20.3 18.4 ium;",
+    "structure_file": "candidate_structures/15543.png"
+   },
    {
     "corrected_name": "MORPHOLINE",
     "cas": "110-91-8",
@@ -11493,7 +12618,7 @@
    "crop_file": "source_crops/1303.png",
    "structure_file": "structure_crops/1303.png",
    "raw_line": "1193 Morpholine/Acetic Acid Acetate morpholin-4- 17.2 20.3 18.4",
-   "acd_name": "Morpholine"
+   "acd_name": "Acetate morpholin-4-17.2 20.3 18.4 ium;"
   }
  },
  {
@@ -11506,6 +12631,31 @@
   "delta_h": "8.0",
   "molar_volume": 90.8,
   "options": [
+   {
+    "corrected_name": "N-Boc-2-chloroethylamine",
+    "cas": "71999-74-1",
+    "iupac": "tert-butyl N-(2-chloroethyl)carbamate",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'amine' [via PubChem autocomplete]",
+    "cid": 3795708,
+    "synonyms": [
+     "N-Boc-2-chloroethylamine",
+     "DTXSID00396531",
+     "RefChem:1091631",
+     "DTXCID90347390",
+     "71999-74-1",
+     "Tert-butyl N-(2-chloroethyl)carbamate",
+     "tert-Butyl (2-chloroethyl)carbamate",
+     "MFCD04004074"
+    ],
+    "pubchem_mw": 179.64,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "Bis-chloromethylamine",
+    "structure_file": "candidate_structures/3795708.png"
+   },
    {
     "corrected_name": "Methyldichloramine",
     "cas": "7651-91-4",
@@ -11632,29 +12782,29 @@
   "molar_volume": null,
   "options": [
    {
-    "corrected_name": "Potassium acetate",
-    "cas": "127-08-2",
-    "iupac": "potassium acetate",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 517044,
+    "corrected_name": "Tetrabutylammonium acetate",
+    "cas": "10534-59-5",
+    "iupac": "tetrabutylazanium acetate",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Remove OCR space: 'Acetate butyl-16.0'\u2192'Acetatebutyl-16.0' [via PubChem autocomplete]",
+    "cid": 82707,
     "synonyms": [
-     "Potassium acetate",
-     "127-08-2",
-     "Diuretic salt",
-     "ACETIC ACID, POTASSIUM SALT",
-     "Acetic acid, potassium salt (1:1)",
-     "Potassium ethanoate",
-     "FEMA No. 2920",
-     "Octan draselny"
+     "Tetrabutylammonium acetate",
+     "10534-59-5",
+     "EINECS 234-101-8",
+     "DTXSID8065111",
+     "1-Butanaminium, N,N,N-tributyl-, acetate (1:1)",
+     "RefChem:188404",
+     "Tetranbutylammonium acetate",
+     "DTXCID5032949"
     ],
-    "pubchem_mw": 98.14,
+    "pubchem_mw": 301.5,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Acetate butyl",
-    "structure_file": "candidate_structures/517044.png"
+    "guess_text": "Acetatebutyl-16.0 20.3 18.4 ammonium;",
+    "structure_file": "candidate_structures/82707.png"
    },
    {
     "corrected_name": "N-ACETYLGLYCINE",
@@ -11739,7 +12889,7 @@
    "crop_file": "source_crops/1329.png",
    "structure_file": "structure_crops/1329.png",
    "raw_line": "1182 N-Butyl Amine/Acetic Acid Acetate butyl- 16.0 20.3 18.4",
-   "acd_name": "Acetate butyl-"
+   "acd_name": "Acetate butyl-16.0 20.3 18.4 ammonium;"
   }
  },
  {
@@ -11822,6 +12972,31 @@
     "structure_file": "candidate_structures/91280.png"
    },
    {
+    "corrected_name": "Pyrazine-2-carbaldehyde",
+    "cas": "5780-66-5",
+    "iupac": "pyrazine-2-carbaldehyde",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Invert name order [via PubChem autocomplete]",
+    "cid": 11274980,
+    "synonyms": [
+     "Pyrazine-2-carbaldehyde",
+     "DTXSID00460761",
+     "RefChem:870445",
+     "DTXCID90411580",
+     "691-235-3",
+     "5780-66-5",
+     "Pyrazine-2-carboxaldehyde",
+     "2-pyrazinecarboxaldehyde"
+    ],
+    "pubchem_mw": 108.1,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1-carbaldehydeazepane",
+    "structure_file": "candidate_structures/11274980.png"
+   },
+   {
     "corrected_name": "1-(Dimethoxymethyl)hexahydro-1H-azepine",
     "cas": "32895-16-2",
     "iupac": "1-(dimethoxymethyl)azepane",
@@ -11871,8 +13046,8 @@
     "corrected_name": "84952-63-6",
     "cas": "84952-63-6",
     "iupac": "N-methyl-1-phenylbutan-2-amine;hydrochloride",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 90645590,
     "synonyms": [
      "84952-63-6",
@@ -12015,8 +13190,8 @@
     "corrected_name": "1-(1-Chloro-2-fluoroethyl)-3-fluorobenzene",
     "cas": "1378824-57-7",
     "iupac": "1-(1-chloro-2-fluoroethyl)-3-fluorobenzene",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 129921070,
     "synonyms": [
      "1-(1-Chloro-2-fluoroethyl)-3-fluorobenzene",
@@ -12100,6 +13275,31 @@
   "molar_volume": 205.7,
   "options": [
    {
+    "corrected_name": "1,1'-Dibenzyl-4,4'-bipyridinium dichloride",
+    "cas": "1102-19-8",
+    "iupac": "1-benzyl-4-(1-benzylpyridin-1-ium-4-yl)pyridin-1-ium dichloride",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Remove OCR space: 'bipyridinium dichloride'\u2192'bipyridiniumdichloride' [via PubChem autocomplete]",
+    "cid": 14195,
+    "synonyms": [
+     "1,1'-Dibenzyl-4,4'-bipyridinium dichloride",
+     "Benzylviologen chloride",
+     "N,N'-Dibenzyl-gamma,gamma'-dipyridylium dichloride",
+     "EINECS 214-158-5",
+     "4,4'-Bipyridinium, 1,1'-bis(phenylmethyl)-, dichloride",
+     "NSC 409418",
+     "4,4'-BIPYRIDINIUM, 1,1'-DIBENZYL-, DICHLORIDE",
+     "1,1'-Bis(phenylmethyl)-4,4'-bipyridinium dichloride"
+    ],
+    "pubchem_mw": 409.3,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "bipyridiniumdichloride",
+    "structure_file": "candidate_structures/14195.png"
+   },
+   {
     "corrected_name": "Dimethyl acetylenedicarboxylate",
     "cas": "762-42-5",
     "iupac": "dimethyl but-2-ynedioate",
@@ -12132,7 +13332,7 @@
    "crop_file": "source_crops/1450.png",
    "structure_file": "structure_crops/1450.png",
    "raw_line": "1114 Paraquat 1,1'-Dimethyl-4,4'- 19.5 8.8 5.9 205.7",
-   "acd_name": ""
+   "acd_name": "bipyridinium dichloride"
   }
  },
  {
@@ -12198,8 +13398,8 @@
     "corrected_name": "Tris(pentafluorophenyl)borane",
     "cas": "1109-15-5",
     "iupac": "tris(2,3,4,5,6-pentafluorophenyl)borane",
-    "confidence": 0.67,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.68,
+    "reason": "ACD/Autonom: Remove OCR space: '1-Pentafluorophe yl'\u2192'1-Pentafluoropheyl' [via PubChem autocomplete]",
     "cid": 582056,
     "synonyms": [
      "Tris(pentafluorophenyl)borane",
@@ -12216,7 +13416,7 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "1-Pentafluorophe yl",
+    "guess_text": "1-Pentafluoropheyl",
     "structure_file": "candidate_structures/582056.png"
    }
   ],
@@ -12362,6 +13562,31 @@
   "molar_volume": 217.4,
   "options": [
    {
+    "corrected_name": "102780-88-1",
+    "cas": "102780-88-1",
+    "iupac": "1,1,1,2,2,3,3,5,5,5-decafluoro-4-iodo-4-(trifluoromethyl)pentane",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Remove OCR space: '1,1,2,2,3,4,4,5,5,6-Decafluoro-3,6-bis trifluoromet'\u2192'1,1,2,2,3,4,4,5,5,6-Decafluoro-3,6-bistrifluoromet' [via PubChem autocomplete]",
+    "cid": 2736750,
+    "synonyms": [
+     "102780-88-1",
+     "1,1,1,2,2,3,3,5,5,5-decafluoro-4-iodo-4-(trifluoromethyl)pentane",
+     "DTXSID70371572",
+     "RefChem:212694",
+     "DTXCID30322606",
+     "Decafluoro-2-trifluoromethyl-2-iodopentane",
+     "2-Iodoperfluoro(2-methylpentane)",
+     "Perfluoro(2-iodo-2-methylpentane)"
+    ],
+    "pubchem_mw": 445.95,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1,1,2,2,3,4,4,5,5,6-Decafluoro-3,6-bistrifluoromet yl",
+    "structure_file": "candidate_structures/2736750.png"
+   },
+   {
     "corrected_name": "335-27-3",
     "cas": "335-27-3",
     "iupac": "1,1,2,2,3,3,4,5,5,6-decafluoro-4,6-bis(trifluoromethyl)cyclohexane",
@@ -12385,31 +13610,6 @@
     "mv_pct_diff": null,
     "guess_text": "Perfluoro Dimetylcyclohexane",
     "structure_file": "candidate_structures/78975.png"
-   },
-   {
-    "corrected_name": "3,5-Dibromopyridine",
-    "cas": "625-92-3",
-    "iupac": "3,5-dibromopyridine",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 69369,
-    "synonyms": [
-     "3,5-Dibromopyridine",
-     "625-92-3",
-     "DTXSID3073921",
-     "CHEBI:51593",
-     "RefChem:486667",
-     "DTXCID2043377",
-     "210-916-4",
-     "Pyridine, 3,5-dibromo-"
-    ],
-    "pubchem_mw": 236.89,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "1,1,2,2,3,4,4,5,5,6",
-    "structure_file": "candidate_structures/69369.png"
    },
    {
     "corrected_name": "374-77-6",
@@ -12443,7 +13643,7 @@
    "crop_file": "source_crops/1462.png",
    "structure_file": "structure_crops/1462.png",
    "raw_line": "556 Perfluoro Dimet ylcyclohexane 1,1,2,2,3,4,4,5,5,6- 12.4 0 0 217.4",
-   "acd_name": "1,1,2,2,3,4,4,5,5,6-"
+   "acd_name": "1,1,2,2,3,4,4,5,5,6-Decafluoro-3,6-bis trifluoromet yl-"
   }
  },
  {
@@ -12457,29 +13657,29 @@
   "molar_volume": 196.0,
   "options": [
    {
-    "corrected_name": "3,5-Dibromopyridine",
-    "cas": "625-92-3",
-    "iupac": "3,5-dibromopyridine",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 69369,
+    "corrected_name": "1,1,1,2,2,3,3,4,4,5,5-Undecafluoroundecane",
+    "cas": "1287702-50-4",
+    "iupac": "1,1,1,2,2,3,3,4,4,5,5-undecafluoroundecane",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Remove OCR space: 'trifluoromet yl-F'\u2192'trifluorometyl-F' [via PubChem autocomplete]",
+    "cid": 98452289,
     "synonyms": [
-     "3,5-Dibromopyridine",
-     "625-92-3",
-     "DTXSID3073921",
-     "CHEBI:51593",
-     "RefChem:486667",
-     "DTXCID2043377",
-     "210-916-4",
-     "Pyridine, 3,5-dibromo-"
+     "1,1,1,2,2,3,3,4,4,5,5-Undecafluoroundecane",
+     "DTXSID40895199",
+     "1287702-50-4",
+     "RefChem:212655",
+     "DTXCID301324719",
+     "SCHEMBL29501280",
+     "JNSNOMBEZFGTQM-UHFFFAOYSA-N",
+     "NS00110344"
     ],
-    "pubchem_mw": 236.89,
+    "pubchem_mw": 354.2,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1,1,2,2,3,3,4,4,5,5,6",
-    "structure_file": "candidate_structures/69369.png"
+    "guess_text": "1,1,2,2,3,3,4,4,5,5,6-Undecafluoro-6 trifluorometyl-F cyclohexane",
+    "structure_file": "candidate_structures/98452289.png"
    },
    {
     "corrected_name": "335-27-3",
@@ -12538,7 +13738,7 @@
    "crop_file": "source_crops/1469.png",
    "structure_file": "structure_crops/1469.png",
    "raw_line": "558 Perfluoromet ylcyclohexane 1,1,2,2,3,3,4,4,5,5,6- 12.4 0 0 196.0",
-   "acd_name": "1,1,2,2,3,3,4,4,5,5,6-"
+   "acd_name": "1,1,2,2,3,3,4,4,5,5,6-Undecafluoro-6 trifluoromet yl-F cyclohexane"
   }
  },
  {
@@ -12556,7 +13756,7 @@
     "cas": "10025-87-3",
     "iupac": "phosphoryl trichloride",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "ACD/Autonom: Remove OCR space: 'Phosphoric trichloride'\u2192'Phosphorictrichloride' [via NCI/CIR]",
     "cid": 24813,
     "synonyms": [
      "PHOSPHORUS OXYCHLORIDE",
@@ -12573,7 +13773,7 @@
     "ref_density": 1.645,
     "mv_match": true,
     "mv_pct_diff": 0.0,
-    "guess_text": "Phosphoric trichloride",
+    "guess_text": "Phosphorictrichloride",
     "structure_file": "candidate_structures/24813.png"
    },
    {
@@ -12698,7 +13898,7 @@
     "cas": "765-34-4",
     "iupac": "oxirane-2-carbaldehyde",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "reason": "ACD/Autonom: Original name",
     "cid": 13002,
     "synonyms": [
      "GLYCIDALDEHYDE",
@@ -12715,8 +13915,33 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "* Oxirane-2-carbaldehyde",
+    "guess_text": "Oxirane-2-carbaldehyde",
     "structure_file": "candidate_structures/13002.png"
+   },
+   {
+    "corrected_name": "Pyrazine-2-carbaldehyde",
+    "cas": "5780-66-5",
+    "iupac": "pyrazine-2-carbaldehyde",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Invert name order [via PubChem autocomplete]",
+    "cid": 11274980,
+    "synonyms": [
+     "Pyrazine-2-carbaldehyde",
+     "DTXSID00460761",
+     "RefChem:870445",
+     "DTXCID90411580",
+     "691-235-3",
+     "5780-66-5",
+     "Pyrazine-2-carboxaldehyde",
+     "2-pyrazinecarboxaldehyde"
+    ],
+    "pubchem_mw": 108.1,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-carbaldehydeoxirane",
+    "structure_file": "candidate_structures/11274980.png"
    }
   ],
   "source_ref": {
@@ -12726,7 +13951,7 @@
    "crop_file": "source_crops/1498.png",
    "structure_file": "structure_crops/1498.png",
    "raw_line": "574 Propionaldehyde-2,3-Epoxy* Oxirane-2-carbaldehyde 17.5 13.4 9.8 63.2",
-   "acd_name": "* Oxirane-2-carbaldehyde"
+   "acd_name": "Oxirane-2-carbaldehyde"
   }
  },
  {
@@ -12871,7 +14096,7 @@
     "cas": "110-01-0",
     "iupac": "thiolane",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "ACD/Autonom: Join substituent to parent chain 'thiophene'",
     "cid": 1127,
     "synonyms": [
      "tetrahydrothiophene",
@@ -12888,7 +14113,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Tetrahydro-thiophene",
+    "guess_text": "Tetrahydrothiophene",
     "structure_file": "candidate_structures/1127.png"
    },
    {
@@ -12965,8 +14190,8 @@
     "corrected_name": "tetrahydrothiophene",
     "cas": "110-01-0",
     "iupac": "thiolane",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'thiophene'",
     "cid": 1127,
     "synonyms": [
      "tetrahydrothiophene",
@@ -12983,7 +14208,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Tetrahydro-thiophene",
+    "guess_text": "Tetrahydrothiophene",
     "structure_file": "candidate_structures/1127.png"
    },
    {
@@ -13037,7 +14262,7 @@
     "cas": "68-11-1",
     "iupac": "2-sulfanylacetic acid",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "ACD/Autonom: Remove OCR space: 'Mercapto-acetic acid'\u2192'Mercapto-aceticacid' [via PubChem autocomplete]",
     "cid": 1133,
     "synonyms": [
      "mercaptoacetic acid",
@@ -13054,7 +14279,7 @@
     "ref_density": 1.3253,
     "mv_match": true,
     "mv_pct_diff": 0.0,
-    "guess_text": "Mercapto-acetic acid",
+    "guess_text": "Mercapto-aceticacid",
     "structure_file": "candidate_structures/1133.png"
    }
   ],
@@ -13079,31 +14304,6 @@
   "molar_volume": 96.6,
   "options": [
    {
-    "corrected_name": "2-methylbut-2-enal",
-    "cas": "1115-11-3",
-    "iupac": "2-methylbut-2-enal",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
-    "cid": 10336,
-    "synonyms": [
-     "2-methylbut-2-enal",
-     "2-METHYL-2-BUTENAL",
-     "1115-11-3",
-     "DTXSID00859414",
-     "RefChem:910039",
-     "DTXCID70809729",
-     "2-methyl-but-2-enal",
-     "100365-71-7"
-    ],
-    "pubchem_mw": 84.12,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "(E)-2-Methyl-but-2-enal",
-    "structure_file": "candidate_structures/10336.png"
-   },
-   {
     "corrected_name": "CYCLOHEXANE",
     "cas": "110-82-7",
     "iupac": "cyclohexane",
@@ -13126,6 +14326,31 @@
     "mv_match": true,
     "mv_pct_diff": 11.8,
     "structure_file": "candidate_structures/8078.png"
+   },
+   {
+    "corrected_name": "2-methylbut-2-enal",
+    "cas": "1115-11-3",
+    "iupac": "2-methylbut-2-enal",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via NCI/CIR]",
+    "cid": 10336,
+    "synonyms": [
+     "2-methylbut-2-enal",
+     "2-METHYL-2-BUTENAL",
+     "1115-11-3",
+     "DTXSID00859414",
+     "RefChem:910039",
+     "DTXCID70809729",
+     "2-methyl-but-2-enal",
+     "100365-71-7"
+    ],
+    "pubchem_mw": 84.12,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "(E)-2-Methyl-but-2-enal",
+    "structure_file": "candidate_structures/10336.png"
    },
    {
     "corrected_name": "trans-2-Methyl-2-butenal",
@@ -13199,29 +14424,53 @@
   "molar_volume": 384.3,
   "options": [
    {
-    "corrected_name": "10235-71-9",
-    "cas": "10235-71-9",
-    "iupac": "(2-methyl-3-oxobutan-2-yl) acetate",
-    "confidence": 0.67,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 12399712,
+    "corrected_name": "3-cyclopropylpentanedioicacid",
+    "cas": "151331-06-5",
+    "iupac": "3-cyclopropylpentanedioic acid",
+    "confidence": 0.63,
+    "reason": "ACD/Autonom: Remove OCR space: '3-Acetoxy-3-pentanedioic acid'\u2192'3-Acetoxy-3-pentanedioicacid' [via PubChem autocomplete]",
+    "cid": 19753579,
     "synonyms": [
-     "10235-71-9",
-     "3-ACETOXY-3-METHYL-2-BUTANONE",
-     "(2-methyl-3-oxobutan-2-yl) acetate",
-     "2-methyl-3-oxobutan-2-yl acetate",
-     "SCHEMBL359138",
-     "2-acetoxy-2-methyl-3-butanone",
-     "DTXSID50496419",
-     "GLJOZIJFBJYYHE-UHFFFAOYSA-N"
+     "3-cyclopropylpentanedioicacid",
+     "151331-06-5",
+     "3-cyclopropylpentanedioic acid",
+     "SCHEMBL9589364",
+     "BGA33106",
+     "EN300-150044",
+     "Z1262556329"
     ],
-    "pubchem_mw": 144.17,
+    "pubchem_mw": 172.18,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "3-Acetoxy-3",
-    "structure_file": "candidate_structures/12399712.png"
+    "guess_text": "3-Acetoxy-3-pentanedioicacid",
+    "structure_file": "candidate_structures/19753579.png"
+   },
+   {
+    "corrected_name": "Tricarballylic acid",
+    "cas": "99-14-9",
+    "iupac": "propane-1,2,3-tricarboxylic acid",
+    "confidence": 0.63,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 14925,
+    "synonyms": [
+     "Tricarballylic acid",
+     "99-14-9",
+     "1,2,3-Propanetricarboxylic acid",
+     "Carballylic acid",
+     "beta-Carboxyglutaric acid",
+     "3-carboxypentanedioic acid",
+     "Propane 1,2,3-tricarboxylic acid",
+     "carboxymethylsuccinic acid"
+    ],
+    "pubchem_mw": 176.12,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": false,
+    "mv_pct_diff": null,
+    "guess_text": "3-Acetoxy-3-pentanedioic acid",
+    "structure_file": "candidate_structures/14925.png"
    },
    {
     "corrected_name": "1522-34-5",
@@ -13306,7 +14555,7 @@
    "crop_file": "source_crops/1617.png",
    "structure_file": "structure_crops/1617.png",
    "raw_line": "1137 Tri-n-Butyl Acetyl Citrate 3-Acetoxy-3- 16.7 2.5 7.4 384.3",
-   "acd_name": "3-Acetoxy-3-"
+   "acd_name": "3-Acetoxy-3-pentanedioic acid"
   }
  },
  {
@@ -13319,31 +14568,6 @@
   "delta_h": "9.1",
   "molar_volume": 188.2,
   "options": [
-   {
-    "corrected_name": "72712-21-1",
-    "cas": "72712-21-1",
-    "iupac": "(4-acetyl-2-acetyloxyphenyl) acetate",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 3854540,
-    "synonyms": [
-     "72712-21-1",
-     "Acetic acid 2-acetoxy-5-acetyl-phenyl ester",
-     "DTXSID00397381",
-     "RefChem:315847",
-     "DTXCID30348240",
-     "(4-acetyl-2-acetyloxyphenyl) acetate",
-     "4-Acetyl-1,2-phenylene diacetate",
-     "(5-acetyl-2-acetyloxy-phenyl) acetate"
-    ],
-    "pubchem_mw": 236.22,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Acetic acid 2-acetoxy-1",
-    "structure_file": "candidate_structures/3854540.png"
-   },
    {
     "corrected_name": "Trimethyl 1,2,3-propanetricarboxylate",
     "cas": "6138-26-7",
@@ -13368,6 +14592,56 @@
     "mv_pct_diff": null,
     "guess_text": "Triacetin (1,2,3-Propanetriol Triacetate) Aceticacid 2-acetoxy-1-",
     "structure_file": "candidate_structures/581486.png"
+   },
+   {
+    "corrected_name": "1-Acetoxymethylpyrene",
+    "cas": "105708-79-0",
+    "iupac": "pyren-1-ylmethyl acetate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove OCR space: 'acetoxymethyl-ethyl ester'\u2192'acetoxymethyl-ethylester' [via PubChem autocomplete]",
+    "cid": 149705,
+    "synonyms": [
+     "1-Acetoxymethylpyrene",
+     "CCRIS 4483",
+     "105708-79-0",
+     "DTXSID40147266",
+     "RefChem:227279",
+     "DTXCID0069757",
+     "(PYREN-1-YL)METHYL ACETATE",
+     "1-(Acetoxymethyl)pyrene"
+    ],
+    "pubchem_mw": 274.3,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "acetoxymethyl-ethylester",
+    "structure_file": "candidate_structures/149705.png"
+   },
+   {
+    "corrected_name": "ACETOXYMETHYLTRIETHOXYSILANE",
+    "cas": "5630-83-1",
+    "iupac": "triethoxysilylmethyl acetate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 11528804,
+    "synonyms": [
+     "ACETOXYMETHYLTRIETHOXYSILANE",
+     "5630-83-1",
+     "DTXSID40468089",
+     "RefChem:316986",
+     "DTXCID40418908",
+     "Triethoxysilylmethyl Acetate",
+     "(triethoxysilyl)methyl acetate",
+     "MFCD00270955"
+    ],
+    "pubchem_mw": 236.34,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "acetoxymethyl-ethyl ester",
+    "structure_file": "candidate_structures/11528804.png"
    },
    {
     "corrected_name": "triacetin",
@@ -13427,7 +14701,7 @@
    "crop_file": "source_crops/1621.png",
    "structure_file": "structure_crops/1621.png",
    "raw_line": "1147 Triacetin (1,2,3-Propanetriol Triacetate) Acetic acid 2-acetoxy-1- 16.5 4.5 9.1 188.2",
-   "acd_name": "Acetic acid 2-acetoxy-1-"
+   "acd_name": "acetoxymethyl-ethyl ester"
   }
  },
  {
@@ -13444,8 +14718,8 @@
     "corrected_name": "Tribromoethylene",
     "cas": "598-16-3",
     "iupac": "1,1,2-tribromoethene",
-    "confidence": 0.77,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "confidence": 0.8,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethene'",
     "cid": 11712,
     "synonyms": [
      "Tribromoethylene",
@@ -13462,7 +14736,7 @@
     "ref_density": null,
     "mv_match": false,
     "mv_pct_diff": null,
-    "guess_text": "* 1,1,2-Tribromo-ethene",
+    "guess_text": "1,1,2-Tribromoethene",
     "structure_file": "candidate_structures/11712.png"
    }
   ],
@@ -13473,7 +14747,7 @@
    "crop_file": "source_crops/1622.png",
    "structure_file": "structure_crops/1622.png",
    "raw_line": "640 Tribromo Ethylene* 1,1,2-Tribromo-ethene 18.3 9.4 8.0 97.8",
-   "acd_name": "* 1,1,2-Tribromo-ethene"
+   "acd_name": "1,1,2-Tribromo-ethene"
   }
  },
  {
@@ -13487,29 +14761,29 @@
   "molar_volume": null,
   "options": [
    {
-    "corrected_name": "N,N-Bis(2-hydroxyethyl)dodecanamide",
-    "cas": "120-40-1",
-    "iupac": "N,N-bis(2-hydroxyethyl)dodecanamide",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 8430,
+    "corrected_name": "ethanolamine acetate",
+    "cas": "54300-24-2",
+    "iupac": "acetic acid;2-aminoethanol",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Remove OCR space: 'Acetate tris-(2-hydroxy-17.2'\u2192'Acetatetris-(2-hydroxy-17.2' [via PubChem autocomplete]",
+    "cid": 108573,
     "synonyms": [
-     "N,N-Bis(2-hydroxyethyl)dodecanamide",
-     "120-40-1",
-     "Lauric diethanolamide",
-     "Lauramide DEA",
-     "Lauryl diethanolamide",
-     "Lauric acid diethanolamide",
-     "Alkamide LE",
-     "Standamidd ld"
+     "ethanolamine acetate",
+     "2-Aminoethanol acetate",
+     "54300-24-2",
+     "2-Hydroxyethylammonium acetate",
+     "Ethanolamine acetate (salt)",
+     "UNII-S20U1L1S25",
+     "DTXSID5068940",
+     "S20U1L1S25"
     ],
-    "pubchem_mw": 287.44,
+    "pubchem_mw": 121.14,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "2-[Bis-(2-hydroxy",
-    "structure_file": "candidate_structures/8430.png"
+    "guess_text": "Acetatetris-(2-hydroxy-17.2 20.3 18.4 ethyl)-ammonium;",
+    "structure_file": "candidate_structures/108573.png"
    },
    {
     "corrected_name": "TRIETHANOLAMINE",
@@ -13568,7 +14842,7 @@
    "crop_file": "source_crops/1636.png",
    "structure_file": "structure_crops/1636.png",
    "raw_line": "1194 Triethanolamine/Acetic Acid Acetate tris-(2-hydroxy- 17.2 20.3 18.4",
-   "acd_name": "2-[Bis-(2-hydroxy-"
+   "acd_name": "Acetate tris-(2-hydroxy-17.2 20.3 18.4 ethyl)-ammonium;"
   }
  },
  {
@@ -13703,29 +14977,29 @@
   "molar_volume": 602.9,
   "options": [
    {
-    "corrected_name": "1,2,4-Benzenetricarboxylic acid",
-    "cas": "528-44-9",
-    "iupac": "benzene-1,2,4-tricarboxylic acid",
-    "confidence": 0.67,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 10708,
+    "corrected_name": "4-Methylbenzyl alcohol",
+    "cas": "589-18-4",
+    "iupac": "(4-methylphenyl)methanol",
+    "confidence": 0.68,
+    "reason": "ACD/Autonom: Join all words into single compound name [via PubChem autocomplete]",
+    "cid": 11505,
     "synonyms": [
-     "1,2,4-Benzenetricarboxylic acid",
-     "528-44-9",
-     "TRIMELLITIC ACID",
-     "Benzene-1,2,4-tricarboxylic acid",
-     "1,2,4-Tricarboxybenzene",
-     "4-Carboxyphthalic acid",
-     "1,3,4-Benzenetricarboxylic acid",
-     "1,4,5-Benzenetricarboxylic acid"
+     "4-Methylbenzyl alcohol",
+     "589-18-4",
+     "p-Tolylcarbinol",
+     "(4-Methylphenyl)methanol",
+     "P-METHYLBENZYL ALCOHOL",
+     "4-Tolylcarbinol",
+     "Benzenemethanol, 4-methyl-",
+     "4-(Hydroxymethyl)toluene"
     ],
-    "pubchem_mw": 210.14,
-    "ref_mv": null,
-    "ref_density": null,
+    "pubchem_mw": 122.16,
+    "ref_mv": 124.9,
+    "ref_density": 0.978,
     "mv_match": false,
-    "mv_pct_diff": null,
-    "guess_text": "Benzene-1,2,4",
-    "structure_file": "candidate_structures/10708.png"
+    "mv_pct_diff": 79.3,
+    "guess_text": "Benzene-1,2,4-(7-methyl-octyl)ester",
+    "structure_file": "candidate_structures/11505.png"
    },
    {
     "corrected_name": "Triisononylamine",
@@ -13785,7 +15059,7 @@
    "crop_file": "source_crops/1648.png",
    "structure_file": "structure_crops/1648.png",
    "raw_line": "663 Triisononyl Trimellilate Benzene-1,2,4- 16.6 5.7 2.2 602.9",
-   "acd_name": "Benzene-1,2,4-"
+   "acd_name": "Benzene-1,2,4-(7-methyl-octyl) ester"
   }
  },
  {
@@ -13802,8 +15076,8 @@
     "corrected_name": "Thietane",
     "cas": "287-27-4",
     "iupac": "thietane",
-    "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.98,
+    "reason": "ACD/Autonom: Original name",
     "cid": 9251,
     "synonyms": [
      "Thietane",
@@ -13874,7 +15148,7 @@
     "cas": "517-25-9",
     "iupac": "trinitromethane",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "reason": "ACD/Autonom: Original name [via NCI/CIR]",
     "cid": 10602,
     "synonyms": [
      "Trinitromethane",
@@ -13920,7 +15194,7 @@
     "cas": "118-96-7",
     "iupac": "2-methyl-1,3,5-trinitrobenzene",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
     "cid": 8376,
     "synonyms": [
      "2,4,6-TRINITROTOLUENE",
@@ -14010,6 +15284,31 @@
     "mv_pct_diff": null,
     "guess_text": "Tripropylene Glycol Monomethyl",
     "structure_file": "candidate_structures/2737322.png"
+   },
+   {
+    "corrected_name": "Dimethyl methoxymethylenemalonate",
+    "cas": "22398-14-7",
+    "iupac": "dimethyl 2-(methoxymethylidene)propanedioate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 90770,
+    "synonyms": [
+     "Dimethyl methoxymethylenemalonate",
+     "EINECS 244-957-4",
+     "DTXSID90176925",
+     "NSC 131266",
+     "RefChem:588284",
+     "DTXCID3099416",
+     "244-957-4",
+     "22398-14-7"
+    ],
+    "pubchem_mw": 174.15,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1-[2-(2-Methoxy-1-methyl-ethoxy]-propan-2-ol",
+    "structure_file": "candidate_structures/90770.png"
    },
    {
     "corrected_name": "29911-28-2",
@@ -14199,36 +15498,11 @@
   "molar_volume": 101.7,
   "options": [
    {
-    "corrected_name": "(2-Chloroethoxy)cyclopropane",
-    "cas": "17714-18-0",
-    "iupac": "2-chloroethoxycyclopropane",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 45789860,
-    "synonyms": [
-     "(2-Chloroethoxy)cyclopropane",
-     "17714-18-0",
-     "DTXSID50672074",
-     "RefChem:68587",
-     "DTXCID60622823",
-     "817-768-5",
-     "(2-CHLORO-ETHOXY)-CYCLOPROPANE",
-     "2-chloroethoxycyclopropane"
-    ],
-    "pubchem_mw": 120.58,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "(2-Chloro-ethoxy)",
-    "structure_file": "candidate_structures/45789860.png"
-   },
-   {
     "corrected_name": "2-CHLOROETHYL VINYL ETHER",
     "cas": "110-75-8",
     "iupac": "1-chloro-2-ethenoxyethane",
-    "confidence": 0.89,
-    "reason": "Join 'Chloro ethyl' \u2192 'Chloroethyl'",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethene' [via NCI/CIR]",
     "cid": 8074,
     "synonyms": [
      "2-CHLOROETHYL VINYL ETHER",
@@ -14245,7 +15519,7 @@
     "ref_density": 1.0475,
     "mv_match": true,
     "mv_pct_diff": 0.0,
-    "guess_text": "Vinyl 2-Chloroethyl Ether",
+    "guess_text": "(2-Chloro-ethoxy)ethene",
     "structure_file": "candidate_structures/8074.png"
    },
    {
@@ -14306,7 +15580,7 @@
    "crop_file": "source_crops/1671.png",
    "structure_file": "structure_crops/1671.png",
    "raw_line": "674 Vinyl 2-Chloro Ethyl Ether (2-Chloro-ethoxy)- 16.3 6.7 5.8 101.7",
-   "acd_name": "(2-Chloro-ethoxy)-"
+   "acd_name": "(2-Chloro-ethoxy)-ethene"
   }
  },
  {
@@ -14320,29 +15594,29 @@
   "molar_volume": 96.2,
   "options": [
    {
-    "corrected_name": "4-(2-Methoxyethoxy)phenol",
-    "cas": "51980-60-0",
-    "iupac": "4-(2-methoxyethoxy)phenol",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 13313561,
+    "corrected_name": "2-Methoxyethyl vinyl ether",
+    "cas": "1663-35-0",
+    "iupac": "1-ethenoxy-2-methoxyethane",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethene' [via NCI/CIR]",
+    "cid": 15457,
     "synonyms": [
-     "4-(2-Methoxyethoxy)phenol",
-     "51980-60-0",
-     "DTXSID00536435",
-     "RefChem:97066",
-     "DTXCID30487224",
-     "826-063-1",
-     "4-(2-Methoxy-ethoxy)-phenol",
-     "MFCD04114941"
+     "2-Methoxyethyl vinyl ether",
+     "1663-35-0",
+     "Ethene, (2-methoxyethoxy)-",
+     "Vinyl 2-methoxyethyl ether",
+     "1-Methoxy-2-vinyloxyethane",
+     "2-Methoxyethyl ethenyl ether",
+     "Ethane, 1-methoxy-2-(vinyloxy)-",
+     "(2-methoxyethoxy)ethene"
     ],
-    "pubchem_mw": 168.19,
+    "pubchem_mw": 102.13,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "(2-Methoxy-ethoxy)",
-    "structure_file": "candidate_structures/13313561.png"
+    "guess_text": "(2-Methoxy-ethoxy)ethene",
+    "structure_file": "candidate_structures/15457.png"
    },
    {
     "corrected_name": "4-(dimethoxymethyl)-2-methylpyrimidine",
@@ -14368,31 +15642,6 @@
     "mv_pct_diff": null,
     "guess_text": "Vinyl 2-Methoxy EthylEther",
     "structure_file": "candidate_structures/2799572.png"
-   },
-   {
-    "corrected_name": "2-Methoxyethyl vinyl ether",
-    "cas": "1663-35-0",
-    "iupac": "1-ethenoxy-2-methoxyethane",
-    "confidence": 0.77,
-    "reason": "Join 'Methoxy ethyl' \u2192 'Methoxyethyl'",
-    "cid": 15457,
-    "synonyms": [
-     "2-Methoxyethyl vinyl ether",
-     "1663-35-0",
-     "Ethene, (2-methoxyethoxy)-",
-     "Vinyl 2-methoxyethyl ether",
-     "1-Methoxy-2-vinyloxyethane",
-     "2-Methoxyethyl ethenyl ether",
-     "Ethane, 1-methoxy-2-(vinyloxy)-",
-     "(2-methoxyethoxy)ethene"
-    ],
-    "pubchem_mw": 102.13,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "Vinyl 2-Methoxyethyl Ether",
-    "structure_file": "candidate_structures/15457.png"
    },
    {
     "corrected_name": "Ethyl (ethoxymethylene)cyanoacetate",
@@ -14427,7 +15676,7 @@
    "crop_file": "source_crops/1673.png",
    "structure_file": "structure_crops/1673.png",
    "raw_line": "675 Vinyl 2-Methoxy Ethyl Ether (2-Methoxy-ethoxy)- 15.9 6.7 6.8 96.2",
-   "acd_name": "(2-Methoxy-ethoxy)-"
+   "acd_name": "(2-Methoxy-ethoxy)-ethene"
   }
  },
  {
@@ -14440,31 +15689,6 @@
   "delta_h": "6.0",
   "molar_volume": 206.2,
   "options": [
-   {
-    "corrected_name": "Vinyloxytrimethylsilane",
-    "cas": "6213-94-1",
-    "iupac": "ethenoxy(trimethyl)silane",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 80344,
-    "synonyms": [
-     "Vinyloxytrimethylsilane",
-     "6213-94-1",
-     "Silane, (ethenyloxy)trimethyl-",
-     "EINECS 228-281-7",
-     "DTXSID4064137",
-     "RefChem:182848",
-     "DTXCID2043242",
-     "Trimethyl(vinyloxy)silane"
-    ],
-    "pubchem_mw": 116.23,
-    "ref_mv": null,
-    "ref_density": null,
-    "mv_match": null,
-    "mv_pct_diff": null,
-    "guess_text": "1-[2-(2-Vinyloxy",
-    "structure_file": "candidate_structures/80344.png"
-   },
    {
     "corrected_name": "5,8,11,13,16,19-Hexaoxatricosane",
     "cas": "143-29-3",
@@ -14489,6 +15713,31 @@
     "mv_pct_diff": null,
     "guess_text": "Vinylbutyl Carbitol",
     "structure_file": "candidate_structures/8928.png"
+   },
+   {
+    "corrected_name": "2-Methoxyethyl vinyl ether",
+    "cas": "1663-35-0",
+    "iupac": "1-ethenoxy-2-methoxyethane",
+    "confidence": 0.7,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'butane' [via PubChem autocomplete]",
+    "cid": 15457,
+    "synonyms": [
+     "2-Methoxyethyl vinyl ether",
+     "1663-35-0",
+     "Ethene, (2-methoxyethoxy)-",
+     "Vinyl 2-methoxyethyl ether",
+     "1-Methoxy-2-vinyloxyethane",
+     "2-Methoxyethyl ethenyl ether",
+     "Ethane, 1-methoxy-2-(vinyloxy)-",
+     "(2-methoxyethoxy)ethene"
+    ],
+    "pubchem_mw": 102.13,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": false,
+    "mv_pct_diff": null,
+    "guess_text": "1-[2-(2-Vinyloxy-ethoxy)-ethoxy]butane",
+    "structure_file": "candidate_structures/15457.png"
    }
   ],
   "source_ref": {
@@ -14498,7 +15747,7 @@
    "crop_file": "source_crops/1680.png",
    "structure_file": "structure_crops/1680.png",
    "raw_line": "914 Vinyl Butyl Carbitol 1-[2-(2-Vinyloxy- 16.0 5.0 6.0 206.2",
-   "acd_name": "1-[2-(2-Vinyloxy-"
+   "acd_name": "1-[2-(2-Vinyloxy-ethoxy)-ethoxy]-butane"
   }
  },
  {
@@ -14515,8 +15764,8 @@
     "corrected_name": "Butane, 1-(ethenylthio)-",
     "cas": "4789-70-2",
     "iupac": "1-ethenylsulfanylbutane",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'butane' [via NCI/CIR]",
     "cid": 138353,
     "synonyms": [
      "Butane, 1-(ethenylthio)-",
@@ -14533,7 +15782,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Vinylsulfanyl-butane",
+    "guess_text": "1-Vinylsulfanylbutane",
     "structure_file": "candidate_structures/138353.png"
    },
    {
@@ -14636,8 +15885,8 @@
     "corrected_name": "Ethyl vinyl sulfide",
     "cas": "627-50-9",
     "iupac": "ethenylsulfanylethane",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via NCI/CIR]",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethene'",
     "cid": 12320,
     "synonyms": [
      "Ethyl vinyl sulfide",
@@ -14654,7 +15903,7 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Ethylsulfanyl-ethene",
+    "guess_text": "Ethylsulfanylethene",
     "structure_file": "candidate_structures/12320.png"
    },
    {
@@ -14754,29 +16003,29 @@
   "molar_volume": 114.7,
   "options": [
    {
-    "corrected_name": "4-(2-Methoxyethoxy)phenol",
-    "cas": "51980-60-0",
-    "iupac": "4-(2-methoxyethoxy)phenol",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 13313561,
+    "corrected_name": "2-Methoxyethyl vinyl ether",
+    "cas": "1663-35-0",
+    "iupac": "1-ethenoxy-2-methoxyethane",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethene' [via NCI/CIR]",
+    "cid": 15457,
     "synonyms": [
-     "4-(2-Methoxyethoxy)phenol",
-     "51980-60-0",
-     "DTXSID00536435",
-     "RefChem:97066",
-     "DTXCID30487224",
-     "826-063-1",
-     "4-(2-Methoxy-ethoxy)-phenol",
-     "MFCD04114941"
+     "2-Methoxyethyl vinyl ether",
+     "1663-35-0",
+     "Ethene, (2-methoxyethoxy)-",
+     "Vinyl 2-methoxyethyl ether",
+     "1-Methoxy-2-vinyloxyethane",
+     "2-Methoxyethyl ethenyl ether",
+     "Ethane, 1-methoxy-2-(vinyloxy)-",
+     "(2-methoxyethoxy)ethene"
     ],
-    "pubchem_mw": 168.19,
+    "pubchem_mw": 102.13,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "(2-Methoxy-ethoxy)",
-    "structure_file": "candidate_structures/13313561.png"
+    "guess_text": "(2-Methoxy-ethoxy)ethene",
+    "structure_file": "candidate_structures/15457.png"
    },
    {
     "corrected_name": "Bicyclo[4.1.0]hept-1(6)-ene",
@@ -14881,7 +16130,7 @@
    "crop_file": "source_crops/1697.png",
    "structure_file": "structure_crops/1697.png",
    "raw_line": "911 Vinyl Methyl Cellosolve (2-Methoxy-ethoxy)- 15.6 6.2 6.8 114.7",
-   "acd_name": "(2-Methoxy-ethoxy)-"
+   "acd_name": "(2-Methoxy-ethoxy)-ethene"
   }
  },
  {
@@ -14895,29 +16144,54 @@
   "molar_volume": 174.0,
   "options": [
    {
-    "corrected_name": "1-ethoxy-4-isocyanatobenzene",
-    "cas": "32459-62-4",
-    "iupac": "1-ethoxy-4-isocyanatobenzene",
-    "confidence": 0.97,
-    "reason": "ACD/Autonom name from PDF [via PubChem autocomplete]",
-    "cid": 122887,
+    "corrected_name": "Butyl Methanethiosulfonate",
+    "cas": "52017-46-6",
+    "iupac": "1-methylsulfonylsulfanylbutane",
+    "confidence": 0.95,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'butane' [via PubChem autocomplete]",
+    "cid": 5122877,
     "synonyms": [
-     "1-ethoxy-4-isocyanatobenzene",
-     "32459-62-4",
-     "Benzene, 1-ethoxy-4-isocyanato-",
-     "DTXSID0067688",
-     "RefChem:562475",
-     "DTXCID3038515",
-     "626-015-8",
-     "4-Ethoxyphenyl isocyanate"
+     "Butyl Methanethiosulfonate",
+     "52017-46-6",
+     "1-methylsulfonylsulfanylbutane",
+     "Methanesulfonothioic Acid S-Butyl Ester",
+     "S-butyl methanesulfonothioate",
+     "Thio-methanesulfonic Acid S-Butyl Ester",
+     "1-(METHANESULFONYLSULFANYL)BUTANE",
+     "SCHEMBL5475260"
     ],
-    "pubchem_mw": 163.17,
+    "pubchem_mw": 168.3,
     "ref_mv": null,
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "1-Ethoxy-4",
-    "structure_file": "candidate_structures/122887.png"
+    "guess_text": "1-Ethoxy-4-vinylsulfanylbutane",
+    "structure_file": "candidate_structures/5122877.png"
+   },
+   {
+    "corrected_name": "52790-15-5",
+    "cas": "52790-15-5",
+    "iupac": "ethyl 2-ethoxycarbonylsulfanylacetate",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Original name [via PubChem autocomplete]",
+    "cid": 2798027,
+    "synonyms": [
+     "52790-15-5",
+     "ETHYL 2-[(ETHOXYCARBONYL)THIO]ACETATE",
+     "Ethyl [(Ethoxycarbonyl)thio]acetate",
+     "ethyl 2-ethoxycarbonylsulfanylacetate",
+     "Ethyl [(ethoxycarbonyl)sulphanyl]acetate",
+     "MFCD00662532",
+     "Ethyl 2-((ethoxycarbonyl)thio)acetate",
+     "ethyl 2-[(ethoxycarbonyl)sulfanyl]acetate"
+    ],
+    "pubchem_mw": 192.24,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "1-Ethoxy-4-vinylsulfanyl-butane",
+    "structure_file": "candidate_structures/2798027.png"
    },
    {
     "corrected_name": "Methyl-2-butylmercapto-4-catechol",
@@ -14952,7 +16226,7 @@
    "crop_file": "source_crops/1701.png",
    "structure_file": "structure_crops/1701.png",
    "raw_line": "913 Vinyl S-Butyl Mercapto Butyl Ether 1-Ethoxy-4- 16.5 5.0 5.8 174.0",
-   "acd_name": "1-Ethoxy-4-"
+   "acd_name": "1-Ethoxy-4-vinylsulfanyl-butane"
   }
  },
  {
@@ -15040,6 +16314,31 @@
   "delta_h": "6.0",
   "molar_volume": 139.7,
   "options": [
+   {
+    "corrected_name": "2-METHOXYETHYL PHENYL SULFIDE",
+    "cas": "77298-24-9",
+    "iupac": "2-methoxyethylsulfanylbenzene",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Join substituent to parent chain 'ethene' [via PubChem autocomplete]",
+    "cid": 4056174,
+    "synonyms": [
+     "2-METHOXYETHYL PHENYL SULFIDE",
+     "77298-24-9",
+     "DTXSID20398830",
+     "RefChem:262781",
+     "DTXCID60349689",
+     "2-methoxyethylsulfanylbenzene",
+     "(2-Methoxyethyl)(phenyl)sulfane",
+     "[(2-METHOXYETHYL)SULFANYL]BENZENE"
+    ],
+    "pubchem_mw": 168.26,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "(2-Ethoxy-ethylsulfanyl)ethene",
+    "structure_file": "candidate_structures/4056174.png"
+   },
    {
     "corrected_name": "18370-87-1",
     "cas": "18370-87-1",
@@ -15142,8 +16441,8 @@
     "corrected_name": "Trifluoroacetic acid",
     "cas": "76-05-1",
     "iupac": "2,2,2-trifluoroacetic acid",
-    "confidence": 0.67,
-    "reason": "ACD/Autonom name from PDF",
+    "confidence": 0.68,
+    "reason": "ACD/Autonom: Remove OCR space: 'acid vinyl'\u2192'acidvinyl' [via PubChem autocomplete]",
     "cid": 6422,
     "synonyms": [
      "Trifluoroacetic acid",
@@ -15160,7 +16459,7 @@
     "ref_density": 1.531,
     "mv_match": false,
     "mv_pct_diff": 36.0,
-    "guess_text": "Trifluoro-acetic acid",
+    "guess_text": "Trifluoro-acetic acidvinyl ester",
     "structure_file": "candidate_structures/6422.png"
    },
    {
@@ -15196,7 +16495,7 @@
    "crop_file": "source_crops/1705.png",
    "structure_file": "structure_crops/1705.png",
    "raw_line": "693 Vinyl Trifluoro Acetate Trifluoro-acetic acid 13.9 4.3 7.6 116.4",
-   "acd_name": "Trifluoro-acetic acid"
+   "acd_name": "Trifluoro-acetic acid vinyl ester"
   }
  },
  {
@@ -15213,8 +16512,8 @@
     "corrected_name": "VINYL 2-ETHYLHEXANOATE",
     "cas": "94-04-2",
     "iupac": "ethenyl 2-ethylhexanoate",
-    "confidence": 0.83,
-    "reason": "Join prefix 'Ethyl' to following word",
+    "confidence": 0.99,
+    "reason": "ACD/Autonom: Remove OCR space: 'vinyl ester'\u2192'vinylester' [via PubChem autocomplete]",
     "cid": 62343,
     "synonyms": [
      "VINYL 2-ETHYLHEXANOATE",
@@ -15231,8 +16530,55 @@
     "ref_density": null,
     "mv_match": null,
     "mv_pct_diff": null,
-    "guess_text": "Vinyl-2-EthylHexanoate",
+    "guess_text": "2-Ethyl-hexanoic acid O vinylester",
     "structure_file": "candidate_structures/62343.png"
+   },
+   {
+    "corrected_name": "4-amino-4-ethylhexanoicacidhydrochloride",
+    "cas": "2728642-05-3",
+    "iupac": "4-amino-4-ethylhexanoic acid;hydrochloride",
+    "confidence": 0.93,
+    "reason": "ACD/Autonom: Remove OCR space: '2-Ethyl-hexanoic acid'\u2192'2-Ethyl-hexanoicacid' [via PubChem autocomplete]",
+    "cid": 165681470,
+    "synonyms": [
+     "4-amino-4-ethylhexanoicacidhydrochloride",
+     "2728642-05-3",
+     "4-amino-4-ethylhexanoic acid hydrochloride",
+     "EN300-37081303",
+     "Z5297198805"
+    ],
+    "pubchem_mw": 195.69,
+    "ref_mv": null,
+    "ref_density": null,
+    "mv_match": null,
+    "mv_pct_diff": null,
+    "guess_text": "2-Ethyl-hexanoicacid O vinyl ester",
+    "structure_file": "candidate_structures/165681470.png"
+   },
+   {
+    "corrected_name": "2-ETHYLHEXANOIC ACID",
+    "cas": "149-57-5",
+    "iupac": "2-ethylhexanoic acid",
+    "confidence": 0.78,
+    "reason": "ACD/Autonom: Remove OCR space: 'O vinyl'\u2192'Ovinyl' [via PubChem autocomplete]",
+    "cid": 8697,
+    "synonyms": [
+     "2-ETHYLHEXANOIC ACID",
+     "149-57-5",
+     "2-Ethylcaproic acid",
+     "Hexanoic acid, 2-ethyl-",
+     "Ethylhexanoic acid",
+     "Ethylhexoic acid",
+     "2-Ethylhexoic acid",
+     "Butylethylacetic acid"
+    ],
+    "pubchem_mw": 144.21,
+    "ref_mv": 159.7,
+    "ref_density": 0.9031,
+    "mv_match": false,
+    "mv_pct_diff": 18.5,
+    "guess_text": "2-Ethyl-hexanoic acid Ovinyl ester",
+    "structure_file": "candidate_structures/8697.png"
    },
    {
     "corrected_name": "ethyl 5,5-dimethylhexanoate",
@@ -15359,7 +16705,7 @@
     "cas": "7732-18-5",
     "iupac": "oxidane",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "ACD/Autonom: Original name",
     "cid": 962,
     "synonyms": [
      "water",
@@ -15405,7 +16751,7 @@
     "cas": "7732-18-5",
     "iupac": "oxidane",
     "confidence": 0.99,
-    "reason": "ACD/Autonom name from PDF",
+    "reason": "ACD/Autonom: Original name",
     "cid": 962,
     "synonyms": [
      "water",

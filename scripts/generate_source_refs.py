@@ -32,6 +32,7 @@ CANDIDATES_JSON = os.path.join(PROC_DIR, "cas_candidates.json")
 PDF_PATH = os.path.join(RAW_DIR, "a1 and a2 only.pdf")
 WOLFRAM_CSV = os.path.join(RAW_DIR, "wolfram_hsp.csv")
 PANG_CSV = os.path.join(RAW_DIR, "hansen_1k_smiles_shorter.csv")
+TABLE_A1_CSV = os.path.join(PROC_DIR, "table_a1.csv")
 
 # Crop settings
 CROP_DPI = 200       # resolution for rendered page
@@ -129,6 +130,38 @@ def _render_crop(doc, page_idx, rect, out_path):
     return True
 
 
+def _clean_acd_name(acd):
+    """Clean OCR artifacts from an ACD name (e.g. line-break hyphens, extra spaces)."""
+    if not acd:
+        return acd
+    # Fix hyphen followed by space from line-break wrapping: "chloro- ethene" → "chloro-ethene"
+    acd = re.sub(r"-\s+", "-", acd)
+    # Collapse multiple spaces
+    acd = re.sub(r"\s{2,}", " ", acd)
+    return acd.strip()
+
+
+def _load_table_a1_acd_names():
+    """Load ACD/Autonom names from table_a1.csv (parsed from pdftotext OCR).
+
+    This is the most reliable source for ACD names because the OCR pipeline
+    in clean_hsp.py handles multi-line name continuation correctly, unlike
+    the PyMuPDF-based extraction which only captures a single y-coordinate row.
+
+    Returns dict mapping solvent_name → cleaned ACD name.
+    """
+    acd_map = {}
+    if not os.path.exists(TABLE_A1_CSV):
+        return acd_map
+    with open(TABLE_A1_CSV) as f:
+        for row in csv.DictReader(f):
+            name = row.get("solvent_name", "").strip()
+            acd = row.get("autonom_acd_name", "").strip()
+            if name and acd:
+                acd_map[name] = _clean_acd_name(acd)
+    return acd_map
+
+
 def _find_raw_line_in_pdf(doc, page_idx, rect):
     """Extract the raw text line from the PDF around the found rect."""
     page = doc[page_idx]
@@ -179,13 +212,15 @@ def _get_entry_positions(page):
     if current_row:
         rows.append(current_row)
 
-    # Identify table entry rows (have a row number at x<70)
+    # Identify table entry rows (have a row number at x<70) and
+    # continuation rows (no row number, text in name/ACD columns).
     entries = []
     for row in rows:
         num_items = [r for r in row if r["x"] < 70 and r["text"].isdigit()]
         name_items = [r for r in row if 70 <= r["x"] < 210]
         acd_items = [r for r in row if 210 <= r["x"] < 295]
         if num_items and name_items:
+            # New numbered entry
             name = " ".join(n["text"] for n in sorted(name_items, key=lambda x: x["x"]))
             acd = " ".join(a["text"] for a in sorted(acd_items, key=lambda x: x["x"]))
             entries.append({
@@ -194,7 +229,21 @@ def _get_entry_positions(page):
                 "name": name,
                 "acd_name": acd.strip(),
             })
+        elif entries and not num_items:
+            # Continuation row — append text to the previous entry
+            cont_name = [r for r in row if 70 <= r["x"] < 210]
+            cont_acd = [r for r in row if 210 <= r["x"] < 295]
+            if cont_name:
+                entries[-1]["name"] += " " + " ".join(
+                    n["text"] for n in sorted(cont_name, key=lambda x: x["x"]))
+            if cont_acd:
+                entries[-1]["acd_name"] += " " + " ".join(
+                    a["text"] for a in sorted(cont_acd, key=lambda x: x["x"]))
+                entries[-1]["acd_name"] = entries[-1]["acd_name"].strip()
     entries.sort(key=lambda e: e["y"])
+    # Clean up hyphenated line-break artifacts
+    for e in entries:
+        e["acd_name"] = _clean_acd_name(e["acd_name"])
     return entries
 
 
@@ -313,6 +362,8 @@ def main():
     print(f"Loading source data...")
     wolfram_idx = _load_wolfram_index()
     pang_idx = _load_pang_index()
+    table_a1_acd = _load_table_a1_acd_names()
+    print(f"table_a1.csv: {len(table_a1_acd)} ACD names loaded")
     doc = fitz.open(PDF_PATH)
     print(f"PDF: {len(doc)} pages")
 
@@ -333,10 +384,14 @@ def main():
                 _render_crop(doc, page_idx, rect, crop_path)
                 raw_line = _find_raw_line_in_pdf(doc, page_idx, rect)
 
-                # Extract ACD name from the raw text line
-                acd_name = _extract_acd_name(raw_line, name)
+                # Prefer ACD name from table_a1.csv (pdftotext OCR handles
+                # multi-line continuations correctly, unlike PyMuPDF extraction)
+                acd_name = table_a1_acd.get(name)
                 if not acd_name:
-                    # Try getting ACD name from page entry positions
+                    # Fallback: extract from the raw text line via PyMuPDF
+                    acd_name = _extract_acd_name(raw_line, name)
+                if not acd_name:
+                    # Last resort: position-based extraction (now with continuation)
                     page_entries = _get_entry_positions(doc[page_idx])
                     for pe in page_entries:
                         if pe["name"].startswith(name[:10]):
