@@ -2583,6 +2583,16 @@ function renderTable() {{
                 html += '</td>';
             }} else {{
                 var display = val;
+                // Numeric formatting
+                if (val !== '' && val != null) {{
+                    if (c.key === 'dd' || c.key === 'dp' || c.key === 'dh' || c.key === 'mw' || c.key === 'mv' || c.key === 'r') {{
+                        var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(1);
+                    }} else if (c.key === 'bp') {{
+                        var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(0);
+                    }} else if (c.key === 'density') {{
+                        var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(2);
+                    }}
+                }}
                 // CAS link or ? badge
                 if (c.key === 'cas') {{
                     if (val) {{
