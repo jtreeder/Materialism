@@ -1756,25 +1756,41 @@ full_html = f"""<!DOCTYPE html>
             _currentAnnotation = name;
             var bgColor = isSolvent ? (CAT_COLORS[mat.cat] || '#888') : 'gold';
             Plotly.relayout(plotDiv, {{
-                'scene.annotations': [{{
-                    x: mat.dd, y: mat.dp, z: mat.dh,
-                    text: _annotationText(mat, isSolvent),
-                    align: 'left',
-                    showarrow: true,
-                    arrowhead: 0,
-                    arrowside: 'start',
-                    startarrowhead: 4,
-                    startarrowsize: 1.2,
-                    arrowwidth: 2,
-                    arrowcolor: bgColor,
-                    ax: 50,
-                    ay: 0,
-                    bgcolor: bgColor,
-                    font: {{ color: '#000', size: 13, family: 'Open Sans, verdana, arial, sans-serif' }},
-                    bordercolor: bgColor,
-                    borderwidth: 1,
-                    borderpad: 6
-                }}]
+                'scene.annotations': [
+                    // Arrow line from data point + caret triangle
+                    {{
+                        x: mat.dd, y: mat.dp, z: mat.dh,
+                        text: '\u25C0',
+                        showarrow: true,
+                        arrowhead: 0,
+                        arrowwidth: 2,
+                        arrowcolor: bgColor,
+                        ax: 42, ay: 0,
+                        xanchor: 'left',
+                        bgcolor: 'rgba(0,0,0,0)',
+                        bordercolor: 'rgba(0,0,0,0)',
+                        borderwidth: 0,
+                        borderpad: 0,
+                        font: {{ color: bgColor, size: 20 }}
+                    }},
+                    // Tooltip text box (invisible arrow for offset only)
+                    {{
+                        x: mat.dd, y: mat.dp, z: mat.dh,
+                        text: _annotationText(mat, isSolvent),
+                        align: 'left',
+                        showarrow: true,
+                        arrowhead: 0,
+                        arrowwidth: 1,
+                        arrowcolor: 'rgba(0,0,0,0)',
+                        ax: 55, ay: 0,
+                        xanchor: 'left',
+                        bgcolor: bgColor,
+                        font: {{ color: '#000', size: 13, family: 'Open Sans, verdana, arial, sans-serif' }},
+                        bordercolor: bgColor,
+                        borderwidth: 1,
+                        borderpad: 6
+                    }}
+                ]
             }});
         }}
 
