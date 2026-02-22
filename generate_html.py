@@ -263,10 +263,80 @@ CATEGORY_COLORS = {
     "aldehyde": "#FF7F0E", "sulfur compound": "#AEC7E8", "other": "#888888",
 }
 
+# Broad polymer categories and their type-to-category mapping
+POLYMER_TYPE_TO_CAT = {
+    "Polyethylene": "Polyolefin", "Polypropylene": "Polyolefin",
+    "Polyisobutylene": "Polyolefin", "Polybutadiene": "Polyolefin",
+    "Polyisoprene": "Polyolefin", "Polyisoprene Swelling": "Polyolefin",
+    "Permeation of LDPE by Organic Liquids": "Polyolefin",
+    "Polyvinylchloride": "Vinyl & Styrene", "Polystyrene": "Vinyl & Styrene",
+    "Polyvinylacetate": "Vinyl & Styrene", "Polyvinylbutyral": "Vinyl & Styrene",
+    "Polyvinyl Alcohol": "Vinyl & Styrene", "Polyvinylpyrrolidone": "Vinyl & Styrene",
+    "Vinyl Chloride Copolymers": "Vinyl & Styrene",
+    "Vinyl Resins - Solvent Range": "Vinyl & Styrene",
+    "Styrene-Butadiene (SBR)": "Vinyl & Styrene",
+    "Styrene Polymers And Copolymers - Solvent Range": "Vinyl & Styrene",
+    "Barex": "Vinyl & Styrene",
+    "High Temperature Solubility of PVDC": "Vinyl & Styrene",
+    "Ethylene Vinylacetate (EVA) Solubility": "Vinyl & Styrene",
+    "Acrylate Resins": "Acrylic", "Acrylics": "Acrylic",
+    "Acrylics - Solvent Range": "Acrylic", "Polyacrylate": "Acrylic",
+    "Polyacrylonitrile": "Acrylic",
+    "Solubility of Polyacrylonitirile": "Acrylic",
+    "Acrylonitrile-Butadiene": "Acrylic", "Acrylic Modified Alkyd": "Acrylic",
+    "Cellulose": "Cellulose", "Cellulose Acetate": "Cellulose",
+    "Cellulose Acetobutyrate": "Cellulose", "Ethyl Cellulose": "Cellulose",
+    "Nitrocellulose": "Cellulose",
+    "Polyester": "Polyester & Alkyd",
+    "Polyesters - Solvent Range": "Polyester & Alkyd",
+    "Binders in Solution: Alkyds and Polyesters": "Polyester & Alkyd",
+    "Epoxy": "Epoxy", "Epoxy Curing Agents": "Epoxy",
+    "Polyamide": "Polyamide & Imide", "Polyimide": "Polyamide & Imide",
+    "Polyetherimide": "Polyamide & Imide",
+    "PEI - Polyethylene Imide - Environmental Stress Cracking (ESC)": "Polyamide & Imide",
+    "Elastomer": "Rubber & Elastomer",
+    "Chemical Resistance of Elastomers": "Rubber & Elastomer",
+    "Bromobutyl Rubber Swelling": "Rubber & Elastomer",
+    "Chlorinated Rubber": "Rubber & Elastomer",
+    "Cyclized Rubber": "Rubber & Elastomer",
+    "Chlorosulfonated PE": "Rubber & Elastomer",
+    "Fluoropolymer": "Fluoropolymer",
+    "Fluorinated Polyethers": "Fluoropolymer",
+    "Poly(Ethylene/Chlorotrifluoroethylene)": "Fluoropolymer",
+    "Polycarbonate": "Engineering", "Polyphenylene Oxide": "Engineering",
+    "Polyphenylene Sulfide": "Engineering", "Polysulfone PSU": "Engineering",
+    "Polyethersulfone": "Engineering", "COC Solubility": "Engineering",
+    "Polyurethane": "Urethane", "Isocyanate": "Urethane",
+    "Tolonate Solubility": "Urethane",
+    "Natural": "Natural & Bio", "Rosin Derivatives": "Natural & Bio",
+    "Biologically Interesting Systems": "Natural & Bio",
+    "Polymers of Interest for Conservation of Paintings": "Natural & Bio",
+    "Amino Resins": "Resin", "Phenolic Resins": "Resin",
+    "Hydrocarbon Resins": "Resin", "Silicone Resins": "Resin",
+    "Chlorinated Polypropylene": "Halogenated",
+    "Chloroparaffin": "Halogenated",
+}
+# Everything not explicitly mapped falls to "Other"
+POLYMER_CAT_COLORS = {
+    "Polyolefin": "#4363d8", "Vinyl & Styrene": "#e6194B",
+    "Acrylic": "#3cb44b", "Cellulose": "#ffe119",
+    "Polyester & Alkyd": "#f58231", "Epoxy": "#911eb4",
+    "Polyamide & Imide": "#42d4f4", "Rubber & Elastomer": "#f032e6",
+    "Fluoropolymer": "#bfef45", "Engineering": "#fabed4",
+    "Urethane": "#469990", "Natural & Bio": "#dcbeff",
+    "Resin": "#9A6324", "Halogenated": "#aaffc3",
+    "Other": "#a9a9a9",
+}
+
+# Assign category to each polymer
+for p in poly_data:
+    p["cat"] = POLYMER_TYPE_TO_CAT.get(p["type"], "Other")
+
 # Serialize data for JS embedding
 solvents_json = json.dumps(solvents)
 polymers_json = json.dumps(poly_data)
 cat_colors_json = json.dumps(CATEGORY_COLORS)
+poly_cat_colors_json = json.dumps(POLYMER_CAT_COLORS)
 
 # Embed Plotly.js inline so the file works offline / from file://
 import plotly as _plotly_pkg
@@ -468,6 +538,56 @@ full_html = f"""<!DOCTYPE html>
         .conf-row .conf-val.pos {{ color: #00b894; }}
         .conf-row .conf-val.zero {{ color: #636e72; }}
         .conf-sep {{ border-top: 1px solid #636e72; margin: 4px 0; }}
+
+        /* --- Custom Plot Legend --- */
+        .plot-legend {{
+            position: absolute; top: 8px; left: 8px; z-index: 10;
+            background: rgba(255,255,255,0.92); border: 1px solid #dfe6e9;
+            border-radius: 6px; padding: 6px 0; font-size: 0.75rem;
+            max-height: calc(100% - 60px); overflow-y: auto;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08); min-width: 140px;
+            scrollbar-width: thin;
+        }}
+        .plot-legend::-webkit-scrollbar {{ width: 4px; }}
+        .plot-legend::-webkit-scrollbar-thumb {{ background: #dfe6e9; border-radius: 2px; }}
+        .legend-group {{
+            padding: 0;
+        }}
+        .legend-header {{
+            display: flex; align-items: center; gap: 6px; padding: 4px 10px;
+            cursor: pointer; user-select: none; font-weight: 600; color: #2d3436;
+        }}
+        .legend-header:hover {{ background: #f5f6fa; }}
+        .legend-arrow {{
+            display: inline-block; width: 10px; font-size: 0.6rem; color: #636e72;
+            transition: transform 0.15s;
+        }}
+        .legend-arrow.open {{ transform: rotate(90deg); }}
+        .legend-marker {{
+            display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+            flex-shrink: 0;
+        }}
+        .legend-marker.diamond {{
+            border-radius: 0; transform: rotate(45deg); width: 9px; height: 9px;
+        }}
+        .legend-items {{
+            display: none; padding: 0;
+        }}
+        .legend-items.open {{
+            display: block;
+        }}
+        .legend-item {{
+            display: flex; align-items: center; gap: 6px;
+            padding: 2px 10px 2px 26px; color: #636e72; font-size: 0.7rem;
+        }}
+        .legend-item:hover {{ background: #f5f6fa; }}
+        .legend-swatch {{
+            display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+            flex-shrink: 0;
+        }}
+        .legend-swatch.diamond {{
+            border-radius: 0; transform: rotate(45deg); width: 7px; height: 7px;
+        }}
     </style>
 </head>
 <body>
@@ -507,11 +627,12 @@ full_html = f"""<!DOCTYPE html>
 
     <div id="results-layout" class="results-layout">
         <div id="panel-plot" class="plot-side">
-            <div class="plot-container">
+            <div class="plot-container" style="position:relative;">
                 <div id="plotly-div" style="width:100%; height:100%;"></div>
+                <div id="plot-legend" class="plot-legend"></div>
             </div>
             <p style="color:#636e72; padding:6px 10px; font-size:0.8rem; margin:0;">
-                Drag to rotate &middot; Scroll to zoom &middot; Gold diamonds = polymers, colored dots = solvents by category
+                Drag to rotate &middot; Scroll to zoom &middot; Diamonds = polymers, dots = solvents
             </p>
         </div>
         <div id="chat-panel" class="chat-panel"></div>
@@ -547,6 +668,7 @@ full_html = f"""<!DOCTYPE html>
         const _solventMap = new Map(SOLVENTS.map(s => [s.name, s]));
         const _polymerMap = new Map(POLYMERS.map(p => [p.name, p]));
         const CAT_COLORS = {cat_colors_json};
+        const POLY_CAT_COLORS = {poly_cat_colors_json};
 
         // Source base confidence tiers (must match build_hsp_database.py)
         var SRC_TIERS = {{
@@ -868,30 +990,35 @@ full_html = f"""<!DOCTYPE html>
         var _comPolyY = POLYMERS.map(function(p) {{ return p.common ? p.dp : null; }});
         var _comPolyZ = POLYMERS.map(function(p) {{ return p.common ? p.dh : null; }});
         var _comSolColors = null;  // built lazily after _solventColors is populated
+        var _comPolyColors = null;
 
         function _updatePlotForCommonFilter() {{
             if (!plotDiv || !plotDiv.data) return;
-            // Build common-only solvent colors lazily (needs _solventColors from buildFullPlot)
+            // Build common-only colors lazily (needs colors from buildFullPlot)
             if (!_comSolColors && _solventColors.length) {{
                 _comSolColors = SOLVENTS.map(function(s, i) {{ return s.common ? (_solventColors[i] || '#888') : 'rgba(0,0,0,0)'; }});
+            }}
+            if (!_comPolyColors && _polymerColors.length) {{
+                _comPolyColors = POLYMERS.map(function(p, i) {{ return p.common ? (_polymerColors[i] || '#a9a9a9') : 'rgba(0,0,0,0)'; }});
             }}
             // Use dimmed styling when a search has dimmed the base traces
             var sSize = _plotDimmed ? 2 : 5;
             var pSize = _plotDimmed ? 3 : 7;
             var sColor = _plotDimmed ? '#999' : null;
-            var pColor = _plotDimmed ? '#aa8800' : 'gold';
+            var pColor = _plotDimmed ? '#665500' : null;
             var sOpacity = _plotDimmed ? 0.1 : 0.85;
             var pOpacity = _plotDimmed ? 0.12 : 0.95;
             var hInfo = _plotDimmed ? 'skip' : 'none';
             if (simpleMode) {{
                 // Hide non-common materials by nulling their coordinates
                 var sColors = _plotDimmed ? sColor : _comSolColors;
+                var pColors = _plotDimmed ? pColor : _comPolyColors;
                 Plotly.restyle(plotDiv, {{
                     'x': [_comSolX, _comPolyX],
                     'y': [_comSolY, _comPolyY],
                     'z': [_comSolZ, _comPolyZ],
                     'marker.size': [sSize, pSize],
-                    'marker.color': [sColors, pColor],
+                    'marker.color': [sColors, pColors],
                     'marker.opacity': [sOpacity, pOpacity],
                     'hoverinfo': [hInfo, hInfo],
                 }}, [0, 1]);
@@ -902,7 +1029,7 @@ full_html = f"""<!DOCTYPE html>
                     'y': [_allSolY, _allPolyY],
                     'z': [_allSolZ, _allPolyZ],
                     'marker.size': [sSize, pSize],
-                    'marker.color': [sColor || _solventColors, pColor],
+                    'marker.color': [sColor || _solventColors, pColor || _polymerColors],
                     'marker.opacity': [sOpacity, pOpacity],
                     'hoverinfo': [hInfo, hInfo],
                 }}, [0, 1]);
@@ -1486,6 +1613,7 @@ full_html = f"""<!DOCTYPE html>
             plotDiv = document.getElementById('plotly-div');
             // Single trace for all solvents with per-point colors (instead of 22+ traces)
             _solventColors = SOLVENTS.map(s => CAT_COLORS[s.cat] || '#888');
+            _polymerColors = POLYMERS.map(p => POLY_CAT_COLORS[p.cat] || '#a9a9a9');
             fullTraces = [
                 {{
                     type: 'scatter3d', mode: 'markers',
@@ -1493,13 +1621,15 @@ full_html = f"""<!DOCTYPE html>
                     x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
                     hoverinfo: 'none',
                     marker: {{ size: 5, color: _solventColors, opacity: 0.85 }},
+                    showlegend: false,
                 }},
                 {{
                     type: 'scatter3d', mode: 'markers',
                     name: 'Polymers',
                     x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
                     hoverinfo: 'none',
-                    marker: {{ size: 7, color: 'gold', symbol: 'diamond', opacity: 0.95 }},
+                    marker: {{ size: 7, color: _polymerColors, symbol: 'diamond', opacity: 0.95 }},
+                    showlegend: false,
                 }},
             ];
             // Pre-allocate a hidden highlight trace so clicking in the home table works
@@ -1518,6 +1648,70 @@ full_html = f"""<!DOCTYPE html>
             _baseTraceCount = fullTraces.length;
             _highlightIdx = _baseTraceCount - 1;
             Plotly.newPlot(plotDiv, fullTraces, makeLayout(), {{ responsive: true }});
+            _buildLegend();
+        }}
+
+        function _buildLegend() {{
+            var el = document.getElementById('plot-legend');
+            if (!el) return;
+            // Collect unique solvent categories with counts
+            var sCats = {{}};
+            SOLVENTS.forEach(function(s) {{
+                var c = s.cat || 'other';
+                if (!sCats[c]) sCats[c] = 0;
+                sCats[c]++;
+            }});
+            // Collect unique polymer categories with counts
+            var pCats = {{}};
+            POLYMERS.forEach(function(p) {{
+                var c = p.cat || 'Other';
+                if (!pCats[c]) pCats[c] = 0;
+                pCats[c]++;
+            }});
+            // Sort categories by count descending
+            var sList = Object.keys(sCats).sort(function(a,b) {{ return sCats[b] - sCats[a]; }});
+            var pList = Object.keys(pCats).sort(function(a,b) {{ return pCats[b] - pCats[a]; }});
+            var h = '';
+            // Solvents group
+            h += '<div class="legend-group">';
+            h += '<div class="legend-header" onclick="toggleLegendGroup(this)">';
+            h += '<span class="legend-arrow">&#9654;</span>';
+            h += '<span class="legend-marker" style="background:' + (CAT_COLORS['alcohol'] || '#888') + '"></span>';
+            h += 'Solvents (' + SOLVENTS.length + ')';
+            h += '</div>';
+            h += '<div class="legend-items">';
+            sList.forEach(function(cat) {{
+                var color = CAT_COLORS[cat] || '#888';
+                var label = cat.charAt(0).toUpperCase() + cat.slice(1);
+                h += '<div class="legend-item"><span class="legend-swatch" style="background:' + color + '"></span>' + label + ' (' + sCats[cat] + ')</div>';
+            }});
+            h += '</div></div>';
+            // Polymers group
+            h += '<div class="legend-group">';
+            h += '<div class="legend-header" onclick="toggleLegendGroup(this)">';
+            h += '<span class="legend-arrow">&#9654;</span>';
+            h += '<span class="legend-marker diamond" style="background:' + (POLY_CAT_COLORS['Vinyl & Styrene'] || '#a9a9a9') + '"></span>';
+            h += 'Polymers (' + POLYMERS.length + ')';
+            h += '</div>';
+            h += '<div class="legend-items">';
+            pList.forEach(function(cat) {{
+                var color = POLY_CAT_COLORS[cat] || '#a9a9a9';
+                h += '<div class="legend-item"><span class="legend-swatch diamond" style="background:' + color + '"></span>' + cat + ' (' + pCats[cat] + ')</div>';
+            }});
+            h += '</div></div>';
+            el.innerHTML = h;
+        }}
+
+        function toggleLegendGroup(header) {{
+            var arrow = header.querySelector('.legend-arrow');
+            var items = header.nextElementSibling;
+            if (items.classList.contains('open')) {{
+                items.classList.remove('open');
+                arrow.classList.remove('open');
+            }} else {{
+                items.classList.add('open');
+                arrow.classList.add('open');
+            }}
         }}
 
         // Fixed axis ranges — never change
@@ -1546,7 +1740,7 @@ full_html = f"""<!DOCTYPE html>
                 scene: sceneObj,
                 paper_bgcolor: '#fff', plot_bgcolor: '#fff',
                 margin: {{ l: 0, r: 0, t: 40, b: 0 }},
-                legend: {{ x: 0.01, y: 0.99, bgcolor: 'rgba(255,255,255,0.85)', bordercolor: '#dfe6e9', borderwidth: 1, font: {{ color: '#2d3436' }} }},
+                showlegend: false,
                 title: {{ text: title || 'Hansen Solubility Parameter Space', x: 0.5, font: {{ size: 18, color: '#2d3436' }} }},
             }};
         }}
@@ -1572,6 +1766,7 @@ full_html = f"""<!DOCTYPE html>
         // Track result traces layered on top of the 2 base traces
         var _baseTraceCount = 0;
         var _solventColors = [];
+        var _polymerColors = [];
         var _resultTraceCount = 0;
         var _plotDimmed = false;
 
@@ -2311,6 +2506,7 @@ body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMa
 .toolbar {{ background: #fff; padding: 10px 30px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #dfe6e9; }}
 .toolbar input {{ padding: 8px 12px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.85rem; width: 220px; }}
 .toolbar input:focus {{ outline: none; border-color: #e94560; }}
+.toolbar select:focus {{ outline: none; border-color: #e94560; }}
 .db-tabs {{ display: flex; gap: 0; }}
 .db-tab {{ padding: 8px 18px; cursor: pointer; border: none; background: transparent; color: #636e72; font-size: 0.85rem; transition: all 0.2s; }}
 .db-tab:hover {{ color: #2d3436; background: #f5f6fa; }}
@@ -2415,6 +2611,9 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
         <button id="tab-poly" class="db-tab" onclick="switchTab('polymers')">Polymers ({len(db_polymers)})</button>
     </div>
     <input type="text" id="db-filter" placeholder="Filter by name or CAS..." oninput="renderTable()">
+    <select id="src-filter" onchange="renderTable()" style="padding:7px 10px;border:1px solid #dfe6e9;border-radius:4px;font-size:0.85rem;color:#636e72;background:#fff;cursor:pointer;">
+        <option value="">All Sources</option>
+    </select>
     <button id="lock-btn" class="lock-btn" onclick="toggleLock()" title="Click to unlock editing">
         <svg id="icon-locked" viewBox="0 0 24 24"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1m-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3z"/></svg>
         <svg id="icon-unlocked" viewBox="0 0 24 24" style="display:none"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h9V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3H7a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1z"/></svg>
@@ -2557,6 +2756,7 @@ function renderTable() {{
     var cols = activeTab === 'solvents' ? SOLV_COLS : POLY_COLS;
     var data = activeTab === 'solvents' ? SOLVENTS : POLYMERS;
     var filter = document.getElementById('db-filter').value.toLowerCase().trim();
+    var srcFilter = document.getElementById('src-filter').value;
 
     // Build index array for filtering
     var indices = [];
@@ -2567,6 +2767,7 @@ function renderTable() {{
             var cas = getVal(activeTab, i, 'cas').toLowerCase();
             if (name.indexOf(filter) === -1 && cas.indexOf(filter) === -1) continue;
         }}
+        if (srcFilter && getVal(activeTab, i, 'src') !== srcFilter) continue;
         indices.push(i);
     }}
 
@@ -2655,6 +2856,21 @@ function renderTable() {{
     }}
     document.getElementById('db-tbody').innerHTML = html;
 }}
+
+// Populate source filter dropdown with unique sources from both datasets
+(function() {{
+    var srcSet = {{}};
+    SOLVENTS.forEach(function(s) {{ if (s.src) srcSet[s.src] = true; }});
+    POLYMERS.forEach(function(p) {{ if (p.src) srcSet[p.src] = true; }});
+    var srcList = Object.keys(srcSet).sort();
+    var sel = document.getElementById('src-filter');
+    srcList.forEach(function(s) {{
+        var opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = s;
+        sel.appendChild(opt);
+    }});
+}})();
 
 loadEdits();
 renderTable();
