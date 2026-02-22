@@ -1761,11 +1761,8 @@ full_html = f"""<!DOCTYPE html>
                     {{
                         x: mat.dd, y: mat.dp, z: mat.dh,
                         text: '\u25C0',
-                        showarrow: true,
-                        arrowhead: 0,
-                        arrowwidth: 0,
-                        arrowcolor: 'rgba(0,0,0,0)',
-                        ax: 42, ay: 0,
+                        showarrow: false,
+                        xshift: 42,
                         xanchor: 'left',
                         bgcolor: 'rgba(0,0,0,0)',
                         bordercolor: 'rgba(0,0,0,0)',
@@ -1773,16 +1770,13 @@ full_html = f"""<!DOCTYPE html>
                         borderpad: 0,
                         font: {{ color: bgColor, size: 20 }}
                     }},
-                    // Tooltip text box (invisible arrow for offset only)
+                    // Tooltip text box
                     {{
                         x: mat.dd, y: mat.dp, z: mat.dh,
                         text: _annotationText(mat, isSolvent),
                         align: 'left',
-                        showarrow: true,
-                        arrowhead: 0,
-                        arrowwidth: 0,
-                        arrowcolor: 'rgba(0,0,0,0)',
-                        ax: 55, ay: 0,
+                        showarrow: false,
+                        xshift: 55,
                         xanchor: 'left',
                         bgcolor: bgColor,
                         font: {{ color: '#000', size: 13, family: 'Open Sans, verdana, arial, sans-serif' }},
