@@ -119,12 +119,12 @@ td { padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-
 }
 .rebuild-btn:hover { background: #f5f6fa; border-color: #b2bec3; }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 <div class="header">
     <h1><a href="materialism.html">Materialism</a> &mdash; Manage Datasets</h1>
     <div class="nav-links">
-        <span id="server-status" style="font-size:0.78rem;margin-right:8px">Server: checking...</span>
         <a href="database.html">Database</a>
         <a href="materialism.html">Search</a>
     </div>
@@ -151,15 +151,12 @@ td { padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-
             </div>
         </div>
         <div id="ds-list"></div>
-        <button class="rebuild-btn" onclick="triggerRebuild()">Rebuild Database &amp; HTML</button>
+        <button class="rebuild-btn" onclick="triggerRebuild()">Export Datasets</button>
     </div>
     <div class="content" id="content">
         <div class="empty-state" id="empty-state">
-            <h2>No datasets imported</h2>
-            <p>Import a dataset to get started:<br><br>
-            <code>python import_dataset.py --file your_data.csv --id my_dataset</code><br><br>
-            Then rebuild:<br>
-            <code>python build_unified.py && python generate_html.py</code></p>
+            <h2>Welcome to Materialism</h2>
+            <p>Upload a CSV or Excel file using the panel on the left to get started.</p>
         </div>
     </div>
 </div>
@@ -188,45 +185,147 @@ function togglePanel(panelId, header) {
     }
 }
 
-// --- API base URL — auto-detect from page origin, fallback to localhost:8050 ---
-var API_BASE = (window.location.protocol === 'file:' || !window.location.host)
-    ? 'http://localhost:8050'
-    : window.location.origin;
+// --- Column alias sets for auto-mapping (mirrors lib/schema.py) ---
+var _ALIASES = {
+    name: ['name','chemical','compound','solvent','material','molecule'],
+    cas_number: ['cas','cas_number','cas_no','casrn','cas number','cas #'],
+    delta_d: ['delta_d','dd','dispersion','\u03b4d','deltad','d_d','hansen_d','dd_mpa05','dd_mpa0.5','\u03b4d (mpa^0.5)'],
+    delta_p: ['delta_p','dp','polar','polarity','\u03b4p','deltap','d_p','hansen_p','dp_mpa05','dp_mpa0.5','\u03b4p (mpa^0.5)'],
+    delta_h: ['delta_h','dh','hydrogen','h-h bonding','h_bonding','\u03b4h','deltah','d_h','hansen_h','dh_mpa05','dh_mpa0.5','\u03b4h (mpa^0.5)','hydrogen_bonding'],
+    molecular_weight: ['molecular_weight','mw','mol_weight','molar_mass','mwt_g_mol'],
+    boiling_point: ['boiling_point','bp','boiling','b.p.','tb_c'],
+    density: ['density','rho','\u03c1','density_g_cm3'],
+    molar_volume: ['molar_volume','mv','mol_volume','vm','mvol_cm3_mol','volume_cm3_per_mol'],
+    category: ['category','type','class','group'],
+    smiles: ['smiles','smi'],
+    molecular_formula: ['molecular_formula','formula','molecular formula'],
+    ghs_hazard: ['ghs_hazard','ghs','h_statements','hazard'],
+    radius: ['radius','r0','r_0','interaction_radius'],
+};
 
-var _serverConnected = false;
-
-function _apiFetch(path, opts) {
-    return fetch(API_BASE + path, opts).then(function(r) {
-        if (!r.ok && r.headers.get('content-type') && r.headers.get('content-type').indexOf('json') === -1) {
-            throw new Error('Server returned ' + r.status + '. Make sure the Dash server is running: python -m backend.app.main');
-        }
-        return r.json();
-    }).catch(function(err) {
-        if (!_serverConnected && (err.message.indexOf('Failed to fetch') !== -1 || err.message.indexOf('NetworkError') !== -1)) {
-            throw new Error('Cannot reach API server at ' + API_BASE + '. Start the server first: python -m backend.app.main');
-        }
-        throw err;
+function _autoMap(headers) {
+    var mapping = {}, used = {};
+    var lowerMap = {};
+    headers.forEach(function(h) { lowerMap[h.toLowerCase().trim()] = h; });
+    Object.keys(_ALIASES).forEach(function(canon) {
+        _ALIASES[canon].forEach(function(alias) {
+            if (lowerMap[alias] && !used[canon]) {
+                var orig = lowerMap[alias];
+                if (!mapping[orig]) {
+                    mapping[orig] = canon;
+                    used[canon] = true;
+                }
+            }
+        });
     });
+    return mapping;
 }
 
-// Check server connection on page load
-fetch(API_BASE + '/api/health').then(function(r) {
-    if (r.ok) {
-        _serverConnected = true;
-        document.getElementById('server-status').textContent = 'Server: Connected';
-        document.getElementById('server-status').style.color = '#00b894';
+function _parseFloat(v) {
+    if (v == null || v === '') return null;
+    var n = parseFloat(String(v).replace(',','.'));
+    return isNaN(n) ? null : n;
+}
+
+function _normCAS(v) {
+    if (!v) return '';
+    var s = String(v).trim();
+    if (/^\d{2,7}-\d{2}-\d$/.test(s)) return s;
+    var digits = s.replace(/\D/g, '');
+    if (digits.length >= 5 && digits.length <= 10) {
+        return digits.slice(0,-3) + '-' + digits.slice(-3,-1) + '-' + digits.slice(-1);
     }
-}).catch(function() {
-    document.getElementById('server-status').textContent = 'Server: Not running';
-    document.getElementById('server-status').style.color = '#d63031';
-    var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="analysis-card"><h3>Server Not Running</h3>'
-        + '<p>The API server is needed for uploading files, analyzing URLs, and searching for databases.</p>'
-        + '<p>Start it with:</p>'
-        + '<pre style="background:#2d3436;padding:10px;border-radius:6px;color:#dfe6e9">python -m backend.app.main</pre>'
-        + '<p style="font-size:0.85rem;color:#636e72">Then refresh this page. The server runs on <b>' + API_BASE + '</b></p>'
-        + '</div>';
-});
+    return '';
+}
+
+// --- Client-side file parsing ---
+function _parseCSVText(text) {
+    var delim = (text.indexOf('\t') > -1 && text.split('\t').length > text.split(',').length) ? '\t' : ',';
+    var lines = text.split(/\r?\n/);
+    var headers = lines[0].split(delim).map(function(h) { return h.trim().replace(/^["']|["']$/g, ''); });
+    var rows = [];
+    for (var i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        var vals = lines[i].split(delim);
+        var row = {};
+        headers.forEach(function(h, j) {
+            var v = (vals[j] || '').trim().replace(/^["']|["']$/g, '');
+            row[h] = v;
+        });
+        rows.push(row);
+    }
+    return { headers: headers, rows: rows };
+}
+
+function _parseExcelBuffer(buf) {
+    if (typeof XLSX === 'undefined') {
+        throw new Error('SheetJS library not loaded. Check internet connection.');
+    }
+    var wb = XLSX.read(buf, { type: 'array' });
+    var ws = wb.Sheets[wb.SheetNames[0]];
+    var data = XLSX.utils.sheet_to_json(ws, { defval: '' });
+    var headers = data.length > 0 ? Object.keys(data[0]) : [];
+    return { headers: headers, rows: data };
+}
+
+function _analyzeLocally(headers, rows, filename) {
+    var mapping = _autoMap(headers);
+    var rev = {};
+    Object.keys(mapping).forEach(function(k) { rev[mapping[k]] = k; });
+
+    var total = rows.length;
+    var hspCount = 0, casCount = 0, smilesCount = 0, outliers = 0, dupNames = 0;
+    var namesSeen = {}, hasRadius = false;
+
+    rows.forEach(function(row) {
+        var dd = _parseFloat(row[rev.delta_d]);
+        var dp = _parseFloat(row[rev.delta_p]);
+        var dh = _parseFloat(row[rev.delta_h]);
+        if (dd != null && dp != null && dh != null) {
+            hspCount++;
+            if (dd < 10 || dd > 25 || dp < 0 || dp > 25 || dh < 0 || dh > 30) outliers++;
+        }
+        var cas = rev.cas_number ? _normCAS(row[rev.cas_number]) : '';
+        if (cas) casCount++;
+        var smi = rev.smiles ? String(row[rev.smiles] || '').trim() : '';
+        if (smi && smi !== 'None' && smi !== 'nan') smilesCount++;
+        if (rev.radius && _parseFloat(row[rev.radius]) != null) hasRadius = true;
+        var nm = rev.name ? String(row[rev.name] || '').trim().toLowerCase() : '';
+        if (nm) { if (namesSeen[nm]) dupNames++; namesSeen[nm] = true; }
+    });
+
+    var issues = [];
+    if (!rev.name) issues.push({ severity: 'error', message: 'No name column detected' });
+    if (!rev.delta_d || !rev.delta_p || !rev.delta_h) issues.push({ severity: 'error', message: 'Missing HSP columns (need delta_d, delta_p, delta_h)' });
+    if (outliers > 0) issues.push({ severity: 'warning', message: outliers + ' rows have HSP values outside typical ranges' });
+    if (dupNames > 0) issues.push({ severity: 'warning', message: dupNames + ' duplicate names within this dataset' });
+
+    var sampleRows = rows.slice(0, 5).map(function(row) {
+        var s = {};
+        Object.keys(mapping).forEach(function(k) { s[mapping[k]] = String(row[k] || '').substring(0, 80); });
+        return s;
+    });
+
+    var ext = (filename || '').split('.').pop().toLowerCase();
+    var fileType = (ext === 'xlsx' || ext === 'xls') ? 'excel' : ext === 'json' ? 'json' : 'csv';
+
+    return {
+        file_type: fileType,
+        original_filename: filename,
+        row_count: total,
+        columns_found: headers,
+        column_mapping: mapping,
+        unmapped_columns: headers.filter(function(h) { return !mapping[h]; }),
+        hsp_coverage: total > 0 ? Math.round(1000 * hspCount / total) / 10 : 0,
+        cas_coverage: total > 0 ? Math.round(1000 * casCount / total) / 10 : 0,
+        smiles_coverage: total > 0 ? Math.round(1000 * smilesCount / total) / 10 : 0,
+        quality_issues: issues,
+        sample_rows: sampleRows,
+        detected_type: hasRadius ? 'both' : 'chemicals',
+        _headers: headers,
+        _rows: rows,
+    };
+}
 
 // --- File upload via drag-and-drop / file picker ---
 var _dropZone = document.getElementById('drop-zone');
@@ -236,48 +335,51 @@ _dropZone.addEventListener('dragleave', function() { _dropZone.classList.remove(
 _dropZone.addEventListener('drop', function(e) { e.preventDefault(); _dropZone.classList.remove('dragover'); if (e.dataTransfer.files.length) uploadFile(e.dataTransfer.files[0]); });
 _fileInput.addEventListener('change', function() { if (_fileInput.files.length) uploadFile(_fileInput.files[0]); _fileInput.value=''; });
 
-var _pendingAnalysis = null; // stores last analysis report
+var _pendingAnalysis = null;
 
 function uploadFile(file) {
     var ct = document.getElementById('content');
     ct.innerHTML = '<div class="loading">Analyzing ' + file.name + '...</div>';
-    var fd = new FormData();
-    fd.append('file', file);
-    _apiFetch('/api/datasets/upload', { method: 'POST', body: fd })
-        .then(function(data) {
-            if (data.error) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + data.error + '</p></div>'; return; }
-            data.original_filename = data.original_filename || file.name;
-            _pendingAnalysis = data;
-            showAnalysis(data);
-        })
-        .catch(function(err) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + err + '</p></div>'; });
+    var reader = new FileReader();
+    reader.onerror = function() { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>Failed to read file.</p></div>'; };
+    reader.onload = function(e) {
+        try {
+            var parsed;
+            var ext = file.name.split('.').pop().toLowerCase();
+            if (ext === 'xlsx' || ext === 'xls') {
+                parsed = _parseExcelBuffer(new Uint8Array(e.target.result));
+            } else if (ext === 'json') {
+                var data = JSON.parse(new TextDecoder().decode(new Uint8Array(e.target.result)));
+                if (Array.isArray(data)) {
+                    parsed = { headers: data.length ? Object.keys(data[0]) : [], rows: data };
+                } else {
+                    var arr = null;
+                    ['data','chemicals','solvents','compounds','results','entries'].forEach(function(k) { if (!arr && data[k] && Array.isArray(data[k])) arr = data[k]; });
+                    if (!arr) Object.values(data).forEach(function(v) { if (!arr && Array.isArray(v) && v.length && typeof v[0] === 'object') arr = v; });
+                    arr = arr || [];
+                    parsed = { headers: arr.length ? Object.keys(arr[0]) : [], rows: arr };
+                }
+            } else {
+                parsed = _parseCSVText(new TextDecoder().decode(new Uint8Array(e.target.result)));
+            }
+            var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
+            _pendingAnalysis = report;
+            showAnalysis(report);
+        } catch(err) {
+            ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + err.message + '</p></div>';
+        }
+    };
+    reader.readAsArrayBuffer(file);
 }
 
 function analyzeUrl() {
-    var url = document.getElementById('url-input').value.trim();
-    if (!url) return;
     var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="loading">Fetching and analyzing URL...</div>';
-    _apiFetch('/api/datasets/analyze-url', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({url: url}) })
-        .then(function(data) {
-            if (data.error) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + data.error + '</p></div>'; return; }
-            _pendingAnalysis = data;
-            showAnalysis(data);
-        })
-        .catch(function(err) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + err + '</p></div>'; });
+    ct.innerHTML = '<div class="analysis-card"><h3>URL Import</h3><p>URL analysis requires the API server.<br>Start it with: <code>python -m backend.app.main</code><br>Or download the file and upload it directly.</p></div>';
 }
 
 function searchDatabases() {
-    var q = document.getElementById('search-input').value.trim();
-    if (!q) return;
     var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="loading">Searching for HSP databases...</div>';
-    _apiFetch('/api/datasets/search', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({query: q}) })
-        .then(function(data) {
-            if (data.error) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + data.error + '</p></div>'; return; }
-            showSearchResults(data.results || []);
-        })
-        .catch(function(err) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + err + '</p></div>'; });
+    ct.innerHTML = '<div class="analysis-card"><h3>Search</h3><p>Database search requires the API server with a Claude API key.<br>Start it with: <code>python -m backend.app.main</code></p></div>';
 }
 
 function showAnalysis(report) {
@@ -358,32 +460,98 @@ function doImport() {
         if (sel.value) mapping[col] = sel.value;
     });
 
-    var body = {
-        analysis_id: _pendingAnalysis.analysis_id,
-        dataset_id: dsId,
-        name: document.getElementById('import-name').value.trim() || dsId,
-        source_url: document.getElementById('import-url').value.trim(),
-        confidence_tier: parseFloat(document.getElementById('import-conf').value) || 0.30,
-        column_mapping: mapping,
+    var rev = {};
+    Object.keys(mapping).forEach(function(k) { rev[mapping[k]] = k; });
+
+    var dsName = document.getElementById('import-name').value.trim() || dsId;
+    var sourceUrl = document.getElementById('import-url').value.trim();
+    var confTier = parseFloat(document.getElementById('import-conf').value) || 0.30;
+
+    // Normalize rows into chemicals/polymers
+    var rows = _pendingAnalysis._rows || [];
+    var chemicals = [], polymers = [];
+    rows.forEach(function(row) {
+        var name = rev.name ? String(row[rev.name] || '').trim() : '';
+        if (!name) return;
+        var dd = _parseFloat(row[rev.delta_d]);
+        var dp = _parseFloat(row[rev.delta_p]);
+        var dh = _parseFloat(row[rev.delta_h]);
+        if (dd == null || dp == null || dh == null) return;
+        var cas = rev.cas_number ? _normCAS(row[rev.cas_number]) : '';
+        var radius = rev.radius ? _parseFloat(row[rev.radius]) : null;
+        if (radius != null) {
+            polymers.push({
+                name: name, cas: cas, dd: dd, dp: dp, dh: dh, r: radius,
+                type: rev.category ? String(row[rev.category] || '').trim() : '',
+                conf: confTier, dsId: dsId
+            });
+        } else {
+            chemicals.push({
+                name: name, cas: cas, dd: dd, dp: dp, dh: dh,
+                mw: rev.molecular_weight ? _parseFloat(row[rev.molecular_weight]) : null,
+                bp: rev.boiling_point ? _parseFloat(row[rev.boiling_point]) : null,
+                cat: rev.category ? String(row[rev.category] || '').trim() : '',
+                smiles: rev.smiles ? String(row[rev.smiles] || '').trim() : '',
+                density: rev.density ? _parseFloat(row[rev.density]) : null,
+                conf: confTier, dsId: dsId
+            });
+        }
+    });
+
+    var meta = {
+        id: dsId, name: dsName, source_url: sourceUrl,
+        imported_at: new Date().toISOString(),
+        chemical_count: chemicals.length, polymer_count: polymers.length,
+        confidence_tier: confTier,
+        fields_available: Object.values(mapping),
     };
 
-    var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="loading">Importing dataset...</div>';
+    // Save to DATASETS and localStorage
+    DATASETS[dsId] = { chemicals: chemicals, polymers: polymers, meta: meta };
+    _activeDsets[dsId] = true;
+    _saveA(_activeDsets);
+    _saveImportedDatasets();
 
-    _apiFetch('/api/datasets/import', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) })
-        .then(function(data) {
-            if (data.error) { ct.innerHTML = '<div class="analysis-card"><h3>Import Error</h3><p>' + data.error + '</p></div>'; return; }
-            var ds = data.dataset;
-            // Add to local DATASETS object
-            DATASETS[ds.id] = { chemicals: [], polymers: [], meta: ds };
-            _activeDsets[ds.id] = true;
-            _saveA(_activeDsets);
-            ct.innerHTML = '<div class="analysis-card"><h3>Imported!</h3><p>' + ds.chemical_count + ' chemicals, ' + ds.polymer_count + ' polymers imported as <b>' + ds.id + '</b>.</p><p style="margin-top:8px;font-size:0.85rem;color:#636e72">Click <b>Rebuild Database &amp; HTML</b> in the sidebar to update the visualization and database pages.</p></div>';
-            _pendingAnalysis = null;
-            buildSidebar();
-        })
-        .catch(function(err) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + err + '</p></div>'; });
+    var ct = document.getElementById('content');
+    ct.innerHTML = '<div class="analysis-card"><h3>Imported!</h3><p>' + chemicals.length + ' chemicals, ' + polymers.length + ' polymers imported as <b>' + dsId + '</b>.</p></div>';
+    _pendingAnalysis = null;
+    buildSidebar();
 }
+
+// --- localStorage persistence for imported datasets ---
+var _LS_IMPORTED_KEY = 'materialism_imported_datasets';
+
+function _saveImportedDatasets() {
+    // Save all datasets that were imported in-browser (not embedded from generate_html.py)
+    var toSave = {};
+    Object.keys(DATASETS).forEach(function(k) {
+        if (DATASETS[k]._imported) toSave[k] = DATASETS[k];
+    });
+    // Mark current import
+    Object.keys(DATASETS).forEach(function(k) {
+        if (!DATASETS[k]._embedded) {
+            DATASETS[k]._imported = true;
+            toSave[k] = { chemicals: DATASETS[k].chemicals, polymers: DATASETS[k].polymers, meta: DATASETS[k].meta };
+        }
+    });
+    try { localStorage.setItem(_LS_IMPORTED_KEY, JSON.stringify(toSave)); } catch(e) {}
+}
+
+function _loadImportedDatasets() {
+    try {
+        var raw = localStorage.getItem(_LS_IMPORTED_KEY);
+        if (!raw) return;
+        var saved = JSON.parse(raw);
+        Object.keys(saved).forEach(function(k) {
+            if (!DATASETS[k]) {
+                DATASETS[k] = saved[k];
+                DATASETS[k]._imported = true;
+            }
+        });
+    } catch(e) {}
+}
+
+// _loadImportedDatasets() is called in the init block below after marking embedded datasets
 
 function showSearchResults(results) {
     var ct = document.getElementById('content');
@@ -418,14 +586,48 @@ function analyzeSearchResult(url) {
 }
 
 function triggerRebuild() {
+    // Export imported datasets as CSV downloads
     var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="loading">Rebuilding database and HTML...</div>';
-    _apiFetch('/api/build', { method: 'POST' })
-        .then(function(data) {
-            if (data.error) { ct.innerHTML = '<div class="analysis-card"><h3>Build Error</h3><p>' + data.error + '</p></div>'; return; }
-            ct.innerHTML = '<div class="analysis-card"><h3>Build Complete</h3><pre style="font-size:0.75rem;max-height:300px;overflow:auto;background:#f5f6fa;padding:8px;border-radius:4px">' + (data.build_output||'') + '</pre><p style="margin-top:8px;font-size:0.85rem;color:#636e72">Refresh database.html and materialism.html to see the changes.</p></div>';
-        })
-        .catch(function(err) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + err + '</p></div>'; });
+    var dsKeys = Object.keys(DATASETS);
+    if (dsKeys.length === 0) {
+        ct.innerHTML = '<div class="analysis-card"><h3>Nothing to Export</h3><p>Import a dataset first.</p></div>';
+        return;
+    }
+    var h = '<div class="analysis-card"><h3>Export Datasets</h3>';
+    h += '<p>Download CSV files for each imported dataset:</p>';
+    dsKeys.forEach(function(k) {
+        var ds = DATASETS[k];
+        var nc = (ds.chemicals || []).length;
+        var np = (ds.polymers || []).length;
+        h += '<div style="margin:6px 0">';
+        h += '<b>' + (ds.meta && ds.meta.name || k) + '</b> (' + nc + ' chemicals, ' + np + ' polymers) ';
+        if (nc > 0) h += '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.75rem" onclick="exportCSV(\'' + k + '\',\'chemicals\')">Download Chemicals CSV</button> ';
+        if (np > 0) h += '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.75rem" onclick="exportCSV(\'' + k + '\',\'polymers\')">Download Polymers CSV</button>';
+        h += '</div>';
+    });
+    h += '</div>';
+    ct.innerHTML = h;
+}
+
+function exportCSV(dsId, type) {
+    var ds = DATASETS[dsId];
+    var items = ds[type] || [];
+    if (items.length === 0) return;
+    var cols = type === 'chemicals'
+        ? ['name','cas','dd','dp','dh','mw','bp','cat','smiles','density','conf']
+        : ['name','cas','dd','dp','dh','r','type','conf'];
+    var csv = cols.join(',') + '\n';
+    items.forEach(function(r) {
+        csv += cols.map(function(c) {
+            var v = r[c] == null ? '' : String(r[c]);
+            return v.indexOf(',') > -1 ? '"' + v + '"' : v;
+        }).join(',') + '\n';
+    });
+    var blob = new Blob([csv], { type: 'text/csv' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = dsId + '_' + type + '.csv';
+    a.click();
 }
 
 // --- Dataset sidebar ---
@@ -570,6 +772,10 @@ function manageSort(col) {
     else { _sortCol = col; _sortAsc = true; }
     renderDetail();
 }
+
+// Mark embedded datasets so we don't save them to localStorage
+Object.keys(DATASETS).forEach(function(k) { DATASETS[k]._embedded = true; });
+_loadImportedDatasets();
 
 // Init
 buildSidebar();
