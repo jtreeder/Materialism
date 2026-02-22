@@ -1533,6 +1533,7 @@ full_html = f"""<!DOCTYPE html>
             gridcolor: '#dfe6e9', zerolinecolor: '#b2bec3',
             backgroundcolor: '#f8f9fa', showbackground: true,
             tickfont: {{ size: 11, color: '#636e72' }},
+            showspikes: false,
         }};
 
         function makeLayout(title) {{
