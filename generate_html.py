@@ -24,7 +24,7 @@ POLY_CSV = os.path.join(os.path.dirname(__file__), "data", "processed", "hsp_pol
 # Source display name mapping
 SOURCE_NAMES = {
     "handbook": "Hansen Handbook 2007",
-    "hansen_a1": "Hansen Handbook A.1",
+    "hspip": "HSPiP Database",
     "hansen_a2": "Hansen Handbook A.2",
     "mendeley": "Mendeley (Langner 2022)",
     "pang2024": "Pang et al. 2024",

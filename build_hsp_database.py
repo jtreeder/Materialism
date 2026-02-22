@@ -8,7 +8,7 @@ Data sources (in priority order):
 4. Accudyne Test - 89 solvents + 117 polymers from Hansen's Handbook
 5. Wolfram Data Repository (Schrier 2020) - 211 solvents
 6. Pang et al. 2024 - 1,183 compounds from HSPiP database
-7. Hansen Appendix A.1 - 583 solvents from Hansen's Handbook appendix
+7. HSPiP Software Database - 1,218 solvents with CAS numbers
 8. Hansen Appendix A.2 - 458 polymers/materials from Hansen's Handbook appendix
 
 Usage:
@@ -27,7 +27,7 @@ OUT_DIR = os.path.join(BASE_DIR, "data", "processed")
 
 SOURCE_URLS = {
     "handbook": "https://hansen-solubility.com (Hansen Handbook 2007)",
-    "hansen_a1": "https://hansen-solubility.com (Hansen Handbook Appendix Table A.1)",
+    "hspip": "https://www.hansen-solubility.com/HSPiP/ (HSPiP Software Database)",
     "hansen_a2": "https://hansen-solubility.com (Hansen Handbook Appendix Table A.2)",
     "mendeley": "https://data.mendeley.com/datasets/b4dmjzk8w6/1",
     "solvpred": "https://github.com/xueannafang/hsp_toolkit_solv_pred_v_2.0",
@@ -695,46 +695,57 @@ def load_hansen_1k():
     return chemicals
 
 
-def load_hansen_a1():
-    """Load Hansen Appendix Table A.1 solvents from cleaned OCR output.
+def load_hspip_solvents():
+    """Load solvents from the HSPiP software database (HSPiPsolvents.xlsx).
 
-    New CSV has separate columns: no, solvent_name, autonom_acd_name,
-    dispersion, polarity, hydrogen_bonding, molar_volume
+    Columns: Chemical name, CAS #, Dispersion, Polarity, H-H bonding
     """
-    filepath = os.path.join(OUT_DIR, "table_a1.csv")
+    try:
+        import openpyxl
+    except ImportError:
+        print("  Warning: openpyxl not installed, skipping HSPiP data")
+        return []
+
+    filepath = os.path.join(RAW_DIR, "HSPiPsolvents.xlsx")
     if not os.path.exists(filepath):
         print(f"  Warning: {filepath} not found")
         return []
 
     chemicals = []
-    with open(filepath, "r", encoding="utf-8-sig") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            name = row.get("solvent_name", "").strip()
-            if not name:
-                continue
+    wb = openpyxl.load_workbook(filepath, read_only=True, data_only=True)
+    ws = wb[wb.sheetnames[0]]
+    rows = list(ws.iter_rows(min_row=2, values_only=True))  # skip header
+    wb.close()
 
-            dd = parse_float(row.get("dispersion"))
-            dp = parse_float(row.get("polarity"))
-            dh = parse_float(row.get("hydrogen_bonding"))
-            if dd is None or dp is None or dh is None:
-                continue
+    for row in rows:
+        if not row or len(row) < 5:
+            continue
+        name = str(row[0]).strip() if row[0] else ""
+        cas = str(row[1]).strip() if row[1] else ""
+        if not name:
+            continue
 
-            chemicals.append({
-                "name": name,
-                "cas_number": "",
-                "smiles": "",
-                "molecular_formula": "",
-                "delta_d": dd, "delta_p": dp, "delta_h": dh,
-                "molecular_weight": None,
-                "boiling_point": None,
-                "density": None,
-                "molar_volume": parse_float(row.get("molar_volume")),
-                "category": "",
-                "ghs_hazard": "",
-                "source": "hansen_a1",
-                "source_url": SOURCE_URLS["hansen_a1"],
-            })
+        dd = parse_float(row[2])
+        dp = parse_float(row[3])
+        dh = parse_float(row[4])
+        if dd is None or dp is None or dh is None:
+            continue
+
+        chemicals.append({
+            "name": name,
+            "cas_number": cas,
+            "smiles": "",
+            "molecular_formula": "",
+            "delta_d": dd, "delta_p": dp, "delta_h": dh,
+            "molecular_weight": None,
+            "boiling_point": None,
+            "density": None,
+            "molar_volume": None,
+            "category": "",
+            "ghs_hazard": "",
+            "source": "hspip",
+            "source_url": SOURCE_URLS["hspip"],
+        })
 
     return chemicals
 
@@ -940,12 +951,12 @@ def classify_polymer(name):
 # Source reliability tiers (higher = more reliable)
 SOURCE_CONFIDENCE = {
     "handbook": 0.50,    # Curated seed data from Hansen Handbook
+    "hspip": 0.50,       # HSPiP software database (authoritative, with CAS)
     "mendeley": 0.40,    # Peer-reviewed dataset (Langner & Brabec 2022)
     "solvpred": 0.35,    # Academic tool (Fang et al.)
     "accudyne": 0.40,    # Manufacturer/test lab data
     "wolfram": 0.35,     # Curated data repository
     "pang2024": 0.30,    # HSPiP database extract
-    "hansen_a1": 0.30,   # OCR from Hansen Appendix A.1
     "hansen_a2": 0.30,   # OCR from Hansen Appendix A.2
 }
 
@@ -1011,15 +1022,15 @@ def main():
     hansen_1k_chems = load_hansen_1k()
     print(f"  Hansen 1k:        {len(hansen_1k_chems):>5} chemicals")
 
-    hansen_a1_chems = load_hansen_a1()
-    print(f"  Hansen A1:        {len(hansen_a1_chems):>5} chemicals")
+    hspip_chems = load_hspip_solvents()
+    print(f"  HSPiP solvents:   {len(hspip_chems):>5} chemicals")
 
     hansen_a2_polys = load_hansen_a2()
     print(f"  Hansen A2:        {len(hansen_a2_polys):>5} polymers")
 
     total_raw = (len(original_chems) + len(mendeley_chems) + len(solvpred_chems)
                  + len(accudyne_chems) + len(wolfram_chems) + len(hansen_1k_chems)
-                 + len(hansen_a1_chems))
+                 + len(hspip_chems))
     print(f"  ---")
     print(f"  Total raw:        {total_raw:>5} entries")
 
@@ -1028,7 +1039,7 @@ def main():
     print("Merging and deduplicating...")
     all_chems = (original_chems + mendeley_chems + solvpred_chems
                  + accudyne_chems + wolfram_chems + hansen_1k_chems
-                 + hansen_a1_chems)
+                 + hspip_chems)
     merged_chems = merge_chemicals(all_chems)
 
     all_polys = original_polys + accudyne_polys + hansen_a2_polys
