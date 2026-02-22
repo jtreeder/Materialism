@@ -2228,6 +2228,31 @@ with open(POLY_CSV) as f:
 db_solvents_json = json.dumps(db_solvents)
 db_polymers_json = json.dumps(db_polymers)
 
+# Load CAS candidates for the crosslink feature in database.html
+cas_candidates_path = os.path.join(os.path.dirname(__file__), "data", "processed", "cas_candidates.json")
+cas_candidates_map = {}
+if os.path.exists(cas_candidates_path):
+    with open(cas_candidates_path) as f:
+        _raw_cands = json.load(f)
+    for entry in _raw_cands:
+        name = entry.get("original_name", "")
+        opts = []
+        for o in entry.get("options", [])[:5]:  # top 5 options
+            opts.append({
+                "name": o.get("corrected_name", ""),
+                "cas": o.get("cas", ""),
+                "iupac": o.get("iupac", ""),
+                "conf": round(o.get("confidence", 0), 2),
+                "reason": o.get("reason", ""),
+                "mw": o.get("pubchem_mw"),
+                "density": o.get("ref_density"),
+                "mv_match": o.get("mv_match"),
+                "mv_pct": o.get("mv_pct_diff"),
+            })
+        if opts:
+            cas_candidates_map[name] = opts
+cas_candidates_json = json.dumps(cas_candidates_map)
+
 database_html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2294,6 +2319,45 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
 .conf-row .conf-val.pos {{ color: #00b894; }}
 .conf-row .conf-val.zero {{ color: #636e72; }}
 .conf-sep {{ border-top: 1px solid #636e72; margin: 4px 0; }}
+/* Crosslink ? badge */
+.cas-missing {{
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #fdcb6e; color: #2d3436; font-weight: 700; font-size: 0.75rem;
+    cursor: pointer; border: none; line-height: 1;
+}}
+.cas-missing:hover {{ background: #f39c12; }}
+/* Crosslink popover */
+.xl-popover {{
+    display: none; position: fixed; z-index: 1000;
+    background: #fff; border: 1px solid #dfe6e9; border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18); width: 380px; max-height: 420px;
+    overflow-y: auto; font-size: 0.82rem;
+}}
+.xl-popover.visible {{ display: block; }}
+.xl-header {{
+    padding: 10px 14px; border-bottom: 1px solid #eee;
+    font-weight: 700; color: #2d3436; display: flex; align-items: center; justify-content: space-between;
+}}
+.xl-header .xl-close {{
+    background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #636e72; padding: 0 4px;
+}}
+.xl-header .xl-close:hover {{ color: #e94560; }}
+.xl-opt {{
+    padding: 10px 14px; border-bottom: 1px solid #f0f2f5; cursor: pointer; transition: background 0.15s;
+}}
+.xl-opt:last-child {{ border-bottom: none; }}
+.xl-opt:hover {{ background: #f0f8ff; }}
+.xl-opt-name {{ font-weight: 600; color: #2d3436; }}
+.xl-opt-cas {{ color: #0984e3; font-family: monospace; }}
+.xl-opt-detail {{ color: #636e72; font-size: 0.75rem; margin-top: 2px; }}
+.xl-opt-conf {{
+    display: inline-block; padding: 1px 6px; border-radius: 3px;
+    font-size: 0.7rem; font-weight: 600; color: #fff; margin-left: 6px;
+}}
+.xl-opt-mv {{ font-size: 0.7rem; margin-left: 4px; }}
+.xl-opt-mv.match {{ color: #27ae60; }}
+.xl-opt-mv.mismatch {{ color: #e74c3c; }}
 </style>
 </head>
 <body>
@@ -2327,6 +2391,7 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
 <script>
 var SOLVENTS = {db_solvents_json};
 var POLYMERS = {db_polymers_json};
+var CAS_CANDIDATES = {cas_candidates_json};
 var SRC_TIERS = {{
     'Hansen Handbook 2007': 50, 'Mendeley (Langner 2022)': 40,
     'SolvPred (Fang)': 35, 'Accudyne Test': 40, 'Wolfram Data Repo': 35,
@@ -2504,9 +2569,16 @@ function renderTable() {{
                 html += '</td>';
             }} else {{
                 var display = val;
-                // CAS link
-                if (c.key === 'cas' && val) {{
-                    display = '<a class="cas-link" href="https://commonchemistry.cas.org/detail?cas_rn=' + encodeURIComponent(val) + '" target="_blank" rel="noopener">' + val + '</a>';
+                // CAS link or ? badge
+                if (c.key === 'cas') {{
+                    if (val) {{
+                        display = '<a class="cas-link" href="https://commonchemistry.cas.org/detail?cas_rn=' + encodeURIComponent(val) + '" target="_blank" rel="noopener">' + val + '</a>';
+                    }} else {{
+                        var matName = (activeTab === 'solvents' ? SOLVENTS : POLYMERS)[idx].name;
+                        if (CAS_CANDIDATES[matName]) {{
+                            display = '<button class="cas-missing" onclick="openCrosslink(event,\\x27' + activeTab + '\\x27,' + idx + ')" title="Find CAS #">?</button>';
+                        }}
+                    }}
                 }}
                 // Source link
                 if (c.key === 'src') {{
@@ -2574,6 +2646,90 @@ document.addEventListener('mouseover', function(e) {{
     }} else if (_confTip && !_confTip.contains(e.target)) {{
         _confTip.style.display = 'none';
         _confBadgeActive = null;
+    }}
+}});
+
+// ===================== CROSSLINK POPOVER =====================
+var _xlPop = null;
+var _xlType = null;
+var _xlIdx = null;
+
+function _ensurePopover() {{
+    if (_xlPop) return;
+    _xlPop = document.createElement('div');
+    _xlPop.className = 'xl-popover';
+    document.body.appendChild(_xlPop);
+}}
+
+function closeCrosslink() {{
+    if (_xlPop) _xlPop.classList.remove('visible');
+    _xlType = null;
+    _xlIdx = null;
+}}
+
+function openCrosslink(event, type, idx) {{
+    event.stopPropagation();
+    _ensurePopover();
+    _xlType = type;
+    _xlIdx = idx;
+    var mat = (type === 'solvents' ? SOLVENTS : POLYMERS)[idx];
+    var opts = CAS_CANDIDATES[mat.name];
+    if (!opts || !opts.length) {{ closeCrosslink(); return; }}
+
+    var h = '<div class="xl-header"><span>CAS lookup: ' + mat.name + '</span><button class="xl-close" onclick="closeCrosslink()">&times;</button></div>';
+    for (var i = 0; i < opts.length; i++) {{
+        var o = opts[i];
+        var pct = Math.round(o.conf * 100);
+        var cColor = o.conf >= 0.8 ? '#27ae60' : (o.conf >= 0.5 ? '#f39c12' : '#e74c3c');
+        h += '<div class="xl-opt" onclick="applyCrosslink(' + i + ')">';
+        h += '<div><span class="xl-opt-name">' + o.name + '</span>';
+        if (o.cas) h += ' <span class="xl-opt-cas">' + o.cas + '</span>';
+        h += '<span class="xl-opt-conf" style="background:' + cColor + '">' + pct + '%</span>';
+        if (o.mv_match === true) h += '<span class="xl-opt-mv match">Vm ✓</span>';
+        else if (o.mv_match === false) h += '<span class="xl-opt-mv mismatch">Vm ' + (o.mv_pct != null ? o.mv_pct + '%↕' : '✗') + '</span>';
+        h += '</div>';
+        if (o.iupac) h += '<div class="xl-opt-detail">IUPAC: ' + o.iupac + '</div>';
+        h += '<div class="xl-opt-detail">' + o.reason + '</div>';
+        h += '</div>';
+    }}
+    _xlPop.innerHTML = h;
+    _xlPop.classList.add('visible');
+
+    // Position near the ? button
+    var rect = event.target.getBoundingClientRect();
+    var popW = 380, popH = _xlPop.offsetHeight || 300;
+    var left = rect.right + 8;
+    var top = rect.top;
+    if (left + popW > window.innerWidth - 8) left = rect.left - popW - 8;
+    if (top + popH > window.innerHeight - 8) top = Math.max(8, window.innerHeight - popH - 8);
+    _xlPop.style.left = left + 'px';
+    _xlPop.style.top = top + 'px';
+}}
+
+function applyCrosslink(optIdx) {{
+    if (_xlType == null || _xlIdx == null) return;
+    var mat = (_xlType === 'solvents' ? SOLVENTS : POLYMERS)[_xlIdx];
+    var opts = CAS_CANDIDATES[mat.name];
+    if (!opts || !opts[optIdx]) return;
+    var o = opts[optIdx];
+
+    // Apply CAS
+    if (o.cas) setVal(_xlType, _xlIdx, 'cas', o.cas);
+    // Apply corrected name if different
+    if (o.name && o.name !== mat.name) setVal(_xlType, _xlIdx, 'name', o.name);
+    // Apply MW if available and solvent
+    if (_xlType === 'solvents' && o.mw) setVal(_xlType, _xlIdx, 'mw', String(o.mw));
+    // Apply density if available and solvent
+    if (_xlType === 'solvents' && o.density) setVal(_xlType, _xlIdx, 'density', String(o.density));
+
+    closeCrosslink();
+    renderTable();
+}}
+
+// Close popover on outside click
+document.addEventListener('click', function(e) {{
+    if (_xlPop && _xlPop.classList.contains('visible') && !_xlPop.contains(e.target) && !e.target.classList.contains('cas-missing')) {{
+        closeCrosslink();
     }}
 }});
 </script>
