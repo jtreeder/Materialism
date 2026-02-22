@@ -5360,35 +5360,21 @@ return Plotly;
             _currentAnnotation = name;
             var bgColor = isSolvent ? (CAT_COLORS[mat.cat] || '#888') : 'gold';
             Plotly.relayout(plotDiv, {
-                'scene.annotations': [
-                    // Caret triangle
-                    {
-                        x: mat.dd, y: mat.dp, z: mat.dh,
-                        text: '◀',
-                        showarrow: false,
-                        xshift: 8,
-                        xanchor: 'left',
-                        bgcolor: 'rgba(0,0,0,0)',
-                        bordercolor: 'rgba(0,0,0,0)',
-                        borderwidth: 0,
-                        borderpad: 0,
-                        font: { color: bgColor, size: 20 }
-                    },
-                    // Tooltip text box
-                    {
-                        x: mat.dd, y: mat.dp, z: mat.dh,
-                        text: _annotationText(mat, isSolvent),
-                        align: 'left',
-                        showarrow: false,
-                        xshift: 21,
-                        xanchor: 'left',
-                        bgcolor: bgColor,
-                        font: { color: '#000', size: 13, family: 'Open Sans, verdana, arial, sans-serif' },
-                        bordercolor: bgColor,
-                        borderwidth: 1,
-                        borderpad: 6
-                    }
-                ]
+                'scene.annotations': [{
+                    x: mat.dd, y: mat.dp, z: mat.dh,
+                    text: '◀ ' + _annotationText(mat, isSolvent),
+                    align: 'left',
+                    showarrow: true,
+                    arrowhead: 0,
+                    arrowwidth: 2,
+                    arrowcolor: bgColor,
+                    ax: 14, ay: 0,
+                    bgcolor: bgColor,
+                    font: { color: '#000', size: 13, family: 'Open Sans, verdana, arial, sans-serif' },
+                    bordercolor: bgColor,
+                    borderwidth: 1,
+                    borderpad: 6
+                }]
             });
         }
 
