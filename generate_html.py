@@ -2506,7 +2506,6 @@ body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMa
 .toolbar {{ background: #fff; padding: 10px 30px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #dfe6e9; }}
 .toolbar input {{ padding: 8px 12px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.85rem; width: 220px; }}
 .toolbar input:focus {{ outline: none; border-color: #e94560; }}
-.toolbar select:focus {{ outline: none; border-color: #e94560; }}
 .db-tabs {{ display: flex; gap: 0; }}
 .db-tab {{ padding: 8px 18px; cursor: pointer; border: none; background: transparent; color: #636e72; font-size: 0.85rem; transition: all 0.2s; }}
 .db-tab:hover {{ color: #2d3436; background: #f5f6fa; }}
@@ -2556,6 +2555,13 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
 .conf-row .conf-val.pos {{ color: #00b894; }}
 .conf-row .conf-val.zero {{ color: #636e72; }}
 .conf-sep {{ border-top: 1px solid #636e72; margin: 4px 0; }}
+/* Source filter in header */
+.src-filter-select {{
+    display: block; width: 100%; margin-top: 4px; padding: 2px 4px;
+    font-size: 0.7rem; border: 1px solid #dfe6e9; border-radius: 3px;
+    background: #fff; color: #636e72; cursor: pointer;
+}}
+.src-filter-select:focus {{ outline: none; border-color: #e94560; }}
 /* Crosslink ? badge */
 .cas-missing {{
     display: inline-flex; align-items: center; justify-content: center;
@@ -2611,9 +2617,6 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
         <button id="tab-poly" class="db-tab" onclick="switchTab('polymers')">Polymers ({len(db_polymers)})</button>
     </div>
     <input type="text" id="db-filter" placeholder="Filter by name or CAS..." oninput="renderTable()">
-    <select id="src-filter" onchange="renderTable()" style="padding:7px 10px;border:1px solid #dfe6e9;border-radius:4px;font-size:0.85rem;color:#636e72;background:#fff;cursor:pointer;">
-        <option value="">All Sources</option>
-    </select>
     <button id="lock-btn" class="lock-btn" onclick="toggleLock()" title="Click to unlock editing">
         <svg id="icon-locked" viewBox="0 0 24 24"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1m-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3z"/></svg>
         <svg id="icon-unlocked" viewBox="0 0 24 24" style="display:none"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h9V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3H7a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1z"/></svg>
@@ -2671,6 +2674,7 @@ var activeTab = 'solvents';
 var editing = false;
 var edits = {{}};  // key: "type:index:field" -> value
 var sortCol = null, sortAsc = true;
+var srcFilter = '';
 
 function loadEdits() {{
     try {{
@@ -2752,11 +2756,15 @@ function sortBy(col) {{
     renderTable();
 }}
 
+function setSrcFilter(val) {{
+    srcFilter = val;
+    renderTable();
+}}
+
 function renderTable() {{
     var cols = activeTab === 'solvents' ? SOLV_COLS : POLY_COLS;
     var data = activeTab === 'solvents' ? SOLVENTS : POLYMERS;
     var filter = document.getElementById('db-filter').value.toLowerCase().trim();
-    var srcFilter = document.getElementById('src-filter').value;
 
     // Build index array for filtering
     var indices = [];
@@ -2789,7 +2797,18 @@ function renderTable() {{
         var c = cols[ci];
         var cls = '';
         if (sortCol === ci) cls = sortAsc ? ' class="sort-asc"' : ' class="sort-desc"';
-        hdr += '<th' + cls + ' style="width:' + c.w + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="sortBy(' + ci + ')">' + c.label + '</th>';
+        if (c.key === 'src') {{
+            hdr += '<th' + cls + ' style="width:' + c.w + '">';
+            hdr += '<span onclick="sortBy(' + ci + ')" style="cursor:pointer">' + c.label + '</span>';
+            hdr += '<select class="src-filter-select" onchange="setSrcFilter(this.value)" onclick="event.stopPropagation()">';
+            hdr += '<option value="">All</option>';
+            _srcOptions.forEach(function(s) {{
+                hdr += '<option value="' + s + '"' + (srcFilter === s ? ' selected' : '') + '>' + s + '</option>';
+            }});
+            hdr += '</select></th>';
+        }} else {{
+            hdr += '<th' + cls + ' style="width:' + c.w + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="sortBy(' + ci + ')">' + c.label + '</th>';
+        }}
     }}
     hdr += '</tr>';
     document.getElementById('db-thead').innerHTML = hdr;
@@ -2857,19 +2876,12 @@ function renderTable() {{
     document.getElementById('db-tbody').innerHTML = html;
 }}
 
-// Populate source filter dropdown with unique sources from both datasets
-(function() {{
+// Build sorted list of unique source names for the header dropdown
+var _srcOptions = (function() {{
     var srcSet = {{}};
     SOLVENTS.forEach(function(s) {{ if (s.src) srcSet[s.src] = true; }});
     POLYMERS.forEach(function(p) {{ if (p.src) srcSet[p.src] = true; }});
-    var srcList = Object.keys(srcSet).sort();
-    var sel = document.getElementById('src-filter');
-    srcList.forEach(function(s) {{
-        var opt = document.createElement('option');
-        opt.value = s;
-        opt.textContent = s;
-        sel.appendChild(opt);
-    }});
+    return Object.keys(srcSet).sort();
 }})();
 
 loadEdits();
