@@ -4454,22 +4454,22 @@ return Plotly;
         function _updatePlotForCommonFilter() {
             if (!plotDiv || !plotDiv.data) return;
             if (simpleMode) {
-                // Hide non-common materials (fully transparent) but keep marker sizes unchanged
-                var filteredColors = SOLVENTS.map(function(s, i) {
+                // Hide non-common materials by setting marker size to 0
+                var filteredSolventSizes = SOLVENTS.map(function(s) { return s.common ? 5 : 0; });
+                var filteredSolventColors = SOLVENTS.map(function(s, i) {
                     return s.common ? (_solventColors[i] || '#888') : 'rgba(0,0,0,0)';
                 });
-                var filteredOpacity = SOLVENTS.map(function(s) { return s.common ? 0.9 : 0; });
+                var filteredPolySizes = POLYMERS.map(function(p) { return p.common ? 7 : 0; });
                 var filteredPolyColors = POLYMERS.map(function(p) { return p.common ? 'gold' : 'rgba(0,0,0,0)'; });
-                var filteredPolyOpacity = POLYMERS.map(function(p) { return p.common ? 0.95 : 0; });
                 Plotly.restyle(plotDiv, {
-                    'marker.color': [filteredColors, filteredPolyColors],
-                    'marker.opacity': [filteredOpacity, filteredPolyOpacity],
+                    'marker.size': [filteredSolventSizes, filteredPolySizes],
+                    'marker.color': [filteredSolventColors, filteredPolyColors],
                 }, [0, 1]);
             } else {
                 // Restore normal appearance
                 Plotly.restyle(plotDiv, {
+                    'marker.size': [5, 7],
                     'marker.color': [_solventColors, 'gold'],
-                    'marker.opacity': [0.85, 0.95],
                 }, [0, 1]);
             }
         }
