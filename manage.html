@@ -403,14 +403,78 @@ function uploadFile(file) {
 }
 
 function analyzeUrl() {
+    var url = document.getElementById('url-input').value.trim();
+    if (!url) return;
     var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="analysis-card"><h3>URL Import</h3><p>URL analysis requires the API server.<br>Start it with: <code>python -m backend.app.main</code><br>Or download the file and upload it directly.</p></div>';
+    ct.innerHTML = '<div class="loading">Fetching ' + url.substring(0, 60) + '...</div>';
+
+    // Determine file type from URL
+    var urlLower = url.toLowerCase();
+    var isExcel = urlLower.match(/\.xlsx?($|\?)/);
+    var isJson = urlLower.match(/\.json($|\?)/);
+    var isCsv = urlLower.match(/\.(csv|tsv|txt)($|\?)/);
+
+    // Try direct fetch first, then CORS proxy
+    _fetchWithFallback(url, !!isExcel).then(function(result) {
+        if (!result) {
+            ct.innerHTML = '<div class="analysis-card"><h3>Could not fetch URL</h3>'
+                + '<p>The server blocked the request (CORS). Try downloading the file manually and uploading it instead.</p>'
+                + '<p style="margin-top:8px"><a href="' + url + '" target="_blank" style="color:#0984e3">Open URL in new tab</a></p></div>';
+            return;
+        }
+        try {
+            var parsed;
+            var fname = url.split('/').pop().split('?')[0] || 'data';
+            if (isExcel) {
+                parsed = _parseExcelBuffer(new Uint8Array(result));
+            } else if (isJson) {
+                var text = typeof result === 'string' ? result : new TextDecoder().decode(new Uint8Array(result));
+                var data = JSON.parse(text);
+                if (Array.isArray(data)) {
+                    parsed = { headers: data.length ? Object.keys(data[0]) : [], rows: data };
+                } else {
+                    var arr = null;
+                    ['data','chemicals','solvents','compounds','results','entries'].forEach(function(k) { if (!arr && data[k] && Array.isArray(data[k])) arr = data[k]; });
+                    if (!arr) Object.values(data).forEach(function(v) { if (!arr && Array.isArray(v) && v.length && typeof v[0] === 'object') arr = v; });
+                    arr = arr || [];
+                    parsed = { headers: arr.length ? Object.keys(arr[0]) : [], rows: arr };
+                }
+            } else {
+                var text = typeof result === 'string' ? result : new TextDecoder().decode(new Uint8Array(result));
+                parsed = _parseCSVText(text);
+            }
+            var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
+            report.original_url = url;
+            _pendingAnalysis = report;
+            showAnalysis(report);
+        } catch(err) {
+            ct.innerHTML = '<div class="analysis-card"><h3>Parse Error</h3><p>' + err.message + '</p>'
+                + '<p style="margin-top:8px">The file at this URL may not be a supported format (CSV, Excel, JSON). '
+                + 'Try downloading it manually and uploading instead.</p>'
+                + '<p><a href="' + url + '" target="_blank" style="color:#0984e3">Open URL in new tab</a></p></div>';
+        }
+    }).catch(function(err) {
+        ct.innerHTML = '<div class="analysis-card"><h3>Fetch Error</h3><p>' + err.message + '</p>'
+            + '<p style="margin-top:8px"><a href="' + url + '" target="_blank" style="color:#0984e3">Open URL in new tab</a> and upload the file directly.</p></div>';
+    });
 }
 
-function searchDatabases() {
-    var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="analysis-card"><h3>Search</h3><p>Database search requires the API server with a Claude API key.<br>Start it with: <code>python -m backend.app.main</code></p></div>';
+function _fetchWithFallback(url, asBinary) {
+    // Try direct fetch first
+    return fetch(url, { mode: 'cors' }).then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return asBinary ? r.arrayBuffer() : r.text();
+    }).catch(function() {
+        // Try CORS proxy
+        var proxyUrl = 'https://api.allorigins.win/' + (asBinary ? 'raw' : 'get') + '?url=' + encodeURIComponent(url);
+        return fetch(proxyUrl).then(function(r) {
+            if (!r.ok) return null;
+            if (asBinary) return r.arrayBuffer();
+            return r.json().then(function(d) { return d.contents; });
+        }).catch(function() { return null; });
+    });
 }
+
 
 function showAnalysis(report) {
     var ct = document.getElementById('content');
