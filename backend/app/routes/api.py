@@ -18,7 +18,7 @@ import sys
 import tempfile
 import uuid
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, send_from_directory
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 sys.path.insert(0, BASE_DIR)
@@ -39,7 +39,34 @@ api_bp = Blueprint("api", __name__, url_prefix="/api")
 _pending_analyses = {}
 
 
-@api_bp.route("/datasets/upload", methods=["POST"])
+@api_bp.after_request
+def add_cors_headers(response):
+    """Allow cross-origin requests so manage.html works when opened as a file."""
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PATCH, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    return response
+
+
+@api_bp.before_request
+def handle_preflight():
+    """Respond to CORS preflight OPTIONS requests."""
+    if request.method == "OPTIONS":
+        return "", 204
+
+
+# Serve manage.html from the Dash server for convenience
+manage_bp = Blueprint("manage", __name__)
+
+
+@manage_bp.route("/manage")
+@manage_bp.route("/manage.html")
+def serve_manage():
+    """Serve manage.html through the Dash server."""
+    return send_from_directory(BASE_DIR, "manage.html")
+
+
+@api_bp.route("/datasets/upload", methods=["POST", "OPTIONS"])
 def upload_dataset():
     """Accept a file upload and return an analysis report."""
     if "file" not in request.files:
@@ -65,7 +92,7 @@ def upload_dataset():
         return jsonify({"error": str(e)}), 500
 
 
-@api_bp.route("/datasets/analyze-url", methods=["POST"])
+@api_bp.route("/datasets/analyze-url", methods=["POST", "OPTIONS"])
 def analyze_url():
     """Fetch a URL and analyze the downloaded file."""
     data = request.get_json(force=True)
@@ -114,7 +141,7 @@ def analyze_url():
         return jsonify({"error": str(e)}), 500
 
 
-@api_bp.route("/datasets/search", methods=["POST"])
+@api_bp.route("/datasets/search", methods=["POST", "OPTIONS"])
 def search_databases():
     """Use Claude API to search the web for HSP databases."""
     data = request.get_json(force=True)
@@ -171,7 +198,7 @@ Return ONLY valid JSON (an array). No markdown, no explanation."""
         return jsonify({"error": f"Search failed: {e}"}), 500
 
 
-@api_bp.route("/datasets/import", methods=["POST"])
+@api_bp.route("/datasets/import", methods=["POST", "OPTIONS"])
 def import_dataset():
     """Import an analyzed dataset."""
     data = request.get_json(force=True)
@@ -226,7 +253,7 @@ def list_datasets():
     return jsonify(manifest)
 
 
-@api_bp.route("/datasets/<dataset_id>", methods=["PATCH"])
+@api_bp.route("/datasets/<dataset_id>", methods=["PATCH", "OPTIONS"])
 def update_dataset(dataset_id):
     """Update dataset metadata (toggle active, edit name, etc.)."""
     manifest = load_manifest()
@@ -245,7 +272,7 @@ def update_dataset(dataset_id):
     return jsonify({"success": True, "dataset": ds})
 
 
-@api_bp.route("/datasets/<dataset_id>", methods=["DELETE"])
+@api_bp.route("/datasets/<dataset_id>", methods=["DELETE", "OPTIONS"])
 def delete_dataset(dataset_id):
     """Remove a dataset."""
     if remove_dataset(dataset_id):
@@ -254,7 +281,7 @@ def delete_dataset(dataset_id):
         return jsonify({"error": "Dataset not found"}), 404
 
 
-@api_bp.route("/build", methods=["POST"])
+@api_bp.route("/build", methods=["POST", "OPTIONS"])
 def trigger_build():
     """Rebuild unified database and regenerate HTML."""
     try:
