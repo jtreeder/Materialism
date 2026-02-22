@@ -3378,6 +3378,32 @@ td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max
     background: #fff; color: #636e72; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
 }}
 .rebuild-btn:hover {{ background: #f5f6fa; border-color: #b2bec3; }}
+/* Inferred value styles */
+td.inferred {{ background: #edf7ed; }}
+td .q-mark {{ color: #e67e22; font-size: 0.65rem; vertical-align: super; font-weight: 700; cursor: help; }}
+td .src-dot {{ display: inline-block; width: 5px; height: 5px; border-radius: 50%; margin-left: 3px; vertical-align: middle; }}
+td .src-dot.pubchem {{ background: #3498db; }}
+td .src-dot.cas {{ background: #27ae60; }}
+td .src-dot.both {{ background: #8e44ad; }}
+td .src-dot.dataset {{ background: #95a5a6; }}
+.cell-tooltip {{
+    position: fixed; z-index: 9999; background: #2d3436; color: #fff; padding: 6px 10px;
+    border-radius: 4px; font-size: 0.72rem; max-width: 320px; pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25); line-height: 1.4;
+}}
+.cell-tooltip a {{ color: #74b9ff; }}
+.infer-btn {{
+    display: inline-block; padding: 4px 12px; border: 1px solid #0984e3; border-radius: 4px;
+    font-size: 0.8rem; cursor: pointer; background: #fff; color: #0984e3; margin-left: 8px;
+    margin-top: 6px; transition: all 0.2s;
+}}
+.infer-btn:hover {{ background: #0984e3; color: #fff; }}
+.infer-btn:disabled {{ border-color: #b2bec3; color: #b2bec3; cursor: not-allowed; background: #f5f6fa; }}
+.infer-progress {{ background: #fff; border: 1px solid #dfe6e9; border-radius: 6px; padding: 12px; margin-bottom: 12px; }}
+.infer-progress .bar-bg {{ background: #eee; border-radius: 3px; height: 6px; margin: 8px 0; }}
+.infer-progress .bar-fg {{ background: #0984e3; border-radius: 3px; height: 6px; transition: width 0.3s; }}
+.api-key-row {{ display: flex; gap: 4px; margin-bottom: 6px; }}
+.api-key-row input {{ flex: 1; font-size: 0.72rem; padding: 4px 6px; }}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -3406,6 +3432,10 @@ td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max
             </div>
             <h4 onclick="togglePanel('search-panel', this)">Search Databases</h4>
             <div class="import-panel" id="search-panel">
+                <div class="api-key-row">
+                    <input class="import-input" id="claude-api-key" type="password" placeholder="Claude API key (sk-ant-...)" style="margin-bottom:0">
+                    <button class="import-btn secondary" style="width:auto;padding:2px 8px;font-size:0.7rem" onclick="saveApiKey()">Save</button>
+                </div>
                 <input class="import-input" id="search-input" placeholder="e.g. polymer HSP databases">
                 <button class="import-btn" onclick="searchDatabases()">Search</button>
             </div>
@@ -3813,6 +3843,306 @@ function _loadImportedDatasets() {{
 
 // _loadImportedDatasets() is called in the init block below after marking embedded datasets
 
+// --- Claude API key (stored in localStorage) ---
+var _LS_API_KEY = 'materialism_claude_api_key';
+function saveApiKey() {{
+    var k = document.getElementById('claude-api-key').value.trim();
+    if (k) {{ localStorage.setItem(_LS_API_KEY, k); alert('API key saved.'); }}
+}}
+function _getApiKey() {{ return localStorage.getItem(_LS_API_KEY) || ''; }}
+// Load saved key into input on page load
+setTimeout(function() {{
+    var saved = _getApiKey();
+    if (saved) document.getElementById('claude-api-key').value = saved;
+}}, 0);
+
+// --- PubChem + CAS Common Chemistry lookup ---
+function _delay(ms) {{ return new Promise(function(r) {{ setTimeout(r, ms); }}); }}
+
+function _pubchemLookup(query, isCAS) {{
+    var encoded = encodeURIComponent(query);
+    var propUrl = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encoded + '/property/MolecularWeight,MolecularFormula,CanonicalSMILES,IUPACName/JSON';
+    return fetch(propUrl).then(function(r) {{
+        if (!r.ok) return null;
+        return r.json();
+    }}).then(function(data) {{
+        if (!data || !data.PropertyTable || !data.PropertyTable.Properties || !data.PropertyTable.Properties[0]) return null;
+        var p = data.PropertyTable.Properties[0];
+        var result = {{
+            mw: p.MolecularWeight || null,
+            formula: p.MolecularFormula || '',
+            smiles: p.CanonicalSMILES || '',
+            iupac: p.IUPACName || '',
+            cid: p.CID || null,
+            source: 'PubChem',
+            url: p.CID ? 'https://pubchem.ncbi.nlm.nih.gov/compound/' + p.CID : '',
+        }};
+        // If we have a CID, try to get CAS from synonyms
+        if (result.cid && !isCAS) {{
+            return _delay(150).then(function() {{
+                return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + result.cid + '/synonyms/JSON');
+            }}).then(function(r2) {{
+                if (!r2.ok) return result;
+                return r2.json().then(function(synData) {{
+                    var syns = (synData.InformationList && synData.InformationList.Information && synData.InformationList.Information[0] && synData.InformationList.Information[0].Synonym) || [];
+                    for (var i = 0; i < syns.length; i++) {{
+                        if (/^\\d{{2,7}}-\\d{{2}}-\\d$/.test(syns[i])) {{
+                            result.cas = syns[i];
+                            break;
+                        }}
+                    }}
+                    return result;
+                }});
+            }}).catch(function() {{ return result; }});
+        }}
+        return result;
+    }}).catch(function() {{ return null; }});
+}}
+
+function _casChemSearch(query) {{
+    return fetch('https://commonchemistry.cas.org/api/search?q=' + encodeURIComponent(query))
+        .then(function(r) {{ if (!r.ok) return null; return r.json(); }})
+        .then(function(data) {{
+            if (!data || !data.results || data.results.length === 0) return null;
+            return data.results[0].rn;
+        }}).catch(function() {{ return null; }});
+}}
+
+function _casChemDetail(casRn) {{
+    return fetch('https://commonchemistry.cas.org/api/detail?cas_rn=' + encodeURIComponent(casRn))
+        .then(function(r) {{ if (!r.ok) return null; return r.json(); }})
+        .then(function(d) {{
+            if (!d) return null;
+            // Strip HTML tags from name
+            var nm = (d.name || '').replace(/<[^>]*>/g, '');
+            // Parse MW from string
+            var mwStr = (d.molecularMass || '').replace(/[^\\d.]/g, '');
+            return {{
+                name: nm,
+                cas: d.rn || casRn,
+                mw: mwStr ? parseFloat(mwStr) : null,
+                formula: (d.molecularFormula || '').replace(/<[^>]*>/g, ''),
+                smiles: d.smile || '',
+                source: 'CAS Common Chemistry',
+                url: 'https://commonchemistry.cas.org/detail?cas_rn=' + encodeURIComponent(casRn),
+            }};
+        }}).catch(function() {{ return null; }});
+}}
+
+function _mwClose(a, b) {{
+    if (a == null || b == null) return false;
+    return Math.abs(a - b) / Math.max(a, b) < 0.01;
+}}
+
+// --- Infer missing values engine ---
+var _inferRunning = false;
+var _inferCancelled = false;
+
+async function inferMissing(dsId) {{
+    if (_inferRunning) return;
+    _inferRunning = true;
+    _inferCancelled = false;
+    // Show progress bar
+    var progEl = document.getElementById('infer-progress');
+    if (progEl) {{ progEl.style.display = 'block'; progEl.innerHTML = '<div class="loading" style="padding:8px">Starting inference...</div>'; }}
+    var btn = document.getElementById('infer-btn');
+    if (btn) btn.disabled = true;
+    var ds = DATASETS[dsId];
+    var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
+    var fillable = ['cas','mw','smiles'];
+    var queue = [];
+
+    items.forEach(function(item, idx) {{
+        var missing = fillable.filter(function(f) {{
+            var v = item[f];
+            return v == null || v === '' || v === 0;
+        }});
+        if (missing.length > 0) queue.push({{ item: item, idx: idx, missing: missing }});
+    }});
+
+    if (queue.length === 0) {{
+        _inferRunning = false;
+        var ct = document.getElementById('content');
+        var bar = document.getElementById('infer-progress');
+        if (bar) bar.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">All fields already populated. Nothing to infer.</span>';
+        return;
+    }}
+
+    var filled = 0, errors = 0;
+    for (var i = 0; i < queue.length; i++) {{
+        if (_inferCancelled) break;
+        var entry = queue[i];
+        var item = entry.item;
+        // Ensure _src tracking object
+        if (!item._src) item._src = {{}};
+
+        // Show progress
+        var bar = document.getElementById('infer-progress');
+        if (bar) {{
+            var pct = Math.round(100 * (i + 1) / queue.length);
+            bar.innerHTML = '<div style="font-size:0.8rem;color:#2d3436">Looking up <b>' + (item.name||'').substring(0,40) + '</b> (' + (i+1) + '/' + queue.length + ')</div>'
+                + '<div class="bar-bg"><div class="bar-fg" style="width:' + pct + '%"></div></div>'
+                + '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.72rem;margin-top:4px" onclick="_inferCancelled=true">Cancel</button>';
+        }}
+
+        try {{
+            // --- PubChem lookup ---
+            var pub = null;
+            var lookupByCAS = false;
+            if (item.cas && item.cas.length > 3) {{
+                pub = await _pubchemLookup(item.cas, true);
+                if (pub) lookupByCAS = true;
+            }}
+            if (!pub && item.name) {{
+                await _delay(200);
+                pub = await _pubchemLookup(item.name, false);
+            }}
+
+            // --- CAS Common Chemistry lookup ---
+            var casChem = null;
+            var casRnToLookup = item.cas || (pub && pub.cas);
+            if (casRnToLookup) {{
+                await _delay(200);
+                casChem = await _casChemDetail(casRnToLookup);
+            }} else if (item.name && !pub) {{
+                // Try CAS search by name
+                await _delay(200);
+                var foundCas = await _casChemSearch(item.name);
+                if (foundCas) {{
+                    await _delay(200);
+                    casChem = await _casChemDetail(foundCas);
+                }}
+            }}
+
+            // --- Fill missing values ---
+            entry.missing.forEach(function(field) {{
+                var pubVal = null, casVal = null, pubUrl = '', casUrl = '';
+                if (pub) {{
+                    pubUrl = pub.url || '';
+                    if (field === 'cas') pubVal = pub.cas || null;
+                    else if (field === 'mw') pubVal = pub.mw;
+                    else if (field === 'smiles') pubVal = pub.smiles || null;
+                }}
+                if (casChem) {{
+                    casUrl = casChem.url || '';
+                    if (field === 'cas') casVal = casChem.cas || null;
+                    else if (field === 'mw') casVal = casChem.mw;
+                    else if (field === 'smiles') casVal = casChem.smiles || null;
+                }}
+
+                var val = null, uncertain = false, srcLabel = '', srcUrl = '';
+                if (pubVal != null && pubVal !== '' && casVal != null && casVal !== '') {{
+                    // Both sources have a value
+                    var match = (field === 'mw') ? _mwClose(pubVal, casVal) : (String(pubVal) === String(casVal));
+                    if (match) {{
+                        val = pubVal; srcLabel = 'PubChem + CAS Common Chemistry';
+                        srcUrl = pubUrl;
+                    }} else {{
+                        // Disagree — use PubChem but mark uncertain
+                        val = pubVal; srcLabel = 'PubChem (CAS disagrees: ' + casVal + ')';
+                        srcUrl = pubUrl; uncertain = true;
+                    }}
+                }} else if (pubVal != null && pubVal !== '') {{
+                    val = pubVal; srcLabel = 'PubChem'; srcUrl = pubUrl;
+                    if (!lookupByCAS) uncertain = true;
+                }} else if (casVal != null && casVal !== '') {{
+                    val = casVal; srcLabel = 'CAS Common Chemistry'; srcUrl = casUrl;
+                    if (!lookupByCAS) uncertain = true;
+                }}
+
+                if (val != null && val !== '') {{
+                    item[field] = val;
+                    item._src[field] = {{ label: srcLabel, url: srcUrl, uncertain: uncertain }};
+                    filled++;
+                }}
+            }});
+        }} catch(e) {{
+            errors++;
+        }}
+
+        await _delay(250); // rate limit
+    }}
+
+    _inferRunning = false;
+    _saveImportedDatasets();
+
+    // Show completion
+    var bar2 = document.getElementById('infer-progress');
+    if (bar2) {{
+        bar2.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">Done! Filled <b>' + filled + '</b> values across ' + queue.length + ' chemicals.' + (errors > 0 ? ' (' + errors + ' lookup errors)' : '') + (_inferCancelled ? ' (Cancelled)' : '') + '</span>';
+    }}
+    renderDetail();
+}}
+
+// --- Cell tooltip system ---
+var _tooltipEl = null;
+document.addEventListener('mouseover', function(e) {{
+    var td = e.target.closest('td[data-src]');
+    if (!td) {{ if (_tooltipEl) {{ _tooltipEl.remove(); _tooltipEl = null; }} return; }}
+    if (_tooltipEl) return;
+    var src = td.getAttribute('data-src');
+    var srcUrl = td.getAttribute('data-src-url');
+    if (!src) return;
+    _tooltipEl = document.createElement('div');
+    _tooltipEl.className = 'cell-tooltip';
+    var inner = '<b>Source:</b> ' + src;
+    if (srcUrl) inner += '<br><b>URL:</b> ' + srcUrl;
+    _tooltipEl.innerHTML = inner;
+    document.body.appendChild(_tooltipEl);
+    var rect = td.getBoundingClientRect();
+    _tooltipEl.style.left = Math.min(rect.left, window.innerWidth - 340) + 'px';
+    _tooltipEl.style.top = (rect.bottom + 4) + 'px';
+}});
+document.addEventListener('mouseout', function(e) {{
+    var td = e.target.closest('td[data-src]');
+    if (td && _tooltipEl) {{ _tooltipEl.remove(); _tooltipEl = null; }}
+}});
+
+// --- Claude-powered database search (client-side) ---
+function searchDatabases() {{
+    var q = document.getElementById('search-input').value.trim();
+    if (!q) return;
+    var apiKey = _getApiKey();
+    if (!apiKey) {{
+        var ct = document.getElementById('content');
+        ct.innerHTML = '<div class="analysis-card"><h3>API Key Required</h3><p>Enter your Claude API key in the Search Databases panel, then try again.</p></div>';
+        return;
+    }}
+    var ct = document.getElementById('content');
+    ct.innerHTML = '<div class="loading">Searching for HSP databases...</div>';
+
+    fetch('https://api.anthropic.com/v1/messages', {{
+        method: 'POST',
+        headers: {{
+            'Content-Type': 'application/json',
+            'x-api-key': apiKey,
+            'anthropic-version': '2023-06-01',
+            'anthropic-dangerous-direct-browser-access': 'true',
+        }},
+        body: JSON.stringify({{
+            model: 'claude-sonnet-4-5-20250929',
+            max_tokens: 2048,
+            messages: [{{ role: 'user', content: 'Find downloadable Hansen Solubility Parameter (HSP) databases or datasets matching this query: "' + q + '". Return a JSON array of objects with fields: name, url, description, estimated_materials (number), material_types (array of strings like "solvents","polymers"), download_format (e.g. "CSV","Excel","PDF"), has_cas (boolean), has_smiles (boolean), quality ("high","medium","low"). Only include real, verifiable sources. Return ONLY the JSON array, no other text.' }}],
+        }})
+    }}).then(function(r) {{
+        if (!r.ok) return r.json().then(function(err) {{ throw new Error(err.error && err.error.message || 'API error ' + r.status); }});
+        return r.json();
+    }}).then(function(data) {{
+        var text = data.content && data.content[0] && data.content[0].text || '';
+        // Extract JSON from response
+        var jsonMatch = text.match(/\\[.*\\]/s);
+        if (!jsonMatch) {{ ct.innerHTML = '<div class="analysis-card"><h3>No structured results</h3><pre style="white-space:pre-wrap;font-size:0.8rem">' + text + '</pre></div>'; return; }}
+        try {{
+            var results = JSON.parse(jsonMatch[0]);
+            showSearchResults(results);
+        }} catch(e) {{
+            ct.innerHTML = '<div class="analysis-card"><h3>Parse Error</h3><pre style="white-space:pre-wrap;font-size:0.8rem">' + text + '</pre></div>';
+        }}
+    }}).catch(function(err) {{
+        ct.innerHTML = '<div class="analysis-card"><h3>Search Error</h3><p>' + err.message + '</p></div>';
+    }});
+}}
+
 function showSearchResults(results) {{
     var ct = document.getElementById('content');
     if (results.length === 0) {{
@@ -3955,7 +4285,9 @@ function renderDetail() {{
     if (m.fields_available) html += 'Fields: ' + m.fields_available.join(', ') + '<br>';
     html += '</div>';
     html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\\'' + _currentDs + '\\')">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
+    html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\\'' + _currentDs + '\\')"' + (_inferRunning ? ' disabled' : '') + '>Infer Missing Values</button>';
     html += '</div>';
+    html += '<div class="infer-progress" id="infer-progress" style="display:none"></div>';
 
     html += '<div class="filter-row"><input type="text" id="manage-filter" placeholder="Filter by name or CAS..." oninput="_filterText=this.value;renderDetail()" value="' + (_filterText||'').replace(/"/g,'&quot;') + '"></div>';
 
@@ -4008,13 +4340,25 @@ function renderDetail() {{
         html += '</th>';
     }});
     html += '</tr></thead><tbody>';
+    var dsSource = (m.name || _currentDs);
+    var dsSourceUrl = m.source_url || '';
     var limit = Math.min(filtered.length, 2000);
     for (var i = 0; i < limit; i++) {{
         var r = filtered[i];
         html += '<tr>';
         cols.forEach(function(c) {{
             var v = r[c]; if (v == null) v = '';
-            html += '<td title="' + String(v).replace(/"/g,'&quot;') + '">' + v + '</td>';
+            var srcInfo = r._src && r._src[c];
+            var srcLabel = srcInfo ? srcInfo.label : dsSource;
+            var srcUrl = srcInfo ? (srcInfo.url || '') : dsSourceUrl;
+            var isInferred = !!srcInfo;
+            var isUncertain = srcInfo && srcInfo.uncertain;
+            var cls = isInferred ? ' class="inferred"' : '';
+            var attrs = ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
+            if (srcUrl) attrs += ' data-src-url="' + srcUrl.replace(/"/g,'&quot;') + '"';
+            html += '<td' + cls + attrs + '>' + v;
+            if (isUncertain) html += '<span class="q-mark">?</span>';
+            html += '</td>';
         }});
         html += '</tr>';
     }}
