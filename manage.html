@@ -146,6 +146,8 @@ td .src-dot.dataset { background: #95a5a6; }
 .api-key-row input { flex: 1; font-size: 0.72rem; padding: 4px 6px; }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>if (typeof pdfjsLib !== 'undefined') pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 </head>
 <body>
 <div class="header">
@@ -298,6 +300,153 @@ function _parseExcelBuffer(buf) {
     return { headers: headers, rows: data };
 }
 
+function _parsePDFBuffer(buf) {
+    if (typeof pdfjsLib === 'undefined') {
+        throw new Error('PDF.js library not loaded. Check internet connection.');
+    }
+    return pdfjsLib.getDocument({ data: buf }).promise.then(function(pdf) {
+        var allText = [];
+        var chain = Promise.resolve();
+        for (var p = 1; p <= pdf.numPages; p++) {
+            (function(pageNum) {
+                chain = chain.then(function() {
+                    return pdf.getPage(pageNum).then(function(page) {
+                        return page.getTextContent().then(function(tc) {
+                            // Group text items into lines by y-coordinate
+                            var lineMap = {};
+                            tc.items.forEach(function(item) {
+                                var y = Math.round(item.transform[5]);
+                                if (!lineMap[y]) lineMap[y] = [];
+                                lineMap[y].push({ x: item.transform[4], str: item.str });
+                            });
+                            // Sort by y descending (top of page first), then x ascending
+                            var yKeys = Object.keys(lineMap).map(Number).sort(function(a,b) { return b - a; });
+                            yKeys.forEach(function(y) {
+                                var items = lineMap[y].sort(function(a,b) { return a.x - b.x; });
+                                var lineStr = items.map(function(it) { return it.str; }).join(' ').trim();
+                                if (lineStr) allText.push(lineStr);
+                            });
+                        });
+                    });
+                });
+            })(p);
+        }
+        return chain.then(function() {
+            return _extractTableFromPDFLines(allText);
+        });
+    });
+}
+
+function _extractTableFromPDFLines(lines) {
+    // Strategy: find lines that look like table rows (contain numbers that could be HSP values)
+    // Try multiple delimiter strategies: whitespace-heavy lines, tab-like spacing, or consistent column counts
+
+    // First, try to find a header line containing HSP-related keywords
+    var hspKeywords = ['delta', 'δd', 'δp', 'δh', 'disp', 'polar', 'hydrog', 'name', 'solvent', 'cas',
+                       'smiles', 'mpa', 'hansen', 'd_d', 'd_p', 'd_h', 'dd', 'dp', 'dh', 'δ_d', 'δ_p', 'δ_h'];
+    var headerIdx = -1;
+    var bestHeaderScore = 0;
+
+    for (var i = 0; i < Math.min(lines.length, 40); i++) {
+        var lower = lines[i].toLowerCase();
+        var score = 0;
+        hspKeywords.forEach(function(kw) { if (lower.indexOf(kw) > -1) score++; });
+        if (score > bestHeaderScore) { bestHeaderScore = score; headerIdx = i; }
+    }
+
+    // If no header found with keywords, look for the first line followed by numeric data
+    if (bestHeaderScore < 2) {
+        for (var i = 0; i < Math.min(lines.length, 30); i++) {
+            var parts = _splitPDFLine(lines[i]);
+            if (parts.length >= 3 && i + 1 < lines.length) {
+                var nextParts = _splitPDFLine(lines[i + 1]);
+                var numCount = 0;
+                nextParts.forEach(function(p) { if (/^-?\d+\.?\d*$/.test(p.trim())) numCount++; });
+                if (numCount >= 2 && Math.abs(parts.length - nextParts.length) <= 2) {
+                    headerIdx = i;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (headerIdx === -1) headerIdx = 0;
+
+    // Split header into columns
+    var headerParts = _splitPDFLine(lines[headerIdx]);
+    if (headerParts.length < 2) {
+        // Fallback: try treating as whitespace-delimited
+        headerParts = lines[headerIdx].split(/\s{2,}/).map(function(s) { return s.trim(); }).filter(Boolean);
+    }
+
+    // Parse data rows
+    var rows = [];
+    var expectedCols = headerParts.length;
+    for (var i = headerIdx + 1; i < lines.length; i++) {
+        var parts = _splitPDFLine(lines[i]);
+        if (parts.length < 2) continue;
+
+        // Skip lines that look like headers/footers/page numbers
+        var lower = lines[i].toLowerCase();
+        if (/^(page|table|figure|note|source|ref)\s/i.test(lower)) continue;
+        if (/^\d+\s*$/.test(lines[i].trim())) continue;
+
+        // If column count matches or is close, accept row
+        if (Math.abs(parts.length - expectedCols) <= 2) {
+            var row = {};
+            // Handle case where a name column has spaces and merges into multiple parts
+            if (parts.length > expectedCols) {
+                // Merge first N extra parts into first column (likely a multi-word name)
+                var extra = parts.length - expectedCols;
+                var merged = parts.slice(0, extra + 1).join(' ');
+                parts = [merged].concat(parts.slice(extra + 1));
+            }
+            for (var j = 0; j < headerParts.length; j++) {
+                row[headerParts[j]] = (parts[j] || '').trim();
+            }
+            rows.push(row);
+        }
+    }
+
+    if (rows.length === 0) {
+        throw new Error('Could not find tabular data in the PDF. The document may contain text descriptions rather than data tables. Try copying the data into a CSV file.');
+    }
+
+    return { headers: headerParts, rows: rows };
+}
+
+function _splitPDFLine(line) {
+    // Try splitting by 2+ spaces (common in PDF tabular data)
+    var parts = line.split(/\s{2,}/).map(function(s) { return s.trim(); }).filter(Boolean);
+    if (parts.length >= 3) return parts;
+
+    // Try splitting by tab
+    parts = line.split('\t').map(function(s) { return s.trim(); }).filter(Boolean);
+    if (parts.length >= 3) return parts;
+
+    // Try splitting by | or ; delimiters
+    if (line.indexOf('|') > -1) {
+        parts = line.split('|').map(function(s) { return s.trim(); }).filter(Boolean);
+        if (parts.length >= 3) return parts;
+    }
+
+    // Last resort: split on single spaces but try to keep multi-word names together
+    // Heuristic: numbers are separate tokens, consecutive non-number words form one token
+    var tokens = line.split(/\s+/);
+    var result = [];
+    var current = '';
+    tokens.forEach(function(t) {
+        if (/^-?\d+\.?\d*$/.test(t)) {
+            if (current) { result.push(current.trim()); current = ''; }
+            result.push(t);
+        } else {
+            current += (current ? ' ' : '') + t;
+        }
+    });
+    if (current) result.push(current.trim());
+    return result;
+}
+
 function _analyzeLocally(headers, rows, filename) {
     var mapping = _autoMap(headers);
     var rev = {};
@@ -373,9 +522,19 @@ function uploadFile(file) {
     var reader = new FileReader();
     reader.onerror = function() { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>Failed to read file.</p></div>'; };
     reader.onload = function(e) {
+        var ext = file.name.split('.').pop().toLowerCase();
+        if (ext === 'pdf') {
+            _parsePDFBuffer(new Uint8Array(e.target.result)).then(function(parsed) {
+                var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
+                _pendingAnalysis = report;
+                showAnalysis(report);
+            }).catch(function(err) {
+                ct.innerHTML = '<div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div>';
+            });
+            return;
+        }
         try {
             var parsed;
-            var ext = file.name.split('.').pop().toLowerCase();
             if (ext === 'xlsx' || ext === 'xls') {
                 parsed = _parseExcelBuffer(new Uint8Array(e.target.result));
             } else if (ext === 'json') {
@@ -390,7 +549,19 @@ function uploadFile(file) {
                     parsed = { headers: arr.length ? Object.keys(arr[0]) : [], rows: arr };
                 }
             } else {
-                parsed = _parseCSVText(new TextDecoder().decode(new Uint8Array(e.target.result)));
+                // Auto-detect PDF by magic bytes even if extension is wrong
+                var bytes = new Uint8Array(e.target.result);
+                if (bytes.length >= 5 && String.fromCharCode(bytes[0],bytes[1],bytes[2],bytes[3],bytes[4]) === '%PDF-') {
+                    _parsePDFBuffer(bytes).then(function(parsed) {
+                        var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
+                        _pendingAnalysis = report;
+                        showAnalysis(report);
+                    }).catch(function(err) {
+                        ct.innerHTML = '<div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div>';
+                    });
+                    return;
+                }
+                parsed = _parseCSVText(new TextDecoder().decode(bytes));
             }
             var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
             _pendingAnalysis = report;
@@ -412,19 +583,35 @@ function analyzeUrl() {
     var urlLower = url.toLowerCase();
     var isExcel = urlLower.match(/\.xlsx?($|\?)/);
     var isJson = urlLower.match(/\.json($|\?)/);
-    var isCsv = urlLower.match(/\.(csv|tsv|txt)($|\?)/);
+    var isPdf = urlLower.match(/\.pdf($|\?)/);
+    var isBinary = isExcel || isPdf;
 
     // Try direct fetch first, then CORS proxy
-    _fetchWithFallback(url, !!isExcel).then(function(result) {
+    _fetchWithFallback(url, !!isBinary).then(function(result) {
         if (!result) {
             ct.innerHTML = '<div class="analysis-card"><h3>Could not fetch URL</h3>'
                 + '<p>The server blocked the request (CORS). Try downloading the file manually and uploading it instead.</p>'
                 + '<p style="margin-top:8px"><a href="' + url + '" target="_blank" style="color:#0984e3">Open URL in new tab</a></p></div>';
             return;
         }
+        var fname = url.split('/').pop().split('?')[0] || 'data';
+
+        // PDF is async
+        if (isPdf) {
+            _parsePDFBuffer(new Uint8Array(result)).then(function(parsed) {
+                var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
+                report.original_url = url;
+                _pendingAnalysis = report;
+                showAnalysis(report);
+            }).catch(function(err) {
+                ct.innerHTML = '<div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p>'
+                    + '<p style="margin-top:8px"><a href="' + url + '" target="_blank" style="color:#0984e3">Open URL in new tab</a></p></div>';
+            });
+            return;
+        }
+
         try {
             var parsed;
-            var fname = url.split('/').pop().split('?')[0] || 'data';
             if (isExcel) {
                 parsed = _parseExcelBuffer(new Uint8Array(result));
             } else if (isJson) {
@@ -441,6 +628,19 @@ function analyzeUrl() {
                 }
             } else {
                 var text = typeof result === 'string' ? result : new TextDecoder().decode(new Uint8Array(result));
+                // Auto-detect if this is actually a PDF served without .pdf extension
+                if (text.substring(0, 5) === '%PDF-') {
+                    var buf = typeof result === 'string' ? new TextEncoder().encode(result) : new Uint8Array(result);
+                    _parsePDFBuffer(buf).then(function(parsed) {
+                        var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
+                        report.original_url = url;
+                        _pendingAnalysis = report;
+                        showAnalysis(report);
+                    }).catch(function(err) {
+                        ct.innerHTML = '<div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div>';
+                    });
+                    return;
+                }
                 parsed = _parseCSVText(text);
             }
             var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
