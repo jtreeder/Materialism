@@ -2556,12 +2556,30 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
 .conf-row .conf-val.zero {{ color: #636e72; }}
 .conf-sep {{ border-top: 1px solid #636e72; margin: 4px 0; }}
 /* Source filter in header */
-.src-filter-select {{
-    display: block; width: 100%; margin-top: 4px; padding: 2px 4px;
-    font-size: 0.7rem; border: 1px solid #dfe6e9; border-radius: 3px;
-    background: #fff; color: #636e72; cursor: pointer;
+.src-filter-wrap {{
+    position: relative; margin-top: 4px;
 }}
-.src-filter-select:focus {{ outline: none; border-color: #e94560; }}
+.src-filter-btn {{
+    display: block; width: 100%; padding: 2px 4px; font-size: 0.7rem;
+    border: 1px solid #dfe6e9; border-radius: 3px; background: #fff;
+    color: #636e72; cursor: pointer; text-align: left;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}}
+.src-filter-btn:hover {{ border-color: #b2bec3; }}
+.src-filter-drop {{
+    display: none; position: absolute; top: 100%; left: 0; z-index: 20;
+    background: #fff; border: 1px solid #dfe6e9; border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12); min-width: 180px;
+    max-height: 260px; overflow-y: auto; padding: 4px 0;
+}}
+.src-filter-drop.open {{ display: block; }}
+.src-filter-opt {{
+    display: flex; align-items: center; gap: 6px; padding: 4px 10px;
+    font-size: 0.72rem; color: #2d3436; cursor: pointer; white-space: nowrap;
+}}
+.src-filter-opt:hover {{ background: #f5f6fa; }}
+.src-filter-opt input {{ margin: 0; cursor: pointer; }}
+.src-filter-opt label {{ cursor: pointer; }}
 /* Crosslink ? badge */
 .cas-missing {{
     display: inline-flex; align-items: center; justify-content: center;
@@ -2674,7 +2692,7 @@ var activeTab = 'solvents';
 var editing = false;
 var edits = {{}};  // key: "type:index:field" -> value
 var sortCol = null, sortAsc = true;
-var srcFilter = '';
+var srcFilterSet = {{}};  // keys = selected source names; empty = show all
 
 function loadEdits() {{
     try {{
@@ -2756,9 +2774,42 @@ function sortBy(col) {{
     renderTable();
 }}
 
-function setSrcFilter(val) {{
-    srcFilter = val;
+function toggleSrcFilter(val) {{
+    if (srcFilterSet[val]) delete srcFilterSet[val];
+    else srcFilterSet[val] = true;
     renderTable();
+    updateTabCounts();
+}}
+function clearSrcFilter() {{
+    srcFilterSet = {{}};
+    renderTable();
+    updateTabCounts();
+}}
+function _hasSrcFilter() {{
+    return Object.keys(srcFilterSet).length > 0;
+}}
+function _matchesSrcFilter(src) {{
+    return !_hasSrcFilter() || srcFilterSet[src];
+}}
+function _countForTab(tab) {{
+    var data = tab === 'solvents' ? SOLVENTS : POLYMERS;
+    if (!_hasSrcFilter()) return data.length;
+    var n = 0;
+    for (var i = 0; i < data.length; i++) {{
+        if (srcFilterSet[data[i].src]) n++;
+    }}
+    return n;
+}}
+function updateTabCounts() {{
+    document.getElementById('tab-solv').textContent = 'Solvents (' + _countForTab('solvents') + ')';
+    document.getElementById('tab-poly').textContent = 'Polymers (' + _countForTab('polymers') + ')';
+}}
+var _srcDropOpen = false;
+function toggleSrcDrop(e) {{
+    e.stopPropagation();
+    _srcDropOpen = !_srcDropOpen;
+    var drop = document.getElementById('src-drop');
+    if (drop) drop.classList.toggle('open', _srcDropOpen);
 }}
 
 function renderTable() {{
@@ -2775,7 +2826,7 @@ function renderTable() {{
             var cas = getVal(activeTab, i, 'cas').toLowerCase();
             if (name.indexOf(filter) === -1 && cas.indexOf(filter) === -1) continue;
         }}
-        if (srcFilter && getVal(activeTab, i, 'src') !== srcFilter) continue;
+        if (_hasSrcFilter() && !_matchesSrcFilter(getVal(activeTab, i, 'src'))) continue;
         indices.push(i);
     }}
 
@@ -2798,14 +2849,23 @@ function renderTable() {{
         var cls = '';
         if (sortCol === ci) cls = sortAsc ? ' class="sort-asc"' : ' class="sort-desc"';
         if (c.key === 'src') {{
-            hdr += '<th' + cls + ' style="width:' + c.w + '">';
+            var nSel = Object.keys(srcFilterSet).length;
+            var btnLabel = nSel === 0 ? 'All sources' : nSel + ' selected';
+            hdr += '<th' + cls + ' style="width:' + c.w + ';position:relative">';
             hdr += '<span onclick="sortBy(' + ci + ')" style="cursor:pointer">' + c.label + '</span>';
-            hdr += '<select class="src-filter-select" onchange="setSrcFilter(this.value)" onclick="event.stopPropagation()">';
-            hdr += '<option value="">All</option>';
+            hdr += '<div class="src-filter-wrap">';
+            hdr += '<button class="src-filter-btn" onclick="toggleSrcDrop(event)">' + btnLabel + ' &#9662;</button>';
+            hdr += '<div class="src-filter-drop' + (_srcDropOpen ? ' open' : '') + '" id="src-drop" onclick="event.stopPropagation()">';
+            if (nSel > 0) {{
+                hdr += '<div class="src-filter-opt" onclick="clearSrcFilter()" style="color:#e94560;font-weight:600">Clear all</div>';
+            }}
             _srcOptions.forEach(function(s) {{
-                hdr += '<option value="' + s + '"' + (srcFilter === s ? ' selected' : '') + '>' + s + '</option>';
+                var checked = srcFilterSet[s] ? ' checked' : '';
+                var esc = s.replace(/'/g, '\\x27');
+                hdr += '<div class="src-filter-opt" onclick="toggleSrcFilter(\\x27' + esc + '\\x27)">';
+                hdr += '<input type="checkbox"' + checked + ' tabindex="-1"><label>' + s + '</label></div>';
             }});
-            hdr += '</select></th>';
+            hdr += '</div></div></th>';
         }} else {{
             hdr += '<th' + cls + ' style="width:' + c.w + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="sortBy(' + ci + ')">' + c.label + '</th>';
         }}
@@ -3005,10 +3065,18 @@ function applyCrosslink(optIdx) {{
     renderTable();
 }}
 
-// Close popover on outside click
+// Close popover / source dropdown on outside click
 document.addEventListener('click', function(e) {{
     if (_xlPop && _xlPop.classList.contains('visible') && !_xlPop.contains(e.target) && !e.target.classList.contains('cas-missing')) {{
         closeCrosslink();
+    }}
+    // Close source filter dropdown
+    if (_srcDropOpen) {{
+        var drop = document.getElementById('src-drop');
+        if (drop && !drop.contains(e.target) && !e.target.classList.contains('src-filter-btn')) {{
+            _srcDropOpen = false;
+            drop.classList.remove('open');
+        }}
     }}
 }});
 </script>
