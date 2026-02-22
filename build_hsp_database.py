@@ -717,13 +717,22 @@ def load_hspip_solvents():
     rows = list(ws.iter_rows(min_row=2, values_only=True))  # skip header
     wb.close()
 
+    import datetime as _dt
     for row in rows:
         if not row or len(row) < 5:
             continue
         name = str(row[0]).strip() if row[0] else ""
-        cas = str(row[1]).strip() if row[1] else ""
         if not name:
             continue
+
+        # Fix CAS numbers that Excel auto-converted to datetime objects
+        raw_cas = row[1]
+        if isinstance(raw_cas, _dt.datetime):
+            cas = ""  # discard mangled date; can't recover the real CAS
+        elif raw_cas:
+            cas = str(raw_cas).strip()
+        else:
+            cas = ""
 
         dd = parse_float(row[2])
         dp = parse_float(row[3])
@@ -1034,12 +1043,11 @@ def main():
     print(f"  ---")
     print(f"  Total raw:        {total_raw:>5} entries")
 
-    # Merge in priority order
+    # Merge in priority order (HSPiP kept separate — appended unmerged below)
     print()
     print("Merging and deduplicating...")
     all_chems = (original_chems + mendeley_chems + solvpred_chems
-                 + accudyne_chems + wolfram_chems + hansen_1k_chems
-                 + hspip_chems)
+                 + accudyne_chems + wolfram_chems + hansen_1k_chems)
     merged_chems = merge_chemicals(all_chems)
 
     all_polys = original_polys + accudyne_polys + hansen_a2_polys
@@ -1079,6 +1087,15 @@ def main():
     for poly in merged_polys:
         poly["confidence"] = compute_confidence(poly, is_polymer=True)
 
+    # Append ALL HSPiP entries separately (not merged/deduplicated).
+    # Classify and score them, then add to the list.
+    for chem in hspip_chems:
+        if not chem["category"]:
+            chem["category"] = classify_chemical(chem["name"], chem.get("smiles"))
+        chem["confidence"] = compute_confidence(chem, is_polymer=False)
+    merged_chems.extend(hspip_chems)
+    print(f"  Appended {len(hspip_chems)} HSPiP entries (kept separate, not deduplicated)")
+
     # Sort
     merged_chems.sort(key=lambda x: x["name"].lower())
     merged_polys.sort(key=lambda x: x["name"].lower())
@@ -1090,6 +1107,7 @@ def main():
         "delta_d", "delta_p", "delta_h",
         "molecular_weight", "boiling_point", "density", "molar_volume",
         "category", "ghs_hazard", "confidence", "source_count", "source", "source_url",
+        "hidden",
     ]
 
     with open(chem_path, "w", newline="", encoding="utf-8") as f:
