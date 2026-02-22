@@ -518,11 +518,6 @@ full_html = f"""<!DOCTYPE html>
         <div id="home-panel" class="home-panel">
             <div class="home-panel-header">
                 <input type="text" id="home-filter" placeholder="Filter by name..." oninput="filterHomeTable(this.value)" style="width:180px;font-size:0.8rem;">
-                <button id="col-lock-btn" class="col-lock-btn" onclick="toggleColumnLock()" title="Lock column widths">
-                    <svg id="lock-icon-unlocked" viewBox="0 0 24 24"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h9V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3H7a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1z"/></svg>
-                    <svg id="lock-icon-locked" viewBox="0 0 24 24" style="display:none"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1m-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3z"/></svg>
-                    <span id="lock-label">Widths</span>
-                </button>
             </div>
             <div class="home-tabs">
                 <button id="tab-solvents" class="home-tab active" onclick="switchHomeTab('solvents')">Solvents</button>
