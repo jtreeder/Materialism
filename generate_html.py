@@ -1757,14 +1757,14 @@ full_html = f"""<!DOCTYPE html>
             var bgColor = isSolvent ? (CAT_COLORS[mat.cat] || '#888') : 'gold';
             Plotly.relayout(plotDiv, {{
                 'scene.annotations': [
-                    // Arrow line from data point + caret triangle
+                    // Caret triangle
                     {{
                         x: mat.dd, y: mat.dp, z: mat.dh,
                         text: '\u25C0',
                         showarrow: true,
                         arrowhead: 0,
-                        arrowwidth: 2,
-                        arrowcolor: bgColor,
+                        arrowwidth: 1,
+                        arrowcolor: 'rgba(0,0,0,0)',
                         ax: 42, ay: 0,
                         xanchor: 'left',
                         bgcolor: 'rgba(0,0,0,0)',
