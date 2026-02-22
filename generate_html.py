@@ -839,6 +839,7 @@ full_html = f"""<!DOCTYPE html>
 
         // ===================== COMMON MATERIALS FILTER =====================
         var simpleMode = false;
+        var _isSearchActive = false;
         function onSimpleModeChange() {{
             simpleMode = document.getElementById('simple-mode').checked;
             // Update the 3D plot to show/hide non-common materials
@@ -846,7 +847,7 @@ full_html = f"""<!DOCTYPE html>
             // Rebuild home table with filter applied
             buildHomeTable();
             // Re-run last search so results table reflects the filter
-            if (lastSearchQuery) {{
+            if (_isSearchActive && lastSearchQuery) {{
                 var parsed = parseQuery(lastSearchQuery);
                 var result = executeSearch(parsed);
                 var html = renderResultsHTML(result);
@@ -855,9 +856,31 @@ full_html = f"""<!DOCTYPE html>
             }}
         }}
 
+        // Pre-compute original coordinate arrays for common-filter toggling.
+        // Plotly 3D scatter renders per-point size arrays differently from
+        // scalars (smaller due to sizeref normalization), so we hide non-common
+        // points by nulling their coordinates instead.
+        var _allSolX = SOLVENTS.map(function(s) {{ return s.dd; }});
+        var _allSolY = SOLVENTS.map(function(s) {{ return s.dp; }});
+        var _allSolZ = SOLVENTS.map(function(s) {{ return s.dh; }});
+        var _comSolX = SOLVENTS.map(function(s) {{ return s.common ? s.dd : null; }});
+        var _comSolY = SOLVENTS.map(function(s) {{ return s.common ? s.dp : null; }});
+        var _comSolZ = SOLVENTS.map(function(s) {{ return s.common ? s.dh : null; }});
+        var _allPolyX = POLYMERS.map(function(p) {{ return p.dd; }});
+        var _allPolyY = POLYMERS.map(function(p) {{ return p.dp; }});
+        var _allPolyZ = POLYMERS.map(function(p) {{ return p.dh; }});
+        var _comPolyX = POLYMERS.map(function(p) {{ return p.common ? p.dd : null; }});
+        var _comPolyY = POLYMERS.map(function(p) {{ return p.common ? p.dp : null; }});
+        var _comPolyZ = POLYMERS.map(function(p) {{ return p.common ? p.dh : null; }});
+        var _comSolColors = null;  // built lazily after _solventColors is populated
+
         function _updatePlotForCommonFilter() {{
             if (!plotDiv || !plotDiv.data) return;
-            // Use dimmed sizes/colors when a search has dimmed the base traces
+            // Build common-only solvent colors lazily (needs _solventColors from buildFullPlot)
+            if (!_comSolColors && _solventColors.length) {{
+                _comSolColors = SOLVENTS.map(function(s, i) {{ return s.common ? (_solventColors[i] || '#888') : 'rgba(0,0,0,0)'; }});
+            }}
+            // Use dimmed styling when a search has dimmed the base traces
             var sSize = _plotDimmed ? 2 : 5;
             var pSize = _plotDimmed ? 3 : 7;
             var sColor = _plotDimmed ? '#999' : null;
@@ -866,22 +889,23 @@ full_html = f"""<!DOCTYPE html>
             var pOpacity = _plotDimmed ? 0.12 : 0.95;
             var hInfo = _plotDimmed ? 'skip' : 'none';
             if (simpleMode) {{
-                // Hide non-common materials by setting marker size to 0
-                var filteredSolventSizes = SOLVENTS.map(function(s) {{ return s.common ? sSize : 0; }});
-                var filteredSolventColors = SOLVENTS.map(function(s, i) {{
-                    return s.common ? (sColor || (_solventColors[i] || '#888')) : 'rgba(0,0,0,0)';
-                }});
-                var filteredPolySizes = POLYMERS.map(function(p) {{ return p.common ? pSize : 0; }});
-                var filteredPolyColors = POLYMERS.map(function(p) {{ return p.common ? pColor : 'rgba(0,0,0,0)'; }});
+                // Hide non-common materials by nulling their coordinates
+                var sColors = _plotDimmed ? sColor : _comSolColors;
                 Plotly.restyle(plotDiv, {{
-                    'marker.size': [filteredSolventSizes, filteredPolySizes],
-                    'marker.color': [filteredSolventColors, filteredPolyColors],
+                    'x': [_comSolX, _comPolyX],
+                    'y': [_comSolY, _comPolyY],
+                    'z': [_comSolZ, _comPolyZ],
+                    'marker.size': [sSize, pSize],
+                    'marker.color': [sColors, pColor],
                     'marker.opacity': [sOpacity, pOpacity],
                     'hoverinfo': [hInfo, hInfo],
                 }}, [0, 1]);
             }} else {{
-                // Restore normal appearance (respecting dim state)
+                // Restore all points with full coordinates
                 Plotly.restyle(plotDiv, {{
+                    'x': [_allSolX, _allPolyX],
+                    'y': [_allSolY, _allPolyY],
+                    'z': [_allSolZ, _allPolyZ],
                     'marker.size': [sSize, pSize],
                     'marker.color': [sColor || _solventColors, pColor],
                     'marker.opacity': [sOpacity, pOpacity],
@@ -1578,14 +1602,9 @@ full_html = f"""<!DOCTYPE html>
             // Restore the 2 base traces to full interactive appearance.
             if (!_plotDimmed) return;
             _plotDimmed = false;
-            Plotly.restyle(plotDiv, {{
-                'marker.size': [5, 7],
-                'marker.color': [_solventColors, 'gold'],
-                'marker.opacity': [0.85, 0.95],
-                'hoverinfo': ['none', 'none'],
-            }}, [0, 1]);
-            // Re-apply common filter if active
-            if (simpleMode) _updatePlotForCommonFilter();
+            // Delegate to _updatePlotForCommonFilter which handles both
+            // coordinate restoration and simpleMode filtering in one restyle.
+            _updatePlotForCommonFilter();
         }}
 
         function updatePlotWithResults(result) {{
@@ -2116,6 +2135,7 @@ full_html = f"""<!DOCTYPE html>
             const q = input.value.trim();
             if (!q) return;
             lastSearchQuery = q;
+            _isSearchActive = true;
             input.value = '';
             const parsed = parseQuery(q);
             const result = executeSearch(parsed);
@@ -2134,6 +2154,7 @@ full_html = f"""<!DOCTYPE html>
         function clearChat() {{
             chatContext = null;
             chatMessages = [];
+            _isSearchActive = false;
             const panel = document.getElementById('chat-panel');
             panel.innerHTML = '';
             panel.classList.remove('visible');
