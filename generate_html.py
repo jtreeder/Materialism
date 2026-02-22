@@ -1754,48 +1754,47 @@ full_html = f"""<!DOCTYPE html>
             return h;
         }}
 
-        // Flush pending annotation change immediately (used by click/pin actions)
+        // Debounced annotation update: coalesces rapid hover AND click events
+        // to avoid stacking expensive Plotly.relayout calls on the 3D scene.
+        var _annotationBusy = false; // true while a relayout is in-flight
+        function _scheduleAnnotation(name) {{
+            _pendingAnnotation = name;
+            if (_annotationTimer) clearTimeout(_annotationTimer);
+            if (_annotationBusy) return; // will flush when current relayout finishes
+            _annotationTimer = setTimeout(_flushAnnotation, 80);
+        }}
         function _flushAnnotation() {{
             clearTimeout(_annotationTimer);
             _annotationTimer = 0;
             var name = _pendingAnnotation;
             _pendingAnnotation = null;
             if (name) {{
-                _applyAnnotation(name);
+                if (_currentAnnotation === name) return;
+                _annotationBusy = true;
+                _applyAnnotation(name).then(function() {{
+                    _annotationBusy = false;
+                    if (_pendingAnnotation != null && _pendingAnnotation !== _currentAnnotation) _flushAnnotation();
+                }});
             }} else {{
                 if (!_currentAnnotation) return;
                 _currentAnnotation = null;
-                Plotly.relayout(plotDiv, {{ 'scene.annotations': [] }});
+                _annotationBusy = true;
+                Plotly.relayout(plotDiv, {{ 'scene.annotations': [] }}).then(function() {{
+                    _annotationBusy = false;
+                    if (_pendingAnnotation != null) _flushAnnotation();
+                }});
             }}
         }}
 
-        // Schedule annotation update; coalesces rapid hover events
-        function _scheduleAnnotation(name) {{
-            _pendingAnnotation = name;
-            if (_annotationTimer) return; // already scheduled
-            _annotationTimer = setTimeout(function() {{
-                _annotationTimer = 0;
-                var pending = _pendingAnnotation;
-                _pendingAnnotation = null;
-                if (pending) {{
-                    _applyAnnotation(pending);
-                }} else {{
-                    if (!_currentAnnotation) return;
-                    _currentAnnotation = null;
-                    Plotly.relayout(plotDiv, {{ 'scene.annotations': [] }});
-                }}
-            }}, 60);
-        }}
-
         function _applyAnnotation(name) {{
-            if (_currentAnnotation === name) return; // already showing this one
+            if (_currentAnnotation === name) return Promise.resolve();
             var mat = _solventMap.get(name);
             var isSolvent = !!mat;
             if (!mat) mat = _polymerMap.get(name);
-            if (!mat) return;
+            if (!mat) return Promise.resolve();
             _currentAnnotation = name;
             var bgColor = isSolvent ? (CAT_COLORS[mat.cat] || '#888') : 'gold';
-            Plotly.relayout(plotDiv, {{
+            return Plotly.relayout(plotDiv, {{
                 'scene.annotations': [
                     // Caret triangle
                     {{
@@ -1828,28 +1827,19 @@ full_html = f"""<!DOCTYPE html>
             }});
         }}
 
-        // Public API: showAnnotation (debounced for hover, immediate for click)
-        function showAnnotation(name, immediate) {{
-            if (immediate) {{
-                _pendingAnnotation = name;
-                _flushAnnotation();
-            }} else {{
-                _scheduleAnnotation(name);
-            }}
+        // Public API: all annotation updates go through the debounced path
+        // to prevent stacking expensive Plotly.relayout calls on rapid clicks.
+        function showAnnotation(name) {{
+            _scheduleAnnotation(name);
         }}
 
-        function hideAnnotation(immediate) {{
-            if (immediate) {{
-                _pendingAnnotation = null;
-                _flushAnnotation();
-            }} else {{
-                _scheduleAnnotation(null);
-            }}
+        function hideAnnotation() {{
+            _scheduleAnnotation(null);
         }}
 
         function unpinAll() {{
             _pinnedName = null;
-            hideAnnotation(true);
+            hideAnnotation();
             if (_prevHighlightedRow) {{ _prevHighlightedRow.style.background = ''; _prevHighlightedRow = null; }}
         }}
 
@@ -1861,7 +1851,7 @@ full_html = f"""<!DOCTYPE html>
                 return;
             }}
             _pinnedName = name;
-            showAnnotation(name, true);
+            showAnnotation(name);
             requestAnimationFrame(function() {{ selectInTable(name); }});
         }}
 
@@ -2203,7 +2193,7 @@ full_html = f"""<!DOCTYPE html>
                         unpinAll();
                     }} else {{
                         _pinnedName = name;
-                        showAnnotation(name, true);
+                        showAnnotation(name);
                         selectInTable(name);
                     }}
                 }} catch(e) {{ console.error('plotly_click error:', e); }}
