@@ -17,9 +17,18 @@ engine = init_db(get_engine(DB_PATH))
 session = get_session(engine)
 seed_database(session)
 
-# Load data from CSV (has per-field source URLs after enrichment)
-CHEM_CSV = os.path.join(os.path.dirname(__file__), "data", "processed", "hsp_chemicals.csv")
-POLY_CSV = os.path.join(os.path.dirname(__file__), "data", "processed", "hsp_polymers.csv")
+# Load data from CSV (unified output from build_unified.py)
+CHEM_CSV = os.path.join(os.path.dirname(__file__), "data", "processed", "unified_chemicals.csv")
+POLY_CSV = os.path.join(os.path.dirname(__file__), "data", "processed", "unified_polymers.csv")
+MANIFEST_PATH = os.path.join(os.path.dirname(__file__), "data", "manifest.json")
+
+# Load manifest for dataset metadata
+if os.path.exists(MANIFEST_PATH):
+    with open(MANIFEST_PATH) as _mf:
+        _manifest = json.load(_mf)
+else:
+    _manifest = {"version": 1, "datasets": {}}
+DATASETS_META = _manifest.get("datasets", {})
 
 # Source display name mapping
 SOURCE_NAMES = {
@@ -221,6 +230,7 @@ with open(CHEM_CSV) as f:
             "mwSrc": mw_src if mw_val else "",
             "bpSrc": bp_src if bp_val else "",
             "common": _is_common_solvent(chem_name, chem_cas),
+            "dsId": row.get("dataset_id", "").strip(),
         })
 
 poly_data = []
@@ -250,6 +260,7 @@ with open(POLY_CSV) as f:
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": src_url,
             "common": _is_common_polymer(poly_name),
+            "dsId": row.get("dataset_id", "").strip(),
         })
 
 CATEGORY_COLORS = {
@@ -337,6 +348,7 @@ solvents_json = json.dumps(solvents)
 polymers_json = json.dumps(poly_data)
 cat_colors_json = json.dumps(CATEGORY_COLORS)
 poly_cat_colors_json = json.dumps(POLYMER_CAT_COLORS)
+datasets_meta_json = json.dumps(DATASETS_META)
 
 # Embed Plotly.js inline so the file works offline / from file://
 import plotly as _plotly_pkg
@@ -593,7 +605,7 @@ full_html = f"""<!DOCTYPE html>
 <body>
     <div class="header">
         <h1 onclick="goHome()">Materialism</h1>
-        <div class="stats"><a href="database.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">Database</a></div>
+        <div class="stats"><a href="manage.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer;margin-right:12px">Manage</a><a href="database.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">Database</a></div>
     </div>
 
     <div class="search-bar">
@@ -605,6 +617,7 @@ full_html = f"""<!DOCTYPE html>
             <span class="simple-slider"></span>
             <span class="simple-label">Common Materials Only</span>
         </label>
+        <div id="ds-toggle-wrap" style="margin-left:auto;display:flex;align-items:center;gap:6px;font-size:0.8rem;color:#636e72;"></div>
     </div>
     <div class="search-options">
         <div class="search-examples">
@@ -664,13 +677,73 @@ full_html = f"""<!DOCTYPE html>
         // ===================== DATA =====================
         const SOLVENTS = {solvents_json};
         const POLYMERS = {polymers_json};
+        const DATASETS_META = {datasets_meta_json};
         // O(1) lookup maps for materials by name
         const _solventMap = new Map(SOLVENTS.map(s => [s.name, s]));
         const _polymerMap = new Map(POLYMERS.map(p => [p.name, p]));
         const CAT_COLORS = {cat_colors_json};
         const POLY_CAT_COLORS = {poly_cat_colors_json};
 
-        // Source base confidence tiers (must match build_hsp_database.py)
+        // Dataset toggle state (shared via localStorage with database.html)
+        const _LS_DS_KEY = 'materialism_active_datasets';
+        function _loadActiveDsets() {{
+            try {{ var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; }} catch(e) {{ return null; }}
+        }}
+        function _saveActiveDsets(obj) {{
+            try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); }} catch(e) {{}}
+        }}
+        function _getActiveDsets() {{
+            var saved = _loadActiveDsets();
+            if (saved) return saved;
+            // Default: all datasets active
+            var d = {{}};
+            Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = true; }});
+            return d;
+        }}
+        function _isDsActive(dsId) {{
+            if (!dsId) return true; // entries without dataset_id always shown
+            var active = _getActiveDsets();
+            return active[dsId] !== false;
+        }}
+        var _activeDsets = _getActiveDsets();
+
+        // Build dataset toggle checkboxes
+        (function() {{
+            var wrap = document.getElementById('ds-toggle-wrap');
+            if (!wrap) return;
+            var dsKeys = Object.keys(DATASETS_META);
+            if (dsKeys.length === 0) return;
+            var lbl = document.createElement('span');
+            lbl.textContent = 'Datasets:';
+            lbl.style.fontWeight = '600';
+            wrap.appendChild(lbl);
+            dsKeys.forEach(function(k) {{
+                var ds = DATASETS_META[k];
+                var label = document.createElement('label');
+                label.style.cssText = 'display:flex;align-items:center;gap:3px;cursor:pointer;';
+                var cb = document.createElement('input');
+                cb.type = 'checkbox';
+                cb.checked = _activeDsets[k] !== false;
+                cb.onchange = function() {{
+                    _activeDsets[k] = cb.checked;
+                    _saveActiveDsets(_activeDsets);
+                    if (typeof buildFullPlot === 'function') buildFullPlot();
+                }};
+                label.appendChild(cb);
+                label.appendChild(document.createTextNode(ds.name || k));
+                wrap.appendChild(label);
+            }});
+        }})();
+
+        // Filter arrays by active datasets
+        function _dsFilterSolvents() {{
+            return SOLVENTS.filter(function(s) {{ return _isDsActive(s.dsId); }});
+        }}
+        function _dsFilterPolymers() {{
+            return POLYMERS.filter(function(p) {{ return _isDsActive(p.dsId); }});
+        }}
+
+        // Source base confidence tiers
         var SRC_TIERS = {{
             'Hansen Handbook 2007': 50, 'Mendeley (Langner 2022)': 40,
             'SolvPred (Fang)': 35, 'Accudyne Test': 40, 'Wolfram Data Repo': 35,
@@ -1611,14 +1684,17 @@ full_html = f"""<!DOCTYPE html>
 
         function buildFullPlot() {{
             plotDiv = document.getElementById('plotly-div');
+            // Filter by active datasets
+            var fSolv = _dsFilterSolvents();
+            var fPoly = _dsFilterPolymers();
             // Single trace for all solvents with per-point colors (instead of 22+ traces)
-            _solventColors = SOLVENTS.map(s => CAT_COLORS[s.cat] || '#888');
-            _polymerColors = POLYMERS.map(p => POLY_CAT_COLORS[p.cat] || '#a9a9a9');
+            _solventColors = fSolv.map(s => CAT_COLORS[s.cat] || '#888');
+            _polymerColors = fPoly.map(p => POLY_CAT_COLORS[p.cat] || '#a9a9a9');
             fullTraces = [
                 {{
                     type: 'scatter3d', mode: 'markers',
                     name: 'Solvents',
-                    x: SOLVENTS.map(s => s.dd), y: SOLVENTS.map(s => s.dp), z: SOLVENTS.map(s => s.dh),
+                    x: fSolv.map(s => s.dd), y: fSolv.map(s => s.dp), z: fSolv.map(s => s.dh),
                     hoverinfo: 'none',
                     marker: {{ size: 5, color: _solventColors, opacity: 0.85 }},
                     showlegend: false,
@@ -1626,7 +1702,7 @@ full_html = f"""<!DOCTYPE html>
                 {{
                     type: 'scatter3d', mode: 'markers',
                     name: 'Polymers',
-                    x: POLYMERS.map(p => p.dd), y: POLYMERS.map(p => p.dp), z: POLYMERS.map(p => p.dh),
+                    x: fPoly.map(p => p.dd), y: fPoly.map(p => p.dp), z: fPoly.map(p => p.dh),
                     hoverinfo: 'none',
                     marker: {{ size: 7, color: _polymerColors, symbol: 'diamond', opacity: 0.95 }},
                     showlegend: false,
@@ -2137,7 +2213,7 @@ full_html = f"""<!DOCTYPE html>
                     headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
-                var filtered = SOLVENTS;
+                var filtered = _dsFilterSolvents();
                 if (simpleMode) {{
                     filtered = filtered.filter(function(s) {{ return s.common; }});
                 }}
@@ -2178,7 +2254,7 @@ full_html = f"""<!DOCTYPE html>
                     headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
-                var filtered = POLYMERS;
+                var filtered = _dsFilterPolymers();
                 if (simpleMode) {{
                     filtered = filtered.filter(function(p) {{ return p.common; }});
                 }}
@@ -2437,6 +2513,7 @@ with open(CHEM_CSV) as f:
             "srcN": int(row.get("source_count", "1").strip() or "1"),
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": row.get("source_url", "").strip(),
+            "dsId": row.get("dataset_id", "").strip(),
         })
 db_polymers = []
 with open(POLY_CSV) as f:
@@ -2459,6 +2536,7 @@ with open(POLY_CSV) as f:
             "srcN": int(row.get("source_count", "1").strip() or "1"),
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": row.get("source_url", "").strip(),
+            "dsId": row.get("dataset_id", "").strip(),
         })
 
 db_solvents_json = json.dumps(db_solvents)
@@ -2626,6 +2704,7 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
     <h1><a href="materialism.html">Materialism</a> — Database</h1>
     <div class="nav-links">
         <a href="cas_review.html">Crosslink</a>
+        <a href="manage.html" style="margin-right:12px">Manage Datasets</a>
         <a href="materialism.html">Search</a>
     </div>
 </div>
@@ -2635,6 +2714,7 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
         <button id="tab-poly" class="db-tab" onclick="switchTab('polymers')">Polymers ({len(db_polymers)})</button>
     </div>
     <input type="text" id="db-filter" placeholder="Filter by name or CAS..." oninput="renderTable()">
+    <div id="ds-toggle-db" style="display:flex;align-items:center;gap:6px;font-size:0.8rem;color:#636e72;margin-left:8px;"></div>
     <button id="lock-btn" class="lock-btn" onclick="toggleLock()" title="Click to unlock editing">
         <svg id="icon-locked" viewBox="0 0 24 24"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1m-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3z"/></svg>
         <svg id="icon-unlocked" viewBox="0 0 24 24" style="display:none"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h9V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3H7a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1z"/></svg>
@@ -2653,6 +2733,14 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
 var SOLVENTS = {db_solvents_json};
 var POLYMERS = {db_polymers_json};
 var CAS_CANDIDATES = {cas_candidates_json};
+var DATASETS_META = {datasets_meta_json};
+// Dataset toggle state (shared with materialism.html via localStorage)
+var _LS_DS_KEY = 'materialism_active_datasets';
+function _loadActiveDsets() {{ try {{ var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; }} catch(e) {{ return null; }} }}
+function _saveActiveDsets(obj) {{ try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); }} catch(e) {{}} }}
+function _getActiveDsets() {{ var s = _loadActiveDsets(); if (s) return s; var d = {{}}; Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = true; }}); return d; }}
+var _activeDsets = _getActiveDsets();
+function _isDsActive(dsId) {{ if (!dsId) return true; return _activeDsets[dsId] !== false; }}
 var SRC_TIERS = {{
     'Hansen Handbook 2007': 50, 'Mendeley (Langner 2022)': 40,
     'SolvPred (Fang)': 35, 'Accudyne Test': 40, 'Wolfram Data Repo': 35,
@@ -2820,6 +2908,8 @@ function renderTable() {{
     // Build index array for filtering
     var indices = [];
     for (var i = 0; i < data.length; i++) {{
+        // Dataset filter
+        if (!_isDsActive(data[i].dsId)) continue;
         if (filter) {{
             var row = data[i];
             var name = getVal(activeTab, i, 'name').toLowerCase();
@@ -2945,6 +3035,33 @@ var _srcOptions = (function() {{
 }})();
 
 loadEdits();
+// Build dataset toggle checkboxes for database page
+(function() {{
+    var wrap = document.getElementById('ds-toggle-db');
+    if (!wrap) return;
+    var dsKeys = Object.keys(DATASETS_META);
+    if (dsKeys.length === 0) return;
+    var lbl = document.createElement('span');
+    lbl.textContent = 'Datasets:';
+    lbl.style.fontWeight = '600';
+    wrap.appendChild(lbl);
+    dsKeys.forEach(function(k) {{
+        var ds = DATASETS_META[k];
+        var label = document.createElement('label');
+        label.style.cssText = 'display:flex;align-items:center;gap:3px;cursor:pointer;';
+        var cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.checked = _activeDsets[k] !== false;
+        cb.onchange = function() {{
+            _activeDsets[k] = cb.checked;
+            _saveActiveDsets(_activeDsets);
+            renderTable();
+        }};
+        label.appendChild(cb);
+        label.appendChild(document.createTextNode(ds.name || k));
+        wrap.appendChild(label);
+    }});
+}})();
 renderTable();
 // Shared confidence tooltip
 var _confTip = null;
@@ -3088,3 +3205,303 @@ with open(db_output_path, "w") as f:
     f.write(database_html)
 print(f"Generated: {db_output_path}")
 print(f"Database page: {len(db_solvents)} solvents, {len(db_polymers)} polymers")
+
+# ===================== MANAGE PAGE =====================
+# Load per-dataset data for the management page
+DATASETS_DIR = os.path.join(os.path.dirname(__file__), "data", "datasets")
+per_dataset_data = {}
+for ds_id, ds_meta in DATASETS_META.items():
+    ds_dir = os.path.join(DATASETS_DIR, ds_id)
+    chems = []
+    polys = []
+    chem_path = os.path.join(ds_dir, "chemicals.csv")
+    poly_path = os.path.join(ds_dir, "polymers.csv")
+    if os.path.exists(chem_path):
+        with open(chem_path, encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                dd = row.get("delta_d", "").strip()
+                dp = row.get("delta_p", "").strip()
+                dh = row.get("delta_h", "").strip()
+                if not (dd and dp and dh):
+                    continue
+                chems.append({
+                    "name": row.get("name", "").strip(),
+                    "cas": row.get("cas_number", "").strip(),
+                    "smiles": row.get("smiles", "").strip(),
+                    "formula": row.get("molecular_formula", "").strip(),
+                    "dd": dd, "dp": dp, "dh": dh,
+                    "mw": row.get("molecular_weight", "").strip(),
+                    "bp": row.get("boiling_point", "").strip(),
+                    "density": row.get("density", "").strip(),
+                    "mv": row.get("molar_volume", "").strip(),
+                    "cat": row.get("category", "other").strip() or "other",
+                    "ghs": row.get("ghs_hazard", "").strip(),
+                    "conf": row.get("confidence", "").strip(),
+                })
+    if os.path.exists(poly_path):
+        with open(poly_path, encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                dd = row.get("delta_d", "").strip()
+                dp = row.get("delta_p", "").strip()
+                dh = row.get("delta_h", "").strip()
+                if not (dd and dp and dh):
+                    continue
+                polys.append({
+                    "name": row.get("name", "").strip(),
+                    "cas": row.get("cas_number", "").strip(),
+                    "dd": dd, "dp": dp, "dh": dh,
+                    "r": row.get("radius", "").strip(),
+                    "type": row.get("type", "").strip(),
+                    "conf": row.get("confidence", "").strip(),
+                })
+    per_dataset_data[ds_id] = {"chemicals": chems, "polymers": polys, "meta": ds_meta}
+
+per_dataset_json = json.dumps(per_dataset_data)
+
+manage_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Materialism — Manage Datasets</title>
+<style>
+* {{ margin: 0; padding: 0; box-sizing: border-box; }}
+body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; flex-direction: column; height: 100vh; }}
+.header {{ background: #fff; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #dfe6e9; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }}
+.header h1 {{ font-size: 1.5rem; color: #e94560; }}
+.header h1 a {{ color: #e94560; text-decoration: none; }}
+.header .nav-links {{ color: #636e72; font-size: 0.9rem; display: flex; align-items: center; gap: 12px; }}
+.header .nav-links a {{ color: #636e72; text-decoration: none; border-bottom: 1px dotted #b2bec3; cursor: pointer; }}
+.main {{ display: flex; flex: 1; overflow: hidden; }}
+.sidebar {{ width: 280px; background: #fff; border-right: 1px solid #dfe6e9; overflow-y: auto; padding: 12px; }}
+.ds-card {{
+    padding: 12px; margin-bottom: 8px; border: 1px solid #dfe6e9; border-radius: 6px;
+    cursor: pointer; transition: all 0.2s;
+}}
+.ds-card:hover {{ border-color: #b2bec3; background: #f8f9fa; }}
+.ds-card.active {{ border-color: #e94560; background: #fff5f7; }}
+.ds-card h3 {{ font-size: 0.9rem; color: #2d3436; margin-bottom: 4px; }}
+.ds-card .ds-counts {{ font-size: 0.75rem; color: #636e72; }}
+.ds-card .ds-status {{ display: inline-block; font-size: 0.7rem; padding: 1px 6px; border-radius: 3px; margin-top: 4px; }}
+.ds-card .ds-status.on {{ background: #d5f5e3; color: #27ae60; }}
+.ds-card .ds-status.off {{ background: #fadbd8; color: #e74c3c; }}
+.content {{ flex: 1; overflow: auto; padding: 20px; }}
+.ds-detail-header {{ margin-bottom: 16px; }}
+.ds-detail-header h2 {{ font-size: 1.2rem; color: #2d3436; margin-bottom: 6px; }}
+.ds-detail-header .ds-meta {{ font-size: 0.82rem; color: #636e72; line-height: 1.6; }}
+.ds-detail-header .ds-meta a {{ color: #0984e3; }}
+.ds-detail-header .toggle-btn {{
+    display: inline-block; padding: 4px 12px; border: 1px solid #dfe6e9; border-radius: 4px;
+    font-size: 0.8rem; cursor: pointer; background: #fff; margin-top: 6px; transition: all 0.2s;
+}}
+.ds-detail-header .toggle-btn:hover {{ background: #f5f6fa; }}
+.ds-detail-header .toggle-btn.on {{ border-color: #27ae60; color: #27ae60; }}
+.ds-detail-header .toggle-btn.off {{ border-color: #e74c3c; color: #e74c3c; }}
+.filter-row {{ margin-bottom: 10px; }}
+.filter-row input {{ padding: 6px 10px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.82rem; width: 250px; }}
+.filter-row input:focus {{ outline: none; border-color: #e94560; }}
+table {{ width: 100%; border-collapse: collapse; font-size: 0.8rem; }}
+th {{
+    background: #f0f2f5; color: #e94560; padding: 8px 10px; text-align: left;
+    font-weight: 600; position: sticky; top: 0; z-index: 1;
+    border-bottom: 2px solid #dfe6e9; white-space: nowrap; cursor: pointer;
+}}
+th:hover {{ background: #e8eaed; }}
+td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }}
+.empty-state {{
+    text-align: center; padding: 60px 20px; color: #636e72;
+}}
+.empty-state h2 {{ font-size: 1.4rem; color: #2d3436; margin-bottom: 12px; }}
+.empty-state p {{ font-size: 0.95rem; line-height: 1.6; max-width: 500px; margin: 0 auto; }}
+.empty-state code {{ background: #f0f2f5; padding: 2px 6px; border-radius: 3px; font-size: 0.85rem; }}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1><a href="materialism.html">Materialism</a> &mdash; Manage Datasets</h1>
+    <div class="nav-links">
+        <a href="database.html">Database</a>
+        <a href="materialism.html">Search</a>
+    </div>
+</div>
+<div class="main">
+    <div class="sidebar" id="sidebar"></div>
+    <div class="content" id="content">
+        <div class="empty-state" id="empty-state">
+            <h2>No datasets imported</h2>
+            <p>Import a dataset to get started:<br><br>
+            <code>python import_dataset.py --file your_data.csv --id my_dataset</code><br><br>
+            Then rebuild:<br>
+            <code>python build_unified.py && python generate_html.py</code></p>
+        </div>
+    </div>
+</div>
+<script>
+var DATASETS = {per_dataset_json};
+var _LS_DS_KEY = 'materialism_active_datasets';
+function _loadA() {{ try {{ var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; }} catch(e) {{ return null; }} }}
+function _saveA(obj) {{ try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); }} catch(e) {{}} }}
+function _getA() {{ var s = _loadA(); if (s) return s; var d = {{}}; Object.keys(DATASETS).forEach(function(k) {{ d[k] = true; }}); return d; }}
+var _activeDsets = _getA();
+var _currentDs = null;
+var _filterText = '';
+var _sortCol = null;
+var _sortAsc = true;
+
+function buildSidebar() {{
+    var sb = document.getElementById('sidebar');
+    var dsKeys = Object.keys(DATASETS);
+    if (dsKeys.length === 0) {{
+        sb.innerHTML = '<div style="padding:20px;color:#636e72;font-size:0.85rem">No datasets yet.</div>';
+        return;
+    }}
+    document.getElementById('empty-state').style.display = 'none';
+    var html = '';
+    dsKeys.forEach(function(k) {{
+        var ds = DATASETS[k];
+        var m = ds.meta || {{}};
+        var active = _activeDsets[k] !== false;
+        var sel = _currentDs === k ? ' active' : '';
+        var nc = (ds.chemicals || []).length;
+        var np = (ds.polymers || []).length;
+        html += '<div class="ds-card' + sel + '" onclick="selectDs(\\'' + k + '\\')">';
+        html += '<h3>' + (m.name || k) + '</h3>';
+        html += '<div class="ds-counts">' + nc + ' chemicals, ' + np + ' polymers</div>';
+        html += '<span class="ds-status ' + (active ? 'on' : 'off') + '">' + (active ? 'Active' : 'Inactive') + '</span>';
+        html += '</div>';
+    }});
+    sb.innerHTML = html;
+}}
+
+function selectDs(dsId) {{
+    _currentDs = dsId;
+    _filterText = '';
+    _sortCol = null;
+    _sortAsc = true;
+    buildSidebar();
+    renderDetail();
+}}
+
+function toggleDs(dsId) {{
+    _activeDsets[dsId] = !(_activeDsets[dsId] !== false);
+    _saveA(_activeDsets);
+    buildSidebar();
+    renderDetail();
+}}
+
+function renderDetail() {{
+    var ct = document.getElementById('content');
+    if (!_currentDs) {{
+        ct.innerHTML = '<div class="empty-state"><h2>Select a dataset</h2><p>Click a dataset in the sidebar to view its data.</p></div>';
+        return;
+    }}
+    var ds = DATASETS[_currentDs];
+    var m = ds.meta || {{}};
+    var active = _activeDsets[_currentDs] !== false;
+    var nc = (ds.chemicals || []).length;
+    var np = (ds.polymers || []).length;
+
+    var html = '<div class="ds-detail-header">';
+    html += '<h2>' + (m.name || _currentDs) + '</h2>';
+    html += '<div class="ds-meta">';
+    if (m.source_url) html += 'Source: <a href="' + m.source_url + '" target="_blank">' + m.source_url + '</a><br>';
+    if (m.imported_at) html += 'Imported: ' + m.imported_at.replace('T', ' ').replace(/\\..*/,'') + '<br>';
+    html += nc + ' chemicals, ' + np + ' polymers<br>';
+    if (m.confidence_tier != null) html += 'Confidence tier: ' + m.confidence_tier + '<br>';
+    if (m.quality_notes) html += 'Notes: ' + m.quality_notes + '<br>';
+    if (m.fields_available) html += 'Fields: ' + m.fields_available.join(', ') + '<br>';
+    html += '</div>';
+    html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\\'' + _currentDs + '\\')">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
+    html += '</div>';
+
+    html += '<div class="filter-row"><input type="text" id="manage-filter" placeholder="Filter by name or CAS..." oninput="_filterText=this.value;renderDetail()" value="' + (_filterText||'').replace(/"/g,'&quot;') + '"></div>';
+
+    // Determine what data to show
+    var items, cols;
+    if (nc > 0) {{
+        items = ds.chemicals;
+        cols = ['name','cas','dd','dp','dh','mw','bp','cat','conf'];
+    }} else {{
+        items = ds.polymers;
+        cols = ['name','cas','dd','dp','dh','r','type','conf'];
+    }}
+
+    if (!items || items.length === 0) {{
+        html += '<p style="color:#636e72">No data in this dataset.</p>';
+        ct.innerHTML = html;
+        return;
+    }}
+
+    // Filter
+    var filtered = items;
+    if (_filterText) {{
+        var q = _filterText.toLowerCase();
+        filtered = filtered.filter(function(r) {{
+            return (r.name||'').toLowerCase().indexOf(q) !== -1 || (r.cas||'').indexOf(q) !== -1;
+        }});
+    }}
+
+    // Sort
+    if (_sortCol !== null && cols[_sortCol]) {{
+        var sk = cols[_sortCol];
+        filtered = filtered.slice().sort(function(a,b) {{
+            var va = a[sk]||'', vb = b[sk]||'';
+            var na = parseFloat(va), nb = parseFloat(vb);
+            if (!isNaN(na) && !isNaN(nb)) return _sortAsc ? na-nb : nb-na;
+            return _sortAsc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+        }});
+    }}
+
+    var colLabels = {{
+        name:'Name', cas:'CAS #', dd:'\\u03b4D', dp:'\\u03b4P', dh:'\\u03b4H',
+        mw:'MW', bp:'BP', cat:'Category', conf:'Conf.', r:'R\\u2080', type:'Type',
+        smiles:'SMILES', formula:'Formula', density:'Density', mv:'V_m', ghs:'GHS'
+    }};
+
+    html += '<table><thead><tr>';
+    cols.forEach(function(c, i) {{
+        html += '<th onclick="manageSort(' + i + ')">' + (colLabels[c]||c);
+        if (_sortCol === i) html += _sortAsc ? ' \\u25B2' : ' \\u25BC';
+        html += '</th>';
+    }});
+    html += '</tr></thead><tbody>';
+    var limit = Math.min(filtered.length, 2000);
+    for (var i = 0; i < limit; i++) {{
+        var r = filtered[i];
+        html += '<tr>';
+        cols.forEach(function(c) {{
+            var v = r[c]; if (v == null) v = '';
+            html += '<td title="' + String(v).replace(/"/g,'&quot;') + '">' + v + '</td>';
+        }});
+        html += '</tr>';
+    }}
+    if (filtered.length > limit) {{
+        html += '<tr><td colspan="' + cols.length + '" style="color:#636e72;text-align:center">... and ' + (filtered.length - limit) + ' more rows</td></tr>';
+    }}
+    html += '</tbody></table>';
+    html += '<div style="margin-top:8px;font-size:0.8rem;color:#636e72">Showing ' + Math.min(limit, filtered.length) + ' of ' + filtered.length + ' entries</div>';
+
+    ct.innerHTML = html;
+}}
+
+function manageSort(col) {{
+    if (_sortCol === col) _sortAsc = !_sortAsc;
+    else {{ _sortCol = col; _sortAsc = true; }}
+    renderDetail();
+}}
+
+// Init
+buildSidebar();
+var dsKeys = Object.keys(DATASETS);
+if (dsKeys.length > 0) selectDs(dsKeys[0]);
+</script>
+</body>
+</html>"""
+
+manage_output_path = os.path.join(os.path.dirname(__file__), "manage.html")
+with open(manage_output_path, "w") as f:
+    f.write(manage_html)
+print(f"Generated: {manage_output_path}")
+ds_total_chems = sum(len(d.get("chemicals", [])) for d in per_dataset_data.values())
+ds_total_polys = sum(len(d.get("polymers", [])) for d in per_dataset_data.values())
+print(f"Manage page: {len(per_dataset_data)} datasets, {ds_total_chems} chemicals, {ds_total_polys} polymers")
