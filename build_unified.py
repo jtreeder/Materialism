@@ -2,8 +2,8 @@
 """Build unified HSP database from all active datasets in the manifest.
 
 Reads data/manifest.json, loads each active dataset's chemicals.csv and
-polymers.csv, merges/deduplicates across datasets, and produces unified
-output files for generate_html.py.
+polymers.csv, merges/deduplicates across datasets, and writes unified
+output CSVs to data/processed/.
 
 Usage:
     python build_unified.py
@@ -15,141 +15,104 @@ import os
 import sys
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, BASE_DIR)
+
+from lib.normalize import normalize_cas
+from lib.classify import classify_chemical, classify_polymer
+from lib.confidence import compute_confidence
+from lib.merge import merge_chemicals_with_tracking, merge_polymers
+from lib.schema import CHEMICAL_FIELDS, POLYMER_FIELDS
+
 DATASETS_DIR = os.path.join(BASE_DIR, "data", "datasets")
 MANIFEST_PATH = os.path.join(BASE_DIR, "data", "manifest.json")
 OUT_DIR = os.path.join(BASE_DIR, "data", "processed")
 
-sys.path.insert(0, BASE_DIR)
-from lib.classify import classify_chemical, classify_polymer
-from lib.confidence import compute_confidence
-from lib.merge import merge_chemicals_with_tracking, merge_polymers
-from lib.normalize import parse_float
-from lib.schema import CHEMICAL_FIELDS, POLYMER_FIELDS
-
 
 def load_manifest():
-    """Load manifest, returning empty structure if missing."""
     if not os.path.exists(MANIFEST_PATH):
         return {"version": 1, "datasets": {}}
-    with open(MANIFEST_PATH) as f:
+    with open(MANIFEST_PATH, "r") as f:
         return json.load(f)
 
 
-def load_dataset_chemicals(ds_id, ds_dir, confidence_tier=None):
-    """Load chemicals.csv from a dataset directory."""
-    path = os.path.join(ds_dir, "chemicals.csv")
-    if not os.path.exists(path):
+def load_dataset_csv(filepath, fields):
+    """Load a per-dataset CSV into a list of dicts."""
+    if not os.path.exists(filepath):
         return []
-
-    chemicals = []
-    with open(path, encoding="utf-8") as f:
-        for row in csv.DictReader(f):
-            # Parse numeric fields
-            for field in ("delta_d", "delta_p", "delta_h",
-                          "molecular_weight", "boiling_point", "density",
-                          "molar_volume", "confidence"):
-                val = row.get(field, "")
-                row[field] = parse_float(val)
-
-            row["source_count"] = int(row.get("source_count", 1) or 1)
-            row["dataset_id"] = ds_id
-
-            # Skip rows without HSP triplet
-            if row["delta_d"] is None or row["delta_p"] is None or row["delta_h"] is None:
-                continue
-
-            chemicals.append(row)
-    return chemicals
-
-
-def load_dataset_polymers(ds_id, ds_dir, confidence_tier=None):
-    """Load polymers.csv from a dataset directory."""
-    path = os.path.join(ds_dir, "polymers.csv")
-    if not os.path.exists(path):
-        return []
-
-    polymers = []
-    with open(path, encoding="utf-8") as f:
-        for row in csv.DictReader(f):
-            for field in ("delta_d", "delta_p", "delta_h", "radius", "confidence"):
-                val = row.get(field, "")
-                row[field] = parse_float(val)
-
-            row["source_count"] = int(row.get("source_count", 1) or 1)
-            row["dataset_id"] = ds_id
-
-            if row["delta_d"] is None or row["delta_p"] is None or row["delta_h"] is None:
-                continue
-
-            polymers.append(row)
-    return polymers
-
-
-def write_csv_file(data, filepath, fields):
-    """Write a list of dicts to a CSV file."""
-    with open(filepath, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
-        writer.writeheader()
-        for entry in data:
-            row = {}
+    rows = []
+    with open(filepath, "r", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            entry = {}
             for field in fields:
-                val = entry.get(field)
-                row[field] = val if val is not None else ""
-            writer.writerow(row)
+                val = row.get(field, "")
+                if val == "":
+                    val = None if field not in ("name", "cas_number", "smiles",
+                                                 "molecular_formula", "category",
+                                                 "ghs_hazard", "source", "source_url",
+                                                 "hidden", "type") else ""
+                entry[field] = val
+            # Parse numeric fields
+            for nf in ("delta_d", "delta_p", "delta_h", "molecular_weight",
+                       "boiling_point", "density", "molar_volume", "confidence",
+                       "radius"):
+                if nf in entry and entry[nf] is not None:
+                    try:
+                        entry[nf] = float(entry[nf])
+                    except (ValueError, TypeError):
+                        entry[nf] = None
+            if "source_count" in entry and entry["source_count"] is not None:
+                try:
+                    entry["source_count"] = int(entry["source_count"])
+                except (ValueError, TypeError):
+                    entry["source_count"] = 1
+            rows.append(entry)
+    return rows
 
 
 def main():
-    print("Building unified HSP database from manifest...\n")
+    print("Building unified HSP database from manifest...")
+    print()
 
     manifest = load_manifest()
     datasets = manifest.get("datasets", {})
 
-    if not datasets:
-        print("No datasets in manifest. Database will be empty.")
-        print("Use import_dataset.py to add datasets.\n")
+    active_datasets = {k: v for k, v in datasets.items() if v.get("active", True)}
+    print(f"Manifest: {len(datasets)} total datasets, {len(active_datasets)} active")
+    print()
 
-    # Load all active datasets
     all_chemicals = []
     all_polymers = []
-    active_count = 0
 
-    for ds_id, ds_meta in sorted(datasets.items()):
-        active = ds_meta.get("active", True)
+    for ds_id, ds_meta in sorted(active_datasets.items()):
         ds_dir = os.path.join(DATASETS_DIR, ds_id)
-        tier = ds_meta.get("confidence_tier")
+        chem_path = os.path.join(ds_dir, "chemicals.csv")
+        poly_path = os.path.join(ds_dir, "polymers.csv")
 
-        status = "active" if active else "INACTIVE (skipped)"
-        print(f"  {ds_id}: {ds_meta.get('name', ds_id)} - {status}")
+        chems = load_dataset_csv(chem_path, CHEMICAL_FIELDS)
+        polys = load_dataset_csv(poly_path, POLYMER_FIELDS)
 
-        if not active:
-            continue
-
-        if not os.path.isdir(ds_dir):
-            print(f"    WARNING: Directory not found: {ds_dir}")
-            continue
-
-        active_count += 1
-        chems = load_dataset_chemicals(ds_id, ds_dir, tier)
-        polys = load_dataset_polymers(ds_id, ds_dir, tier)
-        print(f"    Loaded: {len(chems)} chemicals, {len(polys)} polymers")
+        chem_count = len(chems)
+        poly_count = len(polys)
+        print(f"  {ds_id:30s}: {chem_count:>5} chemicals, {poly_count:>4} polymers")
 
         all_chemicals.extend(chems)
         all_polymers.extend(polys)
 
-    print(f"\n  Total raw: {len(all_chemicals)} chemicals, {len(all_polymers)} polymers")
-    print(f"  Active datasets: {active_count}")
+    print(f"  {'':30s}  -----")
+    print(f"  {'Total raw':30s}: {len(all_chemicals):>5} chemicals, {len(all_polymers):>4} polymers")
+    print()
 
-    # Merge/deduplicate across datasets
-    print("\nMerging and deduplicating...")
+    # Merge / deduplicate
+    print("Merging and deduplicating...")
     merged_chems, duplicates_map = merge_chemicals_with_tracking(all_chemicals)
     merged_polys = merge_polymers(all_polymers)
     print(f"  Result: {len(merged_chems)} unique chemicals, {len(merged_polys)} unique polymers")
-    if duplicates_map:
-        print(f"  Duplicate groups: {len(duplicates_map)}")
+    print(f"  Duplicate groups: {len(duplicates_map)}")
 
-    # Enrich CAS from cache
+    # CAS enrichment from cache
     cas_cache_path = os.path.join(OUT_DIR, ".cas_cache.json")
-    if os.path.exists(cas_cache_path) and merged_chems:
+    if os.path.exists(cas_cache_path):
         with open(cas_cache_path) as f:
             cas_cache = json.load(f)
         enriched = 0
@@ -162,40 +125,53 @@ def main():
         if enriched:
             print(f"  CAS enrichment from cache: {enriched} additional CAS numbers")
 
-    # Classify unclassified entries
+    # Classify and score
     for chem in merged_chems:
         if not chem.get("category"):
-            chem["category"] = classify_chemical(chem.get("name", ""), chem.get("smiles"))
+            chem["category"] = classify_chemical(chem["name"], chem.get("smiles"))
+        chem["confidence"] = compute_confidence(chem, is_polymer=False)
+
     for poly in merged_polys:
         if not poly.get("type"):
-            poly["type"] = classify_polymer(poly.get("name", ""))
-
-    # Recompute confidence (after CAS enrichment)
-    for chem in merged_chems:
-        chem["confidence"] = compute_confidence(chem, is_polymer=False)
-    for poly in merged_polys:
+            poly["type"] = classify_polymer(poly["name"])
         poly["confidence"] = compute_confidence(poly, is_polymer=True)
 
     # Sort
     merged_chems.sort(key=lambda x: (x.get("name") or "").lower())
     merged_polys.sort(key=lambda x: (x.get("name") or "").lower())
 
-    # Write outputs
+    # Write unified CSVs
     os.makedirs(OUT_DIR, exist_ok=True)
 
     chem_path = os.path.join(OUT_DIR, "unified_chemicals.csv")
-    write_csv_file(merged_chems, chem_path, CHEMICAL_FIELDS)
-    print(f"\n  Written: {chem_path} ({len(merged_chems)} chemicals)")
+    with open(chem_path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=CHEMICAL_FIELDS, extrasaction="ignore")
+        writer.writeheader()
+        for chem in merged_chems:
+            row = {}
+            for field in CHEMICAL_FIELDS:
+                val = chem.get(field)
+                row[field] = val if val is not None else ""
+            writer.writerow(row)
+    print(f"  Written: {chem_path}")
 
     poly_path = os.path.join(OUT_DIR, "unified_polymers.csv")
-    write_csv_file(merged_polys, poly_path, POLYMER_FIELDS)
-    print(f"  Written: {poly_path} ({len(merged_polys)} polymers)")
+    with open(poly_path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=POLYMER_FIELDS, extrasaction="ignore")
+        writer.writeheader()
+        for poly in merged_polys:
+            row = {}
+            for field in POLYMER_FIELDS:
+                val = poly.get(field)
+                row[field] = val if val is not None else ""
+            writer.writerow(row)
+    print(f"  Written: {poly_path}")
 
     # Write duplicates map
     dup_path = os.path.join(OUT_DIR, "duplicates.json")
     with open(dup_path, "w") as f:
         json.dump(duplicates_map, f, indent=2)
-    print(f"  Written: {dup_path} ({len(duplicates_map)} duplicate groups)")
+    print(f"  Written: {dup_path}")
 
     # Summary
     print()
@@ -208,19 +184,20 @@ def main():
         # Source breakdown
         source_counts = {}
         for chem in merged_chems:
-            src = chem.get("dataset_id") or chem.get("source", "unknown")
+            src = chem.get("source", "unknown")
             source_counts[src] = source_counts.get(src, 0) + 1
-        print("\nChemicals by dataset:")
+        print("\nChemicals by primary source:")
         for src, count in sorted(source_counts.items(), key=lambda x: -x[1]):
-            print(f"  {src:25s}: {count:>5}")
+            print(f"  {src:30s}: {count:>5}")
 
-        # Metadata completeness
-        has_cas = sum(1 for c in merged_chems if c.get("cas_number"))
-        has_smiles = sum(1 for c in merged_chems if c.get("smiles"))
-        n = len(merged_chems)
-        print(f"\nMetadata completeness:")
-        print(f"  CAS number:   {has_cas:>5}/{n} ({100*has_cas/n:.0f}%)")
-        print(f"  SMILES:       {has_smiles:>5}/{n} ({100*has_smiles/n:.0f}%)")
+        # Category breakdown
+        cat_counts = {}
+        for chem in merged_chems:
+            cat = chem.get("category", "other")
+            cat_counts[cat] = cat_counts.get(cat, 0) + 1
+        print("\nChemicals by category:")
+        for cat, count in sorted(cat_counts.items(), key=lambda x: -x[1]):
+            print(f"  {cat:20s}: {count:>5}")
 
 
 if __name__ == "__main__":

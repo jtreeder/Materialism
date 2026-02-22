@@ -5,7 +5,6 @@ def classify_chemical(name, smiles=None):
     """Simple rule-based classification based on name/SMILES patterns."""
     name_lower = name.lower() if name else ""
 
-    # Alcohols (check before hydrocarbons due to overlap like "cyclohexanol")
     if any(x in name_lower for x in [
         "methanol", "ethanol", "propanol", "butanol", "pentanol", "hexanol",
         "octanol", "heptanol", "nonanol", "decanol", "alcohol", "glycol",
@@ -15,7 +14,6 @@ def classify_chemical(name, smiles=None):
     ]):
         return "alcohol"
 
-    # Amides (check before amines)
     if any(x in name_lower for x in [
         "formamide", "acetamide", "pyrrolidone", "pyrrolidinone",
         "nmp", "dmf", "dmac", "caprolactam", "dimethylformamide",
@@ -23,7 +21,6 @@ def classify_chemical(name, smiles=None):
     ]):
         return "amide"
 
-    # Glycol ethers (check before ethers)
     if any(x in name_lower for x in [
         "methoxyethanol", "ethoxyethanol", "butoxyethanol", "propoxyethanol",
         "glycol ether", "cellosolve", "carbitol", "dowanol",
@@ -32,7 +29,6 @@ def classify_chemical(name, smiles=None):
     ]):
         return "glycol ether"
 
-    # Esters (check before acids)
     if any(x in name_lower for x in [
         "acetate", "formate", "propionate", "butyrate", "benzoate",
         "lactone", "butyrolactone", "propiolactone", "valerolactone",
@@ -42,7 +38,6 @@ def classify_chemical(name, smiles=None):
     ]):
         return "ester"
 
-    # Ketones
     if any(x in name_lower for x in [
         "acetone", "ketone", "cyclohexanone", "cyclopentanone",
         "acetophenone", "isophorone", "mesityl oxide", "diacetone",
@@ -51,7 +46,6 @@ def classify_chemical(name, smiles=None):
     ]):
         return "ketone"
 
-    # Ethers
     if any(x in name_lower for x in [
         "ether", "tetrahydrofuran", "thf", "dioxane", "dioxolane",
         "diglyme", "triglyme", "tetraglyme", "glyme", "furan",
@@ -60,14 +54,12 @@ def classify_chemical(name, smiles=None):
     ]):
         return "ether"
 
-    # Nitriles
     if any(x in name_lower for x in [
         "nitrile", "cyanide", "acetonitrile", "propionitrile",
         "butyronitrile", "benzonitrile", "acrylonitrile", "succinonitrile",
     ]):
         return "nitrile"
 
-    # Amines
     if any(x in name_lower for x in [
         "amine", "aniline", "pyridine", "morpholine", "triethylamine",
         "ethanolamine", "piperidine", "piperazine", "imidazole",
@@ -77,14 +69,12 @@ def classify_chemical(name, smiles=None):
     ]):
         return "amine"
 
-    # Sulfoxides / sulfones
     if any(x in name_lower for x in [
         "sulfoxide", "dmso", "sulfolane", "sulfone",
         "dimethyl sulfoxide", "dimethylsulfoxide",
     ]):
         return "sulfoxide"
 
-    # Acids
     if any(x in name_lower for x in [
         "acetic acid", "formic acid", "propionic acid", "butyric acid",
         "valeric acid", "caproic acid", "oleic acid", "stearic acid",
@@ -93,7 +83,6 @@ def classify_chemical(name, smiles=None):
     ]):
         return "acid"
 
-    # Nitro compounds
     if any(x in name_lower for x in [
         "nitromethane", "nitroethane", "nitropropane", "nitrobenzene",
         "nitrotoluene", "dinitro", "trinitro",
@@ -101,7 +90,6 @@ def classify_chemical(name, smiles=None):
         if name_lower.startswith("nitro") or "nitro" in name_lower:
             return "nitro"
 
-    # Terpenes
     if any(x in name_lower for x in [
         "limonene", "pinene", "cymene", "terpene", "turpentine",
         "myrcene", "camphene", "carvone", "geraniol", "linalool",
@@ -109,21 +97,14 @@ def classify_chemical(name, smiles=None):
     ]):
         return "terpene"
 
-    # Halogenated
-    if any(x in name_lower for x in [
-        "chlor", "brom", "iodo", "fluoro",
-    ]):
+    if any(x in name_lower for x in ["chlor", "brom", "iodo", "fluoro"]):
         if any(x in name_lower for x in ["perfluoro", "hexafluoro", "trifluoroethanol"]):
             return "fluorinated"
         return "halogenated"
 
-    # Fluorinated
-    if any(x in name_lower for x in [
-        "perfluoro", "hexafluoro", "trifluoro", "fluorinated",
-    ]):
+    if any(x in name_lower for x in ["perfluoro", "hexafluoro", "trifluoro", "fluorinated"]):
         return "fluorinated"
 
-    # Aromatics
     if any(x in name_lower for x in [
         "benzene", "toluene", "xylene", "styrene", "naphthalene",
         "tetralin", "ethylbenzene", "phenyl", "biphenyl", "anthracene",
@@ -132,7 +113,6 @@ def classify_chemical(name, smiles=None):
     ]):
         return "aromatic"
 
-    # Hydrocarbons
     if any(x in name_lower for x in [
         "hexane", "heptane", "octane", "pentane", "decane", "nonane",
         "undecane", "dodecane", "butane", "propane",
@@ -141,7 +121,6 @@ def classify_chemical(name, smiles=None):
     ]):
         return "hydrocarbon"
 
-    # Heterocyclic
     if any(x in name_lower for x in [
         "furfural", "furfuryl", "pyrrole", "thiophene", "oxazole",
         "thiazole", "indole", "quinoline", "isoquinoline", "carbazole",
@@ -149,28 +128,23 @@ def classify_chemical(name, smiles=None):
     ]):
         return "heterocyclic"
 
-    # Glycols (without ether)
     if "glycol" in name_lower and "ether" not in name_lower:
         return "glycol"
 
-    # Inorganic
     if name_lower in ["water", "carbon disulfide", "carbon disulphide"]:
         return "inorganic"
 
-    # Aldehyde
     if any(x in name_lower for x in [
         "aldehyde", "formaldehyde", "acetaldehyde", "propionaldehyde",
         "butyraldehyde", "benzaldehyde", "furfural",
     ]):
         return "aldehyde"
 
-    # Thiol / sulfide
     if any(x in name_lower for x in [
         "mercaptan", "thiol", "sulfide", "disulfide", "thioacet",
     ]):
         return "sulfur compound"
 
-    # Fall back to SMILES-based classification
     if smiles:
         s = smiles
         has_ring = "c" in s or "C1" in s
@@ -189,7 +163,7 @@ def classify_chemical(name, smiles=None):
 
 
 def classify_polymer(name):
-    """Classify polymer type based on name patterns."""
+    """Classify polymer type based on name."""
     nl = name.lower()
 
     if any(x in nl for x in ["epoxy", "epoxies", "epon", "epikote"]):

@@ -125,6 +125,13 @@ app = dash.Dash(
     title="Materialism — HSP Software",
 )
 
+# Register API blueprint for dataset management endpoints
+try:
+    from backend.app.routes.api import api_bp
+    app.server.register_blueprint(api_bp)
+except ImportError:
+    pass  # API routes not available (optional)
+
 # ---- Sidebar ----
 sidebar = dbc.Card(
     [

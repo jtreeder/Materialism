@@ -54,6 +54,70 @@ td { padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-
 .empty-state h2 { font-size: 1.4rem; color: #2d3436; margin-bottom: 12px; }
 .empty-state p { font-size: 0.95rem; line-height: 1.6; max-width: 500px; margin: 0 auto; }
 .empty-state code { background: #f0f2f5; padding: 2px 6px; border-radius: 3px; font-size: 0.85rem; }
+/* Import panels */
+.import-section { margin-bottom: 16px; border-bottom: 1px solid #dfe6e9; padding-bottom: 12px; }
+.import-section h4 {
+    font-size: 0.8rem; color: #636e72; text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 8px; cursor: pointer; user-select: none;
+}
+.import-section h4:hover { color: #2d3436; }
+.import-section h4::before { content: '\25B6 '; font-size: 0.6rem; }
+.import-section h4.open::before { content: '\25BC '; }
+.import-panel { display: none; }
+.import-panel.open { display: block; }
+.drop-zone {
+    border: 2px dashed #dfe6e9; border-radius: 6px; padding: 18px 12px; text-align: center;
+    font-size: 0.8rem; color: #636e72; cursor: pointer; transition: all 0.2s; margin-bottom: 8px;
+}
+.drop-zone:hover, .drop-zone.dragover { border-color: #e94560; background: #fff5f7; color: #e94560; }
+.drop-zone input[type="file"] { display: none; }
+.import-input {
+    width: 100%; padding: 6px 8px; border: 1px solid #dfe6e9; border-radius: 4px;
+    font-size: 0.8rem; margin-bottom: 6px;
+}
+.import-input:focus { outline: none; border-color: #e94560; }
+.import-btn {
+    width: 100%; padding: 6px 0; border: none; border-radius: 4px; font-size: 0.8rem;
+    cursor: pointer; transition: all 0.2s; background: #e94560; color: #fff;
+}
+.import-btn:hover { background: #d63851; }
+.import-btn:disabled { background: #b2bec3; cursor: not-allowed; }
+.import-btn.secondary { background: #fff; color: #636e72; border: 1px solid #dfe6e9; }
+.import-btn.secondary:hover { background: #f5f6fa; }
+.analysis-card {
+    background: #fff; border: 1px solid #dfe6e9; border-radius: 8px; padding: 20px; margin-bottom: 16px;
+}
+.analysis-card h3 { font-size: 1rem; color: #2d3436; margin-bottom: 12px; }
+.analysis-stat { display: inline-block; margin-right: 16px; margin-bottom: 8px; }
+.analysis-stat .label { font-size: 0.75rem; color: #636e72; }
+.analysis-stat .value { font-size: 1.1rem; font-weight: 600; color: #2d3436; }
+.analysis-issue { padding: 4px 8px; margin: 2px 0; border-radius: 3px; font-size: 0.8rem; }
+.analysis-issue.warning { background: #ffeaa7; color: #856404; }
+.analysis-issue.error { background: #fab1a0; color: #721c24; }
+.mapping-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin: 8px 0; }
+.mapping-table th { background: #f0f2f5; padding: 4px 8px; text-align: left; font-size: 0.75rem; }
+.mapping-table td { padding: 4px 8px; border-bottom: 1px solid #eee; }
+.mapping-table select { font-size: 0.8rem; padding: 2px 4px; border: 1px solid #dfe6e9; border-radius: 3px; }
+.import-form { margin-top: 12px; display: flex; gap: 8px; align-items: end; flex-wrap: wrap; }
+.import-form label { font-size: 0.8rem; color: #636e72; }
+.import-form input { padding: 6px 8px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.8rem; }
+.search-result-card {
+    background: #fff; border: 1px solid #dfe6e9; border-radius: 6px; padding: 14px; margin-bottom: 10px;
+}
+.search-result-card h4 { font-size: 0.9rem; color: #2d3436; margin-bottom: 4px; }
+.search-result-card .sr-desc { font-size: 0.82rem; color: #636e72; margin-bottom: 6px; }
+.search-result-card .sr-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+.search-result-card .sr-tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 3px; background: #f0f2f5; color: #636e72; }
+.search-result-card .sr-tag.good { background: #d5f5e3; color: #27ae60; }
+.search-result-card .sr-tag.warn { background: #ffeaa7; color: #856404; }
+.loading { text-align: center; padding: 30px; color: #636e72; }
+.loading::after { content: ''; display: inline-block; width: 18px; height: 18px; border: 2px solid #dfe6e9; border-top-color: #e94560; border-radius: 50%; animation: spin 0.8s linear infinite; margin-left: 8px; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.rebuild-btn {
+    width: 100%; padding: 8px 0; margin-top: 12px; border: 1px solid #dfe6e9; border-radius: 4px;
+    background: #fff; color: #636e72; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
+}
+.rebuild-btn:hover { background: #f5f6fa; border-color: #b2bec3; }
 </style>
 </head>
 <body>
@@ -65,7 +129,29 @@ td { padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-
     </div>
 </div>
 <div class="main">
-    <div class="sidebar" id="sidebar"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="import-section">
+            <h4 onclick="togglePanel('upload-panel', this)" class="open">Upload File</h4>
+            <div class="import-panel open" id="upload-panel">
+                <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+                    Drop CSV, Excel, JSON, or PDF here<br><small>or click to browse</small>
+                    <input type="file" id="file-input" accept=".csv,.xlsx,.xls,.json,.pdf,.tsv">
+                </div>
+            </div>
+            <h4 onclick="togglePanel('url-panel', this)">From URL</h4>
+            <div class="import-panel" id="url-panel">
+                <input class="import-input" id="url-input" placeholder="https://example.com/data.csv">
+                <button class="import-btn" onclick="analyzeUrl()">Analyze</button>
+            </div>
+            <h4 onclick="togglePanel('search-panel', this)">Search Databases</h4>
+            <div class="import-panel" id="search-panel">
+                <input class="import-input" id="search-input" placeholder="e.g. polymer HSP databases">
+                <button class="import-btn" onclick="searchDatabases()">Search</button>
+            </div>
+        </div>
+        <div id="ds-list"></div>
+        <button class="rebuild-btn" onclick="triggerRebuild()">Rebuild Database &amp; HTML</button>
+    </div>
     <div class="content" id="content">
         <div class="empty-state" id="empty-state">
             <h2>No datasets imported</h2>
@@ -88,15 +174,234 @@ var _filterText = '';
 var _sortCol = null;
 var _sortAsc = true;
 
+// --- Import panel toggling ---
+function togglePanel(panelId, header) {
+    var p = document.getElementById(panelId);
+    var isOpen = p.classList.contains('open');
+    // Close all panels
+    document.querySelectorAll('.import-panel').forEach(function(el) { el.classList.remove('open'); });
+    document.querySelectorAll('.import-section h4').forEach(function(el) { el.classList.remove('open'); });
+    if (!isOpen) {
+        p.classList.add('open');
+        header.classList.add('open');
+    }
+}
+
+// --- File upload via drag-and-drop / file picker ---
+var _dropZone = document.getElementById('drop-zone');
+var _fileInput = document.getElementById('file-input');
+_dropZone.addEventListener('dragover', function(e) { e.preventDefault(); _dropZone.classList.add('dragover'); });
+_dropZone.addEventListener('dragleave', function() { _dropZone.classList.remove('dragover'); });
+_dropZone.addEventListener('drop', function(e) { e.preventDefault(); _dropZone.classList.remove('dragover'); if (e.dataTransfer.files.length) uploadFile(e.dataTransfer.files[0]); });
+_fileInput.addEventListener('change', function() { if (_fileInput.files.length) uploadFile(_fileInput.files[0]); _fileInput.value=''; });
+
+var _pendingAnalysis = null; // stores last analysis report
+
+function uploadFile(file) {
+    var ct = document.getElementById('content');
+    ct.innerHTML = '<div class="loading">Analyzing ' + file.name + '...</div>';
+    var fd = new FormData();
+    fd.append('file', file);
+    fetch('/api/datasets/upload', { method: 'POST', body: fd })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.error) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + data.error + '</p></div>'; return; }
+            data.original_filename = data.original_filename || file.name;
+            _pendingAnalysis = data;
+            showAnalysis(data);
+        })
+        .catch(function(err) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + err + '</p></div>'; });
+}
+
+function analyzeUrl() {
+    var url = document.getElementById('url-input').value.trim();
+    if (!url) return;
+    var ct = document.getElementById('content');
+    ct.innerHTML = '<div class="loading">Fetching and analyzing URL...</div>';
+    fetch('/api/datasets/analyze-url', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({url: url}) })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.error) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + data.error + '</p></div>'; return; }
+            _pendingAnalysis = data;
+            showAnalysis(data);
+        })
+        .catch(function(err) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + err + '</p></div>'; });
+}
+
+function searchDatabases() {
+    var q = document.getElementById('search-input').value.trim();
+    if (!q) return;
+    var ct = document.getElementById('content');
+    ct.innerHTML = '<div class="loading">Searching for HSP databases...</div>';
+    fetch('/api/datasets/search', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({query: q}) })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.error) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + data.error + '</p></div>'; return; }
+            showSearchResults(data.results || []);
+        })
+        .catch(function(err) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + err + '</p></div>'; });
+}
+
+function showAnalysis(report) {
+    var ct = document.getElementById('content');
+    var h = '<div class="analysis-card">';
+    h += '<h3>Analysis: ' + (report.original_filename || 'File') + '</h3>';
+    h += '<div style="margin-bottom:12px">';
+    h += '<span class="analysis-stat"><span class="label">Type</span><br><span class="value">' + report.file_type + '</span></span>';
+    h += '<span class="analysis-stat"><span class="label">Rows</span><br><span class="value">' + report.row_count + '</span></span>';
+    h += '<span class="analysis-stat"><span class="label">Detected</span><br><span class="value">' + report.detected_type + '</span></span>';
+    h += '<span class="analysis-stat"><span class="label">HSP</span><br><span class="value">' + report.hsp_coverage + '%</span></span>';
+    h += '<span class="analysis-stat"><span class="label">CAS</span><br><span class="value">' + report.cas_coverage + '%</span></span>';
+    h += '<span class="analysis-stat"><span class="label">SMILES</span><br><span class="value">' + report.smiles_coverage + '%</span></span>';
+    h += '</div>';
+
+    // Quality issues
+    if (report.quality_issues && report.quality_issues.length > 0) {
+        h += '<div style="margin-bottom:12px">';
+        report.quality_issues.forEach(function(iss) {
+            h += '<div class="analysis-issue ' + iss.severity + '">' + iss.message + '</div>';
+        });
+        h += '</div>';
+    }
+
+    // Column mapping (editable)
+    if (report.column_mapping) {
+        var canonicals = ['name','cas_number','delta_d','delta_p','delta_h','molecular_weight','boiling_point','density','molar_volume','smiles','molecular_formula','ghs_hazard','category','radius'];
+        h += '<table class="mapping-table"><thead><tr><th>Source Column</th><th>Maps To</th></tr></thead><tbody>';
+        var allCols = report.columns_found || [];
+        allCols.forEach(function(col) {
+            var mapped = report.column_mapping[col] || '';
+            h += '<tr><td>' + col + '</td><td><select data-col="' + col + '" class="mapping-select">';
+            h += '<option value="">(unmapped)</option>';
+            canonicals.forEach(function(c) { h += '<option value="' + c + '"' + (mapped === c ? ' selected' : '') + '>' + c + '</option>'; });
+            h += '</select></td></tr>';
+        });
+        h += '</tbody></table>';
+    }
+
+    // Sample rows
+    if (report.sample_rows && report.sample_rows.length > 0) {
+        h += '<details style="margin-top:8px"><summary style="font-size:0.85rem;cursor:pointer;color:#636e72">Sample rows (' + report.sample_rows.length + ')</summary>';
+        h += '<table class="mapping-table" style="margin-top:4px"><thead><tr>';
+        var sampleKeys = Object.keys(report.sample_rows[0]);
+        sampleKeys.forEach(function(k) { h += '<th>' + k + '</th>'; });
+        h += '</tr></thead><tbody>';
+        report.sample_rows.forEach(function(row) {
+            h += '<tr>';
+            sampleKeys.forEach(function(k) { h += '<td>' + (row[k]||'') + '</td>'; });
+            h += '</tr>';
+        });
+        h += '</tbody></table></details>';
+    }
+
+    // Import form
+    h += '<div class="import-form">';
+    h += '<div><label>Dataset ID</label><br><input id="import-id" placeholder="my_dataset" style="width:180px"></div>';
+    h += '<div><label>Name</label><br><input id="import-name" placeholder="My Dataset" style="width:220px"></div>';
+    h += '<div><label>Source URL</label><br><input id="import-url" placeholder="https://..." style="width:220px" value="' + (report.original_url || '').replace(/"/g,'&quot;') + '"></div>';
+    h += '<div><label>Confidence</label><br><input id="import-conf" type="number" step="0.05" min="0" max="1" value="0.30" style="width:70px"></div>';
+    h += '<div style="padding-top:18px"><button class="import-btn" style="width:auto;padding:6px 20px" onclick="doImport()">Import</button></div>';
+    h += '</div>';
+
+    h += '</div>';
+    ct.innerHTML = h;
+}
+
+function doImport() {
+    if (!_pendingAnalysis) return;
+    var dsId = document.getElementById('import-id').value.trim();
+    if (!dsId) { alert('Dataset ID is required'); return; }
+    if (!/^[a-z0-9_]+$/.test(dsId)) { alert('ID must be lowercase alphanumeric with underscores'); return; }
+
+    // Collect edited column mapping
+    var mapping = {};
+    document.querySelectorAll('.mapping-select').forEach(function(sel) {
+        var col = sel.getAttribute('data-col');
+        if (sel.value) mapping[col] = sel.value;
+    });
+
+    var body = {
+        analysis_id: _pendingAnalysis.analysis_id,
+        dataset_id: dsId,
+        name: document.getElementById('import-name').value.trim() || dsId,
+        source_url: document.getElementById('import-url').value.trim(),
+        confidence_tier: parseFloat(document.getElementById('import-conf').value) || 0.30,
+        column_mapping: mapping,
+    };
+
+    var ct = document.getElementById('content');
+    ct.innerHTML = '<div class="loading">Importing dataset...</div>';
+
+    fetch('/api/datasets/import', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.error) { ct.innerHTML = '<div class="analysis-card"><h3>Import Error</h3><p>' + data.error + '</p></div>'; return; }
+            var ds = data.dataset;
+            // Add to local DATASETS object
+            DATASETS[ds.id] = { chemicals: [], polymers: [], meta: ds };
+            _activeDsets[ds.id] = true;
+            _saveA(_activeDsets);
+            ct.innerHTML = '<div class="analysis-card"><h3>Imported!</h3><p>' + ds.chemical_count + ' chemicals, ' + ds.polymer_count + ' polymers imported as <b>' + ds.id + '</b>.</p><p style="margin-top:8px;font-size:0.85rem;color:#636e72">Click <b>Rebuild Database &amp; HTML</b> in the sidebar to update the visualization and database pages.</p></div>';
+            _pendingAnalysis = null;
+            buildSidebar();
+        })
+        .catch(function(err) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + err + '</p></div>'; });
+}
+
+function showSearchResults(results) {
+    var ct = document.getElementById('content');
+    if (results.length === 0) {
+        ct.innerHTML = '<div class="analysis-card"><h3>No Results</h3><p>No HSP databases found for this query. Try different keywords.</p></div>';
+        return;
+    }
+    var h = '<h3 style="margin-bottom:12px">Search Results (' + results.length + ')</h3>';
+    results.forEach(function(r) {
+        h += '<div class="search-result-card">';
+        h += '<h4>' + (r.name || 'Unknown') + '</h4>';
+        if (r.url) h += '<div style="font-size:0.78rem;margin-bottom:4px"><a href="' + r.url + '" target="_blank" style="color:#0984e3">' + r.url + '</a></div>';
+        if (r.description) h += '<div class="sr-desc">' + r.description + '</div>';
+        h += '<div class="sr-tags">';
+        if (r.estimated_materials) h += '<span class="sr-tag">' + r.estimated_materials + ' materials</span>';
+        if (r.material_types) r.material_types.forEach(function(t) { h += '<span class="sr-tag">' + t + '</span>'; });
+        if (r.download_format) h += '<span class="sr-tag">' + r.download_format + '</span>';
+        if (r.has_cas === true) h += '<span class="sr-tag good">Has CAS</span>';
+        if (r.has_cas === false) h += '<span class="sr-tag warn">No CAS</span>';
+        if (r.has_smiles === true) h += '<span class="sr-tag good">Has SMILES</span>';
+        if (r.quality) h += '<span class="sr-tag ' + (r.quality === 'high' ? 'good' : r.quality === 'low' ? 'warn' : '') + '">Quality: ' + r.quality + '</span>';
+        h += '</div>';
+        if (r.url) h += '<button class="import-btn secondary" style="width:auto;padding:4px 14px;font-size:0.78rem" onclick="analyzeSearchResult(\'' + r.url.replace(/'/g,"\\'") + '\')">Analyze This Source</button>';
+        h += '</div>';
+    });
+    ct.innerHTML = h;
+}
+
+function analyzeSearchResult(url) {
+    document.getElementById('url-input').value = url;
+    analyzeUrl();
+}
+
+function triggerRebuild() {
+    var ct = document.getElementById('content');
+    ct.innerHTML = '<div class="loading">Rebuilding database and HTML...</div>';
+    fetch('/api/build', { method: 'POST' })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.error) { ct.innerHTML = '<div class="analysis-card"><h3>Build Error</h3><p>' + data.error + '</p></div>'; return; }
+            ct.innerHTML = '<div class="analysis-card"><h3>Build Complete</h3><pre style="font-size:0.75rem;max-height:300px;overflow:auto;background:#f5f6fa;padding:8px;border-radius:4px">' + (data.build_output||'') + '</pre><p style="margin-top:8px;font-size:0.85rem;color:#636e72">Refresh database.html and materialism.html to see the changes.</p></div>';
+        })
+        .catch(function(err) { ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + err + '</p></div>'; });
+}
+
+// --- Dataset sidebar ---
 function buildSidebar() {
-    var sb = document.getElementById('sidebar');
+    var sb = document.getElementById('ds-list');
     var dsKeys = Object.keys(DATASETS);
     if (dsKeys.length === 0) {
-        sb.innerHTML = '<div style="padding:20px;color:#636e72;font-size:0.85rem">No datasets yet.</div>';
+        sb.innerHTML = '<div style="padding:10px 0;color:#636e72;font-size:0.82rem">No datasets yet. Use the import tools above.</div>';
         return;
     }
     document.getElementById('empty-state').style.display = 'none';
-    var html = '';
+    var html = '<div style="font-size:0.75rem;color:#636e72;text-transform:uppercase;letter-spacing:0.5px;margin:8px 0 6px">Datasets</div>';
     dsKeys.forEach(function(k) {
         var ds = DATASETS[k];
         var m = ds.meta || {};

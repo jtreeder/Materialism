@@ -1,1 +1,1 @@
-"""Shared utilities for Materialism HSP database tools."""
+"""Materialism shared library — normalization, classification, merge, and import utilities."""

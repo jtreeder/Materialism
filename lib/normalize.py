@@ -17,7 +17,7 @@ def normalize_name(name):
 
 
 def normalize_cas(cas):
-    """Clean up CAS number. Returns empty string for invalid."""
+    """Clean up CAS number. Returns empty string if invalid."""
     if not cas:
         return ""
     cas = str(cas).strip()
@@ -43,9 +43,7 @@ def parse_float(val):
         return None
 
 
-# ---------------------------------------------------------------------------
-# Hansen A1 Name Splitting (IUPAC helpers)
-# ---------------------------------------------------------------------------
+# --- Hansen A1 Name Splitting ---
 
 # IUPAC carbon-chain stems
 _IUPAC_STEMS = re.compile(
@@ -106,11 +104,9 @@ def extract_common_name(raw_name):
     if not name:
         return name
 
-    # 1. Handle asterisk delimiter
     if "*" in name:
         return name.split("*")[0].strip()
 
-    # 2. Strip parenthetical aliases
     paren_match = re.match(r"^(.+?)\s*\([^)]*\)\s*(.+)$", name)
     if paren_match:
         before = paren_match.group(1).strip()
@@ -124,7 +120,6 @@ def extract_common_name(raw_name):
     if n <= 1:
         return name
 
-    # 3. Check for exact word-for-word duplication
     for half_len in range(1, n // 2 + 1):
         if n >= 2 * half_len:
             first_half = " ".join(words[:half_len])
@@ -132,7 +127,6 @@ def extract_common_name(raw_name):
             if first_half.lower() == second_half.lower():
                 return first_half
 
-    # 4. Find IUPAC boundary by pattern matching
     for i in range(1, n):
         word = words[i]
         if word[0].isdigit():
@@ -146,18 +140,15 @@ def extract_common_name(raw_name):
             if prev[0].isupper():
                 return " ".join(words[:i - 1])
 
-    # 5. For 3-word entries: check if last word is IUPAC
     if n == 3:
         if _looks_like_iupac_name(words[2]):
             return " ".join(words[:2])
         if _has_iupac_suffix(words[2]) and words[2][0].isupper():
             return " ".join(words[:2])
 
-    # 6. For 2-word entries
     if n == 2:
         if _looks_like_iupac_name(words[1]):
             return words[0]
         return name
 
-    # 7. Fallback
     return name
