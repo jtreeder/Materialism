@@ -3384,6 +3384,7 @@ td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max
 <div class="header">
     <h1><a href="materialism.html">Materialism</a> &mdash; Manage Datasets</h1>
     <div class="nav-links">
+        <span id="server-status" style="font-size:0.78rem;margin-right:8px">Server: checking...</span>
         <a href="database.html">Database</a>
         <a href="materialism.html">Search</a>
     </div>
@@ -3452,14 +3453,40 @@ var API_BASE = (window.location.protocol === 'file:' || !window.location.host)
     ? 'http://localhost:8050'
     : window.location.origin;
 
+var _serverConnected = false;
+
 function _apiFetch(path, opts) {{
     return fetch(API_BASE + path, opts).then(function(r) {{
         if (!r.ok && r.headers.get('content-type') && r.headers.get('content-type').indexOf('json') === -1) {{
-            throw new Error('Server returned ' + r.status + '. Is the Dash server running on ' + API_BASE + '?');
+            throw new Error('Server returned ' + r.status + '. Make sure the Dash server is running: python -m backend.app.main');
         }}
         return r.json();
+    }}).catch(function(err) {{
+        if (!_serverConnected && (err.message.indexOf('Failed to fetch') !== -1 || err.message.indexOf('NetworkError') !== -1)) {{
+            throw new Error('Cannot reach API server at ' + API_BASE + '. Start the server first: python -m backend.app.main');
+        }}
+        throw err;
     }});
 }}
+
+// Check server connection on page load
+fetch(API_BASE + '/api/health').then(function(r) {{
+    if (r.ok) {{
+        _serverConnected = true;
+        document.getElementById('server-status').textContent = 'Server: Connected';
+        document.getElementById('server-status').style.color = '#00b894';
+    }}
+}}).catch(function() {{
+    document.getElementById('server-status').textContent = 'Server: Not running';
+    document.getElementById('server-status').style.color = '#d63031';
+    var ct = document.getElementById('content');
+    ct.innerHTML = '<div class="analysis-card"><h3>Server Not Running</h3>'
+        + '<p>The API server is needed for uploading files, analyzing URLs, and searching for databases.</p>'
+        + '<p>Start it with:</p>'
+        + '<pre style="background:#2d3436;padding:10px;border-radius:6px;color:#dfe6e9">python -m backend.app.main</pre>'
+        + '<p style="font-size:0.85rem;color:#636e72">Then refresh this page. The server runs on <b>' + API_BASE + '</b></p>'
+        + '</div>';
+}});
 
 // --- File upload via drag-and-drop / file picker ---
 var _dropZone = document.getElementById('drop-zone');

@@ -127,9 +127,28 @@ app = dash.Dash(
 
 # Register API blueprint for dataset management endpoints
 try:
+    from flask import request as flask_request
     from backend.app.routes.api import api_bp, manage_bp
     app.server.register_blueprint(api_bp)
     app.server.register_blueprint(manage_bp)
+
+    # Dash registers _setup_server as a before_request hook on the Flask server.
+    # This hook runs on EVERY request (including /api/*) and can return HTML errors
+    # that break our JSON API endpoints. Patch it to skip API/manage routes.
+    _original_setup = app._setup_server
+
+    def _patched_setup():
+        path = flask_request.path
+        if path.startswith("/api/") or path in ("/manage", "/manage.html"):
+            return None
+        return _original_setup()
+
+    # Replace in Flask's before_request list
+    funcs = app.server.before_request_funcs.get(None, [])
+    for i, fn in enumerate(funcs):
+        if fn is _original_setup or getattr(fn, '__name__', '') == '_setup_server':
+            funcs[i] = _patched_setup
+            break
 except ImportError:
     pass  # API routes not available (optional)
 

@@ -66,6 +66,9 @@ def serve_manage():
     return send_from_directory(BASE_DIR, "manage.html")
 
 
+RAW_DIR = os.path.join(BASE_DIR, "data", "raw")
+
+
 @api_bp.route("/datasets/upload", methods=["POST", "OPTIONS"])
 def upload_dataset():
     """Accept a file upload and return an analysis report."""
@@ -76,19 +79,26 @@ def upload_dataset():
     if not f.filename:
         return jsonify({"error": "Empty filename"}), 400
 
-    # Save to temp location
-    suffix = os.path.splitext(f.filename)[1]
-    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix, dir=tempfile.gettempdir())
-    f.save(tmp.name)
-    tmp.close()
+    # Save to data/raw/ so it's tracked in the repo
+    os.makedirs(RAW_DIR, exist_ok=True)
+    safe_name = os.path.basename(f.filename)
+    save_path = os.path.join(RAW_DIR, safe_name)
+    # Avoid overwriting: append a suffix if needed
+    if os.path.exists(save_path):
+        base, ext = os.path.splitext(safe_name)
+        i = 1
+        while os.path.exists(save_path):
+            save_path = os.path.join(RAW_DIR, f"{base}_{i}{ext}")
+            i += 1
+    f.save(save_path)
 
     try:
-        report = analyze_dataset(tmp.name)
+        report = analyze_dataset(save_path)
         report["original_filename"] = f.filename
-        _pending_analyses[report["analysis_id"]] = tmp.name
+        report["saved_path"] = os.path.relpath(save_path, BASE_DIR)
+        _pending_analyses[report["analysis_id"]] = save_path
         return jsonify(report)
     except Exception as e:
-        os.unlink(tmp.name)
         return jsonify({"error": str(e)}), 500
 
 
@@ -125,19 +135,30 @@ def analyze_url():
         else:
             ext = ".csv"  # default guess
 
-    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=ext, dir=tempfile.gettempdir())
-    for chunk in resp.iter_content(chunk_size=8192):
-        tmp.write(chunk)
-    tmp.close()
+    # Save to data/raw/
+    os.makedirs(RAW_DIR, exist_ok=True)
+    fname = os.path.basename(parsed.path) or "download" + ext
+    safe_name = os.path.basename(fname)
+    save_path = os.path.join(RAW_DIR, safe_name)
+    if os.path.exists(save_path):
+        base, ext2 = os.path.splitext(safe_name)
+        i = 1
+        while os.path.exists(save_path):
+            save_path = os.path.join(RAW_DIR, f"{base}_{i}{ext2}")
+            i += 1
+
+    with open(save_path, "wb") as out:
+        for chunk in resp.iter_content(chunk_size=8192):
+            out.write(chunk)
 
     try:
-        report = analyze_dataset(tmp.name)
+        report = analyze_dataset(save_path)
         report["original_url"] = url
-        report["original_filename"] = os.path.basename(parsed.path) or "download" + ext
-        _pending_analyses[report["analysis_id"]] = tmp.name
+        report["original_filename"] = fname
+        report["saved_path"] = os.path.relpath(save_path, BASE_DIR)
+        _pending_analyses[report["analysis_id"]] = save_path
         return jsonify(report)
     except Exception as e:
-        os.unlink(tmp.name)
         return jsonify({"error": str(e)}), 500
 
 
@@ -234,16 +255,18 @@ def import_dataset():
             metadata=metadata,
             confidence_tier=confidence_tier,
         )
-        # Clean up temp file
+        # Remove from pending (file stays in data/raw/)
         _pending_analyses.pop(analysis_id, None)
-        try:
-            os.unlink(filepath)
-        except OSError:
-            pass
 
         return jsonify({"success": True, "dataset": entry})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route("/health", methods=["GET"])
+def health_check():
+    """Simple health check to verify the API server is reachable."""
+    return jsonify({"status": "ok"})
 
 
 @api_bp.route("/datasets", methods=["GET"])
