@@ -4449,27 +4449,47 @@ return Plotly;
             _updatePlotForCommonFilter();
             // Rebuild home table with filter applied
             buildHomeTable();
+            // Re-run last search so results table reflects the filter
+            if (lastSearchQuery) {
+                var parsed = parseQuery(lastSearchQuery);
+                var result = executeSearch(parsed);
+                var html = renderResultsHTML(result);
+                showResults(html);
+                if (!result.error) updatePlotWithResults(result);
+            }
         }
 
         function _updatePlotForCommonFilter() {
             if (!plotDiv || !plotDiv.data) return;
+            // Use dimmed sizes/colors when a search has dimmed the base traces
+            var sSize = _plotDimmed ? 2 : 5;
+            var pSize = _plotDimmed ? 3 : 7;
+            var sColor = _plotDimmed ? '#999' : null;
+            var pColor = _plotDimmed ? '#aa8800' : 'gold';
+            var sOpacity = _plotDimmed ? 0.1 : 0.85;
+            var pOpacity = _plotDimmed ? 0.12 : 0.95;
+            var hInfo = _plotDimmed ? 'skip' : 'none';
             if (simpleMode) {
                 // Hide non-common materials by setting marker size to 0
-                var filteredSolventSizes = SOLVENTS.map(function(s) { return s.common ? 5 : 0; });
+                var filteredSolventSizes = SOLVENTS.map(function(s) { return s.common ? sSize : 0; });
                 var filteredSolventColors = SOLVENTS.map(function(s, i) {
-                    return s.common ? (_solventColors[i] || '#888') : 'rgba(0,0,0,0)';
+                    return s.common ? (sColor || (_solventColors[i] || '#888')) : 'rgba(0,0,0,0)';
                 });
-                var filteredPolySizes = POLYMERS.map(function(p) { return p.common ? 7 : 0; });
-                var filteredPolyColors = POLYMERS.map(function(p) { return p.common ? 'gold' : 'rgba(0,0,0,0)'; });
+                var filteredPolySizes = POLYMERS.map(function(p) { return p.common ? pSize : 0; });
+                var filteredPolyColors = POLYMERS.map(function(p) { return p.common ? pColor : 'rgba(0,0,0,0)'; });
                 Plotly.restyle(plotDiv, {
                     'marker.size': [filteredSolventSizes, filteredPolySizes],
                     'marker.color': [filteredSolventColors, filteredPolyColors],
+                    'marker.opacity': [sOpacity, pOpacity],
+                    'hoverinfo': [hInfo, hInfo],
                 }, [0, 1]);
             } else {
-                // Restore normal appearance
+                // Restore normal appearance (respecting dim state)
                 Plotly.restyle(plotDiv, {
-                    'marker.size': [5, 7],
-                    'marker.color': [_solventColors, 'gold'],
+                    'marker.size': [sSize, pSize],
+                    'marker.color': [sColor || _solventColors, pColor],
+                    'marker.opacity': [sOpacity, pOpacity],
+                    'hoverinfo': [hInfo, hInfo],
                 }, [0, 1]);
             }
         }
@@ -5144,13 +5164,18 @@ return Plotly;
             // No Plotly.react, no layout rebuild — camera stays exactly where it is.
             if (_plotDimmed) return;
             _plotDimmed = true;
-            Plotly.restyle(plotDiv, {
-                'marker.size': [2, 3],
-                'marker.color': ['#999', '#aa8800'],
-                'marker.opacity': [0.1, 0.12],
-                'hoverinfo': ['skip', 'skip'],
-                'hovertemplate': [null, null],
-            }, [0, 1]);
+            if (simpleMode) {
+                // Dim common materials, fully hide non-common
+                _updatePlotForCommonFilter();
+            } else {
+                Plotly.restyle(plotDiv, {
+                    'marker.size': [2, 3],
+                    'marker.color': ['#999', '#aa8800'],
+                    'marker.opacity': [0.1, 0.12],
+                    'hoverinfo': ['skip', 'skip'],
+                    'hovertemplate': [null, null],
+                }, [0, 1]);
+            }
         }
 
         function _restoreBaseTraces() {
