@@ -4492,7 +4492,8 @@ function buildSidebar() {{
         sb.innerHTML = '<div style="padding:10px 0;color:#636e72;font-size:0.82rem">No datasets yet. Use the import tools above.</div>';
         return;
     }}
-    document.getElementById('empty-state').style.display = 'none';
+    var _es = document.getElementById('empty-state');
+    if (_es) _es.style.display = 'none';
     var html = '<div style="font-size:0.75rem;color:#636e72;text-transform:uppercase;letter-spacing:0.5px;margin:8px 0 6px">Datasets</div>';
     dsKeys.forEach(function(k) {{
         var ds = DATASETS[k];
