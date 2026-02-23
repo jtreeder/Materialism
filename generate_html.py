@@ -5136,7 +5136,13 @@ function _cellEdited(td, dsId, itemIdx, field) {{
     if (!item) return;
     // Coerce numeric fields
     var numFields = ['dd','dp','dh','mw','bp','r','density','mv'];
-    if (numFields.indexOf(field) !== -1) {{
+    if (field === 'commercial_products') {{
+        // Parse semicolon-separated text back into an array
+        if (newVal === '') {{ item[field] = []; }}
+        else {{
+            item[field] = newVal.split(/;/).map(function(s) {{ return s.trim(); }}).filter(function(s) {{ return s.length > 0; }});
+        }}
+    }} else if (numFields.indexOf(field) !== -1) {{
         if (newVal === '') {{ item[field] = ''; }}
         else {{
             var n = parseFloat(newVal);
@@ -5259,31 +5265,31 @@ function renderDetail() {{
         html += '<tr data-oidx="' + r._oidx + '" class="' + rowSel + '">';
         cols.forEach(function(c) {{
             var v = r[c]; if (v == null) v = '';
-            // Render commercial_products as a list
-            if (c === 'commercial_products' && Array.isArray(v)) {{
-                var srcInfo = r._src && r._src[c];
-                var srcLabel = srcInfo ? srcInfo.label : dsSource;
-                var isInferred = !!srcInfo;
-                var cls = 'products-cell' + (isInferred ? ' inferred' : '');
-                var attrs = ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
-                html += '<td class="' + cls + '"' + attrs + '>';
-                if (v.length > 0) {{
-                    html += '<ul class="products-list">';
-                    v.forEach(function(p) {{ html += '<li>' + (typeof p === 'string' ? p : (p.name || '')).replace(/</g,'&lt;') + '</li>'; }});
-                    html += '</ul>';
-                }}
-                html += '</td>';
-                return;
-            }}
-            if (c === 'commercial_products' && typeof v === 'string' && v !== '') {{
-                // String: either a diagnostic note or legacy format
+            // Render commercial_products
+            if (c === 'commercial_products') {{
                 var srcInfo = r._src && r._src[c];
                 var srcLabel = srcInfo ? srcInfo.label : dsSource;
                 var isInferred = !!srcInfo;
                 var isNote = srcInfo && srcInfo.isNote;
                 var cls = 'products-cell' + (isInferred ? ' inferred' : '') + (isNote ? ' cell-note' : '');
                 var attrs = ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
-                html += '<td class="' + cls + '"' + attrs + '>' + v.replace(/</g,'&lt;') + '</td>';
+                if (isEdit) {{
+                    // In edit mode, show as editable plain text (semicolon-separated)
+                    var editVal = '';
+                    if (Array.isArray(v)) editVal = v.join('; ');
+                    else if (typeof v === 'string') editVal = v;
+                    attrs += ' contenteditable="true" data-ds="' + _currentDs + '" data-idx="' + r._oidx + '" data-field="' + c + '"';
+                    cls += ' editable';
+                    html += '<td class="' + cls + '"' + attrs + '>' + editVal.replace(/</g,'&lt;') + '</td>';
+                }} else if (Array.isArray(v) && v.length > 0) {{
+                    html += '<td class="' + cls + '"' + attrs + '>';
+                    html += '<ul class="products-list">';
+                    v.forEach(function(p) {{ html += '<li>' + (typeof p === 'string' ? p : (p.name || '')).replace(/</g,'&lt;') + '</li>'; }});
+                    html += '</ul></td>';
+                }} else {{
+                    var display = (typeof v === 'string' ? v : '').replace(/</g,'&lt;');
+                    html += '<td class="' + cls + '"' + attrs + '>' + display + '</td>';
+                }}
                 return;
             }}
             var srcInfo = r._src && r._src[c];
