@@ -14,6 +14,15 @@ def _merge_metadata(existing, new):
     new_src = new.get("source", "")
     if new_src and new_src != existing.get("source", ""):
         existing["source_count"] = existing.get("source_count", 1) + 1
+    # Accumulate dataset_ids so the entry stays visible when any
+    # contributing dataset is active.
+    new_ds = new.get("dataset_id", "")
+    if new_ds:
+        cur = existing.get("dataset_id", "")
+        ids = set(cur.split(",")) if cur else set()
+        ids.discard("")
+        ids.add(new_ds)
+        existing["dataset_id"] = ",".join(sorted(ids))
 
 
 def merge_chemicals(all_sources):
@@ -115,6 +124,14 @@ def merge_polymers(all_sources):
                 existing["radius"] = poly["radius"]
             if not existing.get("type") and poly.get("type"):
                 existing["type"] = poly["type"]
+            # Accumulate dataset_ids
+            new_ds = poly.get("dataset_id", "")
+            if new_ds:
+                cur = existing.get("dataset_id", "")
+                ids = set(cur.split(",")) if cur else set()
+                ids.discard("")
+                ids.add(new_ds)
+                existing["dataset_id"] = ",".join(sorted(ids))
             continue
 
         result.append(poly)

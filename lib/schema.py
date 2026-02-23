@@ -6,6 +6,7 @@ CHEMICAL_FIELDS = [
     "molecular_weight", "boiling_point", "density", "molar_volume",
     "category", "ghs_hazard",
     "confidence", "source_count", "source", "source_url", "hidden",
+    "dataset_id",
 ]
 
 POLYMER_FIELDS = [
@@ -13,6 +14,7 @@ POLYMER_FIELDS = [
     "delta_d", "delta_p", "delta_h",
     "radius", "type",
     "confidence", "source_count", "source", "source_url",
+    "dataset_id",
 ]
 
 # Column name aliases for auto-mapping during import

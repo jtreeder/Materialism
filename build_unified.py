@@ -92,6 +92,12 @@ def main():
         chems = load_dataset_csv(chem_path, CHEMICAL_FIELDS)
         polys = load_dataset_csv(poly_path, POLYMER_FIELDS)
 
+        # Tag every entry with its source dataset_id
+        for c in chems:
+            c["dataset_id"] = ds_id
+        for p in polys:
+            p["dataset_id"] = ds_id
+
         chem_count = len(chems)
         poly_count = len(polys)
         print(f"  {ds_id:30s}: {chem_count:>5} chemicals, {poly_count:>4} polymers")

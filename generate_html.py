@@ -718,7 +718,13 @@ full_html = f"""<!DOCTYPE html>
         function _isDsActive(dsId) {{
             if (!dsId) return true; // entries without dataset_id always shown
             var active = _getActiveDsets();
-            return active[dsId] !== false;
+            // dsId may be comma-separated (entry present in multiple datasets);
+            // visible if ANY contributing dataset is active.
+            var ids = dsId.split(',');
+            for (var i = 0; i < ids.length; i++) {{
+                if (active[ids[i]] !== false) return true;
+            }}
+            return false;
         }}
         var _activeDsets = _getActiveDsets();
 
@@ -2873,7 +2879,7 @@ function _loadActiveDsets() {{ try {{ var v = localStorage.getItem(_LS_DS_KEY); 
 function _saveActiveDsets(obj) {{ try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); }} catch(e) {{}} }}
 function _getActiveDsets() {{ var s = _loadActiveDsets(); if (s) return s; var d = {{}}; Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = true; }}); return d; }}
 var _activeDsets = _getActiveDsets();
-function _isDsActive(dsId) {{ if (!dsId) return true; return _activeDsets[dsId] !== false; }}
+function _isDsActive(dsId) {{ if (!dsId) return true; var ids = dsId.split(','); for (var i = 0; i < ids.length; i++) {{ if (_activeDsets[ids[i]] !== false) return true; }} return false; }}
 
 // --- Load imported datasets from manage page ---
 (function() {{
