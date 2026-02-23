@@ -4092,6 +4092,13 @@ return Plotly;
             cursor: pointer; user-select: none; font-weight: 600; color: #2d3436;
         }
         .legend-header:hover { background: #f5f6fa; }
+        .legend-header.legend-hidden {
+            opacity: 0.35;
+            text-decoration: line-through;
+        }
+        .legend-header.legend-hidden .legend-marker {
+            opacity: 0.3;
+        }
         .legend-arrow {
             display: inline-block; width: 10px; font-size: 0.6rem; color: #636e72;
             transition: transform 0.15s;
@@ -4657,8 +4664,50 @@ return Plotly;
                 set[cat] = true;
                 el.classList.add('legend-hidden');
             }
+            // Update the parent header hidden state
+            _syncGroupHeader(el.closest('.legend-group'));
             _updatePlotForCommonFilter();
             buildHomeTable();
+        }
+
+        function toggleGroupVisibility(header) {
+            var group = header.closest('.legend-group');
+            var items = group.querySelectorAll('.legend-item');
+            var type = items[0] ? items[0].getAttribute('data-type') : null;
+            if (!type) return;
+            var set = (type === 'solvent') ? _hiddenSolCats : _hiddenPolyCats;
+            // If any are visible, hide all; if all hidden, show all
+            var anyVisible = false;
+            items.forEach(function(it) {
+                if (!set[it.getAttribute('data-cat')]) anyVisible = true;
+            });
+            items.forEach(function(it) {
+                var cat = it.getAttribute('data-cat');
+                if (anyVisible) {
+                    set[cat] = true;
+                    it.classList.add('legend-hidden');
+                } else {
+                    delete set[cat];
+                    it.classList.remove('legend-hidden');
+                }
+            });
+            header.classList.toggle('legend-hidden', anyVisible);
+            _updatePlotForCommonFilter();
+            buildHomeTable();
+        }
+
+        function _syncGroupHeader(group) {
+            if (!group) return;
+            var header = group.querySelector('.legend-header');
+            var items = group.querySelectorAll('.legend-item');
+            var type = items[0] ? items[0].getAttribute('data-type') : null;
+            if (!type) return;
+            var set = (type === 'solvent') ? _hiddenSolCats : _hiddenPolyCats;
+            var allHidden = true;
+            items.forEach(function(it) {
+                if (!set[it.getAttribute('data-cat')]) allHidden = false;
+            });
+            header.classList.toggle('legend-hidden', allHidden);
         }
 
         function _updatePlotForCommonFilter() {
@@ -5366,9 +5415,10 @@ return Plotly;
             var pList = Object.keys(pCats).sort(function(a,b) { return pCats[b] - pCats[a]; });
             var h = '';
             // Solvents group
+            var allSolHidden = sList.length > 0 && sList.every(function(c) { return !!_hiddenSolCats[c]; });
             h += '<div class="legend-group">';
-            h += '<div class="legend-header" onclick="toggleLegendGroup(this)">';
-            h += '<span class="legend-arrow">&#9654;</span>';
+            h += '<div class="legend-header' + (allSolHidden ? ' legend-hidden' : '') + '" onclick="toggleGroupVisibility(this)">';
+            h += '<span class="legend-arrow" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
             h += '<span class="legend-marker" style="background:' + (CAT_COLORS['alcohol'] || '#888') + '"></span>';
             h += 'Solvents (' + SOLVENTS.length + ')';
             h += '</div>';
@@ -5381,9 +5431,10 @@ return Plotly;
             });
             h += '</div></div>';
             // Polymers group
+            var allPolyHidden = pList.length > 0 && pList.every(function(c) { return !!_hiddenPolyCats[c]; });
             h += '<div class="legend-group">';
-            h += '<div class="legend-header" onclick="toggleLegendGroup(this)">';
-            h += '<span class="legend-arrow">&#9654;</span>';
+            h += '<div class="legend-header' + (allPolyHidden ? ' legend-hidden' : '') + '" onclick="toggleGroupVisibility(this)">';
+            h += '<span class="legend-arrow" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
             h += '<span class="legend-marker diamond" style="background:' + (POLY_CAT_COLORS['Vinyl & Styrene'] || '#a9a9a9') + '"></span>';
             h += 'Polymers (' + POLYMERS.length + ')';
             h += '</div>';
