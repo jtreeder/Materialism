@@ -783,7 +783,9 @@ full_html = f"""<!DOCTYPE html>
                 cb.onchange = function() {{
                     _activeDsets[k] = cb.checked;
                     _saveActiveDsets(_activeDsets);
-                    if (typeof buildFullPlot === 'function') buildFullPlot();
+                    _updatePlotForCommonFilter();
+                    _buildLegend();
+                    buildHomeTable();
                 }};
                 label.appendChild(cb);
                 label.appendChild(document.createTextNode(ds.name || k));
@@ -1102,24 +1104,15 @@ full_html = f"""<!DOCTYPE html>
             }}
         }}
 
-        // Pre-compute original coordinate arrays for common-filter toggling.
-        // Plotly 3D scatter renders per-point size arrays differently from
-        // scalars (smaller due to sizeref normalization), so we hide non-common
-        // points by nulling their coordinates instead.
+        // Pre-compute full coordinate arrays (used for initial plot creation).
+        // All filtering (dataset, simpleMode, hidden categories) is done
+        // dynamically in _updatePlotForCommonFilter via coordinate nulling.
         var _allSolX = SOLVENTS.map(function(s) {{ return s.dd; }});
         var _allSolY = SOLVENTS.map(function(s) {{ return s.dp; }});
         var _allSolZ = SOLVENTS.map(function(s) {{ return s.dh; }});
-        var _comSolX = SOLVENTS.map(function(s) {{ return s.common ? s.dd : null; }});
-        var _comSolY = SOLVENTS.map(function(s) {{ return s.common ? s.dp : null; }});
-        var _comSolZ = SOLVENTS.map(function(s) {{ return s.common ? s.dh : null; }});
         var _allPolyX = POLYMERS.map(function(p) {{ return p.dd; }});
         var _allPolyY = POLYMERS.map(function(p) {{ return p.dp; }});
         var _allPolyZ = POLYMERS.map(function(p) {{ return p.dh; }});
-        var _comPolyX = POLYMERS.map(function(p) {{ return p.common ? p.dd : null; }});
-        var _comPolyY = POLYMERS.map(function(p) {{ return p.common ? p.dp : null; }});
-        var _comPolyZ = POLYMERS.map(function(p) {{ return p.common ? p.dh : null; }});
-        var _comSolColors = null;  // built lazily after _solventColors is populated
-        var _comPolyColors = null;
 
         // Hidden-category state for legend toggle
         var _hiddenSolCats = {{}};
@@ -1190,70 +1183,46 @@ full_html = f"""<!DOCTYPE html>
 
         function _updatePlotForCommonFilter() {{
             if (!plotDiv || !plotDiv.data) return;
-            // Build common-only colors lazily (needs colors from buildFullPlot)
-            if (!_comSolColors && _solventColors.length) {{
-                _comSolColors = SOLVENTS.map(function(s, i) {{ return s.common ? (_solventColors[i] || '#888') : 'rgba(0,0,0,0)'; }});
-            }}
-            if (!_comPolyColors && _polymerColors.length) {{
-                _comPolyColors = POLYMERS.map(function(p, i) {{ return p.common ? (_polymerColors[i] || '#a9a9a9') : 'rgba(0,0,0,0)'; }});
-            }}
             // Use dimmed styling when a search has dimmed the base traces
             var sSize = _plotDimmed ? 2 : 5;
             var pSize = _plotDimmed ? 3 : 7;
-            var sColor = _plotDimmed ? '#999' : null;
-            var pColor = _plotDimmed ? '#665500' : null;
             var sOpacity = _plotDimmed ? 0.1 : 0.85;
             var pOpacity = _plotDimmed ? 0.12 : 0.95;
             var hInfo = _plotDimmed ? 'skip' : 'none';
 
-            var hasCatFilter = _hasHiddenCats();
-
-            if (simpleMode || hasCatFilter) {{
-                // Compute filtered coordinate arrays considering both
-                // simpleMode and hidden categories
-                var sx = [], sy = [], sz = [], sc = [];
-                SOLVENTS.forEach(function(s, i) {{
-                    var visible = true;
-                    if (simpleMode && !s.common) visible = false;
-                    if (_hiddenSolCats[s.cat || 'other']) visible = false;
-                    sx.push(visible ? s.dd : null);
-                    sy.push(visible ? s.dp : null);
-                    sz.push(visible ? s.dh : null);
-                    if (!_plotDimmed) sc.push(visible ? (_solventColors[i] || '#888') : 'rgba(0,0,0,0)');
-                }});
-                var px = [], py = [], pz = [], pc = [];
-                POLYMERS.forEach(function(p, i) {{
-                    var visible = true;
-                    if (simpleMode && !p.common) visible = false;
-                    if (_hiddenPolyCats[p.cat || 'Other']) visible = false;
-                    px.push(visible ? p.dd : null);
-                    py.push(visible ? p.dp : null);
-                    pz.push(visible ? p.dh : null);
-                    if (!_plotDimmed) pc.push(visible ? (_polymerColors[i] || '#a9a9a9') : 'rgba(0,0,0,0)');
-                }});
-                var sColors = _plotDimmed ? sColor : sc;
-                var pColors = _plotDimmed ? pColor : pc;
-                Plotly.restyle(plotDiv, {{
-                    'x': [sx, px],
-                    'y': [sy, py],
-                    'z': [sz, pz],
-                    'marker.size': [sSize, pSize],
-                    'marker.color': [sColors, pColors],
-                    'marker.opacity': [sOpacity, pOpacity],
-                    'hoverinfo': [hInfo, hInfo],
-                }}, [0, 1]);
-            }} else {{
-                // Restore all points with full coordinates
-                Plotly.restyle(plotDiv, {{
-                    'x': [_allSolX, _allPolyX],
-                    'y': [_allSolY, _allPolyY],
-                    'z': [_allSolZ, _allPolyZ],
-                    'marker.size': [sSize, pSize],
-                    'marker.color': [sColor || _solventColors, pColor || _polymerColors],
-                    'marker.opacity': [sOpacity, pOpacity],
-                    'hoverinfo': [hInfo, hInfo],
-                }}, [0, 1]);
-            }}
+            // Always compute filtered coordinates so that dataset, simpleMode
+            // and hidden-category filters are applied consistently.
+            var sx = [], sy = [], sz = [], sc = [];
+            SOLVENTS.forEach(function(s, i) {{
+                var visible = true;
+                if (!_isDsActive(s.dsId)) visible = false;
+                else if (simpleMode && !s.common) visible = false;
+                else if (_hiddenSolCats[s.cat || 'other']) visible = false;
+                sx.push(visible ? s.dd : null);
+                sy.push(visible ? s.dp : null);
+                sz.push(visible ? s.dh : null);
+                sc.push(visible ? (_solventColors[i] || '#888') : 'rgba(0,0,0,0)');
+            }});
+            var px = [], py = [], pz = [], pc = [];
+            POLYMERS.forEach(function(p, i) {{
+                var visible = true;
+                if (!_isDsActive(p.dsId)) visible = false;
+                else if (simpleMode && !p.common) visible = false;
+                else if (_hiddenPolyCats[p.cat || 'Other']) visible = false;
+                px.push(visible ? p.dd : null);
+                py.push(visible ? p.dp : null);
+                pz.push(visible ? p.dh : null);
+                pc.push(visible ? (_polymerColors[i] || '#a9a9a9') : 'rgba(0,0,0,0)');
+            }});
+            Plotly.restyle(plotDiv, {{
+                'x': [sx, px],
+                'y': [sy, py],
+                'z': [sz, pz],
+                'marker.size': [sSize, pSize],
+                'marker.color': [_plotDimmed ? '#999' : sc, _plotDimmed ? '#665500' : pc],
+                'marker.opacity': [sOpacity, pOpacity],
+                'hoverinfo': [hInfo, hInfo],
+            }}, [0, 1]);
         }}
 
         // ===================== HSP MATH =====================
@@ -1828,17 +1797,16 @@ full_html = f"""<!DOCTYPE html>
 
         function buildFullPlot() {{
             plotDiv = document.getElementById('plotly-div');
-            // Filter by active datasets
-            var fSolv = _dsFilterSolvents();
-            var fPoly = _dsFilterPolymers();
-            // Single trace for all solvents with per-point colors (instead of 22+ traces)
-            _solventColors = fSolv.map(s => CAT_COLORS[s.cat] || '#888');
-            _polymerColors = fPoly.map(p => POLY_CAT_COLORS[p.cat] || '#a9a9a9');
+            // Build color arrays from the FULL material arrays so indices always
+            // match the SOLVENTS / POLYMERS arrays (dataset filtering is handled
+            // by _updatePlotForCommonFilter via coordinate nulling).
+            _solventColors = SOLVENTS.map(s => CAT_COLORS[s.cat] || '#888');
+            _polymerColors = POLYMERS.map(p => POLY_CAT_COLORS[p.cat] || '#a9a9a9');
             fullTraces = [
                 {{
                     type: 'scatter3d', mode: 'markers',
                     name: 'Solvents',
-                    x: fSolv.map(s => s.dd), y: fSolv.map(s => s.dp), z: fSolv.map(s => s.dh),
+                    x: _allSolX, y: _allSolY, z: _allSolZ,
                     hoverinfo: 'none',
                     marker: {{ size: 5, color: _solventColors, opacity: 0.85 }},
                     showlegend: false,
@@ -1846,7 +1814,7 @@ full_html = f"""<!DOCTYPE html>
                 {{
                     type: 'scatter3d', mode: 'markers',
                     name: 'Polymers',
-                    x: fPoly.map(p => p.dd), y: fPoly.map(p => p.dp), z: fPoly.map(p => p.dh),
+                    x: _allPolyX, y: _allPolyY, z: _allPolyZ,
                     hoverinfo: 'none',
                     marker: {{ size: 7, color: _polymerColors, symbol: 'diamond', opacity: 0.95 }},
                     showlegend: false,
@@ -1868,6 +1836,8 @@ full_html = f"""<!DOCTYPE html>
             _baseTraceCount = fullTraces.length;
             _highlightIdx = _baseTraceCount - 1;
             Plotly.newPlot(plotDiv, fullTraces, makeLayout(), {{ responsive: true }});
+            // Apply all active filters (datasets, simpleMode, hidden cats)
+            _updatePlotForCommonFilter();
             _buildLegend();
         }}
 
