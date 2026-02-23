@@ -3273,7 +3273,7 @@ body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMa
 .header .nav-links {{ color: #636e72; font-size: 0.9rem; display: flex; align-items: center; gap: 12px; }}
 .header .nav-links a {{ color: #636e72; text-decoration: none; border-bottom: 1px dotted #b2bec3; cursor: pointer; }}
 .main {{ display: flex; flex: 1; overflow: hidden; }}
-.sidebar {{ width: 280px; background: #fff; border-right: 1px solid #dfe6e9; overflow-y: auto; padding: 12px; }}
+.sidebar {{ width: 280px; flex-shrink: 0; position: relative; z-index: 2; background: #fff; border-right: 1px solid #dfe6e9; overflow-y: auto; padding: 12px; }}
 .ds-card {{
     padding: 12px; margin-bottom: 8px; border: 1px solid #dfe6e9; border-radius: 6px;
     cursor: pointer; transition: all 0.2s;
@@ -3285,7 +3285,7 @@ body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMa
 .ds-card .ds-status {{ display: inline-block; font-size: 0.7rem; padding: 1px 6px; border-radius: 3px; margin-top: 4px; }}
 .ds-card .ds-status.on {{ background: #d5f5e3; color: #27ae60; }}
 .ds-card .ds-status.off {{ background: #fadbd8; color: #e74c3c; }}
-.content {{ flex: 1; overflow: auto; padding: 20px; }}
+.content {{ flex: 1; min-width: 0; overflow: auto; padding: 20px; position: relative; z-index: 0; }}
 .ds-detail-header {{ margin-bottom: 16px; }}
 .ds-detail-header h2 {{ font-size: 1.2rem; color: #2d3436; margin-bottom: 6px; }}
 .ds-detail-header .ds-meta {{ font-size: 0.82rem; color: #636e72; line-height: 1.6; }}
