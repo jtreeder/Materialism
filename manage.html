@@ -65,6 +65,12 @@ th {
 }
 th:hover { background: #e8eaed; }
 td { padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+tr.row-selected { background: #dfe6fd !important; }
+tr.row-selected td { background: transparent; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: #f0f2f5; }
+.sel-info { display: inline-block; font-size: 0.75rem; color: #636e72; margin-left: 10px; margin-top: 8px; vertical-align: middle; }
+.clear-sel { color: #e94560; cursor: pointer; margin-left: 6px; text-decoration: underline; font-size: 0.75rem; }
 td.products-cell { white-space: normal; max-width: 260px; min-width: 140px; }
 .products-list { list-style: none; margin: 0; padding: 0; }
 .products-list li { font-size: 0.75rem; line-height: 1.4; padding: 1px 0; color: #2d3436; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -225,6 +231,10 @@ var _filterText = '';
 var _sortCol = null;
 var _sortAsc = true;
 var _editMode = {}; // per-dataset edit mode: dsId -> bool
+var _selectedRows = {}; // row original index -> true
+var _lastClickedRow = null; // for shift+click range selection
+var _dragSelecting = false; // mouse drag state
+var _dragStartRow = null;
 
 // --- Import panel toggling ---
 function togglePanel(panelId, header) {
@@ -1256,8 +1266,14 @@ async function inferMissing(dsId) {
     var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
     var fillable = ['cas','mw','smiles','bp','cat','commercial_products'];
     var queue = [];
+    var selKeys = Object.keys(_selectedRows);
+    var hasSelection = selKeys.length > 0;
+    var selSet = {};
+    if (hasSelection) selKeys.forEach(function(k) { selSet[k] = true; });
 
     items.forEach(function(item, idx) {
+        // If there's a selection, only process selected rows
+        if (hasSelection && !selSet[String(idx)]) return;
         var missing = fillable.filter(function(f) {
             if (f === 'commercial_products') {
                 var v = item[f];
@@ -1273,7 +1289,8 @@ async function inferMissing(dsId) {
         _inferRunning = false;
         var ct = document.getElementById('content');
         var bar = document.getElementById('infer-progress');
-        if (bar) bar.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">All fields already populated. Nothing to infer.</span>';
+        var _nothingMsg = hasSelection ? 'All fields in selected rows already populated. Nothing to infer.' : 'All fields already populated. Nothing to infer.';
+        if (bar) bar.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">' + _nothingMsg + '</span>';
         return;
     }
 
@@ -1433,7 +1450,8 @@ async function inferMissing(dsId) {
     // Show completion
     var bar2 = document.getElementById('infer-progress');
     if (bar2) {
-        bar2.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">Done! Filled <b>' + filled + '</b> values across ' + queue.length + ' chemicals.' + (errors > 0 ? ' (' + errors + ' lookup errors)' : '') + (_inferCancelled ? ' (Cancelled)' : '') + '</span>';
+        var _scopeLabel = hasSelection ? ' selected items' : ' chemicals';
+        bar2.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">Done! Filled <b>' + filled + '</b> values across ' + queue.length + _scopeLabel + '.' + (errors > 0 ? ' (' + errors + ' lookup errors)' : '') + (_inferCancelled ? ' (Cancelled)' : '') + '</span>';
     }
     renderDetail();
 }
@@ -1618,6 +1636,8 @@ function selectDs(dsId) {
     _filterText = '';
     _sortCol = null;
     _sortAsc = true;
+    _selectedRows = {};
+    _lastClickedRow = null;
     buildSidebar();
     renderDetail();
 }
@@ -1691,7 +1711,10 @@ function renderDetail() {
     if (m.fields_available) html += 'Fields: ' + m.fields_available.join(', ') + '<br>';
     html += '</div>';
     html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\'' + _currentDs + '\')">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
-    html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\'' + _currentDs + '\')"' + (_inferRunning ? ' disabled' : '') + '>Infer Missing Values</button>';
+    var _selN = _getSelCount();
+    var _inferLabel = _selN > 0 ? 'Infer Missing Values for Selection (' + _selN + ')' : 'Infer Missing Values';
+    html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\'' + _currentDs + '\')"' + (_inferRunning ? ' disabled' : '') + '>' + _inferLabel + '</button>';
+    html += '<span class="sel-info" id="sel-info"' + (_selN > 0 ? '' : ' style="display:none"') + '>' + (_selN > 0 ? _selN + ' row' + (_selN > 1 ? 's' : '') + ' selected<span class="clear-sel" onclick="clearSelection()">clear</span>' : '') + '</span>';
     html += '</div>';
     html += '<div class="infer-progress" id="infer-progress" style="display:none"></div>';
 
@@ -1755,7 +1778,8 @@ function renderDetail() {
     var limit = Math.min(filtered.length, 2000);
     for (var i = 0; i < limit; i++) {
         var r = filtered[i];
-        html += '<tr>';
+        var rowSel = _selectedRows[r._oidx] ? ' row-selected' : '';
+        html += '<tr data-oidx="' + r._oidx + '" class="' + rowSel + '">';
         cols.forEach(function(c) {
             var v = r[c]; if (v == null) v = '';
             // Render commercial_products as a list
@@ -1817,6 +1841,128 @@ function manageSort(col) {
     else { _sortCol = col; _sortAsc = true; }
     renderDetail();
 }
+
+// --- Row/cell selection system ---
+function _getSelCount() {
+    return Object.keys(_selectedRows).length;
+}
+
+function _updateInferBtn() {
+    var btn = document.getElementById('infer-btn');
+    if (!btn) return;
+    var n = _getSelCount();
+    if (n > 0) {
+        btn.textContent = 'Infer Missing Values for Selection (' + n + ')';
+    } else {
+        btn.textContent = 'Infer Missing Values';
+    }
+}
+
+function _updateSelInfo() {
+    var el = document.getElementById('sel-info');
+    var n = _getSelCount();
+    if (el) {
+        if (n > 0) {
+            el.innerHTML = n + ' row' + (n > 1 ? 's' : '') + ' selected<span class="clear-sel" onclick="clearSelection()">clear</span>';
+            el.style.display = '';
+        } else {
+            el.style.display = 'none';
+        }
+    }
+    _updateInferBtn();
+}
+
+function clearSelection() {
+    _selectedRows = {};
+    _lastClickedRow = null;
+    // Remove visual highlights
+    var trs = document.querySelectorAll('#content tbody tr.row-selected');
+    for (var i = 0; i < trs.length; i++) trs[i].classList.remove('row-selected');
+    _updateSelInfo();
+}
+
+function _applySelectionClasses() {
+    var trs = document.querySelectorAll('#content tbody tr[data-oidx]');
+    for (var i = 0; i < trs.length; i++) {
+        var idx = trs[i].getAttribute('data-oidx');
+        if (_selectedRows[idx]) trs[i].classList.add('row-selected');
+        else trs[i].classList.remove('row-selected');
+    }
+}
+
+function _getAllVisibleOidxs() {
+    var trs = document.querySelectorAll('#content tbody tr[data-oidx]');
+    var arr = [];
+    for (var i = 0; i < trs.length; i++) arr.push(trs[i].getAttribute('data-oidx'));
+    return arr;
+}
+
+function _rowsBetween(a, b) {
+    var all = _getAllVisibleOidxs();
+    var ia = all.indexOf(String(a)), ib = all.indexOf(String(b));
+    if (ia === -1 || ib === -1) return [];
+    var lo = Math.min(ia, ib), hi = Math.max(ia, ib);
+    return all.slice(lo, hi + 1);
+}
+
+// Mouse event delegation for row selection
+document.addEventListener('mousedown', function(e) {
+    var tr = e.target.closest('#content tbody tr[data-oidx]');
+    if (!tr) return;
+    // Don't interfere with contenteditable cells or links
+    if (e.target.closest('td[contenteditable="true"]') || e.target.closest('a') || e.target.closest('button')) return;
+
+    var oidx = tr.getAttribute('data-oidx');
+    if (!oidx) return;
+
+    if (e.shiftKey && _lastClickedRow != null) {
+        // Shift+click: range select
+        e.preventDefault();
+        var range = _rowsBetween(_lastClickedRow, oidx);
+        range.forEach(function(idx) { _selectedRows[idx] = true; });
+    } else if (e.ctrlKey || e.metaKey) {
+        // Ctrl/Cmd+click: toggle single row
+        if (_selectedRows[oidx]) delete _selectedRows[oidx];
+        else _selectedRows[oidx] = true;
+        _lastClickedRow = oidx;
+    } else {
+        // Plain click: start fresh selection (also starts drag)
+        _selectedRows = {};
+        _selectedRows[oidx] = true;
+        _lastClickedRow = oidx;
+        _dragSelecting = true;
+        _dragStartRow = oidx;
+    }
+
+    _applySelectionClasses();
+    _updateSelInfo();
+});
+
+document.addEventListener('mousemove', function(e) {
+    if (!_dragSelecting) return;
+    var tr = e.target.closest('#content tbody tr[data-oidx]');
+    if (!tr) return;
+    var oidx = tr.getAttribute('data-oidx');
+    if (!oidx || !_dragStartRow) return;
+
+    // Select range from drag start to current row
+    _selectedRows = {};
+    var range = _rowsBetween(_dragStartRow, oidx);
+    range.forEach(function(idx) { _selectedRows[idx] = true; });
+    _applySelectionClasses();
+    _updateSelInfo();
+});
+
+document.addEventListener('mouseup', function(e) {
+    _dragSelecting = false;
+});
+
+// Escape to clear selection
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && _getSelCount() > 0) {
+        clearSelection();
+    }
+});
 
 // --- Editable cell blur handler (event delegation) ---
 document.addEventListener('blur', function(e) {
