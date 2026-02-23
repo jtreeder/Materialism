@@ -3297,6 +3297,23 @@ body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMa
 .ds-detail-header .toggle-btn:hover {{ background: #f5f6fa; }}
 .ds-detail-header .toggle-btn.on {{ border-color: #27ae60; color: #27ae60; }}
 .ds-detail-header .toggle-btn.off {{ border-color: #e74c3c; color: #e74c3c; }}
+.lock-btn {{
+    display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px;
+    border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.8rem;
+    cursor: pointer; background: #fff; margin-left: 8px; margin-top: 6px;
+    transition: all 0.2s; color: #636e72; vertical-align: middle;
+}}
+.lock-btn:hover {{ background: #f5f6fa; }}
+.lock-btn.unlocked {{ border-color: #e94560; color: #e94560; }}
+.lock-btn svg {{ width: 14px; height: 14px; fill: currentColor; }}
+td[contenteditable="true"] {{
+    background: #fffef5; outline: none; cursor: text;
+    box-shadow: inset 0 0 0 1px #f0d060;
+}}
+td[contenteditable="true"]:focus {{
+    box-shadow: inset 0 0 0 2px #e94560;
+    background: #fff;
+}}
 .filter-row {{ margin-bottom: 10px; }}
 .filter-row input {{ padding: 6px 10px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.82rem; width: 250px; }}
 .filter-row input:focus {{ outline: none; border-color: #e94560; }}
@@ -3463,6 +3480,7 @@ var _currentDs = null;
 var _filterText = '';
 var _sortCol = null;
 var _sortAsc = true;
+var _editMode = {{}}; // per-dataset edit mode: dsId -> bool
 
 // --- Import panel toggling ---
 function togglePanel(panelId, header) {{
@@ -4673,6 +4691,35 @@ function toggleDs(dsId) {{
     renderDetail();
 }}
 
+function toggleEditMode(dsId) {{
+    _editMode[dsId] = !_editMode[dsId];
+    renderDetail();
+}}
+
+function _cellEdited(td, dsId, itemIdx, field) {{
+    var newVal = td.textContent.trim();
+    var ds = DATASETS[dsId];
+    var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
+    var item = items[itemIdx];
+    if (!item) return;
+    // Coerce numeric fields
+    var numFields = ['dd','dp','dh','mw','bp','r','density','mv'];
+    if (numFields.indexOf(field) !== -1) {{
+        if (newVal === '') {{ item[field] = ''; }}
+        else {{
+            var n = parseFloat(newVal);
+            item[field] = isNaN(n) ? newVal : n;
+        }}
+    }} else {{
+        item[field] = newVal;
+    }}
+    if (!item._src) item._src = {{}};
+    item._src[field] = {{ label: 'Manual edit', url: '', uncertain: false }};
+    _saveImportedDatasets();
+    // Update sidebar counts if needed
+    buildSidebar();
+}}
+
 function renderDetail() {{
     var ct = document.getElementById('content');
     if (!_currentDs) {{
@@ -4697,6 +4744,14 @@ function renderDetail() {{
     html += '</div>';
     html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\\'' + _currentDs + '\\')">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
     html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\\'' + _currentDs + '\\')"' + (_inferRunning ? ' disabled' : '') + '>Infer Missing Values</button>';
+    var isEdit = !!_editMode[_currentDs];
+    html += '<button class="lock-btn' + (isEdit ? ' unlocked' : '') + '" onclick="toggleEditMode(\\'' + _currentDs + '\\')">';
+    if (isEdit) {{
+        html += '<svg viewBox="0 0 24 24"><path d="M18 8h-1V6A5 5 0 0 0 7 6h2a3 3 0 0 1 6 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>Editing';
+    }} else {{
+        html += '<svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z"/></svg>Locked';
+    }}
+    html += '</button>';
     html += '</div>';
     html += '<div class="infer-progress" id="infer-progress" style="display:none"></div>';
 
@@ -4744,6 +4799,9 @@ function renderDetail() {{
         smiles:'SMILES', formula:'Formula', density:'Density', mv:'V_m', ghs:'GHS'
     }};
 
+    // Tag each item with its original index for edit tracking
+    items.forEach(function(item, idx) {{ item._oidx = idx; }});
+
     html += '<table><thead><tr>';
     cols.forEach(function(c, i) {{
         html += '<th onclick="manageSort(' + i + ')">' + (colLabels[c]||c);
@@ -4764,11 +4822,16 @@ function renderDetail() {{
             var srcUrl = srcInfo ? (srcInfo.url || '') : dsSourceUrl;
             var isInferred = !!srcInfo;
             var isUncertain = srcInfo && srcInfo.uncertain;
-            var cls = isInferred ? ' class="inferred"' : '';
+            var cls = isInferred ? 'inferred' : '';
             var attrs = ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
             if (srcUrl) attrs += ' data-src-url="' + srcUrl.replace(/"/g,'&quot;') + '"';
-            html += '<td' + cls + attrs + '>' + v;
-            if (isUncertain) html += '<span class="q-mark">?</span>';
+            if (isEdit && c !== 'conf') {{
+                attrs += ' contenteditable="true" data-ds="' + _currentDs + '" data-idx="' + r._oidx + '" data-field="' + c + '"';
+                if (cls) cls += ' ';
+                cls += 'editable';
+            }}
+            html += '<td' + (cls ? ' class="' + cls + '"' : '') + attrs + '>' + v;
+            if (isUncertain && !isEdit) html += '<span class="q-mark">?</span>';
             html += '</td>';
         }});
         html += '</tr>';
@@ -4787,6 +4850,26 @@ function manageSort(col) {{
     else {{ _sortCol = col; _sortAsc = true; }}
     renderDetail();
 }}
+
+// --- Editable cell blur handler (event delegation) ---
+document.addEventListener('blur', function(e) {{
+    var td = e.target;
+    if (td.tagName !== 'TD' || !td.hasAttribute('contenteditable')) return;
+    var dsId = td.getAttribute('data-ds');
+    var idx = parseInt(td.getAttribute('data-idx'), 10);
+    var field = td.getAttribute('data-field');
+    if (dsId && !isNaN(idx) && field) {{
+        _cellEdited(td, dsId, idx, field);
+    }}
+}}, true);
+
+// Prevent Enter from inserting newlines in cells — commit edit instead
+document.addEventListener('keydown', function(e) {{
+    if (e.target.tagName === 'TD' && e.target.hasAttribute('contenteditable') && e.key === 'Enter') {{
+        e.preventDefault();
+        e.target.blur();
+    }}
+}});
 
 // Mark embedded datasets so we don't save them to localStorage
 Object.keys(DATASETS).forEach(function(k) {{ DATASETS[k]._embedded = true; }});
