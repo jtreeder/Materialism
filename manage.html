@@ -71,6 +71,7 @@ tbody tr { cursor: pointer; }
 tbody tr:hover { background: #f0f2f5; }
 .sel-info { display: inline-block; font-size: 0.75rem; color: #636e72; margin-left: 10px; margin-top: 8px; vertical-align: middle; }
 .clear-sel { color: #e94560; cursor: pointer; margin-left: 6px; text-decoration: underline; font-size: 0.75rem; }
+td.cell-note { font-style: italic; color: #b2bec3; font-size: 0.72rem; white-space: normal; max-width: 180px; }
 td.products-cell { white-space: normal; max-width: 260px; min-width: 140px; }
 .products-list { list-style: none; margin: 0; padding: 0; }
 .products-list li { font-size: 0.75rem; line-height: 1.4; padding: 1px 0; color: #2d3436; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -1363,12 +1364,21 @@ async function inferMissing(dsId) {
             }
 
             // --- Fill missing values ---
+            var _foundPubChem = !!pub;
+            var _foundCAS = !!casChem;
+            var _lookupNote = !_foundPubChem && !_foundCAS ? 'Not found in PubChem or CAS Common Chemistry' : '';
+
             entry.missing.forEach(function(field) {
                 // Handle commercial products
                 if (field === 'commercial_products') {
                     if (commercialProducts && commercialProducts.length > 0) {
                         item.commercial_products = commercialProducts;
                         item._src.commercial_products = { label: 'PubChem (Use & Manufacturing / SDS data)', url: (pub && pub.url) ? pub.url : '', uncertain: false };
+                        filled++;
+                    } else {
+                        var reason = !pub ? 'Compound not found in PubChem' : 'No use/manufacturing data in PubChem for CID ' + (pub.cid || '?');
+                        item.commercial_products = reason;
+                        item._src.commercial_products = { label: reason, url: '', uncertain: true, isNote: true };
                         filled++;
                     }
                     return;
@@ -1383,6 +1393,11 @@ async function inferMissing(dsId) {
                         item.cat = cat;
                         item._src.cat = { label: 'Auto-classified from structure/name', url: '', uncertain: false };
                         filled++;
+                    } else {
+                        var reason = !smi ? 'No SMILES available for classification' : 'Structure did not match known solvent categories';
+                        item.cat = reason;
+                        item._src.cat = { label: reason, url: '', uncertain: true, isNote: true };
+                        filled++;
                     }
                     return;
                 }
@@ -1392,6 +1407,14 @@ async function inferMissing(dsId) {
                     if (bpVal != null) {
                         item.bp = Math.round(bpVal * 10) / 10;
                         item._src.bp = { label: 'PubChem (experimental)', url: (pub && pub.url) || '', uncertain: false };
+                        filled++;
+                    } else {
+                        var reason;
+                        if (!pub) reason = 'Compound not found in PubChem';
+                        else if (!pub.cid) reason = 'No PubChem CID to look up BP';
+                        else reason = 'No experimental BP data in PubChem (CID: ' + pub.cid + ')';
+                        item.bp = reason;
+                        item._src.bp = { label: reason, url: (pub && pub.url) || '', uncertain: true, isNote: true };
                         filled++;
                     }
                     return;
@@ -1434,6 +1457,21 @@ async function inferMissing(dsId) {
                 if (val != null && val !== '') {
                     item[field] = val;
                     item._src[field] = { label: srcLabel, url: srcUrl, uncertain: uncertain };
+                    filled++;
+                } else {
+                    // Write a diagnostic note explaining why the value wasn't found
+                    var fieldNames = { cas: 'CAS #', mw: 'Molecular Weight', smiles: 'SMILES' };
+                    var reason;
+                    if (!_foundPubChem && !_foundCAS) {
+                        reason = 'Compound not found in PubChem or CAS';
+                    } else {
+                        var searched = [];
+                        if (_foundPubChem) searched.push('PubChem');
+                        if (_foundCAS) searched.push('CAS');
+                        reason = (fieldNames[field] || field) + ' not listed in ' + searched.join(' or ');
+                    }
+                    item[field] = reason;
+                    item._src[field] = { label: reason, url: pubUrl || casUrl || '', uncertain: true, isNote: true };
                     filled++;
                 }
             });
@@ -1757,9 +1795,12 @@ function renderDetail() {
     }
 
     var colLabels = {
-        name:'Name', cas:'CAS #', dd:'\u03b4D', dp:'\u03b4P', dh:'\u03b4H',
-        mw:'MW', bp:'BP', cat:'Category', conf:'Conf.', r:'R\u2080', type:'Type',
-        smiles:'SMILES', formula:'Formula', density:'Density', mv:'V_m', ghs:'GHS',
+        name:'Name', cas:'CAS #',
+        dd:'\u03b4D (MPa\u00bd)', dp:'\u03b4P (MPa\u00bd)', dh:'\u03b4H (MPa\u00bd)',
+        mw:'MW (g/mol)', bp:'BP (\u00b0C)', cat:'Category', conf:'Conf.',
+        r:'R\u2080 (MPa\u00bd)', type:'Type',
+        smiles:'SMILES', formula:'Formula', density:'Density (g/mL)',
+        mv:'V\u2098 (cm\u00b3/mol)', ghs:'GHS',
         commercial_products:'Commercial Products'
     };
 
@@ -1799,11 +1840,12 @@ function renderDetail() {
                 return;
             }
             if (c === 'commercial_products' && typeof v === 'string' && v !== '') {
-                // Handle legacy string format
+                // String: either a diagnostic note or legacy format
                 var srcInfo = r._src && r._src[c];
                 var srcLabel = srcInfo ? srcInfo.label : dsSource;
                 var isInferred = !!srcInfo;
-                var cls = 'products-cell' + (isInferred ? ' inferred' : '');
+                var isNote = srcInfo && srcInfo.isNote;
+                var cls = 'products-cell' + (isInferred ? ' inferred' : '') + (isNote ? ' cell-note' : '');
                 var attrs = ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
                 html += '<td class="' + cls + '"' + attrs + '>' + v.replace(/</g,'&lt;') + '</td>';
                 return;
@@ -1813,16 +1855,18 @@ function renderDetail() {
             var srcUrl = srcInfo ? (srcInfo.url || '') : dsSourceUrl;
             var isInferred = !!srcInfo;
             var isUncertain = srcInfo && srcInfo.uncertain;
+            var isNote = srcInfo && srcInfo.isNote;
             var cls = isInferred ? 'inferred' : '';
+            if (isNote) { if (cls) cls += ' '; cls += 'cell-note'; }
             var attrs = ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
             if (srcUrl) attrs += ' data-src-url="' + srcUrl.replace(/"/g,'&quot;') + '"';
-            if (isEdit && c !== 'conf') {
+            if (isEdit && c !== 'conf' && !isNote) {
                 attrs += ' contenteditable="true" data-ds="' + _currentDs + '" data-idx="' + r._oidx + '" data-field="' + c + '"';
                 if (cls) cls += ' ';
                 cls += 'editable';
             }
             html += '<td' + (cls ? ' class="' + cls + '"' : '') + attrs + '>' + v;
-            if (isUncertain && !isEdit) html += '<span class="q-mark">?</span>';
+            if (isUncertain && !isEdit && !isNote) html += '<span class="q-mark">?</span>';
             html += '</td>';
         });
         html += '</tr>';
