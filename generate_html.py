@@ -5319,7 +5319,19 @@ function renderDetail() {{
     html += '</tbody></table>';
     html += '<div style="margin-top:8px;font-size:0.8rem;color:#636e72">Showing ' + Math.min(limit, filtered.length) + ' of ' + filtered.length + ' entries</div>';
 
+    // Preserve focus/cursor in the filter input across re-renders
+    var _prevFocus = document.activeElement;
+    var _prevSel = null;
+    if (_prevFocus && _prevFocus.id === 'manage-filter') {{
+        _prevSel = {{ start: _prevFocus.selectionStart, end: _prevFocus.selectionEnd }};
+    }}
+
     ct.innerHTML = html;
+
+    if (_prevSel !== null) {{
+        var inp = document.getElementById('manage-filter');
+        if (inp) {{ inp.focus(); inp.selectionStart = _prevSel.start; inp.selectionEnd = _prevSel.end; }}
+    }}
 }}
 
 function manageSort(col) {{
