@@ -707,6 +707,47 @@ full_html = f"""<!DOCTYPE html>
         }}
         var _activeDsets = _getActiveDsets();
 
+        // --- Load imported datasets from manage page ---
+        (function() {{
+            try {{
+                var raw = localStorage.getItem('materialism_imported_datasets');
+                if (!raw) return;
+                var imported = JSON.parse(raw);
+                Object.keys(imported).forEach(function(dsId) {{
+                    if (_activeDsets[dsId] === false) return;
+                    var ds = imported[dsId];
+                    var meta = ds.meta || {{}};
+                    var srcLabel = meta.name || dsId;
+                    var srcUrl = meta.source_url || '';
+                    (ds.chemicals || []).forEach(function(c) {{
+                        var entry = {{
+                            name: c.name || '', cas: c.cas || '', smiles: c.smiles || '',
+                            formula: c.formula || '', dd: c.dd || '', dp: c.dp || '', dh: c.dh || '',
+                            mw: c.mw || '', bp: c.bp || '', density: c.density || '',
+                            mv: c.mv || '', cat: c.cat || '', ghs: c.ghs || '',
+                            conf: c.conf || '', srcN: 1, src: srcLabel, srcUrl: srcUrl,
+                            dsId: dsId, _imported: true
+                        }};
+                        SOLVENTS.push(entry);
+                        if (!_solventMap.has(entry.name)) _solventMap.set(entry.name, entry);
+                    }});
+                    (ds.polymers || []).forEach(function(p) {{
+                        var entry = {{
+                            name: p.name || '', cas: p.cas || '', dd: p.dd || '', dp: p.dp || '', dh: p.dh || '',
+                            r: p.r || '', type: p.type || '', conf: p.conf || '',
+                            srcN: 1, src: srcLabel, srcUrl: srcUrl,
+                            dsId: dsId, _imported: true
+                        }};
+                        POLYMERS.push(entry);
+                        if (!_polymerMap.has(entry.name)) _polymerMap.set(entry.name, entry);
+                    }});
+                    if (!DATASETS_META[dsId]) {{
+                        DATASETS_META[dsId] = {{ name: srcLabel, source_url: srcUrl }};
+                    }}
+                }});
+            }} catch(e) {{}}
+        }})();
+
         // Build dataset toggle checkboxes
         (function() {{
             var wrap = document.getElementById('ds-toggle-wrap');
@@ -2741,6 +2782,44 @@ function _saveActiveDsets(obj) {{ try {{ localStorage.setItem(_LS_DS_KEY, JSON.s
 function _getActiveDsets() {{ var s = _loadActiveDsets(); if (s) return s; var d = {{}}; Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = true; }}); return d; }}
 var _activeDsets = _getActiveDsets();
 function _isDsActive(dsId) {{ if (!dsId) return true; return _activeDsets[dsId] !== false; }}
+
+// --- Load imported datasets from manage page ---
+(function() {{
+    try {{
+        var raw = localStorage.getItem('materialism_imported_datasets');
+        if (!raw) return;
+        var imported = JSON.parse(raw);
+        Object.keys(imported).forEach(function(dsId) {{
+            if (_activeDsets[dsId] === false) return; // skip inactive
+            var ds = imported[dsId];
+            var meta = ds.meta || {{}};
+            var srcLabel = meta.name || dsId;
+            var srcUrl = meta.source_url || '';
+            (ds.chemicals || []).forEach(function(c) {{
+                SOLVENTS.push({{
+                    name: c.name || '', cas: c.cas || '', smiles: c.smiles || '',
+                    formula: c.formula || '', dd: c.dd || '', dp: c.dp || '', dh: c.dh || '',
+                    mw: c.mw || '', bp: c.bp || '', density: c.density || '',
+                    mv: c.mv || '', cat: c.cat || '', ghs: c.ghs || '',
+                    conf: c.conf || '', srcN: 1, src: srcLabel, srcUrl: srcUrl,
+                    dsId: dsId, _imported: true
+                }});
+            }});
+            (ds.polymers || []).forEach(function(p) {{
+                POLYMERS.push({{
+                    name: p.name || '', cas: p.cas || '', dd: p.dd || '', dp: p.dp || '', dh: p.dh || '',
+                    r: p.r || '', type: p.type || '', conf: p.conf || '',
+                    srcN: 1, src: srcLabel, srcUrl: srcUrl,
+                    dsId: dsId, _imported: true
+                }});
+            }});
+            if (!DATASETS_META[dsId]) {{
+                DATASETS_META[dsId] = {{ name: srcLabel, source_url: srcUrl }};
+            }}
+        }});
+    }} catch(e) {{}}
+}})();
+
 var SRC_TIERS = {{
     'Hansen Handbook 2007': 50, 'Mendeley (Langner 2022)': 40,
     'SolvPred (Fang)': 35, 'Accudyne Test': 40, 'Wolfram Data Repo': 35,

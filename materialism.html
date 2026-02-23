@@ -4229,6 +4229,47 @@ return Plotly;
         }
         var _activeDsets = _getActiveDsets();
 
+        // --- Load imported datasets from manage page ---
+        (function() {
+            try {
+                var raw = localStorage.getItem('materialism_imported_datasets');
+                if (!raw) return;
+                var imported = JSON.parse(raw);
+                Object.keys(imported).forEach(function(dsId) {
+                    if (_activeDsets[dsId] === false) return;
+                    var ds = imported[dsId];
+                    var meta = ds.meta || {};
+                    var srcLabel = meta.name || dsId;
+                    var srcUrl = meta.source_url || '';
+                    (ds.chemicals || []).forEach(function(c) {
+                        var entry = {
+                            name: c.name || '', cas: c.cas || '', smiles: c.smiles || '',
+                            formula: c.formula || '', dd: c.dd || '', dp: c.dp || '', dh: c.dh || '',
+                            mw: c.mw || '', bp: c.bp || '', density: c.density || '',
+                            mv: c.mv || '', cat: c.cat || '', ghs: c.ghs || '',
+                            conf: c.conf || '', srcN: 1, src: srcLabel, srcUrl: srcUrl,
+                            dsId: dsId, _imported: true
+                        };
+                        SOLVENTS.push(entry);
+                        if (!_solventMap.has(entry.name)) _solventMap.set(entry.name, entry);
+                    });
+                    (ds.polymers || []).forEach(function(p) {
+                        var entry = {
+                            name: p.name || '', cas: p.cas || '', dd: p.dd || '', dp: p.dp || '', dh: p.dh || '',
+                            r: p.r || '', type: p.type || '', conf: p.conf || '',
+                            srcN: 1, src: srcLabel, srcUrl: srcUrl,
+                            dsId: dsId, _imported: true
+                        };
+                        POLYMERS.push(entry);
+                        if (!_polymerMap.has(entry.name)) _polymerMap.set(entry.name, entry);
+                    });
+                    if (!DATASETS_META[dsId]) {
+                        DATASETS_META[dsId] = { name: srcLabel, source_url: srcUrl };
+                    }
+                });
+            } catch(e) {}
+        })();
+
         // Build dataset toggle checkboxes
         (function() {
             var wrap = document.getElementById('ds-toggle-wrap');
