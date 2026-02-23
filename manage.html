@@ -938,6 +938,119 @@ function _mwClose(a, b) {
     return Math.abs(a - b) / Math.max(a, b) < 0.01;
 }
 
+// --- PubChem boiling point lookup via PUG View ---
+function _pubchemBP(cid) {
+    if (!cid) return Promise.resolve(null);
+    var url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Boiling+Point';
+    return fetch(url).then(function(r) {
+        if (!r.ok) return null;
+        return r.json();
+    }).then(function(data) {
+        if (!data || !data.Record || !data.Record.Section) return null;
+        // Navigate: Record > Section[] > Section[] > Information[]
+        var sections = data.Record.Section;
+        for (var i = 0; i < sections.length; i++) {
+            var sub = sections[i].Section;
+            if (!sub) continue;
+            for (var j = 0; j < sub.length; j++) {
+                var info = sub[j].Information;
+                if (!info) continue;
+                for (var k = 0; k < info.length; k++) {
+                    var val = info[k].Value;
+                    if (!val) continue;
+                    // Check StringWithMarkup first (most common format)
+                    if (val.StringWithMarkup && val.StringWithMarkup[0]) {
+                        var s = val.StringWithMarkup[0].String || '';
+                        var m = s.match(/([-]?[\d.]+)\s*[°]?\s*C/i);
+                        if (m) return parseFloat(m[1]);
+                        // Some entries just have a number with unit in Units field
+                        m = s.match(/^([-]?[\d.]+)$/);
+                        if (m && val.Unit && val.Unit.toLowerCase().indexOf('c') !== -1) return parseFloat(m[1]);
+                    }
+                    // Check Number array
+                    if (val.Number && val.Number.length > 0) {
+                        var unit = (val.Unit || '').toLowerCase();
+                        if (unit.indexOf('c') !== -1 || unit === 'deg c' || unit === '°c') {
+                            return val.Number[0];
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }).catch(function() { return null; });
+}
+
+// --- Solvent categorization from SMILES / name ---
+function _categorizeSolvent(smiles, name) {
+    var s = (smiles || '').trim();
+    var n = (name || '').toLowerCase().trim();
+
+    // Water
+    if (s === 'O' || n === 'water') return 'Water';
+
+    // Acids - carboxylic: C(=O)O and not ester (C(=O)OC)
+    if (/C\(=O\)O[^C\(]|C\(=O\)O$/.test(s) || /\bac(id|etic|rylic)\b|\bformic\b/.test(n)) return 'Acid';
+
+    // Amides: C(=O)N
+    if (/C\(=O\)N/.test(s) || /\b(dmf|dma|nmp|dmac|formamide|acetamide|pyrrolidone)\b/.test(n)) return 'Amide';
+
+    // Nitriles: C#N
+    if (/C#N/.test(s) || /nitrile|\bacn\b|acetonitrile|\bcyanide\b/.test(n)) return 'Nitrile';
+
+    // Sulfoxides/sulfones: S(=O)
+    if (/S\(=O\)/.test(s) || /\b(dmso|sulfo|sulfoxide|sulfone|sulfolane)\b/.test(n)) return 'Sulfoxide/Sulfone';
+
+    // Alcohols: O but not ethers/esters; check for OH group
+    // Glycols/polyols: multiple OH groups
+    var ohCount = 0;
+    if (s) {
+        // Count OH groups: terminal O not double-bonded and not ether
+        var stripped = s.replace(/C\(=O\)/g, ''); // remove carbonyls
+        ohCount = (stripped.match(/O/g) || []).length;
+    }
+    if (/\b(glycol|glycer|polyol|diol|triol|ethylene glycol|propylene glycol|sorbitol)\b/.test(n) || ohCount >= 2) {
+        if (!/\bether\b/.test(n) && !/COC/.test(s)) return 'Glycol/Polyol';
+    }
+    if (/O/.test(s) && /^[^=]*$/.test(s) && !(/COC/.test(s)) && !(/C\(=O\)/.test(smiles || '')) || /\b(ol|alcohol|methanol|ethanol|propanol|butanol|pentanol|hexanol|phenol)\b/.test(n)) {
+        if (!/\bether\b/.test(n) && !/\beste\b/.test(n)) {
+            // Make sure it's an alcohol not just an oxygen-containing compound
+            if (/\b(ol|alcohol|methanol|ethanol|propanol|butanol|pentanol|hexanol|phenol)\b/.test(n)) return 'Alcohol';
+            if (s && /[^=]O/.test(s) && !/COC/.test(s) && !/OC\(=O\)/.test(s) && !/C\(=O\)O/.test(s) && ohCount <= 1) return 'Alcohol';
+        }
+    }
+
+    // Ketones: C(=O) flanked by carbons (not acid, not ester, not amide)
+    if (/CC\(=O\)C|CC\(C\)=O/.test(s) || /\b(ketone|acetone|mek|mibk|cyclohexanone|butanone|pentanone)\b/.test(n)) return 'Ketone';
+
+    // Aldehydes: C=O at terminal
+    if (/C=O/.test(s) && /\b(aldehyde|formaldehyde|acetaldehyde|butanal|propanal|furfural)\b/.test(n)) return 'Aldehyde';
+
+    // Esters: C(=O)OC
+    if (/C\(=O\)OC|OC\(=O\)/.test(s) || /\b(acetate|ester|lactone|butyrolactone|formate|propanoate|acrylate)\b/.test(n)) return 'Ester';
+
+    // Ethers: COC (not ester)
+    if (/COC/.test(s) || /\b(ether|thf|tetrahydrofuran|dioxane|dioxolane|anisole|glyme|diglyme|mtbe|methoxybenzene)\b/.test(n)) return 'Ether';
+
+    // Halogenated
+    if (/[FBrI]|Cl/.test(s) || /\b(chlor|fluor|brom|iod|dichloro|trichloro|freon|halocarbon|methylene chloride|dcm|carbon tetrachloride|chloroform|perfluor)\b/.test(n)) return 'Halogenated';
+
+    // Aromatic hydrocarbons
+    if (/c1ccccc1|C1=CC=CC=C1/.test(s) || /\b(benzene|toluene|xylene|styrene|naphthalene|mesitylene|cumene|ethylbenzene|trimethylbenzene)\b/.test(n)) return 'Hydrocarbon (aromatic)';
+
+    // Amines
+    if (/[^C]N|^N/.test(s) || /\b(amine|pyridine|triethylamine|diethylamine|morpholine|piperidine|aniline)\b/.test(n)) return 'Amine';
+
+    // Aliphatic hydrocarbons (no heteroatoms in SMILES)
+    if (s && /^[CcHh0-9()=\/\\\[\]#+%-]+$/.test(s) && !/[NOSFBrIPnos]/.test(s)) return 'Hydrocarbon (aliphatic)';
+    if (/\b(hexane|heptane|octane|pentane|decane|cyclohexane|petroleum|naphtha|isooctane|decalin|mineral spirits|ligroin|dodecane)\b/.test(n)) return 'Hydrocarbon (aliphatic)';
+
+    // CS2, carbon disulfide
+    if (/\b(carbon disulfide|cs2)\b/.test(n) || s === 'S=C=S') return 'Other';
+
+    return '';
+}
+
 // --- Infer missing values engine ---
 var _inferRunning = false;
 var _inferCancelled = false;
@@ -953,7 +1066,7 @@ async function inferMissing(dsId) {
     if (btn) btn.disabled = true;
     var ds = DATASETS[dsId];
     var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
-    var fillable = ['cas','mw','smiles'];
+    var fillable = ['cas','mw','smiles','bp','cat'];
     var queue = [];
 
     items.forEach(function(item, idx) {
@@ -1018,8 +1131,41 @@ async function inferMissing(dsId) {
                 }
             }
 
+            // --- Boiling point lookup (PubChem PUG View) ---
+            var bpVal = null;
+            if (entry.missing.indexOf('bp') !== -1) {
+                var bpCid = pub && pub.cid;
+                if (bpCid) {
+                    await _delay(200);
+                    bpVal = await _pubchemBP(bpCid);
+                }
+            }
+
             // --- Fill missing values ---
             entry.missing.forEach(function(field) {
+                // Handle category separately (local classification, no API)
+                if (field === 'cat') {
+                    var smi = item.smiles || (pub && pub.smiles) || '';
+                    var nm = item.name || '';
+                    var cat = _categorizeSolvent(smi, nm);
+                    if (cat) {
+                        item.cat = cat;
+                        item._src.cat = { label: 'Auto-classified from structure/name', url: '', uncertain: false };
+                        filled++;
+                    }
+                    return;
+                }
+
+                // Handle boiling point
+                if (field === 'bp') {
+                    if (bpVal != null) {
+                        item.bp = Math.round(bpVal * 10) / 10;
+                        item._src.bp = { label: 'PubChem (experimental)', url: (pub && pub.url) || '', uncertain: false };
+                        filled++;
+                    }
+                    return;
+                }
+
                 var pubVal = null, casVal = null, pubUrl = '', casUrl = '';
                 if (pub) {
                     pubUrl = pub.url || '';
