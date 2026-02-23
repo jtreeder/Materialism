@@ -2836,7 +2836,7 @@ var SOLV_COLS = [
     {{key:'dh', label:'\\u03b4H (MPa\\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
     {{key:'mw', label:'MW (g/mol)', w:'80px', tip:'Molecular weight'}},
     {{key:'bp', label:'BP (\\u00b0C)', w:'70px', tip:'Boiling point'}},
-    {{key:'density', label:'Density', w:'70px', tip:'Density (g/mL)'}},
+    {{key:'density', label:'Density (g/mL)', w:'90px', tip:'Density (g/mL)'}},
     {{key:'mv', label:'V\\u2098 (cm\\u00b3/mol)', w:'90px', tip:'Molar volume'}},
     {{key:'cat', label:'Category', w:'100px'}},
     {{key:'ghs', label:'GHS Hazard', w:'120px'}},
