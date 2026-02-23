@@ -1,0 +1,31 @@
+{
+  "id": "hansen_a1",
+  "name": "Hansen A.1 - Solvents",
+  "source_url": "",
+  "description": "Hansen solubility parameters table A.1 - 1130 solvents",
+  "imported_at": "2026-02-23T20:47:20.143401+00:00",
+  "chemical_count": 1130,
+  "polymer_count": 0,
+  "fields_available": [
+    "name",
+    "delta_d",
+    "delta_p",
+    "delta_h",
+    "molar_volume",
+    "category",
+    "confidence",
+    "source_count",
+    "source"
+  ],
+  "quality_notes": "",
+  "active": true,
+  "confidence_tier": 0.8,
+  "column_mapping": {
+    "solvent_name": "name",
+    "dispersion": "delta_d",
+    "polarity": "delta_p",
+    "hydrogen_bonding": "delta_h",
+    "molar_volume": "molar_volume"
+  },
+  "original_file": "table_a1.csv"
+}

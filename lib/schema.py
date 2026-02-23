@@ -16,7 +16,9 @@ POLYMER_FIELDS = [
 ]
 
 # Column name aliases for auto-mapping during import
-NAME_COLS = {"name", "chemical", "compound", "solvent", "material", "molecule"}
+NAME_COLS = {"name", "chemical", "compound", "solvent", "material", "molecule",
+             "solvent_name", "polymer_name", "chemical_name", "compound_name",
+             "chemical name", "solvent name", "polymer name", "compound name"}
 CAS_COLS = {"cas", "cas_number", "cas_no", "casrn", "cas number", "cas #"}
 DD_COLS = {"delta_d", "dd", "dispersion", "\u03b4d", "deltad", "d_d", "hansen_d",
            "dd_mpa05", "dd_mpa0.5", "\u03b4d (mpa^0.5)"}
@@ -25,16 +27,17 @@ DP_COLS = {"delta_p", "dp", "polar", "polarity", "\u03b4p", "deltap", "d_p", "ha
 DH_COLS = {"delta_h", "dh", "hydrogen", "h-h bonding", "h_bonding", "\u03b4h", "deltah",
            "d_h", "hansen_h", "dh_mpa05", "dh_mpa0.5", "\u03b4h (mpa^0.5)",
            "hydrogen_bonding"}
-MW_COLS = {"molecular_weight", "mw", "mol_weight", "molar_mass", "mwt_g_mol"}
+MW_COLS = {"molecular_weight", "mw", "mol_weight", "molar_mass", "mwt_g_mol",
+           "molecular weight"}
 BP_COLS = {"boiling_point", "bp", "boiling", "b.p.", "tb_c"}
 DENSITY_COLS = {"density", "rho", "\u03c1", "density_g_cm3"}
 MV_COLS = {"molar_volume", "mv", "mol_volume", "vm", "mvol_cm3_mol",
-           "volume_cm3_per_mol"}
+           "volume_cm3_per_mol", "molar volume (cm\u00b3/mol)"}
 CATEGORY_COLS = {"category", "type", "class", "group"}
 SMILES_COLS = {"smiles", "smi"}
 FORMULA_COLS = {"molecular_formula", "formula", "molecular formula"}
 GHS_COLS = {"ghs_hazard", "ghs", "h_statements", "hazard"}
-RADIUS_COLS = {"radius", "r0", "r_0", "interaction_radius"}
+RADIUS_COLS = {"radius", "r0", "r_0", "interaction_radius", "r0 (mpa^0.5)"}
 POLYMER_TYPE_COLS = {"type", "polymer_type", "category"}
 
 

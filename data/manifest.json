@@ -1,4 +1,124 @@
 {
   "version": 1,
-  "datasets": {}
+  "datasets": {
+    "hansen_a1": {
+      "id": "hansen_a1",
+      "name": "Hansen A.1 - Solvents",
+      "source_url": "",
+      "description": "Hansen solubility parameters table A.1 - 1130 solvents",
+      "imported_at": "2026-02-23T20:47:20.143401+00:00",
+      "chemical_count": 1130,
+      "polymer_count": 0,
+      "fields_available": [
+        "name",
+        "delta_d",
+        "delta_p",
+        "delta_h",
+        "molar_volume",
+        "category",
+        "confidence",
+        "source_count",
+        "source"
+      ],
+      "quality_notes": "",
+      "active": true,
+      "confidence_tier": 0.8
+    },
+    "hansen_a2": {
+      "id": "hansen_a2",
+      "name": "Hansen A.2 - Polymers",
+      "source_url": "",
+      "description": "Hansen solubility parameters table A.2 - polymers and resins",
+      "imported_at": "2026-02-23T20:47:31.164703+00:00",
+      "chemical_count": 0,
+      "polymer_count": 466,
+      "fields_available": [
+        "name",
+        "delta_d",
+        "delta_p",
+        "delta_h",
+        "radius",
+        "type",
+        "confidence",
+        "source_count",
+        "source"
+      ],
+      "quality_notes": "",
+      "active": true,
+      "confidence_tier": 0.8
+    },
+    "accudyne_solvents": {
+      "id": "accudyne_solvents",
+      "name": "Accudyne Solvents",
+      "source_url": "",
+      "description": "HSP data from Accudyne surface tension database",
+      "imported_at": "2026-02-23T20:47:41.444324+00:00",
+      "chemical_count": 87,
+      "polymer_count": 0,
+      "fields_available": [
+        "name",
+        "cas_number",
+        "molecular_formula",
+        "delta_d",
+        "delta_p",
+        "delta_h",
+        "molecular_weight",
+        "molar_volume",
+        "category",
+        "confidence",
+        "source_count",
+        "source"
+      ],
+      "quality_notes": "",
+      "active": true,
+      "confidence_tier": 0.6
+    },
+    "accudyne_polymers": {
+      "id": "accudyne_polymers",
+      "name": "Accudyne Polymers",
+      "source_url": "",
+      "description": "HSP and surface energy data for polymers from Accudyne",
+      "imported_at": "2026-02-23T20:47:52.862738+00:00",
+      "chemical_count": 0,
+      "polymer_count": 40,
+      "fields_available": [
+        "name",
+        "cas_number",
+        "delta_d",
+        "delta_p",
+        "delta_h",
+        "radius",
+        "type",
+        "confidence",
+        "source_count",
+        "source"
+      ],
+      "quality_notes": "",
+      "active": true,
+      "confidence_tier": 0.6
+    },
+    "hspip_solvents": {
+      "id": "hspip_solvents",
+      "name": "HSPiP Solvents",
+      "source_url": "",
+      "description": "Hansen Solubility Parameters in Practice - solvent database",
+      "imported_at": "2026-02-23T20:48:28.081178+00:00",
+      "chemical_count": 1218,
+      "polymer_count": 0,
+      "fields_available": [
+        "name",
+        "cas_number",
+        "delta_d",
+        "delta_p",
+        "delta_h",
+        "category",
+        "confidence",
+        "source_count",
+        "source"
+      ],
+      "quality_notes": "",
+      "active": true,
+      "confidence_tier": 0.7
+    }
+  }
 }

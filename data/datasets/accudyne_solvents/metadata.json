@@ -1,0 +1,37 @@
+{
+  "id": "accudyne_solvents",
+  "name": "Accudyne Solvents",
+  "source_url": "",
+  "description": "HSP data from Accudyne surface tension database",
+  "imported_at": "2026-02-23T20:47:41.444324+00:00",
+  "chemical_count": 87,
+  "polymer_count": 0,
+  "fields_available": [
+    "name",
+    "cas_number",
+    "molecular_formula",
+    "delta_d",
+    "delta_p",
+    "delta_h",
+    "molecular_weight",
+    "molar_volume",
+    "category",
+    "confidence",
+    "source_count",
+    "source"
+  ],
+  "quality_notes": "",
+  "active": true,
+  "confidence_tier": 0.6,
+  "column_mapping": {
+    "Name": "name",
+    "CAS Number": "cas_number",
+    "\u03b4D (MPa^0.5)": "delta_d",
+    "\u03b4P (MPa^0.5)": "delta_p",
+    "\u03b4H (MPa^0.5)": "delta_h",
+    "Molecular Weight": "molecular_weight",
+    "Molar Volume (cm\u00b3/mol)": "molar_volume",
+    "Molecular Formula": "molecular_formula"
+  },
+  "original_file": "accudyne_solvents.csv"
+}

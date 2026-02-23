@@ -1,0 +1,32 @@
+{
+  "id": "hansen_a2",
+  "name": "Hansen A.2 - Polymers",
+  "source_url": "",
+  "description": "Hansen solubility parameters table A.2 - polymers and resins",
+  "imported_at": "2026-02-23T20:47:31.164703+00:00",
+  "chemical_count": 0,
+  "polymer_count": 466,
+  "fields_available": [
+    "name",
+    "delta_d",
+    "delta_p",
+    "delta_h",
+    "radius",
+    "type",
+    "confidence",
+    "source_count",
+    "source"
+  ],
+  "quality_notes": "",
+  "active": true,
+  "confidence_tier": 0.8,
+  "column_mapping": {
+    "polymer_name": "name",
+    "dispersion": "delta_d",
+    "polar": "delta_p",
+    "hydrogen_bonding": "delta_h",
+    "category": "category",
+    "interaction_radius": "radius"
+  },
+  "original_file": "table_a2.csv"
+}

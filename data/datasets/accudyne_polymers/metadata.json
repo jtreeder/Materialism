@@ -1,0 +1,33 @@
+{
+  "id": "accudyne_polymers",
+  "name": "Accudyne Polymers",
+  "source_url": "",
+  "description": "HSP and surface energy data for polymers from Accudyne",
+  "imported_at": "2026-02-23T20:47:52.862738+00:00",
+  "chemical_count": 0,
+  "polymer_count": 40,
+  "fields_available": [
+    "name",
+    "cas_number",
+    "delta_d",
+    "delta_p",
+    "delta_h",
+    "radius",
+    "type",
+    "confidence",
+    "source_count",
+    "source"
+  ],
+  "quality_notes": "",
+  "active": true,
+  "confidence_tier": 0.6,
+  "column_mapping": {
+    "Name": "name",
+    "CAS Number": "cas_number",
+    "\u03b4D (MPa^0.5)": "delta_d",
+    "\u03b4P (MPa^0.5)": "delta_p",
+    "\u03b4H (MPa^0.5)": "delta_h",
+    "R0 (MPa^0.5)": "radius"
+  },
+  "original_file": "accudyne_polymers.csv"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "hspip_solvents",
+  "name": "HSPiP Solvents",
+  "source_url": "",
+  "description": "Hansen Solubility Parameters in Practice - solvent database",
+  "imported_at": "2026-02-23T20:48:28.081178+00:00",
+  "chemical_count": 1218,
+  "polymer_count": 0,
+  "fields_available": [
+    "name",
+    "cas_number",
+    "delta_d",
+    "delta_p",
+    "delta_h",
+    "category",
+    "confidence",
+    "source_count",
+    "source"
+  ],
+  "quality_notes": "",
+  "active": true,
+  "confidence_tier": 0.7,
+  "column_mapping": {
+    "Chemical name": "name",
+    "CAS #": "cas_number",
+    "Dispersion": "delta_d",
+    "Polarity": "delta_p",
+    "H-H bonding": "delta_h"
+  },
+  "original_file": "HSPiPsolvents.xlsx"
+}
