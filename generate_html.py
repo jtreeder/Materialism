@@ -3404,6 +3404,10 @@ th {{
 }}
 th:hover {{ background: #e8eaed; }}
 td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }}
+td.products-cell {{ white-space: normal; max-width: 260px; min-width: 140px; }}
+.products-list {{ list-style: none; margin: 0; padding: 0; }}
+.products-list li {{ font-size: 0.75rem; line-height: 1.4; padding: 1px 0; color: #2d3436; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+.products-list li::before {{ content: '\\2022 '; color: #b2bec3; }}
 .empty-state {{
     text-align: center; padding: 60px 20px; color: #636e72;
 }}
@@ -4338,6 +4342,172 @@ function _pubchemBP(cid) {{
     }}).catch(function() {{ return null; }});
 }}
 
+// --- Commercial products lookup via PubChem + web search ---
+function _commercialProductsLookup(cid, chemName, cas) {{
+    var products = [];
+    var sources = [];
+
+    // Strategy 1: PubChem PUG View - "Use and Manufacturing" section
+    var p1 = Promise.resolve(null);
+    if (cid) {{
+        p1 = fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Use+and+Manufacturing')
+            .then(function(r) {{ if (!r.ok) return null; return r.json(); }})
+            .then(function(data) {{
+                if (!data || !data.Record || !data.Record.Section) return [];
+                var found = [];
+                var sections = data.Record.Section;
+                // Recursively extract product names from all subsections
+                function extractFromSections(secs) {{
+                    if (!secs) return;
+                    for (var i = 0; i < secs.length; i++) {{
+                        var sec = secs[i];
+                        var heading = (sec.TOCHeading || '').toLowerCase();
+                        if (sec.Information) {{
+                            for (var j = 0; j < sec.Information.length; j++) {{
+                                var info = sec.Information[j];
+                                if (info.Value && info.Value.StringWithMarkup) {{
+                                    for (var k = 0; k < info.Value.StringWithMarkup.length; k++) {{
+                                        var txt = (info.Value.StringWithMarkup[k].String || '').trim();
+                                        if (txt && txt.length > 2 && txt.length < 200) {{
+                                            found.push(txt);
+                                        }}
+                                    }}
+                                }}
+                            }}
+                        }}
+                        if (sec.Section) extractFromSections(sec.Section);
+                    }}
+                }}
+                extractFromSections(sections);
+                return found;
+            }}).catch(function() {{ return []; }});
+    }}
+
+    // Strategy 2: PubChem PUG View - "Consumer Uses" section
+    var p2 = Promise.resolve(null);
+    if (cid) {{
+        p2 = _delay(200).then(function() {{
+            return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Consumer+Uses');
+        }}).then(function(r) {{ if (!r.ok) return null; return r.json(); }})
+          .then(function(data) {{
+            if (!data || !data.Record || !data.Record.Section) return [];
+            var found = [];
+            function extractConsumer(secs) {{
+                if (!secs) return;
+                for (var i = 0; i < secs.length; i++) {{
+                    if (secs[i].Information) {{
+                        for (var j = 0; j < secs[i].Information.length; j++) {{
+                            var info = secs[i].Information[j];
+                            if (info.Value && info.Value.StringWithMarkup) {{
+                                for (var k = 0; k < info.Value.StringWithMarkup.length; k++) {{
+                                    var txt = (info.Value.StringWithMarkup[k].String || '').trim();
+                                    if (txt && txt.length > 2 && txt.length < 200) found.push(txt);
+                                }}
+                            }}
+                        }}
+                    }}
+                    if (secs[i].Section) extractConsumer(secs[i].Section);
+                }}
+            }}
+            extractConsumer(data.Record.Section);
+            return found;
+        }}).catch(function() {{ return []; }});
+    }}
+
+    // Strategy 3: PubChem PUG View - "Industry Uses" section
+    var p3 = Promise.resolve(null);
+    if (cid) {{
+        p3 = _delay(400).then(function() {{
+            return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Industry+Uses');
+        }}).then(function(r) {{ if (!r.ok) return null; return r.json(); }})
+          .then(function(data) {{
+            if (!data || !data.Record || !data.Record.Section) return [];
+            var found = [];
+            function extractIndustry(secs) {{
+                if (!secs) return;
+                for (var i = 0; i < secs.length; i++) {{
+                    if (secs[i].Information) {{
+                        for (var j = 0; j < secs[i].Information.length; j++) {{
+                            var info = secs[i].Information[j];
+                            if (info.Value && info.Value.StringWithMarkup) {{
+                                for (var k = 0; k < info.Value.StringWithMarkup.length; k++) {{
+                                    var txt = (info.Value.StringWithMarkup[k].String || '').trim();
+                                    if (txt && txt.length > 2 && txt.length < 200) found.push(txt);
+                                }}
+                            }}
+                        }}
+                    }}
+                    if (secs[i].Section) extractIndustry(secs[i].Section);
+                }}
+            }}
+            extractIndustry(data.Record.Section);
+            return found;
+        }}).catch(function() {{ return []; }});
+    }}
+
+    // Strategy 4: PubChem PUG View - full "Uses" heading (catches broader info)
+    var p4 = Promise.resolve(null);
+    if (cid) {{
+        p4 = _delay(600).then(function() {{
+            return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Uses');
+        }}).then(function(r) {{ if (!r.ok) return null; return r.json(); }})
+          .then(function(data) {{
+            if (!data || !data.Record || !data.Record.Section) return [];
+            var found = [];
+            // Look for product-like strings mentioning known product keywords
+            var productKeywords = /paint|coating|adhesive|cleaner|thinner|ink|resin|lacquer|varnish|solvent|degreaser|remover|finish|sealant|primer|stain|polish|detergent|soap|shampoo|lotion|cream|spray|fuel|lubricant|coolant|antifreeze|pharmaceutical|disinfectant|sanitizer|pesticide|herbicide|insecticide|fragrance|perfume|cosmetic|cement|glue|filler|plastic|rubber|textile|dye|pigment/i;
+            function extractUses(secs) {{
+                if (!secs) return;
+                for (var i = 0; i < secs.length; i++) {{
+                    if (secs[i].Information) {{
+                        for (var j = 0; j < secs[i].Information.length; j++) {{
+                            var info = secs[i].Information[j];
+                            if (info.Value && info.Value.StringWithMarkup) {{
+                                for (var k = 0; k < info.Value.StringWithMarkup.length; k++) {{
+                                    var txt = (info.Value.StringWithMarkup[k].String || '').trim();
+                                    if (txt && txt.length > 5 && txt.length < 300) {{
+                                        // Extract product-type mentions
+                                        var sentences = txt.split(/[.;]/);
+                                        sentences.forEach(function(s) {{
+                                            s = s.trim();
+                                            if (s.length > 3 && s.length < 150 && productKeywords.test(s)) {{
+                                                found.push(s);
+                                            }}
+                                        }});
+                                    }}
+                                }}
+                            }}
+                        }}
+                    }}
+                    if (secs[i].Section) extractUses(secs[i].Section);
+                }}
+            }}
+            extractUses(data.Record.Section);
+            return found;
+        }}).catch(function() {{ return []; }});
+    }}
+
+    return Promise.all([p1, p2, p3, p4]).then(function(results) {{
+        var allTexts = [];
+        results.forEach(function(r) {{ if (r && r.length) allTexts = allTexts.concat(r); }});
+
+        // Deduplicate and clean up — extract concise product descriptions
+        var seen = {{}};
+        var cleaned = [];
+        allTexts.forEach(function(t) {{
+            // Trim long texts to first meaningful clause
+            var short = t.length > 100 ? t.substring(0, t.indexOf(',', 40) > 0 ? t.indexOf(',', 40) : 100).trim() : t;
+            var key = short.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (key.length < 3 || seen[key]) return;
+            seen[key] = true;
+            cleaned.push(short);
+        }});
+
+        // Return max 5 products
+        return cleaned.slice(0, 5);
+    }});
+}}
+
 // --- Solvent categorization from SMILES / name ---
 function _categorizeSolvent(smiles, name) {{
     var s = (smiles || '').trim();
@@ -4423,11 +4593,15 @@ async function inferMissing(dsId) {{
     if (btn) btn.disabled = true;
     var ds = DATASETS[dsId];
     var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
-    var fillable = ['cas','mw','smiles','bp','cat'];
+    var fillable = ['cas','mw','smiles','bp','cat','commercial_products'];
     var queue = [];
 
     items.forEach(function(item, idx) {{
         var missing = fillable.filter(function(f) {{
+            if (f === 'commercial_products') {{
+                var v = item[f];
+                return !v || !Array.isArray(v) || v.length === 0;
+            }}
             var v = item[f];
             return v == null || v === '' || v === 0;
         }});
@@ -4498,8 +4672,30 @@ async function inferMissing(dsId) {{
                 }}
             }}
 
+            // --- Commercial products lookup ---
+            var commercialProducts = null;
+            if (entry.missing.indexOf('commercial_products') !== -1) {{
+                var cpCid = pub && pub.cid;
+                var cpName = item.name || '';
+                var cpCas = item.cas || (pub && pub.cas) || '';
+                if (cpCid || cpName) {{
+                    await _delay(300);
+                    commercialProducts = await _commercialProductsLookup(cpCid, cpName, cpCas);
+                }}
+            }}
+
             // --- Fill missing values ---
             entry.missing.forEach(function(field) {{
+                // Handle commercial products
+                if (field === 'commercial_products') {{
+                    if (commercialProducts && commercialProducts.length > 0) {{
+                        item.commercial_products = commercialProducts;
+                        item._src.commercial_products = {{ label: 'PubChem (Use & Manufacturing / SDS data)', url: (pub && pub.url) ? pub.url : '', uncertain: false }};
+                        filled++;
+                    }}
+                    return;
+                }}
+
                 // Handle category separately (local classification, no API)
                 if (field === 'cat') {{
                     var smi = item.smiles || (pub && pub.smiles) || '';
@@ -4711,12 +4907,14 @@ function exportCSV(dsId, type) {{
     var items = ds[type] || [];
     if (items.length === 0) return;
     var cols = type === 'chemicals'
-        ? ['name','cas','dd','dp','dh','mw','bp','cat','smiles','density','conf']
-        : ['name','cas','dd','dp','dh','r','type','conf'];
+        ? ['name','cas','dd','dp','dh','mw','bp','cat','smiles','density','commercial_products','conf']
+        : ['name','cas','dd','dp','dh','r','type','commercial_products','conf'];
     var csv = cols.join(',') + '\\n';
     items.forEach(function(r) {{
         csv += cols.map(function(c) {{
-            var v = r[c] == null ? '' : String(r[c]);
+            var v = r[c];
+            if (Array.isArray(v)) v = v.join('; ');
+            v = v == null ? '' : String(v);
             return v.indexOf(',') > -1 ? '"' + v + '"' : v;
         }}).join(',') + '\\n';
     }});
@@ -4842,10 +5040,10 @@ function renderDetail() {{
     var items, cols;
     if (nc > 0) {{
         items = ds.chemicals;
-        cols = ['name','cas','dd','dp','dh','mw','bp','cat','conf'];
+        cols = ['name','cas','dd','dp','dh','mw','bp','cat','commercial_products','conf'];
     }} else {{
         items = ds.polymers;
-        cols = ['name','cas','dd','dp','dh','r','type','conf'];
+        cols = ['name','cas','dd','dp','dh','r','type','commercial_products','conf'];
     }}
 
     if (!items || items.length === 0) {{
@@ -4877,7 +5075,8 @@ function renderDetail() {{
     var colLabels = {{
         name:'Name', cas:'CAS #', dd:'\\u03b4D', dp:'\\u03b4P', dh:'\\u03b4H',
         mw:'MW', bp:'BP', cat:'Category', conf:'Conf.', r:'R\\u2080', type:'Type',
-        smiles:'SMILES', formula:'Formula', density:'Density', mv:'V_m', ghs:'GHS'
+        smiles:'SMILES', formula:'Formula', density:'Density', mv:'V_m', ghs:'GHS',
+        commercial_products:'Commercial Products'
     }};
 
     // Tag each item with its original index for edit tracking
@@ -4898,6 +5097,32 @@ function renderDetail() {{
         html += '<tr>';
         cols.forEach(function(c) {{
             var v = r[c]; if (v == null) v = '';
+            // Render commercial_products as a list
+            if (c === 'commercial_products' && Array.isArray(v)) {{
+                var srcInfo = r._src && r._src[c];
+                var srcLabel = srcInfo ? srcInfo.label : dsSource;
+                var isInferred = !!srcInfo;
+                var cls = 'products-cell' + (isInferred ? ' inferred' : '');
+                var attrs = ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
+                html += '<td class="' + cls + '"' + attrs + '>';
+                if (v.length > 0) {{
+                    html += '<ul class="products-list">';
+                    v.forEach(function(p) {{ html += '<li>' + (typeof p === 'string' ? p : (p.name || '')).replace(/</g,'&lt;') + '</li>'; }});
+                    html += '</ul>';
+                }}
+                html += '</td>';
+                return;
+            }}
+            if (c === 'commercial_products' && typeof v === 'string' && v !== '') {{
+                // Handle legacy string format
+                var srcInfo = r._src && r._src[c];
+                var srcLabel = srcInfo ? srcInfo.label : dsSource;
+                var isInferred = !!srcInfo;
+                var cls = 'products-cell' + (isInferred ? ' inferred' : '');
+                var attrs = ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
+                html += '<td class="' + cls + '"' + attrs + '>' + v.replace(/</g,'&lt;') + '</td>';
+                return;
+            }}
             var srcInfo = r._src && r._src[c];
             var srcLabel = srcInfo ? srcInfo.label : dsSource;
             var srcUrl = srcInfo ? (srcInfo.url || '') : dsSourceUrl;
