@@ -4361,8 +4361,8 @@ function _pubchemBP(cid) {{
     }}).catch(function() {{ return null; }});
 }}
 
-// --- Commercial products / uses lookup ---
-// Extracts: (1) general process uses from PubChem, (2) specific products from SDS search
+// --- Industry uses lookup ---
+// Extracts industry/application uses from PubChem to show WHERE a chemical is used
 function _commercialProductsLookup(cid, chemName, cas) {{
 
     // Helper: recursively extract all text strings from PubChem PUG View sections
@@ -4386,7 +4386,7 @@ function _commercialProductsLookup(cid, chemName, cas) {{
         return out;
     }}
 
-    // Helper: strip category tags like [Category: Industry], [ATSDR ...], [HSDB], source refs
+    // Helper: strip source reference tags
     function _cleanText(t) {{
         return t
             .replace(/\\[Category:\\s*[^\\]]*\\]/gi, '')
@@ -4400,6 +4400,21 @@ function _commercialProductsLookup(cid, chemName, cas) {{
             .replace(/\\[[A-Z]{{2,}}[^\\]]*\\]/g, '')
             .replace(/\\s{{2,}}/g, ' ')
             .trim();
+    }}
+
+    // Helper: detect if text looks like a chemical name/synonym rather than a use description
+    function _looksLikeChemName(t) {{
+        // CAS number pattern
+        if (/^\\d{{2,7}}-\\d{{2}}-\\d$/.test(t)) return true;
+        // IUPAC-style names with heavy parenthetical/numeric structure
+        if (/^\\d/.test(t) && /[(),]/.test(t) && t.length < 80) return true;
+        // Molecular formulas like C2H6O
+        if (/^[A-Z][a-z]?(\\d+[A-Z][a-z]?)+\\d*$/.test(t.replace(/\\s/g,''))) return true;
+        // InChI / SMILES-like
+        if (/^InChI/.test(t) || /^[A-Z][a-z]?\\(/.test(t) && /\\)$/.test(t)) return true;
+        // Short all-caps codes that are typically registry IDs (e.g. EINECS, EC numbers)
+        if (/^\\d{{3}}-\\d{{3}}-\\d$/.test(t)) return true;
+        return false;
     }}
 
     // (1) PubChem: general uses from "Uses" heading
@@ -4424,96 +4439,46 @@ function _commercialProductsLookup(cid, chemName, cas) {{
             }}).catch(function() {{ return []; }});
     }}
 
-    // (2) SDS search: find specific products via multiple SDS database queries
-    var pSds = Promise.resolve([]);
-    var searchTerm = cas || chemName;
-    if (searchTerm) {{
-        // Search SDS databases for product names/model numbers containing this chemical
-        var sdsQueries = [];
-
-        // Google Custom Search via PubChem annotation links
-        // Try PubChem's "Associated Disorders and Diseases" or GHS for product refs
-        if (cid) {{
-            sdsQueries.push(
-                _delay(300).then(function() {{
-                    return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=GHS+Classification');
-                }}).then(function(r) {{ if (!r.ok) return []; return r.json(); }})
-                  .then(function(data) {{
-                    if (!data || !data.Record || !data.Record.Section) return [];
-                    var raw = _extractTexts(data.Record.Section);
-                    var products = [];
-                    // GHS data sometimes references product names in the classification source
-                    raw.forEach(function(t) {{
-                        // Extract product/brand names — look for patterns like "Product: X" or quoted names
-                        var matches = t.match(/(?:product[:\\s]+|trade name[:\\s]+|brand[:\\s]+)([^,;.]+)/gi);
-                        if (matches) matches.forEach(function(m) {{
-                            var name = m.replace(/^(product|trade name|brand)[:\\s]+/i, '').trim();
-                            if (name.length > 2 && name.length < 100) products.push(name);
-                        }});
-                    }});
-                    return products;
-                }}).catch(function() {{ return []; }})
-            );
-        }}
-
-        // Search PubChem compound's SDS depositor info for trade names
-        if (cid) {{
-            sdsQueries.push(
-                _delay(400).then(function() {{
-                    return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Depositor-Supplied+Synonyms');
-                }}).then(function(r) {{ if (!r.ok) return []; return r.json(); }})
-                  .then(function(data) {{
-                    if (!data || !data.Record || !data.Record.Section) return [];
-                    var raw = _extractTexts(data.Record.Section);
-                    var tradeNames = [];
-                    raw.forEach(function(t) {{
-                        // Trade names are typically short, contain brand-like patterns, possibly with numbers
-                        var parts = t.split(/[,;\\n]/);
-                        parts.forEach(function(p) {{
-                            p = p.trim();
-                            // Keep entries that look like product names (have uppercase + numbers, or known brand patterns)
-                            if (p.length >= 3 && p.length <= 60 && /[A-Z]/.test(p) && /\\d/.test(p) && !/^\\d+[-]\\d+[-]\\d+$/.test(p)) {{
-                                // Exclude CAS-like patterns and pure numbers
-                                if (!/^\\d+$/.test(p) && !/^[A-Z]{{1,3}}\\d+$/.test(p.replace(/\\s/g,''))) {{
-                                    tradeNames.push(p);
-                                }}
-                            }}
-                        }});
-                    }});
-                    return tradeNames;
-                }}).catch(function() {{ return []; }})
-            );
-        }}
-
-        // Search PubChem for Safety & Hazards -> product identifications
-        if (cid) {{
-            sdsQueries.push(
-                _delay(500).then(function() {{
-                    return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Product+Identification');
-                }}).then(function(r) {{ if (!r.ok) return []; return r.json(); }})
-                  .then(function(data) {{
-                    if (!data || !data.Record || !data.Record.Section) return [];
-                    var raw = _extractTexts(data.Record.Section);
-                    var prods = [];
-                    raw.forEach(function(t) {{
-                        var clean = _cleanText(t);
-                        if (clean.length > 3 && clean.length < 120) prods.push(clean);
-                    }});
-                    return prods;
-                }}).catch(function() {{ return []; }})
-            );
-        }}
-
-        pSds = Promise.all(sdsQueries).then(function(results) {{
-            var all = [];
-            results.forEach(function(r) {{ if (r && r.length) all = all.concat(r); }});
-            return all;
-        }});
+    // (2) PubChem: industry/manufacturing use information
+    var pMfg = Promise.resolve([]);
+    if (cid) {{
+        pMfg = _delay(300).then(function() {{
+            return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Industry+Uses');
+        }}).then(function(r) {{ if (!r.ok) return []; return r.json(); }})
+          .then(function(data) {{
+            if (!data || !data.Record || !data.Record.Section) return [];
+            var raw = _extractTexts(data.Record.Section);
+            var uses = [];
+            raw.forEach(function(t) {{
+                var clean = _cleanText(t);
+                if (clean.length >= 5 && clean.length <= 150) uses.push(clean);
+            }});
+            return uses;
+        }}).catch(function() {{ return []; }});
     }}
 
-    return Promise.all([pUses, pSds]).then(function(results) {{
+    // (3) PubChem: consumer uses
+    var pConsumer = Promise.resolve([]);
+    if (cid) {{
+        pConsumer = _delay(400).then(function() {{
+            return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Consumer+Uses');
+        }}).then(function(r) {{ if (!r.ok) return []; return r.json(); }})
+          .then(function(data) {{
+            if (!data || !data.Record || !data.Record.Section) return [];
+            var raw = _extractTexts(data.Record.Section);
+            var uses = [];
+            raw.forEach(function(t) {{
+                var clean = _cleanText(t);
+                if (clean.length >= 5 && clean.length <= 150) uses.push(clean);
+            }});
+            return uses;
+        }}).catch(function() {{ return []; }});
+    }}
+
+    return Promise.all([pUses, pMfg, pConsumer]).then(function(results) {{
         var useTexts = results[0] || [];
-        var sdsTexts = results[1] || [];
+        var mfgTexts = results[1] || [];
+        var consumerTexts = results[2] || [];
 
         var seen = {{}};
         var final = [];
@@ -4522,20 +4487,21 @@ function _commercialProductsLookup(cid, chemName, cas) {{
         var noise = /^(no data|not available|none|see|refer to|consult|for more|this substance|the substance|it is|it was|this compound|information|data|yes|no)\\b/i;
         var catTag = /\\[category[:\\s]/i;
 
-        function addUnique(txt, prefix) {{
+        function addUnique(txt) {{
             var clean = _cleanText(txt).replace(/\\.$/, '').trim();
             if (clean.length < 5) return;
             if (noise.test(clean) || catTag.test(clean)) return;
+            if (_looksLikeChemName(clean)) return;
             var key = clean.toLowerCase().replace(/[^a-z0-9]/g, '');
             if (key.length < 4 || seen[key]) return;
             seen[key] = true;
-            final.push(prefix ? prefix + clean : clean);
+            final.push(clean);
         }}
 
-        // Add general uses first
-        useTexts.forEach(function(t) {{ addUnique(t, ''); }});
-        // Then specific products
-        sdsTexts.forEach(function(t) {{ addUnique(t, ''); }});
+        // Add general uses first, then industry, then consumer
+        useTexts.forEach(function(t) {{ addUnique(t); }});
+        mfgTexts.forEach(function(t) {{ addUnique(t); }});
+        consumerTexts.forEach(function(t) {{ addUnique(t); }});
 
         return final.slice(0, 5);
     }});
@@ -4786,13 +4752,13 @@ async function inferMissing(dsId) {{
                 var cpName = item.name || '';
                 var cpCas = item.cas || (pub && pub.cas) || '';
                 if (cpCid || cpName) {{
-                    _setStep(_iName, _iNum, queue.length, 'Searching for uses &amp; products (PubChem uses + SDS/trade names)...', true);
+                    _setStep(_iName, _iNum, queue.length, 'Searching for industry uses (PubChem)...', true);
                     await _delay(300);
                     commercialProducts = await _commercialProductsLookup(cpCid, cpName, cpCas);
                     _setStep(_iName, _iNum, queue.length,
                         commercialProducts && commercialProducts.length > 0
-                            ? 'Found ' + commercialProducts.length + ' commercial product(s)'
-                            : 'No commercial product data found',
+                            ? 'Found ' + commercialProducts.length + ' industry use(s)'
+                            : 'No industry use data found',
                         commercialProducts && commercialProducts.length > 0);
                 }}
             }}
@@ -4809,7 +4775,7 @@ async function inferMissing(dsId) {{
                 if (field === 'commercial_products') {{
                     if (commercialProducts && commercialProducts.length > 0) {{
                         item.commercial_products = commercialProducts;
-                        item._src.commercial_products = {{ label: 'PubChem uses, SDS & trade name data', url: (pub && pub.url) ? pub.url : '', uncertain: false }};
+                        item._src.commercial_products = {{ label: 'PubChem industry & consumer use data', url: (pub && pub.url) ? pub.url : '', uncertain: false }};
                         filled++;
                     }} else {{
                         var reason = !pub ? 'Compound not found in PubChem' : 'No use/manufacturing data in PubChem for CID ' + (pub.cid || '?');
@@ -5243,7 +5209,7 @@ function renderDetail() {{
         r:'R\\u2080 (MPa\\u00bd)', type:'Type',
         smiles:'SMILES', formula:'Formula', density:'Density (g/mL)',
         mv:'V\\u2098 (cm\\u00b3/mol)', ghs:'GHS',
-        commercial_products:'Commercial Products'
+        commercial_products:'Industry Uses'
     }};
 
     // Tag each item with its original index for edit tracking
