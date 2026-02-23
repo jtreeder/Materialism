@@ -4308,6 +4308,14 @@ return Plotly;
                     _updatePlotForCommonFilter();
                     _buildLegend();
                     buildHomeTable();
+                    // Re-run active search so results reflect dataset change
+                    if (_isSearchActive && lastSearchQuery) {
+                        var parsed = parseQuery(lastSearchQuery);
+                        var result = executeSearch(parsed);
+                        var html = renderResultsHTML(result);
+                        showResults(html);
+                        if (!result.error) updatePlotWithResults(result);
+                    }
                 };
                 label.appendChild(cb);
                 label.appendChild(document.createTextNode(ds.name || k));
@@ -5076,21 +5084,22 @@ return Plotly;
                     targets.push({ ...target, requirement: mat.requirement });
                 }
                 // Compute combined scores using typed arrays — lightweight objects, defer spread
-                var N = SOLVENTS.length, scored = new Array(N);
+                var N = SOLVENTS.length, scored = [];
                 var tDDs = targets.map(function(t) { return t.dd; });
                 var tDPs = targets.map(function(t) { return t.dp; });
                 var tDHs = targets.map(function(t) { return t.dh; });
                 var tRs = targets.map(function(t) { return (t.r && t.r > 0) ? t.r : 0; });
                 var tGood = targets.map(function(t) { return t.requirement === 'good' ? 1 : -1; });
                 for (var si = 0; si < N; si++) {
+                    if (!_isDsActive(SOLVENTS[si].dsId)) continue;
+                    if (simpleMode && !_sCommon[si]) continue;
                     var cs = 0, dd0 = _sDD[si], dp0 = _sDP[si], dh0 = _sDH[si];
                     for (var ti = 0; ti < targets.length; ti++) {
                         var ddd = dd0 - tDDs[ti], ddp = dp0 - tDPs[ti], ddh = dh0 - tDHs[ti];
                         cs += tGood[ti] * Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh);
                     }
-                    scored[si] = { _i: si, combinedScore: cs };
+                    scored.push({ _i: si, combinedScore: cs });
                 }
-                if (simpleMode) scored = scored.filter(function(x) { return _sCommon[x._i]; });
                 var top = topK(scored, resultCount, function(x) { return x.combinedScore; });
                 var results = top.map(function(x) {
                     var s = SOLVENTS[x._i], info = { ...s, reds: {}, ras: {}, combinedScore: x.combinedScore };
@@ -5112,12 +5121,13 @@ return Plotly;
                 if (!target) return { error: 'Could not find a matching polymer for "' + material + '". Try names like "polystyrene", "PVC", "PMMA", or "nylon".' };
                 // Typed-array distance computation + quickselect — avoids spreading 1630 objects
                 var tDD = target.dd, tDP = target.dp, tDH = target.dh, N = SOLVENTS.length;
-                var scored = new Array(N);
+                var scored = [];
                 for (var si = 0; si < N; si++) {
+                    if (!_isDsActive(SOLVENTS[si].dsId)) continue;
+                    if (simpleMode && !_sCommon[si]) continue;
                     var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
-                    scored[si] = { _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) };
+                    scored.push({ _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) });
                 }
-                if (simpleMode) scored = scored.filter(function(x) { return _sCommon[x._i]; });
                 var top;
                 if (intent === 'good_solvents') {
                     top = topK(scored, resultCount, function(x) { return x.ra; });
@@ -5145,6 +5155,7 @@ return Plotly;
                 var scored = [];
                 for (var si = 0; si < SOLVENTS.length; si++) {
                     if (SOLVENTS[si].name === target.name) continue;
+                    if (!_isDsActive(SOLVENTS[si].dsId)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
                     var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
                     scored.push({ _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) });
@@ -5159,7 +5170,7 @@ return Plotly;
                 let target = findPolymer(material);
                 if (!target) { const words = material.split(/\s+/); for (const w of words) { target = findPolymer(w); if (target) break; } }
                 if (!target) return { error: 'Could not find polymer "' + material + '". Try "polystyrene", "epoxy", "PMMA", etc.' };
-                var scored = POLYMERS.filter(p => p.name !== target.name);
+                var scored = POLYMERS.filter(function(p) { return p.name !== target.name && _isDsActive(p.dsId); });
                 if (simpleMode) scored = scored.filter(function(p) { return p.common; });
                 scored = scored.map(p => ({ ...p, ra: hspDistance(p, target) }));
                 var results = topK(scored, resultCount, function(x) { return x.ra; });
@@ -5171,7 +5182,7 @@ return Plotly;
                 let target = findSolvent(material);
                 if (!target) { const words = material.split(/\s+/); for (const w of words) { target = findSolvent(w); if (target) break; } }
                 if (!target) return { error: 'Could not find solvent "' + material + '". Try "toluene", "acetone", "NMP", "DMSO", etc.' };
-                var scored = POLYMERS.filter(p => p.r && p.r > 0);
+                var scored = POLYMERS.filter(function(p) { return p.r && p.r > 0 && _isDsActive(p.dsId); });
                 if (simpleMode) scored = scored.filter(function(p) { return p.common; });
                 scored = scored.map(p => ({ ...p, ra: hspDistance(target, p), red: redNumber(target, p) }));
                 var results = topK(scored, resultCount, function(x) { return x.ra; });
