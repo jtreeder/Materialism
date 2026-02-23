@@ -591,6 +591,7 @@ full_html = f"""<!DOCTYPE html>
         .legend-item {{
             display: flex; align-items: center; gap: 6px;
             padding: 2px 10px 2px 26px; color: #636e72; font-size: 0.7rem;
+            cursor: pointer; user-select: none;
         }}
         .legend-item:hover {{ background: #f5f6fa; }}
         .legend-swatch {{
@@ -599,6 +600,13 @@ full_html = f"""<!DOCTYPE html>
         }}
         .legend-swatch.diamond {{
             border-radius: 0; transform: rotate(45deg); width: 7px; height: 7px;
+        }}
+        .legend-item.legend-hidden {{
+            opacity: 0.35;
+            text-decoration: line-through;
+        }}
+        .legend-item.legend-hidden .legend-swatch {{
+            opacity: 0.3;
         }}
     </style>
 </head>
@@ -885,8 +893,8 @@ full_html = f"""<!DOCTYPE html>
         var columnWidthsLocked = false;
         // Default widths for each table context
         var DEFAULT_WIDTHS = {{
-            solvents: ['22%','10%','48px','48px','48px','52px','52px','9%','50px','11%'],
-            polymers: ['22%','10%','48px','48px','48px','52px','9%','50px','11%'],
+            solvents: ['24%','10%','52px','52px','52px','56px','56px','10%'],
+            polymers: ['26%','12%','52px','52px','52px','56px','10%'],
             results:  ['35px','22%','10%','48px','48px','48px','52px','52px']
         }};
         // User-locked widths (saved to localStorage)
@@ -1106,6 +1114,31 @@ full_html = f"""<!DOCTYPE html>
         var _comSolColors = null;  // built lazily after _solventColors is populated
         var _comPolyColors = null;
 
+        // Hidden-category state for legend toggle
+        var _hiddenSolCats = {{}};
+        var _hiddenPolyCats = {{}};
+
+        function _hasHiddenCats() {{
+            for (var k in _hiddenSolCats) return true;
+            for (var k in _hiddenPolyCats) return true;
+            return false;
+        }}
+
+        function toggleCategoryVisibility(el) {{
+            var cat = el.getAttribute('data-cat');
+            var type = el.getAttribute('data-type');
+            var set = (type === 'solvent') ? _hiddenSolCats : _hiddenPolyCats;
+            if (set[cat]) {{
+                delete set[cat];
+                el.classList.remove('legend-hidden');
+            }} else {{
+                set[cat] = true;
+                el.classList.add('legend-hidden');
+            }}
+            _updatePlotForCommonFilter();
+            buildHomeTable();
+        }}
+
         function _updatePlotForCommonFilter() {{
             if (!plotDiv || !plotDiv.data) return;
             // Build common-only colors lazily (needs colors from buildFullPlot)
@@ -1123,14 +1156,38 @@ full_html = f"""<!DOCTYPE html>
             var sOpacity = _plotDimmed ? 0.1 : 0.85;
             var pOpacity = _plotDimmed ? 0.12 : 0.95;
             var hInfo = _plotDimmed ? 'skip' : 'none';
-            if (simpleMode) {{
-                // Hide non-common materials by nulling their coordinates
-                var sColors = _plotDimmed ? sColor : _comSolColors;
-                var pColors = _plotDimmed ? pColor : _comPolyColors;
+
+            var hasCatFilter = _hasHiddenCats();
+
+            if (simpleMode || hasCatFilter) {{
+                // Compute filtered coordinate arrays considering both
+                // simpleMode and hidden categories
+                var sx = [], sy = [], sz = [], sc = [];
+                SOLVENTS.forEach(function(s, i) {{
+                    var visible = true;
+                    if (simpleMode && !s.common) visible = false;
+                    if (_hiddenSolCats[s.cat || 'other']) visible = false;
+                    sx.push(visible ? s.dd : null);
+                    sy.push(visible ? s.dp : null);
+                    sz.push(visible ? s.dh : null);
+                    if (!_plotDimmed) sc.push(visible ? (_solventColors[i] || '#888') : 'rgba(0,0,0,0)');
+                }});
+                var px = [], py = [], pz = [], pc = [];
+                POLYMERS.forEach(function(p, i) {{
+                    var visible = true;
+                    if (simpleMode && !p.common) visible = false;
+                    if (_hiddenPolyCats[p.cat || 'Other']) visible = false;
+                    px.push(visible ? p.dd : null);
+                    py.push(visible ? p.dp : null);
+                    pz.push(visible ? p.dh : null);
+                    if (!_plotDimmed) pc.push(visible ? (_polymerColors[i] || '#a9a9a9') : 'rgba(0,0,0,0)');
+                }});
+                var sColors = _plotDimmed ? sColor : sc;
+                var pColors = _plotDimmed ? pColor : pc;
                 Plotly.restyle(plotDiv, {{
-                    'x': [_comSolX, _comPolyX],
-                    'y': [_comSolY, _comPolyY],
-                    'z': [_comSolZ, _comPolyZ],
+                    'x': [sx, px],
+                    'y': [sy, py],
+                    'z': [sz, pz],
                     'marker.size': [sSize, pSize],
                     'marker.color': [sColors, pColors],
                     'marker.opacity': [sOpacity, pOpacity],
@@ -1667,7 +1724,6 @@ full_html = f"""<!DOCTYPE html>
             else if (showRed) {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('RED')); }}
             else if (parentIntent === 'similar_solvents') {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('Category')); }}
             else {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('R&#8320; (MPa<sup>\u00bd</sup>)'), th('Type')); }}
-            h.push(th('Source'));
             h.push('</tr></thead><tbody>');
 
             // --- Target material rows ---
@@ -1697,7 +1753,6 @@ full_html = f"""<!DOCTYPE html>
                     }} else {{
                         h.push('<td></td><td>', (t.r || ''), '</td><td>', (t.type || ''), '</td>');
                     }}
-                    h.push('<td>', ((t.src && t.srcUrl) ? '<a href="' + t.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + t.src + '</a>' : (t.src || '')), '</td>');
                     h.push('</tr>');
                 }});
             }}
@@ -1712,7 +1767,6 @@ full_html = f"""<!DOCTYPE html>
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
                 if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); }}
                 else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ h.push('<td>', (r.cat || ''), '</td>'); }} else {{ h.push('<td>', (r.r || ''), '</td><td>', (r.type || ''), '</td>'); }} }}
-                h.push('<td>', ((r.src && r.srcUrl) ? '<a href="' + r.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + r.src + '</a>' : (r.src || '')), '</td>');
                 h.push('</tr>');
             }});
             h.push('</tbody></table>');
@@ -1800,7 +1854,8 @@ full_html = f"""<!DOCTYPE html>
             sList.forEach(function(cat) {{
                 var color = CAT_COLORS[cat] || '#888';
                 var label = cat.charAt(0).toUpperCase() + cat.slice(1);
-                h += '<div class="legend-item"><span class="legend-swatch" style="background:' + color + '"></span>' + label + ' (' + sCats[cat] + ')</div>';
+                var hiddenCls = _hiddenSolCats[cat] ? ' legend-hidden' : '';
+                h += '<div class="legend-item' + hiddenCls + '" data-cat="' + cat + '" data-type="solvent" onclick="toggleCategoryVisibility(this)"><span class="legend-swatch" style="background:' + color + '"></span>' + label + ' (' + sCats[cat] + ')</div>';
             }});
             h += '</div></div>';
             // Polymers group
@@ -1813,7 +1868,8 @@ full_html = f"""<!DOCTYPE html>
             h += '<div class="legend-items">';
             pList.forEach(function(cat) {{
                 var color = POLY_CAT_COLORS[cat] || '#a9a9a9';
-                h += '<div class="legend-item"><span class="legend-swatch diamond" style="background:' + color + '"></span>' + cat + ' (' + pCats[cat] + ')</div>';
+                var hiddenCls = _hiddenPolyCats[cat] ? ' legend-hidden' : '';
+                h += '<div class="legend-item' + hiddenCls + '" data-cat="' + cat + '" data-type="polymer" onclick="toggleCategoryVisibility(this)"><span class="legend-swatch diamond" style="background:' + color + '"></span>' + cat + ' (' + pCats[cat] + ')</div>';
             }});
             h += '</div></div>';
             el.innerHTML = h;
@@ -2250,13 +2306,16 @@ full_html = f"""<!DOCTYPE html>
                 }});
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)','Category','Conf.','Source'].forEach(function(label, i) {{
+                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)','Category'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
                 var filtered = _dsFilterSolvents();
                 if (simpleMode) {{
                     filtered = filtered.filter(function(s) {{ return s.common; }});
+                }}
+                if (_hasHiddenCats()) {{
+                    filtered = filtered.filter(function(s) {{ return !_hiddenSolCats[s.cat || 'other']; }});
                 }}
                 if (homeFilterText) {{
                     var q = homeFilterText.toLowerCase();
@@ -2277,8 +2336,6 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
                     rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
                     rowsHtml += '<td style="color:' + catColor + '">' + (s.cat || '') + '</td>';
-                    rowsHtml += '<td>' + confBadge(s, false) + '</td>';
-                    rowsHtml += '<td>' + ((s.src && s.srcUrl) ? '<a href="' + s.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + s.src + '</a>' : (s.src || '')) + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }} else {{
@@ -2291,13 +2348,16 @@ full_html = f"""<!DOCTYPE html>
                 }});
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)','Type','Conf.','Source'].forEach(function(label, i) {{
+                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)','Type'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
                 var filtered = _dsFilterPolymers();
                 if (simpleMode) {{
                     filtered = filtered.filter(function(p) {{ return p.common; }});
+                }}
+                if (_hasHiddenCats()) {{
+                    filtered = filtered.filter(function(p) {{ return !_hiddenPolyCats[p.cat || 'Other']; }});
                 }}
                 if (homeFilterText) {{
                     var q = homeFilterText.toLowerCase();
@@ -2316,8 +2376,6 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
                     rowsHtml += '<td>' + (p.type || '') + '</td>';
-                    rowsHtml += '<td>' + confBadge(p, true) + '</td>';
-                    rowsHtml += '<td>' + ((p.src && p.srcUrl) ? '<a href="' + p.srcUrl + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + p.src + '</a>' : (p.src || '')) + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }}
@@ -2329,11 +2387,13 @@ full_html = f"""<!DOCTYPE html>
             if (homeTab === 'solvents') {{
                 var pf = POLYMERS;
                 if (simpleMode) pf = pf.filter(function(p) {{ return p.common; }});
+                if (_hasHiddenCats()) pf = pf.filter(function(p) {{ return !_hiddenPolyCats[p.cat || 'Other']; }});
                 if (homeFilterText) {{ var q = homeFilterText.toLowerCase(); pf = pf.filter(function(p) {{ return p.name.toLowerCase().indexOf(q) !== -1 || (p.cas && p.cas.indexOf(q) !== -1) || (p.src && p.src.toLowerCase().indexOf(q) !== -1); }}); }}
                 document.getElementById('tab-polymers').textContent = 'Polymers (' + pf.length + ')';
             }} else {{
                 var sf = SOLVENTS;
                 if (simpleMode) sf = sf.filter(function(s) {{ return s.common; }});
+                if (_hasHiddenCats()) sf = sf.filter(function(s) {{ return !_hiddenSolCats[s.cat || 'other']; }});
                 if (homeFilterText) {{ var q = homeFilterText.toLowerCase(); sf = sf.filter(function(s) {{ return s.name.toLowerCase().indexOf(q) !== -1 || (s.cas && s.cas.indexOf(q) !== -1) || (s.src && s.src.toLowerCase().indexOf(q) !== -1); }}); }}
                 document.getElementById('tab-solvents').textContent = 'Solvents (' + sf.length + ')';
             }}
