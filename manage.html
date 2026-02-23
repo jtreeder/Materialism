@@ -170,6 +170,14 @@ td .src-dot.dataset { background: #95a5a6; }
 .infer-progress { background: #fff; border: 1px solid #dfe6e9; border-radius: 6px; padding: 12px; margin-bottom: 12px; }
 .infer-progress .bar-bg { background: #eee; border-radius: 3px; height: 6px; margin: 8px 0; }
 .infer-progress .bar-fg { background: #0984e3; border-radius: 3px; height: 6px; transition: width 0.3s; }
+.infer-step-log { margin-top: 8px; max-height: 120px; overflow-y: auto; font-size: 0.75rem; line-height: 1.6; }
+.infer-step { color: #636e72; padding: 1px 0; }
+.infer-step .step-icon { display: inline-block; width: 16px; text-align: center; }
+.infer-step.active { color: #0984e3; font-weight: 500; }
+.infer-step.active .step-icon { animation: pulse 1s infinite; }
+.infer-step.ok { color: #27ae60; }
+.infer-step.warn { color: #b2bec3; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 .api-key-row { display: flex; gap: 4px; margin-bottom: 6px; }
 .api-key-row input { flex: 1; font-size: 0.72rem; padding: 4px 6px; }
 </style>
@@ -1296,21 +1304,75 @@ async function inferMissing(dsId) {
     }
 
     var filled = 0, errors = 0;
+
+    // Helper to update progress UI with step detail
+    function _showStep(itemName, itemNum, total, stepText, stepResult) {
+        var bar = document.getElementById('infer-progress');
+        if (!bar) return;
+        var pct = Math.round(100 * itemNum / total);
+        var h = '<div style="font-size:0.82rem;color:#2d3436;font-weight:600;margin-bottom:4px">'
+            + 'Processing <b>' + (itemName||'').substring(0,45) + '</b> (' + itemNum + '/' + total + ')'
+            + '</div>';
+        h += '<div class="bar-bg"><div class="bar-fg" style="width:' + pct + '%"></div></div>';
+        h += '<div class="infer-step-log" id="infer-step-log">';
+        h += '<div class="infer-step active"><span class="step-icon">&#8987;</span> ' + stepText + '</div>';
+        if (stepResult) h += '<div class="infer-step result">' + stepResult + '</div>';
+        h += '</div>';
+        h += '<div style="display:flex;align-items:center;gap:10px;margin-top:6px">';
+        h += '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.72rem" onclick="_inferCancelled=true">Cancel</button>';
+        h += '<span style="font-size:0.72rem;color:#b2bec3">' + filled + ' values filled so far' + (errors > 0 ? ', ' + errors + ' errors' : '') + '</span>';
+        h += '</div>';
+        bar.innerHTML = h;
+    }
+
+    // Helper to append a completed step result to the log
+    function _appendStep(text, isOk) {
+        var log = document.getElementById('infer-step-log');
+        if (!log) return;
+        // Replace the active step with a completed one
+        var active = log.querySelector('.infer-step.active');
+        if (active) {
+            active.classList.remove('active');
+            active.classList.add(isOk ? 'ok' : 'warn');
+            active.querySelector('.step-icon').innerHTML = isOk ? '&#10003;' : '&#10007;';
+        }
+    }
+
+    // Helper to set the current step and finalize the previous one
+    function _setStep(itemName, itemNum, total, stepText, prevOk) {
+        var log = document.getElementById('infer-step-log');
+        if (log) {
+            // Finalize previous active step
+            var active = log.querySelector('.infer-step.active');
+            if (active) {
+                active.classList.remove('active');
+                active.classList.add(prevOk ? 'ok' : 'warn');
+                active.querySelector('.step-icon').innerHTML = prevOk ? '&#10003;' : '&#10007;';
+            }
+            // Add new active step
+            var div = document.createElement('div');
+            div.className = 'infer-step active';
+            div.innerHTML = '<span class="step-icon">&#8987;</span> ' + stepText;
+            log.appendChild(div);
+            // Update values filled counter
+            var counter = document.querySelector('#infer-progress span[style*="b2bec3"]');
+            if (counter) counter.textContent = filled + ' values filled so far' + (errors > 0 ? ', ' + errors + ' errors' : '');
+        } else {
+            _showStep(itemName, itemNum, total, stepText, null);
+        }
+    }
+
     for (var i = 0; i < queue.length; i++) {
         if (_inferCancelled) break;
         var entry = queue[i];
         var item = entry.item;
+        var _iName = (item.name || item.cas || 'Item ' + (i+1));
+        var _iNum = i + 1;
         // Ensure _src tracking object
         if (!item._src) item._src = {};
 
-        // Show progress
-        var bar = document.getElementById('infer-progress');
-        if (bar) {
-            var pct = Math.round(100 * (i + 1) / queue.length);
-            bar.innerHTML = '<div style="font-size:0.8rem;color:#2d3436">Looking up <b>' + (item.name||'').substring(0,40) + '</b> (' + (i+1) + '/' + queue.length + ')</div>'
-                + '<div class="bar-bg"><div class="bar-fg" style="width:' + pct + '%"></div></div>'
-                + '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.72rem;margin-top:4px" onclick="_inferCancelled=true">Cancel</button>';
-        }
+        // Show initial progress for this item
+        _showStep(_iName, _iNum, queue.length, 'Searching PubChem' + (item.cas ? ' by CAS: ' + item.cas : ' by name: ' + _iName) + '...', null);
 
         try {
             // --- PubChem lookup ---
@@ -1321,9 +1383,14 @@ async function inferMissing(dsId) {
                 if (pub) lookupByCAS = true;
             }
             if (!pub && item.name) {
+                _appendStep(null, false);
+                _setStep(_iName, _iNum, queue.length, 'PubChem CAS lookup failed, retrying by name...', false);
                 await _delay(200);
                 pub = await _pubchemLookup(item.name, false);
             }
+
+            var _pubResult = pub ? 'Found in PubChem (CID: ' + (pub.cid || '?') + ')' : 'Not found in PubChem';
+            _setStep(_iName, _iNum, queue.length, 'Searching CAS Common Chemistry' + (item.cas || (pub && pub.cas) ? ' for CAS: ' + (item.cas || pub.cas) : ' by name') + '...', !!pub);
 
             // --- CAS Common Chemistry lookup ---
             var casChem = null;
@@ -1332,22 +1399,30 @@ async function inferMissing(dsId) {
                 await _delay(200);
                 casChem = await _casChemDetail(casRnToLookup);
             } else if (item.name && !pub) {
-                // Try CAS search by name
                 await _delay(200);
                 var foundCas = await _casChemSearch(item.name);
                 if (foundCas) {
+                    _setStep(_iName, _iNum, queue.length, 'Found CAS RN ' + foundCas + ', fetching details...', true);
                     await _delay(200);
                     casChem = await _casChemDetail(foundCas);
                 }
             }
+
+            _setStep(_iName, _iNum, queue.length,
+                (pub ? 'PubChem \u2713' : 'PubChem \u2717') + '  ' + (casChem ? 'CAS \u2713' : 'CAS \u2717') + ' \u2014 ',
+                !!casChem);
 
             // --- Boiling point lookup (PubChem PUG View) ---
             var bpVal = null;
             if (entry.missing.indexOf('bp') !== -1) {
                 var bpCid = pub && pub.cid;
                 if (bpCid) {
+                    _setStep(_iName, _iNum, queue.length, 'Looking up boiling point in PubChem (CID: ' + bpCid + ')...', true);
                     await _delay(200);
                     bpVal = await _pubchemBP(bpCid);
+                    _setStep(_iName, _iNum, queue.length, bpVal != null ? 'BP found: ' + bpVal + '\u00b0C' : 'No experimental BP data in PubChem', bpVal != null);
+                } else {
+                    _setStep(_iName, _iNum, queue.length, 'Skipping BP lookup (no PubChem CID)', false);
                 }
             }
 
@@ -1358,10 +1433,18 @@ async function inferMissing(dsId) {
                 var cpName = item.name || '';
                 var cpCas = item.cas || (pub && pub.cas) || '';
                 if (cpCid || cpName) {
+                    _setStep(_iName, _iNum, queue.length, 'Searching for commercial products (Use & Manufacturing data)...', true);
                     await _delay(300);
                     commercialProducts = await _commercialProductsLookup(cpCid, cpName, cpCas);
+                    _setStep(_iName, _iNum, queue.length,
+                        commercialProducts && commercialProducts.length > 0
+                            ? 'Found ' + commercialProducts.length + ' commercial product(s)'
+                            : 'No commercial product data found',
+                        commercialProducts && commercialProducts.length > 0);
                 }
             }
+
+            _setStep(_iName, _iNum, queue.length, 'Filling values for ' + entry.missing.length + ' missing field(s)...', true);
 
             // --- Fill missing values ---
             var _foundPubChem = !!pub;
