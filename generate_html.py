@@ -632,7 +632,6 @@ full_html = f"""<!DOCTYPE html>
             <span class="simple-slider"></span>
             <span class="simple-label">Common Materials Only</span>
         </label>
-        <div id="ds-toggle-wrap" style="margin-left:auto;display:flex;align-items:center;gap:6px;font-size:0.8rem;color:#636e72;"></div>
     </div>
     <div class="search-options">
         <div class="search-examples">
@@ -699,13 +698,10 @@ full_html = f"""<!DOCTYPE html>
         const CAT_COLORS = {cat_colors_json};
         const POLY_CAT_COLORS = {poly_cat_colors_json};
 
-        // Dataset toggle state (shared via localStorage with database.html)
+        // Dataset toggle state (read from localStorage, managed on manage page)
         const _LS_DS_KEY = 'materialism_active_datasets';
         function _loadActiveDsets() {{
             try {{ var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; }} catch(e) {{ return null; }}
-        }}
-        function _saveActiveDsets(obj) {{
-            try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); }} catch(e) {{}}
         }}
         function _getActiveDsets() {{
             var saved = _loadActiveDsets();
@@ -767,44 +763,6 @@ full_html = f"""<!DOCTYPE html>
                     }}
                 }});
             }} catch(e) {{}}
-        }})();
-
-        // Build dataset toggle checkboxes
-        (function() {{
-            var wrap = document.getElementById('ds-toggle-wrap');
-            if (!wrap) return;
-            var dsKeys = Object.keys(DATASETS_META);
-            if (dsKeys.length === 0) return;
-            var lbl = document.createElement('span');
-            lbl.textContent = 'Datasets:';
-            lbl.style.fontWeight = '600';
-            wrap.appendChild(lbl);
-            dsKeys.forEach(function(k) {{
-                var ds = DATASETS_META[k];
-                var label = document.createElement('label');
-                label.style.cssText = 'display:flex;align-items:center;gap:3px;cursor:pointer;';
-                var cb = document.createElement('input');
-                cb.type = 'checkbox';
-                cb.checked = _activeDsets[k] !== false;
-                cb.onchange = function() {{
-                    _activeDsets[k] = cb.checked;
-                    _saveActiveDsets(_activeDsets);
-                    _updatePlotForCommonFilter();
-                    _buildLegend();
-                    buildHomeTable();
-                    // Re-run active search so results reflect dataset change
-                    if (_isSearchActive && lastSearchQuery) {{
-                        var parsed = parseQuery(lastSearchQuery);
-                        var result = executeSearch(parsed);
-                        var html = renderResultsHTML(result);
-                        showResults(html);
-                        if (!result.error) updatePlotWithResults(result);
-                    }}
-                }};
-                label.appendChild(cb);
-                label.appendChild(document.createTextNode(ds.name || k));
-                wrap.appendChild(label);
-            }});
         }})();
 
         // Filter arrays by active datasets
