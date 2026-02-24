@@ -28,7 +28,7 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 .content { flex: 1; min-width: 0; overflow: auto; padding: 20px; position: relative; z-index: 0; }
 .ds-detail-header { margin-bottom: 16px; }
 .ds-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-.ds-detail-header h2 { font-size: 1.2rem; color: #2d3436; margin: 0; }
+.ds-detail-header h2 { font-size: 1.2rem; color: #2d3436; margin: 0; flex: 1; min-width: 0; }
 .ds-detail-header .ds-meta { font-size: 0.82rem; color: #636e72; line-height: 1.6; }
 .ds-detail-header .ds-meta a { color: #0984e3; }
 .ds-detail-header .toggle-btn {
@@ -46,6 +46,17 @@ body { background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMac
 .lock-btn:hover { background: #f5f6fa; }
 .lock-btn.unlocked { border-color: #e94560; color: #e94560; }
 .lock-btn svg { width: 14px; height: 14px; fill: currentColor; }
+.delete-ds-btn {
+    display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px;
+    border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.75rem;
+    cursor: pointer; background: #fff; transition: all 0.2s; color: #636e72; margin-left: auto;
+}
+.delete-ds-btn:hover { background: #ffeaea; border-color: #e74c3c; color: #e74c3c; }
+.delete-ds-btn.confirm {
+    background: #e74c3c; border-color: #c0392b; color: #fff; animation: pulse-delete 0.6s ease;
+}
+.delete-ds-btn.confirm:hover { background: #c0392b; }
+@keyframes pulse-delete { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 td[contenteditable="true"] {
     background: #fffef5; outline: none; cursor: text;
     box-shadow: inset 0 0 0 1px #f0d060;
@@ -1750,6 +1761,57 @@ function toggleDs(dsId) {
     renderDetail();
 }
 
+var _deleteConfirmDs = null;
+var _deleteConfirmTimer = null;
+
+function deleteDsClick(dsId) {
+    var btn = document.getElementById('delete-ds-btn');
+    if (_deleteConfirmDs === dsId) {
+        // Second click — actually delete
+        clearTimeout(_deleteConfirmTimer);
+        _deleteConfirmDs = null;
+        deleteDs(dsId);
+        return;
+    }
+    // First click — enter confirm state
+    _deleteConfirmDs = dsId;
+    if (btn) {
+        btn.classList.add('confirm');
+        btn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Click again to confirm';
+    }
+    // Reset after 3 seconds if not confirmed
+    _deleteConfirmTimer = setTimeout(function() {
+        _deleteConfirmDs = null;
+        if (btn) {
+            btn.classList.remove('confirm');
+            btn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Delete';
+        }
+    }, 3000);
+}
+
+function deleteDs(dsId) {
+    // Remove from in-memory DATASETS
+    delete DATASETS[dsId];
+    // Remove from active datasets state
+    delete _activeDsets[dsId];
+    _saveA(_activeDsets);
+    // Remove from imported datasets in localStorage
+    _saveImportedDatasets();
+    // Clean up UI state
+    delete _editMode[dsId];
+    _selectedRows = {};
+    _lastClickedRow = null;
+    _currentDs = null;
+    // Select next available dataset or show empty
+    var dsKeys = Object.keys(DATASETS);
+    if (dsKeys.length > 0) {
+        selectDs(dsKeys[0]);
+    } else {
+        buildSidebar();
+        document.getElementById('content').innerHTML = '<p style="color:#636e72;padding:40px">No datasets. Import one to get started.</p>';
+    }
+}
+
 function toggleEditMode(dsId) {
     _editMode[dsId] = !_editMode[dsId];
     renderDetail();
@@ -1807,6 +1869,10 @@ function renderDetail() {
     } else {
         html += '<svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z"/></svg>Locked';
     }
+    html += '</button>';
+    html += '<button class="delete-ds-btn" id="delete-ds-btn" onclick="deleteDsClick(\'' + _currentDs + '\')">';
+    html += '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
+    html += 'Delete';
     html += '</button>';
     html += '</div>';
     html += '<div class="ds-meta">';
