@@ -1790,6 +1790,14 @@ function deleteDsClick(dsId) {
 }
 
 function deleteDs(dsId) {
+    // Persist deletion of embedded datasets so they don't reappear on reload
+    try {
+        var raw = localStorage.getItem('materialism_deleted_datasets');
+        var deleted = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(deleted)) deleted = [];
+        if (deleted.indexOf(dsId) === -1) deleted.push(dsId);
+        localStorage.setItem('materialism_deleted_datasets', JSON.stringify(deleted));
+    } catch(e) {}
     // Remove from in-memory DATASETS
     delete DATASETS[dsId];
     // Remove from active datasets state
@@ -2177,6 +2185,16 @@ document.addEventListener('keydown', function(e) {
 
 // Mark embedded datasets so we don't save them to localStorage
 Object.keys(DATASETS).forEach(function(k) { DATASETS[k]._embedded = true; });
+// Remove embedded datasets that the user previously deleted
+(function() {
+    try {
+        var raw = localStorage.getItem('materialism_deleted_datasets');
+        if (!raw) return;
+        var deleted = JSON.parse(raw);
+        if (!Array.isArray(deleted)) return;
+        deleted.forEach(function(k) { delete DATASETS[k]; });
+    } catch(e) {}
+})();
 _loadImportedDatasets();
 
 // Init
