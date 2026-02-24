@@ -3478,10 +3478,6 @@ tbody tr:hover {{ background: #f0f2f5; }}
 .sel-info {{ display: inline-block; font-size: 0.75rem; color: #636e72; margin-left: 10px; margin-top: 8px; vertical-align: middle; }}
 .clear-sel {{ color: #e94560; cursor: pointer; margin-left: 6px; text-decoration: underline; font-size: 0.75rem; }}
 td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-space: normal; max-width: 180px; }}
-td.products-cell {{ white-space: normal; max-width: 260px; min-width: 140px; }}
-.products-list {{ list-style: none; margin: 0; padding: 0; }}
-.products-list li {{ font-size: 0.75rem; line-height: 1.4; padding: 1px 0; color: #2d3436; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
-.products-list li::before {{ content: '\\2022 '; color: #b2bec3; }}
 .empty-state {{
     text-align: center; padding: 60px 20px; color: #636e72;
 }}
@@ -4428,152 +4424,6 @@ function _pubchemBP(cid) {{
     }}).catch(function() {{ return null; }});
 }}
 
-// --- Industry uses lookup ---
-// Extracts industry/application uses from PubChem to show WHERE a chemical is used
-function _commercialProductsLookup(cid, chemName, cas) {{
-
-    // Helper: recursively extract all text strings from PubChem PUG View sections
-    function _extractTexts(secs) {{
-        var out = [];
-        if (!secs) return out;
-        for (var i = 0; i < secs.length; i++) {{
-            if (secs[i].Information) {{
-                for (var j = 0; j < secs[i].Information.length; j++) {{
-                    var info = secs[i].Information[j];
-                    if (info.Value && info.Value.StringWithMarkup) {{
-                        for (var k = 0; k < info.Value.StringWithMarkup.length; k++) {{
-                            var txt = (info.Value.StringWithMarkup[k].String || '').trim();
-                            if (txt && txt.length > 2) out.push(txt);
-                        }}
-                    }}
-                }}
-            }}
-            if (secs[i].Section) out = out.concat(_extractTexts(secs[i].Section));
-        }}
-        return out;
-    }}
-
-    // Helper: strip source reference tags
-    function _cleanText(t) {{
-        return t
-            .replace(/\\[Category:\\s*[^\\]]*\\]/gi, '')
-            .replace(/\\[ATSDR[^\\]]*\\]/gi, '')
-            .replace(/\\[HSDB[^\\]]*\\]/gi, '')
-            .replace(/\\[NTP[^\\]]*\\]/gi, '')
-            .replace(/\\[EPA[^\\]]*\\]/gi, '')
-            .replace(/\\[SRP[^\\]]*\\]/gi, '')
-            .replace(/\\[IARC[^\\]]*\\]/gi, '')
-            .replace(/\\[WHO[^\\]]*\\]/gi, '')
-            .replace(/\\[[A-Z]{{2,}}[^\\]]*\\]/g, '')
-            .replace(/\\s{{2,}}/g, ' ')
-            .trim();
-    }}
-
-    // Helper: detect if text looks like a chemical name/synonym rather than a use description
-    function _looksLikeChemName(t) {{
-        // CAS number pattern
-        if (/^\\d{{2,7}}-\\d{{2}}-\\d$/.test(t)) return true;
-        // IUPAC-style names with heavy parenthetical/numeric structure
-        if (/^\\d/.test(t) && /[(),]/.test(t) && t.length < 80) return true;
-        // Molecular formulas like C2H6O
-        if (/^[A-Z][a-z]?(\\d+[A-Z][a-z]?)+\\d*$/.test(t.replace(/\\s/g,''))) return true;
-        // InChI / SMILES-like
-        if (/^InChI/.test(t) || /^[A-Z][a-z]?\\(/.test(t) && /\\)$/.test(t)) return true;
-        // Short all-caps codes that are typically registry IDs (e.g. EINECS, EC numbers)
-        if (/^\\d{{3}}-\\d{{3}}-\\d$/.test(t)) return true;
-        return false;
-    }}
-
-    // (1) PubChem: general uses from "Uses" heading
-    var pUses = Promise.resolve([]);
-    if (cid) {{
-        pUses = fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Uses')
-            .then(function(r) {{ if (!r.ok) return []; return r.json(); }})
-            .then(function(data) {{
-                if (!data || !data.Record || !data.Record.Section) return [];
-                var raw = _extractTexts(data.Record.Section);
-                var uses = [];
-                raw.forEach(function(t) {{
-                    var clean = _cleanText(t);
-                    if (clean.length < 5 || clean.length > 300) return;
-                    // Split on sentence boundaries to get individual use descriptions
-                    clean.split(/(?<=[.;])\\s+/).forEach(function(s) {{
-                        s = s.replace(/\\.\\s*$/, '').trim();
-                        if (s.length >= 8 && s.length <= 150) uses.push(s);
-                    }});
-                }});
-                return uses;
-            }}).catch(function() {{ return []; }});
-    }}
-
-    // (2) PubChem: industry/manufacturing use information
-    var pMfg = Promise.resolve([]);
-    if (cid) {{
-        pMfg = _delay(300).then(function() {{
-            return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Industry+Uses');
-        }}).then(function(r) {{ if (!r.ok) return []; return r.json(); }})
-          .then(function(data) {{
-            if (!data || !data.Record || !data.Record.Section) return [];
-            var raw = _extractTexts(data.Record.Section);
-            var uses = [];
-            raw.forEach(function(t) {{
-                var clean = _cleanText(t);
-                if (clean.length >= 5 && clean.length <= 150) uses.push(clean);
-            }});
-            return uses;
-        }}).catch(function() {{ return []; }});
-    }}
-
-    // (3) PubChem: consumer uses
-    var pConsumer = Promise.resolve([]);
-    if (cid) {{
-        pConsumer = _delay(400).then(function() {{
-            return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Consumer+Uses');
-        }}).then(function(r) {{ if (!r.ok) return []; return r.json(); }})
-          .then(function(data) {{
-            if (!data || !data.Record || !data.Record.Section) return [];
-            var raw = _extractTexts(data.Record.Section);
-            var uses = [];
-            raw.forEach(function(t) {{
-                var clean = _cleanText(t);
-                if (clean.length >= 5 && clean.length <= 150) uses.push(clean);
-            }});
-            return uses;
-        }}).catch(function() {{ return []; }});
-    }}
-
-    return Promise.all([pUses, pMfg, pConsumer]).then(function(results) {{
-        var useTexts = results[0] || [];
-        var mfgTexts = results[1] || [];
-        var consumerTexts = results[2] || [];
-
-        var seen = {{}};
-        var final = [];
-
-        // Noise phrases to filter out
-        var noise = /^(no data|not available|none|see|refer to|consult|for more|this substance|the substance|it is|it was|this compound|information|data|yes|no)\\b/i;
-        var catTag = /\\[category[:\\s]/i;
-
-        function addUnique(txt) {{
-            var clean = _cleanText(txt).replace(/\\.$/, '').trim();
-            if (clean.length < 5) return;
-            if (noise.test(clean) || catTag.test(clean)) return;
-            if (_looksLikeChemName(clean)) return;
-            var key = clean.toLowerCase().replace(/[^a-z0-9]/g, '');
-            if (key.length < 4 || seen[key]) return;
-            seen[key] = true;
-            final.push(clean);
-        }}
-
-        // Add general uses first, then industry, then consumer
-        useTexts.forEach(function(t) {{ addUnique(t); }});
-        mfgTexts.forEach(function(t) {{ addUnique(t); }});
-        consumerTexts.forEach(function(t) {{ addUnique(t); }});
-
-        return final.slice(0, 5);
-    }});
-}}
-
 // --- Solvent categorization from SMILES / name ---
 function _categorizeSolvent(smiles, name) {{
     var s = (smiles || '').trim();
@@ -4659,7 +4509,7 @@ async function inferMissing(dsId) {{
     if (btn) btn.disabled = true;
     var ds = DATASETS[dsId];
     var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
-    var fillable = ['cas','mw','smiles','bp','cat','commercial_products'];
+    var fillable = ['cas','mw','smiles','bp','cat'];
     var queue = [];
     var selKeys = Object.keys(_selectedRows);
     var hasSelection = selKeys.length > 0;
@@ -4670,10 +4520,6 @@ async function inferMissing(dsId) {{
         // If there's a selection, only process selected rows
         if (hasSelection && !selSet[String(idx)]) return;
         var missing = fillable.filter(function(f) {{
-            if (f === 'commercial_products') {{
-                var v = item[f];
-                return !v || !Array.isArray(v) || v.length === 0;
-            }}
             var v = item[f];
             return v == null || v === '' || v === 0;
         }});
@@ -4812,24 +4658,6 @@ async function inferMissing(dsId) {{
                 }}
             }}
 
-            // --- Commercial products lookup ---
-            var commercialProducts = null;
-            if (entry.missing.indexOf('commercial_products') !== -1) {{
-                var cpCid = pub && pub.cid;
-                var cpName = item.name || '';
-                var cpCas = item.cas || (pub && pub.cas) || '';
-                if (cpCid || cpName) {{
-                    _setStep(_iName, _iNum, queue.length, 'Searching for industry uses (PubChem)...', true);
-                    await _delay(300);
-                    commercialProducts = await _commercialProductsLookup(cpCid, cpName, cpCas);
-                    _setStep(_iName, _iNum, queue.length,
-                        commercialProducts && commercialProducts.length > 0
-                            ? 'Found ' + commercialProducts.length + ' industry use(s)'
-                            : 'No industry use data found',
-                        commercialProducts && commercialProducts.length > 0);
-                }}
-            }}
-
             _setStep(_iName, _iNum, queue.length, 'Filling values for ' + entry.missing.length + ' missing field(s)...', true);
 
             // --- Fill missing values ---
@@ -4838,20 +4666,6 @@ async function inferMissing(dsId) {{
             var _lookupNote = !_foundPubChem && !_foundCAS ? 'Not found in PubChem or CAS Common Chemistry' : '';
 
             entry.missing.forEach(function(field) {{
-                // Handle commercial products
-                if (field === 'commercial_products') {{
-                    if (commercialProducts && commercialProducts.length > 0) {{
-                        item.commercial_products = commercialProducts;
-                        item._src.commercial_products = {{ label: 'PubChem industry & consumer use data', url: (pub && pub.url) ? pub.url : '', uncertain: false }};
-                        filled++;
-                    }} else {{
-                        var reason = !pub ? 'Compound not found in PubChem' : 'No use/manufacturing data in PubChem for CID ' + (pub.cid || '?');
-                        item.commercial_products = reason;
-                        item._src.commercial_products = {{ label: reason, url: '', uncertain: true, isNote: true }};
-                        filled++;
-                    }}
-                    return;
-                }}
 
                 // Handle category separately (local classification, no API)
                 if (field === 'cat') {{
@@ -5093,8 +4907,8 @@ function exportCSV(dsId, type) {{
     var items = ds[type] || [];
     if (items.length === 0) return;
     var cols = type === 'chemicals'
-        ? ['name','cas','dd','dp','dh','mw','bp','cat','smiles','density','commercial_products','conf']
-        : ['name','cas','dd','dp','dh','r','type','commercial_products','conf'];
+        ? ['name','cas','dd','dp','dh','mw','bp','cat','smiles','density','conf']
+        : ['name','cas','dd','dp','dh','r','type','conf'];
     var csv = cols.join(',') + '\\n';
     items.forEach(function(r) {{
         csv += cols.map(function(c) {{
@@ -5228,13 +5042,7 @@ function _cellEdited(td, dsId, itemIdx, field) {{
     if (!item) return;
     // Coerce numeric fields
     var numFields = ['dd','dp','dh','mw','bp','r','density','mv'];
-    if (field === 'commercial_products') {{
-        // Parse semicolon-separated text back into an array
-        if (newVal === '') {{ item[field] = []; }}
-        else {{
-            item[field] = newVal.split(/;/).map(function(s) {{ return s.trim(); }}).filter(function(s) {{ return s.length > 0; }});
-        }}
-    }} else if (numFields.indexOf(field) !== -1) {{
+    if (numFields.indexOf(field) !== -1) {{
         if (newVal === '') {{ item[field] = ''; }}
         else {{
             var n = parseFloat(newVal);
@@ -5300,10 +5108,10 @@ function renderDetail() {{
     var items, cols;
     if (nc > 0) {{
         items = ds.chemicals;
-        cols = ['name','cas','dd','dp','dh','mw','bp','cat','commercial_products','conf'];
+        cols = ['name','cas','dd','dp','dh','mw','bp','cat','conf'];
     }} else {{
         items = ds.polymers;
-        cols = ['name','cas','dd','dp','dh','r','type','commercial_products','conf'];
+        cols = ['name','cas','dd','dp','dh','r','type','conf'];
     }}
 
     if (!items || items.length === 0) {{
@@ -5338,8 +5146,7 @@ function renderDetail() {{
         mw:'MW (g/mol)', bp:'BP (\\u00b0C)', cat:'Category', conf:'Conf.',
         r:'R\\u2080 (MPa\\u00bd)', type:'Type',
         smiles:'SMILES', formula:'Formula', density:'Density (g/mL)',
-        mv:'V\\u2098 (cm\\u00b3/mol)', ghs:'GHS',
-        commercial_products:'Industry Uses'
+        mv:'V\\u2098 (cm\\u00b3/mol)', ghs:'GHS'
     }};
 
     // Tag each item with its original index for edit tracking
@@ -5361,33 +5168,6 @@ function renderDetail() {{
         html += '<tr data-oidx="' + r._oidx + '" class="' + rowSel + '">';
         cols.forEach(function(c) {{
             var v = r[c]; if (v == null) v = '';
-            // Render commercial_products
-            if (c === 'commercial_products') {{
-                var srcInfo = r._src && r._src[c];
-                var srcLabel = srcInfo ? srcInfo.label : dsSource;
-                var isInferred = !!srcInfo;
-                var isNote = srcInfo && srcInfo.isNote;
-                var cls = 'products-cell' + (isInferred ? ' inferred' : '') + (isNote ? ' cell-note' : '');
-                var attrs = ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
-                if (isEdit) {{
-                    // In edit mode, show as editable plain text (semicolon-separated)
-                    var editVal = '';
-                    if (Array.isArray(v)) editVal = v.join('; ');
-                    else if (typeof v === 'string') editVal = v;
-                    attrs += ' contenteditable="true" data-ds="' + _currentDs + '" data-idx="' + r._oidx + '" data-field="' + c + '"';
-                    cls += ' editable';
-                    html += '<td class="' + cls + '"' + attrs + '>' + editVal.replace(/</g,'&lt;') + '</td>';
-                }} else if (Array.isArray(v) && v.length > 0) {{
-                    html += '<td class="' + cls + '"' + attrs + '>';
-                    html += '<ul class="products-list">';
-                    v.forEach(function(p) {{ html += '<li>' + (typeof p === 'string' ? p : (p.name || '')).replace(/</g,'&lt;') + '</li>'; }});
-                    html += '</ul></td>';
-                }} else {{
-                    var display = (typeof v === 'string' ? v : '').replace(/</g,'&lt;');
-                    html += '<td class="' + cls + '"' + attrs + '>' + display + '</td>';
-                }}
-                return;
-            }}
             var srcInfo = r._src && r._src[c];
             var srcLabel = srcInfo ? srcInfo.label : dsSource;
             var srcUrl = srcInfo ? (srcInfo.url || '') : dsSourceUrl;
