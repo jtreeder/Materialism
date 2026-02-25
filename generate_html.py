@@ -5361,10 +5361,10 @@ function renderDetail() {{
     if (m.fields_available) html += 'Fields: ' + m.fields_available.join(', ') + '<br>';
     html += '</div>';
     html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\\'' + _currentDs + '\\')">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
-    var _selN = _getSelCount();
+    var _selN = _mGetSelCount();
     var _inferLabel = _selN > 0 ? 'Infer Missing Values for Selection (' + _selN + ')' : 'Infer Missing Values';
     html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\\'' + _currentDs + '\\')"' + (_inferRunning ? ' disabled' : '') + '>' + _inferLabel + '</button>';
-    html += '<span class="sel-info" id="sel-info"' + (_selN > 0 ? '' : ' style="display:none"') + '>' + (_selN > 0 ? _selN + ' row' + (_selN > 1 ? 's' : '') + ' selected<span class="clear-sel" onclick="clearSelection()">clear</span>' : '') + '</span>';
+    html += '<span class="sel-info" id="sel-info"' + (_selN > 0 ? '' : ' style="display:none"') + '>' + (_selN > 0 ? _selN + ' cell' + (_selN > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>' : '') + '</span>';
     html += '</div>';
     html += '<div class="infer-progress" id="infer-progress" style="display:none"></div>';
 
