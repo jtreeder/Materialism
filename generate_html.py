@@ -863,6 +863,7 @@ full_html = f"""<!DOCTYPE html>
                     else if (field === 'name') arr[idx].name = val;
                     else if (field === 'cas') arr[idx].cas = val;
                     else if (field === 'cat') arr[idx].cat = val;
+                    else if (field === 'abbreviation') arr[idx].abbreviation = val;
                     else if (field === 'r' && type === 'polymers') arr[idx].r = parseFloat(val) || arr[idx].r;
                     else if (field === 'type' && type === 'polymers') arr[idx].type = val;
                     else if (field === 'src') arr[idx].src = val;
@@ -2713,6 +2714,10 @@ td input {{
 }}
 td input:focus {{ background: #fff3cd; border-radius: 2px; }}
 td.editing {{ padding: 2px 4px; background: #fffcf0; }}
+td.cell-selected {{ background: #dfe6fd !important; }}
+.sel-info {{ font-size: 0.8rem; color: #636e72; margin-left: 8px; }}
+.sel-info button {{ margin-left: 6px; font-size: 0.75rem; padding: 2px 8px; border: 1px solid #dfe6e9; border-radius: 3px; background: #fff; color: #636e72; cursor: pointer; }}
+.sel-info button:hover {{ background: #f5f6fa; }}
 .edit-count {{ font-size: 0.8rem; color: #e94560; font-weight: 600; }}
 .cas-link {{ color: #0984e3; text-decoration: none; }}
 .cas-link:hover {{ text-decoration: underline; }}
@@ -2819,6 +2824,7 @@ td.editing {{ padding: 2px 4px; background: #fffcf0; }}
     </button>
     <span class="edit-count" id="edit-count"></span>
     <span class="save-indicator" id="save-ind">Saved</span>
+    <span class="sel-info" id="db-sel-info"></span>
 </div>
 <div class="table-wrap">
     <table id="db-table">
@@ -2884,6 +2890,7 @@ var SRC_TIERS = {{
 
 var SOLV_COLS = [
     {{key:'name', label:'Name', w:'200px'}},
+    {{key:'abbreviation', label:'Abbr.', w:'80px', tip:'Common abbreviation'}},
     {{key:'cas', label:'CAS #', w:'110px'}},
     {{key:'formula', label:'Formula', w:'110px'}},
     {{key:'smiles', label:'SMILES', w:'160px'}},
@@ -2894,19 +2901,20 @@ var SOLV_COLS = [
     {{key:'bp', label:'BP (\\u00b0C)', w:'70px', tip:'Boiling point'}},
     {{key:'density', label:'Density (g/mL)', w:'90px', tip:'Density (g/mL)'}},
     {{key:'mv', label:'V\\u2098 (cm\\u00b3/mol)', w:'90px', tip:'Molar volume'}},
-    {{key:'cat', label:'Category', w:'100px'}},
+    {{key:'cat', label:'Classification', w:'100px'}},
     {{key:'ghs', label:'GHS Hazard', w:'120px'}},
     {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
     {{key:'src', label:'Source', w:'140px'}},
 ];
 var POLY_COLS = [
     {{key:'name', label:'Name', w:'250px'}},
+    {{key:'abbreviation', label:'Abbr.', w:'80px', tip:'Common abbreviation'}},
     {{key:'cas', label:'CAS #', w:'110px'}},
     {{key:'dd', label:'\\u03b4D (MPa\\u00bd)', w:'78px', tip:'Dispersion parameter'}},
     {{key:'dp', label:'\\u03b4P (MPa\\u00bd)', w:'78px', tip:'Polarity parameter'}},
     {{key:'dh', label:'\\u03b4H (MPa\\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
     {{key:'r', label:'R\\u2080 (MPa\\u00bd)', w:'70px', tip:'Interaction radius'}},
-    {{key:'type', label:'Type', w:'120px'}},
+    {{key:'type', label:'Classification', w:'120px'}},
     {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
     {{key:'src', label:'Source', w:'140px'}},
 ];
@@ -2916,6 +2924,12 @@ var editing = false;
 var edits = {{}};  // key: "type:index:field" -> value
 var sortCol = null, sortAsc = true;
 var srcFilterSet = {{}};  // keys = selected source names; empty = show all
+
+// --- Cell selection state ---
+var _selCells = {{}};  // key: "rowIdx:fieldKey" -> true
+var _dragSel = false;
+var _dragStart = null;  // {{row, col, ci}}
+var _dragEnd = null;
 
 function loadEdits() {{
     try {{
@@ -3049,7 +3063,8 @@ function renderTable() {{
             var row = data[i];
             var name = getVal(activeTab, i, 'name').toLowerCase();
             var cas = getVal(activeTab, i, 'cas').toLowerCase();
-            if (name.indexOf(filter) === -1 && cas.indexOf(filter) === -1) continue;
+            var abbr = getVal(activeTab, i, 'abbreviation').toLowerCase();
+            if (name.indexOf(filter) === -1 && cas.indexOf(filter) === -1 && abbr.indexOf(filter) === -1) continue;
         }}
         if (_hasSrcFilter() && !_matchesSrcFilter(getVal(activeTab, i, 'src'))) continue;
         indices.push(i);
@@ -3108,9 +3123,11 @@ function renderTable() {{
             var val = getVal(activeTab, idx, c.key);
             var editKey = activeTab + ':' + idx + ':' + c.key;
             var isEdited = edits.hasOwnProperty(editKey);
+            var cellId = idx + ':' + c.key;
+            var cellSel = _selCells[cellId] ? ' cell-selected' : '';
 
             if (editing) {{
-                html += '<td class="editing"' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>';
+                html += '<td class="editing' + cellSel + '" data-row="' + idx + '" data-col="' + c.key + '"' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>';
                 html += '<input type="text" value="' + String(val).replace(/"/g, '&quot;') + '" onchange="setVal(\\x27' + activeTab + '\\x27,' + idx + ',\\x27' + c.key + '\\x27,this.value)">';
                 html += '</td>';
             }} else {{
@@ -3153,7 +3170,7 @@ function renderTable() {{
                     var isPoly = activeTab === 'polymers';
                     display = '<span class="conf-badge" data-src="' + (mat.src || '').replace(/"/g, '&quot;') + '" data-cas="' + (mat.cas ? '1' : '0') + '" data-smi="' + (!isPoly && mat.smiles ? '1' : '0') + '" data-poly="' + (isPoly ? '1' : '0') + '" data-srcn="' + (mat.srcN || 1) + '" data-pct="' + pct + '" style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + cColor + ';cursor:help">' + pct + '%</span>';
                 }}
-                html += '<td' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>' + display + '</td>';
+                html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>' + display + '</td>';
             }}
         }}
         html += '</tr>';
@@ -3329,6 +3346,93 @@ document.addEventListener('click', function(e) {{
             _srcDropOpen = false;
             drop.classList.remove('open');
         }}
+    }}
+}});
+
+// --- Cell drag-to-select ---
+function _getCellFromEvent(e) {{
+    var td = e.target.closest('#db-tbody td[data-row][data-col]');
+    if (!td) return null;
+    return {{ row: parseInt(td.getAttribute('data-row')), col: td.getAttribute('data-col'), el: td }};
+}}
+
+function _cellsBetween(a, b) {{
+    var cols = activeTab === 'solvents' ? SOLV_COLS : POLY_COLS;
+    var colKeys = cols.map(function(c) {{ return c.key; }});
+    var ci1 = colKeys.indexOf(a.col), ci2 = colKeys.indexOf(b.col);
+    var rMin = Math.min(a.row, b.row), rMax = Math.max(a.row, b.row);
+    var cMin = Math.min(ci1, ci2), cMax = Math.max(ci1, ci2);
+    var cells = {{}};
+    for (var r = rMin; r <= rMax; r++) {{
+        for (var c = cMin; c <= cMax; c++) {{
+            cells[r + ':' + colKeys[c]] = true;
+        }}
+    }}
+    return cells;
+}}
+
+function _updateDbSelInfo() {{
+    var el = document.getElementById('db-sel-info');
+    if (!el) return;
+    var n = Object.keys(_selCells).length;
+    if (n === 0) {{ el.innerHTML = ''; return; }}
+    el.innerHTML = n + ' cell' + (n > 1 ? 's' : '') + ' selected <button onclick="clearCellSel()">Clear</button>';
+}}
+
+function clearCellSel() {{
+    _selCells = {{}};
+    var tds = document.querySelectorAll('#db-tbody td.cell-selected');
+    for (var i = 0; i < tds.length; i++) tds[i].classList.remove('cell-selected');
+    _updateDbSelInfo();
+}}
+
+function _applyCellSelClasses() {{
+    var tds = document.querySelectorAll('#db-tbody td[data-row][data-col]');
+    for (var i = 0; i < tds.length; i++) {{
+        var key = tds[i].getAttribute('data-row') + ':' + tds[i].getAttribute('data-col');
+        if (_selCells[key]) tds[i].classList.add('cell-selected');
+        else tds[i].classList.remove('cell-selected');
+    }}
+}}
+
+document.addEventListener('mousedown', function(e) {{
+    var cell = _getCellFromEvent(e);
+    if (!cell) return;
+    if (e.target.closest('input') || e.target.closest('a') || e.target.closest('button')) return;
+    e.preventDefault();
+    if (e.shiftKey && _dragStart) {{
+        _selCells = _cellsBetween(_dragStart, cell);
+    }} else if (e.ctrlKey || e.metaKey) {{
+        var key = cell.row + ':' + cell.col;
+        if (_selCells[key]) delete _selCells[key];
+        else _selCells[key] = true;
+        _dragStart = cell;
+    }} else {{
+        _selCells = {{}};
+        _selCells[cell.row + ':' + cell.col] = true;
+        _dragStart = cell;
+        _dragSel = true;
+    }}
+    _applyCellSelClasses();
+    _updateDbSelInfo();
+}});
+
+document.addEventListener('mousemove', function(e) {{
+    if (!_dragSel || !_dragStart) return;
+    var cell = _getCellFromEvent(e);
+    if (!cell) return;
+    _selCells = _cellsBetween(_dragStart, cell);
+    _applyCellSelClasses();
+    _updateDbSelInfo();
+}});
+
+document.addEventListener('mouseup', function(e) {{
+    _dragSel = false;
+}});
+
+document.addEventListener('keydown', function(e) {{
+    if (e.key === 'Escape' && Object.keys(_selCells).length > 0) {{
+        clearCellSel();
     }}
 }});
 </script>
@@ -4424,6 +4528,73 @@ function _pubchemBP(cid) {{
     }}).catch(function() {{ return null; }});
 }}
 
+// --- Common abbreviation lookup ---
+var _ABBREVIATIONS = {{
+    // Common solvents
+    'acetone':'ACE','acetonitrile':'ACN','N,N-dimethylformamide':'DMF','dimethylformamide':'DMF',
+    'dimethyl sulfoxide':'DMSO','dimethylsulfoxide':'DMSO','tetrahydrofuran':'THF',
+    'dichloromethane':'DCM','methylene chloride':'DCM','chloroform':'CHCl3',
+    'ethyl acetate':'EtOAc','methanol':'MeOH','ethanol':'EtOH','isopropanol':'IPA',
+    'isopropyl alcohol':'IPA','2-propanol':'IPA','n-butanol':'BuOH','1-butanol':'BuOH',
+    'tert-butanol':'t-BuOH','2-methyl-2-propanol':'t-BuOH',
+    'diethyl ether':'Et2O','methyl tert-butyl ether':'MTBE',
+    'petroleum ether':'PE','hexane':'Hex','n-hexane':'Hex','heptane':'Hep','n-heptane':'Hep',
+    'pentane':'Pen','n-pentane':'Pen','cyclohexane':'CyH','toluene':'Tol','xylene':'Xyl',
+    'benzene':'Bz','carbon tetrachloride':'CCl4','1,4-dioxane':'Diox','dioxane':'Diox',
+    'N-methyl-2-pyrrolidone':'NMP','N-methylpyrrolidone':'NMP','1-methyl-2-pyrrolidone':'NMP',
+    'dimethylacetamide':'DMAc','N,N-dimethylacetamide':'DMAc',
+    'diethylene glycol':'DEG','ethylene glycol':'EG','propylene glycol':'PG',
+    'triethylamine':'TEA','pyridine':'Py','acetic acid':'AcOH','formic acid':'FA',
+    'trifluoroacetic acid':'TFA','trifluoroethanol':'TFE','2,2,2-trifluoroethanol':'TFE',
+    'hexafluoroisopropanol':'HFIP','1,1,1,3,3,3-hexafluoro-2-propanol':'HFIP',
+    'dimethyl carbonate':'DMC','diethyl carbonate':'DEC','propylene carbonate':'PC',
+    'ethylene carbonate':'EC','gamma-butyrolactone':'GBL','gamma-valerolactone':'GVL',
+    'methyl ethyl ketone':'MEK','2-butanone':'MEK','methyl isobutyl ketone':'MIBK',
+    'cyclopentanone':'CPO','cyclohexanone':'CHO',
+    '1,2-dichloroethane':'DCE','1,1,1-trichloroethane':'TCA',
+    '1,2-dichlorobenzene':'ODCB','o-dichlorobenzene':'ODCB',
+    'nitromethane':'NM','carbon disulfide':'CS2','water':'H2O',
+    'formamide':'FA','2-methoxyethanol':'MeCell','2-ethoxyethanol':'EtCell',
+    'diglyme':'DGM','triglyme':'TGM','tetraglyme':'TEGM',
+    'sulfolane':'SFL','hexamethylphosphoramide':'HMPA',
+    'perfluorohexane':'PFH','perfluoromethylcyclohexane':'PFMCH',
+    // Common polymers
+    'polyethylene':'PE','polypropylene':'PP','polystyrene':'PS',
+    'polyvinylchloride':'PVC','polyvinyl chloride':'PVC',
+    'polyethylene terephthalate':'PET','polytetrafluoroethylene':'PTFE',
+    'polymethyl methacrylate':'PMMA','polymethylmethacrylate':'PMMA',
+    'poly(methyl methacrylate)':'PMMA',
+    'polyacrylonitrile':'PAN','polyvinyl alcohol':'PVA','polyvinylalcohol':'PVA',
+    'polyvinyl acetate':'PVAc','polyvinylacetate':'PVAc',
+    'polyamide':'PA','polycarbonate':'PC','polyimide':'PI',
+    'polyetherimide':'PEI','polysulfone':'PSU','polyethersulfone':'PES',
+    'polyphenylene sulfide':'PPS','polyphenylene oxide':'PPO',
+    'polyurethane':'PU','polyisoprene':'PIP','polybutadiene':'PBD',
+    'polyisobutylene':'PIB','polydimethylsiloxane':'PDMS',
+    'polyvinylpyrrolidone':'PVP','polyethylene oxide':'PEO',
+    'polyvinyl butyral':'PVB','polyvinylbutyral':'PVB',
+    'polyvinylidene fluoride':'PVDF','polyvinylidene chloride':'PVDC',
+    'polyether ether ketone':'PEEK','polylactic acid':'PLA','polylactide':'PLA',
+    'polyhydroxybutyrate':'PHB','polyethylene glycol':'PEG',
+    'cellulose acetate':'CA','cellulose acetobutyrate':'CAB',
+    'ethyl cellulose':'EC','nitrocellulose':'NC',
+    'styrene-butadiene':'SBR','acrylonitrile-butadiene':'NBR',
+    'chloroprene':'CR','ethylene propylene':'EPDM',
+}};
+
+function _getAbbreviation(name) {{
+    if (!name) return '';
+    var lower = name.toLowerCase().trim();
+    // Direct match
+    if (_ABBREVIATIONS[lower]) return _ABBREVIATIONS[lower];
+    // Try without leading "n-"
+    if (lower.indexOf('n-') === 0 && _ABBREVIATIONS[lower.substring(2)]) return _ABBREVIATIONS[lower.substring(2)];
+    // Try stripping "poly(" prefix → "poly(..." to "poly..."
+    var m = lower.match(/^poly\\((.+)\\)$/);
+    if (m && _ABBREVIATIONS['poly' + m[1]]) return _ABBREVIATIONS['poly' + m[1]];
+    return '';
+}}
+
 // --- Solvent categorization from SMILES / name ---
 function _categorizeSolvent(smiles, name) {{
     var s = (smiles || '').trim();
@@ -4509,7 +4680,7 @@ async function inferMissing(dsId) {{
     if (btn) btn.disabled = true;
     var ds = DATASETS[dsId];
     var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
-    var fillable = ['cas','mw','smiles','bp','cat'];
+    var fillable = ['cas','mw','smiles','bp','cat','abbreviation'];
     var queue = [];
     var selKeys = Object.keys(_selectedRows);
     var hasSelection = selKeys.length > 0;
@@ -4666,6 +4837,18 @@ async function inferMissing(dsId) {{
             var _lookupNote = !_foundPubChem && !_foundCAS ? 'Not found in PubChem or CAS Common Chemistry' : '';
 
             entry.missing.forEach(function(field) {{
+
+                // Handle abbreviation (local lookup, no API)
+                if (field === 'abbreviation') {{
+                    var abbr = _getAbbreviation(item.name || '');
+                    if (abbr) {{
+                        item.abbreviation = abbr;
+                        item._src.abbreviation = {{ label: 'Common abbreviation', url: '', uncertain: false }};
+                        filled++;
+                    }}
+                    // If no known abbreviation, leave empty (don't mark as note/error)
+                    return;
+                }}
 
                 // Handle category separately (local classification, no API)
                 if (field === 'cat') {{
@@ -4907,8 +5090,8 @@ function exportCSV(dsId, type) {{
     var items = ds[type] || [];
     if (items.length === 0) return;
     var cols = type === 'chemicals'
-        ? ['name','cas','dd','dp','dh','mw','bp','cat','smiles','density','conf']
-        : ['name','cas','dd','dp','dh','r','type','conf'];
+        ? ['name','abbreviation','cas','dd','dp','dh','mw','bp','cat','smiles','density','conf']
+        : ['name','abbreviation','cas','dd','dp','dh','r','type','conf'];
     var csv = cols.join(',') + '\\n';
     items.forEach(function(r) {{
         csv += cols.map(function(c) {{
@@ -5108,10 +5291,10 @@ function renderDetail() {{
     var items, cols;
     if (nc > 0) {{
         items = ds.chemicals;
-        cols = ['name','cas','dd','dp','dh','mw','bp','cat','conf'];
+        cols = ['name','abbreviation','cas','dd','dp','dh','mw','bp','cat','conf'];
     }} else {{
         items = ds.polymers;
-        cols = ['name','cas','dd','dp','dh','r','type','conf'];
+        cols = ['name','abbreviation','cas','dd','dp','dh','r','type','conf'];
     }}
 
     if (!items || items.length === 0) {{
@@ -5125,7 +5308,7 @@ function renderDetail() {{
     if (_filterText) {{
         var q = _filterText.toLowerCase();
         filtered = filtered.filter(function(r) {{
-            return (r.name||'').toLowerCase().indexOf(q) !== -1 || (r.cas||'').indexOf(q) !== -1;
+            return (r.name||'').toLowerCase().indexOf(q) !== -1 || (r.cas||'').indexOf(q) !== -1 || (r.abbreviation||'').toLowerCase().indexOf(q) !== -1;
         }});
     }}
 
@@ -5143,8 +5326,9 @@ function renderDetail() {{
     var colLabels = {{
         name:'Name', cas:'CAS #',
         dd:'\\u03b4D (MPa\\u00bd)', dp:'\\u03b4P (MPa\\u00bd)', dh:'\\u03b4H (MPa\\u00bd)',
-        mw:'MW (g/mol)', bp:'BP (\\u00b0C)', cat:'Category', conf:'Conf.',
-        r:'R\\u2080 (MPa\\u00bd)', type:'Type',
+        abbreviation:'Abbr.',
+        mw:'MW (g/mol)', bp:'BP (\\u00b0C)', cat:'Classification', conf:'Conf.',
+        r:'R\\u2080 (MPa\\u00bd)', type:'Classification',
         smiles:'SMILES', formula:'Formula', density:'Density (g/mL)',
         mv:'V\\u2098 (cm\\u00b3/mol)', ghs:'GHS'
     }};

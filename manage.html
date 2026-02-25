@@ -1029,6 +1029,73 @@ function _pubchemBP(cid) {
     }).catch(function() { return null; });
 }
 
+// --- Common abbreviation lookup ---
+var _ABBREVIATIONS = {
+    // Common solvents
+    'acetone':'ACE','acetonitrile':'ACN','N,N-dimethylformamide':'DMF','dimethylformamide':'DMF',
+    'dimethyl sulfoxide':'DMSO','dimethylsulfoxide':'DMSO','tetrahydrofuran':'THF',
+    'dichloromethane':'DCM','methylene chloride':'DCM','chloroform':'CHCl3',
+    'ethyl acetate':'EtOAc','methanol':'MeOH','ethanol':'EtOH','isopropanol':'IPA',
+    'isopropyl alcohol':'IPA','2-propanol':'IPA','n-butanol':'BuOH','1-butanol':'BuOH',
+    'tert-butanol':'t-BuOH','2-methyl-2-propanol':'t-BuOH',
+    'diethyl ether':'Et2O','methyl tert-butyl ether':'MTBE',
+    'petroleum ether':'PE','hexane':'Hex','n-hexane':'Hex','heptane':'Hep','n-heptane':'Hep',
+    'pentane':'Pen','n-pentane':'Pen','cyclohexane':'CyH','toluene':'Tol','xylene':'Xyl',
+    'benzene':'Bz','carbon tetrachloride':'CCl4','1,4-dioxane':'Diox','dioxane':'Diox',
+    'N-methyl-2-pyrrolidone':'NMP','N-methylpyrrolidone':'NMP','1-methyl-2-pyrrolidone':'NMP',
+    'dimethylacetamide':'DMAc','N,N-dimethylacetamide':'DMAc',
+    'diethylene glycol':'DEG','ethylene glycol':'EG','propylene glycol':'PG',
+    'triethylamine':'TEA','pyridine':'Py','acetic acid':'AcOH','formic acid':'FA',
+    'trifluoroacetic acid':'TFA','trifluoroethanol':'TFE','2,2,2-trifluoroethanol':'TFE',
+    'hexafluoroisopropanol':'HFIP','1,1,1,3,3,3-hexafluoro-2-propanol':'HFIP',
+    'dimethyl carbonate':'DMC','diethyl carbonate':'DEC','propylene carbonate':'PC',
+    'ethylene carbonate':'EC','gamma-butyrolactone':'GBL','gamma-valerolactone':'GVL',
+    'methyl ethyl ketone':'MEK','2-butanone':'MEK','methyl isobutyl ketone':'MIBK',
+    'cyclopentanone':'CPO','cyclohexanone':'CHO',
+    '1,2-dichloroethane':'DCE','1,1,1-trichloroethane':'TCA',
+    '1,2-dichlorobenzene':'ODCB','o-dichlorobenzene':'ODCB',
+    'nitromethane':'NM','carbon disulfide':'CS2','water':'H2O',
+    'formamide':'FA','2-methoxyethanol':'MeCell','2-ethoxyethanol':'EtCell',
+    'diglyme':'DGM','triglyme':'TGM','tetraglyme':'TEGM',
+    'sulfolane':'SFL','hexamethylphosphoramide':'HMPA',
+    'perfluorohexane':'PFH','perfluoromethylcyclohexane':'PFMCH',
+    // Common polymers
+    'polyethylene':'PE','polypropylene':'PP','polystyrene':'PS',
+    'polyvinylchloride':'PVC','polyvinyl chloride':'PVC',
+    'polyethylene terephthalate':'PET','polytetrafluoroethylene':'PTFE',
+    'polymethyl methacrylate':'PMMA','polymethylmethacrylate':'PMMA',
+    'poly(methyl methacrylate)':'PMMA',
+    'polyacrylonitrile':'PAN','polyvinyl alcohol':'PVA','polyvinylalcohol':'PVA',
+    'polyvinyl acetate':'PVAc','polyvinylacetate':'PVAc',
+    'polyamide':'PA','polycarbonate':'PC','polyimide':'PI',
+    'polyetherimide':'PEI','polysulfone':'PSU','polyethersulfone':'PES',
+    'polyphenylene sulfide':'PPS','polyphenylene oxide':'PPO',
+    'polyurethane':'PU','polyisoprene':'PIP','polybutadiene':'PBD',
+    'polyisobutylene':'PIB','polydimethylsiloxane':'PDMS',
+    'polyvinylpyrrolidone':'PVP','polyethylene oxide':'PEO',
+    'polyvinyl butyral':'PVB','polyvinylbutyral':'PVB',
+    'polyvinylidene fluoride':'PVDF','polyvinylidene chloride':'PVDC',
+    'polyether ether ketone':'PEEK','polylactic acid':'PLA','polylactide':'PLA',
+    'polyhydroxybutyrate':'PHB','polyethylene glycol':'PEG',
+    'cellulose acetate':'CA','cellulose acetobutyrate':'CAB',
+    'ethyl cellulose':'EC','nitrocellulose':'NC',
+    'styrene-butadiene':'SBR','acrylonitrile-butadiene':'NBR',
+    'chloroprene':'CR','ethylene propylene':'EPDM',
+};
+
+function _getAbbreviation(name) {
+    if (!name) return '';
+    var lower = name.toLowerCase().trim();
+    // Direct match
+    if (_ABBREVIATIONS[lower]) return _ABBREVIATIONS[lower];
+    // Try without leading "n-"
+    if (lower.indexOf('n-') === 0 && _ABBREVIATIONS[lower.substring(2)]) return _ABBREVIATIONS[lower.substring(2)];
+    // Try stripping "poly(" prefix → "poly(..." to "poly..."
+    var m = lower.match(/^poly\((.+)\)$/);
+    if (m && _ABBREVIATIONS['poly' + m[1]]) return _ABBREVIATIONS['poly' + m[1]];
+    return '';
+}
+
 // --- Solvent categorization from SMILES / name ---
 function _categorizeSolvent(smiles, name) {
     var s = (smiles || '').trim();
@@ -1114,7 +1181,7 @@ async function inferMissing(dsId) {
     if (btn) btn.disabled = true;
     var ds = DATASETS[dsId];
     var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
-    var fillable = ['cas','mw','smiles','bp','cat'];
+    var fillable = ['cas','mw','smiles','bp','cat','abbreviation'];
     var queue = [];
     var selKeys = Object.keys(_selectedRows);
     var hasSelection = selKeys.length > 0;
@@ -1271,6 +1338,18 @@ async function inferMissing(dsId) {
             var _lookupNote = !_foundPubChem && !_foundCAS ? 'Not found in PubChem or CAS Common Chemistry' : '';
 
             entry.missing.forEach(function(field) {
+
+                // Handle abbreviation (local lookup, no API)
+                if (field === 'abbreviation') {
+                    var abbr = _getAbbreviation(item.name || '');
+                    if (abbr) {
+                        item.abbreviation = abbr;
+                        item._src.abbreviation = { label: 'Common abbreviation', url: '', uncertain: false };
+                        filled++;
+                    }
+                    // If no known abbreviation, leave empty (don't mark as note/error)
+                    return;
+                }
 
                 // Handle category separately (local classification, no API)
                 if (field === 'cat') {
@@ -1512,8 +1591,8 @@ function exportCSV(dsId, type) {
     var items = ds[type] || [];
     if (items.length === 0) return;
     var cols = type === 'chemicals'
-        ? ['name','cas','dd','dp','dh','mw','bp','cat','smiles','density','conf']
-        : ['name','cas','dd','dp','dh','r','type','conf'];
+        ? ['name','abbreviation','cas','dd','dp','dh','mw','bp','cat','smiles','density','conf']
+        : ['name','abbreviation','cas','dd','dp','dh','r','type','conf'];
     var csv = cols.join(',') + '\n';
     items.forEach(function(r) {
         csv += cols.map(function(c) {
@@ -1713,10 +1792,10 @@ function renderDetail() {
     var items, cols;
     if (nc > 0) {
         items = ds.chemicals;
-        cols = ['name','cas','dd','dp','dh','mw','bp','cat','conf'];
+        cols = ['name','abbreviation','cas','dd','dp','dh','mw','bp','cat','conf'];
     } else {
         items = ds.polymers;
-        cols = ['name','cas','dd','dp','dh','r','type','conf'];
+        cols = ['name','abbreviation','cas','dd','dp','dh','r','type','conf'];
     }
 
     if (!items || items.length === 0) {
@@ -1730,7 +1809,7 @@ function renderDetail() {
     if (_filterText) {
         var q = _filterText.toLowerCase();
         filtered = filtered.filter(function(r) {
-            return (r.name||'').toLowerCase().indexOf(q) !== -1 || (r.cas||'').indexOf(q) !== -1;
+            return (r.name||'').toLowerCase().indexOf(q) !== -1 || (r.cas||'').indexOf(q) !== -1 || (r.abbreviation||'').toLowerCase().indexOf(q) !== -1;
         });
     }
 
@@ -1748,8 +1827,9 @@ function renderDetail() {
     var colLabels = {
         name:'Name', cas:'CAS #',
         dd:'\u03b4D (MPa\u00bd)', dp:'\u03b4P (MPa\u00bd)', dh:'\u03b4H (MPa\u00bd)',
-        mw:'MW (g/mol)', bp:'BP (\u00b0C)', cat:'Category', conf:'Conf.',
-        r:'R\u2080 (MPa\u00bd)', type:'Type',
+        abbreviation:'Abbr.',
+        mw:'MW (g/mol)', bp:'BP (\u00b0C)', cat:'Classification', conf:'Conf.',
+        r:'R\u2080 (MPa\u00bd)', type:'Classification',
         smiles:'SMILES', formula:'Formula', density:'Density (g/mL)',
         mv:'V\u2098 (cm\u00b3/mol)', ghs:'GHS'
     };
