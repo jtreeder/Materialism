@@ -2715,6 +2715,9 @@ td input {{
 td input:focus {{ background: #fff3cd; border-radius: 2px; }}
 td.editing {{ padding: 2px 4px; background: #fffcf0; }}
 td.cell-selected {{ background: #dfe6fd !important; }}
+#db-tbody {{ user-select: none; -webkit-user-select: none; }}
+.rownum-cell {{ color: #b2bec3; text-align: right; font-size: 0.72rem; cursor: pointer; padding: 6px 6px 6px 4px !important; }}
+.rownum-cell:hover {{ background: #e8eaed; }}
 .sel-info {{ font-size: 0.8rem; color: #636e72; margin-left: 8px; }}
 .sel-info button {{ margin-left: 6px; font-size: 0.75rem; padding: 2px 8px; border: 1px solid #dfe6e9; border-radius: 3px; background: #fff; color: #636e72; cursor: pointer; }}
 .sel-info button:hover {{ background: #f5f6fa; }}
@@ -2928,7 +2931,9 @@ var srcFilterSet = {{}};  // keys = selected source names; empty = show all
 // --- Cell selection state ---
 var _selCells = {{}};  // key: "rowIdx:fieldKey" -> true
 var _dragSel = false;
-var _dragStart = null;  // {{row, col, ci}}
+var _dragStart = null;  // {{row, col}}
+var _lastRowNum = null; // last clicked row-number index for shift-range
+var _visibleIndices = []; // set by renderTable for column selection
 var _dragEnd = null;
 
 function loadEdits() {{
@@ -3082,8 +3087,11 @@ function renderTable() {{
         }});
     }}
 
+    // Save visible indices for column selection
+    _visibleIndices = indices;
+
     // Header
-    var hdr = '<tr>';
+    var hdr = '<tr><th style="width:40px">#</th>';
     for (var ci = 0; ci < cols.length; ci++) {{
         var c = cols[ci];
         var cls = '';
@@ -3091,7 +3099,7 @@ function renderTable() {{
         if (c.key === 'src') {{
             var nSel = Object.keys(srcFilterSet).length;
             var btnLabel = nSel === 0 ? 'All sources' : nSel + ' selected';
-            hdr += '<th' + cls + ' style="width:' + c.w + ';position:relative">';
+            hdr += '<th' + cls + ' data-col="' + c.key + '" style="width:' + c.w + ';position:relative">';
             hdr += '<span onclick="sortBy(' + ci + ')" style="cursor:pointer">' + c.label + '</span>';
             hdr += '<div class="src-filter-wrap">';
             hdr += '<button class="src-filter-btn" onclick="toggleSrcDrop(event)">' + btnLabel + ' &#9662;</button>';
@@ -3107,7 +3115,7 @@ function renderTable() {{
             }});
             hdr += '</div></div></th>';
         }} else {{
-            hdr += '<th' + cls + ' style="width:' + c.w + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="sortBy(' + ci + ')">' + c.label + '</th>';
+            hdr += '<th' + cls + ' data-col="' + c.key + '" style="width:' + c.w + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="sortBy(' + ci + ')">' + c.label + '</th>';
         }}
     }}
     hdr += '</tr>';
@@ -3118,6 +3126,7 @@ function renderTable() {{
     for (var ri = 0; ri < indices.length; ri++) {{
         var idx = indices[ri];
         html += '<tr>';
+        html += '<td class="rownum-cell" data-rowidx="' + idx + '">' + (ri + 1) + '</td>';
         for (var ci = 0; ci < cols.length; ci++) {{
             var c = cols[ci];
             var val = getVal(activeTab, idx, c.key);
@@ -3360,15 +3369,27 @@ function _cellsBetween(a, b) {{
     var cols = activeTab === 'solvents' ? SOLV_COLS : POLY_COLS;
     var colKeys = cols.map(function(c) {{ return c.key; }});
     var ci1 = colKeys.indexOf(a.col), ci2 = colKeys.indexOf(b.col);
-    var rMin = Math.min(a.row, b.row), rMax = Math.max(a.row, b.row);
+    // Use position in _visibleIndices for correct range over filtered/sorted rows
+    var vi1 = _visibleIndices.indexOf(a.row), vi2 = _visibleIndices.indexOf(b.row);
+    if (vi1 === -1 || vi2 === -1) return {{}};
+    var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
     var cMin = Math.min(ci1, ci2), cMax = Math.max(ci1, ci2);
     var cells = {{}};
-    for (var r = rMin; r <= rMax; r++) {{
+    for (var v = vMin; v <= vMax; v++) {{
         for (var c = cMin; c <= cMax; c++) {{
-            cells[r + ':' + colKeys[c]] = true;
+            cells[_visibleIndices[v] + ':' + colKeys[c]] = true;
         }}
     }}
     return cells;
+}}
+
+function _selectFullRow(rowIdx) {{
+    var cols = activeTab === 'solvents' ? SOLV_COLS : POLY_COLS;
+    cols.forEach(function(c) {{ _selCells[rowIdx + ':' + c.key] = true; }});
+}}
+
+function _selectFullCol(colKey) {{
+    _visibleIndices.forEach(function(idx) {{ _selCells[idx + ':' + colKey] = true; }});
 }}
 
 function _updateDbSelInfo() {{
@@ -3381,6 +3402,7 @@ function _updateDbSelInfo() {{
 
 function clearCellSel() {{
     _selCells = {{}};
+    _lastRowNum = null;
     var tds = document.querySelectorAll('#db-tbody td.cell-selected');
     for (var i = 0; i < tds.length; i++) tds[i].classList.remove('cell-selected');
     _updateDbSelInfo();
@@ -3396,9 +3418,61 @@ function _applyCellSelClasses() {{
 }}
 
 document.addEventListener('mousedown', function(e) {{
+    if (e.target.closest('input') || e.target.closest('a') || e.target.closest('button')) return;
+
+    // --- Row-number click: select full row ---
+    var rnCell = e.target.closest('#db-tbody td.rownum-cell');
+    if (rnCell) {{
+        e.preventDefault();
+        var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
+        if (e.shiftKey && _lastRowNum != null) {{
+            // Range select rows between _lastRowNum and rowIdx
+            var vi1 = _visibleIndices.indexOf(_lastRowNum);
+            var vi2 = _visibleIndices.indexOf(rowIdx);
+            if (vi1 !== -1 && vi2 !== -1) {{
+                var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
+                _selCells = {{}};
+                for (var v = vMin; v <= vMax; v++) _selectFullRow(_visibleIndices[v]);
+            }}
+        }} else if (e.ctrlKey || e.metaKey) {{
+            // Toggle this row
+            var cols = activeTab === 'solvents' ? SOLV_COLS : POLY_COLS;
+            var firstKey = rowIdx + ':' + cols[0].key;
+            if (_selCells[firstKey]) {{
+                cols.forEach(function(c) {{ delete _selCells[rowIdx + ':' + c.key]; }});
+            }} else {{
+                _selectFullRow(rowIdx);
+            }}
+            _lastRowNum = rowIdx;
+        }} else {{
+            _selCells = {{}};
+            _selectFullRow(rowIdx);
+            _lastRowNum = rowIdx;
+        }}
+        _applyCellSelClasses();
+        _updateDbSelInfo();
+        return;
+    }}
+
+    // --- Ctrl+click column header: select full column ---
+    var th = e.target.closest('#db-thead th[data-col]');
+    if (th && (e.ctrlKey || e.metaKey)) {{
+        e.preventDefault();
+        var colKey = th.getAttribute('data-col');
+        if (_selCells[_visibleIndices[0] + ':' + colKey]) {{
+            // Toggle off — remove this column from selection
+            _visibleIndices.forEach(function(idx) {{ delete _selCells[idx + ':' + colKey]; }});
+        }} else {{
+            _selectFullCol(colKey);
+        }}
+        _applyCellSelClasses();
+        _updateDbSelInfo();
+        return;
+    }}
+
+    // --- Cell click/drag ---
     var cell = _getCellFromEvent(e);
     if (!cell) return;
-    if (e.target.closest('input') || e.target.closest('a') || e.target.closest('button')) return;
     e.preventDefault();
     if (e.shiftKey && _dragStart) {{
         _selCells = _cellsBetween(_dragStart, cell);
@@ -3419,6 +3493,7 @@ document.addEventListener('mousedown', function(e) {{
 
 document.addEventListener('mousemove', function(e) {{
     if (!_dragSel || !_dragStart) return;
+    e.preventDefault();
     var cell = _getCellFromEvent(e);
     if (!cell) return;
     _selCells = _cellsBetween(_dragStart, cell);
