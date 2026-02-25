@@ -226,7 +226,6 @@ var SRC_TIERS = {
 
 var SOLV_COLS = [
     {key:'name', label:'Name', w:'200px'},
-    {key:'abbreviation', label:'Abbr.', w:'80px', tip:'Common abbreviation'},
     {key:'cas', label:'CAS #', w:'110px'},
     {key:'formula', label:'Formula', w:'110px'},
     {key:'smiles', label:'SMILES', w:'160px'},
@@ -244,7 +243,6 @@ var SOLV_COLS = [
 ];
 var POLY_COLS = [
     {key:'name', label:'Name', w:'250px'},
-    {key:'abbreviation', label:'Abbr.', w:'80px', tip:'Common abbreviation'},
     {key:'cas', label:'CAS #', w:'110px'},
     {key:'dd', label:'\u03b4D (MPa\u00bd)', w:'78px', tip:'Dispersion parameter'},
     {key:'dp', label:'\u03b4P (MPa\u00bd)', w:'78px', tip:'Polarity parameter'},
@@ -402,8 +400,7 @@ function renderTable() {
             var row = data[i];
             var name = getVal(activeTab, i, 'name').toLowerCase();
             var cas = getVal(activeTab, i, 'cas').toLowerCase();
-            var abbr = getVal(activeTab, i, 'abbreviation').toLowerCase();
-            if (name.indexOf(filter) === -1 && cas.indexOf(filter) === -1 && abbr.indexOf(filter) === -1) continue;
+            if (name.indexOf(filter) === -1 && cas.indexOf(filter) === -1) continue;
         }
         if (_hasSrcFilter() && !_matchesSrcFilter(getVal(activeTab, i, 'src'))) continue;
         indices.push(i);
