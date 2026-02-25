@@ -3650,11 +3650,14 @@ th {{
 }}
 th:hover {{ background: #e8eaed; }}
 td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }}
-tr.row-selected {{ background: #dfe6fd !important; }}
-tr.row-selected td {{ background: transparent; }}
-tbody tr {{ cursor: pointer; }}
+td.cell-selected {{ background: #dfe6fd !important; }}
+#content tbody {{ user-select: none; -webkit-user-select: none; }}
+.rownum-cell {{ color: #b2bec3; text-align: right; font-size: 0.72rem; cursor: pointer; padding: 6px 6px 6px 4px !important; }}
+.rownum-cell:hover {{ background: #e8eaed; }}
 tbody tr:hover {{ background: #f0f2f5; }}
 .sel-info {{ display: inline-block; font-size: 0.75rem; color: #636e72; margin-left: 10px; margin-top: 8px; vertical-align: middle; }}
+.sel-info button {{ margin-left: 6px; font-size: 0.72rem; padding: 2px 8px; border: 1px solid #dfe6e9; border-radius: 3px; background: #fff; color: #636e72; cursor: pointer; }}
+.sel-info button:hover {{ background: #f5f6fa; }}
 .clear-sel {{ color: #e94560; cursor: pointer; margin-left: 6px; text-decoration: underline; font-size: 0.75rem; }}
 td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-space: normal; max-width: 180px; }}
 .empty-state {{
@@ -3821,10 +3824,13 @@ var _filterText = '';
 var _sortCol = null;
 var _sortAsc = true;
 var _editMode = {{}}; // per-dataset edit mode: dsId -> bool
-var _selectedRows = {{}}; // row original index -> true
-var _lastClickedRow = null; // for shift+click range selection
-var _dragSelecting = false; // mouse drag state
-var _dragStartRow = null;
+// --- Cell selection state (matches database page) ---
+var _mSelCells = {{}};     // key: "oidx:fieldKey" -> true
+var _mDragSel = false;
+var _mDragStart = null;   // {{row, col}}
+var _mLastRowNum = null;  // last clicked row-number for shift-range
+var _mVisibleOidxs = [];  // set by renderDetail
+var _mCurrentCols = [];   // set by renderDetail
 
 // --- Import panel toggling ---
 function togglePanel(panelId, header) {{
@@ -4757,10 +4763,10 @@ async function inferMissing(dsId) {{
     var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
     var fillable = ['cas','mw','smiles','bp','cat','abbreviation'];
     var queue = [];
-    var selKeys = Object.keys(_selectedRows);
-    var hasSelection = selKeys.length > 0;
+    // Derive selected row indices from cell selection
     var selSet = {{}};
-    if (hasSelection) selKeys.forEach(function(k) {{ selSet[k] = true; }});
+    Object.keys(_mSelCells).forEach(function(k) {{ var ri = k.split(':')[0]; selSet[ri] = true; }});
+    var hasSelection = Object.keys(selSet).length > 0;
 
     items.forEach(function(item, idx) {{
         // If there's a selection, only process selected rows
@@ -5215,8 +5221,9 @@ function selectDs(dsId) {{
     _filterText = '';
     _sortCol = null;
     _sortAsc = true;
-    _selectedRows = {{}};
-    _lastClickedRow = null;
+    _mSelCells = {{}};
+    _mDragStart = null;
+    _mLastRowNum = null;
     buildSidebar();
     renderDetail();
 }}
@@ -5274,8 +5281,9 @@ function deleteDs(dsId) {{
     _saveImportedDatasets();
     // Clean up UI state
     delete _editMode[dsId];
-    _selectedRows = {{}};
-    _lastClickedRow = null;
+    _mSelCells = {{}};
+    _mDragStart = null;
+    _mLastRowNum = null;
     _currentDs = null;
     // Select next available dataset or show empty
     var dsKeys = Object.keys(DATASETS);
@@ -5411,9 +5419,13 @@ function renderDetail() {{
     // Tag each item with its original index for edit tracking
     items.forEach(function(item, idx) {{ item._oidx = idx; }});
 
-    html += '<table><thead><tr>';
+    // Save current cols and visible oidxs for cell selection
+    _mCurrentCols = cols;
+    _mVisibleOidxs = [];
+
+    html += '<table><thead><tr><th style="width:40px">#</th>';
     cols.forEach(function(c, i) {{
-        html += '<th onclick="manageSort(' + i + ')">' + (colLabels[c]||c);
+        html += '<th data-col="' + c + '" onclick="manageSort(' + i + ')">' + (colLabels[c]||c);
         if (_sortCol === i) html += _sortAsc ? ' \\u25B2' : ' \\u25BC';
         html += '</th>';
     }});
@@ -5423,10 +5435,13 @@ function renderDetail() {{
     var limit = Math.min(filtered.length, 2000);
     for (var i = 0; i < limit; i++) {{
         var r = filtered[i];
-        var rowSel = _selectedRows[r._oidx] ? ' row-selected' : '';
-        html += '<tr data-oidx="' + r._oidx + '" class="' + rowSel + '">';
+        _mVisibleOidxs.push(r._oidx);
+        html += '<tr data-oidx="' + r._oidx + '">';
+        html += '<td class="rownum-cell" data-rowidx="' + r._oidx + '">' + (i + 1) + '</td>';
         cols.forEach(function(c) {{
             var v = r[c]; if (v == null) v = '';
+            var cellId = r._oidx + ':' + c;
+            var cellSel = _mSelCells[cellId] ? ' cell-selected' : '';
             var srcInfo = r._src && r._src[c];
             var srcLabel = srcInfo ? srcInfo.label : dsSource;
             var srcUrl = srcInfo ? (srcInfo.url || '') : dsSourceUrl;
@@ -5435,7 +5450,9 @@ function renderDetail() {{
             var isNote = srcInfo && srcInfo.isNote;
             var cls = isInferred ? 'inferred' : '';
             if (isNote) {{ if (cls) cls += ' '; cls += 'cell-note'; }}
-            var attrs = ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
+            if (cellSel) {{ if (cls) cls += ' '; cls += 'cell-selected'; }}
+            var attrs = ' data-row="' + r._oidx + '" data-col="' + c + '"';
+            attrs += ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
             if (srcUrl) attrs += ' data-src-url="' + srcUrl.replace(/"/g,'&quot;') + '"';
             if (isEdit && c !== 'conf' && !isNote) {{
                 attrs += ' contenteditable="true" data-ds="' + _currentDs + '" data-idx="' + r._oidx + '" data-field="' + c + '"';
@@ -5449,7 +5466,7 @@ function renderDetail() {{
         html += '</tr>';
     }}
     if (filtered.length > limit) {{
-        html += '<tr><td colspan="' + cols.length + '" style="color:#636e72;text-align:center">... and ' + (filtered.length - limit) + ' more rows</td></tr>';
+        html += '<tr><td colspan="' + (cols.length + 1) + '" style="color:#636e72;text-align:center">... and ' + (filtered.length - limit) + ' more rows</td></tr>';
     }}
     html += '</tbody></table>';
     html += '<div style="margin-top:8px;font-size:0.8rem;color:#636e72">Showing ' + Math.min(limit, filtered.length) + ' of ' + filtered.length + ' entries</div>';
@@ -5475,17 +5492,52 @@ function manageSort(col) {{
     renderDetail();
 }}
 
-// --- Row/cell selection system ---
-function _getSelCount() {{
-    return Object.keys(_selectedRows).length;
+// --- Cell selection system (matches database page) ---
+function _mGetCellFromEvent(e) {{
+    var td = e.target.closest('#content tbody td[data-row][data-col]');
+    if (!td) return null;
+    return {{ row: parseInt(td.getAttribute('data-row')), col: td.getAttribute('data-col') }};
+}}
+
+function _mCellsBetween(a, b) {{
+    var ci1 = _mCurrentCols.indexOf(a.col), ci2 = _mCurrentCols.indexOf(b.col);
+    var vi1 = _mVisibleOidxs.indexOf(a.row), vi2 = _mVisibleOidxs.indexOf(b.row);
+    if (vi1 === -1 || vi2 === -1) return {{}};
+    var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
+    var cMin = Math.min(ci1, ci2), cMax = Math.max(ci1, ci2);
+    var cells = {{}};
+    for (var v = vMin; v <= vMax; v++) {{
+        for (var c = cMin; c <= cMax; c++) {{
+            cells[_mVisibleOidxs[v] + ':' + _mCurrentCols[c]] = true;
+        }}
+    }}
+    return cells;
+}}
+
+function _mSelectFullRow(oidx) {{
+    _mCurrentCols.forEach(function(c) {{ _mSelCells[oidx + ':' + c] = true; }});
+}}
+
+function _mSelectFullCol(colKey) {{
+    _mVisibleOidxs.forEach(function(idx) {{ _mSelCells[idx + ':' + colKey] = true; }});
+}}
+
+function _mGetSelCount() {{
+    return Object.keys(_mSelCells).length;
+}}
+
+function _mGetSelRowCount() {{
+    var rows = {{}};
+    Object.keys(_mSelCells).forEach(function(k) {{ rows[k.split(':')[0]] = true; }});
+    return Object.keys(rows).length;
 }}
 
 function _updateInferBtn() {{
     var btn = document.getElementById('infer-btn');
     if (!btn) return;
-    var n = _getSelCount();
+    var n = _mGetSelRowCount();
     if (n > 0) {{
-        btn.textContent = 'Infer Missing Values for Selection (' + n + ')';
+        btn.textContent = 'Infer Missing Values for Selection (' + n + ' row' + (n > 1 ? 's' : '') + ')';
     }} else {{
         btn.textContent = 'Infer Missing Values';
     }}
@@ -5493,10 +5545,10 @@ function _updateInferBtn() {{
 
 function _updateSelInfo() {{
     var el = document.getElementById('sel-info');
-    var n = _getSelCount();
+    var n = _mGetSelCount();
     if (el) {{
         if (n > 0) {{
-            el.innerHTML = n + ' row' + (n > 1 ? 's' : '') + ' selected<span class="clear-sel" onclick="clearSelection()">clear</span>';
+            el.innerHTML = n + ' cell' + (n > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>';
             el.style.display = '';
         }} else {{
             el.style.display = 'none';
@@ -5506,93 +5558,111 @@ function _updateSelInfo() {{
 }}
 
 function clearSelection() {{
-    _selectedRows = {{}};
-    _lastClickedRow = null;
-    // Remove visual highlights
-    var trs = document.querySelectorAll('#content tbody tr.row-selected');
-    for (var i = 0; i < trs.length; i++) trs[i].classList.remove('row-selected');
+    _mSelCells = {{}};
+    _mDragStart = null;
+    _mLastRowNum = null;
+    var tds = document.querySelectorAll('#content tbody td.cell-selected');
+    for (var i = 0; i < tds.length; i++) tds[i].classList.remove('cell-selected');
     _updateSelInfo();
 }}
 
-function _applySelectionClasses() {{
-    var trs = document.querySelectorAll('#content tbody tr[data-oidx]');
-    for (var i = 0; i < trs.length; i++) {{
-        var idx = trs[i].getAttribute('data-oidx');
-        if (_selectedRows[idx]) trs[i].classList.add('row-selected');
-        else trs[i].classList.remove('row-selected');
+function _mApplyCellSelClasses() {{
+    var tds = document.querySelectorAll('#content tbody td[data-row][data-col]');
+    for (var i = 0; i < tds.length; i++) {{
+        var key = tds[i].getAttribute('data-row') + ':' + tds[i].getAttribute('data-col');
+        if (_mSelCells[key]) tds[i].classList.add('cell-selected');
+        else tds[i].classList.remove('cell-selected');
     }}
 }}
 
-function _getAllVisibleOidxs() {{
-    var trs = document.querySelectorAll('#content tbody tr[data-oidx]');
-    var arr = [];
-    for (var i = 0; i < trs.length; i++) arr.push(trs[i].getAttribute('data-oidx'));
-    return arr;
-}}
-
-function _rowsBetween(a, b) {{
-    var all = _getAllVisibleOidxs();
-    var ia = all.indexOf(String(a)), ib = all.indexOf(String(b));
-    if (ia === -1 || ib === -1) return [];
-    var lo = Math.min(ia, ib), hi = Math.max(ia, ib);
-    return all.slice(lo, hi + 1);
-}}
-
-// Mouse event delegation for row selection
+// Mouse event delegation for cell selection
 document.addEventListener('mousedown', function(e) {{
-    var tr = e.target.closest('#content tbody tr[data-oidx]');
-    if (!tr) return;
-    // Don't interfere with contenteditable cells or links
     if (e.target.closest('td[contenteditable="true"]') || e.target.closest('a') || e.target.closest('button')) return;
 
-    var oidx = tr.getAttribute('data-oidx');
-    if (!oidx) return;
-
-    if (e.shiftKey && _lastClickedRow != null) {{
-        // Shift+click: range select
+    // --- Row-number click: select full row ---
+    var rnCell = e.target.closest('#content tbody td.rownum-cell');
+    if (rnCell) {{
         e.preventDefault();
-        var range = _rowsBetween(_lastClickedRow, oidx);
-        range.forEach(function(idx) {{ _selectedRows[idx] = true; }});
-    }} else if (e.ctrlKey || e.metaKey) {{
-        // Ctrl/Cmd+click: toggle single row
-        if (_selectedRows[oidx]) delete _selectedRows[oidx];
-        else _selectedRows[oidx] = true;
-        _lastClickedRow = oidx;
-    }} else {{
-        // Plain click: start fresh selection (also starts drag)
-        _selectedRows = {{}};
-        _selectedRows[oidx] = true;
-        _lastClickedRow = oidx;
-        _dragSelecting = true;
-        _dragStartRow = oidx;
+        var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
+        if (e.shiftKey && _mLastRowNum != null) {{
+            var vi1 = _mVisibleOidxs.indexOf(_mLastRowNum);
+            var vi2 = _mVisibleOidxs.indexOf(rowIdx);
+            if (vi1 !== -1 && vi2 !== -1) {{
+                var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
+                _mSelCells = {{}};
+                for (var v = vMin; v <= vMax; v++) _mSelectFullRow(_mVisibleOidxs[v]);
+            }}
+        }} else if (e.ctrlKey || e.metaKey) {{
+            var firstKey = rowIdx + ':' + _mCurrentCols[0];
+            if (_mSelCells[firstKey]) {{
+                _mCurrentCols.forEach(function(c) {{ delete _mSelCells[rowIdx + ':' + c]; }});
+            }} else {{
+                _mSelectFullRow(rowIdx);
+            }}
+            _mLastRowNum = rowIdx;
+        }} else {{
+            _mSelCells = {{}};
+            _mSelectFullRow(rowIdx);
+            _mLastRowNum = rowIdx;
+        }}
+        _mApplyCellSelClasses();
+        _updateSelInfo();
+        return;
     }}
 
-    _applySelectionClasses();
+    // --- Ctrl+click column header: select full column ---
+    var th = e.target.closest('#content thead th[data-col]');
+    if (th && (e.ctrlKey || e.metaKey)) {{
+        e.preventDefault();
+        var colKey = th.getAttribute('data-col');
+        if (_mVisibleOidxs.length > 0 && _mSelCells[_mVisibleOidxs[0] + ':' + colKey]) {{
+            _mVisibleOidxs.forEach(function(idx) {{ delete _mSelCells[idx + ':' + colKey]; }});
+        }} else {{
+            _mSelectFullCol(colKey);
+        }}
+        _mApplyCellSelClasses();
+        _updateSelInfo();
+        return;
+    }}
+
+    // --- Cell click/drag ---
+    var cell = _mGetCellFromEvent(e);
+    if (!cell) return;
+    e.preventDefault();
+    if (e.shiftKey && _mDragStart) {{
+        _mSelCells = _mCellsBetween(_mDragStart, cell);
+    }} else if (e.ctrlKey || e.metaKey) {{
+        var key = cell.row + ':' + cell.col;
+        if (_mSelCells[key]) delete _mSelCells[key];
+        else _mSelCells[key] = true;
+        _mDragStart = cell;
+    }} else {{
+        _mSelCells = {{}};
+        _mSelCells[cell.row + ':' + cell.col] = true;
+        _mDragStart = cell;
+        _mDragSel = true;
+    }}
+    _mApplyCellSelClasses();
     _updateSelInfo();
 }});
 
 document.addEventListener('mousemove', function(e) {{
-    if (!_dragSelecting) return;
-    var tr = e.target.closest('#content tbody tr[data-oidx]');
-    if (!tr) return;
-    var oidx = tr.getAttribute('data-oidx');
-    if (!oidx || !_dragStartRow) return;
-
-    // Select range from drag start to current row
-    _selectedRows = {{}};
-    var range = _rowsBetween(_dragStartRow, oidx);
-    range.forEach(function(idx) {{ _selectedRows[idx] = true; }});
-    _applySelectionClasses();
+    if (!_mDragSel || !_mDragStart) return;
+    e.preventDefault();
+    var cell = _mGetCellFromEvent(e);
+    if (!cell) return;
+    _mSelCells = _mCellsBetween(_mDragStart, cell);
+    _mApplyCellSelClasses();
     _updateSelInfo();
 }});
 
 document.addEventListener('mouseup', function(e) {{
-    _dragSelecting = false;
+    _mDragSel = false;
 }});
 
 // Escape to clear selection
 document.addEventListener('keydown', function(e) {{
-    if (e.key === 'Escape' && _getSelCount() > 0) {{
+    if (e.key === 'Escape' && _mGetSelCount() > 0) {{
         clearSelection();
     }}
 }});
