@@ -2932,9 +2932,10 @@ var srcFilterSet = {{}};  // keys = selected source names; empty = show all
 var _selCells = {{}};  // key: "rowIdx:fieldKey" -> true
 var _dragSel = false;
 var _dragStart = null;  // {{row, col}}
+var _dragRowNum = false; // true when dragging on row-number gutter
+var _dragRowStart = null; // starting idx for row-number drag
 var _lastRowNum = null; // last clicked row-number index for shift-range
 var _visibleIndices = []; // set by renderTable for column selection
-var _dragEnd = null;
 
 function loadEdits() {{
     try {{
@@ -3448,6 +3449,8 @@ document.addEventListener('mousedown', function(e) {{
             _selCells = {{}};
             _selectFullRow(rowIdx);
             _lastRowNum = rowIdx;
+            _dragRowNum = true;
+            _dragRowStart = rowIdx;
         }}
         _applyCellSelClasses();
         _updateDbSelInfo();
@@ -3492,6 +3495,23 @@ document.addEventListener('mousedown', function(e) {{
 }});
 
 document.addEventListener('mousemove', function(e) {{
+    // Row-number gutter drag
+    if (_dragRowNum && _dragRowStart != null) {{
+        e.preventDefault();
+        var rnCell = e.target.closest('#db-tbody td.rownum-cell');
+        if (!rnCell) return;
+        var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
+        var vi1 = _visibleIndices.indexOf(_dragRowStart);
+        var vi2 = _visibleIndices.indexOf(rowIdx);
+        if (vi1 === -1 || vi2 === -1) return;
+        var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
+        _selCells = {{}};
+        for (var v = vMin; v <= vMax; v++) _selectFullRow(_visibleIndices[v]);
+        _applyCellSelClasses();
+        _updateDbSelInfo();
+        return;
+    }}
+    // Cell drag
     if (!_dragSel || !_dragStart) return;
     e.preventDefault();
     var cell = _getCellFromEvent(e);
@@ -3503,6 +3523,7 @@ document.addEventListener('mousemove', function(e) {{
 
 document.addEventListener('mouseup', function(e) {{
     _dragSel = false;
+    _dragRowNum = false;
 }});
 
 document.addEventListener('keydown', function(e) {{
@@ -3828,6 +3849,8 @@ var _editMode = {{}}; // per-dataset edit mode: dsId -> bool
 var _mSelCells = {{}};     // key: "oidx:fieldKey" -> true
 var _mDragSel = false;
 var _mDragStart = null;   // {{row, col}}
+var _mDragRowNum = false; // true when dragging on row-number gutter
+var _mDragRowStart = null; // starting oidx for row-number drag
 var _mLastRowNum = null;  // last clicked row-number for shift-range
 var _mVisibleOidxs = [];  // set by renderDetail
 var _mCurrentCols = [];   // set by renderDetail
@@ -4763,15 +4786,25 @@ async function inferMissing(dsId) {{
     var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
     var fillable = ['cas','mw','smiles','bp','cat','abbreviation'];
     var queue = [];
-    // Derive selected row indices from cell selection
-    var selSet = {{}};
-    Object.keys(_mSelCells).forEach(function(k) {{ var ri = k.split(':')[0]; selSet[ri] = true; }});
-    var hasSelection = Object.keys(selSet).length > 0;
+    // Build per-row set of selected fields from cell selection
+    var selFieldsByRow = {{}};
+    Object.keys(_mSelCells).forEach(function(k) {{
+        var parts = k.split(':');
+        var ri = parts[0], field = parts[1];
+        if (!selFieldsByRow[ri]) selFieldsByRow[ri] = {{}};
+        selFieldsByRow[ri][field] = true;
+    }});
+    var hasSelection = Object.keys(selFieldsByRow).length > 0;
 
     items.forEach(function(item, idx) {{
         // If there's a selection, only process selected rows
-        if (hasSelection && !selSet[String(idx)]) return;
-        var missing = fillable.filter(function(f) {{
+        if (hasSelection && !selFieldsByRow[String(idx)]) return;
+        // Determine which fields to check: if specific cells selected, only those fillable fields
+        var rowFields = hasSelection ? selFieldsByRow[String(idx)] : null;
+        var fieldsToCheck = rowFields
+            ? fillable.filter(function(f) {{ return rowFields[f]; }})
+            : fillable;
+        var missing = fieldsToCheck.filter(function(f) {{
             var v = item[f];
             return v == null || v === '' || v === 0;
         }});
@@ -5362,7 +5395,7 @@ function renderDetail() {{
     html += '</div>';
     html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\\'' + _currentDs + '\\')">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
     var _selN = _mGetSelCount();
-    var _inferLabel = _selN > 0 ? 'Infer Missing Values for Selection (' + _selN + ')' : 'Infer Missing Values';
+    var _inferLabel = _selN > 0 ? 'Infer Missing Values (' + _selN + ' cell' + (_selN > 1 ? 's' : '') + ')' : 'Infer Missing Values';
     html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\\'' + _currentDs + '\\')"' + (_inferRunning ? ' disabled' : '') + '>' + _inferLabel + '</button>';
     html += '<span class="sel-info" id="sel-info"' + (_selN > 0 ? '' : ' style="display:none"') + '>' + (_selN > 0 ? _selN + ' cell' + (_selN > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>' : '') + '</span>';
     html += '</div>';
@@ -5535,9 +5568,9 @@ function _mGetSelRowCount() {{
 function _updateInferBtn() {{
     var btn = document.getElementById('infer-btn');
     if (!btn) return;
-    var n = _mGetSelRowCount();
+    var n = _mGetSelCount();
     if (n > 0) {{
-        btn.textContent = 'Infer Missing Values for Selection (' + n + ' row' + (n > 1 ? 's' : '') + ')';
+        btn.textContent = 'Infer Missing Values (' + n + ' cell' + (n > 1 ? 's' : '') + ')';
     }} else {{
         btn.textContent = 'Infer Missing Values';
     }}
@@ -5579,7 +5612,7 @@ function _mApplyCellSelClasses() {{
 document.addEventListener('mousedown', function(e) {{
     if (e.target.closest('td[contenteditable="true"]') || e.target.closest('a') || e.target.closest('button')) return;
 
-    // --- Row-number click: select full row ---
+    // --- Row-number click: select full row (+ start drag) ---
     var rnCell = e.target.closest('#content tbody td.rownum-cell');
     if (rnCell) {{
         e.preventDefault();
@@ -5604,6 +5637,8 @@ document.addEventListener('mousedown', function(e) {{
             _mSelCells = {{}};
             _mSelectFullRow(rowIdx);
             _mLastRowNum = rowIdx;
+            _mDragRowNum = true;
+            _mDragRowStart = rowIdx;
         }}
         _mApplyCellSelClasses();
         _updateSelInfo();
@@ -5647,6 +5682,23 @@ document.addEventListener('mousedown', function(e) {{
 }});
 
 document.addEventListener('mousemove', function(e) {{
+    // Row-number gutter drag
+    if (_mDragRowNum && _mDragRowStart != null) {{
+        e.preventDefault();
+        var rnCell = e.target.closest('#content tbody td.rownum-cell');
+        if (!rnCell) return;
+        var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
+        var vi1 = _mVisibleOidxs.indexOf(_mDragRowStart);
+        var vi2 = _mVisibleOidxs.indexOf(rowIdx);
+        if (vi1 === -1 || vi2 === -1) return;
+        var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
+        _mSelCells = {{}};
+        for (var v = vMin; v <= vMax; v++) _mSelectFullRow(_mVisibleOidxs[v]);
+        _mApplyCellSelClasses();
+        _updateSelInfo();
+        return;
+    }}
+    // Cell drag
     if (!_mDragSel || !_mDragStart) return;
     e.preventDefault();
     var cell = _mGetCellFromEvent(e);
@@ -5658,6 +5710,7 @@ document.addEventListener('mousemove', function(e) {{
 
 document.addEventListener('mouseup', function(e) {{
     _mDragSel = false;
+    _mDragRowNum = false;
 }});
 
 // Escape to clear selection

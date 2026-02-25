@@ -265,9 +265,10 @@ var srcFilterSet = {};  // keys = selected source names; empty = show all
 var _selCells = {};  // key: "rowIdx:fieldKey" -> true
 var _dragSel = false;
 var _dragStart = null;  // {row, col}
+var _dragRowNum = false; // true when dragging on row-number gutter
+var _dragRowStart = null; // starting idx for row-number drag
 var _lastRowNum = null; // last clicked row-number index for shift-range
 var _visibleIndices = []; // set by renderTable for column selection
-var _dragEnd = null;
 
 function loadEdits() {
     try {
@@ -781,6 +782,8 @@ document.addEventListener('mousedown', function(e) {
             _selCells = {};
             _selectFullRow(rowIdx);
             _lastRowNum = rowIdx;
+            _dragRowNum = true;
+            _dragRowStart = rowIdx;
         }
         _applyCellSelClasses();
         _updateDbSelInfo();
@@ -825,6 +828,23 @@ document.addEventListener('mousedown', function(e) {
 });
 
 document.addEventListener('mousemove', function(e) {
+    // Row-number gutter drag
+    if (_dragRowNum && _dragRowStart != null) {
+        e.preventDefault();
+        var rnCell = e.target.closest('#db-tbody td.rownum-cell');
+        if (!rnCell) return;
+        var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
+        var vi1 = _visibleIndices.indexOf(_dragRowStart);
+        var vi2 = _visibleIndices.indexOf(rowIdx);
+        if (vi1 === -1 || vi2 === -1) return;
+        var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
+        _selCells = {};
+        for (var v = vMin; v <= vMax; v++) _selectFullRow(_visibleIndices[v]);
+        _applyCellSelClasses();
+        _updateDbSelInfo();
+        return;
+    }
+    // Cell drag
     if (!_dragSel || !_dragStart) return;
     e.preventDefault();
     var cell = _getCellFromEvent(e);
@@ -836,6 +856,7 @@ document.addEventListener('mousemove', function(e) {
 
 document.addEventListener('mouseup', function(e) {
     _dragSel = false;
+    _dragRowNum = false;
 });
 
 document.addEventListener('keydown', function(e) {
