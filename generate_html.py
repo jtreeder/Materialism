@@ -1186,15 +1186,20 @@ full_html = f"""<!DOCTYPE html>
                 pz.push(visible ? p.dh : null);
                 pc.push(visible ? (_polymerColors[i] || '#a9a9a9') : 'rgba(0,0,0,0)');
             }});
-            Plotly.restyle(plotDiv, {{
-                'x': [sx, px],
-                'y': [sy, py],
-                'z': [sz, pz],
-                'marker.size': [sSize, pSize],
-                'marker.color': [_plotDimmed ? '#999' : sc, _plotDimmed ? '#665500' : pc],
-                'marker.opacity': [sOpacity, pOpacity],
-                'hoverinfo': [hInfo, hInfo],
-            }}, [0, 1]);
+            // Update trace data directly and use Plotly.react — scatter3d
+            // per-point color arrays are not reliably applied via Plotly.restyle.
+            var t0 = plotDiv.data[0], t1 = plotDiv.data[1];
+            t0.x = sx; t0.y = sy; t0.z = sz;
+            t0.marker.size = sSize;
+            t0.marker.color = _plotDimmed ? '#999' : sc;
+            t0.marker.opacity = sOpacity;
+            t0.hoverinfo = hInfo;
+            t1.x = px; t1.y = py; t1.z = pz;
+            t1.marker.size = pSize;
+            t1.marker.color = _plotDimmed ? '#665500' : pc;
+            t1.marker.opacity = pOpacity;
+            t1.hoverinfo = hInfo;
+            Plotly.react(plotDiv, plotDiv.data, plotDiv.layout);
         }}
 
         // ===================== HSP MATH =====================
@@ -1940,22 +1945,13 @@ full_html = f"""<!DOCTYPE html>
         var _plotDimmed = false;
 
         function _dimBaseTraces() {{
-            // Restyle the 2 base traces to be dim background dots.
-            // No Plotly.react, no layout rebuild — camera stays exactly where it is.
+            // Dim the 2 base traces to background dots.
+            // Camera stays exactly where it is because we reuse the same layout.
             if (_plotDimmed) return;
             _plotDimmed = true;
-            if (simpleMode) {{
-                // Dim common materials, fully hide non-common
-                _updatePlotForCommonFilter();
-            }} else {{
-                Plotly.restyle(plotDiv, {{
-                    'marker.size': [2, 3],
-                    'marker.color': ['#999', '#aa8800'],
-                    'marker.opacity': [0.1, 0.12],
-                    'hoverinfo': ['skip', 'skip'],
-                    'hovertemplate': [null, null],
-                }}, [0, 1]);
-            }}
+            // Delegate to _updatePlotForCommonFilter which handles dimming,
+            // dataset filtering, simpleMode, and hidden categories together.
+            _updatePlotForCommonFilter();
         }}
 
         function _restoreBaseTraces() {{
