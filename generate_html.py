@@ -620,7 +620,7 @@ full_html = f"""<!DOCTYPE html>
 <body>
     <div class="header">
         <h1 onclick="goHome()">Materialism</h1>
-        <div class="stats"><a href="manage.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer;margin-right:12px">Manage</a><a href="database.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">Database</a></div>
+        <div class="stats"><a href="database.html" style="color:#636e72;text-decoration:none;border-bottom:1px dotted #b2bec3;cursor:pointer">Database</a></div>
     </div>
 
     <div class="search-bar">
@@ -2664,881 +2664,7 @@ if os.path.exists(cas_candidates_path):
             cas_candidates_map[name] = opts
 cas_candidates_json = json.dumps(cas_candidates_map)
 
-database_html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Materialism — Database</title>
-<style>
-* {{ margin: 0; padding: 0; box-sizing: border-box; }}
-body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }}
-.header {{ background: #fff; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #dfe6e9; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }}
-.header h1 {{ font-size: 1.5rem; color: #e94560; }}
-.header h1 a {{ color: #e94560; text-decoration: none; }}
-.header .nav-links {{ color: #636e72; font-size: 0.9rem; display: flex; align-items: center; gap: 12px; }}
-.header .nav-links a {{ color: #636e72; text-decoration: none; border-bottom: 1px dotted #b2bec3; cursor: pointer; }}
-.toolbar {{ background: #fff; padding: 10px 30px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #dfe6e9; }}
-.toolbar input {{ padding: 8px 12px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.85rem; width: 220px; }}
-.toolbar input:focus {{ outline: none; border-color: #e94560; }}
-.db-tabs {{ display: flex; gap: 0; }}
-.db-tab {{ padding: 8px 18px; cursor: pointer; border: none; background: transparent; color: #636e72; font-size: 0.85rem; transition: all 0.2s; }}
-.db-tab:hover {{ color: #2d3436; background: #f5f6fa; }}
-.db-tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #fff; }}
-.lock-btn {{
-    margin-left: auto; cursor: pointer; background: none; border: 1px solid #dfe6e9;
-    border-radius: 4px; padding: 5px 12px; display: flex; align-items: center; gap: 6px;
-    color: #636e72; font-size: 0.8rem; transition: all 0.2s;
-}}
-.lock-btn:hover {{ background: #f5f6fa; border-color: #b2bec3; }}
-.lock-btn.unlocked {{ color: #e94560; border-color: #e94560; background: #fff5f7; }}
-.lock-btn svg {{ width: 16px; height: 16px; fill: currentColor; }}
-.table-wrap {{ overflow: auto; height: calc(100vh - 130px); }}
-table {{ width: max-content; min-width: 100%; border-collapse: collapse; font-size: 0.8rem; }}
-th {{
-    background: #f0f2f5; color: #e94560; padding: 8px 10px; text-align: left;
-    font-weight: 600; position: sticky; top: 0; z-index: 1;
-    border-bottom: 2px solid #dfe6e9; white-space: nowrap; cursor: pointer;
-}}
-th:hover {{ background: #e8eaed; }}
-th.sort-asc::after {{ content: ' ▲'; font-size: 0.7em; color: #e94560; }}
-th.sort-desc::after {{ content: ' ▼'; font-size: 0.7em; color: #e94560; }}
-td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-width: 300px; overflow: hidden; text-overflow: ellipsis; }}
-tr:hover {{ background: #f8f9fa; }}
-td a {{ color: #0984e3; text-decoration: none; }}
-td a:hover {{ text-decoration: underline; }}
-td input {{
-    width: 100%; border: none; background: transparent; font: inherit; color: inherit;
-    padding: 2px 4px; outline: none;
-}}
-td input:focus {{ background: #fff3cd; border-radius: 2px; }}
-td.editing {{ padding: 2px 4px; background: #fffcf0; }}
-td.cell-selected {{ background: #dfe6fd !important; }}
-#db-tbody {{ user-select: none; -webkit-user-select: none; }}
-.rownum-cell {{ color: #b2bec3; text-align: right; font-size: 0.72rem; cursor: pointer; padding: 6px 6px 6px 4px !important; }}
-.rownum-cell:hover {{ background: #e8eaed; }}
-.sel-info {{ font-size: 0.8rem; color: #636e72; margin-left: 8px; }}
-.sel-info button {{ margin-left: 6px; font-size: 0.75rem; padding: 2px 8px; border: 1px solid #dfe6e9; border-radius: 3px; background: #fff; color: #636e72; cursor: pointer; }}
-.sel-info button:hover {{ background: #f5f6fa; }}
-.edit-count {{ font-size: 0.8rem; color: #e94560; font-weight: 600; }}
-.cas-link {{ color: #0984e3; text-decoration: none; }}
-.cas-link:hover {{ text-decoration: underline; }}
-.save-indicator {{ display: none; color: #00b894; font-size: 0.8rem; font-weight: 600; }}
-.save-indicator.visible {{ display: inline; }}
-.conf-tip {{
-    display: none; position: fixed; z-index: 9999;
-    background: #2d3436; color: #dfe6e9; border-radius: 6px; padding: 10px 14px;
-    font-size: 0.75rem; line-height: 1.5; white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}}
-.conf-row {{ display: flex; justify-content: space-between; gap: 18px; }}
-.conf-row .conf-label {{ color: #b2bec3; }}
-.conf-row .conf-val {{ font-weight: 600; }}
-.conf-row .conf-val.pos {{ color: #00b894; }}
-.conf-row .conf-val.zero {{ color: #636e72; }}
-.conf-sep {{ border-top: 1px solid #636e72; margin: 4px 0; }}
-/* Source filter in header */
-.src-filter-wrap {{
-    position: relative; margin-top: 4px;
-}}
-.src-filter-btn {{
-    display: block; width: 100%; padding: 2px 4px; font-size: 0.7rem;
-    border: 1px solid #dfe6e9; border-radius: 3px; background: #fff;
-    color: #636e72; cursor: pointer; text-align: left;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}}
-.src-filter-btn:hover {{ border-color: #b2bec3; }}
-.src-filter-drop {{
-    display: none; position: absolute; top: 100%; left: 0; z-index: 20;
-    background: #fff; border: 1px solid #dfe6e9; border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12); min-width: 180px;
-    max-height: 260px; overflow-y: auto; padding: 4px 0;
-}}
-.src-filter-drop.open {{ display: block; }}
-.src-filter-opt {{
-    display: flex; align-items: center; gap: 6px; padding: 4px 10px;
-    font-size: 0.72rem; color: #2d3436; cursor: pointer; white-space: nowrap;
-}}
-.src-filter-opt:hover {{ background: #f5f6fa; }}
-.src-filter-opt input {{ margin: 0; cursor: pointer; }}
-.src-filter-opt label {{ cursor: pointer; }}
-/* Crosslink ? badge */
-.cas-missing {{
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 20px; height: 20px; border-radius: 50%;
-    background: #fdcb6e; color: #2d3436; font-weight: 700; font-size: 0.75rem;
-    cursor: pointer; border: none; line-height: 1;
-}}
-.cas-missing:hover {{ background: #f39c12; }}
-/* Crosslink popover */
-.xl-popover {{
-    display: none; position: fixed; z-index: 1000;
-    background: #fff; border: 1px solid #dfe6e9; border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.18); width: 380px; max-height: 420px;
-    overflow-y: auto; font-size: 0.82rem;
-}}
-.xl-popover.visible {{ display: block; }}
-.xl-header {{
-    padding: 10px 14px; border-bottom: 1px solid #eee;
-    font-weight: 700; color: #2d3436; display: flex; align-items: center; justify-content: space-between;
-}}
-.xl-header .xl-close {{
-    background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #636e72; padding: 0 4px;
-}}
-.xl-header .xl-close:hover {{ color: #e94560; }}
-.xl-opt {{
-    padding: 10px 14px; border-bottom: 1px solid #f0f2f5; cursor: pointer; transition: background 0.15s;
-}}
-.xl-opt:last-child {{ border-bottom: none; }}
-.xl-opt:hover {{ background: #f0f8ff; }}
-.xl-opt-name {{ font-weight: 600; color: #2d3436; }}
-.xl-opt-cas {{ color: #0984e3; font-family: monospace; }}
-.xl-opt-detail {{ color: #636e72; font-size: 0.75rem; margin-top: 2px; }}
-.xl-opt-conf {{
-    display: inline-block; padding: 1px 6px; border-radius: 3px;
-    font-size: 0.7rem; font-weight: 600; color: #fff; margin-left: 6px;
-}}
-.xl-opt-mv {{ font-size: 0.7rem; margin-left: 4px; }}
-.xl-opt-mv.match {{ color: #27ae60; }}
-.xl-opt-mv.mismatch {{ color: #e74c3c; }}
-</style>
-</head>
-<body>
-<div class="header">
-    <h1><a href="materialism.html">Materialism</a> — Database</h1>
-    <div class="nav-links">
-        <a href="cas_review.html">Crosslink</a>
-        <a href="manage.html" style="margin-right:12px">Manage Datasets</a>
-        <a href="materialism.html">Search</a>
-    </div>
-</div>
-<div class="toolbar">
-    <div class="db-tabs">
-        <button id="tab-solv" class="db-tab active" onclick="switchTab('solvents')">Solvents ({len(db_solvents)})</button>
-        <button id="tab-poly" class="db-tab" onclick="switchTab('polymers')">Polymers ({len(db_polymers)})</button>
-    </div>
-    <input type="text" id="db-filter" placeholder="Filter by name or CAS..." oninput="renderTable()">
-    <div id="ds-toggle-db" style="display:flex;align-items:center;gap:6px;font-size:0.8rem;color:#636e72;margin-left:8px;"></div>
-    <button id="lock-btn" class="lock-btn" onclick="toggleLock()" title="Click to unlock editing">
-        <svg id="icon-locked" viewBox="0 0 24 24"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1m-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3z"/></svg>
-        <svg id="icon-unlocked" viewBox="0 0 24 24" style="display:none"><path d="M12 17a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h9V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3H7a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2h1z"/></svg>
-        <span id="lock-text">Locked</span>
-    </button>
-    <span class="edit-count" id="edit-count"></span>
-    <span class="save-indicator" id="save-ind">Saved</span>
-    <span class="sel-info" id="db-sel-info"></span>
-</div>
-<div class="table-wrap">
-    <table id="db-table">
-        <thead id="db-thead"></thead>
-        <tbody id="db-tbody"></tbody>
-    </table>
-</div>
-<script>
-var SOLVENTS = {db_solvents_json};
-var POLYMERS = {db_polymers_json};
-var CAS_CANDIDATES = {cas_candidates_json};
-var DATASETS_META = {datasets_meta_json};
-// Dataset toggle state (shared with materialism.html via localStorage)
-var _LS_DS_KEY = 'materialism_active_datasets';
-function _loadActiveDsets() {{ try {{ var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; }} catch(e) {{ return null; }} }}
-function _saveActiveDsets(obj) {{ try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); }} catch(e) {{}} }}
-function _getActiveDsets() {{ var s = _loadActiveDsets(); if (s) return s; var d = {{}}; Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = true; }}); return d; }}
-var _activeDsets = _getActiveDsets();
-function _isDsActive(dsId) {{ if (!dsId) return true; var ids = dsId.split(','); for (var i = 0; i < ids.length; i++) {{ if (_activeDsets[ids[i]] !== false) return true; }} return false; }}
-
-// --- Load imported datasets from manage page ---
-(function() {{
-    try {{
-        var raw = localStorage.getItem('materialism_imported_datasets');
-        if (!raw) return;
-        var imported = JSON.parse(raw);
-        Object.keys(imported).forEach(function(dsId) {{
-            if (_activeDsets[dsId] === false) return; // skip inactive
-            var ds = imported[dsId];
-            var meta = ds.meta || {{}};
-            var srcLabel = meta.name || dsId;
-            var srcUrl = meta.source_url || '';
-            (ds.chemicals || []).forEach(function(c) {{
-                SOLVENTS.push({{
-                    name: c.name || '', cas: c.cas || '', smiles: c.smiles || '',
-                    formula: c.formula || '', dd: c.dd || '', dp: c.dp || '', dh: c.dh || '',
-                    mw: c.mw || '', bp: c.bp || '', density: c.density || '',
-                    mv: c.mv || '', cat: c.cat || '', ghs: c.ghs || '',
-                    conf: c.conf || '', srcN: 1, src: srcLabel, srcUrl: srcUrl,
-                    dsId: dsId, _imported: true
-                }});
-            }});
-            (ds.polymers || []).forEach(function(p) {{
-                POLYMERS.push({{
-                    name: p.name || '', cas: p.cas || '', dd: p.dd || '', dp: p.dp || '', dh: p.dh || '',
-                    r: p.r || '', type: p.type || '', conf: p.conf || '',
-                    srcN: 1, src: srcLabel, srcUrl: srcUrl,
-                    dsId: dsId, _imported: true
-                }});
-            }});
-            if (!DATASETS_META[dsId]) {{
-                DATASETS_META[dsId] = {{ name: srcLabel, source_url: srcUrl }};
-            }}
-        }});
-    }} catch(e) {{}}
-}})();
-
-var SRC_TIERS = {{
-    'Hansen Handbook 2007': 50, 'Mendeley (Langner 2022)': 40,
-    'SolvPred (Fang)': 35, 'Accudyne Test': 40, 'Wolfram Data Repo': 35,
-    'Pang et al. 2024': 30, 'Hansen Handbook A.1': 30, 'Hansen Handbook A.2': 30,
-}};
-
-var SOLV_COLS = [
-    {{key:'name', label:'Name', w:'200px'}},
-    {{key:'cas', label:'CAS #', w:'110px'}},
-    {{key:'formula', label:'Formula', w:'110px'}},
-    {{key:'smiles', label:'SMILES', w:'160px'}},
-    {{key:'dd', label:'\\u03b4D (MPa\\u00bd)', w:'78px', tip:'Dispersion parameter'}},
-    {{key:'dp', label:'\\u03b4P (MPa\\u00bd)', w:'78px', tip:'Polarity parameter'}},
-    {{key:'dh', label:'\\u03b4H (MPa\\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
-    {{key:'mw', label:'MW (g/mol)', w:'80px', tip:'Molecular weight'}},
-    {{key:'bp', label:'BP (\\u00b0C)', w:'70px', tip:'Boiling point'}},
-    {{key:'density', label:'Density (g/mL)', w:'90px', tip:'Density (g/mL)'}},
-    {{key:'mv', label:'V\\u2098 (cm\\u00b3/mol)', w:'90px', tip:'Molar volume'}},
-    {{key:'cat', label:'Classification', w:'100px'}},
-    {{key:'ghs', label:'GHS Hazard', w:'120px'}},
-    {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
-    {{key:'src', label:'Source', w:'140px'}},
-];
-var POLY_COLS = [
-    {{key:'name', label:'Name', w:'250px'}},
-    {{key:'cas', label:'CAS #', w:'110px'}},
-    {{key:'dd', label:'\\u03b4D (MPa\\u00bd)', w:'78px', tip:'Dispersion parameter'}},
-    {{key:'dp', label:'\\u03b4P (MPa\\u00bd)', w:'78px', tip:'Polarity parameter'}},
-    {{key:'dh', label:'\\u03b4H (MPa\\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
-    {{key:'r', label:'R\\u2080 (MPa\\u00bd)', w:'70px', tip:'Interaction radius'}},
-    {{key:'type', label:'Classification', w:'120px'}},
-    {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
-    {{key:'src', label:'Source', w:'140px'}},
-];
-
-var activeTab = 'solvents';
-var editing = false;
-var edits = {{}};  // key: "type:index:field" -> value
-var sortCol = null, sortAsc = true;
-var srcFilterSet = {{}};  // keys = selected source names; empty = show all
-
-// --- Cell selection state ---
-var _selCells = {{}};  // key: "rowIdx:fieldKey" -> true
-var _dragSel = false;
-var _dragStart = null;  // {{row, col}}
-var _dragRowNum = false; // true when dragging on row-number gutter
-var _dragRowStart = null; // starting idx for row-number drag
-var _lastRowNum = null; // last clicked row-number index for shift-range
-var _visibleIndices = []; // set by renderTable for column selection
-
-function loadEdits() {{
-    try {{
-        var saved = localStorage.getItem('materialism_db_edits');
-        if (saved) edits = JSON.parse(saved);
-    }} catch(e) {{}}
-    updateEditCount();
-}}
-
-function saveEdits() {{
-    try {{
-        localStorage.setItem('materialism_db_edits', JSON.stringify(edits));
-    }} catch(e) {{}}
-    updateEditCount();
-    var ind = document.getElementById('save-ind');
-    ind.classList.add('visible');
-    setTimeout(function() {{ ind.classList.remove('visible'); }}, 1500);
-}}
-
-function updateEditCount() {{
-    var n = Object.keys(edits).length;
-    var el = document.getElementById('edit-count');
-    el.textContent = n ? n + ' edit' + (n > 1 ? 's' : '') : '';
-}}
-
-function getVal(type, idx, field) {{
-    var k = type + ':' + idx + ':' + field;
-    if (edits.hasOwnProperty(k)) return edits[k];
-    var arr = type === 'solvents' ? SOLVENTS : POLYMERS;
-    return arr[idx][field] || '';
-}}
-
-function setVal(type, idx, field, val) {{
-    var k = type + ':' + idx + ':' + field;
-    var arr = type === 'solvents' ? SOLVENTS : POLYMERS;
-    var orig = arr[idx][field] || '';
-    if (val === orig) {{
-        delete edits[k];
-    }} else {{
-        edits[k] = val;
-    }}
-    saveEdits();
-}}
-
-function toggleLock() {{
-    editing = !editing;
-    var btn = document.getElementById('lock-btn');
-    var iconLocked = document.getElementById('icon-locked');
-    var iconUnlocked = document.getElementById('icon-unlocked');
-    var lockText = document.getElementById('lock-text');
-    if (editing) {{
-        btn.classList.add('unlocked');
-        btn.title = 'Click to lock and save';
-        iconLocked.style.display = 'none';
-        iconUnlocked.style.display = '';
-        lockText.textContent = 'Editing';
-    }} else {{
-        btn.classList.remove('unlocked');
-        btn.title = 'Click to unlock editing';
-        iconLocked.style.display = '';
-        iconUnlocked.style.display = 'none';
-        lockText.textContent = 'Locked';
-    }}
-    renderTable();
-}}
-
-function switchTab(tab) {{
-    activeTab = tab;
-    sortCol = null;
-    document.querySelectorAll('.db-tab').forEach(function(t) {{ t.classList.remove('active'); }});
-    if (tab === 'solvents') document.getElementById('tab-solv').classList.add('active');
-    else document.getElementById('tab-poly').classList.add('active');
-    renderTable();
-}}
-
-function sortBy(col) {{
-    if (sortCol === col) sortAsc = !sortAsc;
-    else {{ sortCol = col; sortAsc = true; }}
-    renderTable();
-}}
-
-function toggleSrcFilter(val) {{
-    if (srcFilterSet[val]) delete srcFilterSet[val];
-    else srcFilterSet[val] = true;
-    renderTable();
-    updateTabCounts();
-}}
-function clearSrcFilter() {{
-    srcFilterSet = {{}};
-    renderTable();
-    updateTabCounts();
-}}
-function _hasSrcFilter() {{
-    return Object.keys(srcFilterSet).length > 0;
-}}
-function _matchesSrcFilter(src) {{
-    return !_hasSrcFilter() || srcFilterSet[src];
-}}
-function _countForTab(tab) {{
-    var data = tab === 'solvents' ? SOLVENTS : POLYMERS;
-    if (!_hasSrcFilter()) return data.length;
-    var n = 0;
-    for (var i = 0; i < data.length; i++) {{
-        if (srcFilterSet[data[i].src]) n++;
-    }}
-    return n;
-}}
-function updateTabCounts() {{
-    document.getElementById('tab-solv').textContent = 'Solvents (' + _countForTab('solvents') + ')';
-    document.getElementById('tab-poly').textContent = 'Polymers (' + _countForTab('polymers') + ')';
-}}
-var _srcDropOpen = false;
-function toggleSrcDrop(e) {{
-    e.stopPropagation();
-    _srcDropOpen = !_srcDropOpen;
-    var drop = document.getElementById('src-drop');
-    if (drop) drop.classList.toggle('open', _srcDropOpen);
-}}
-
-function renderTable() {{
-    var cols = activeTab === 'solvents' ? SOLV_COLS : POLY_COLS;
-    var data = activeTab === 'solvents' ? SOLVENTS : POLYMERS;
-    var filter = document.getElementById('db-filter').value.toLowerCase().trim();
-
-    // Build index array for filtering
-    var indices = [];
-    for (var i = 0; i < data.length; i++) {{
-        // Dataset filter
-        if (!_isDsActive(data[i].dsId)) continue;
-        if (filter) {{
-            var row = data[i];
-            var name = getVal(activeTab, i, 'name').toLowerCase();
-            var cas = getVal(activeTab, i, 'cas').toLowerCase();
-            if (name.indexOf(filter) === -1 && cas.indexOf(filter) === -1) continue;
-        }}
-        if (_hasSrcFilter() && !_matchesSrcFilter(getVal(activeTab, i, 'src'))) continue;
-        indices.push(i);
-    }}
-
-    // Sort
-    if (sortCol !== null) {{
-        var key = cols[sortCol].key;
-        indices.sort(function(a, b) {{
-            var va = getVal(activeTab, a, key);
-            var vb = getVal(activeTab, b, key);
-            var na = parseFloat(va), nb = parseFloat(vb);
-            if (!isNaN(na) && !isNaN(nb)) return sortAsc ? na - nb : nb - na;
-            return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
-        }});
-    }}
-
-    // Save visible indices for column selection
-    _visibleIndices = indices;
-
-    // Header
-    var hdr = '<tr><th style="width:40px">#</th>';
-    for (var ci = 0; ci < cols.length; ci++) {{
-        var c = cols[ci];
-        var cls = '';
-        if (sortCol === ci) cls = sortAsc ? ' class="sort-asc"' : ' class="sort-desc"';
-        if (c.key === 'src') {{
-            var nSel = Object.keys(srcFilterSet).length;
-            var btnLabel = nSel === 0 ? 'All sources' : nSel + ' selected';
-            hdr += '<th' + cls + ' data-col="' + c.key + '" style="width:' + c.w + ';position:relative">';
-            hdr += '<span onclick="sortBy(' + ci + ')" style="cursor:pointer">' + c.label + '</span>';
-            hdr += '<div class="src-filter-wrap">';
-            hdr += '<button class="src-filter-btn" onclick="toggleSrcDrop(event)">' + btnLabel + ' &#9662;</button>';
-            hdr += '<div class="src-filter-drop' + (_srcDropOpen ? ' open' : '') + '" id="src-drop" onclick="event.stopPropagation()">';
-            if (nSel > 0) {{
-                hdr += '<div class="src-filter-opt" onclick="clearSrcFilter()" style="color:#e94560;font-weight:600">Clear all</div>';
-            }}
-            _srcOptions.forEach(function(s) {{
-                var checked = srcFilterSet[s] ? ' checked' : '';
-                var esc = s.replace(/'/g, '\\x27');
-                hdr += '<div class="src-filter-opt" onclick="toggleSrcFilter(\\x27' + esc + '\\x27)">';
-                hdr += '<input type="checkbox"' + checked + ' tabindex="-1"><label>' + s + '</label></div>';
-            }});
-            hdr += '</div></div></th>';
-        }} else {{
-            hdr += '<th' + cls + ' data-col="' + c.key + '" style="width:' + c.w + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="sortBy(' + ci + ')">' + c.label + '</th>';
-        }}
-    }}
-    hdr += '</tr>';
-    document.getElementById('db-thead').innerHTML = hdr;
-
-    // Body
-    var html = '';
-    for (var ri = 0; ri < indices.length; ri++) {{
-        var idx = indices[ri];
-        html += '<tr>';
-        html += '<td class="rownum-cell" data-rowidx="' + idx + '">' + (ri + 1) + '</td>';
-        for (var ci = 0; ci < cols.length; ci++) {{
-            var c = cols[ci];
-            var val = getVal(activeTab, idx, c.key);
-            var editKey = activeTab + ':' + idx + ':' + c.key;
-            var isEdited = edits.hasOwnProperty(editKey);
-            var cellId = idx + ':' + c.key;
-            var cellSel = _selCells[cellId] ? ' cell-selected' : '';
-
-            if (editing) {{
-                html += '<td class="editing' + cellSel + '" data-row="' + idx + '" data-col="' + c.key + '"' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>';
-                html += '<input type="text" value="' + String(val).replace(/"/g, '&quot;') + '" onchange="setVal(\\x27' + activeTab + '\\x27,' + idx + ',\\x27' + c.key + '\\x27,this.value)">';
-                html += '</td>';
-            }} else {{
-                var display = val;
-                // Numeric formatting
-                if (val !== '' && val != null) {{
-                    if (c.key === 'dd' || c.key === 'dp' || c.key === 'dh' || c.key === 'mw' || c.key === 'mv' || c.key === 'r') {{
-                        var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(1);
-                    }} else if (c.key === 'bp') {{
-                        var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(0);
-                    }} else if (c.key === 'density') {{
-                        var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(2);
-                    }}
-                }}
-                // CAS link or ? badge
-                if (c.key === 'cas') {{
-                    if (val) {{
-                        display = '<a class="cas-link" href="https://commonchemistry.cas.org/detail?cas_rn=' + encodeURIComponent(val) + '" target="_blank" rel="noopener">' + val + '</a>';
-                    }} else {{
-                        var matName = (activeTab === 'solvents' ? SOLVENTS : POLYMERS)[idx].name;
-                        if (CAS_CANDIDATES[matName]) {{
-                            display = '<button class="cas-missing" onclick="openCrosslink(event,\\x27' + activeTab + '\\x27,' + idx + ')" title="Find CAS #">?</button>';
-                        }}
-                    }}
-                }}
-                // Source link
-                if (c.key === 'src') {{
-                    var srcUrl = activeTab === 'solvents' ? SOLVENTS[idx].srcUrl : POLYMERS[idx].srcUrl;
-                    if (srcUrl) display = '<a href="' + srcUrl + '" target="_blank" rel="noopener">' + val + '</a>';
-                }}
-                // Confidence badge
-                if (c.key === 'conf' && val) {{
-                    var cv = parseFloat(val);
-                    var pct = Math.round(cv * 100);
-                    var cColor;
-                    if (cv >= 0.8) {{ cColor = '#27ae60'; }}
-                    else if (cv >= 0.5) {{ cColor = '#f39c12'; }}
-                    else {{ cColor = '#e74c3c'; }}
-                    var mat = (activeTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
-                    var isPoly = activeTab === 'polymers';
-                    display = '<span class="conf-badge" data-src="' + (mat.src || '').replace(/"/g, '&quot;') + '" data-cas="' + (mat.cas ? '1' : '0') + '" data-smi="' + (!isPoly && mat.smiles ? '1' : '0') + '" data-poly="' + (isPoly ? '1' : '0') + '" data-srcn="' + (mat.srcN || 1) + '" data-pct="' + pct + '" style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + cColor + ';cursor:help">' + pct + '%</span>';
-                }}
-                html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>' + display + '</td>';
-            }}
-        }}
-        html += '</tr>';
-    }}
-    document.getElementById('db-tbody').innerHTML = html;
-}}
-
-// Build sorted list of unique source names for the header dropdown
-var _srcOptions = (function() {{
-    var srcSet = {{}};
-    SOLVENTS.forEach(function(s) {{ if (s.src) srcSet[s.src] = true; }});
-    POLYMERS.forEach(function(p) {{ if (p.src) srcSet[p.src] = true; }});
-    return Object.keys(srcSet).sort();
-}})();
-
-loadEdits();
-// Build dataset toggle checkboxes for database page
-(function() {{
-    var wrap = document.getElementById('ds-toggle-db');
-    if (!wrap) return;
-    var dsKeys = Object.keys(DATASETS_META);
-    if (dsKeys.length === 0) return;
-    var lbl = document.createElement('span');
-    lbl.textContent = 'Datasets:';
-    lbl.style.fontWeight = '600';
-    wrap.appendChild(lbl);
-    dsKeys.forEach(function(k) {{
-        var ds = DATASETS_META[k];
-        var label = document.createElement('label');
-        label.style.cssText = 'display:flex;align-items:center;gap:3px;cursor:pointer;';
-        var cb = document.createElement('input');
-        cb.type = 'checkbox';
-        cb.checked = _activeDsets[k] !== false;
-        cb.onchange = function() {{
-            _activeDsets[k] = cb.checked;
-            _saveActiveDsets(_activeDsets);
-            renderTable();
-        }};
-        label.appendChild(cb);
-        label.appendChild(document.createTextNode(ds.name || k));
-        wrap.appendChild(label);
-    }});
-}})();
-renderTable();
-// Shared confidence tooltip
-var _confTip = null;
-var _confBadgeActive = null;
-document.addEventListener('mouseover', function(e) {{
-    var badge = e.target.closest('.conf-badge');
-    if (badge) {{
-        if (badge === _confBadgeActive) return;
-        if (!_confTip) {{ _confTip = document.createElement('div'); _confTip.className = 'conf-tip'; document.body.appendChild(_confTip); }}
-        _confBadgeActive = badge;
-        var src = badge.dataset.src || 'Unknown';
-        var base = SRC_TIERS[src] || 25;
-        var hasCas = badge.dataset.cas === '1';
-        var hasSmi = badge.dataset.smi === '1';
-        var isPoly = badge.dataset.poly === '1';
-        var srcN = parseInt(badge.dataset.srcn) || 1;
-        var crossBonus = srcN > 1 ? Math.min((srcN - 1) * 15, 30) : 0;
-        var pct = badge.dataset.pct;
-        function row(lbl, val) {{ var cls = val > 0 ? 'pos' : 'zero'; return '<div class="conf-row"><span class="conf-label">' + lbl + '</span><span class="conf-val ' + cls + '">' + (val > 0 ? '+' : '') + val + '%</span></div>'; }}
-        var h = '<div style="font-weight:700;margin-bottom:4px;color:#fff">Confidence Breakdown</div>';
-        h += row('Source: ' + src, base);
-        h += row('CAS verified', hasCas ? 15 : 0);
-        if (!isPoly) h += row('SMILES confirmed', hasSmi ? 10 : 0);
-        if (srcN > 1) h += row('Cross-ref (' + srcN + ' sources)', crossBonus);
-        h += '<div class="conf-sep"></div>';
-        h += '<div class="conf-row"><span class="conf-label" style="color:#fff">Total</span><span class="conf-val" style="color:#fff">' + pct + '%</span></div>';
-        _confTip.innerHTML = h;
-        var rect = badge.getBoundingClientRect();
-        _confTip.style.display = 'block';
-        var tipW = _confTip.offsetWidth, tipH = _confTip.offsetHeight;
-        var left = rect.left + rect.width / 2 - tipW / 2;
-        var top = rect.bottom + 8;
-        if (top + tipH > window.innerHeight) top = rect.top - tipH - 8;
-        if (left < 4) left = 4;
-        if (left + tipW > window.innerWidth - 4) left = window.innerWidth - tipW - 4;
-        _confTip.style.left = left + 'px';
-        _confTip.style.top = top + 'px';
-    }} else if (_confTip && !_confTip.contains(e.target)) {{
-        _confTip.style.display = 'none';
-        _confBadgeActive = null;
-    }}
-}});
-
-// ===================== CROSSLINK POPOVER =====================
-var _xlPop = null;
-var _xlType = null;
-var _xlIdx = null;
-
-function _ensurePopover() {{
-    if (_xlPop) return;
-    _xlPop = document.createElement('div');
-    _xlPop.className = 'xl-popover';
-    document.body.appendChild(_xlPop);
-}}
-
-function closeCrosslink() {{
-    if (_xlPop) _xlPop.classList.remove('visible');
-    _xlType = null;
-    _xlIdx = null;
-}}
-
-function openCrosslink(event, type, idx) {{
-    event.stopPropagation();
-    _ensurePopover();
-    _xlType = type;
-    _xlIdx = idx;
-    var mat = (type === 'solvents' ? SOLVENTS : POLYMERS)[idx];
-    var opts = CAS_CANDIDATES[mat.name];
-    if (!opts || !opts.length) {{ closeCrosslink(); return; }}
-
-    var h = '<div class="xl-header"><span>CAS lookup: ' + mat.name + '</span><button class="xl-close" onclick="closeCrosslink()">&times;</button></div>';
-    for (var i = 0; i < opts.length; i++) {{
-        var o = opts[i];
-        var pct = Math.round(o.conf * 100);
-        var cColor = o.conf >= 0.8 ? '#27ae60' : (o.conf >= 0.5 ? '#f39c12' : '#e74c3c');
-        h += '<div class="xl-opt" onclick="applyCrosslink(' + i + ')">';
-        h += '<div><span class="xl-opt-name">' + o.name + '</span>';
-        if (o.cas) h += ' <span class="xl-opt-cas">' + o.cas + '</span>';
-        h += '<span class="xl-opt-conf" style="background:' + cColor + '">' + pct + '%</span>';
-        if (o.mv_match === true) h += '<span class="xl-opt-mv match">Vm ✓</span>';
-        else if (o.mv_match === false) h += '<span class="xl-opt-mv mismatch">Vm ' + (o.mv_pct != null ? o.mv_pct + '%↕' : '✗') + '</span>';
-        h += '</div>';
-        if (o.iupac) h += '<div class="xl-opt-detail">IUPAC: ' + o.iupac + '</div>';
-        h += '<div class="xl-opt-detail">' + o.reason + '</div>';
-        h += '</div>';
-    }}
-    _xlPop.innerHTML = h;
-    _xlPop.classList.add('visible');
-
-    // Position near the ? button
-    var rect = event.target.getBoundingClientRect();
-    var popW = 380, popH = _xlPop.offsetHeight || 300;
-    var left = rect.right + 8;
-    var top = rect.top;
-    if (left + popW > window.innerWidth - 8) left = rect.left - popW - 8;
-    if (top + popH > window.innerHeight - 8) top = Math.max(8, window.innerHeight - popH - 8);
-    _xlPop.style.left = left + 'px';
-    _xlPop.style.top = top + 'px';
-}}
-
-function applyCrosslink(optIdx) {{
-    if (_xlType == null || _xlIdx == null) return;
-    var mat = (_xlType === 'solvents' ? SOLVENTS : POLYMERS)[_xlIdx];
-    var opts = CAS_CANDIDATES[mat.name];
-    if (!opts || !opts[optIdx]) return;
-    var o = opts[optIdx];
-
-    // Apply CAS
-    if (o.cas) setVal(_xlType, _xlIdx, 'cas', o.cas);
-    // Apply corrected name if different
-    if (o.name && o.name !== mat.name) setVal(_xlType, _xlIdx, 'name', o.name);
-    // Apply MW if available and solvent
-    if (_xlType === 'solvents' && o.mw) setVal(_xlType, _xlIdx, 'mw', String(o.mw));
-    // Apply density if available and solvent
-    if (_xlType === 'solvents' && o.density) setVal(_xlType, _xlIdx, 'density', String(o.density));
-
-    closeCrosslink();
-    renderTable();
-}}
-
-// Close popover / source dropdown on outside click
-document.addEventListener('click', function(e) {{
-    if (_xlPop && _xlPop.classList.contains('visible') && !_xlPop.contains(e.target) && !e.target.classList.contains('cas-missing')) {{
-        closeCrosslink();
-    }}
-    // Close source filter dropdown
-    if (_srcDropOpen) {{
-        var drop = document.getElementById('src-drop');
-        if (drop && !drop.contains(e.target) && !e.target.classList.contains('src-filter-btn')) {{
-            _srcDropOpen = false;
-            drop.classList.remove('open');
-        }}
-    }}
-}});
-
-// --- Cell drag-to-select ---
-function _getCellFromEvent(e) {{
-    var td = e.target.closest('#db-tbody td[data-row][data-col]');
-    if (!td) return null;
-    return {{ row: parseInt(td.getAttribute('data-row')), col: td.getAttribute('data-col'), el: td }};
-}}
-
-function _cellsBetween(a, b) {{
-    var cols = activeTab === 'solvents' ? SOLV_COLS : POLY_COLS;
-    var colKeys = cols.map(function(c) {{ return c.key; }});
-    var ci1 = colKeys.indexOf(a.col), ci2 = colKeys.indexOf(b.col);
-    // Use position in _visibleIndices for correct range over filtered/sorted rows
-    var vi1 = _visibleIndices.indexOf(a.row), vi2 = _visibleIndices.indexOf(b.row);
-    if (vi1 === -1 || vi2 === -1) return {{}};
-    var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
-    var cMin = Math.min(ci1, ci2), cMax = Math.max(ci1, ci2);
-    var cells = {{}};
-    for (var v = vMin; v <= vMax; v++) {{
-        for (var c = cMin; c <= cMax; c++) {{
-            cells[_visibleIndices[v] + ':' + colKeys[c]] = true;
-        }}
-    }}
-    return cells;
-}}
-
-function _selectFullRow(rowIdx) {{
-    var cols = activeTab === 'solvents' ? SOLV_COLS : POLY_COLS;
-    cols.forEach(function(c) {{ _selCells[rowIdx + ':' + c.key] = true; }});
-}}
-
-function _selectFullCol(colKey) {{
-    _visibleIndices.forEach(function(idx) {{ _selCells[idx + ':' + colKey] = true; }});
-}}
-
-function _updateDbSelInfo() {{
-    var el = document.getElementById('db-sel-info');
-    if (!el) return;
-    var n = Object.keys(_selCells).length;
-    if (n === 0) {{ el.innerHTML = ''; return; }}
-    el.innerHTML = n + ' cell' + (n > 1 ? 's' : '') + ' selected <button onclick="clearCellSel()">Clear</button>';
-}}
-
-function clearCellSel() {{
-    _selCells = {{}};
-    _lastRowNum = null;
-    var tds = document.querySelectorAll('#db-tbody td.cell-selected');
-    for (var i = 0; i < tds.length; i++) tds[i].classList.remove('cell-selected');
-    _updateDbSelInfo();
-}}
-
-function _applyCellSelClasses() {{
-    var tds = document.querySelectorAll('#db-tbody td[data-row][data-col]');
-    for (var i = 0; i < tds.length; i++) {{
-        var key = tds[i].getAttribute('data-row') + ':' + tds[i].getAttribute('data-col');
-        if (_selCells[key]) tds[i].classList.add('cell-selected');
-        else tds[i].classList.remove('cell-selected');
-    }}
-}}
-
-document.addEventListener('mousedown', function(e) {{
-    if (e.target.closest('input') || e.target.closest('a') || e.target.closest('button')) return;
-
-    // --- Row-number click: select full row ---
-    var rnCell = e.target.closest('#db-tbody td.rownum-cell');
-    if (rnCell) {{
-        e.preventDefault();
-        var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
-        if (e.shiftKey && _lastRowNum != null) {{
-            // Range select rows between _lastRowNum and rowIdx
-            var vi1 = _visibleIndices.indexOf(_lastRowNum);
-            var vi2 = _visibleIndices.indexOf(rowIdx);
-            if (vi1 !== -1 && vi2 !== -1) {{
-                var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
-                _selCells = {{}};
-                for (var v = vMin; v <= vMax; v++) _selectFullRow(_visibleIndices[v]);
-            }}
-        }} else if (e.ctrlKey || e.metaKey) {{
-            // Toggle this row
-            var cols = activeTab === 'solvents' ? SOLV_COLS : POLY_COLS;
-            var firstKey = rowIdx + ':' + cols[0].key;
-            if (_selCells[firstKey]) {{
-                cols.forEach(function(c) {{ delete _selCells[rowIdx + ':' + c.key]; }});
-            }} else {{
-                _selectFullRow(rowIdx);
-            }}
-            _lastRowNum = rowIdx;
-        }} else {{
-            _selCells = {{}};
-            _selectFullRow(rowIdx);
-            _lastRowNum = rowIdx;
-            _dragRowNum = true;
-            _dragRowStart = rowIdx;
-        }}
-        _applyCellSelClasses();
-        _updateDbSelInfo();
-        return;
-    }}
-
-    // --- Ctrl+click column header: select full column ---
-    var th = e.target.closest('#db-thead th[data-col]');
-    if (th && (e.ctrlKey || e.metaKey)) {{
-        e.preventDefault();
-        var colKey = th.getAttribute('data-col');
-        if (_selCells[_visibleIndices[0] + ':' + colKey]) {{
-            // Toggle off — remove this column from selection
-            _visibleIndices.forEach(function(idx) {{ delete _selCells[idx + ':' + colKey]; }});
-        }} else {{
-            _selectFullCol(colKey);
-        }}
-        _applyCellSelClasses();
-        _updateDbSelInfo();
-        return;
-    }}
-
-    // --- Cell click/drag ---
-    var cell = _getCellFromEvent(e);
-    if (!cell) return;
-    e.preventDefault();
-    if (e.shiftKey && _dragStart) {{
-        _selCells = _cellsBetween(_dragStart, cell);
-    }} else if (e.ctrlKey || e.metaKey) {{
-        var key = cell.row + ':' + cell.col;
-        if (_selCells[key]) delete _selCells[key];
-        else _selCells[key] = true;
-        _dragStart = cell;
-    }} else {{
-        _selCells = {{}};
-        _selCells[cell.row + ':' + cell.col] = true;
-        _dragStart = cell;
-        _dragSel = true;
-    }}
-    _applyCellSelClasses();
-    _updateDbSelInfo();
-}});
-
-document.addEventListener('mousemove', function(e) {{
-    // Row-number gutter drag
-    if (_dragRowNum && _dragRowStart != null) {{
-        e.preventDefault();
-        var rnCell = e.target.closest('#db-tbody td.rownum-cell');
-        if (!rnCell) return;
-        var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
-        var vi1 = _visibleIndices.indexOf(_dragRowStart);
-        var vi2 = _visibleIndices.indexOf(rowIdx);
-        if (vi1 === -1 || vi2 === -1) return;
-        var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
-        _selCells = {{}};
-        for (var v = vMin; v <= vMax; v++) _selectFullRow(_visibleIndices[v]);
-        _applyCellSelClasses();
-        _updateDbSelInfo();
-        return;
-    }}
-    // Cell drag
-    if (!_dragSel || !_dragStart) return;
-    e.preventDefault();
-    var cell = _getCellFromEvent(e);
-    if (!cell) return;
-    _selCells = _cellsBetween(_dragStart, cell);
-    _applyCellSelClasses();
-    _updateDbSelInfo();
-}});
-
-document.addEventListener('mouseup', function(e) {{
-    _dragSel = false;
-    _dragRowNum = false;
-}});
-
-document.addEventListener('keydown', function(e) {{
-    if (e.key === 'Escape' && Object.keys(_selCells).length > 0) {{
-        clearCellSel();
-    }}
-}});
-</script>
-</body>
-</html>"""
-
-db_output_path = os.path.join(os.path.dirname(__file__), "database.html")
-with open(db_output_path, "w") as f:
-    f.write(database_html)
-print(f"Generated: {db_output_path}")
-print(f"Database page: {len(db_solvents)} solvents, {len(db_polymers)} polymers")
-
-# ===================== MANAGE PAGE =====================
-# Load per-dataset data for the management page
+# ===================== LOAD PER-DATASET DATA =====================
 DATASETS_DIR = os.path.join(os.path.dirname(__file__), "data", "datasets")
 per_dataset_data = {}
 for ds_id, ds_meta in DATASETS_META.items():
@@ -3589,12 +2715,12 @@ for ds_id, ds_meta in DATASETS_META.items():
 
 per_dataset_json = json.dumps(per_dataset_data)
 
-manage_html = f"""<!DOCTYPE html>
+database_html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Materialism — Manage Datasets</title>
+<title>Materialism — Database</title>
 <style>
 * {{ margin: 0; padding: 0; box-sizing: border-box; }}
 body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; flex-direction: column; height: 100vh; }}
@@ -3605,6 +2731,14 @@ body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMa
 .header .nav-links a {{ color: #636e72; text-decoration: none; border-bottom: 1px dotted #b2bec3; cursor: pointer; }}
 .main {{ display: flex; flex: 1; overflow: hidden; }}
 .sidebar {{ width: 280px; flex-shrink: 0; position: relative; z-index: 2; background: #fff; border-right: 1px solid #dfe6e9; overflow-y: auto; padding: 12px; }}
+.active-db-btn {{
+    width: 100%; padding: 10px 12px; border: 2px solid #e94560; border-radius: 6px;
+    background: #fff; color: #e94560; font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; margin-bottom: 12px; text-align: left;
+}}
+.active-db-btn:hover {{ background: #fff5f7; }}
+.active-db-btn.selected {{ background: #e94560; color: #fff; }}
+.active-db-btn .btn-counts {{ font-size: 0.72rem; font-weight: 400; margin-top: 2px; opacity: 0.8; }}
 .ds-card {{
     padding: 12px; margin-bottom: 8px; border: 1px solid #dfe6e9; border-radius: 6px;
     cursor: pointer; transition: all 0.2s;
@@ -3616,7 +2750,25 @@ body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMa
 .ds-card .ds-status {{ display: inline-block; font-size: 0.7rem; padding: 1px 6px; border-radius: 3px; margin-top: 4px; }}
 .ds-card .ds-status.on {{ background: #d5f5e3; color: #27ae60; }}
 .ds-card .ds-status.off {{ background: #fadbd8; color: #e74c3c; }}
-.content {{ flex: 1; min-width: 0; overflow: auto; padding: 20px; position: relative; z-index: 0; }}
+.content {{ flex: 1; min-width: 0; overflow: auto; padding: 0; position: relative; z-index: 0; }}
+.toolbar {{ background: #fff; padding: 10px 20px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #dfe6e9; }}
+.toolbar input {{ padding: 8px 12px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.85rem; width: 220px; }}
+.toolbar input:focus {{ outline: none; border-color: #e94560; }}
+.db-tabs {{ display: flex; gap: 0; }}
+.db-tab {{ padding: 8px 18px; cursor: pointer; border: none; background: transparent; color: #636e72; font-size: 0.85rem; transition: all 0.2s; }}
+.db-tab:hover {{ color: #2d3436; background: #f5f6fa; }}
+.db-tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #fff; }}
+.lock-btn {{
+    display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px;
+    border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.75rem;
+    cursor: pointer; background: #fff; transition: all 0.2s; color: #636e72;
+}}
+.lock-btn:hover {{ background: #f5f6fa; }}
+.lock-btn.unlocked {{ border-color: #e94560; color: #e94560; }}
+.lock-btn svg {{ width: 14px; height: 14px; fill: currentColor; }}
+.table-wrap {{ overflow: auto; height: calc(100vh - 100px); }}
+table {{ width: max-content; min-width: 100%; border-collapse: collapse; font-size: 0.8rem; }}
+/* Dataset detail styles */
 .ds-detail-header {{ margin-bottom: 16px; }}
 .ds-title-row {{ display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }}
 .ds-detail-header h2 {{ font-size: 1.2rem; color: #2d3436; margin: 0; flex: 1; min-width: 0; }}
@@ -3629,14 +2781,6 @@ body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMa
 .ds-detail-header .toggle-btn:hover {{ background: #f5f6fa; }}
 .ds-detail-header .toggle-btn.on {{ border-color: #27ae60; color: #27ae60; }}
 .ds-detail-header .toggle-btn.off {{ border-color: #e74c3c; color: #e74c3c; }}
-.lock-btn {{
-    display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px;
-    border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.75rem;
-    cursor: pointer; background: #fff; transition: all 0.2s; color: #636e72;
-}}
-.lock-btn:hover {{ background: #f5f6fa; }}
-.lock-btn.unlocked {{ border-color: #e94560; color: #e94560; }}
-.lock-btn svg {{ width: 14px; height: 14px; fill: currentColor; }}
 .delete-ds-btn {{
     display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px;
     border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.75rem;
@@ -3656,27 +2800,10 @@ td[contenteditable="true"]:focus {{
     box-shadow: inset 0 0 0 2px #e94560;
     background: #fff;
 }}
+.detail-content {{ padding: 20px; }}
 .filter-row {{ margin-bottom: 10px; }}
 .filter-row input {{ padding: 6px 10px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.82rem; width: 250px; }}
 .filter-row input:focus {{ outline: none; border-color: #e94560; }}
-table {{ width: 100%; border-collapse: collapse; font-size: 0.8rem; }}
-th {{
-    background: #f0f2f5; color: #e94560; padding: 8px 10px; text-align: left;
-    font-weight: 600; position: sticky; top: 0; z-index: 1;
-    border-bottom: 2px solid #dfe6e9; white-space: nowrap; cursor: pointer;
-}}
-th:hover {{ background: #e8eaed; }}
-td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }}
-td.cell-selected {{ background: #dfe6fd !important; }}
-#content tbody {{ user-select: none; -webkit-user-select: none; }}
-.rownum-cell {{ color: #b2bec3; text-align: right; font-size: 0.72rem; cursor: pointer; padding: 6px 6px 6px 4px !important; }}
-.rownum-cell:hover {{ background: #e8eaed; }}
-tbody tr:hover {{ background: #f0f2f5; }}
-.sel-info {{ display: inline-block; font-size: 0.75rem; color: #636e72; margin-left: 10px; margin-top: 8px; vertical-align: middle; }}
-.sel-info button {{ margin-left: 6px; font-size: 0.72rem; padding: 2px 8px; border: 1px solid #dfe6e9; border-radius: 3px; background: #fff; color: #636e72; cursor: pointer; }}
-.sel-info button:hover {{ background: #f5f6fa; }}
-.clear-sel {{ color: #e94560; cursor: pointer; margin-left: 6px; text-decoration: underline; font-size: 0.75rem; }}
-td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-space: normal; max-width: 180px; }}
 .empty-state {{
     text-align: center; padding: 60px 20px; color: #636e72;
 }}
@@ -3781,6 +2908,114 @@ td .src-dot.dataset {{ background: #95a5a6; }}
 @keyframes pulse {{ 0%,100% {{ opacity: 1; }} 50% {{ opacity: 0.4; }} }}
 .api-key-row {{ display: flex; gap: 4px; margin-bottom: 6px; }}
 .api-key-row input {{ flex: 1; font-size: 0.72rem; padding: 4px 6px; }}
+th {{
+    background: #f0f2f5; color: #e94560; padding: 8px 10px; text-align: left;
+    font-weight: 600; position: sticky; top: 0; z-index: 1;
+    border-bottom: 2px solid #dfe6e9; white-space: nowrap; cursor: pointer;
+}}
+th:hover {{ background: #e8eaed; }}
+th.sort-asc::after {{ content: ' ▲'; font-size: 0.7em; color: #e94560; }}
+th.sort-desc::after {{ content: ' ▼'; font-size: 0.7em; color: #e94560; }}
+td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-width: 300px; overflow: hidden; text-overflow: ellipsis; }}
+tr:hover {{ background: #f8f9fa; }}
+td a {{ color: #0984e3; text-decoration: none; }}
+td a:hover {{ text-decoration: underline; }}
+td input {{
+    width: 100%; border: none; background: transparent; font: inherit; color: inherit;
+    padding: 2px 4px; outline: none;
+}}
+td input:focus {{ background: #fff3cd; border-radius: 2px; }}
+td.editing {{ padding: 2px 4px; background: #fffcf0; }}
+td.cell-selected {{ background: #dfe6fd !important; }}
+#db-tbody {{ user-select: none; -webkit-user-select: none; }}
+#content tbody {{ user-select: none; -webkit-user-select: none; }}
+.rownum-cell {{ color: #b2bec3; text-align: right; font-size: 0.72rem; cursor: pointer; padding: 6px 6px 6px 4px !important; }}
+.rownum-cell:hover {{ background: #e8eaed; }}
+tbody tr:hover {{ background: #f0f2f5; }}
+.sel-info {{ display: inline-block; font-size: 0.75rem; color: #636e72; margin-left: 10px; margin-top: 8px; vertical-align: middle; }}
+.sel-info button {{ margin-left: 6px; font-size: 0.72rem; padding: 2px 8px; border: 1px solid #dfe6e9; border-radius: 3px; background: #fff; color: #636e72; cursor: pointer; }}
+.sel-info button:hover {{ background: #f5f6fa; }}
+.clear-sel {{ color: #e94560; cursor: pointer; margin-left: 6px; text-decoration: underline; font-size: 0.75rem; }}
+td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-space: normal; max-width: 180px; }}
+.edit-count {{ font-size: 0.8rem; color: #e94560; font-weight: 600; }}
+.cas-link {{ color: #0984e3; text-decoration: none; }}
+.cas-link:hover {{ text-decoration: underline; }}
+.save-indicator {{ display: none; color: #00b894; font-size: 0.8rem; font-weight: 600; }}
+.save-indicator.visible {{ display: inline; }}
+.conf-tip {{
+    display: none; position: fixed; z-index: 9999;
+    background: #2d3436; color: #dfe6e9; border-radius: 6px; padding: 10px 14px;
+    font-size: 0.75rem; line-height: 1.5; white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}}
+.conf-row {{ display: flex; justify-content: space-between; gap: 18px; }}
+.conf-row .conf-label {{ color: #b2bec3; }}
+.conf-row .conf-val {{ font-weight: 600; }}
+.conf-row .conf-val.pos {{ color: #00b894; }}
+.conf-row .conf-val.zero {{ color: #636e72; }}
+.conf-sep {{ border-top: 1px solid #636e72; margin: 4px 0; }}
+/* Source filter in header */
+.src-filter-wrap {{ position: relative; margin-top: 4px; }}
+.src-filter-btn {{
+    display: block; width: 100%; padding: 2px 4px; font-size: 0.7rem;
+    border: 1px solid #dfe6e9; border-radius: 3px; background: #fff;
+    color: #636e72; cursor: pointer; text-align: left;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}}
+.src-filter-btn:hover {{ border-color: #b2bec3; }}
+.src-filter-drop {{
+    display: none; position: absolute; top: 100%; left: 0; z-index: 20;
+    background: #fff; border: 1px solid #dfe6e9; border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12); min-width: 180px;
+    max-height: 260px; overflow-y: auto; padding: 4px 0;
+}}
+.src-filter-drop.open {{ display: block; }}
+.src-filter-opt {{
+    display: flex; align-items: center; gap: 6px; padding: 4px 10px;
+    font-size: 0.72rem; color: #2d3436; cursor: pointer; white-space: nowrap;
+}}
+.src-filter-opt:hover {{ background: #f5f6fa; }}
+.src-filter-opt input {{ margin: 0; cursor: pointer; }}
+.src-filter-opt label {{ cursor: pointer; }}
+/* Crosslink ? badge */
+.cas-missing {{
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #fdcb6e; color: #2d3436; font-weight: 700; font-size: 0.75rem;
+    cursor: pointer; border: none; line-height: 1;
+}}
+.cas-missing:hover {{ background: #f39c12; }}
+/* Crosslink popover */
+.xl-popover {{
+    display: none; position: fixed; z-index: 1000;
+    background: #fff; border: 1px solid #dfe6e9; border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18); width: 380px; max-height: 420px;
+    overflow-y: auto; font-size: 0.82rem;
+}}
+.xl-popover.visible {{ display: block; }}
+.xl-header {{
+    padding: 10px 14px; border-bottom: 1px solid #eee;
+    font-weight: 700; color: #2d3436; display: flex; align-items: center; justify-content: space-between;
+}}
+.xl-header .xl-close {{
+    background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #636e72; padding: 0 4px;
+}}
+.xl-header .xl-close:hover {{ color: #e94560; }}
+.xl-opt {{
+    padding: 10px 14px; border-bottom: 1px solid #f0f2f5; cursor: pointer; transition: background 0.15s;
+}}
+.xl-opt:last-child {{ border-bottom: none; }}
+.xl-opt:hover {{ background: #f0f8ff; }}
+.xl-opt-name {{ font-weight: 600; color: #2d3436; }}
+.xl-opt-cas {{ color: #0984e3; font-family: monospace; }}
+.xl-opt-detail {{ color: #636e72; font-size: 0.75rem; margin-top: 2px; }}
+.xl-opt-conf {{
+    display: inline-block; padding: 1px 6px; border-radius: 3px;
+    font-size: 0.7rem; font-weight: 600; color: #fff; margin-left: 6px;
+}}
+.xl-opt-mv {{ font-size: 0.7rem; margin-left: 4px; }}
+.xl-opt-mv.match {{ color: #27ae60; }}
+.xl-opt-mv.mismatch {{ color: #e74c3c; }}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -3788,17 +3023,21 @@ td .src-dot.dataset {{ background: #95a5a6; }}
 </head>
 <body>
 <div class="header">
-    <h1><a href="materialism.html">Materialism</a> &mdash; Manage Datasets</h1>
+    <h1><a href="materialism.html">Materialism</a> &mdash; Database</h1>
     <div class="nav-links">
-        <a href="database.html">Database</a>
+        <a href="cas_review.html">Crosslink</a>
         <a href="materialism.html">Search</a>
     </div>
 </div>
 <div class="main">
     <div class="sidebar" id="sidebar">
+        <button class="active-db-btn selected" id="active-db-btn" onclick="selectActiveDb()">
+            Active Database
+            <div class="btn-counts" id="active-db-counts"></div>
+        </button>
         <div class="import-section">
-            <h4 onclick="togglePanel('upload-panel', this)" class="open">Upload File</h4>
-            <div class="import-panel open" id="upload-panel">
+            <h4 onclick="togglePanel('upload-panel', this)">Upload File</h4>
+            <div class="import-panel" id="upload-panel">
                 <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
                     Drop CSV, Excel, JSON, or PDF here<br><small>or click to browse</small>
                     <input type="file" id="file-input" accept=".csv,.xlsx,.xls,.json,.pdf,.tsv">
@@ -3823,1341 +3062,281 @@ td .src-dot.dataset {{ background: #95a5a6; }}
         <button class="rebuild-btn" onclick="triggerRebuild()">Export Datasets</button>
     </div>
     <div class="content" id="content">
-        <div class="empty-state" id="empty-state">
-            <h2>Welcome to Materialism</h2>
-            <p>Upload a CSV or Excel file using the panel on the left to get started.</p>
-        </div>
     </div>
 </div>
 <script>
+// ===================== DATA =====================
+var SOLVENTS = {db_solvents_json};
+var POLYMERS = {db_polymers_json};
+var CAS_CANDIDATES = {cas_candidates_json};
+var DATASETS_META = {datasets_meta_json};
 var DATASETS = {per_dataset_json};
+
+// ===================== STATE =====================
 var _LS_DS_KEY = 'materialism_active_datasets';
-function _loadA() {{ try {{ var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; }} catch(e) {{ return null; }} }}
-function _saveA(obj) {{ try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); }} catch(e) {{}} }}
-function _getA() {{ var s = _loadA(); if (s) return s; var d = {{}}; Object.keys(DATASETS).forEach(function(k) {{ d[k] = true; }}); return d; }}
-var _activeDsets = _getA();
-var _currentDs = null;
+function _loadActiveDsets() {{ try {{ var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; }} catch(e) {{ return null; }} }}
+function _saveActiveDsets(obj) {{ try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); }} catch(e) {{}} }}
+function _getActiveDsets() {{ var s = _loadActiveDsets(); if (s) return s; var d = {{}}; Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = true; }}); return d; }}
+var _activeDsets = _getActiveDsets();
+function _isDsActive(dsId) {{ if (!dsId) return true; var ids = dsId.split(','); for (var i = 0; i < ids.length; i++) {{ if (_activeDsets[ids[i]] !== false) return true; }} return false; }}
+
+// View mode: 'active_db' or a dataset id
+var _viewMode = 'active_db';
+var _activeDbTab = 'solvents'; // solvents or polymers
 var _filterText = '';
 var _sortCol = null;
 var _sortAsc = true;
-var _editMode = {{}}; // per-dataset edit mode: dsId -> bool
-// --- Cell selection state (matches database page) ---
-var _mSelCells = {{}};     // key: "oidx:fieldKey" -> true
+var _dbEditing = false;
+var _dbEdits = {{}};
+var _editMode = {{}}; // per-dataset edit mode
+
+// Cell selection for active DB view
+var _selCells = {{}};
+var _dragSel = false;
+var _dragStart = null;
+var _dragRowNum = false;
+var _dragRowStart = null;
+var _lastRowNum = null;
+var _visibleIndices = [];
+
+// Cell selection for dataset detail view
+var _mSelCells = {{}};
 var _mDragSel = false;
-var _mDragStart = null;   // {{row, col}}
-var _mDragRowNum = false; // true when dragging on row-number gutter
-var _mDragRowStart = null; // starting oidx for row-number drag
-var _mLastRowNum = null;  // last clicked row-number for shift-range
-var _mVisibleOidxs = [];  // set by renderDetail
-var _mCurrentCols = [];   // set by renderDetail
+var _mDragStart = null;
+var _mDragRowNum = false;
+var _mDragRowStart = null;
+var _mLastRowNum = null;
+var _mVisibleOidxs = [];
+var _mCurrentCols = [];
 
-// --- Import panel toggling ---
-function togglePanel(panelId, header) {{
-    var p = document.getElementById(panelId);
-    var isOpen = p.classList.contains('open');
-    // Close all panels
-    document.querySelectorAll('.import-panel').forEach(function(el) {{ el.classList.remove('open'); }});
-    document.querySelectorAll('.import-section h4').forEach(function(el) {{ el.classList.remove('open'); }});
-    if (!isOpen) {{
-        p.classList.add('open');
-        header.classList.add('open');
-    }}
-}}
+var srcFilterSet = {{}};
+var _srcDropOpen = false;
 
-// --- Column alias sets for auto-mapping (mirrors lib/schema.py) ---
-var _ALIASES = {{
-    name: ['name','chemical','compound','solvent','material','molecule'],
-    cas_number: ['cas','cas_number','cas_no','casrn','cas number','cas #'],
-    delta_d: ['delta_d','dd','dispersion','\\u03b4d','deltad','d_d','hansen_d','dd_mpa05','dd_mpa0.5','\\u03b4d (mpa^0.5)'],
-    delta_p: ['delta_p','dp','polar','polarity','\\u03b4p','deltap','d_p','hansen_p','dp_mpa05','dp_mpa0.5','\\u03b4p (mpa^0.5)'],
-    delta_h: ['delta_h','dh','hydrogen','h-h bonding','h_bonding','\\u03b4h','deltah','d_h','hansen_h','dh_mpa05','dh_mpa0.5','\\u03b4h (mpa^0.5)','hydrogen_bonding'],
-    molecular_weight: ['molecular_weight','mw','mol_weight','molar_mass','mwt_g_mol'],
-    boiling_point: ['boiling_point','bp','boiling','b.p.','tb_c'],
-    density: ['density','rho','\\u03c1','density_g_cm3'],
-    molar_volume: ['molar_volume','mv','mol_volume','vm','mvol_cm3_mol','volume_cm3_per_mol'],
-    category: ['category','type','class','group'],
-    smiles: ['smiles','smi'],
-    molecular_formula: ['molecular_formula','formula','molecular formula'],
-    ghs_hazard: ['ghs_hazard','ghs','h_statements','hazard'],
-    radius: ['radius','r0','r_0','interaction_radius'],
-}};
-
-function _autoMap(headers) {{
-    var mapping = {{}}, used = {{}};
-    var lowerMap = {{}};
-    headers.forEach(function(h) {{ lowerMap[h.toLowerCase().trim()] = h; }});
-    Object.keys(_ALIASES).forEach(function(canon) {{
-        _ALIASES[canon].forEach(function(alias) {{
-            if (lowerMap[alias] && !used[canon]) {{
-                var orig = lowerMap[alias];
-                if (!mapping[orig]) {{
-                    mapping[orig] = canon;
-                    used[canon] = true;
-                }}
-            }}
-        }});
-    }});
-    return mapping;
-}}
-
-function _parseFloat(v) {{
-    if (v == null || v === '') return null;
-    var n = parseFloat(String(v).replace(',','.'));
-    return isNaN(n) ? null : n;
-}}
-
-function _normCAS(v) {{
-    if (!v) return '';
-    var s = String(v).trim();
-    if (/^\\d{{2,7}}-\\d{{2}}-\\d$/.test(s)) return s;
-    var digits = s.replace(/\\D/g, '');
-    if (digits.length >= 5 && digits.length <= 10) {{
-        return digits.slice(0,-3) + '-' + digits.slice(-3,-1) + '-' + digits.slice(-1);
-    }}
-    return '';
-}}
-
-// --- Client-side file parsing ---
-function _parseCSVText(text) {{
-    var delim = (text.indexOf('\\t') > -1 && text.split('\\t').length > text.split(',').length) ? '\\t' : ',';
-    var lines = text.split(/\\r?\\n/);
-    var headers = lines[0].split(delim).map(function(h) {{ return h.trim().replace(/^["']|["']$/g, ''); }});
-    var rows = [];
-    for (var i = 1; i < lines.length; i++) {{
-        if (!lines[i].trim()) continue;
-        var vals = lines[i].split(delim);
-        var row = {{}};
-        headers.forEach(function(h, j) {{
-            var v = (vals[j] || '').trim().replace(/^["']|["']$/g, '');
-            row[h] = v;
-        }});
-        rows.push(row);
-    }}
-    return {{ headers: headers, rows: rows }};
-}}
-
-function _parseExcelBuffer(buf) {{
-    if (typeof XLSX === 'undefined') {{
-        throw new Error('SheetJS library not loaded. Check internet connection.');
-    }}
-    var wb = XLSX.read(buf, {{ type: 'array' }});
-    var ws = wb.Sheets[wb.SheetNames[0]];
-    var data = XLSX.utils.sheet_to_json(ws, {{ defval: '' }});
-    var headers = data.length > 0 ? Object.keys(data[0]) : [];
-    return {{ headers: headers, rows: data }};
-}}
-
-function _parsePDFBuffer(buf) {{
-    if (typeof pdfjsLib === 'undefined') {{
-        throw new Error('PDF.js library not loaded. Check internet connection.');
-    }}
-    return pdfjsLib.getDocument({{ data: buf }}).promise.then(function(pdf) {{
-        var allText = [];
-        var chain = Promise.resolve();
-        for (var p = 1; p <= pdf.numPages; p++) {{
-            (function(pageNum) {{
-                chain = chain.then(function() {{
-                    return pdf.getPage(pageNum).then(function(page) {{
-                        return page.getTextContent().then(function(tc) {{
-                            // Group text items into lines by y-coordinate
-                            var lineMap = {{}};
-                            tc.items.forEach(function(item) {{
-                                var y = Math.round(item.transform[5]);
-                                if (!lineMap[y]) lineMap[y] = [];
-                                lineMap[y].push({{ x: item.transform[4], str: item.str }});
-                            }});
-                            // Sort by y descending (top of page first), then x ascending
-                            var yKeys = Object.keys(lineMap).map(Number).sort(function(a,b) {{ return b - a; }});
-                            yKeys.forEach(function(y) {{
-                                var items = lineMap[y].sort(function(a,b) {{ return a.x - b.x; }});
-                                var lineStr = items.map(function(it) {{ return it.str; }}).join(' ').trim();
-                                if (lineStr) allText.push(lineStr);
-                            }});
-                        }});
-                    }});
-                }});
-            }})(p);
-        }}
-        return chain.then(function() {{
-            return _extractTableFromPDFLines(allText);
-        }});
-    }});
-}}
-
-function _extractTableFromPDFLines(lines) {{
-    // Strategy: find lines that look like table rows (contain numbers that could be HSP values)
-    // Try multiple delimiter strategies: whitespace-heavy lines, tab-like spacing, or consistent column counts
-
-    // First, try to find a header line containing HSP-related keywords
-    var hspKeywords = ['delta', 'δd', 'δp', 'δh', 'disp', 'polar', 'hydrog', 'name', 'solvent', 'cas',
-                       'smiles', 'mpa', 'hansen', 'd_d', 'd_p', 'd_h', 'dd', 'dp', 'dh', 'δ_d', 'δ_p', 'δ_h'];
-    var headerIdx = -1;
-    var bestHeaderScore = 0;
-
-    for (var i = 0; i < Math.min(lines.length, 40); i++) {{
-        var lower = lines[i].toLowerCase();
-        var score = 0;
-        hspKeywords.forEach(function(kw) {{ if (lower.indexOf(kw) > -1) score++; }});
-        if (score > bestHeaderScore) {{ bestHeaderScore = score; headerIdx = i; }}
-    }}
-
-    // If no header found with keywords, look for the first line followed by numeric data
-    if (bestHeaderScore < 2) {{
-        for (var i = 0; i < Math.min(lines.length, 30); i++) {{
-            var parts = _splitPDFLine(lines[i]);
-            if (parts.length >= 3 && i + 1 < lines.length) {{
-                var nextParts = _splitPDFLine(lines[i + 1]);
-                var numCount = 0;
-                nextParts.forEach(function(p) {{ if (/^-?\\d+\\.?\\d*$/.test(p.trim())) numCount++; }});
-                if (numCount >= 2 && Math.abs(parts.length - nextParts.length) <= 2) {{
-                    headerIdx = i;
-                    break;
-                }}
-            }}
-        }}
-    }}
-
-    if (headerIdx === -1) headerIdx = 0;
-
-    // Split header into columns
-    var headerParts = _splitPDFLine(lines[headerIdx]);
-    if (headerParts.length < 2) {{
-        // Fallback: try treating as whitespace-delimited
-        headerParts = lines[headerIdx].split(/\\s{{2,}}/).map(function(s) {{ return s.trim(); }}).filter(Boolean);
-    }}
-
-    // Parse data rows
-    var rows = [];
-    var expectedCols = headerParts.length;
-    for (var i = headerIdx + 1; i < lines.length; i++) {{
-        var parts = _splitPDFLine(lines[i]);
-        if (parts.length < 2) continue;
-
-        // Skip lines that look like headers/footers/page numbers
-        var lower = lines[i].toLowerCase();
-        if (/^(page|table|figure|note|source|ref)\\s/i.test(lower)) continue;
-        if (/^\\d+\\s*$/.test(lines[i].trim())) continue;
-
-        // If column count matches or is close, accept row
-        if (Math.abs(parts.length - expectedCols) <= 2) {{
-            var row = {{}};
-            // Handle case where a name column has spaces and merges into multiple parts
-            if (parts.length > expectedCols) {{
-                // Merge first N extra parts into first column (likely a multi-word name)
-                var extra = parts.length - expectedCols;
-                var merged = parts.slice(0, extra + 1).join(' ');
-                parts = [merged].concat(parts.slice(extra + 1));
-            }}
-            for (var j = 0; j < headerParts.length; j++) {{
-                row[headerParts[j]] = (parts[j] || '').trim();
-            }}
-            rows.push(row);
-        }}
-    }}
-
-    if (rows.length === 0) {{
-        throw new Error('Could not find tabular data in the PDF. The document may contain text descriptions rather than data tables. Try copying the data into a CSV file.');
-    }}
-
-    return {{ headers: headerParts, rows: rows }};
-}}
-
-function _splitPDFLine(line) {{
-    // Try splitting by 2+ spaces (common in PDF tabular data)
-    var parts = line.split(/\\s{{2,}}/).map(function(s) {{ return s.trim(); }}).filter(Boolean);
-    if (parts.length >= 3) return parts;
-
-    // Try splitting by tab
-    parts = line.split('\\t').map(function(s) {{ return s.trim(); }}).filter(Boolean);
-    if (parts.length >= 3) return parts;
-
-    // Try splitting by | or ; delimiters
-    if (line.indexOf('|') > -1) {{
-        parts = line.split('|').map(function(s) {{ return s.trim(); }}).filter(Boolean);
-        if (parts.length >= 3) return parts;
-    }}
-
-    // Last resort: split on single spaces but try to keep multi-word names together
-    // Heuristic: numbers are separate tokens, consecutive non-number words form one token
-    var tokens = line.split(/\\s+/);
-    var result = [];
-    var current = '';
-    tokens.forEach(function(t) {{
-        if (/^-?\\d+\\.?\\d*$/.test(t)) {{
-            if (current) {{ result.push(current.trim()); current = ''; }}
-            result.push(t);
-        }} else {{
-            current += (current ? ' ' : '') + t;
-        }}
-    }});
-    if (current) result.push(current.trim());
-    return result;
-}}
-
-function _analyzeLocally(headers, rows, filename) {{
-    var mapping = _autoMap(headers);
-    var rev = {{}};
-    Object.keys(mapping).forEach(function(k) {{ rev[mapping[k]] = k; }});
-
-    var total = rows.length;
-    var hspCount = 0, casCount = 0, smilesCount = 0, outliers = 0, dupNames = 0;
-    var namesSeen = {{}}, hasRadius = false;
-
-    rows.forEach(function(row) {{
-        var dd = _parseFloat(row[rev.delta_d]);
-        var dp = _parseFloat(row[rev.delta_p]);
-        var dh = _parseFloat(row[rev.delta_h]);
-        if (dd != null && dp != null && dh != null) {{
-            hspCount++;
-            if (dd < 10 || dd > 25 || dp < 0 || dp > 25 || dh < 0 || dh > 30) outliers++;
-        }}
-        var cas = rev.cas_number ? _normCAS(row[rev.cas_number]) : '';
-        if (cas) casCount++;
-        var smi = rev.smiles ? String(row[rev.smiles] || '').trim() : '';
-        if (smi && smi !== 'None' && smi !== 'nan') smilesCount++;
-        if (rev.radius && _parseFloat(row[rev.radius]) != null) hasRadius = true;
-        var nm = rev.name ? String(row[rev.name] || '').trim().toLowerCase() : '';
-        if (nm) {{ if (namesSeen[nm]) dupNames++; namesSeen[nm] = true; }}
-    }});
-
-    var issues = [];
-    if (!rev.name) issues.push({{ severity: 'error', message: 'No name column detected' }});
-    if (!rev.delta_d || !rev.delta_p || !rev.delta_h) issues.push({{ severity: 'error', message: 'Missing HSP columns (need delta_d, delta_p, delta_h)' }});
-    if (outliers > 0) issues.push({{ severity: 'warning', message: outliers + ' rows have HSP values outside typical ranges' }});
-    if (dupNames > 0) issues.push({{ severity: 'warning', message: dupNames + ' duplicate names within this dataset' }});
-
-    var sampleRows = rows.slice(0, 5).map(function(row) {{
-        var s = {{}};
-        Object.keys(mapping).forEach(function(k) {{ s[mapping[k]] = String(row[k] || '').substring(0, 80); }});
-        return s;
-    }});
-
-    var ext = (filename || '').split('.').pop().toLowerCase();
-    var fileType = (ext === 'xlsx' || ext === 'xls') ? 'excel' : ext === 'json' ? 'json' : 'csv';
-
-    return {{
-        file_type: fileType,
-        original_filename: filename,
-        row_count: total,
-        columns_found: headers,
-        column_mapping: mapping,
-        unmapped_columns: headers.filter(function(h) {{ return !mapping[h]; }}),
-        hsp_coverage: total > 0 ? Math.round(1000 * hspCount / total) / 10 : 0,
-        cas_coverage: total > 0 ? Math.round(1000 * casCount / total) / 10 : 0,
-        smiles_coverage: total > 0 ? Math.round(1000 * smilesCount / total) / 10 : 0,
-        quality_issues: issues,
-        sample_rows: sampleRows,
-        detected_type: hasRadius ? 'both' : 'chemicals',
-        _headers: headers,
-        _rows: rows,
-    }};
-}}
-
-// --- File upload via drag-and-drop / file picker ---
-var _dropZone = document.getElementById('drop-zone');
-var _fileInput = document.getElementById('file-input');
-_dropZone.addEventListener('dragover', function(e) {{ e.preventDefault(); _dropZone.classList.add('dragover'); }});
-_dropZone.addEventListener('dragleave', function() {{ _dropZone.classList.remove('dragover'); }});
-_dropZone.addEventListener('drop', function(e) {{ e.preventDefault(); _dropZone.classList.remove('dragover'); if (e.dataTransfer.files.length) uploadFile(e.dataTransfer.files[0]); }});
-_fileInput.addEventListener('change', function() {{ if (_fileInput.files.length) uploadFile(_fileInput.files[0]); _fileInput.value=''; }});
-
-var _pendingAnalysis = null;
-
-function uploadFile(file) {{
-    var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="loading">Analyzing ' + file.name + '...</div>';
-    var reader = new FileReader();
-    reader.onerror = function() {{ ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>Failed to read file.</p></div>'; }};
-    reader.onload = function(e) {{
-        var ext = file.name.split('.').pop().toLowerCase();
-        if (ext === 'pdf') {{
-            _parsePDFBuffer(new Uint8Array(e.target.result)).then(function(parsed) {{
-                var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
-                _pendingAnalysis = report;
-                showAnalysis(report);
-            }}).catch(function(err) {{
-                ct.innerHTML = '<div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div>';
-            }});
-            return;
-        }}
-        try {{
-            var parsed;
-            if (ext === 'xlsx' || ext === 'xls') {{
-                parsed = _parseExcelBuffer(new Uint8Array(e.target.result));
-            }} else if (ext === 'json') {{
-                var data = JSON.parse(new TextDecoder().decode(new Uint8Array(e.target.result)));
-                if (Array.isArray(data)) {{
-                    parsed = {{ headers: data.length ? Object.keys(data[0]) : [], rows: data }};
-                }} else {{
-                    var arr = null;
-                    ['data','chemicals','solvents','compounds','results','entries'].forEach(function(k) {{ if (!arr && data[k] && Array.isArray(data[k])) arr = data[k]; }});
-                    if (!arr) Object.values(data).forEach(function(v) {{ if (!arr && Array.isArray(v) && v.length && typeof v[0] === 'object') arr = v; }});
-                    arr = arr || [];
-                    parsed = {{ headers: arr.length ? Object.keys(arr[0]) : [], rows: arr }};
-                }}
-            }} else {{
-                // Auto-detect PDF by magic bytes even if extension is wrong
-                var bytes = new Uint8Array(e.target.result);
-                if (bytes.length >= 5 && String.fromCharCode(bytes[0],bytes[1],bytes[2],bytes[3],bytes[4]) === '%PDF-') {{
-                    _parsePDFBuffer(bytes).then(function(parsed) {{
-                        var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
-                        _pendingAnalysis = report;
-                        showAnalysis(report);
-                    }}).catch(function(err) {{
-                        ct.innerHTML = '<div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div>';
-                    }});
-                    return;
-                }}
-                parsed = _parseCSVText(new TextDecoder().decode(bytes));
-            }}
-            var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
-            _pendingAnalysis = report;
-            showAnalysis(report);
-        }} catch(err) {{
-            ct.innerHTML = '<div class="analysis-card"><h3>Error</h3><p>' + err.message + '</p></div>';
-        }}
-    }};
-    reader.readAsArrayBuffer(file);
-}}
-
-function analyzeUrl() {{
-    var url = document.getElementById('url-input').value.trim();
-    if (!url) return;
-    var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="loading">Fetching ' + url.substring(0, 60) + '...</div>';
-
-    // Determine file type from URL
-    var urlLower = url.toLowerCase();
-    var isExcel = urlLower.match(/\\.xlsx?($|\\?)/);
-    var isJson = urlLower.match(/\\.json($|\\?)/);
-    var isPdf = urlLower.match(/\\.pdf($|\\?)/);
-    var isBinary = isExcel || isPdf;
-
-    // Try direct fetch first, then CORS proxy
-    _fetchWithFallback(url, !!isBinary).then(function(result) {{
-        if (!result) {{
-            ct.innerHTML = '<div class="analysis-card"><h3>Could not fetch URL</h3>'
-                + '<p>The server blocked the request (CORS). Try downloading the file manually and uploading it instead.</p>'
-                + '<p style="margin-top:8px"><a href="' + url + '" target="_blank" style="color:#0984e3">Open URL in new tab</a></p></div>';
-            return;
-        }}
-        var fname = url.split('/').pop().split('?')[0] || 'data';
-
-        // PDF is async
-        if (isPdf) {{
-            _parsePDFBuffer(new Uint8Array(result)).then(function(parsed) {{
-                var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
-                report.original_url = url;
-                _pendingAnalysis = report;
-                showAnalysis(report);
-            }}).catch(function(err) {{
-                ct.innerHTML = '<div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p>'
-                    + '<p style="margin-top:8px"><a href="' + url + '" target="_blank" style="color:#0984e3">Open URL in new tab</a></p></div>';
-            }});
-            return;
-        }}
-
-        try {{
-            var parsed;
-            if (isExcel) {{
-                parsed = _parseExcelBuffer(new Uint8Array(result));
-            }} else if (isJson) {{
-                var text = typeof result === 'string' ? result : new TextDecoder().decode(new Uint8Array(result));
-                var data = JSON.parse(text);
-                if (Array.isArray(data)) {{
-                    parsed = {{ headers: data.length ? Object.keys(data[0]) : [], rows: data }};
-                }} else {{
-                    var arr = null;
-                    ['data','chemicals','solvents','compounds','results','entries'].forEach(function(k) {{ if (!arr && data[k] && Array.isArray(data[k])) arr = data[k]; }});
-                    if (!arr) Object.values(data).forEach(function(v) {{ if (!arr && Array.isArray(v) && v.length && typeof v[0] === 'object') arr = v; }});
-                    arr = arr || [];
-                    parsed = {{ headers: arr.length ? Object.keys(arr[0]) : [], rows: arr }};
-                }}
-            }} else {{
-                var text = typeof result === 'string' ? result : new TextDecoder().decode(new Uint8Array(result));
-                // Auto-detect if this is actually a PDF served without .pdf extension
-                if (text.substring(0, 5) === '%PDF-') {{
-                    var buf = typeof result === 'string' ? new TextEncoder().encode(result) : new Uint8Array(result);
-                    _parsePDFBuffer(buf).then(function(parsed) {{
-                        var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
-                        report.original_url = url;
-                        _pendingAnalysis = report;
-                        showAnalysis(report);
-                    }}).catch(function(err) {{
-                        ct.innerHTML = '<div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div>';
-                    }});
-                    return;
-                }}
-                parsed = _parseCSVText(text);
-            }}
-            var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
-            report.original_url = url;
-            _pendingAnalysis = report;
-            showAnalysis(report);
-        }} catch(err) {{
-            ct.innerHTML = '<div class="analysis-card"><h3>Parse Error</h3><p>' + err.message + '</p>'
-                + '<p style="margin-top:8px">The file at this URL may not be a supported format (CSV, Excel, JSON). '
-                + 'Try downloading it manually and uploading instead.</p>'
-                + '<p><a href="' + url + '" target="_blank" style="color:#0984e3">Open URL in new tab</a></p></div>';
-        }}
-    }}).catch(function(err) {{
-        ct.innerHTML = '<div class="analysis-card"><h3>Fetch Error</h3><p>' + err.message + '</p>'
-            + '<p style="margin-top:8px"><a href="' + url + '" target="_blank" style="color:#0984e3">Open URL in new tab</a> and upload the file directly.</p></div>';
-    }});
-}}
-
-function _fetchWithFallback(url, asBinary) {{
-    // Try direct fetch first
-    return fetch(url, {{ mode: 'cors' }}).then(function(r) {{
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return asBinary ? r.arrayBuffer() : r.text();
-    }}).catch(function() {{
-        // Try CORS proxy
-        var proxyUrl = 'https://api.allorigins.win/' + (asBinary ? 'raw' : 'get') + '?url=' + encodeURIComponent(url);
-        return fetch(proxyUrl).then(function(r) {{
-            if (!r.ok) return null;
-            if (asBinary) return r.arrayBuffer();
-            return r.json().then(function(d) {{ return d.contents; }});
-        }}).catch(function() {{ return null; }});
-    }});
-}}
-
-
-function showAnalysis(report) {{
-    var ct = document.getElementById('content');
-    var h = '<div class="analysis-card">';
-    h += '<h3>Analysis: ' + (report.original_filename || 'File') + '</h3>';
-    h += '<div style="margin-bottom:12px">';
-    h += '<span class="analysis-stat"><span class="label">Type</span><br><span class="value">' + report.file_type + '</span></span>';
-    h += '<span class="analysis-stat"><span class="label">Rows</span><br><span class="value">' + report.row_count + '</span></span>';
-    h += '<span class="analysis-stat"><span class="label">Detected</span><br><span class="value">' + report.detected_type + '</span></span>';
-    h += '<span class="analysis-stat"><span class="label">HSP</span><br><span class="value">' + report.hsp_coverage + '%</span></span>';
-    h += '<span class="analysis-stat"><span class="label">CAS</span><br><span class="value">' + report.cas_coverage + '%</span></span>';
-    h += '<span class="analysis-stat"><span class="label">SMILES</span><br><span class="value">' + report.smiles_coverage + '%</span></span>';
-    h += '</div>';
-
-    // Quality issues
-    if (report.quality_issues && report.quality_issues.length > 0) {{
-        h += '<div style="margin-bottom:12px">';
-        report.quality_issues.forEach(function(iss) {{
-            h += '<div class="analysis-issue ' + iss.severity + '">' + iss.message + '</div>';
-        }});
-        h += '</div>';
-    }}
-
-    // Column mapping (editable)
-    if (report.column_mapping) {{
-        var canonicals = ['name','cas_number','delta_d','delta_p','delta_h','molecular_weight','boiling_point','density','molar_volume','smiles','molecular_formula','ghs_hazard','category','radius'];
-        h += '<table class="mapping-table"><thead><tr><th>Source Column</th><th>Maps To</th></tr></thead><tbody>';
-        var allCols = report.columns_found || [];
-        allCols.forEach(function(col) {{
-            var mapped = report.column_mapping[col] || '';
-            h += '<tr><td>' + col + '</td><td><select data-col="' + col + '" class="mapping-select">';
-            h += '<option value="">(unmapped)</option>';
-            canonicals.forEach(function(c) {{ h += '<option value="' + c + '"' + (mapped === c ? ' selected' : '') + '>' + c + '</option>'; }});
-            h += '</select></td></tr>';
-        }});
-        h += '</tbody></table>';
-    }}
-
-    // Sample rows
-    if (report.sample_rows && report.sample_rows.length > 0) {{
-        h += '<details style="margin-top:8px"><summary style="font-size:0.85rem;cursor:pointer;color:#636e72">Sample rows (' + report.sample_rows.length + ')</summary>';
-        h += '<table class="mapping-table" style="margin-top:4px"><thead><tr>';
-        var sampleKeys = Object.keys(report.sample_rows[0]);
-        sampleKeys.forEach(function(k) {{ h += '<th>' + k + '</th>'; }});
-        h += '</tr></thead><tbody>';
-        report.sample_rows.forEach(function(row) {{
-            h += '<tr>';
-            sampleKeys.forEach(function(k) {{ h += '<td>' + (row[k]||'') + '</td>'; }});
-            h += '</tr>';
-        }});
-        h += '</tbody></table></details>';
-    }}
-
-    // Import form
-    h += '<div class="import-form">';
-    h += '<div><label>Dataset ID</label><br><input id="import-id" placeholder="my_dataset" style="width:180px"></div>';
-    h += '<div><label>Name</label><br><input id="import-name" placeholder="My Dataset" style="width:220px"></div>';
-    h += '<div><label>Source URL</label><br><input id="import-url" placeholder="https://..." style="width:220px" value="' + (report.original_url || '').replace(/"/g,'&quot;') + '"></div>';
-    h += '<div><label>Confidence</label><br><input id="import-conf" type="number" step="0.05" min="0" max="1" value="0.30" style="width:70px"></div>';
-    h += '<div style="padding-top:18px"><button class="import-btn" style="width:auto;padding:6px 20px" onclick="doImport()">Import</button></div>';
-    h += '</div>';
-
-    h += '</div>';
-    ct.innerHTML = h;
-}}
-
-function doImport() {{
-    if (!_pendingAnalysis) return;
-    var dsId = document.getElementById('import-id').value.trim();
-    if (!dsId) {{ alert('Dataset ID is required'); return; }}
-    if (!/^[a-z0-9_]+$/.test(dsId)) {{ alert('ID must be lowercase alphanumeric with underscores'); return; }}
-
-    // Collect edited column mapping
-    var mapping = {{}};
-    document.querySelectorAll('.mapping-select').forEach(function(sel) {{
-        var col = sel.getAttribute('data-col');
-        if (sel.value) mapping[col] = sel.value;
-    }});
-
-    var rev = {{}};
-    Object.keys(mapping).forEach(function(k) {{ rev[mapping[k]] = k; }});
-
-    var dsName = document.getElementById('import-name').value.trim() || dsId;
-    var sourceUrl = document.getElementById('import-url').value.trim();
-    var confTier = parseFloat(document.getElementById('import-conf').value) || 0.30;
-
-    // Normalize rows into chemicals/polymers
-    var rows = _pendingAnalysis._rows || [];
-    var chemicals = [], polymers = [];
-    rows.forEach(function(row) {{
-        var name = rev.name ? String(row[rev.name] || '').trim() : '';
-        if (!name) return;
-        var dd = _parseFloat(row[rev.delta_d]);
-        var dp = _parseFloat(row[rev.delta_p]);
-        var dh = _parseFloat(row[rev.delta_h]);
-        if (dd == null || dp == null || dh == null) return;
-        var cas = rev.cas_number ? _normCAS(row[rev.cas_number]) : '';
-        var radius = rev.radius ? _parseFloat(row[rev.radius]) : null;
-        if (radius != null) {{
-            polymers.push({{
-                name: name, cas: cas, dd: dd, dp: dp, dh: dh, r: radius,
-                type: rev.category ? String(row[rev.category] || '').trim() : '',
-                conf: confTier, dsId: dsId
-            }});
-        }} else {{
-            chemicals.push({{
-                name: name, cas: cas, dd: dd, dp: dp, dh: dh,
-                mw: rev.molecular_weight ? _parseFloat(row[rev.molecular_weight]) : null,
-                bp: rev.boiling_point ? _parseFloat(row[rev.boiling_point]) : null,
-                cat: rev.category ? String(row[rev.category] || '').trim() : '',
-                smiles: rev.smiles ? String(row[rev.smiles] || '').trim() : '',
-                density: rev.density ? _parseFloat(row[rev.density]) : null,
-                conf: confTier, dsId: dsId
-            }});
-        }}
-    }});
-
-    var meta = {{
-        id: dsId, name: dsName, source_url: sourceUrl,
-        imported_at: new Date().toISOString(),
-        chemical_count: chemicals.length, polymer_count: polymers.length,
-        confidence_tier: confTier,
-        fields_available: Object.values(mapping),
-    }};
-
-    // Save to DATASETS and localStorage
-    DATASETS[dsId] = {{ chemicals: chemicals, polymers: polymers, meta: meta }};
-    _activeDsets[dsId] = true;
-    _saveA(_activeDsets);
-    _saveImportedDatasets();
-
-    var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="analysis-card"><h3>Imported!</h3><p>' + chemicals.length + ' chemicals, ' + polymers.length + ' polymers imported as <b>' + dsId + '</b>.</p></div>';
-    _pendingAnalysis = null;
-    buildSidebar();
-}}
-
-// --- localStorage persistence for imported datasets ---
-var _LS_IMPORTED_KEY = 'materialism_imported_datasets';
-
-function _saveImportedDatasets() {{
-    // Save all datasets that were imported in-browser (not embedded from generate_html.py)
-    var toSave = {{}};
-    Object.keys(DATASETS).forEach(function(k) {{
-        if (DATASETS[k]._imported) toSave[k] = DATASETS[k];
-    }});
-    // Mark current import
-    Object.keys(DATASETS).forEach(function(k) {{
-        if (!DATASETS[k]._embedded) {{
-            DATASETS[k]._imported = true;
-            toSave[k] = {{ chemicals: DATASETS[k].chemicals, polymers: DATASETS[k].polymers, meta: DATASETS[k].meta }};
-        }}
-    }});
-    try {{ localStorage.setItem(_LS_IMPORTED_KEY, JSON.stringify(toSave)); }} catch(e) {{}}
-}}
-
-function _loadImportedDatasets() {{
+// ===================== LOAD IMPORTED DATASETS =====================
+(function() {{
     try {{
-        var raw = localStorage.getItem(_LS_IMPORTED_KEY);
+        var raw = localStorage.getItem('materialism_imported_datasets');
         if (!raw) return;
-        var saved = JSON.parse(raw);
-        Object.keys(saved).forEach(function(k) {{
-            if (!DATASETS[k]) {{
-                DATASETS[k] = saved[k];
-                DATASETS[k]._imported = true;
+        var imported = JSON.parse(raw);
+        Object.keys(imported).forEach(function(dsId) {{
+            if (_activeDsets[dsId] === false) return;
+            var ds = imported[dsId];
+            var meta = ds.meta || {{}};
+            var srcLabel = meta.name || dsId;
+            var srcUrl = meta.source_url || '';
+            (ds.chemicals || []).forEach(function(c) {{
+                SOLVENTS.push({{
+                    name: c.name || '', cas: c.cas || '', smiles: c.smiles || '',
+                    formula: c.formula || '', dd: c.dd || '', dp: c.dp || '', dh: c.dh || '',
+                    mw: c.mw || '', bp: c.bp || '', density: c.density || '',
+                    mv: c.mv || '', cat: c.cat || '', ghs: c.ghs || '',
+                    conf: c.conf || '', srcN: 1, src: srcLabel, srcUrl: srcUrl,
+                    dsId: dsId, _imported: true
+                }});
+            }});
+            (ds.polymers || []).forEach(function(p) {{
+                POLYMERS.push({{
+                    name: p.name || '', cas: p.cas || '', dd: p.dd || '', dp: p.dp || '', dh: p.dh || '',
+                    r: p.r || '', type: p.type || '', conf: p.conf || '',
+                    srcN: 1, src: srcLabel, srcUrl: srcUrl,
+                    dsId: dsId, _imported: true
+                }});
+            }});
+            if (!DATASETS_META[dsId]) {{
+                DATASETS_META[dsId] = {{ name: srcLabel, source_url: srcUrl }};
+            }}
+            if (!DATASETS[dsId]) {{
+                DATASETS[dsId] = ds;
+                DATASETS[dsId]._imported = true;
             }}
         }});
     }} catch(e) {{}}
+}})();
+
+var SRC_TIERS = {{
+    'Hansen Handbook 2007': 50, 'Mendeley (Langner 2022)': 40,
+    'SolvPred (Fang)': 35, 'Accudyne Test': 40, 'Wolfram Data Repo': 35,
+    'Pang et al. 2024': 30, 'Hansen Handbook A.1': 30, 'Hansen Handbook A.2': 30,
+}};
+
+var SOLV_COLS = [
+    {{key:'name', label:'Name', w:'200px'}},
+    {{key:'cas', label:'CAS #', w:'110px'}},
+    {{key:'formula', label:'Formula', w:'110px'}},
+    {{key:'smiles', label:'SMILES', w:'160px'}},
+    {{key:'dd', label:'\u03b4D (MPa\u00bd)', w:'78px', tip:'Dispersion parameter'}},
+    {{key:'dp', label:'\u03b4P (MPa\u00bd)', w:'78px', tip:'Polarity parameter'}},
+    {{key:'dh', label:'\u03b4H (MPa\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
+    {{key:'mw', label:'MW (g/mol)', w:'80px', tip:'Molecular weight'}},
+    {{key:'bp', label:'BP (\u00b0C)', w:'70px', tip:'Boiling point'}},
+    {{key:'density', label:'Density (g/mL)', w:'90px', tip:'Density (g/mL)'}},
+    {{key:'mv', label:'V\u2098 (cm\u00b3/mol)', w:'90px', tip:'Molar volume'}},
+    {{key:'cat', label:'Classification', w:'100px'}},
+    {{key:'ghs', label:'GHS Hazard', w:'120px'}},
+    {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
+    {{key:'src', label:'Source', w:'140px'}},
+];
+var POLY_COLS = [
+    {{key:'name', label:'Name', w:'250px'}},
+    {{key:'cas', label:'CAS #', w:'110px'}},
+    {{key:'dd', label:'\u03b4D (MPa\u00bd)', w:'78px', tip:'Dispersion parameter'}},
+    {{key:'dp', label:'\u03b4P (MPa\u00bd)', w:'78px', tip:'Polarity parameter'}},
+    {{key:'dh', label:'\u03b4H (MPa\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
+    {{key:'r', label:'R\u2080 (MPa\u00bd)', w:'70px', tip:'Interaction radius'}},
+    {{key:'type', label:'Classification', w:'120px'}},
+    {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
+    {{key:'src', label:'Source', w:'140px'}},
+];
+
+// Build sorted list of unique source names
+var _srcOptions = (function() {{
+    var srcSet = {{}};
+    SOLVENTS.forEach(function(s) {{ if (s.src) srcSet[s.src] = true; }});
+    POLYMERS.forEach(function(p) {{ if (p.src) srcSet[p.src] = true; }});
+    return Object.keys(srcSet).sort();
+}})();
+
+// ===================== ACTIVE DATABASE EDITS =====================
+function loadDbEdits() {{
+    try {{
+        var saved = localStorage.getItem('materialism_db_edits');
+        if (saved) _dbEdits = JSON.parse(saved);
+    }} catch(e) {{}}
+    updateEditCount();
 }}
 
-// _loadImportedDatasets() is called in the init block below after marking embedded datasets
-
-// --- Claude API key (stored in localStorage) ---
-var _LS_API_KEY = 'materialism_claude_api_key';
-function saveApiKey() {{
-    var k = document.getElementById('claude-api-key').value.trim();
-    if (k) {{ localStorage.setItem(_LS_API_KEY, k); alert('API key saved.'); }}
-}}
-function _getApiKey() {{ return localStorage.getItem(_LS_API_KEY) || ''; }}
-// Load saved key into input on page load
-setTimeout(function() {{
-    var saved = _getApiKey();
-    if (saved) document.getElementById('claude-api-key').value = saved;
-}}, 0);
-
-// --- PubChem + CAS Common Chemistry lookup ---
-function _delay(ms) {{ return new Promise(function(r) {{ setTimeout(r, ms); }}); }}
-
-function _pubchemLookup(query, isCAS) {{
-    var encoded = encodeURIComponent(query);
-    var propUrl = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encoded + '/property/MolecularWeight,MolecularFormula,CanonicalSMILES,IUPACName/JSON';
-    return fetch(propUrl).then(function(r) {{
-        if (!r.ok) return null;
-        return r.json();
-    }}).then(function(data) {{
-        if (!data || !data.PropertyTable || !data.PropertyTable.Properties || !data.PropertyTable.Properties[0]) return null;
-        var p = data.PropertyTable.Properties[0];
-        var result = {{
-            mw: p.MolecularWeight || null,
-            formula: p.MolecularFormula || '',
-            smiles: p.CanonicalSMILES || '',
-            iupac: p.IUPACName || '',
-            cid: p.CID || null,
-            source: 'PubChem',
-            url: p.CID ? 'https://pubchem.ncbi.nlm.nih.gov/compound/' + p.CID : '',
-        }};
-        // If we have a CID, try to get CAS from synonyms
-        if (result.cid && !isCAS) {{
-            return _delay(150).then(function() {{
-                return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + result.cid + '/synonyms/JSON');
-            }}).then(function(r2) {{
-                if (!r2.ok) return result;
-                return r2.json().then(function(synData) {{
-                    var syns = (synData.InformationList && synData.InformationList.Information && synData.InformationList.Information[0] && synData.InformationList.Information[0].Synonym) || [];
-                    for (var i = 0; i < syns.length; i++) {{
-                        if (/^\\d{{2,7}}-\\d{{2}}-\\d$/.test(syns[i])) {{
-                            result.cas = syns[i];
-                            break;
-                        }}
-                    }}
-                    return result;
-                }});
-            }}).catch(function() {{ return result; }});
-        }}
-        return result;
-    }}).catch(function() {{ return null; }});
+function saveDbEdits() {{
+    try {{
+        localStorage.setItem('materialism_db_edits', JSON.stringify(_dbEdits));
+    }} catch(e) {{}}
+    updateEditCount();
+    var ind = document.getElementById('save-ind');
+    if (ind) {{ ind.classList.add('visible'); setTimeout(function() {{ ind.classList.remove('visible'); }}, 1500); }}
 }}
 
-function _casChemSearch(query) {{
-    return fetch('https://commonchemistry.cas.org/api/search?q=' + encodeURIComponent(query))
-        .then(function(r) {{ if (!r.ok) return null; return r.json(); }})
-        .then(function(data) {{
-            if (!data || !data.results || data.results.length === 0) return null;
-            return data.results[0].rn;
-        }}).catch(function() {{ return null; }});
+function updateEditCount() {{
+    var n = Object.keys(_dbEdits).length;
+    var el = document.getElementById('edit-count');
+    if (el) el.textContent = n ? n + ' edit' + (n > 1 ? 's' : '') : '';
 }}
 
-function _casChemDetail(casRn) {{
-    return fetch('https://commonchemistry.cas.org/api/detail?cas_rn=' + encodeURIComponent(casRn))
-        .then(function(r) {{ if (!r.ok) return null; return r.json(); }})
-        .then(function(d) {{
-            if (!d) return null;
-            // Strip HTML tags from name
-            var nm = (d.name || '').replace(/<[^>]*>/g, '');
-            // Parse MW from string
-            var mwStr = (d.molecularMass || '').replace(/[^\\d.]/g, '');
-            return {{
-                name: nm,
-                cas: d.rn || casRn,
-                mw: mwStr ? parseFloat(mwStr) : null,
-                formula: (d.molecularFormula || '').replace(/<[^>]*>/g, ''),
-                smiles: d.smile || '',
-                source: 'CAS Common Chemistry',
-                url: 'https://commonchemistry.cas.org/detail?cas_rn=' + encodeURIComponent(casRn),
-            }};
-        }}).catch(function() {{ return null; }});
+function getDbVal(type, idx, field) {{
+    var k = type + ':' + idx + ':' + field;
+    if (_dbEdits.hasOwnProperty(k)) return _dbEdits[k];
+    var arr = type === 'solvents' ? SOLVENTS : POLYMERS;
+    return arr[idx][field] || '';
 }}
 
-function _mwClose(a, b) {{
-    if (a == null || b == null) return false;
-    return Math.abs(a - b) / Math.max(a, b) < 0.01;
+function setDbVal(type, idx, field, val) {{
+    var k = type + ':' + idx + ':' + field;
+    var arr = type === 'solvents' ? SOLVENTS : POLYMERS;
+    var orig = arr[idx][field] || '';
+    if (val === orig) {{ delete _dbEdits[k]; }} else {{ _dbEdits[k] = val; }}
+    saveDbEdits();
 }}
 
-// --- PubChem boiling point lookup via PUG View ---
-function _pubchemBP(cid) {{
-    if (!cid) return Promise.resolve(null);
-    var url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Boiling+Point';
-    return fetch(url).then(function(r) {{
-        if (!r.ok) return null;
-        return r.json();
-    }}).then(function(data) {{
-        if (!data || !data.Record || !data.Record.Section) return null;
-        // Navigate: Record > Section[] > Section[] > Information[]
-        var sections = data.Record.Section;
-        for (var i = 0; i < sections.length; i++) {{
-            var sub = sections[i].Section;
-            if (!sub) continue;
-            for (var j = 0; j < sub.length; j++) {{
-                var info = sub[j].Information;
-                if (!info) continue;
-                for (var k = 0; k < info.length; k++) {{
-                    var val = info[k].Value;
-                    if (!val) continue;
-                    // Check StringWithMarkup first (most common format)
-                    if (val.StringWithMarkup && val.StringWithMarkup[0]) {{
-                        var s = val.StringWithMarkup[0].String || '';
-                        var m = s.match(/([-]?[\\d.]+)\\s*[°]?\\s*C/i);
-                        if (m) return parseFloat(m[1]);
-                        // Some entries just have a number with unit in Units field
-                        m = s.match(/^([-]?[\\d.]+)$/);
-                        if (m && val.Unit && val.Unit.toLowerCase().indexOf('c') !== -1) return parseFloat(m[1]);
-                    }}
-                    // Check Number array
-                    if (val.Number && val.Number.length > 0) {{
-                        var unit = (val.Unit || '').toLowerCase();
-                        if (unit.indexOf('c') !== -1 || unit === 'deg c' || unit === '°c') {{
-                            return val.Number[0];
-                        }}
-                    }}
-                }}
-            }}
-        }}
-        return null;
-    }}).catch(function() {{ return null; }});
+function toggleDbLock() {{
+    _dbEditing = !_dbEditing;
+    renderContent();
 }}
 
-// --- Solvent categorization from SMILES / name ---
-function _categorizeSolvent(smiles, name) {{
-    var s = (smiles || '').trim();
-    var n = (name || '').toLowerCase().trim();
-
-    // Water
-    if (s === 'O' || n === 'water') return 'Water';
-
-    // Acids - carboxylic: C(=O)O and not ester (C(=O)OC)
-    if (/C\\(=O\\)O[^C\\(]|C\\(=O\\)O$/.test(s) || /\\bac(id|etic|rylic)\\b|\\bformic\\b/.test(n)) return 'Acid';
-
-    // Amides: C(=O)N
-    if (/C\\(=O\\)N/.test(s) || /\\b(dmf|dma|nmp|dmac|formamide|acetamide|pyrrolidone)\\b/.test(n)) return 'Amide';
-
-    // Nitriles: C#N
-    if (/C#N/.test(s) || /nitrile|\\bacn\\b|acetonitrile|\\bcyanide\\b/.test(n)) return 'Nitrile';
-
-    // Sulfoxides/sulfones: S(=O)
-    if (/S\\(=O\\)/.test(s) || /\\b(dmso|sulfo|sulfoxide|sulfone|sulfolane)\\b/.test(n)) return 'Sulfoxide/Sulfone';
-
-    // Alcohols: O but not ethers/esters; check for OH group
-    // Glycols/polyols: multiple OH groups
-    var ohCount = 0;
-    if (s) {{
-        // Count OH groups: terminal O not double-bonded and not ether
-        var stripped = s.replace(/C\\(=O\\)/g, ''); // remove carbonyls
-        ohCount = (stripped.match(/O/g) || []).length;
+// ===================== SOURCE FILTER =====================
+function toggleSrcFilter(val) {{
+    if (srcFilterSet[val]) delete srcFilterSet[val];
+    else srcFilterSet[val] = true;
+    renderContent();
+    updateActiveDbCounts();
+}}
+function clearSrcFilter() {{
+    srcFilterSet = {{}};
+    renderContent();
+    updateActiveDbCounts();
+}}
+function _hasSrcFilter() {{ return Object.keys(srcFilterSet).length > 0; }}
+function _matchesSrcFilter(src) {{ return !_hasSrcFilter() || srcFilterSet[src]; }}
+function _countForTab(tab) {{
+    var data = tab === 'solvents' ? SOLVENTS : POLYMERS;
+    if (!_hasSrcFilter()) {{
+        var n = 0;
+        for (var i = 0; i < data.length; i++) {{ if (_isDsActive(data[i].dsId)) n++; }}
+        return n;
     }}
-    if (/\\b(glycol|glycer|polyol|diol|triol|ethylene glycol|propylene glycol|sorbitol)\\b/.test(n) || ohCount >= 2) {{
-        if (!/\\bether\\b/.test(n) && !/COC/.test(s)) return 'Glycol/Polyol';
+    var n = 0;
+    for (var i = 0; i < data.length; i++) {{
+        if (_isDsActive(data[i].dsId) && srcFilterSet[data[i].src]) n++;
     }}
-    if (/O/.test(s) && /^[^=]*$/.test(s) && !(/COC/.test(s)) && !(/C\\(=O\\)/.test(smiles || '')) || /\\b(ol|alcohol|methanol|ethanol|propanol|butanol|pentanol|hexanol|phenol)\\b/.test(n)) {{
-        if (!/\\bether\\b/.test(n) && !/\\beste\\b/.test(n)) {{
-            // Make sure it's an alcohol not just an oxygen-containing compound
-            if (/\\b(ol|alcohol|methanol|ethanol|propanol|butanol|pentanol|hexanol|phenol)\\b/.test(n)) return 'Alcohol';
-            if (s && /[^=]O/.test(s) && !/COC/.test(s) && !/OC\\(=O\\)/.test(s) && !/C\\(=O\\)O/.test(s) && ohCount <= 1) return 'Alcohol';
-        }}
-    }}
-
-    // Ketones: C(=O) flanked by carbons (not acid, not ester, not amide)
-    if (/CC\\(=O\\)C|CC\\(C\\)=O/.test(s) || /\\b(ketone|acetone|mek|mibk|cyclohexanone|butanone|pentanone)\\b/.test(n)) return 'Ketone';
-
-    // Aldehydes: C=O at terminal
-    if (/C=O/.test(s) && /\\b(aldehyde|formaldehyde|acetaldehyde|butanal|propanal|furfural)\\b/.test(n)) return 'Aldehyde';
-
-    // Esters: C(=O)OC
-    if (/C\\(=O\\)OC|OC\\(=O\\)/.test(s) || /\\b(acetate|ester|lactone|butyrolactone|formate|propanoate|acrylate)\\b/.test(n)) return 'Ester';
-
-    // Ethers: COC (not ester)
-    if (/COC/.test(s) || /\\b(ether|thf|tetrahydrofuran|dioxane|dioxolane|anisole|glyme|diglyme|mtbe|methoxybenzene)\\b/.test(n)) return 'Ether';
-
-    // Halogenated
-    if (/[FBrI]|Cl/.test(s) || /\\b(chlor|fluor|brom|iod|dichloro|trichloro|freon|halocarbon|methylene chloride|dcm|carbon tetrachloride|chloroform|perfluor)\\b/.test(n)) return 'Halogenated';
-
-    // Aromatic hydrocarbons
-    if (/c1ccccc1|C1=CC=CC=C1/.test(s) || /\\b(benzene|toluene|xylene|styrene|naphthalene|mesitylene|cumene|ethylbenzene|trimethylbenzene)\\b/.test(n)) return 'Hydrocarbon (aromatic)';
-
-    // Amines
-    if (/[^C]N|^N/.test(s) || /\\b(amine|pyridine|triethylamine|diethylamine|morpholine|piperidine|aniline)\\b/.test(n)) return 'Amine';
-
-    // Aliphatic hydrocarbons (no heteroatoms in SMILES)
-    if (s && /^[CcHh0-9()=\\/\\\\\\[\\]#+%-]+$/.test(s) && !/[NOSFBrIPnos]/.test(s)) return 'Hydrocarbon (aliphatic)';
-    if (/\\b(hexane|heptane|octane|pentane|decane|cyclohexane|petroleum|naphtha|isooctane|decalin|mineral spirits|ligroin|dodecane)\\b/.test(n)) return 'Hydrocarbon (aliphatic)';
-
-    // CS2, carbon disulfide
-    if (/\\b(carbon disulfide|cs2)\\b/.test(n) || s === 'S=C=S') return 'Other';
-
-    return '';
+    return n;
+}}
+function toggleSrcDrop(e) {{
+    e.stopPropagation();
+    _srcDropOpen = !_srcDropOpen;
+    var drop = document.getElementById('src-drop');
+    if (drop) drop.classList.toggle('open', _srcDropOpen);
 }}
 
-// --- Infer missing values engine ---
-var _inferRunning = false;
-var _inferCancelled = false;
-
-async function inferMissing(dsId) {{
-    if (_inferRunning) return;
-    _inferRunning = true;
-    _inferCancelled = false;
-    // Show progress bar
-    var progEl = document.getElementById('infer-progress');
-    if (progEl) {{ progEl.style.display = 'block'; progEl.innerHTML = '<div class="loading" style="padding:8px">Starting inference...</div>'; }}
-    var btn = document.getElementById('infer-btn');
-    if (btn) btn.disabled = true;
-    var ds = DATASETS[dsId];
-    var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
-    var fillable = ['cas','mw','smiles','bp','cat'];
-    var queue = [];
-    // Build per-row set of selected fields from cell selection
-    var selFieldsByRow = {{}};
-    Object.keys(_mSelCells).forEach(function(k) {{
-        var parts = k.split(':');
-        var ri = parts[0], field = parts[1];
-        if (!selFieldsByRow[ri]) selFieldsByRow[ri] = {{}};
-        selFieldsByRow[ri][field] = true;
-    }});
-    var hasSelection = Object.keys(selFieldsByRow).length > 0;
-
-    items.forEach(function(item, idx) {{
-        // If there's a selection, only process selected rows
-        if (hasSelection && !selFieldsByRow[String(idx)]) return;
-        // Determine which fields to check: if specific cells selected, only those fillable fields
-        var rowFields = hasSelection ? selFieldsByRow[String(idx)] : null;
-        var fieldsToCheck = rowFields
-            ? fillable.filter(function(f) {{ return rowFields[f]; }})
-            : fillable;
-        var missing = fieldsToCheck.filter(function(f) {{
-            var v = item[f];
-            return v == null || v === '' || v === 0;
-        }});
-        if (missing.length > 0) queue.push({{ item: item, idx: idx, missing: missing }});
-    }});
-
-    if (queue.length === 0) {{
-        _inferRunning = false;
-        var ct = document.getElementById('content');
-        var bar = document.getElementById('infer-progress');
-        var _nothingMsg = hasSelection ? 'All fields in selected rows already populated. Nothing to infer.' : 'All fields already populated. Nothing to infer.';
-        if (bar) bar.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">' + _nothingMsg + '</span>';
-        return;
-    }}
-
-    var filled = 0, errors = 0;
-
-    // Helper to update progress UI with step detail
-    function _showStep(itemName, itemNum, total, stepText, stepResult) {{
-        var bar = document.getElementById('infer-progress');
-        if (!bar) return;
-        var pct = Math.round(100 * itemNum / total);
-        var h = '<div style="font-size:0.82rem;color:#2d3436;font-weight:600;margin-bottom:4px">'
-            + 'Processing <b>' + (itemName||'').substring(0,45) + '</b> (' + itemNum + '/' + total + ')'
-            + '</div>';
-        h += '<div class="bar-bg"><div class="bar-fg" style="width:' + pct + '%"></div></div>';
-        h += '<div class="infer-step-log" id="infer-step-log">';
-        h += '<div class="infer-step active"><span class="step-icon">&#8987;</span> ' + stepText + '</div>';
-        if (stepResult) h += '<div class="infer-step result">' + stepResult + '</div>';
-        h += '</div>';
-        h += '<div style="display:flex;align-items:center;gap:10px;margin-top:6px">';
-        h += '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.72rem" onclick="_inferCancelled=true">Cancel</button>';
-        h += '<span style="font-size:0.72rem;color:#b2bec3">' + filled + ' values filled so far' + (errors > 0 ? ', ' + errors + ' errors' : '') + '</span>';
-        h += '</div>';
-        bar.innerHTML = h;
-    }}
-
-    // Helper to append a completed step result to the log
-    function _appendStep(text, isOk) {{
-        var log = document.getElementById('infer-step-log');
-        if (!log) return;
-        // Replace the active step with a completed one
-        var active = log.querySelector('.infer-step.active');
-        if (active) {{
-            active.classList.remove('active');
-            active.classList.add(isOk ? 'ok' : 'warn');
-            active.querySelector('.step-icon').innerHTML = isOk ? '&#10003;' : '&#10007;';
-        }}
-    }}
-
-    // Helper to set the current step and finalize the previous one
-    function _setStep(itemName, itemNum, total, stepText, prevOk) {{
-        var log = document.getElementById('infer-step-log');
-        if (log) {{
-            // Finalize previous active step
-            var active = log.querySelector('.infer-step.active');
-            if (active) {{
-                active.classList.remove('active');
-                active.classList.add(prevOk ? 'ok' : 'warn');
-                active.querySelector('.step-icon').innerHTML = prevOk ? '&#10003;' : '&#10007;';
-            }}
-            // Add new active step
-            var div = document.createElement('div');
-            div.className = 'infer-step active';
-            div.innerHTML = '<span class="step-icon">&#8987;</span> ' + stepText;
-            log.appendChild(div);
-            // Update values filled counter
-            var counter = document.querySelector('#infer-progress span[style*="b2bec3"]');
-            if (counter) counter.textContent = filled + ' values filled so far' + (errors > 0 ? ', ' + errors + ' errors' : '');
-        }} else {{
-            _showStep(itemName, itemNum, total, stepText, null);
-        }}
-    }}
-
-    for (var i = 0; i < queue.length; i++) {{
-        if (_inferCancelled) break;
-        var entry = queue[i];
-        var item = entry.item;
-        var _iName = (item.name || item.cas || 'Item ' + (i+1));
-        var _iNum = i + 1;
-        // Ensure _src tracking object
-        if (!item._src) item._src = {{}};
-
-        // Show initial progress for this item
-        _showStep(_iName, _iNum, queue.length, 'Searching PubChem' + (item.cas ? ' by CAS: ' + item.cas : ' by name: ' + _iName) + '...', null);
-
-        try {{
-            // --- PubChem lookup ---
-            var pub = null;
-            var lookupByCAS = false;
-            if (item.cas && item.cas.length > 3) {{
-                pub = await _pubchemLookup(item.cas, true);
-                if (pub) lookupByCAS = true;
-            }}
-            if (!pub && item.name) {{
-                _appendStep(null, false);
-                _setStep(_iName, _iNum, queue.length, 'PubChem CAS lookup failed, retrying by name...', false);
-                await _delay(200);
-                pub = await _pubchemLookup(item.name, false);
-            }}
-
-            var _pubResult = pub ? 'Found in PubChem (CID: ' + (pub.cid || '?') + ')' : 'Not found in PubChem';
-            _setStep(_iName, _iNum, queue.length, 'Searching CAS Common Chemistry' + (item.cas || (pub && pub.cas) ? ' for CAS: ' + (item.cas || pub.cas) : ' by name') + '...', !!pub);
-
-            // --- CAS Common Chemistry lookup ---
-            var casChem = null;
-            var casRnToLookup = item.cas || (pub && pub.cas);
-            if (casRnToLookup) {{
-                await _delay(200);
-                casChem = await _casChemDetail(casRnToLookup);
-            }} else if (item.name && !pub) {{
-                await _delay(200);
-                var foundCas = await _casChemSearch(item.name);
-                if (foundCas) {{
-                    _setStep(_iName, _iNum, queue.length, 'Found CAS RN ' + foundCas + ', fetching details...', true);
-                    await _delay(200);
-                    casChem = await _casChemDetail(foundCas);
-                }}
-            }}
-
-            _setStep(_iName, _iNum, queue.length,
-                (pub ? 'PubChem \\u2713' : 'PubChem \\u2717') + '  ' + (casChem ? 'CAS \\u2713' : 'CAS \\u2717') + ' \\u2014 ',
-                !!casChem);
-
-            // --- Boiling point lookup (PubChem PUG View) ---
-            var bpVal = null;
-            if (entry.missing.indexOf('bp') !== -1) {{
-                var bpCid = pub && pub.cid;
-                if (bpCid) {{
-                    _setStep(_iName, _iNum, queue.length, 'Looking up boiling point in PubChem (CID: ' + bpCid + ')...', true);
-                    await _delay(200);
-                    bpVal = await _pubchemBP(bpCid);
-                    _setStep(_iName, _iNum, queue.length, bpVal != null ? 'BP found: ' + bpVal + '\\u00b0C' : 'No experimental BP data in PubChem', bpVal != null);
-                }} else {{
-                    _setStep(_iName, _iNum, queue.length, 'Skipping BP lookup (no PubChem CID)', false);
-                }}
-            }}
-
-            _setStep(_iName, _iNum, queue.length, 'Filling values for ' + entry.missing.length + ' missing field(s)...', true);
-
-            // --- Fill missing values ---
-            var _foundPubChem = !!pub;
-            var _foundCAS = !!casChem;
-            var _lookupNote = !_foundPubChem && !_foundCAS ? 'Not found in PubChem or CAS Common Chemistry' : '';
-
-            entry.missing.forEach(function(field) {{
-
-                // Handle category separately (local classification, no API)
-                if (field === 'cat') {{
-                    var smi = item.smiles || (pub && pub.smiles) || '';
-                    var nm = item.name || '';
-                    var cat = _categorizeSolvent(smi, nm);
-                    if (cat) {{
-                        item.cat = cat;
-                        item._src.cat = {{ label: 'Auto-classified from structure/name', url: '', uncertain: false }};
-                        filled++;
-                    }} else {{
-                        var reason = !smi ? 'No SMILES available for classification' : 'Structure did not match known solvent categories';
-                        item.cat = reason;
-                        item._src.cat = {{ label: reason, url: '', uncertain: true, isNote: true }};
-                        filled++;
-                    }}
-                    return;
-                }}
-
-                // Handle boiling point
-                if (field === 'bp') {{
-                    if (bpVal != null) {{
-                        item.bp = Math.round(bpVal * 10) / 10;
-                        item._src.bp = {{ label: 'PubChem (experimental)', url: (pub && pub.url) || '', uncertain: false }};
-                        filled++;
-                    }} else {{
-                        var reason;
-                        if (!pub) reason = 'Compound not found in PubChem';
-                        else if (!pub.cid) reason = 'No PubChem CID to look up BP';
-                        else reason = 'No experimental BP data in PubChem (CID: ' + pub.cid + ')';
-                        item.bp = reason;
-                        item._src.bp = {{ label: reason, url: (pub && pub.url) || '', uncertain: true, isNote: true }};
-                        filled++;
-                    }}
-                    return;
-                }}
-
-                var pubVal = null, casVal = null, pubUrl = '', casUrl = '';
-                if (pub) {{
-                    pubUrl = pub.url || '';
-                    if (field === 'cas') pubVal = pub.cas || null;
-                    else if (field === 'mw') pubVal = pub.mw;
-                    else if (field === 'smiles') pubVal = pub.smiles || null;
-                }}
-                if (casChem) {{
-                    casUrl = casChem.url || '';
-                    if (field === 'cas') casVal = casChem.cas || null;
-                    else if (field === 'mw') casVal = casChem.mw;
-                    else if (field === 'smiles') casVal = casChem.smiles || null;
-                }}
-
-                var val = null, uncertain = false, srcLabel = '', srcUrl = '';
-                if (pubVal != null && pubVal !== '' && casVal != null && casVal !== '') {{
-                    // Both sources have a value
-                    var match = (field === 'mw') ? _mwClose(pubVal, casVal) : (String(pubVal) === String(casVal));
-                    if (match) {{
-                        val = pubVal; srcLabel = 'PubChem + CAS Common Chemistry';
-                        srcUrl = pubUrl;
-                    }} else {{
-                        // Disagree — use PubChem but mark uncertain
-                        val = pubVal; srcLabel = 'PubChem (CAS disagrees: ' + casVal + ')';
-                        srcUrl = pubUrl; uncertain = true;
-                    }}
-                }} else if (pubVal != null && pubVal !== '') {{
-                    val = pubVal; srcLabel = 'PubChem'; srcUrl = pubUrl;
-                    if (!lookupByCAS) uncertain = true;
-                }} else if (casVal != null && casVal !== '') {{
-                    val = casVal; srcLabel = 'CAS Common Chemistry'; srcUrl = casUrl;
-                    if (!lookupByCAS) uncertain = true;
-                }}
-
-                if (val != null && val !== '') {{
-                    item[field] = val;
-                    item._src[field] = {{ label: srcLabel, url: srcUrl, uncertain: uncertain }};
-                    filled++;
-                }} else {{
-                    // Write a diagnostic note explaining why the value wasn't found
-                    var fieldNames = {{ cas: 'CAS #', mw: 'Molecular Weight', smiles: 'SMILES' }};
-                    var reason;
-                    if (!_foundPubChem && !_foundCAS) {{
-                        reason = 'Compound not found in PubChem or CAS';
-                    }} else {{
-                        var searched = [];
-                        if (_foundPubChem) searched.push('PubChem');
-                        if (_foundCAS) searched.push('CAS');
-                        reason = (fieldNames[field] || field) + ' not listed in ' + searched.join(' or ');
-                    }}
-                    item[field] = reason;
-                    item._src[field] = {{ label: reason, url: pubUrl || casUrl || '', uncertain: true, isNote: true }};
-                    filled++;
-                }}
-            }});
-        }} catch(e) {{
-            errors++;
-        }}
-
-        await _delay(250); // rate limit
-    }}
-
-    _inferRunning = false;
-    _saveImportedDatasets();
-
-    // Show completion
-    var bar2 = document.getElementById('infer-progress');
-    if (bar2) {{
-        var _scopeLabel = hasSelection ? ' selected items' : ' chemicals';
-        bar2.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">Done! Filled <b>' + filled + '</b> values across ' + queue.length + _scopeLabel + '.' + (errors > 0 ? ' (' + errors + ' lookup errors)' : '') + (_inferCancelled ? ' (Cancelled)' : '') + '</span>';
-    }}
-    renderDetail();
+// ===================== VIEW SWITCHING =====================
+function selectActiveDb() {{
+    _viewMode = 'active_db';
+    _sortCol = null;
+    _sortAsc = true;
+    _filterText = '';
+    _selCells = {{}};
+    _dragStart = null;
+    _lastRowNum = null;
+    buildSidebar();
+    renderContent();
 }}
 
-// --- Cell tooltip system ---
-var _tooltipEl = null;
-document.addEventListener('mouseover', function(e) {{
-    var td = e.target.closest('td[data-src]');
-    if (!td) {{ if (_tooltipEl) {{ _tooltipEl.remove(); _tooltipEl = null; }} return; }}
-    if (_tooltipEl) return;
-    var src = td.getAttribute('data-src');
-    var srcUrl = td.getAttribute('data-src-url');
-    if (!src) return;
-    _tooltipEl = document.createElement('div');
-    _tooltipEl.className = 'cell-tooltip';
-    var inner = '<b>Source:</b> ' + src;
-    if (srcUrl) inner += '<br><b>URL:</b> ' + srcUrl;
-    _tooltipEl.innerHTML = inner;
-    document.body.appendChild(_tooltipEl);
-    var rect = td.getBoundingClientRect();
-    _tooltipEl.style.left = Math.min(rect.left, window.innerWidth - 340) + 'px';
-    _tooltipEl.style.top = (rect.bottom + 4) + 'px';
-}});
-document.addEventListener('mouseout', function(e) {{
-    var td = e.target.closest('td[data-src]');
-    if (td && _tooltipEl) {{ _tooltipEl.remove(); _tooltipEl = null; }}
-}});
-
-// --- Claude-powered database search (client-side) ---
-function searchDatabases() {{
-    var q = document.getElementById('search-input').value.trim();
-    if (!q) return;
-    var apiKey = _getApiKey();
-    if (!apiKey) {{
-        var ct = document.getElementById('content');
-        ct.innerHTML = '<div class="analysis-card"><h3>API Key Required</h3><p>Enter your Claude API key in the Search Databases panel, then try again.</p></div>';
-        return;
-    }}
-    var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="loading">Searching for HSP databases...</div>';
-
-    fetch('https://api.anthropic.com/v1/messages', {{
-        method: 'POST',
-        headers: {{
-            'Content-Type': 'application/json',
-            'x-api-key': apiKey,
-            'anthropic-version': '2023-06-01',
-            'anthropic-dangerous-direct-browser-access': 'true',
-        }},
-        body: JSON.stringify({{
-            model: 'claude-sonnet-4-5-20250929',
-            max_tokens: 2048,
-            messages: [{{ role: 'user', content: 'Find downloadable Hansen Solubility Parameter (HSP) databases or datasets matching this query: "' + q + '". Return a JSON array of objects with fields: name, url, description, estimated_materials (number), material_types (array of strings like "solvents","polymers"), download_format (e.g. "CSV","Excel","PDF"), has_cas (boolean), has_smiles (boolean), quality ("high","medium","low"). Only include real, verifiable sources. Return ONLY the JSON array, no other text.' }}],
-        }})
-    }}).then(function(r) {{
-        if (!r.ok) return r.json().then(function(err) {{ throw new Error(err.error && err.error.message || 'API error ' + r.status); }});
-        return r.json();
-    }}).then(function(data) {{
-        var text = data.content && data.content[0] && data.content[0].text || '';
-        // Extract JSON from response
-        var jsonMatch = text.match(/\\[.*\\]/s);
-        if (!jsonMatch) {{ ct.innerHTML = '<div class="analysis-card"><h3>No structured results</h3><pre style="white-space:pre-wrap;font-size:0.8rem">' + text + '</pre></div>'; return; }}
-        try {{
-            var results = JSON.parse(jsonMatch[0]);
-            showSearchResults(results);
-        }} catch(e) {{
-            ct.innerHTML = '<div class="analysis-card"><h3>Parse Error</h3><pre style="white-space:pre-wrap;font-size:0.8rem">' + text + '</pre></div>';
-        }}
-    }}).catch(function(err) {{
-        ct.innerHTML = '<div class="analysis-card"><h3>Search Error</h3><p>' + err.message + '</p></div>';
-    }});
+function selectDs(dsId) {{
+    _viewMode = dsId;
+    _filterText = '';
+    _sortCol = null;
+    _sortAsc = true;
+    _mSelCells = {{}};
+    _mDragStart = null;
+    _mLastRowNum = null;
+    buildSidebar();
+    renderContent();
 }}
 
-function showSearchResults(results) {{
-    var ct = document.getElementById('content');
-    if (results.length === 0) {{
-        ct.innerHTML = '<div class="analysis-card"><h3>No Results</h3><p>No HSP databases found for this query. Try different keywords.</p></div>';
-        return;
-    }}
-    var h = '<h3 style="margin-bottom:12px">Search Results (' + results.length + ')</h3>';
-    results.forEach(function(r) {{
-        h += '<div class="search-result-card">';
-        h += '<h4>' + (r.name || 'Unknown') + '</h4>';
-        if (r.url) h += '<div style="font-size:0.78rem;margin-bottom:4px"><a href="' + r.url + '" target="_blank" style="color:#0984e3">' + r.url + '</a></div>';
-        if (r.description) h += '<div class="sr-desc">' + r.description + '</div>';
-        h += '<div class="sr-tags">';
-        if (r.estimated_materials) h += '<span class="sr-tag">' + r.estimated_materials + ' materials</span>';
-        if (r.material_types) r.material_types.forEach(function(t) {{ h += '<span class="sr-tag">' + t + '</span>'; }});
-        if (r.download_format) h += '<span class="sr-tag">' + r.download_format + '</span>';
-        if (r.has_cas === true) h += '<span class="sr-tag good">Has CAS</span>';
-        if (r.has_cas === false) h += '<span class="sr-tag warn">No CAS</span>';
-        if (r.has_smiles === true) h += '<span class="sr-tag good">Has SMILES</span>';
-        if (r.quality) h += '<span class="sr-tag ' + (r.quality === 'high' ? 'good' : r.quality === 'low' ? 'warn' : '') + '">Quality: ' + r.quality + '</span>';
-        h += '</div>';
-        if (r.url) h += '<button class="import-btn secondary" style="width:auto;padding:4px 14px;font-size:0.78rem" onclick="analyzeSearchResult(\\'' + r.url.replace(/'/g,"\\\\'") + '\\')">Analyze This Source</button>';
-        h += '</div>';
-    }});
-    ct.innerHTML = h;
+function switchTab(tab) {{
+    _activeDbTab = tab;
+    _sortCol = null;
+    _selCells = {{}};
+    renderContent();
 }}
 
-function analyzeSearchResult(url) {{
-    document.getElementById('url-input').value = url;
-    analyzeUrl();
+// ===================== SIDEBAR =====================
+function updateActiveDbCounts() {{
+    var el = document.getElementById('active-db-counts');
+    if (el) el.textContent = _countForTab('solvents') + ' solvents, ' + _countForTab('polymers') + ' polymers';
 }}
 
-function triggerRebuild() {{
-    // Export imported datasets as CSV downloads
-    var ct = document.getElementById('content');
-    var dsKeys = Object.keys(DATASETS);
-    if (dsKeys.length === 0) {{
-        ct.innerHTML = '<div class="analysis-card"><h3>Nothing to Export</h3><p>Import a dataset first.</p></div>';
-        return;
-    }}
-    var h = '<div class="analysis-card"><h3>Export Datasets</h3>';
-    h += '<p>Download CSV files for each imported dataset:</p>';
-    dsKeys.forEach(function(k) {{
-        var ds = DATASETS[k];
-        var nc = (ds.chemicals || []).length;
-        var np = (ds.polymers || []).length;
-        h += '<div style="margin:6px 0">';
-        h += '<b>' + (ds.meta && ds.meta.name || k) + '</b> (' + nc + ' chemicals, ' + np + ' polymers) ';
-        if (nc > 0) h += '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.75rem" onclick="exportCSV(\\'' + k + '\\',\\'chemicals\\')">Download Chemicals CSV</button> ';
-        if (np > 0) h += '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.75rem" onclick="exportCSV(\\'' + k + '\\',\\'polymers\\')">Download Polymers CSV</button>';
-        h += '</div>';
-    }});
-    h += '</div>';
-    ct.innerHTML = h;
-}}
-
-function exportCSV(dsId, type) {{
-    var ds = DATASETS[dsId];
-    var items = ds[type] || [];
-    if (items.length === 0) return;
-    var cols = type === 'chemicals'
-        ? ['name','cas','dd','dp','dh','mw','bp','cat','smiles','density','conf']
-        : ['name','cas','dd','dp','dh','r','type','conf'];
-    var csv = cols.join(',') + '\\n';
-    items.forEach(function(r) {{
-        csv += cols.map(function(c) {{
-            var v = r[c];
-            if (Array.isArray(v)) v = v.join('; ');
-            v = v == null ? '' : String(v);
-            return v.indexOf(',') > -1 ? '"' + v + '"' : v;
-        }}).join(',') + '\\n';
-    }});
-    var blob = new Blob([csv], {{ type: 'text/csv' }});
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = dsId + '_' + type + '.csv';
-    a.click();
-}}
-
-// --- Dataset sidebar ---
 function buildSidebar() {{
+    // Update active db button
+    var btn = document.getElementById('active-db-btn');
+    if (btn) {{
+        if (_viewMode === 'active_db') btn.classList.add('selected');
+        else btn.classList.remove('selected');
+    }}
+    updateActiveDbCounts();
+
+    // Build dataset list
     var sb = document.getElementById('ds-list');
     var dsKeys = Object.keys(DATASETS);
     if (dsKeys.length === 0) {{
         sb.innerHTML = '<div style="padding:10px 0;color:#636e72;font-size:0.82rem">No datasets yet. Use the import tools above.</div>';
         return;
     }}
-    var _es = document.getElementById('empty-state');
-    if (_es) _es.style.display = 'none';
     var html = '<div style="font-size:0.75rem;color:#636e72;text-transform:uppercase;letter-spacing:0.5px;margin:8px 0 6px">Datasets</div>';
     dsKeys.forEach(function(k) {{
         var ds = DATASETS[k];
         var m = ds.meta || {{}};
         var active = _activeDsets[k] !== false;
-        var sel = _currentDs === k ? ' active' : '';
+        var sel = _viewMode === k ? ' active' : '';
         var nc = (ds.chemicals || []).length;
         var np = (ds.polymers || []).length;
-        html += '<div class="ds-card' + sel + '" onclick="selectDs(\\'' + k + '\\')">';
+        html += '<div class="ds-card' + sel + '" onclick="selectDs(\x27' + k + '\x27)">';
         html += '<h3>' + (m.name || k) + '</h3>';
         html += '<div class="ds-counts">' + nc + ' chemicals, ' + np + ' polymers</div>';
         html += '<span class="ds-status ' + (active ? 'on' : 'off') + '">' + (active ? 'Active' : 'Inactive') + '</span>';
@@ -5166,159 +3345,207 @@ function buildSidebar() {{
     sb.innerHTML = html;
 }}
 
-function selectDs(dsId) {{
-    _currentDs = dsId;
-    _filterText = '';
-    _sortCol = null;
-    _sortAsc = true;
-    _mSelCells = {{}};
-    _mDragStart = null;
-    _mLastRowNum = null;
-    buildSidebar();
-    renderDetail();
-}}
+// ===================== RENDER ACTIVE DATABASE =====================
+function renderActiveDb() {{
+    var ct = document.getElementById('content');
+    var cols = _activeDbTab === 'solvents' ? SOLV_COLS : POLY_COLS;
+    var data = _activeDbTab === 'solvents' ? SOLVENTS : POLYMERS;
+    var filter = _filterText.toLowerCase().trim();
 
-function toggleDs(dsId) {{
-    _activeDsets[dsId] = !(_activeDsets[dsId] !== false);
-    _saveA(_activeDsets);
-    buildSidebar();
-    renderDetail();
-}}
-
-var _deleteConfirmDs = null;
-var _deleteConfirmTimer = null;
-
-function deleteDsClick(dsId) {{
-    var btn = document.getElementById('delete-ds-btn');
-    if (_deleteConfirmDs === dsId) {{
-        // Second click — actually delete
-        clearTimeout(_deleteConfirmTimer);
-        _deleteConfirmDs = null;
-        deleteDs(dsId);
-        return;
-    }}
-    // First click — enter confirm state
-    _deleteConfirmDs = dsId;
-    if (btn) {{
-        btn.classList.add('confirm');
-        btn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Are you sure?';
-    }}
-    // Reset after 3 seconds if not confirmed
-    _deleteConfirmTimer = setTimeout(function() {{
-        _deleteConfirmDs = null;
-        if (btn) {{
-            btn.classList.remove('confirm');
-            btn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Delete';
-        }}
-    }}, 3000);
-}}
-
-function deleteDs(dsId) {{
-    // Persist deletion of embedded datasets so they don't reappear on reload
-    try {{
-        var raw = localStorage.getItem('materialism_deleted_datasets');
-        var deleted = raw ? JSON.parse(raw) : [];
-        if (!Array.isArray(deleted)) deleted = [];
-        if (deleted.indexOf(dsId) === -1) deleted.push(dsId);
-        localStorage.setItem('materialism_deleted_datasets', JSON.stringify(deleted));
-    }} catch(e) {{}}
-    // Remove from in-memory DATASETS
-    delete DATASETS[dsId];
-    // Remove from active datasets state
-    delete _activeDsets[dsId];
-    _saveA(_activeDsets);
-    // Remove from imported datasets in localStorage
-    _saveImportedDatasets();
-    // Clean up UI state
-    delete _editMode[dsId];
-    _mSelCells = {{}};
-    _mDragStart = null;
-    _mLastRowNum = null;
-    _currentDs = null;
-    // Select next available dataset or show empty
-    var dsKeys = Object.keys(DATASETS);
-    if (dsKeys.length > 0) {{
-        selectDs(dsKeys[0]);
+    // Build toolbar
+    var toolbar = '<div class="toolbar">';
+    toolbar += '<div class="db-tabs">';
+    toolbar += '<button id="tab-solv" class="db-tab' + (_activeDbTab === 'solvents' ? ' active' : '') + '" onclick="switchTab(\x27solvents\x27)">Solvents (' + _countForTab('solvents') + ')</button>';
+    toolbar += '<button id="tab-poly" class="db-tab' + (_activeDbTab === 'polymers' ? ' active' : '') + '" onclick="switchTab(\x27polymers\x27)">Polymers (' + _countForTab('polymers') + ')</button>';
+    toolbar += '</div>';
+    toolbar += '<input type="text" id="db-filter" placeholder="Filter by name or CAS..." oninput="_filterText=this.value;renderContent()" value="' + (_filterText||'').replace(/"/g,'&quot;') + '">';
+    toolbar += '<button id="lock-btn" class="lock-btn' + (_dbEditing ? ' unlocked' : '') + '" onclick="toggleDbLock()" title="' + (_dbEditing ? 'Click to lock' : 'Click to unlock editing') + '">';
+    if (_dbEditing) {{
+        toolbar += '<svg viewBox="0 0 24 24"><path d="M18 8h-1V6A5 5 0 0 0 7 6h2a3 3 0 0 1 6 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>Editing';
     }} else {{
-        buildSidebar();
-        document.getElementById('content').innerHTML = '<p style="color:#636e72;padding:40px">No datasets. Import one to get started.</p>';
+        toolbar += '<svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z"/></svg>Locked';
     }}
-}}
+    toolbar += '</button>';
+    toolbar += '<span class="edit-count" id="edit-count"></span>';
+    toolbar += '<span class="save-indicator" id="save-ind">Saved</span>';
+    toolbar += '<span class="sel-info" id="db-sel-info"></span>';
+    toolbar += '</div>';
 
-function toggleEditMode(dsId) {{
-    _editMode[dsId] = !_editMode[dsId];
-    renderDetail();
-}}
-
-function _cellEdited(td, dsId, itemIdx, field) {{
-    var newVal = td.textContent.trim();
-    var ds = DATASETS[dsId];
-    var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
-    var item = items[itemIdx];
-    if (!item) return;
-    // Coerce numeric fields
-    var numFields = ['dd','dp','dh','mw','bp','r','density','mv'];
-    if (numFields.indexOf(field) !== -1) {{
-        if (newVal === '') {{ item[field] = ''; }}
-        else {{
-            var n = parseFloat(newVal);
-            item[field] = isNaN(n) ? newVal : n;
+    // Build index array for filtering
+    var indices = [];
+    for (var i = 0; i < data.length; i++) {{
+        if (!_isDsActive(data[i].dsId)) continue;
+        if (filter) {{
+            var name = getDbVal(_activeDbTab, i, 'name').toLowerCase();
+            var cas = getDbVal(_activeDbTab, i, 'cas').toLowerCase();
+            if (name.indexOf(filter) === -1 && cas.indexOf(filter) === -1) continue;
         }}
-    }} else {{
-        item[field] = newVal;
+        if (_hasSrcFilter() && !_matchesSrcFilter(getDbVal(_activeDbTab, i, 'src'))) continue;
+        indices.push(i);
     }}
-    if (!item._src) item._src = {{}};
-    item._src[field] = {{ label: 'Manual edit', url: '', uncertain: false }};
-    _saveImportedDatasets();
-    // Update sidebar counts if needed
-    buildSidebar();
+
+    // Sort
+    if (_sortCol !== null) {{
+        var key = cols[_sortCol].key;
+        indices.sort(function(a, b) {{
+            var va = getDbVal(_activeDbTab, a, key);
+            var vb = getDbVal(_activeDbTab, b, key);
+            var na = parseFloat(va), nb = parseFloat(vb);
+            if (!isNaN(na) && !isNaN(nb)) return _sortAsc ? na - nb : nb - na;
+            return _sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+        }});
+    }}
+
+    _visibleIndices = indices;
+
+    // Header
+    var hdr = '<tr><th style="width:40px">#</th>';
+    for (var ci = 0; ci < cols.length; ci++) {{
+        var c = cols[ci];
+        var cls = '';
+        if (_sortCol === ci) cls = _sortAsc ? ' class="sort-asc"' : ' class="sort-desc"';
+        if (c.key === 'src') {{
+            var nSel = Object.keys(srcFilterSet).length;
+            var btnLabel = nSel === 0 ? 'All sources' : nSel + ' selected';
+            hdr += '<th' + cls + ' data-col="' + c.key + '" style="width:' + c.w + ';position:relative">';
+            hdr += '<span onclick="dbSortBy(' + ci + ')" style="cursor:pointer">' + c.label + '</span>';
+            hdr += '<div class="src-filter-wrap">';
+            hdr += '<button class="src-filter-btn" onclick="toggleSrcDrop(event)">' + btnLabel + ' &#9662;</button>';
+            hdr += '<div class="src-filter-drop' + (_srcDropOpen ? ' open' : '') + '" id="src-drop" onclick="event.stopPropagation()">';
+            if (nSel > 0) {{
+                hdr += '<div class="src-filter-opt" onclick="clearSrcFilter()" style="color:#e94560;font-weight:600">Clear all</div>';
+            }}
+            _srcOptions.forEach(function(s) {{
+                var checked = srcFilterSet[s] ? ' checked' : '';
+                var esc = s.replace(/'/g, '\x27');
+                hdr += '<div class="src-filter-opt" onclick="toggleSrcFilter(\x27' + esc + '\x27)">';
+                hdr += '<input type="checkbox"' + checked + ' tabindex="-1"><label>' + s + '</label></div>';
+            }});
+            hdr += '</div></div></th>';
+        }} else {{
+            hdr += '<th' + cls + ' data-col="' + c.key + '" style="width:' + c.w + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="dbSortBy(' + ci + ')">' + c.label + '</th>';
+        }}
+    }}
+    hdr += '</tr>';
+
+    // Body
+    var html = '';
+    for (var ri = 0; ri < indices.length; ri++) {{
+        var idx = indices[ri];
+        html += '<tr>';
+        html += '<td class="rownum-cell" data-rowidx="' + idx + '">' + (ri + 1) + '</td>';
+        for (var ci = 0; ci < cols.length; ci++) {{
+            var c = cols[ci];
+            var val = getDbVal(_activeDbTab, idx, c.key);
+            var editKey = _activeDbTab + ':' + idx + ':' + c.key;
+            var isEdited = _dbEdits.hasOwnProperty(editKey);
+            var cellId = idx + ':' + c.key;
+            var cellSel = _selCells[cellId] ? ' cell-selected' : '';
+
+            if (_dbEditing) {{
+                html += '<td class="editing' + cellSel + '" data-row="' + idx + '" data-col="' + c.key + '"' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>';
+                html += '<input type="text" value="' + String(val).replace(/"/g, '&quot;') + '" onchange="setDbVal(\x27' + _activeDbTab + '\x27,' + idx + ',\x27' + c.key + '\x27,this.value)">';
+                html += '</td>';
+            }} else {{
+                var display = val;
+                if (val !== '' && val != null) {{
+                    if (c.key === 'dd' || c.key === 'dp' || c.key === 'dh' || c.key === 'mw' || c.key === 'mv' || c.key === 'r') {{
+                        var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(1);
+                    }} else if (c.key === 'bp') {{
+                        var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(0);
+                    }} else if (c.key === 'density') {{
+                        var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(2);
+                    }}
+                }}
+                if (c.key === 'cas') {{
+                    if (val) {{
+                        display = '<a class="cas-link" href="https://commonchemistry.cas.org/detail?cas_rn=' + encodeURIComponent(val) + '" target="_blank" rel="noopener">' + val + '</a>';
+                    }} else {{
+                        var matName = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx].name;
+                        if (CAS_CANDIDATES[matName]) {{
+                            display = '<button class="cas-missing" onclick="openCrosslink(event,\x27' + _activeDbTab + '\x27,' + idx + ')" title="Find CAS #">?</button>';
+                        }}
+                    }}
+                }}
+                if (c.key === 'src') {{
+                    var srcUrl = _activeDbTab === 'solvents' ? SOLVENTS[idx].srcUrl : POLYMERS[idx].srcUrl;
+                    if (srcUrl) display = '<a href="' + srcUrl + '" target="_blank" rel="noopener">' + val + '</a>';
+                }}
+                if (c.key === 'conf' && val) {{
+                    var cv = parseFloat(val);
+                    var pct = Math.round(cv * 100);
+                    var cColor;
+                    if (cv >= 0.8) {{ cColor = '#27ae60'; }}
+                    else if (cv >= 0.5) {{ cColor = '#f39c12'; }}
+                    else {{ cColor = '#e74c3c'; }}
+                    var mat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
+                    var isPoly = _activeDbTab === 'polymers';
+                    display = '<span class="conf-badge" data-src="' + (mat.src || '').replace(/"/g, '&quot;') + '" data-cas="' + (mat.cas ? '1' : '0') + '" data-smi="' + (!isPoly && mat.smiles ? '1' : '0') + '" data-poly="' + (isPoly ? '1' : '0') + '" data-srcn="' + (mat.srcN || 1) + '" data-pct="' + pct + '" style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + cColor + ';cursor:help">' + pct + '%</span>';
+                }}
+                html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>' + display + '</td>';
+            }}
+        }}
+        html += '</tr>';
+    }}
+
+    ct.innerHTML = toolbar + '<div class="table-wrap"><table id="db-table"><thead id="db-thead">' + hdr + '</thead><tbody id="db-tbody">' + html + '</tbody></table></div>';
+    updateEditCount();
 }}
 
+function dbSortBy(col) {{
+    if (_sortCol === col) _sortAsc = !_sortAsc;
+    else {{ _sortCol = col; _sortAsc = true; }}
+    renderContent();
+}}
+
+// ===================== RENDER DATASET DETAIL =====================
 function renderDetail() {{
     var ct = document.getElementById('content');
-    if (!_currentDs) {{
-        ct.innerHTML = '<div class="empty-state"><h2>Select a dataset</h2><p>Click a dataset in the sidebar to view its data.</p></div>';
+    var dsId = _viewMode;
+    var ds = DATASETS[dsId];
+    if (!ds) {{
+        ct.innerHTML = '<div class="detail-content"><div class="empty-state"><h2>Dataset not found</h2></div></div>';
         return;
     }}
-    var ds = DATASETS[_currentDs];
     var m = ds.meta || {{}};
-    var active = _activeDsets[_currentDs] !== false;
+    var active = _activeDsets[dsId] !== false;
     var nc = (ds.chemicals || []).length;
     var np = (ds.polymers || []).length;
 
-    var isEdit = !!_editMode[_currentDs];
-    var html = '<div class="ds-detail-header">';
+    var isEdit = !!_editMode[dsId];
+    var html = '<div class="detail-content">';
+    html += '<div class="ds-detail-header">';
     html += '<div class="ds-title-row">';
-    html += '<h2>' + (m.name || _currentDs) + '</h2>';
-    html += '<button class="lock-btn' + (isEdit ? ' unlocked' : '') + '" onclick="toggleEditMode(\\'' + _currentDs + '\\')">';
+    html += '<h2>' + (m.name || dsId) + '</h2>';
+    html += '<button class="lock-btn' + (isEdit ? ' unlocked' : '') + '" onclick="toggleEditMode(\x27' + dsId + '\x27)">';
     if (isEdit) {{
         html += '<svg viewBox="0 0 24 24"><path d="M18 8h-1V6A5 5 0 0 0 7 6h2a3 3 0 0 1 6 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>Editing';
     }} else {{
         html += '<svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z"/></svg>Locked';
     }}
     html += '</button>';
-    html += '<button class="delete-ds-btn" id="delete-ds-btn" onclick="deleteDsClick(\\'' + _currentDs + '\\')">';
+    html += '<button class="delete-ds-btn" id="delete-ds-btn" onclick="deleteDsClick(\x27' + dsId + '\x27)">';
     html += '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
     html += 'Delete';
     html += '</button>';
     html += '</div>';
     html += '<div class="ds-meta">';
     if (m.source_url) html += 'Source: <a href="' + m.source_url + '" target="_blank">' + m.source_url + '</a><br>';
-    if (m.imported_at) html += 'Imported: ' + m.imported_at.replace('T', ' ').replace(/\\..*/,'') + '<br>';
+    if (m.imported_at) html += 'Imported: ' + m.imported_at.replace('T', ' ').replace(/\..*/,'') + '<br>';
     html += nc + ' chemicals, ' + np + ' polymers<br>';
     if (m.confidence_tier != null) html += 'Confidence tier: ' + m.confidence_tier + '<br>';
     if (m.quality_notes) html += 'Notes: ' + m.quality_notes + '<br>';
     if (m.fields_available) html += 'Fields: ' + m.fields_available.join(', ') + '<br>';
     html += '</div>';
-    html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\\'' + _currentDs + '\\')">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
+    html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\x27' + dsId + '\x27)">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
     var _selN = _mGetSelCount();
     var _inferLabel = _selN > 0 ? 'Infer Missing Values (' + _selN + ' cell' + (_selN > 1 ? 's' : '') + ')' : 'Infer Missing Values';
-    html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\\'' + _currentDs + '\\')"' + (_inferRunning ? ' disabled' : '') + '>' + _inferLabel + '</button>';
+    html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\x27' + dsId + '\x27)"' + (_inferRunning ? ' disabled' : '') + '>' + _inferLabel + '</button>';
     html += '<span class="sel-info" id="sel-info"' + (_selN > 0 ? '' : ' style="display:none"') + '>' + (_selN > 0 ? _selN + ' cell' + (_selN > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>' : '') + '</span>';
     html += '</div>';
     html += '<div class="infer-progress" id="infer-progress" style="display:none"></div>';
 
-    html += '<div class="filter-row"><input type="text" id="manage-filter" placeholder="Filter by name or CAS..." oninput="_filterText=this.value;renderDetail()" value="' + (_filterText||'').replace(/"/g,'&quot;') + '"></div>';
+    html += '<div class="filter-row"><input type="text" id="manage-filter" placeholder="Filter by name or CAS..." oninput="_filterText=this.value;renderContent()" value="' + (_filterText||'').replace(/"/g,'&quot;') + '"></div>';
 
     // Determine what data to show
     var items, cols;
@@ -5332,6 +3559,7 @@ function renderDetail() {{
 
     if (!items || items.length === 0) {{
         html += '<p style="color:#636e72">No data in this dataset.</p>';
+        html += '</div>';
         ct.innerHTML = html;
         return;
     }}
@@ -5358,28 +3586,26 @@ function renderDetail() {{
 
     var colLabels = {{
         name:'Name', cas:'CAS #',
-        dd:'\\u03b4D (MPa\\u00bd)', dp:'\\u03b4P (MPa\\u00bd)', dh:'\\u03b4H (MPa\\u00bd)',
-        mw:'MW (g/mol)', bp:'BP (\\u00b0C)', cat:'Classification', conf:'Conf.',
-        r:'R\\u2080 (MPa\\u00bd)', type:'Classification',
+        dd:'\u03b4D (MPa\u00bd)', dp:'\u03b4P (MPa\u00bd)', dh:'\u03b4H (MPa\u00bd)',
+        mw:'MW (g/mol)', bp:'BP (\u00b0C)', cat:'Classification', conf:'Conf.',
+        r:'R\u2080 (MPa\u00bd)', type:'Classification',
         smiles:'SMILES', formula:'Formula', density:'Density (g/mL)',
-        mv:'V\\u2098 (cm\\u00b3/mol)', ghs:'GHS'
+        mv:'V\u2098 (cm\u00b3/mol)', ghs:'GHS'
     }};
 
-    // Tag each item with its original index for edit tracking
     items.forEach(function(item, idx) {{ item._oidx = idx; }});
 
-    // Save current cols and visible oidxs for cell selection
     _mCurrentCols = cols;
     _mVisibleOidxs = [];
 
     html += '<table><thead><tr><th style="width:40px">#</th>';
     cols.forEach(function(c, i) {{
         html += '<th data-col="' + c + '" onclick="manageSort(' + i + ')">' + (colLabels[c]||c);
-        if (_sortCol === i) html += _sortAsc ? ' \\u25B2' : ' \\u25BC';
+        if (_sortCol === i) html += _sortAsc ? ' \u25B2' : ' \u25BC';
         html += '</th>';
     }});
     html += '</tr></thead><tbody>';
-    var dsSource = (m.name || _currentDs);
+    var dsSource = (m.name || dsId);
     var dsSourceUrl = m.source_url || '';
     var limit = Math.min(filtered.length, 2000);
     for (var i = 0; i < limit; i++) {{
@@ -5404,7 +3630,7 @@ function renderDetail() {{
             attrs += ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
             if (srcUrl) attrs += ' data-src-url="' + srcUrl.replace(/"/g,'&quot;') + '"';
             if (isEdit && c !== 'conf' && !isNote) {{
-                attrs += ' contenteditable="true" data-ds="' + _currentDs + '" data-idx="' + r._oidx + '" data-field="' + c + '"';
+                attrs += ' contenteditable="true" data-ds="' + dsId + '" data-idx="' + r._oidx + '" data-field="' + c + '"';
                 if (cls) cls += ' ';
                 cls += 'editable';
             }}
@@ -5419,8 +3645,8 @@ function renderDetail() {{
     }}
     html += '</tbody></table>';
     html += '<div style="margin-top:8px;font-size:0.8rem;color:#636e72">Showing ' + Math.min(limit, filtered.length) + ' of ' + filtered.length + ' entries</div>';
+    html += '</div>';
 
-    // Preserve focus/cursor in the filter input across re-renders
     var _prevFocus = document.activeElement;
     var _prevSel = null;
     if (_prevFocus && _prevFocus.id === 'manage-filter') {{
@@ -5438,10 +3664,284 @@ function renderDetail() {{
 function manageSort(col) {{
     if (_sortCol === col) _sortAsc = !_sortAsc;
     else {{ _sortCol = col; _sortAsc = true; }}
-    renderDetail();
+    renderContent();
 }}
 
-// --- Cell selection system (matches database page) ---
+// ===================== MAIN RENDER =====================
+function renderContent() {{
+    if (_viewMode === 'active_db') {{
+        renderActiveDb();
+    }} else {{
+        renderDetail();
+    }}
+}}
+
+// ===================== DATASET MANAGEMENT =====================
+function toggleDs(dsId) {{
+    _activeDsets[dsId] = !(_activeDsets[dsId] !== false);
+    _saveActiveDsets(_activeDsets);
+    buildSidebar();
+    renderContent();
+}}
+
+function toggleEditMode(dsId) {{
+    _editMode[dsId] = !_editMode[dsId];
+    renderContent();
+}}
+
+function _cellEdited(td, dsId, itemIdx, field) {{
+    var newVal = td.textContent.trim();
+    var ds = DATASETS[dsId];
+    var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
+    var item = items[itemIdx];
+    if (!item) return;
+    var numFields = ['dd','dp','dh','mw','bp','r','density','mv'];
+    if (numFields.indexOf(field) !== -1) {{
+        if (newVal === '') {{ item[field] = ''; }}
+        else {{
+            var n = parseFloat(newVal);
+            item[field] = isNaN(n) ? newVal : n;
+        }}
+    }} else {{
+        item[field] = newVal;
+    }}
+    if (!item._src) item._src = {{}};
+    item._src[field] = {{ label: 'Manual edit', url: '', uncertain: false }};
+    _saveImportedDatasets();
+    buildSidebar();
+}}
+
+var _deleteConfirmDs = null;
+var _deleteConfirmTimer = null;
+
+function deleteDsClick(dsId) {{
+    var btn = document.getElementById('delete-ds-btn');
+    if (_deleteConfirmDs === dsId) {{
+        clearTimeout(_deleteConfirmTimer);
+        _deleteConfirmDs = null;
+        deleteDs(dsId);
+        return;
+    }}
+    _deleteConfirmDs = dsId;
+    if (btn) {{
+        btn.classList.add('confirm');
+        btn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Are you sure?';
+    }}
+    _deleteConfirmTimer = setTimeout(function() {{
+        _deleteConfirmDs = null;
+        if (btn) {{
+            btn.classList.remove('confirm');
+            btn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Delete';
+        }}
+    }}, 3000);
+}}
+
+function deleteDs(dsId) {{
+    try {{
+        var raw = localStorage.getItem('materialism_deleted_datasets');
+        var deleted = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(deleted)) deleted = [];
+        if (deleted.indexOf(dsId) === -1) deleted.push(dsId);
+        localStorage.setItem('materialism_deleted_datasets', JSON.stringify(deleted));
+    }} catch(e) {{}}
+    delete DATASETS[dsId];
+    delete _activeDsets[dsId];
+    _saveActiveDsets(_activeDsets);
+    _saveImportedDatasets();
+    delete _editMode[dsId];
+    _mSelCells = {{}};
+    _mDragStart = null;
+    _mLastRowNum = null;
+    selectActiveDb();
+}}
+
+// ===================== CROSSLINK POPOVER =====================
+var _xlPop = null;
+var _xlType = null;
+var _xlIdx = null;
+
+function _ensurePopover() {{
+    if (_xlPop) return;
+    _xlPop = document.createElement('div');
+    _xlPop.className = 'xl-popover';
+    document.body.appendChild(_xlPop);
+}}
+
+function closeCrosslink() {{
+    if (_xlPop) _xlPop.classList.remove('visible');
+    _xlType = null;
+    _xlIdx = null;
+}}
+
+function openCrosslink(event, type, idx) {{
+    event.stopPropagation();
+    _ensurePopover();
+    _xlType = type;
+    _xlIdx = idx;
+    var mat = (type === 'solvents' ? SOLVENTS : POLYMERS)[idx];
+    var opts = CAS_CANDIDATES[mat.name];
+    if (!opts || !opts.length) {{ closeCrosslink(); return; }}
+
+    var h = '<div class="xl-header"><span>CAS lookup: ' + mat.name + '</span><button class="xl-close" onclick="closeCrosslink()">&times;</button></div>';
+    for (var i = 0; i < opts.length; i++) {{
+        var o = opts[i];
+        var pct = Math.round(o.conf * 100);
+        var cColor = o.conf >= 0.8 ? '#27ae60' : (o.conf >= 0.5 ? '#f39c12' : '#e74c3c');
+        h += '<div class="xl-opt" onclick="applyCrosslink(' + i + ')">';
+        h += '<div><span class="xl-opt-name">' + o.name + '</span>';
+        if (o.cas) h += ' <span class="xl-opt-cas">' + o.cas + '</span>';
+        h += '<span class="xl-opt-conf" style="background:' + cColor + '">' + pct + '%</span>';
+        if (o.mv_match === true) h += '<span class="xl-opt-mv match">Vm \u2713</span>';
+        else if (o.mv_match === false) h += '<span class="xl-opt-mv mismatch">Vm ' + (o.mv_pct != null ? o.mv_pct + '%\u2195' : '\u2717') + '</span>';
+        h += '</div>';
+        if (o.iupac) h += '<div class="xl-opt-detail">IUPAC: ' + o.iupac + '</div>';
+        h += '<div class="xl-opt-detail">' + o.reason + '</div>';
+        h += '</div>';
+    }}
+    _xlPop.innerHTML = h;
+    _xlPop.classList.add('visible');
+
+    var rect = event.target.getBoundingClientRect();
+    var popW = 380, popH = _xlPop.offsetHeight || 300;
+    var left = rect.right + 8;
+    var top = rect.top;
+    if (left + popW > window.innerWidth - 8) left = rect.left - popW - 8;
+    if (top + popH > window.innerHeight - 8) top = Math.max(8, window.innerHeight - popH - 8);
+    _xlPop.style.left = left + 'px';
+    _xlPop.style.top = top + 'px';
+}}
+
+function applyCrosslink(optIdx) {{
+    if (_xlType == null || _xlIdx == null) return;
+    var mat = (_xlType === 'solvents' ? SOLVENTS : POLYMERS)[_xlIdx];
+    var opts = CAS_CANDIDATES[mat.name];
+    if (!opts || !opts[optIdx]) return;
+    var o = opts[optIdx];
+
+    if (o.cas) setDbVal(_xlType, _xlIdx, 'cas', o.cas);
+    if (o.name && o.name !== mat.name) setDbVal(_xlType, _xlIdx, 'name', o.name);
+    if (_xlType === 'solvents' && o.mw) setDbVal(_xlType, _xlIdx, 'mw', String(o.mw));
+    if (_xlType === 'solvents' && o.density) setDbVal(_xlType, _xlIdx, 'density', String(o.density));
+
+    closeCrosslink();
+    renderContent();
+}}
+
+// Close popover / source dropdown on outside click
+document.addEventListener('click', function(e) {{
+    if (_xlPop && _xlPop.classList.contains('visible') && !_xlPop.contains(e.target) && !e.target.classList.contains('cas-missing')) {{
+        closeCrosslink();
+    }}
+    if (_srcDropOpen) {{
+        var drop = document.getElementById('src-drop');
+        if (drop && !drop.contains(e.target) && !e.target.classList.contains('src-filter-btn')) {{
+            _srcDropOpen = false;
+            drop.classList.remove('open');
+        }}
+    }}
+}});
+
+// ===================== CONFIDENCE TOOLTIP =====================
+var _confTip = null;
+var _confBadgeActive = null;
+document.addEventListener('mouseover', function(e) {{
+    var badge = e.target.closest('.conf-badge');
+    if (badge) {{
+        if (badge === _confBadgeActive) return;
+        if (!_confTip) {{ _confTip = document.createElement('div'); _confTip.className = 'conf-tip'; document.body.appendChild(_confTip); }}
+        _confBadgeActive = badge;
+        var src = badge.dataset.src || 'Unknown';
+        var base = SRC_TIERS[src] || 25;
+        var hasCas = badge.dataset.cas === '1';
+        var hasSmi = badge.dataset.smi === '1';
+        var isPoly = badge.dataset.poly === '1';
+        var srcN = parseInt(badge.dataset.srcn) || 1;
+        var crossBonus = srcN > 1 ? Math.min((srcN - 1) * 15, 30) : 0;
+        var pct = badge.dataset.pct;
+        function row(lbl, val) {{ var cls = val > 0 ? 'pos' : 'zero'; return '<div class="conf-row"><span class="conf-label">' + lbl + '</span><span class="conf-val ' + cls + '">' + (val > 0 ? '+' : '') + val + '%</span></div>'; }}
+        var h = '<div style="font-weight:700;margin-bottom:4px;color:#fff">Confidence Breakdown</div>';
+        h += row('Source: ' + src, base);
+        h += row('CAS verified', hasCas ? 15 : 0);
+        if (!isPoly) h += row('SMILES confirmed', hasSmi ? 10 : 0);
+        if (srcN > 1) h += row('Cross-ref (' + srcN + ' sources)', crossBonus);
+        h += '<div class="conf-sep"></div>';
+        h += '<div class="conf-row"><span class="conf-label" style="color:#fff">Total</span><span class="conf-val" style="color:#fff">' + pct + '%</span></div>';
+        _confTip.innerHTML = h;
+        var rect = badge.getBoundingClientRect();
+        _confTip.style.display = 'block';
+        var tipW = _confTip.offsetWidth, tipH = _confTip.offsetHeight;
+        var left = rect.left + rect.width / 2 - tipW / 2;
+        var top = rect.bottom + 8;
+        if (top + tipH > window.innerHeight) top = rect.top - tipH - 8;
+        if (left < 4) left = 4;
+        if (left + tipW > window.innerWidth - 4) left = window.innerWidth - tipW - 4;
+        _confTip.style.left = left + 'px';
+        _confTip.style.top = top + 'px';
+    }} else if (_confTip && !_confTip.contains(e.target)) {{
+        _confTip.style.display = 'none';
+        _confBadgeActive = null;
+    }}
+}});
+
+// ===================== CELL SELECTION (ACTIVE DB) =====================
+function _getCellFromEvent(e) {{
+    var td = e.target.closest('#db-tbody td[data-row][data-col]');
+    if (!td) return null;
+    return {{ row: parseInt(td.getAttribute('data-row')), col: td.getAttribute('data-col'), el: td }};
+}}
+
+function _cellsBetween(a, b) {{
+    var cols = _activeDbTab === 'solvents' ? SOLV_COLS : POLY_COLS;
+    var colKeys = cols.map(function(c) {{ return c.key; }});
+    var ci1 = colKeys.indexOf(a.col), ci2 = colKeys.indexOf(b.col);
+    var vi1 = _visibleIndices.indexOf(a.row), vi2 = _visibleIndices.indexOf(b.row);
+    if (vi1 === -1 || vi2 === -1) return {{}};
+    var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
+    var cMin = Math.min(ci1, ci2), cMax = Math.max(ci1, ci2);
+    var cells = {{}};
+    for (var v = vMin; v <= vMax; v++) {{
+        for (var c = cMin; c <= cMax; c++) {{
+            cells[_visibleIndices[v] + ':' + colKeys[c]] = true;
+        }}
+    }}
+    return cells;
+}}
+
+function _selectFullRow(rowIdx) {{
+    var cols = _activeDbTab === 'solvents' ? SOLV_COLS : POLY_COLS;
+    cols.forEach(function(c) {{ _selCells[rowIdx + ':' + c.key] = true; }});
+}}
+
+function _selectFullCol(colKey) {{
+    _visibleIndices.forEach(function(idx) {{ _selCells[idx + ':' + colKey] = true; }});
+}}
+
+function _updateDbSelInfo() {{
+    var el = document.getElementById('db-sel-info');
+    if (!el) return;
+    var n = Object.keys(_selCells).length;
+    if (n === 0) {{ el.innerHTML = ''; return; }}
+    el.innerHTML = n + ' cell' + (n > 1 ? 's' : '') + ' selected <button onclick="clearCellSel()">Clear</button>';
+}}
+
+function clearCellSel() {{
+    _selCells = {{}};
+    _lastRowNum = null;
+    var tds = document.querySelectorAll('#db-tbody td.cell-selected');
+    for (var i = 0; i < tds.length; i++) tds[i].classList.remove('cell-selected');
+    _updateDbSelInfo();
+}}
+
+function _applyCellSelClasses() {{
+    var tds = document.querySelectorAll('#db-tbody td[data-row][data-col]');
+    for (var i = 0; i < tds.length; i++) {{
+        var key = tds[i].getAttribute('data-row') + ':' + tds[i].getAttribute('data-col');
+        if (_selCells[key]) tds[i].classList.add('cell-selected');
+        else tds[i].classList.remove('cell-selected');
+    }}
+}}
+
+// ===================== CELL SELECTION (DATASET DETAIL) =====================
 function _mGetCellFromEvent(e) {{
     var td = e.target.closest('#content tbody td[data-row][data-col]');
     if (!td) return null;
@@ -5471,25 +3971,14 @@ function _mSelectFullCol(colKey) {{
     _mVisibleOidxs.forEach(function(idx) {{ _mSelCells[idx + ':' + colKey] = true; }});
 }}
 
-function _mGetSelCount() {{
-    return Object.keys(_mSelCells).length;
-}}
-
-function _mGetSelRowCount() {{
-    var rows = {{}};
-    Object.keys(_mSelCells).forEach(function(k) {{ rows[k.split(':')[0]] = true; }});
-    return Object.keys(rows).length;
-}}
+function _mGetSelCount() {{ return Object.keys(_mSelCells).length; }}
 
 function _updateInferBtn() {{
     var btn = document.getElementById('infer-btn');
     if (!btn) return;
     var n = _mGetSelCount();
-    if (n > 0) {{
-        btn.textContent = 'Infer Missing Values (' + n + ' cell' + (n > 1 ? 's' : '') + ')';
-    }} else {{
-        btn.textContent = 'Infer Missing Values';
-    }}
+    if (n > 0) {{ btn.textContent = 'Infer Missing Values (' + n + ' cell' + (n > 1 ? 's' : '') + ')'; }}
+    else {{ btn.textContent = 'Infer Missing Values'; }}
 }}
 
 function _updateSelInfo() {{
@@ -5499,9 +3988,7 @@ function _updateSelInfo() {{
         if (n > 0) {{
             el.innerHTML = n + ' cell' + (n > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>';
             el.style.display = '';
-        }} else {{
-            el.style.display = 'none';
-        }}
+        }} else {{ el.style.display = 'none'; }}
     }}
     _updateInferBtn();
 }}
@@ -5524,119 +4011,203 @@ function _mApplyCellSelClasses() {{
     }}
 }}
 
-// Mouse event delegation for cell selection
+// ===================== MOUSE EVENT HANDLERS =====================
 document.addEventListener('mousedown', function(e) {{
-    if (e.target.closest('td[contenteditable="true"]') || e.target.closest('a') || e.target.closest('button')) return;
+    if (e.target.closest('input') || e.target.closest('a') || e.target.closest('button') || e.target.closest('td[contenteditable="true"]')) return;
 
-    // --- Row-number click: select full row (+ start drag) ---
-    var rnCell = e.target.closest('#content tbody td.rownum-cell');
-    if (rnCell) {{
-        e.preventDefault();
-        var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
-        if (e.shiftKey && _mLastRowNum != null) {{
-            var vi1 = _mVisibleOidxs.indexOf(_mLastRowNum);
-            var vi2 = _mVisibleOidxs.indexOf(rowIdx);
-            if (vi1 !== -1 && vi2 !== -1) {{
-                var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
-                _mSelCells = {{}};
-                for (var v = vMin; v <= vMax; v++) _mSelectFullRow(_mVisibleOidxs[v]);
-            }}
-        }} else if (e.ctrlKey || e.metaKey) {{
-            var firstKey = rowIdx + ':' + _mCurrentCols[0];
-            if (_mSelCells[firstKey]) {{
-                _mCurrentCols.forEach(function(c) {{ delete _mSelCells[rowIdx + ':' + c]; }});
+    if (_viewMode === 'active_db') {{
+        // Active DB cell selection
+        var rnCell = e.target.closest('#db-tbody td.rownum-cell');
+        if (rnCell) {{
+            e.preventDefault();
+            var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
+            if (e.shiftKey && _lastRowNum != null) {{
+                var vi1 = _visibleIndices.indexOf(_lastRowNum);
+                var vi2 = _visibleIndices.indexOf(rowIdx);
+                if (vi1 !== -1 && vi2 !== -1) {{
+                    var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
+                    _selCells = {{}};
+                    for (var v = vMin; v <= vMax; v++) _selectFullRow(_visibleIndices[v]);
+                }}
+            }} else if (e.ctrlKey || e.metaKey) {{
+                var cols = _activeDbTab === 'solvents' ? SOLV_COLS : POLY_COLS;
+                var firstKey = rowIdx + ':' + cols[0].key;
+                if (_selCells[firstKey]) {{
+                    cols.forEach(function(c) {{ delete _selCells[rowIdx + ':' + c.key]; }});
+                }} else {{ _selectFullRow(rowIdx); }}
+                _lastRowNum = rowIdx;
             }} else {{
-                _mSelectFullRow(rowIdx);
+                _selCells = {{}};
+                _selectFullRow(rowIdx);
+                _lastRowNum = rowIdx;
+                _dragRowNum = true;
+                _dragRowStart = rowIdx;
             }}
-            _mLastRowNum = rowIdx;
+            _applyCellSelClasses();
+            _updateDbSelInfo();
+            return;
+        }}
+
+        var th = e.target.closest('#db-thead th[data-col]');
+        if (th && (e.ctrlKey || e.metaKey)) {{
+            e.preventDefault();
+            var colKey = th.getAttribute('data-col');
+            if (_selCells[_visibleIndices[0] + ':' + colKey]) {{
+                _visibleIndices.forEach(function(idx) {{ delete _selCells[idx + ':' + colKey]; }});
+            }} else {{ _selectFullCol(colKey); }}
+            _applyCellSelClasses();
+            _updateDbSelInfo();
+            return;
+        }}
+
+        var cell = _getCellFromEvent(e);
+        if (!cell) return;
+        e.preventDefault();
+        if (e.shiftKey && _dragStart) {{
+            _selCells = _cellsBetween(_dragStart, cell);
+        }} else if (e.ctrlKey || e.metaKey) {{
+            var key = cell.row + ':' + cell.col;
+            if (_selCells[key]) delete _selCells[key];
+            else _selCells[key] = true;
+            _dragStart = cell;
+        }} else {{
+            _selCells = {{}};
+            _selCells[cell.row + ':' + cell.col] = true;
+            _dragStart = cell;
+            _dragSel = true;
+        }}
+        _applyCellSelClasses();
+        _updateDbSelInfo();
+    }} else {{
+        // Dataset detail cell selection
+        var rnCell = e.target.closest('#content tbody td.rownum-cell');
+        if (rnCell) {{
+            e.preventDefault();
+            var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
+            if (e.shiftKey && _mLastRowNum != null) {{
+                var vi1 = _mVisibleOidxs.indexOf(_mLastRowNum);
+                var vi2 = _mVisibleOidxs.indexOf(rowIdx);
+                if (vi1 !== -1 && vi2 !== -1) {{
+                    var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
+                    _mSelCells = {{}};
+                    for (var v = vMin; v <= vMax; v++) _mSelectFullRow(_mVisibleOidxs[v]);
+                }}
+            }} else if (e.ctrlKey || e.metaKey) {{
+                var firstKey = rowIdx + ':' + _mCurrentCols[0];
+                if (_mSelCells[firstKey]) {{
+                    _mCurrentCols.forEach(function(c) {{ delete _mSelCells[rowIdx + ':' + c]; }});
+                }} else {{ _mSelectFullRow(rowIdx); }}
+                _mLastRowNum = rowIdx;
+            }} else {{
+                _mSelCells = {{}};
+                _mSelectFullRow(rowIdx);
+                _mLastRowNum = rowIdx;
+                _mDragRowNum = true;
+                _mDragRowStart = rowIdx;
+            }}
+            _mApplyCellSelClasses();
+            _updateSelInfo();
+            return;
+        }}
+
+        var th = e.target.closest('#content thead th[data-col]');
+        if (th && (e.ctrlKey || e.metaKey)) {{
+            e.preventDefault();
+            var colKey = th.getAttribute('data-col');
+            if (_mVisibleOidxs.length > 0 && _mSelCells[_mVisibleOidxs[0] + ':' + colKey]) {{
+                _mVisibleOidxs.forEach(function(idx) {{ delete _mSelCells[idx + ':' + colKey]; }});
+            }} else {{ _mSelectFullCol(colKey); }}
+            _mApplyCellSelClasses();
+            _updateSelInfo();
+            return;
+        }}
+
+        var cell = _mGetCellFromEvent(e);
+        if (!cell) return;
+        e.preventDefault();
+        if (e.shiftKey && _mDragStart) {{
+            _mSelCells = _mCellsBetween(_mDragStart, cell);
+        }} else if (e.ctrlKey || e.metaKey) {{
+            var key = cell.row + ':' + cell.col;
+            if (_mSelCells[key]) delete _mSelCells[key];
+            else _mSelCells[key] = true;
+            _mDragStart = cell;
         }} else {{
             _mSelCells = {{}};
-            _mSelectFullRow(rowIdx);
-            _mLastRowNum = rowIdx;
-            _mDragRowNum = true;
-            _mDragRowStart = rowIdx;
+            _mSelCells[cell.row + ':' + cell.col] = true;
+            _mDragStart = cell;
+            _mDragSel = true;
         }}
         _mApplyCellSelClasses();
         _updateSelInfo();
-        return;
     }}
-
-    // --- Ctrl+click column header: select full column ---
-    var th = e.target.closest('#content thead th[data-col]');
-    if (th && (e.ctrlKey || e.metaKey)) {{
-        e.preventDefault();
-        var colKey = th.getAttribute('data-col');
-        if (_mVisibleOidxs.length > 0 && _mSelCells[_mVisibleOidxs[0] + ':' + colKey]) {{
-            _mVisibleOidxs.forEach(function(idx) {{ delete _mSelCells[idx + ':' + colKey]; }});
-        }} else {{
-            _mSelectFullCol(colKey);
-        }}
-        _mApplyCellSelClasses();
-        _updateSelInfo();
-        return;
-    }}
-
-    // --- Cell click/drag ---
-    var cell = _mGetCellFromEvent(e);
-    if (!cell) return;
-    e.preventDefault();
-    if (e.shiftKey && _mDragStart) {{
-        _mSelCells = _mCellsBetween(_mDragStart, cell);
-    }} else if (e.ctrlKey || e.metaKey) {{
-        var key = cell.row + ':' + cell.col;
-        if (_mSelCells[key]) delete _mSelCells[key];
-        else _mSelCells[key] = true;
-        _mDragStart = cell;
-    }} else {{
-        _mSelCells = {{}};
-        _mSelCells[cell.row + ':' + cell.col] = true;
-        _mDragStart = cell;
-        _mDragSel = true;
-    }}
-    _mApplyCellSelClasses();
-    _updateSelInfo();
 }});
 
 document.addEventListener('mousemove', function(e) {{
-    // Row-number gutter drag
-    if (_mDragRowNum && _mDragRowStart != null) {{
+    if (_viewMode === 'active_db') {{
+        if (_dragRowNum && _dragRowStart != null) {{
+            e.preventDefault();
+            var rnCell = e.target.closest('#db-tbody td.rownum-cell');
+            if (!rnCell) return;
+            var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
+            var vi1 = _visibleIndices.indexOf(_dragRowStart);
+            var vi2 = _visibleIndices.indexOf(rowIdx);
+            if (vi1 === -1 || vi2 === -1) return;
+            var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
+            _selCells = {{}};
+            for (var v = vMin; v <= vMax; v++) _selectFullRow(_visibleIndices[v]);
+            _applyCellSelClasses();
+            _updateDbSelInfo();
+            return;
+        }}
+        if (!_dragSel || !_dragStart) return;
         e.preventDefault();
-        var rnCell = e.target.closest('#content tbody td.rownum-cell');
-        if (!rnCell) return;
-        var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
-        var vi1 = _mVisibleOidxs.indexOf(_mDragRowStart);
-        var vi2 = _mVisibleOidxs.indexOf(rowIdx);
-        if (vi1 === -1 || vi2 === -1) return;
-        var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
-        _mSelCells = {{}};
-        for (var v = vMin; v <= vMax; v++) _mSelectFullRow(_mVisibleOidxs[v]);
+        var cell = _getCellFromEvent(e);
+        if (!cell) return;
+        _selCells = _cellsBetween(_dragStart, cell);
+        _applyCellSelClasses();
+        _updateDbSelInfo();
+    }} else {{
+        if (_mDragRowNum && _mDragRowStart != null) {{
+            e.preventDefault();
+            var rnCell = e.target.closest('#content tbody td.rownum-cell');
+            if (!rnCell) return;
+            var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
+            var vi1 = _mVisibleOidxs.indexOf(_mDragRowStart);
+            var vi2 = _mVisibleOidxs.indexOf(rowIdx);
+            if (vi1 === -1 || vi2 === -1) return;
+            var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
+            _mSelCells = {{}};
+            for (var v = vMin; v <= vMax; v++) _mSelectFullRow(_mVisibleOidxs[v]);
+            _mApplyCellSelClasses();
+            _updateSelInfo();
+            return;
+        }}
+        if (!_mDragSel || !_mDragStart) return;
+        e.preventDefault();
+        var cell = _mGetCellFromEvent(e);
+        if (!cell) return;
+        _mSelCells = _mCellsBetween(_mDragStart, cell);
         _mApplyCellSelClasses();
         _updateSelInfo();
-        return;
     }}
-    // Cell drag
-    if (!_mDragSel || !_mDragStart) return;
-    e.preventDefault();
-    var cell = _mGetCellFromEvent(e);
-    if (!cell) return;
-    _mSelCells = _mCellsBetween(_mDragStart, cell);
-    _mApplyCellSelClasses();
-    _updateSelInfo();
 }});
 
 document.addEventListener('mouseup', function(e) {{
+    _dragSel = false;
+    _dragRowNum = false;
     _mDragSel = false;
     _mDragRowNum = false;
 }});
 
-// Escape to clear selection
 document.addEventListener('keydown', function(e) {{
-    if (e.key === 'Escape' && _mGetSelCount() > 0) {{
-        clearSelection();
+    if (e.key === 'Escape') {{
+        if (_viewMode === 'active_db' && Object.keys(_selCells).length > 0) clearCellSel();
+        else if (_viewMode !== 'active_db' && _mGetSelCount() > 0) clearSelection();
     }}
 }});
 
-// --- Editable cell blur handler (event delegation) ---
+// Editable cell blur handler
 document.addEventListener('blur', function(e) {{
     var td = e.target;
     if (td.tagName !== 'TD' || !td.hasAttribute('contenteditable')) return;
@@ -5648,7 +4219,7 @@ document.addEventListener('blur', function(e) {{
     }}
 }}, true);
 
-// Prevent Enter from inserting newlines in cells — commit edit instead
+// Prevent Enter from inserting newlines in cells
 document.addEventListener('keydown', function(e) {{
     if (e.target.tagName === 'TD' && e.target.hasAttribute('contenteditable') && e.key === 'Enter') {{
         e.preventDefault();
@@ -5656,9 +4227,848 @@ document.addEventListener('keydown', function(e) {{
     }}
 }});
 
-// Mark embedded datasets so we don't save them to localStorage
+// Cell tooltip for dataset detail view
+var _tooltipEl = null;
+document.addEventListener('mouseover', function(e) {{
+    var td = e.target.closest('td[data-src]');
+    if (!td) {{ if (_tooltipEl) {{ _tooltipEl.remove(); _tooltipEl = null; }} return; }}
+    if (_tooltipEl) return;
+    var src = td.getAttribute('data-src');
+    var srcUrl = td.getAttribute('data-src-url');
+    if (!src) return;
+    _tooltipEl = document.createElement('div');
+    _tooltipEl.className = 'cell-tooltip';
+    var inner = '<b>Source:</b> ' + src;
+    if (srcUrl) inner += '<br><b>URL:</b> ' + srcUrl;
+    _tooltipEl.innerHTML = inner;
+    document.body.appendChild(_tooltipEl);
+    var rect = td.getBoundingClientRect();
+    _tooltipEl.style.left = Math.min(rect.left, window.innerWidth - 340) + 'px';
+    _tooltipEl.style.top = (rect.bottom + 4) + 'px';
+}});
+document.addEventListener('mouseout', function(e) {{
+    var td = e.target.closest('td[data-src]');
+    if (td && _tooltipEl) {{ _tooltipEl.remove(); _tooltipEl = null; }}
+}});
+
+// ===================== IMPORT PANEL =====================
+function togglePanel(panelId, header) {{
+    var p = document.getElementById(panelId);
+    var isOpen = p.classList.contains('open');
+    document.querySelectorAll('.import-panel').forEach(function(el) {{ el.classList.remove('open'); }});
+    document.querySelectorAll('.import-section h4').forEach(function(el) {{ el.classList.remove('open'); }});
+    if (!isOpen) {{
+        p.classList.add('open');
+        header.classList.add('open');
+    }}
+}}
+
+var _ALIASES = {{
+    name: ['name','chemical','compound','solvent','material','molecule'],
+    cas_number: ['cas','cas_number','cas_no','casrn','cas number','cas #'],
+    delta_d: ['delta_d','dd','dispersion','\u03b4d','deltad','d_d','hansen_d','dd_mpa05','dd_mpa0.5','\u03b4d (mpa^0.5)'],
+    delta_p: ['delta_p','dp','polar','polarity','\u03b4p','deltap','d_p','hansen_p','dp_mpa05','dp_mpa0.5','\u03b4p (mpa^0.5)'],
+    delta_h: ['delta_h','dh','hydrogen','h-h bonding','h_bonding','\u03b4h','deltah','d_h','hansen_h','dh_mpa05','dh_mpa0.5','\u03b4h (mpa^0.5)','hydrogen_bonding'],
+    molecular_weight: ['molecular_weight','mw','mol_weight','molar_mass','mwt_g_mol'],
+    boiling_point: ['boiling_point','bp','boiling','b.p.','tb_c'],
+    density: ['density','rho','\u03c1','density_g_cm3'],
+    molar_volume: ['molar_volume','mv','mol_volume','vm','mvol_cm3_mol','volume_cm3_per_mol'],
+    category: ['category','type','class','group'],
+    smiles: ['smiles','smi'],
+    molecular_formula: ['molecular_formula','formula','molecular formula'],
+    ghs_hazard: ['ghs_hazard','ghs','h_statements','hazard'],
+    radius: ['radius','r0','r_0','interaction_radius'],
+}};
+
+function _autoMap(headers) {{
+    var mapping = {{}}, used = {{}};
+    var lowerMap = {{}};
+    headers.forEach(function(h) {{ lowerMap[h.toLowerCase().trim()] = h; }});
+    Object.keys(_ALIASES).forEach(function(canon) {{
+        _ALIASES[canon].forEach(function(alias) {{
+            if (lowerMap[alias] && !used[canon]) {{
+                var orig = lowerMap[alias];
+                if (!mapping[orig]) {{ mapping[orig] = canon; used[canon] = true; }}
+            }}
+        }});
+    }});
+    return mapping;
+}}
+
+function _parseFloat(v) {{
+    if (v == null || v === '') return null;
+    var n = parseFloat(String(v).replace(',','.'));
+    return isNaN(n) ? null : n;
+}}
+
+function _normCAS(v) {{
+    if (!v) return '';
+    var s = String(v).trim();
+    if (/^\d{{2,7}}-\d{{2}}-\d$/.test(s)) return s;
+    var digits = s.replace(/\D/g, '');
+    if (digits.length >= 5 && digits.length <= 10) {{
+        return digits.slice(0,-3) + '-' + digits.slice(-3,-1) + '-' + digits.slice(-1);
+    }}
+    return '';
+}}
+
+function _parseCSVText(text) {{
+    var delim = (text.indexOf('\t') > -1 && text.split('\t').length > text.split(',').length) ? '\t' : ',';
+    var lines = text.split(/\r?\n/);
+    var headers = lines[0].split(delim).map(function(h) {{ return h.trim().replace(/^["']|["']$/g, ''); }});
+    var rows = [];
+    for (var i = 1; i < lines.length; i++) {{
+        if (!lines[i].trim()) continue;
+        var vals = lines[i].split(delim);
+        var row = {{}};
+        headers.forEach(function(h, j) {{ var v = (vals[j] || '').trim().replace(/^["']|["']$/g, ''); row[h] = v; }});
+        rows.push(row);
+    }}
+    return {{ headers: headers, rows: rows }};
+}}
+
+function _parseExcelBuffer(buf) {{
+    if (typeof XLSX === 'undefined') throw new Error('SheetJS library not loaded.');
+    var wb = XLSX.read(buf, {{ type: 'array' }});
+    var ws = wb.Sheets[wb.SheetNames[0]];
+    var data = XLSX.utils.sheet_to_json(ws, {{ defval: '' }});
+    var headers = data.length > 0 ? Object.keys(data[0]) : [];
+    return {{ headers: headers, rows: data }};
+}}
+
+function _parsePDFBuffer(buf) {{
+    if (typeof pdfjsLib === 'undefined') throw new Error('PDF.js library not loaded.');
+    return pdfjsLib.getDocument({{ data: buf }}).promise.then(function(pdf) {{
+        var allText = [];
+        var chain = Promise.resolve();
+        for (var p = 1; p <= pdf.numPages; p++) {{
+            (function(pageNum) {{
+                chain = chain.then(function() {{
+                    return pdf.getPage(pageNum).then(function(page) {{
+                        return page.getTextContent().then(function(tc) {{
+                            var lineMap = {{}};
+                            tc.items.forEach(function(item) {{
+                                var y = Math.round(item.transform[5]);
+                                if (!lineMap[y]) lineMap[y] = [];
+                                lineMap[y].push({{ x: item.transform[4], str: item.str }});
+                            }});
+                            var yKeys = Object.keys(lineMap).map(Number).sort(function(a,b) {{ return b - a; }});
+                            yKeys.forEach(function(y) {{
+                                var items = lineMap[y].sort(function(a,b) {{ return a.x - b.x; }});
+                                var lineStr = items.map(function(it) {{ return it.str; }}).join(' ').trim();
+                                if (lineStr) allText.push(lineStr);
+                            }});
+                        }});
+                    }});
+                }});
+            }})(p);
+        }}
+        return chain.then(function() {{ return _extractTableFromPDFLines(allText); }});
+    }});
+}}
+
+function _extractTableFromPDFLines(lines) {{
+    var hspKeywords = ['delta', '\u03b4d', '\u03b4p', '\u03b4h', 'disp', 'polar', 'hydrog', 'name', 'solvent', 'cas', 'smiles', 'mpa', 'hansen', 'd_d', 'd_p', 'd_h', 'dd', 'dp', 'dh'];
+    var headerIdx = -1, bestHeaderScore = 0;
+    for (var i = 0; i < Math.min(lines.length, 40); i++) {{
+        var lower = lines[i].toLowerCase();
+        var score = 0;
+        hspKeywords.forEach(function(kw) {{ if (lower.indexOf(kw) > -1) score++; }});
+        if (score > bestHeaderScore) {{ bestHeaderScore = score; headerIdx = i; }}
+    }}
+    if (bestHeaderScore < 2) {{
+        for (var i = 0; i < Math.min(lines.length, 30); i++) {{
+            var parts = _splitPDFLine(lines[i]);
+            if (parts.length >= 3 && i + 1 < lines.length) {{
+                var nextParts = _splitPDFLine(lines[i + 1]);
+                var numCount = 0;
+                nextParts.forEach(function(p) {{ if (/^-?\d+\.?\d*$/.test(p.trim())) numCount++; }});
+                if (numCount >= 2 && Math.abs(parts.length - nextParts.length) <= 2) {{ headerIdx = i; break; }}
+            }}
+        }}
+    }}
+    if (headerIdx === -1) headerIdx = 0;
+    var headerParts = _splitPDFLine(lines[headerIdx]);
+    if (headerParts.length < 2) headerParts = lines[headerIdx].split(/\s{{2,}}/).map(function(s) {{ return s.trim(); }}).filter(Boolean);
+    var rows = [];
+    var expectedCols = headerParts.length;
+    for (var i = headerIdx + 1; i < lines.length; i++) {{
+        var parts = _splitPDFLine(lines[i]);
+        if (parts.length < 2) continue;
+        var lower = lines[i].toLowerCase();
+        if (/^(page|table|figure|note|source|ref)\s/i.test(lower)) continue;
+        if (/^\d+\s*$/.test(lines[i].trim())) continue;
+        if (Math.abs(parts.length - expectedCols) <= 2) {{
+            var row = {{}};
+            if (parts.length > expectedCols) {{
+                var extra = parts.length - expectedCols;
+                var merged = parts.slice(0, extra + 1).join(' ');
+                parts = [merged].concat(parts.slice(extra + 1));
+            }}
+            for (var j = 0; j < headerParts.length; j++) {{ row[headerParts[j]] = (parts[j] || '').trim(); }}
+            rows.push(row);
+        }}
+    }}
+    if (rows.length === 0) throw new Error('Could not find tabular data in the PDF.');
+    return {{ headers: headerParts, rows: rows }};
+}}
+
+function _splitPDFLine(line) {{
+    var parts = line.split(/\s{{2,}}/).map(function(s) {{ return s.trim(); }}).filter(Boolean);
+    if (parts.length >= 3) return parts;
+    parts = line.split('\t').map(function(s) {{ return s.trim(); }}).filter(Boolean);
+    if (parts.length >= 3) return parts;
+    if (line.indexOf('|') > -1) {{
+        parts = line.split('|').map(function(s) {{ return s.trim(); }}).filter(Boolean);
+        if (parts.length >= 3) return parts;
+    }}
+    var tokens = line.split(/\s+/);
+    var result = []; var current = '';
+    tokens.forEach(function(t) {{
+        if (/^-?\d+\.?\d*$/.test(t)) {{
+            if (current) {{ result.push(current.trim()); current = ''; }}
+            result.push(t);
+        }} else {{ current += (current ? ' ' : '') + t; }}
+    }});
+    if (current) result.push(current.trim());
+    return result;
+}}
+
+function _analyzeLocally(headers, rows, filename) {{
+    var mapping = _autoMap(headers);
+    var rev = {{}};
+    Object.keys(mapping).forEach(function(k) {{ rev[mapping[k]] = k; }});
+    var total = rows.length;
+    var hspCount = 0, casCount = 0, smilesCount = 0, outliers = 0, dupNames = 0;
+    var namesSeen = {{}}, hasRadius = false;
+    rows.forEach(function(row) {{
+        var dd = _parseFloat(row[rev.delta_d]);
+        var dp = _parseFloat(row[rev.delta_p]);
+        var dh = _parseFloat(row[rev.delta_h]);
+        if (dd != null && dp != null && dh != null) {{
+            hspCount++;
+            if (dd < 10 || dd > 25 || dp < 0 || dp > 25 || dh < 0 || dh > 30) outliers++;
+        }}
+        var cas = rev.cas_number ? _normCAS(row[rev.cas_number]) : '';
+        if (cas) casCount++;
+        var smi = rev.smiles ? String(row[rev.smiles] || '').trim() : '';
+        if (smi && smi !== 'None' && smi !== 'nan') smilesCount++;
+        if (rev.radius && _parseFloat(row[rev.radius]) != null) hasRadius = true;
+        var nm = rev.name ? String(row[rev.name] || '').trim().toLowerCase() : '';
+        if (nm) {{ if (namesSeen[nm]) dupNames++; namesSeen[nm] = true; }}
+    }});
+    var issues = [];
+    if (!rev.name) issues.push({{ severity: 'error', message: 'No name column detected' }});
+    if (!rev.delta_d || !rev.delta_p || !rev.delta_h) issues.push({{ severity: 'error', message: 'Missing HSP columns' }});
+    if (outliers > 0) issues.push({{ severity: 'warning', message: outliers + ' rows have HSP values outside typical ranges' }});
+    if (dupNames > 0) issues.push({{ severity: 'warning', message: dupNames + ' duplicate names' }});
+    var sampleRows = rows.slice(0, 5).map(function(row) {{
+        var s = {{}};
+        Object.keys(mapping).forEach(function(k) {{ s[mapping[k]] = String(row[k] || '').substring(0, 80); }});
+        return s;
+    }});
+    var ext = (filename || '').split('.').pop().toLowerCase();
+    var fileType = (ext === 'xlsx' || ext === 'xls') ? 'excel' : ext === 'json' ? 'json' : 'csv';
+    return {{
+        file_type: fileType, original_filename: filename, row_count: total,
+        columns_found: headers, column_mapping: mapping,
+        unmapped_columns: headers.filter(function(h) {{ return !mapping[h]; }}),
+        hsp_coverage: total > 0 ? Math.round(1000 * hspCount / total) / 10 : 0,
+        cas_coverage: total > 0 ? Math.round(1000 * casCount / total) / 10 : 0,
+        smiles_coverage: total > 0 ? Math.round(1000 * smilesCount / total) / 10 : 0,
+        quality_issues: issues, sample_rows: sampleRows,
+        detected_type: hasRadius ? 'both' : 'chemicals',
+        _headers: headers, _rows: rows,
+    }};
+}}
+
+// ===================== FILE UPLOAD =====================
+var _dropZone = document.getElementById('drop-zone');
+var _fileInput = document.getElementById('file-input');
+_dropZone.addEventListener('dragover', function(e) {{ e.preventDefault(); _dropZone.classList.add('dragover'); }});
+_dropZone.addEventListener('dragleave', function() {{ _dropZone.classList.remove('dragover'); }});
+_dropZone.addEventListener('drop', function(e) {{ e.preventDefault(); _dropZone.classList.remove('dragover'); if (e.dataTransfer.files.length) uploadFile(e.dataTransfer.files[0]); }});
+_fileInput.addEventListener('change', function() {{ if (_fileInput.files.length) uploadFile(_fileInput.files[0]); _fileInput.value=''; }});
+
+var _pendingAnalysis = null;
+
+function uploadFile(file) {{
+    _viewMode = '_import';
+    buildSidebar();
+    var ct = document.getElementById('content');
+    ct.innerHTML = '<div class="detail-content"><div class="loading">Analyzing ' + file.name + '...</div></div>';
+    var reader = new FileReader();
+    reader.onerror = function() {{ ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Error</h3><p>Failed to read file.</p></div></div>'; }};
+    reader.onload = function(e) {{
+        var ext = file.name.split('.').pop().toLowerCase();
+        if (ext === 'pdf') {{
+            _parsePDFBuffer(new Uint8Array(e.target.result)).then(function(parsed) {{
+                var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
+                _pendingAnalysis = report;
+                showAnalysis(report);
+            }}).catch(function(err) {{
+                ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div></div>';
+            }});
+            return;
+        }}
+        try {{
+            var parsed;
+            if (ext === 'xlsx' || ext === 'xls') {{
+                parsed = _parseExcelBuffer(new Uint8Array(e.target.result));
+            }} else if (ext === 'json') {{
+                var data = JSON.parse(new TextDecoder().decode(new Uint8Array(e.target.result)));
+                if (Array.isArray(data)) {{ parsed = {{ headers: data.length ? Object.keys(data[0]) : [], rows: data }}; }}
+                else {{
+                    var arr = null;
+                    ['data','chemicals','solvents','compounds','results','entries'].forEach(function(k) {{ if (!arr && data[k] && Array.isArray(data[k])) arr = data[k]; }});
+                    if (!arr) Object.values(data).forEach(function(v) {{ if (!arr && Array.isArray(v) && v.length && typeof v[0] === 'object') arr = v; }});
+                    arr = arr || [];
+                    parsed = {{ headers: arr.length ? Object.keys(arr[0]) : [], rows: arr }};
+                }}
+            }} else {{
+                var bytes = new Uint8Array(e.target.result);
+                if (bytes.length >= 5 && String.fromCharCode(bytes[0],bytes[1],bytes[2],bytes[3],bytes[4]) === '%PDF-') {{
+                    _parsePDFBuffer(bytes).then(function(parsed) {{
+                        var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
+                        _pendingAnalysis = report;
+                        showAnalysis(report);
+                    }}).catch(function(err) {{
+                        ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div></div>';
+                    }});
+                    return;
+                }}
+                parsed = _parseCSVText(new TextDecoder().decode(bytes));
+            }}
+            var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
+            _pendingAnalysis = report;
+            showAnalysis(report);
+        }} catch(err) {{
+            ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Error</h3><p>' + err.message + '</p></div></div>';
+        }}
+    }};
+    reader.readAsArrayBuffer(file);
+}}
+
+function analyzeUrl() {{
+    var url = document.getElementById('url-input').value.trim();
+    if (!url) return;
+    _viewMode = '_import';
+    buildSidebar();
+    var ct = document.getElementById('content');
+    ct.innerHTML = '<div class="detail-content"><div class="loading">Fetching ' + url.substring(0, 60) + '...</div></div>';
+    var urlLower = url.toLowerCase();
+    var isExcel = urlLower.match(/\.xlsx?($|\?)/);
+    var isJson = urlLower.match(/\.json($|\?)/);
+    var isPdf = urlLower.match(/\.pdf($|\?)/);
+    var isBinary = isExcel || isPdf;
+    _fetchWithFallback(url, !!isBinary).then(function(result) {{
+        if (!result) {{
+            ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Could not fetch URL</h3><p>The server blocked the request (CORS). Try downloading manually.</p></div></div>';
+            return;
+        }}
+        var fname = url.split('/').pop().split('?')[0] || 'data';
+        if (isPdf) {{
+            _parsePDFBuffer(new Uint8Array(result)).then(function(parsed) {{
+                var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
+                report.original_url = url;
+                _pendingAnalysis = report;
+                showAnalysis(report);
+            }}).catch(function(err) {{
+                ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div></div>';
+            }});
+            return;
+        }}
+        try {{
+            var parsed;
+            if (isExcel) {{ parsed = _parseExcelBuffer(new Uint8Array(result)); }}
+            else if (isJson) {{
+                var text = typeof result === 'string' ? result : new TextDecoder().decode(new Uint8Array(result));
+                var data = JSON.parse(text);
+                if (Array.isArray(data)) {{ parsed = {{ headers: data.length ? Object.keys(data[0]) : [], rows: data }}; }}
+                else {{
+                    var arr = null;
+                    ['data','chemicals','solvents','compounds','results','entries'].forEach(function(k) {{ if (!arr && data[k] && Array.isArray(data[k])) arr = data[k]; }});
+                    if (!arr) Object.values(data).forEach(function(v) {{ if (!arr && Array.isArray(v) && v.length && typeof v[0] === 'object') arr = v; }});
+                    arr = arr || [];
+                    parsed = {{ headers: arr.length ? Object.keys(arr[0]) : [], rows: arr }};
+                }}
+            }} else {{
+                var text = typeof result === 'string' ? result : new TextDecoder().decode(new Uint8Array(result));
+                if (text.substring(0, 5) === '%PDF-') {{
+                    var buf = typeof result === 'string' ? new TextEncoder().encode(result) : new Uint8Array(result);
+                    _parsePDFBuffer(buf).then(function(parsed) {{
+                        var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
+                        report.original_url = url;
+                        _pendingAnalysis = report;
+                        showAnalysis(report);
+                    }}).catch(function(err) {{
+                        ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div></div>';
+                    }});
+                    return;
+                }}
+                parsed = _parseCSVText(text);
+            }}
+            var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
+            report.original_url = url;
+            _pendingAnalysis = report;
+            showAnalysis(report);
+        }} catch(err) {{
+            ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Parse Error</h3><p>' + err.message + '</p></div></div>';
+        }}
+    }}).catch(function(err) {{
+        ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Fetch Error</h3><p>' + err.message + '</p></div></div>';
+    }});
+}}
+
+function _fetchWithFallback(url, asBinary) {{
+    return fetch(url, {{ mode: 'cors' }}).then(function(r) {{
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return asBinary ? r.arrayBuffer() : r.text();
+    }}).catch(function() {{
+        var proxyUrl = 'https://api.allorigins.win/' + (asBinary ? 'raw' : 'get') + '?url=' + encodeURIComponent(url);
+        return fetch(proxyUrl).then(function(r) {{
+            if (!r.ok) return null;
+            if (asBinary) return r.arrayBuffer();
+            return r.json().then(function(d) {{ return d.contents; }});
+        }}).catch(function() {{ return null; }});
+    }});
+}}
+
+function showAnalysis(report) {{
+    var ct = document.getElementById('content');
+    var h = '<div class="detail-content"><div class="analysis-card">';
+    h += '<h3>Analysis: ' + (report.original_filename || 'File') + '</h3>';
+    h += '<div style="margin-bottom:12px">';
+    h += '<span class="analysis-stat"><span class="label">Type</span><br><span class="value">' + report.file_type + '</span></span>';
+    h += '<span class="analysis-stat"><span class="label">Rows</span><br><span class="value">' + report.row_count + '</span></span>';
+    h += '<span class="analysis-stat"><span class="label">Detected</span><br><span class="value">' + report.detected_type + '</span></span>';
+    h += '<span class="analysis-stat"><span class="label">HSP</span><br><span class="value">' + report.hsp_coverage + '%</span></span>';
+    h += '<span class="analysis-stat"><span class="label">CAS</span><br><span class="value">' + report.cas_coverage + '%</span></span>';
+    h += '<span class="analysis-stat"><span class="label">SMILES</span><br><span class="value">' + report.smiles_coverage + '%</span></span>';
+    h += '</div>';
+    if (report.quality_issues && report.quality_issues.length > 0) {{
+        h += '<div style="margin-bottom:12px">';
+        report.quality_issues.forEach(function(iss) {{ h += '<div class="analysis-issue ' + iss.severity + '">' + iss.message + '</div>'; }});
+        h += '</div>';
+    }}
+    if (report.column_mapping) {{
+        var canonicals = ['name','cas_number','delta_d','delta_p','delta_h','molecular_weight','boiling_point','density','molar_volume','smiles','molecular_formula','ghs_hazard','category','radius'];
+        h += '<table class="mapping-table"><thead><tr><th>Source Column</th><th>Maps To</th></tr></thead><tbody>';
+        (report.columns_found || []).forEach(function(col) {{
+            var mapped = report.column_mapping[col] || '';
+            h += '<tr><td>' + col + '</td><td><select data-col="' + col + '" class="mapping-select">';
+            h += '<option value="">(unmapped)</option>';
+            canonicals.forEach(function(c) {{ h += '<option value="' + c + '"' + (mapped === c ? ' selected' : '') + '>' + c + '</option>'; }});
+            h += '</select></td></tr>';
+        }});
+        h += '</tbody></table>';
+    }}
+    if (report.sample_rows && report.sample_rows.length > 0) {{
+        h += '<details style="margin-top:8px"><summary style="font-size:0.85rem;cursor:pointer;color:#636e72">Sample rows (' + report.sample_rows.length + ')</summary>';
+        h += '<table class="mapping-table" style="margin-top:4px"><thead><tr>';
+        var sampleKeys = Object.keys(report.sample_rows[0]);
+        sampleKeys.forEach(function(k) {{ h += '<th>' + k + '</th>'; }});
+        h += '</tr></thead><tbody>';
+        report.sample_rows.forEach(function(row) {{ h += '<tr>'; sampleKeys.forEach(function(k) {{ h += '<td>' + (row[k]||'') + '</td>'; }}); h += '</tr>'; }});
+        h += '</tbody></table></details>';
+    }}
+    h += '<div class="import-form">';
+    h += '<div><label>Dataset ID</label><br><input id="import-id" placeholder="my_dataset" style="width:180px"></div>';
+    h += '<div><label>Name</label><br><input id="import-name" placeholder="My Dataset" style="width:220px"></div>';
+    h += '<div><label>Source URL</label><br><input id="import-url" placeholder="https://..." style="width:220px" value="' + (report.original_url || '').replace(/"/g,'&quot;') + '"></div>';
+    h += '<div><label>Confidence</label><br><input id="import-conf" type="number" step="0.05" min="0" max="1" value="0.30" style="width:70px"></div>';
+    h += '<div style="padding-top:18px"><button class="import-btn" style="width:auto;padding:6px 20px" onclick="doImport()">Import</button></div>';
+    h += '</div>';
+    h += '</div></div>';
+    ct.innerHTML = h;
+}}
+
+function doImport() {{
+    if (!_pendingAnalysis) return;
+    var dsId = document.getElementById('import-id').value.trim();
+    if (!dsId) {{ alert('Dataset ID is required'); return; }}
+    if (!/^[a-z0-9_]+$/.test(dsId)) {{ alert('ID must be lowercase alphanumeric with underscores'); return; }}
+    var mapping = {{}};
+    document.querySelectorAll('.mapping-select').forEach(function(sel) {{
+        var col = sel.getAttribute('data-col');
+        if (sel.value) mapping[col] = sel.value;
+    }});
+    var rev = {{}};
+    Object.keys(mapping).forEach(function(k) {{ rev[mapping[k]] = k; }});
+    var dsName = document.getElementById('import-name').value.trim() || dsId;
+    var sourceUrl = document.getElementById('import-url').value.trim();
+    var confTier = parseFloat(document.getElementById('import-conf').value) || 0.30;
+    var rows = _pendingAnalysis._rows || [];
+    var chemicals = [], polymers = [];
+    rows.forEach(function(row) {{
+        var name = rev.name ? String(row[rev.name] || '').trim() : '';
+        if (!name) return;
+        var dd = _parseFloat(row[rev.delta_d]);
+        var dp = _parseFloat(row[rev.delta_p]);
+        var dh = _parseFloat(row[rev.delta_h]);
+        if (dd == null || dp == null || dh == null) return;
+        var cas = rev.cas_number ? _normCAS(row[rev.cas_number]) : '';
+        var radius = rev.radius ? _parseFloat(row[rev.radius]) : null;
+        if (radius != null) {{
+            polymers.push({{ name: name, cas: cas, dd: dd, dp: dp, dh: dh, r: radius,
+                type: rev.category ? String(row[rev.category] || '').trim() : '', conf: confTier, dsId: dsId }});
+        }} else {{
+            chemicals.push({{ name: name, cas: cas, dd: dd, dp: dp, dh: dh,
+                mw: rev.molecular_weight ? _parseFloat(row[rev.molecular_weight]) : null,
+                bp: rev.boiling_point ? _parseFloat(row[rev.boiling_point]) : null,
+                cat: rev.category ? String(row[rev.category] || '').trim() : '',
+                smiles: rev.smiles ? String(row[rev.smiles] || '').trim() : '',
+                density: rev.density ? _parseFloat(row[rev.density]) : null, conf: confTier, dsId: dsId }});
+        }}
+    }});
+    var meta = {{ id: dsId, name: dsName, source_url: sourceUrl, imported_at: new Date().toISOString(),
+        chemical_count: chemicals.length, polymer_count: polymers.length,
+        confidence_tier: confTier, fields_available: Object.values(mapping) }};
+    DATASETS[dsId] = {{ chemicals: chemicals, polymers: polymers, meta: meta }};
+    _activeDsets[dsId] = true;
+    _saveActiveDsets(_activeDsets);
+    _saveImportedDatasets();
+    _pendingAnalysis = null;
+    selectDs(dsId);
+}}
+
+// ===================== LOCALSTORAGE PERSISTENCE =====================
+var _LS_IMPORTED_KEY = 'materialism_imported_datasets';
+
+function _saveImportedDatasets() {{
+    var toSave = {{}};
+    Object.keys(DATASETS).forEach(function(k) {{
+        if (DATASETS[k]._imported) toSave[k] = DATASETS[k];
+    }});
+    Object.keys(DATASETS).forEach(function(k) {{
+        if (!DATASETS[k]._embedded) {{
+            DATASETS[k]._imported = true;
+            toSave[k] = {{ chemicals: DATASETS[k].chemicals, polymers: DATASETS[k].polymers, meta: DATASETS[k].meta }};
+        }}
+    }});
+    try {{ localStorage.setItem(_LS_IMPORTED_KEY, JSON.stringify(toSave)); }} catch(e) {{}}
+}}
+
+function _loadImportedDatasets() {{
+    try {{
+        var raw = localStorage.getItem(_LS_IMPORTED_KEY);
+        if (!raw) return;
+        var saved = JSON.parse(raw);
+        Object.keys(saved).forEach(function(k) {{
+            if (!DATASETS[k]) {{ DATASETS[k] = saved[k]; DATASETS[k]._imported = true; }}
+        }});
+    }} catch(e) {{}}
+}}
+
+// ===================== API KEY =====================
+var _LS_API_KEY = 'materialism_claude_api_key';
+function saveApiKey() {{
+    var k = document.getElementById('claude-api-key').value.trim();
+    if (k) {{ localStorage.setItem(_LS_API_KEY, k); alert('API key saved.'); }}
+}}
+function _getApiKey() {{ return localStorage.getItem(_LS_API_KEY) || ''; }}
+setTimeout(function() {{
+    var saved = _getApiKey();
+    if (saved) document.getElementById('claude-api-key').value = saved;
+}}, 0);
+
+// ===================== PUBCHEM + CAS LOOKUP =====================
+function _delay(ms) {{ return new Promise(function(r) {{ setTimeout(r, ms); }}); }}
+
+function _pubchemLookup(query, isCAS) {{
+    var encoded = encodeURIComponent(query);
+    var propUrl = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encoded + '/property/MolecularWeight,MolecularFormula,CanonicalSMILES,IUPACName/JSON';
+    return fetch(propUrl).then(function(r) {{ if (!r.ok) return null; return r.json(); }}).then(function(data) {{
+        if (!data || !data.PropertyTable || !data.PropertyTable.Properties || !data.PropertyTable.Properties[0]) return null;
+        var p = data.PropertyTable.Properties[0];
+        var result = {{ mw: p.MolecularWeight || null, formula: p.MolecularFormula || '', smiles: p.CanonicalSMILES || '', iupac: p.IUPACName || '', cid: p.CID || null, source: 'PubChem', url: p.CID ? 'https://pubchem.ncbi.nlm.nih.gov/compound/' + p.CID : '' }};
+        if (result.cid && !isCAS) {{
+            return _delay(150).then(function() {{
+                return fetch('https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/' + result.cid + '/synonyms/JSON');
+            }}).then(function(r2) {{
+                if (!r2.ok) return result;
+                return r2.json().then(function(synData) {{
+                    var syns = (synData.InformationList && synData.InformationList.Information && synData.InformationList.Information[0] && synData.InformationList.Information[0].Synonym) || [];
+                    for (var i = 0; i < syns.length; i++) {{ if (/^\d{{2,7}}-\d{{2}}-\d$/.test(syns[i])) {{ result.cas = syns[i]; break; }} }}
+                    return result;
+                }});
+            }}).catch(function() {{ return result; }});
+        }}
+        return result;
+    }}).catch(function() {{ return null; }});
+}}
+
+function _casChemSearch(query) {{
+    return fetch('https://commonchemistry.cas.org/api/search?q=' + encodeURIComponent(query))
+        .then(function(r) {{ if (!r.ok) return null; return r.json(); }})
+        .then(function(data) {{ if (!data || !data.results || data.results.length === 0) return null; return data.results[0].rn; }})
+        .catch(function() {{ return null; }});
+}}
+
+function _casChemDetail(casRn) {{
+    return fetch('https://commonchemistry.cas.org/api/detail?cas_rn=' + encodeURIComponent(casRn))
+        .then(function(r) {{ if (!r.ok) return null; return r.json(); }})
+        .then(function(d) {{
+            if (!d) return null;
+            var nm = (d.name || '').replace(/<[^>]*>/g, '');
+            var mwStr = (d.molecularMass || '').replace(/[^\d.]/g, '');
+            return {{ name: nm, cas: d.rn || casRn, mw: mwStr ? parseFloat(mwStr) : null, formula: (d.molecularFormula || '').replace(/<[^>]*>/g, ''), smiles: d.smile || '', source: 'CAS Common Chemistry', url: 'https://commonchemistry.cas.org/detail?cas_rn=' + encodeURIComponent(casRn) }};
+        }}).catch(function() {{ return null; }});
+}}
+
+function _mwClose(a, b) {{ if (a == null || b == null) return false; return Math.abs(a - b) / Math.max(a, b) < 0.01; }}
+
+function _pubchemBP(cid) {{
+    if (!cid) return Promise.resolve(null);
+    var url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/' + cid + '/JSON?heading=Boiling+Point';
+    return fetch(url).then(function(r) {{ if (!r.ok) return null; return r.json(); }}).then(function(data) {{
+        if (!data || !data.Record || !data.Record.Section) return null;
+        var sections = data.Record.Section;
+        for (var i = 0; i < sections.length; i++) {{
+            var sub = sections[i].Section; if (!sub) continue;
+            for (var j = 0; j < sub.length; j++) {{
+                var info = sub[j].Information; if (!info) continue;
+                for (var k = 0; k < info.length; k++) {{
+                    var val = info[k].Value; if (!val) continue;
+                    if (val.StringWithMarkup && val.StringWithMarkup[0]) {{
+                        var s = val.StringWithMarkup[0].String || '';
+                        var m = s.match(/([-]?[\d.]+)\s*[°]?\s*C/i);
+                        if (m) return parseFloat(m[1]);
+                        m = s.match(/^([-]?[\d.]+)$/);
+                        if (m && val.Unit && val.Unit.toLowerCase().indexOf('c') !== -1) return parseFloat(m[1]);
+                    }}
+                    if (val.Number && val.Number.length > 0) {{
+                        var unit = (val.Unit || '').toLowerCase();
+                        if (unit.indexOf('c') !== -1 || unit === 'deg c' || unit === '\u00b0c') return val.Number[0];
+                    }}
+                }}
+            }}
+        }}
+        return null;
+    }}).catch(function() {{ return null; }});
+}}
+
+// ===================== CATEGORIZE SOLVENT =====================
+function _categorizeSolvent(smiles, name) {{
+    var s = (smiles || '').trim();
+    var n = (name || '').toLowerCase().trim();
+    if (s === 'O' || n === 'water') return 'Water';
+    if (/C\(=O\)O[^C\(]|C\(=O\)O$/.test(s) || /\bac(id|etic|rylic)\b|\bformic\b/.test(n)) return 'Acid';
+    if (/C\(=O\)N/.test(s) || /\b(dmf|dma|nmp|dmac|formamide|acetamide|pyrrolidone)\b/.test(n)) return 'Amide';
+    if (/C#N/.test(s) || /nitrile|\bacn\b|acetonitrile|\bcyanide\b/.test(n)) return 'Nitrile';
+    if (/S\(=O\)/.test(s) || /\b(dmso|sulfo|sulfoxide|sulfone|sulfolane)\b/.test(n)) return 'Sulfoxide/Sulfone';
+    var ohCount = 0;
+    if (s) {{ var stripped = s.replace(/C\(=O\)/g, ''); ohCount = (stripped.match(/O/g) || []).length; }}
+    if (ohCount >= 2) return 'Glycol/Polyol';
+    if (/C\(=O\)O[C]/.test(s) || /\b(acetate|ester|acrylate|butyrate|propionate)\b/.test(n)) return 'Ester';
+    if (/C\(=O\)[^ONS]/.test(s) || /\b(ketone|acetone|mek|mibk|cyclohexanone)\b/.test(n)) return 'Ketone';
+    if (/C=O/.test(s) && !/C\(=O\)/.test(s)) return 'Aldehyde';
+    if (ohCount === 1) return 'Alcohol';
+    if (/c1ccccc1|c1ccncc1|c1ccoc1|c1ccsc1/.test(s) || /\b(benzene|toluene|xylene|styrene|naphthalene|pyridine|furan|thiophene|phenyl)\b/.test(n)) return 'Aromatic';
+    if (/Cl|Br|F(?=[^e])/.test(s) || /\b(chlor|dichlor|trichlor|tetrachlor|fluor|brom|freon|perc)\b/.test(n)) return 'Halogenated';
+    if (s.indexOf('O') > -1 && ohCount === 0) return 'Ether';
+    if (/^[CC()\d]+$/.test(s.replace(/[()]/g,'')) || /\b(hexane|heptane|octane|pentane|cyclohexane|decane|alkane|paraffin|naphtha)\b/.test(n)) return 'Hydrocarbon';
+    return '';
+}}
+
+// ===================== INFER MISSING =====================
+var _inferRunning = false;
+var _inferCancelled = false;
+
+async function inferMissing(dsId) {{
+    if (_inferRunning) return;
+    _inferRunning = true;
+    _inferCancelled = false;
+    var progEl = document.getElementById('infer-progress');
+    if (progEl) {{ progEl.style.display = 'block'; progEl.innerHTML = '<div class="loading" style="padding:8px">Starting inference...</div>'; }}
+    var btn = document.getElementById('infer-btn');
+    if (btn) btn.disabled = true;
+    var ds = DATASETS[dsId];
+    var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
+    var fillable = ['cas','mw','smiles','bp','cat'];
+    var queue = [];
+    var selFieldsByRow = {{}};
+    Object.keys(_mSelCells).forEach(function(k) {{
+        var parts = k.split(':'); selFieldsByRow[parts[0]] = selFieldsByRow[parts[0]] || {{}};
+        selFieldsByRow[parts[0]][parts[1]] = true;
+    }});
+    var hasSelection = Object.keys(selFieldsByRow).length > 0;
+    items.forEach(function(item, idx) {{
+        if (hasSelection && !selFieldsByRow[String(idx)]) return;
+        var rowFields = hasSelection ? selFieldsByRow[String(idx)] : null;
+        var fieldsToCheck = rowFields ? fillable.filter(function(f) {{ return rowFields[f]; }}) : fillable;
+        var missing = fieldsToCheck.filter(function(f) {{ var v = item[f]; return v == null || v === '' || v === 0; }});
+        if (missing.length > 0) queue.push({{ item: item, idx: idx, missing: missing }});
+    }});
+    if (queue.length === 0) {{
+        _inferRunning = false;
+        var bar = document.getElementById('infer-progress');
+        if (bar) bar.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">All fields already populated.</span>';
+        return;
+    }}
+    var filled = 0, errors = 0;
+    function _showStep(itemName, itemNum, total, stepText) {{
+        var bar = document.getElementById('infer-progress');
+        if (!bar) return;
+        var pct = Math.round(100 * itemNum / total);
+        var h = '<div style="font-size:0.82rem;color:#2d3436;font-weight:600;margin-bottom:4px">Processing <b>' + (itemName||'').substring(0,45) + '</b> (' + itemNum + '/' + total + ')</div>';
+        h += '<div class="bar-bg"><div class="bar-fg" style="width:' + pct + '%"></div></div>';
+        h += '<div class="infer-step-log" id="infer-step-log"><div class="infer-step active"><span class="step-icon">&#8987;</span> ' + stepText + '</div></div>';
+        h += '<div style="display:flex;align-items:center;gap:10px;margin-top:6px"><button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.72rem" onclick="_inferCancelled=true">Cancel</button>';
+        h += '<span style="font-size:0.72rem;color:#b2bec3">' + filled + ' values filled</span></div>';
+        bar.innerHTML = h;
+    }}
+    function _setStep(itemName, itemNum, total, stepText, prevOk) {{
+        var log = document.getElementById('infer-step-log');
+        if (log) {{
+            var active = log.querySelector('.infer-step.active');
+            if (active) {{ active.classList.remove('active'); active.classList.add(prevOk ? 'ok' : 'warn'); active.querySelector('.step-icon').innerHTML = prevOk ? '&#10003;' : '&#10007;'; }}
+            var div = document.createElement('div'); div.className = 'infer-step active';
+            div.innerHTML = '<span class="step-icon">&#8987;</span> ' + stepText; log.appendChild(div);
+        }} else _showStep(itemName, itemNum, total, stepText);
+    }}
+
+    for (var i = 0; i < queue.length; i++) {{
+        if (_inferCancelled) break;
+        var entry = queue[i];
+        var item = entry.item;
+        var _iName = (item.name || item.cas || 'Item ' + (i+1));
+        if (!item._src) item._src = {{}};
+        _showStep(_iName, i+1, queue.length, 'Searching PubChem...');
+        try {{
+            var pub = null, lookupByCAS = false;
+            if (item.cas && item.cas.length > 3) {{ pub = await _pubchemLookup(item.cas, true); if (pub) lookupByCAS = true; }}
+            if (!pub && item.name) {{ _setStep(_iName, i+1, queue.length, 'Retrying by name...', false); await _delay(200); pub = await _pubchemLookup(item.name, false); }}
+            _setStep(_iName, i+1, queue.length, 'Searching CAS...', !!pub);
+            var casChem = null, casRnToLookup = item.cas || (pub && pub.cas);
+            if (casRnToLookup) {{ await _delay(200); casChem = await _casChemDetail(casRnToLookup); }}
+            else if (item.name && !pub) {{ await _delay(200); var foundCas = await _casChemSearch(item.name); if (foundCas) {{ await _delay(200); casChem = await _casChemDetail(foundCas); }} }}
+            var bpVal = null;
+            if (entry.missing.indexOf('bp') !== -1 && pub && pub.cid) {{
+                _setStep(_iName, i+1, queue.length, 'Looking up BP...', !!casChem);
+                await _delay(200); bpVal = await _pubchemBP(pub.cid);
+            }}
+            _setStep(_iName, i+1, queue.length, 'Filling values...', true);
+            entry.missing.forEach(function(field) {{
+                if (field === 'cat') {{
+                    var smi = item.smiles || (pub && pub.smiles) || '';
+                    var cat = _categorizeSolvent(smi, item.name || '');
+                    if (cat) {{ item.cat = cat; item._src.cat = {{ label: 'Auto-classified', url: '', uncertain: false }}; }}
+                    else {{ item.cat = 'Unknown'; item._src.cat = {{ label: 'Could not classify', url: '', uncertain: true, isNote: true }}; }}
+                    filled++; return;
+                }}
+                if (field === 'bp') {{
+                    if (bpVal != null) {{ item.bp = Math.round(bpVal * 10) / 10; item._src.bp = {{ label: 'PubChem (experimental)', url: (pub && pub.url) || '', uncertain: false }}; }}
+                    else {{ item.bp = 'Not found'; item._src.bp = {{ label: 'No BP data', url: '', uncertain: true, isNote: true }}; }}
+                    filled++; return;
+                }}
+                var pubVal = null, casVal = null, pubUrl = '', casUrl = '';
+                if (pub) {{ pubUrl = pub.url || ''; if (field === 'cas') pubVal = pub.cas; else if (field === 'mw') pubVal = pub.mw; else if (field === 'smiles') pubVal = pub.smiles; }}
+                if (casChem) {{ casUrl = casChem.url || ''; if (field === 'cas') casVal = casChem.cas; else if (field === 'mw') casVal = casChem.mw; else if (field === 'smiles') casVal = casChem.smiles; }}
+                var val = null, uncertain = false, srcLabel = '', srcUrl = '';
+                if (pubVal && casVal) {{ var match = (field === 'mw') ? _mwClose(pubVal, casVal) : (String(pubVal) === String(casVal)); if (match) {{ val = pubVal; srcLabel = 'PubChem + CAS'; srcUrl = pubUrl; }} else {{ val = pubVal; srcLabel = 'PubChem (CAS disagrees)'; srcUrl = pubUrl; uncertain = true; }} }}
+                else if (pubVal) {{ val = pubVal; srcLabel = 'PubChem'; srcUrl = pubUrl; if (!lookupByCAS) uncertain = true; }}
+                else if (casVal) {{ val = casVal; srcLabel = 'CAS'; srcUrl = casUrl; if (!lookupByCAS) uncertain = true; }}
+                if (val) {{ item[field] = val; item._src[field] = {{ label: srcLabel, url: srcUrl, uncertain: uncertain }}; }}
+                else {{ item[field] = 'Not found'; item._src[field] = {{ label: 'Not found', url: '', uncertain: true, isNote: true }}; }}
+                filled++;
+            }});
+        }} catch(e) {{ errors++; }}
+        await _delay(250);
+    }}
+    _inferRunning = false;
+    _saveImportedDatasets();
+    var bar2 = document.getElementById('infer-progress');
+    if (bar2) bar2.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">Done! Filled <b>' + filled + '</b> values.' + (errors > 0 ? ' (' + errors + ' errors)' : '') + '</span>';
+    renderContent();
+}}
+
+// ===================== SEARCH DATABASES =====================
+function searchDatabases() {{
+    var q = document.getElementById('search-input').value.trim();
+    if (!q) return;
+    var apiKey = _getApiKey();
+    if (!apiKey) {{
+        var ct = document.getElementById('content');
+        ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>API Key Required</h3><p>Enter your Claude API key first.</p></div></div>';
+        return;
+    }}
+    _viewMode = '_import';
+    buildSidebar();
+    var ct = document.getElementById('content');
+    ct.innerHTML = '<div class="detail-content"><div class="loading">Searching for HSP databases...</div></div>';
+    fetch('https://api.anthropic.com/v1/messages', {{
+        method: 'POST',
+        headers: {{ 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' }},
+        body: JSON.stringify({{ model: 'claude-sonnet-4-5-20250929', max_tokens: 2048, messages: [{{ role: 'user', content: 'Find downloadable Hansen Solubility Parameter (HSP) databases matching: "' + q + '". Return a JSON array with: name, url, description, estimated_materials, material_types, download_format, has_cas, has_smiles, quality. Only real sources. Return ONLY the JSON array.' }}] }})
+    }}).then(function(r) {{ if (!r.ok) return r.json().then(function(err) {{ throw new Error(err.error && err.error.message || 'API error'); }}); return r.json(); }}).then(function(data) {{
+        var text = data.content && data.content[0] && data.content[0].text || '';
+        var jsonMatch = text.match(/\[.*\]/s);
+        if (!jsonMatch) {{ ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>No results</h3><pre style="white-space:pre-wrap;font-size:0.8rem">' + text + '</pre></div></div>'; return; }}
+        try {{ showSearchResults(JSON.parse(jsonMatch[0])); }} catch(e) {{ ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Parse Error</h3></div></div>'; }}
+    }}).catch(function(err) {{ ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Error</h3><p>' + err.message + '</p></div></div>'; }});
+}}
+
+function showSearchResults(results) {{
+    var ct = document.getElementById('content');
+    if (results.length === 0) {{ ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>No Results</h3></div></div>'; return; }}
+    var h = '<div class="detail-content"><h3 style="margin-bottom:12px">Search Results (' + results.length + ')</h3>';
+    results.forEach(function(r) {{
+        h += '<div class="search-result-card"><h4>' + (r.name || 'Unknown') + '</h4>';
+        if (r.url) h += '<div style="font-size:0.78rem;margin-bottom:4px"><a href="' + r.url + '" target="_blank" style="color:#0984e3">' + r.url + '</a></div>';
+        if (r.description) h += '<div class="sr-desc">' + r.description + '</div>';
+        h += '<div class="sr-tags">';
+        if (r.estimated_materials) h += '<span class="sr-tag">' + r.estimated_materials + ' materials</span>';
+        if (r.material_types) r.material_types.forEach(function(t) {{ h += '<span class="sr-tag">' + t + '</span>'; }});
+        if (r.download_format) h += '<span class="sr-tag">' + r.download_format + '</span>';
+        if (r.has_cas === true) h += '<span class="sr-tag good">Has CAS</span>';
+        if (r.has_smiles === true) h += '<span class="sr-tag good">Has SMILES</span>';
+        if (r.quality) h += '<span class="sr-tag ' + (r.quality === 'high' ? 'good' : '') + '">Quality: ' + r.quality + '</span>';
+        h += '</div>';
+        if (r.url) h += '<button class="import-btn secondary" style="width:auto;padding:4px 14px;font-size:0.78rem" onclick="analyzeSearchResult(\x27' + r.url.replace(/'/g,"\\\x27") + '\x27)">Analyze</button>';
+        h += '</div>';
+    }});
+    h += '</div>';
+    ct.innerHTML = h;
+}}
+
+function analyzeSearchResult(url) {{ document.getElementById('url-input').value = url; analyzeUrl(); }}
+
+// ===================== EXPORT =====================
+function triggerRebuild() {{
+    _viewMode = '_import';
+    buildSidebar();
+    var ct = document.getElementById('content');
+    var dsKeys = Object.keys(DATASETS);
+    if (dsKeys.length === 0) {{ ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Nothing to Export</h3></div></div>'; return; }}
+    var h = '<div class="detail-content"><div class="analysis-card"><h3>Export Datasets</h3><p>Download CSV files:</p>';
+    dsKeys.forEach(function(k) {{
+        var ds = DATASETS[k]; var nc = (ds.chemicals || []).length; var np = (ds.polymers || []).length;
+        h += '<div style="margin:6px 0"><b>' + (ds.meta && ds.meta.name || k) + '</b> (' + nc + 'c, ' + np + 'p) ';
+        if (nc > 0) h += '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.75rem" onclick="exportCSV(\x27' + k + '\x27,\x27chemicals\x27)">Chemicals CSV</button> ';
+        if (np > 0) h += '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.75rem" onclick="exportCSV(\x27' + k + '\x27,\x27polymers\x27)">Polymers CSV</button>';
+        h += '</div>';
+    }});
+    h += '</div></div>';
+    ct.innerHTML = h;
+}}
+
+function exportCSV(dsId, type) {{
+    var ds = DATASETS[dsId]; var items = ds[type] || [];
+    if (items.length === 0) return;
+    var cols = type === 'chemicals' ? ['name','cas','dd','dp','dh','mw','bp','cat','smiles','density','conf'] : ['name','cas','dd','dp','dh','r','type','conf'];
+    var csv = cols.join(',') + '\n';
+    items.forEach(function(r) {{
+        csv += cols.map(function(c) {{ var v = r[c]; v = v == null ? '' : String(v); return v.indexOf(',') > -1 ? '"' + v + '"' : v; }}).join(',') + '\n';
+    }});
+    var blob = new Blob([csv], {{ type: 'text/csv' }});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = dsId + '_' + type + '.csv'; a.click();
+}}
+
+// ===================== INIT =====================
+// Mark embedded datasets
 Object.keys(DATASETS).forEach(function(k) {{ DATASETS[k]._embedded = true; }});
-// Remove embedded datasets that the user previously deleted
+// Remove deleted datasets
 (function() {{
     try {{
         var raw = localStorage.getItem('materialism_deleted_datasets');
@@ -5669,19 +5079,19 @@ Object.keys(DATASETS).forEach(function(k) {{ DATASETS[k]._embedded = true; }});
     }} catch(e) {{}}
 }})();
 _loadImportedDatasets();
-
-// Init
+loadDbEdits();
 buildSidebar();
-var dsKeys = Object.keys(DATASETS);
-if (dsKeys.length > 0) selectDs(dsKeys[0]);
+renderContent();
 </script>
 </body>
 </html>"""
 
-manage_output_path = os.path.join(os.path.dirname(__file__), "manage.html")
-with open(manage_output_path, "w") as f:
-    f.write(manage_html)
-print(f"Generated: {manage_output_path}")
+# ===================== WRITE DATABASE PAGE =====================
+db_output_path = os.path.join(os.path.dirname(__file__), "database.html")
+with open(db_output_path, "w") as f:
+    f.write(database_html)
+print(f"Generated: {db_output_path}")
+print(f"Database page: {len(db_solvents)} solvents, {len(db_polymers)} polymers")
 ds_total_chems = sum(len(d.get("chemicals", [])) for d in per_dataset_data.values())
 ds_total_polys = sum(len(d.get("polymers", [])) for d in per_dataset_data.values())
-print(f"Manage page: {len(per_dataset_data)} datasets, {ds_total_chems} chemicals, {ds_total_polys} polymers")
+print(f"Datasets: {len(per_dataset_data)} datasets, {ds_total_chems} chemicals, {ds_total_polys} polymers")
