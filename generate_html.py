@@ -3336,7 +3336,7 @@ function buildSidebar() {{
         var sel = _viewMode === k ? ' active' : '';
         var nc = (ds.chemicals || []).length;
         var np = (ds.polymers || []).length;
-        html += '<div class="ds-card' + sel + '" onclick="selectDs(\x27' + k + '\x27)">';
+        html += '<div class="ds-card' + sel + '" onclick="selectDs(\\x27' + k + '\\x27)">';
         html += '<h3>' + (m.name || k) + '</h3>';
         html += '<div class="ds-counts">' + nc + ' chemicals, ' + np + ' polymers</div>';
         html += '<span class="ds-status ' + (active ? 'on' : 'off') + '">' + (active ? 'Active' : 'Inactive') + '</span>';
@@ -3355,8 +3355,8 @@ function renderActiveDb() {{
     // Build toolbar
     var toolbar = '<div class="toolbar">';
     toolbar += '<div class="db-tabs">';
-    toolbar += '<button id="tab-solv" class="db-tab' + (_activeDbTab === 'solvents' ? ' active' : '') + '" onclick="switchTab(\x27solvents\x27)">Solvents (' + _countForTab('solvents') + ')</button>';
-    toolbar += '<button id="tab-poly" class="db-tab' + (_activeDbTab === 'polymers' ? ' active' : '') + '" onclick="switchTab(\x27polymers\x27)">Polymers (' + _countForTab('polymers') + ')</button>';
+    toolbar += '<button id="tab-solv" class="db-tab' + (_activeDbTab === 'solvents' ? ' active' : '') + '" onclick="switchTab(\\x27solvents\\x27)">Solvents (' + _countForTab('solvents') + ')</button>';
+    toolbar += '<button id="tab-poly" class="db-tab' + (_activeDbTab === 'polymers' ? ' active' : '') + '" onclick="switchTab(\\x27polymers\\x27)">Polymers (' + _countForTab('polymers') + ')</button>';
     toolbar += '</div>';
     toolbar += '<input type="text" id="db-filter" placeholder="Filter by name or CAS..." oninput="_filterText=this.value;renderContent()" value="' + (_filterText||'').replace(/"/g,'&quot;') + '">';
     toolbar += '<button id="lock-btn" class="lock-btn' + (_dbEditing ? ' unlocked' : '') + '" onclick="toggleDbLock()" title="' + (_dbEditing ? 'Click to lock' : 'Click to unlock editing') + '">';
@@ -3417,8 +3417,8 @@ function renderActiveDb() {{
             }}
             _srcOptions.forEach(function(s) {{
                 var checked = srcFilterSet[s] ? ' checked' : '';
-                var esc = s.replace(/'/g, '\x27');
-                hdr += '<div class="src-filter-opt" onclick="toggleSrcFilter(\x27' + esc + '\x27)">';
+                var esc = s.replace(/'/g, '\\x27');
+                hdr += '<div class="src-filter-opt" onclick="toggleSrcFilter(\\x27' + esc + '\\x27)">';
                 hdr += '<input type="checkbox"' + checked + ' tabindex="-1"><label>' + s + '</label></div>';
             }});
             hdr += '</div></div></th>';
@@ -3444,7 +3444,7 @@ function renderActiveDb() {{
 
             if (_dbEditing) {{
                 html += '<td class="editing' + cellSel + '" data-row="' + idx + '" data-col="' + c.key + '"' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>';
-                html += '<input type="text" value="' + String(val).replace(/"/g, '&quot;') + '" onchange="setDbVal(\x27' + _activeDbTab + '\x27,' + idx + ',\x27' + c.key + '\x27,this.value)">';
+                html += '<input type="text" value="' + String(val).replace(/"/g, '&quot;') + '" onchange="setDbVal(\\x27' + _activeDbTab + '\\x27,' + idx + ',\\x27' + c.key + '\\x27,this.value)">';
                 html += '</td>';
             }} else {{
                 var display = val;
@@ -3463,7 +3463,7 @@ function renderActiveDb() {{
                     }} else {{
                         var matName = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx].name;
                         if (CAS_CANDIDATES[matName]) {{
-                            display = '<button class="cas-missing" onclick="openCrosslink(event,\x27' + _activeDbTab + '\x27,' + idx + ')" title="Find CAS #">?</button>';
+                            display = '<button class="cas-missing" onclick="openCrosslink(event,\\x27' + _activeDbTab + '\\x27,' + idx + ')" title="Find CAS #">?</button>';
                         }}
                     }}
                 }}
@@ -3517,14 +3517,14 @@ function renderDetail() {{
     html += '<div class="ds-detail-header">';
     html += '<div class="ds-title-row">';
     html += '<h2>' + (m.name || dsId) + '</h2>';
-    html += '<button class="lock-btn' + (isEdit ? ' unlocked' : '') + '" onclick="toggleEditMode(\x27' + dsId + '\x27)">';
+    html += '<button class="lock-btn' + (isEdit ? ' unlocked' : '') + '" onclick="toggleEditMode(\\x27' + dsId + '\\x27)">';
     if (isEdit) {{
         html += '<svg viewBox="0 0 24 24"><path d="M18 8h-1V6A5 5 0 0 0 7 6h2a3 3 0 0 1 6 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>Editing';
     }} else {{
         html += '<svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z"/></svg>Locked';
     }}
     html += '</button>';
-    html += '<button class="delete-ds-btn" id="delete-ds-btn" onclick="deleteDsClick(\x27' + dsId + '\x27)">';
+    html += '<button class="delete-ds-btn" id="delete-ds-btn" onclick="deleteDsClick(\\x27' + dsId + '\\x27)">';
     html += '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
     html += 'Delete';
     html += '</button>';
@@ -3537,10 +3537,10 @@ function renderDetail() {{
     if (m.quality_notes) html += 'Notes: ' + m.quality_notes + '<br>';
     if (m.fields_available) html += 'Fields: ' + m.fields_available.join(', ') + '<br>';
     html += '</div>';
-    html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\x27' + dsId + '\x27)">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
+    html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\\x27' + dsId + '\\x27)">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
     var _selN = _mGetSelCount();
     var _inferLabel = _selN > 0 ? 'Infer Missing Values (' + _selN + ' cell' + (_selN > 1 ? 's' : '') + ')' : 'Infer Missing Values';
-    html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\x27' + dsId + '\x27)"' + (_inferRunning ? ' disabled' : '') + '>' + _inferLabel + '</button>';
+    html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\\x27' + dsId + '\\x27)"' + (_inferRunning ? ' disabled' : '') + '>' + _inferLabel + '</button>';
     html += '<span class="sel-info" id="sel-info"' + (_selN > 0 ? '' : ' style="display:none"') + '>' + (_selN > 0 ? _selN + ' cell' + (_selN > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>' : '') + '</span>';
     html += '</div>';
     html += '<div class="infer-progress" id="infer-progress" style="display:none"></div>';
@@ -4313,8 +4313,8 @@ function _normCAS(v) {{
 }}
 
 function _parseCSVText(text) {{
-    var delim = (text.indexOf('\t') > -1 && text.split('\t').length > text.split(',').length) ? '\t' : ',';
-    var lines = text.split(/\r?\n/);
+    var delim = (text.indexOf('\\t') > -1 && text.split('\\t').length > text.split(',').length) ? '\\t' : ',';
+    var lines = text.split(/\\r?\\n/);
     var headers = lines[0].split(delim).map(function(h) {{ return h.trim().replace(/^["']|["']$/g, ''); }});
     var rows = [];
     for (var i = 1; i < lines.length; i++) {{
@@ -4416,7 +4416,7 @@ function _extractTableFromPDFLines(lines) {{
 function _splitPDFLine(line) {{
     var parts = line.split(/\s{{2,}}/).map(function(s) {{ return s.trim(); }}).filter(Boolean);
     if (parts.length >= 3) return parts;
-    parts = line.split('\t').map(function(s) {{ return s.trim(); }}).filter(Boolean);
+    parts = line.split('\\t').map(function(s) {{ return s.trim(); }}).filter(Boolean);
     if (parts.length >= 3) return parts;
     if (line.indexOf('|') > -1) {{
         parts = line.split('|').map(function(s) {{ return s.trim(); }}).filter(Boolean);
@@ -5025,7 +5025,7 @@ function showSearchResults(results) {{
         if (r.has_smiles === true) h += '<span class="sr-tag good">Has SMILES</span>';
         if (r.quality) h += '<span class="sr-tag ' + (r.quality === 'high' ? 'good' : '') + '">Quality: ' + r.quality + '</span>';
         h += '</div>';
-        if (r.url) h += '<button class="import-btn secondary" style="width:auto;padding:4px 14px;font-size:0.78rem" onclick="analyzeSearchResult(\x27' + r.url.replace(/'/g,"\\\x27") + '\x27)">Analyze</button>';
+        if (r.url) h += '<button class="import-btn secondary" style="width:auto;padding:4px 14px;font-size:0.78rem" onclick="analyzeSearchResult(\\x27' + r.url.replace(/'/g,"\\\\x27") + '\\x27)">Analyze</button>';
         h += '</div>';
     }});
     h += '</div>';
@@ -5045,8 +5045,8 @@ function triggerRebuild() {{
     dsKeys.forEach(function(k) {{
         var ds = DATASETS[k]; var nc = (ds.chemicals || []).length; var np = (ds.polymers || []).length;
         h += '<div style="margin:6px 0"><b>' + (ds.meta && ds.meta.name || k) + '</b> (' + nc + 'c, ' + np + 'p) ';
-        if (nc > 0) h += '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.75rem" onclick="exportCSV(\x27' + k + '\x27,\x27chemicals\x27)">Chemicals CSV</button> ';
-        if (np > 0) h += '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.75rem" onclick="exportCSV(\x27' + k + '\x27,\x27polymers\x27)">Polymers CSV</button>';
+        if (nc > 0) h += '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.75rem" onclick="exportCSV(\\x27' + k + '\\x27,\\x27chemicals\\x27)">Chemicals CSV</button> ';
+        if (np > 0) h += '<button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.75rem" onclick="exportCSV(\\x27' + k + '\\x27,\\x27polymers\\x27)">Polymers CSV</button>';
         h += '</div>';
     }});
     h += '</div></div>';
@@ -5057,9 +5057,9 @@ function exportCSV(dsId, type) {{
     var ds = DATASETS[dsId]; var items = ds[type] || [];
     if (items.length === 0) return;
     var cols = type === 'chemicals' ? ['name','cas','dd','dp','dh','mw','bp','cat','smiles','density','conf'] : ['name','cas','dd','dp','dh','r','type','conf'];
-    var csv = cols.join(',') + '\n';
+    var csv = cols.join(',') + '\\n';
     items.forEach(function(r) {{
-        csv += cols.map(function(c) {{ var v = r[c]; v = v == null ? '' : String(v); return v.indexOf(',') > -1 ? '"' + v + '"' : v; }}).join(',') + '\n';
+        csv += cols.map(function(c) {{ var v = r[c]; v = v == null ? '' : String(v); return v.indexOf(',') > -1 ? '"' + v + '"' : v; }}).join(',') + '\\n';
     }});
     var blob = new Blob([csv], {{ type: 'text/csv' }});
     var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = dsId + '_' + type + '.csv'; a.click();
