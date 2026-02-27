@@ -538,7 +538,7 @@ def build_3d_figure(df, poly_row=None, fitted_sphere=None, mixture_data=None):
                 else:
                     marker_colors.append("#EF553B")  # Red = outside
         else:
-            marker_colors = color
+            marker_colors = [color] * len(cat_df)
 
         fig.add_trace(go.Scatter3d(
             x=cat_df["delta_d"],
@@ -653,7 +653,7 @@ def build_2d_figure(df, poly_row=None, projection="dp", fitted_sphere=None,
                 else:
                     marker_colors.append("#EF553B")
         else:
-            marker_colors = color
+            marker_colors = [color] * len(cat_df)
 
         fig.add_trace(go.Scatter(
             x=cat_df[x_col],
