@@ -326,6 +326,23 @@ POLYMER_TYPE_TO_CAT = {
     "Hydrocarbon Resins": "Resin", "Silicone Resins": "Resin",
     "Chlorinated Polypropylene": "Halogenated",
     "Chloroparaffin": "Halogenated",
+    # Handbook chapter titles → broad categories
+    "Chemical Resistance of Plastics": "Engineering",
+    "Chemical Resistance of High Performance and Other Polymers": "Engineering",
+    "Chemical Resistance Data - Modern Plastics Encylopedia": "Engineering",
+    "Correlations for Some Barrier-Type Polymers": "Engineering",
+    "Practical Film Thickness": "Resin",
+    "Polyvinylidene Chloride": "Vinyl & Styrene",
+    "Alkyd": "Polyester & Alkyd",
+    "Polyisobutylene": "Polyolefin",
+    # Catch-all chapter titles that contain mixed polymer types
+    "Based on Solvent Range Solubility Data - Not too Reliable": "Other",
+    "Miscellaneous - Solvent Range": "Other",
+    "Miscellaneous": "Other",
+    "Special Data": "Other",
+    "Special": "Other",
+    "Supplemental Chemical Resistance Corrlations": "Other",
+    "Polymer Solubility Data from Various Sources": "Other",
 }
 # Everything not explicitly mapped falls to "Other"
 POLYMER_CAT_COLORS = {
@@ -339,10 +356,12 @@ POLYMER_CAT_COLORS = {
     "Other": "#a9a9a9",
 }
 
-# Assign category to each polymer — use the type directly so the legend
-# matches the Classification column shown in the table.
+# Assign broad category to each polymer using the type-to-category mapping.
+# This groups the many specific types (including handbook chapter titles)
+# into a manageable set of broad categories for coloring and legend display.
 for p in poly_data:
-    p["cat"] = p["type"] or "Other"
+    raw_type = p["type"] or "Other"
+    p["cat"] = POLYMER_TYPE_TO_CAT.get(raw_type, "Other")
 
 # Serialize data for JS embedding
 solvents_json = json.dumps(solvents)
@@ -1125,6 +1144,10 @@ full_html = f"""<!DOCTYPE html>
             // Rebuild home table with filter applied
             buildHomeTable();
             // Re-run last search so results table reflects the filter
+            _rerunActiveSearch();
+        }}
+
+        function _rerunActiveSearch() {{
             if (_isSearchActive && lastSearchQuery) {{
                 var parsed = parseQuery(lastSearchQuery);
                 var result = executeSearch(parsed);
@@ -1169,6 +1192,7 @@ full_html = f"""<!DOCTYPE html>
             _syncGroupHeader(el.closest('.legend-group'));
             _updatePlotForCommonFilter();
             buildHomeTable();
+            _rerunActiveSearch();
         }}
 
         function toggleGroupVisibility(header) {{
@@ -1195,6 +1219,7 @@ full_html = f"""<!DOCTYPE html>
             header.classList.toggle('legend-hidden', anyVisible);
             _updatePlotForCommonFilter();
             buildHomeTable();
+            _rerunActiveSearch();
         }}
 
         function _syncGroupHeader(group) {{
@@ -1598,6 +1623,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var si = 0; si < N; si++) {{
                     if (!_isDsActive(SOLVENTS[si].dsId)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
+                    if (_hiddenSolCats[SOLVENTS[si].cat || 'other']) continue;
                     var cs = 0, dd0 = _sDD[si], dp0 = _sDP[si], dh0 = _sDH[si];
                     for (var ti = 0; ti < targets.length; ti++) {{
                         var ddd = dd0 - tDDs[ti], ddp = dp0 - tDPs[ti], ddh = dh0 - tDHs[ti];
@@ -1630,6 +1656,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var si = 0; si < N; si++) {{
                     if (!_isDsActive(SOLVENTS[si].dsId)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
+                    if (_hiddenSolCats[SOLVENTS[si].cat || 'other']) continue;
                     var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
                     scored.push({{ _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) }});
                 }}
@@ -1662,6 +1689,7 @@ full_html = f"""<!DOCTYPE html>
                     if (SOLVENTS[si].name === target.name) continue;
                     if (!_isDsActive(SOLVENTS[si].dsId)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
+                    if (_hiddenSolCats[SOLVENTS[si].cat || 'other']) continue;
                     var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
                     scored.push({{ _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) }});
                 }}
@@ -1675,7 +1703,7 @@ full_html = f"""<!DOCTYPE html>
                 let target = findPolymer(material);
                 if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findPolymer(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find polymer "' + material + '". Try "polystyrene", "epoxy", "PMMA", etc.' }};
-                var scored = POLYMERS.filter(function(p) {{ return p.name !== target.name && _isDsActive(p.dsId); }});
+                var scored = POLYMERS.filter(function(p) {{ return p.name !== target.name && _isDsActive(p.dsId) && !_hiddenPolyCats[p.cat || 'Other']; }});
                 if (simpleMode) scored = scored.filter(function(p) {{ return p.common; }});
                 scored = scored.map(p => ({{ ...p, ra: hspDistance(p, target) }}));
                 var results = topK(scored, resultCount, function(x) {{ return x.ra; }});
@@ -1687,7 +1715,7 @@ full_html = f"""<!DOCTYPE html>
                 let target = findSolvent(material);
                 if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findSolvent(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find solvent "' + material + '". Try "toluene", "acetone", "NMP", "DMSO", etc.' }};
-                var scored = POLYMERS.filter(function(p) {{ return p.r && p.r > 0 && _isDsActive(p.dsId); }});
+                var scored = POLYMERS.filter(function(p) {{ return p.r && p.r > 0 && _isDsActive(p.dsId) && !_hiddenPolyCats[p.cat || 'Other']; }});
                 if (simpleMode) scored = scored.filter(function(p) {{ return p.common; }});
                 scored = scored.map(p => ({{ ...p, ra: hspDistance(target, p), red: redNumber(target, p) }}));
                 var results = topK(scored, resultCount, function(x) {{ return x.ra; }});
@@ -2422,14 +2450,15 @@ full_html = f"""<!DOCTYPE html>
                 for (var i = 0; i < filtered.length; i++) {{
                     var p = filtered[i];
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
-                    rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer">';
+                    var catColor = _dynamicPolyCatColors[p.cat] || '#a9a9a9';
+                    rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name">' + p.name + '</span></td>';
                     rowsHtml += '<td>' + (p.cas || '') + '</td>';
                     rowsHtml += '<td>' + lnk(p.dd, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
-                    rowsHtml += '<td>' + (p.type || '') + '</td>';
+                    rowsHtml += '<td style="color:' + catColor + '">' + (p.cat || '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }}
