@@ -1777,8 +1777,8 @@ full_html = f"""<!DOCTYPE html>
             h.push(th('#'), th('Name'), th('CAS #'), th('&delta;D (MPa<sup>\u00bd</sup>)'), th('&delta;P (MPa<sup>\u00bd</sup>)'), th('&delta;H (MPa<sup>\u00bd</sup>)'), th('MW (g/mol)'), th('BP (&deg;C)'));
             if (isMulti) {{ result.targets.forEach(t => {{ h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }}); }}
             else if (showRed) {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('RED')); }}
-            else if (parentIntent === 'similar_solvents') {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('Category')); }}
-            else {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('R&#8320; (MPa<sup>\u00bd</sup>)'), th('Type')); }}
+            else if (parentIntent === 'similar_solvents') {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('Classification')); }}
+            else {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('R&#8320; (MPa<sup>\u00bd</sup>)'), th('Classification')); }}
             h.push('</tr></thead><tbody>');
 
             // --- Target material rows ---
@@ -2359,7 +2359,7 @@ full_html = f"""<!DOCTYPE html>
                 }});
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)','Category'].forEach(function(label, i) {{
+                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)','Classification'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
@@ -2401,7 +2401,7 @@ full_html = f"""<!DOCTYPE html>
                 }});
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)','Type'].forEach(function(label, i) {{
+                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)','Classification'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';

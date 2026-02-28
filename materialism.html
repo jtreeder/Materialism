@@ -5299,8 +5299,8 @@ return Plotly;
             h.push(th('#'), th('Name'), th('CAS #'), th('&delta;D (MPa<sup>½</sup>)'), th('&delta;P (MPa<sup>½</sup>)'), th('&delta;H (MPa<sup>½</sup>)'), th('MW (g/mol)'), th('BP (&deg;C)'));
             if (isMulti) { result.targets.forEach(t => { h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }); }
             else if (showRed) { h.push(th('Ra (MPa<sup>½</sup>)'), th('RED')); }
-            else if (parentIntent === 'similar_solvents') { h.push(th('Ra (MPa<sup>½</sup>)'), th('Category')); }
-            else { h.push(th('Ra (MPa<sup>½</sup>)'), th('R&#8320; (MPa<sup>½</sup>)'), th('Type')); }
+            else if (parentIntent === 'similar_solvents') { h.push(th('Ra (MPa<sup>½</sup>)'), th('Classification')); }
+            else { h.push(th('Ra (MPa<sup>½</sup>)'), th('R&#8320; (MPa<sup>½</sup>)'), th('Classification')); }
             h.push('</tr></thead><tbody>');
 
             // --- Target material rows ---
@@ -5881,7 +5881,7 @@ return Plotly;
                 });
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>½</sup>)','&delta;P (MPa<sup>½</sup>)','&delta;H (MPa<sup>½</sup>)','MW (g/mol)','BP (&deg;C)','Category'].forEach(function(label, i) {
+                ['Name','CAS #','&delta;D (MPa<sup>½</sup>)','&delta;P (MPa<sup>½</sup>)','&delta;H (MPa<sup>½</sup>)','MW (g/mol)','BP (&deg;C)','Classification'].forEach(function(label, i) {
                     headerHtml += thWithTip(label, i);
                 });
                 headerHtml += '</tr>';
@@ -5923,7 +5923,7 @@ return Plotly;
                 });
                 tbl.insertBefore(cg, thead);
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>½</sup>)','&delta;P (MPa<sup>½</sup>)','&delta;H (MPa<sup>½</sup>)','R&#8320; (MPa<sup>½</sup>)','Type'].forEach(function(label, i) {
+                ['Name','CAS #','&delta;D (MPa<sup>½</sup>)','&delta;P (MPa<sup>½</sup>)','&delta;H (MPa<sup>½</sup>)','R&#8320; (MPa<sup>½</sup>)','Classification'].forEach(function(label, i) {
                     headerHtml += thWithTip(label, i);
                 });
                 headerHtml += '</tr>';
