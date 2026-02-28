@@ -2458,7 +2458,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
-                    rowsHtml += '<td style="color:' + catColor + '">' + (p.cat || '') + '</td>';
+                    rowsHtml += '<td style="color:' + catColor + '">' + (p.type || '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }}
