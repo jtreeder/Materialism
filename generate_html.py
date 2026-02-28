@@ -746,8 +746,11 @@ full_html = f"""<!DOCTYPE html>
 
         // Color maps for solvents and polymers — use static maps as primary source,
         // generate fallback colors only for categories not in the static maps.
-        var _dynamicCatColors = {{}};
-        var _dynamicPolyCatColors = {{}};
+        // Pre-initialize from static maps so colors are available immediately.
+        var _dynamicCatColors = Object.assign({{}}, CAT_COLORS);
+        var _dynamicPolyCatColors = Object.assign({{}}, POLY_CAT_COLORS);
+        var _solventColors = SOLVENTS.map(function(s) {{ return _dynamicCatColors[s.cat] || '#888'; }});
+        var _polymerColors = POLYMERS.map(function(p) {{ return _dynamicPolyCatColors[p.cat] || '#a9a9a9'; }});
 
         function _computeDynamicColors() {{
             // Use the hand-picked static color maps as the base.
@@ -791,6 +794,8 @@ full_html = f"""<!DOCTYPE html>
             _solventColors = SOLVENTS.map(function(s) {{ return _dynamicCatColors[s.cat] || '#888'; }});
             _polymerColors = POLYMERS.map(function(p) {{ return _dynamicPolyCatColors[p.cat] || '#a9a9a9'; }});
         }}
+        // Compute colors immediately so they are available before DOMContentLoaded
+        _computeDynamicColors();
 
         function _onDatasetsChanged() {{
             _activeDsets = _getActiveDsets();
@@ -2030,8 +2035,8 @@ full_html = f"""<!DOCTYPE html>
 
         // Track result traces layered on top of the 2 base traces
         var _baseTraceCount = 0;
-        var _solventColors = [];
-        var _polymerColors = [];
+        // _solventColors and _polymerColors are declared and pre-computed above
+        // (near _dynamicCatColors) and updated by _computeDynamicColors().
         var _resultTraceCount = 0;
         var _plotDimmed = false;
 
