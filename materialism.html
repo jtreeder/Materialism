@@ -5426,12 +5426,11 @@ return Plotly;
             var pList = Object.keys(pCats).sort(function(a,b) { return pCats[b] - pCats[a]; });
             var h = '';
             // Solvents group — show only active-dataset count
-            var firstSolColor = sList.length > 0 ? (_dynamicCatColors[sList[0]] || '#888') : '#888';
             var allSolHidden = sList.length > 0 && sList.every(function(c) { return !!_hiddenSolCats[c]; });
             h += '<div class="legend-group">';
             h += '<div class="legend-header' + (allSolHidden ? ' legend-hidden' : '') + '" onclick="toggleGroupVisibility(this)">';
             h += '<span class="legend-arrow" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
-            h += '<span class="legend-marker" style="background:' + firstSolColor + '"></span>';
+            h += '<span class="legend-marker" style="background:#000"></span>';
             h += 'Solvents (' + activeSolCount + ')';
             h += '</div>';
             h += '<div class="legend-items">';
@@ -5443,12 +5442,11 @@ return Plotly;
             });
             h += '</div></div>';
             // Polymers group — show only active-dataset count
-            var firstPolyColor = pList.length > 0 ? (_dynamicPolyCatColors[pList[0]] || '#a9a9a9') : '#a9a9a9';
             var allPolyHidden = pList.length > 0 && pList.every(function(c) { return !!_hiddenPolyCats[c]; });
             h += '<div class="legend-group">';
             h += '<div class="legend-header' + (allPolyHidden ? ' legend-hidden' : '') + '" onclick="toggleGroupVisibility(this)">';
             h += '<span class="legend-arrow" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
-            h += '<span class="legend-marker diamond" style="background:' + firstPolyColor + '"></span>';
+            h += '<span class="legend-marker diamond" style="background:#000"></span>';
             h += 'Polymers (' + activePolyCount + ')';
             h += '</div>';
             h += '<div class="legend-items">';
