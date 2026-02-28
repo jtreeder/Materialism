@@ -4246,50 +4246,49 @@ return Plotly;
         }
         var _activeDsets = _getActiveDsets();
 
-        // Dynamic color maps — rebuilt when active datasets change so colors
-        // always spread across the full spectrum for maximum visibility.
+        // Color maps for solvents and polymers — use static maps as primary source,
+        // generate fallback colors only for categories not in the static maps.
         var _dynamicCatColors = {};
         var _dynamicPolyCatColors = {};
 
-        function _generateDistinctColors(n, hueOffset) {
-            if (n === 0) return [];
-            var colors = [];
-            var goldenAngle = 137.508; // degrees — optimal irrational spacing
-            hueOffset = hueOffset || 0;
-            for (var i = 0; i < n; i++) {
-                var hue = (hueOffset + i * goldenAngle) % 360;
-                var sat = 65 + (i % 3) * 12;   // 65%, 77%, 89%
-                var light = 50 + (i % 2) * 12;  // 50%, 62%
-                colors.push('hsl(' + Math.round(hue) + ',' + sat + '%,' + light + '%)');
-            }
-            return colors;
-        }
-
         function _computeDynamicColors() {
-            // Determine which categories exist in active datasets
-            var solCats = {};
+            // Use the hand-picked static color maps as the base.
+            // For any categories not in the static maps, generate a distinct color.
+            _dynamicCatColors = {};
+            Object.keys(CAT_COLORS).forEach(function(k) { _dynamicCatColors[k] = CAT_COLORS[k]; });
+            _dynamicPolyCatColors = {};
+            Object.keys(POLY_CAT_COLORS).forEach(function(k) { _dynamicPolyCatColors[k] = POLY_CAT_COLORS[k]; });
+
+            // Discover any categories present in active data but missing from
+            // the static maps, and assign them generated fallback colors.
+            var usedHues = [];
+            var unknownSol = [], unknownPoly = [];
             SOLVENTS.forEach(function(s) {
                 if (!_isDsActive(s.dsId)) return;
                 var c = s.cat || 'other';
-                solCats[c] = (solCats[c] || 0) + 1;
+                if (!_dynamicCatColors[c]) {
+                    if (unknownSol.indexOf(c) === -1) unknownSol.push(c);
+                }
             });
-            var polyCats = {};
             POLYMERS.forEach(function(p) {
                 if (!_isDsActive(p.dsId)) return;
                 var c = p.cat || 'Other';
-                polyCats[c] = (polyCats[c] || 0) + 1;
+                if (!_dynamicPolyCatColors[c]) {
+                    if (unknownPoly.indexOf(c) === -1) unknownPoly.push(c);
+                }
             });
-            // Sort by count descending for consistent ordering
-            var solList = Object.keys(solCats).sort(function(a,b) { return solCats[b] - solCats[a]; });
-            var polyList = Object.keys(polyCats).sort(function(a,b) { return polyCats[b] - polyCats[a]; });
-            // Generate colors spread across full spectrum
-            // Solvent hues start at 0°, polymer hues offset by 60° to avoid collisions
-            var solColors = _generateDistinctColors(solList.length, 0);
-            var polyColors = _generateDistinctColors(polyList.length, 60);
-            _dynamicCatColors = {};
-            solList.forEach(function(cat, i) { _dynamicCatColors[cat] = solColors[i]; });
-            _dynamicPolyCatColors = {};
-            polyList.forEach(function(cat, i) { _dynamicPolyCatColors[cat] = polyColors[i]; });
+            // Generate fallback colors using golden-angle spacing
+            var fallbackIdx = 0;
+            function nextFallback() {
+                var hue = (30 + fallbackIdx * 137.508) % 360;
+                var sat = 65 + (fallbackIdx % 3) * 12;
+                var light = 45 + (fallbackIdx % 2) * 12;
+                fallbackIdx++;
+                return 'hsl(' + Math.round(hue) + ',' + sat + '%,' + light + '%)';
+            }
+            unknownSol.forEach(function(c) { _dynamicCatColors[c] = nextFallback(); });
+            unknownPoly.forEach(function(c) { _dynamicPolyCatColors[c] = nextFallback(); });
+
             // Rebuild per-point color arrays for the plot
             _solventColors = SOLVENTS.map(function(s) { return _dynamicCatColors[s.cat] || '#888'; });
             _polymerColors = POLYMERS.map(function(p) { return _dynamicPolyCatColors[p.cat] || '#a9a9a9'; });
@@ -5335,9 +5334,11 @@ return Plotly;
                     } else if (showRed) {
                         h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td>');
                     } else if (parentIntent === 'similar_solvents') {
-                        h.push('<td></td><td>', (t.cat || ''), '</td>');
+                        var _tc = _dynamicCatColors[t.cat] || '#888';
+                        h.push('<td></td><td style="color:', _tc, '">', (t.cat || ''), '</td>');
                     } else {
-                        h.push('<td></td><td>', (t.r || ''), '</td><td>', (t.type || ''), '</td>');
+                        var _tc = _dynamicPolyCatColors[t.cat] || '#a9a9a9';
+                        h.push('<td></td><td>', (t.r || ''), '</td><td style="color:', _tc, '">', (t.type || ''), '</td>');
                     }
                     h.push('</tr>');
                 });
@@ -5352,7 +5353,7 @@ return Plotly;
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
                 if (isMulti) { result.targets.forEach(t => { const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) { if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; } h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }); }
-                else { h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) { const red = r.red; let cls = 'red-bad'; if (red !== null) { if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; } h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); } else if (parentIntent === 'similar_solvents') { h.push('<td>', (r.cat || ''), '</td>'); } else { h.push('<td>', (r.r || ''), '</td><td>', (r.type || ''), '</td>'); } }
+                else { h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) { const red = r.red; let cls = 'red-bad'; if (red !== null) { if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; } h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); } else if (parentIntent === 'similar_solvents') { var _rc = _dynamicCatColors[r.cat] || '#888'; h.push('<td style="color:', _rc, '">', (r.cat || ''), '</td>'); } else { var _rc = _dynamicPolyCatColors[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td style="color:', _rc, '">', (r.type || ''), '</td>'); } }
                 h.push('</tr>');
             });
             h.push('</tbody></table>');
