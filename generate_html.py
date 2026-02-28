@@ -362,6 +362,11 @@ POLYMER_CAT_COLORS = {
 for p in poly_data:
     raw_type = p["type"] or "Other"
     p["cat"] = POLYMER_TYPE_TO_CAT.get(raw_type, "Other")
+    p["color"] = POLYMER_CAT_COLORS.get(p["cat"], "#a9a9a9")
+
+# Pre-compute color field for solvents too
+for s in solvents:
+    s["color"] = CATEGORY_COLORS.get(s.get("cat", "other"), "#888888")
 
 # Serialize data for JS embedding
 solvents_json = json.dumps(solvents)
@@ -744,62 +749,11 @@ full_html = f"""<!DOCTYPE html>
         }}
         var _activeDsets = _getActiveDsets();
 
-        // Color maps for solvents and polymers — use static maps as primary source,
-        // generate fallback colors only for categories not in the static maps.
-        // Pre-initialize from static maps so colors are available immediately.
-        var _dynamicCatColors = Object.assign({{}}, CAT_COLORS);
-        var _dynamicPolyCatColors = Object.assign({{}}, POLY_CAT_COLORS);
-        var _solventColors = SOLVENTS.map(function(s) {{ return _dynamicCatColors[s.cat] || '#888'; }});
-        var _polymerColors = POLYMERS.map(function(p) {{ return _dynamicPolyCatColors[p.cat] || '#a9a9a9'; }});
-
-        function _computeDynamicColors() {{
-            // Use the hand-picked static color maps as the base.
-            // For any categories not in the static maps, generate a distinct color.
-            _dynamicCatColors = {{}};
-            Object.keys(CAT_COLORS).forEach(function(k) {{ _dynamicCatColors[k] = CAT_COLORS[k]; }});
-            _dynamicPolyCatColors = {{}};
-            Object.keys(POLY_CAT_COLORS).forEach(function(k) {{ _dynamicPolyCatColors[k] = POLY_CAT_COLORS[k]; }});
-
-            // Discover any categories present in active data but missing from
-            // the static maps, and assign them generated fallback colors.
-            var usedHues = [];
-            var unknownSol = [], unknownPoly = [];
-            SOLVENTS.forEach(function(s) {{
-                if (!_isDsActive(s.dsId)) return;
-                var c = s.cat || 'other';
-                if (!_dynamicCatColors[c]) {{
-                    if (unknownSol.indexOf(c) === -1) unknownSol.push(c);
-                }}
-            }});
-            POLYMERS.forEach(function(p) {{
-                if (!_isDsActive(p.dsId)) return;
-                var c = p.cat || 'Other';
-                if (!_dynamicPolyCatColors[c]) {{
-                    if (unknownPoly.indexOf(c) === -1) unknownPoly.push(c);
-                }}
-            }});
-            // Generate fallback colors using golden-angle spacing
-            var fallbackIdx = 0;
-            function nextFallback() {{
-                var hue = (30 + fallbackIdx * 137.508) % 360;
-                var sat = 65 + (fallbackIdx % 3) * 12;
-                var light = 45 + (fallbackIdx % 2) * 12;
-                fallbackIdx++;
-                return 'hsl(' + Math.round(hue) + ',' + sat + '%,' + light + '%)';
-            }}
-            unknownSol.forEach(function(c) {{ _dynamicCatColors[c] = nextFallback(); }});
-            unknownPoly.forEach(function(c) {{ _dynamicPolyCatColors[c] = nextFallback(); }});
-
-            // Rebuild per-point color arrays for the plot
-            _solventColors = SOLVENTS.map(function(s) {{ return _dynamicCatColors[s.cat] || '#888'; }});
-            _polymerColors = POLYMERS.map(function(p) {{ return _dynamicPolyCatColors[p.cat] || '#a9a9a9'; }});
-        }}
-        // Compute colors immediately so they are available before DOMContentLoaded
-        _computeDynamicColors();
+        // Each solvent/polymer has a pre-baked .color field set at generation time.
+        // These helper functions get the color for a category name (for legends).
 
         function _onDatasetsChanged() {{
             _activeDsets = _getActiveDsets();
-            _computeDynamicColors();
             if (plotDiv && plotDiv.data) _updatePlotForCommonFilter();
             _buildLegend();
             buildHomeTable();
@@ -818,11 +772,13 @@ full_html = f"""<!DOCTYPE html>
                     var srcLabel = meta.name || dsId;
                     var srcUrl = meta.source_url || '';
                     (ds.chemicals || []).forEach(function(c) {{
+                        var cat = c.cat || 'other';
                         var entry = {{
                             name: c.name || '', cas: c.cas || '', smiles: c.smiles || '',
                             formula: c.formula || '', dd: c.dd || '', dp: c.dp || '', dh: c.dh || '',
                             mw: c.mw || '', bp: c.bp || '', density: c.density || '',
-                            mv: c.mv || '', cat: c.cat || '', ghs: c.ghs || '',
+                            mv: c.mv || '', cat: cat, ghs: c.ghs || '',
+                            color: CAT_COLORS[cat] || '#888',
                             conf: c.conf || '', srcN: 1, src: srcLabel, srcUrl: srcUrl,
                             dsId: dsId, _imported: true
                         }};
@@ -830,9 +786,11 @@ full_html = f"""<!DOCTYPE html>
                         if (!_solventMap.has(entry.name)) _solventMap.set(entry.name, entry);
                     }});
                     (ds.polymers || []).forEach(function(p) {{
+                        var cat = p.cat || 'Other';
                         var entry = {{
                             name: p.name || '', cas: p.cas || '', dd: p.dd || '', dp: p.dp || '', dh: p.dh || '',
-                            r: p.r || '', type: p.type || '', conf: p.conf || '',
+                            r: p.r || '', type: p.type || '', cat: cat, conf: p.conf || '',
+                            color: POLY_CAT_COLORS[cat] || '#a9a9a9',
                             srcN: 1, src: srcLabel, srcUrl: srcUrl,
                             dsId: dsId, _imported: true
                         }};
@@ -1260,7 +1218,7 @@ full_html = f"""<!DOCTYPE html>
                 sx.push(visible ? s.dd : null);
                 sy.push(visible ? s.dp : null);
                 sz.push(visible ? s.dh : null);
-                sc.push(visible ? (_solventColors[i] || '#888') : 'rgba(0,0,0,0)');
+                sc.push(visible ? (s.color || '#888') : 'rgba(0,0,0,0)');
             }});
             var px = [], py = [], pz = [], pc = [];
             POLYMERS.forEach(function(p, i) {{
@@ -1271,7 +1229,7 @@ full_html = f"""<!DOCTYPE html>
                 px.push(visible ? p.dd : null);
                 py.push(visible ? p.dp : null);
                 pz.push(visible ? p.dh : null);
-                pc.push(visible ? (_polymerColors[i] || '#a9a9a9') : 'rgba(0,0,0,0)');
+                pc.push(visible ? (p.color || '#a9a9a9') : 'rgba(0,0,0,0)');
             }});
             // Update trace data directly and use Plotly.react — scatter3d
             // per-point color arrays are not reliably applied via Plotly.restyle.
@@ -1837,10 +1795,10 @@ full_html = f"""<!DOCTYPE html>
                     }} else if (showRed) {{
                         h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td>');
                     }} else if (parentIntent === 'similar_solvents') {{
-                        var _tc = _dynamicCatColors[t.cat] || '#888';
+                        var _tc = t.color || CAT_COLORS[t.cat] || '#888';
                         h.push('<td></td><td style="color:', _tc, '">', (t.cat || ''), '</td>');
                     }} else {{
-                        var _tc = _dynamicPolyCatColors[t.cat] || '#a9a9a9';
+                        var _tc = t.color || POLY_CAT_COLORS[t.cat] || '#a9a9a9';
                         h.push('<td></td><td>', (t.r || ''), '</td><td style="color:', _tc, '">', (t.type || ''), '</td>');
                     }}
                     h.push('</tr>');
@@ -1856,7 +1814,7 @@ full_html = f"""<!DOCTYPE html>
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
                 if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); }}
-                else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ var _rc = _dynamicCatColors[r.cat] || '#888'; h.push('<td style="color:', _rc, '">', (r.cat || ''), '</td>'); }} else {{ var _rc = _dynamicPolyCatColors[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td style="color:', _rc, '">', (r.type || ''), '</td>'); }} }}
+                else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ var _rc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td style="color:', _rc, '">', (r.cat || ''), '</td>'); }} else {{ var _rc = r.color || POLY_CAT_COLORS[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td style="color:', _rc, '">', (r.type || ''), '</td>'); }} }}
                 h.push('</tr>');
             }});
             h.push('</tbody></table>');
@@ -1869,16 +1827,13 @@ full_html = f"""<!DOCTYPE html>
 
         function buildFullPlot() {{
             plotDiv = document.getElementById('plotly-div');
-            // Compute dynamic colors based on active datasets — spreads hues
-            // across the full spectrum for the categories that are actually present.
-            _computeDynamicColors();
             fullTraces = [
                 {{
                     type: 'scatter3d', mode: 'markers',
                     name: 'Solvents',
                     x: _allSolX, y: _allSolY, z: _allSolZ,
                     hoverinfo: 'none',
-                    marker: {{ size: 5, color: _solventColors, opacity: 0.85 }},
+                    marker: {{ size: 5, color: SOLVENTS.map(function(s){{ return s.color || '#888'; }}), opacity: 0.85 }},
                     showlegend: false,
                 }},
                 {{
@@ -1886,7 +1841,7 @@ full_html = f"""<!DOCTYPE html>
                     name: 'Polymers',
                     x: _allPolyX, y: _allPolyY, z: _allPolyZ,
                     hoverinfo: 'none',
-                    marker: {{ size: 7, color: _polymerColors, symbol: 'diamond', opacity: 0.95 }},
+                    marker: {{ size: 7, color: POLYMERS.map(function(p){{ return p.color || '#a9a9a9'; }}), symbol: 'diamond', opacity: 0.95 }},
                     showlegend: false,
                 }},
             ];
@@ -1948,7 +1903,7 @@ full_html = f"""<!DOCTYPE html>
             h += '</div>';
             h += '<div class="legend-items">';
             sList.forEach(function(cat) {{
-                var color = _dynamicCatColors[cat] || '#888';
+                var color = CAT_COLORS[cat] || '#888';
                 var label = cat.charAt(0).toUpperCase() + cat.slice(1);
                 var hiddenCls = _hiddenSolCats[cat] ? ' legend-hidden' : '';
                 h += '<div class="legend-item' + hiddenCls + '" data-cat="' + cat + '" data-type="solvent" onclick="toggleCategoryVisibility(this)"><span class="legend-swatch" style="background:' + color + '"></span>' + label + ' (' + sCats[cat] + ')</div>';
@@ -1964,7 +1919,7 @@ full_html = f"""<!DOCTYPE html>
             h += '</div>';
             h += '<div class="legend-items">';
             pList.forEach(function(cat) {{
-                var color = _dynamicPolyCatColors[cat] || '#a9a9a9';
+                var color = POLY_CAT_COLORS[cat] || '#a9a9a9';
                 var hiddenCls = _hiddenPolyCats[cat] ? ' legend-hidden' : '';
                 h += '<div class="legend-item' + hiddenCls + '" data-cat="' + cat + '" data-type="polymer" onclick="toggleCategoryVisibility(this)"><span class="legend-swatch diamond" style="background:' + color + '"></span>' + cat + ' (' + pCats[cat] + ')</div>';
             }});
@@ -2035,8 +1990,6 @@ full_html = f"""<!DOCTYPE html>
 
         // Track result traces layered on top of the 2 base traces
         var _baseTraceCount = 0;
-        // _solventColors and _polymerColors are declared and pre-computed above
-        // (near _dynamicCatColors) and updated by _computeDynamicColors().
         var _resultTraceCount = 0;
         var _plotDimmed = false;
 
@@ -2244,7 +2197,7 @@ full_html = f"""<!DOCTYPE html>
             if (!mat) mat = _polymerMap.get(name);
             if (!mat) return Promise.resolve();
             _currentAnnotation = name;
-            var bgColor = isSolvent ? (_dynamicCatColors[mat.cat] || '#888') : (_dynamicPolyCatColors[mat.cat] || 'gold');
+            var bgColor = mat.color || (isSolvent ? '#888' : '#a9a9a9');
             return Plotly.relayout(plotDiv, {{
                 'scene.annotations': [
                     // Caret triangle
@@ -2413,7 +2366,7 @@ full_html = f"""<!DOCTYPE html>
                 rowsHtml = '';
                 for (var i = 0; i < filtered.length; i++) {{
                     var s = filtered[i];
-                    var catColor = _dynamicCatColors[s.cat] || '#888';
+                    var catColor = s.color || CAT_COLORS[s.cat] || '#888';
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
                     rowsHtml += '<tr data-name="' + s.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
@@ -2456,7 +2409,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var i = 0; i < filtered.length; i++) {{
                     var p = filtered[i];
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
-                    var catColor = _dynamicPolyCatColors[p.cat] || '#a9a9a9';
+                    var catColor = p.color || POLY_CAT_COLORS[p.cat] || '#a9a9a9';
                     rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name">' + p.name + '</span></td>';
                     rowsHtml += '<td>' + (p.cas || '') + '</td>';
