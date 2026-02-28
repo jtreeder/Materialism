@@ -339,9 +339,10 @@ POLYMER_CAT_COLORS = {
     "Other": "#a9a9a9",
 }
 
-# Assign category to each polymer
+# Assign category to each polymer — use the type directly so the legend
+# matches the Classification column shown in the table.
 for p in poly_data:
-    p["cat"] = POLYMER_TYPE_TO_CAT.get(p["type"], "Other")
+    p["cat"] = p["type"] or "Other"
 
 # Serialize data for JS embedding
 solvents_json = json.dumps(solvents)
