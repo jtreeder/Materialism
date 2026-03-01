@@ -8,6 +8,7 @@ import csv
 sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
 
 import numpy as np
+from lib.classify import classify_chemical
 
 from backend.app.models.database import init_db, get_engine, get_session, Chemical, Polymer
 from backend.app.data.seed_data import seed_database
@@ -221,7 +222,11 @@ with open(CHEM_CSV) as f:
             "dd": float(dd), "dp": float(dp), "dh": float(dh),
             "mw": float(mw_val) if mw_val else None,
             "bp": float(bp_val) if bp_val else None,
-            "cat": row.get("category", "other").strip() or "other",
+            "cat": (lambda _c, _n, _s: classify_chemical(_n, _s) if _c == "other" else _c)(
+                row.get("category", "other").strip() or "other",
+                chem_name,
+                row.get("smiles", "").strip(),
+            ),
             "smiles": row.get("smiles", "").strip(),
             "conf": float(conf_val) if conf_val else 0,
             "srcN": int(srcn_val) if srcn_val else 1,
@@ -483,7 +488,7 @@ full_html = f"""<!DOCTYPE html>
         /* --- Chat Panel (right side of results layout) --- */
         .chat-panel {{
             display: none; flex: 1 1 45%; min-width: 0;
-            overflow-y: auto; padding: 12px 14px;
+            overflow: auto; padding: 12px 14px;
             height: calc(100vh - 140px); box-sizing: border-box;
             background: #fff;
         }}
@@ -508,7 +513,7 @@ full_html = f"""<!DOCTYPE html>
         }}
         .home-tab:hover {{ color: #2d3436; background: #f5f6fa; }}
         .home-tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #fff; }}
-        .home-table-wrap {{ flex: 1; overflow-y: auto; min-height: 0; }}
+        .home-table-wrap {{ flex: 1; overflow: auto; min-height: 0; }}
 
         /* --- Column Lock Button --- */
         .col-lock-btn {{
@@ -526,13 +531,13 @@ full_html = f"""<!DOCTYPE html>
         }}
 
         /* --- Results Table --- */
-        .results-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; table-layout: fixed; }}
+        .results-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; }}
         .results-table th {{
             background: #f0f2f5; color: #e94560; padding: 8px 10px;
             text-align: left; font-weight: 600; position: sticky; top: 0; z-index: 1; border-bottom: 2px solid #dfe6e9;
-            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+            white-space: nowrap;
         }}
-        .results-table td {{ padding: 8px 10px; border-bottom: 1px solid #eee; position: relative; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+        .results-table td {{ padding: 8px 10px; border-bottom: 1px solid #eee; position: relative; white-space: nowrap; }}
         .results-table tr:hover {{ background: #f8f9fa; }}
         .results-table .rank {{ color: #e94560; font-weight: bold; }}
         .red-good {{ color: #00b894; font-weight: bold; }}
@@ -1772,11 +1777,6 @@ full_html = f"""<!DOCTYPE html>
             // --- Single unified table with shared columns ---
             const tableId = 'rt-' + Date.now();
             h.push('<table class="results-table" id="', tableId, '" style="margin-top:10px">');
-            // Fixed column widths so table doesn't shift between queries
-            var rw = getWidths('results');
-            h.push('<colgroup>');
-            rw.forEach(function(w) {{ h.push('<col style="width:', w, '">'); }});
-            h.push('</colgroup>');
             h.push('<thead><tr>');
             let colNum = 0;
             var _rColTips = {{
@@ -2374,20 +2374,12 @@ full_html = f"""<!DOCTYPE html>
                 return '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + idx + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
             }}
 
-            // Set fixed colgroup for consistent column widths
+            // Remove any existing colgroup (auto-sizing: let browser determine column widths)
             var existingCg = tbl.querySelector('colgroup');
             if (existingCg) existingCg.remove();
-            var cg = document.createElement('colgroup');
 
             if (homeTab === 'solvents') {{
-                // Name, CAS #, δD, δP, δH, MW, BP, Category, Confidence, Source
-                var solWidths = getWidths('solvents');
-                solWidths.forEach(function(w) {{
-                    var col = document.createElement('col');
-                    col.style.width = w;
-                    cg.appendChild(col);
-                }});
-                tbl.insertBefore(cg, thead);
+                // Name, CAS #, δD, δP, δH, MW, BP, Category
                 headerHtml = '<tr>';
                 ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)','Classification'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
@@ -2422,14 +2414,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '</tr>';
                 }}
             }} else {{
-                // Name, CAS, δD, δP, δH, R₀, Type, Confidence, Source
-                var polyWidths = getWidths('polymers');
-                polyWidths.forEach(function(w) {{
-                    var col = document.createElement('col');
-                    col.style.width = w;
-                    cg.appendChild(col);
-                }});
-                tbl.insertBefore(cg, thead);
+                // Name, CAS, δD, δP, δH, R₀, Type
                 headerHtml = '<tr>';
                 ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)','Classification'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
@@ -2694,11 +2679,14 @@ with open(CHEM_CSV) as f:
         if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
             continue
         src_key = row.get("source", "").strip()
-        _db_cat = row.get("category", "other").strip() or "other"
+        _db_cat_raw = row.get("category", "other").strip() or "other"
+        _db_name = row["name"].strip()
+        _db_smiles = row.get("smiles", "").strip()
+        _db_cat = classify_chemical(_db_name, _db_smiles) if _db_cat_raw == "other" else _db_cat_raw
         db_solvents.append({
-            "name": row["name"].strip(),
+            "name": _db_name,
             "cas": row.get("cas_number", "").strip(),
-            "smiles": row.get("smiles", "").strip(),
+            "smiles": _db_smiles,
             "formula": row.get("molecular_formula", "").strip(),
             "dd": dd, "dp": dp, "dh": dh,
             "mw": row.get("molecular_weight", "").strip(),
@@ -2797,7 +2785,11 @@ for ds_id, ds_meta in DATASETS_META.items():
                     "bp": row.get("boiling_point", "").strip(),
                     "density": row.get("density", "").strip(),
                     "mv": row.get("molar_volume", "").strip(),
-                    "cat": row.get("category", "other").strip() or "other",
+                    "cat": (lambda _c, _n, _s: classify_chemical(_n, _s) if _c == "other" else _c)(
+                        row.get("category", "other").strip() or "other",
+                        row.get("name", "").strip(),
+                        row.get("smiles", "").strip(),
+                    ),
                     "ghs": row.get("ghs_hazard", "").strip(),
                     "conf": row.get("confidence", "").strip(),
                 })
@@ -3022,7 +3014,7 @@ th {{
 th:hover {{ background: #e8eaed; }}
 th.sort-asc::after {{ content: ' ▲'; font-size: 0.7em; color: #e94560; }}
 th.sort-desc::after {{ content: ' ▼'; font-size: 0.7em; color: #e94560; }}
-td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-width: 300px; overflow: hidden; text-overflow: ellipsis; }}
+td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; }}
 tr:hover {{ background: #f8f9fa; }}
 td a {{ color: #0984e3; text-decoration: none; }}
 td a:hover {{ text-decoration: underline; }}
@@ -3521,7 +3513,7 @@ function renderActiveDb() {{
         if (c.key === 'src') {{
             var nSel = Object.keys(srcFilterSet).length;
             var btnLabel = nSel === 0 ? 'All sources' : nSel + ' selected';
-            hdr += '<th' + cls + ' data-col="' + c.key + '" style="width:' + c.w + ';position:relative">';
+            hdr += '<th' + cls + ' data-col="' + c.key + '" style="position:relative">';
             hdr += '<span onclick="dbSortBy(' + ci + ')" style="cursor:pointer">' + c.label + '</span>';
             hdr += '<div class="src-filter-wrap">';
             hdr += '<button class="src-filter-btn" onclick="toggleSrcDrop(event)">' + btnLabel + ' &#9662;</button>';
@@ -3537,7 +3529,7 @@ function renderActiveDb() {{
             }});
             hdr += '</div></div></th>';
         }} else {{
-            hdr += '<th' + cls + ' data-col="' + c.key + '" style="width:' + c.w + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="dbSortBy(' + ci + ')">' + c.label + '</th>';
+            hdr += '<th' + cls + ' data-col="' + c.key + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="dbSortBy(' + ci + ')">' + c.label + '</th>';
         }}
     }}
     hdr += '</tr>';
