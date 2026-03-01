@@ -8,6 +8,7 @@ import csv
 sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
 
 import numpy as np
+from lib.classify import classify_chemical
 
 from backend.app.models.database import init_db, get_engine, get_session, Chemical, Polymer
 from backend.app.data.seed_data import seed_database
@@ -221,7 +222,11 @@ with open(CHEM_CSV) as f:
             "dd": float(dd), "dp": float(dp), "dh": float(dh),
             "mw": float(mw_val) if mw_val else None,
             "bp": float(bp_val) if bp_val else None,
-            "cat": row.get("category", "other").strip() or "other",
+            "cat": (lambda _c, _n, _s: classify_chemical(_n, _s) if _c == "other" else _c)(
+                row.get("category", "other").strip() or "other",
+                chem_name,
+                row.get("smiles", "").strip(),
+            ),
             "smiles": row.get("smiles", "").strip(),
             "conf": float(conf_val) if conf_val else 0,
             "srcN": int(srcn_val) if srcn_val else 1,
@@ -373,6 +378,7 @@ solvents_json = json.dumps(solvents)
 polymers_json = json.dumps(poly_data)
 cat_colors_json = json.dumps(CATEGORY_COLORS)
 poly_cat_colors_json = json.dumps(POLYMER_CAT_COLORS)
+poly_type_to_cat_json = json.dumps(POLYMER_TYPE_TO_CAT)
 datasets_meta_json = json.dumps(DATASETS_META)
 
 # Embed Plotly.js inline so the file works offline / from file://
@@ -482,7 +488,7 @@ full_html = f"""<!DOCTYPE html>
         /* --- Chat Panel (right side of results layout) --- */
         .chat-panel {{
             display: none; flex: 1 1 45%; min-width: 0;
-            overflow-y: auto; padding: 12px 14px;
+            overflow: auto; padding: 12px 14px;
             height: calc(100vh - 140px); box-sizing: border-box;
             background: #fff;
         }}
@@ -507,7 +513,7 @@ full_html = f"""<!DOCTYPE html>
         }}
         .home-tab:hover {{ color: #2d3436; background: #f5f6fa; }}
         .home-tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #fff; }}
-        .home-table-wrap {{ flex: 1; overflow-y: auto; min-height: 0; }}
+        .home-table-wrap {{ flex: 1; overflow: auto; min-height: 0; }}
 
         /* --- Column Lock Button --- */
         .col-lock-btn {{
@@ -525,13 +531,13 @@ full_html = f"""<!DOCTYPE html>
         }}
 
         /* --- Results Table --- */
-        .results-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; table-layout: fixed; }}
+        .results-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 8px; }}
         .results-table th {{
             background: #f0f2f5; color: #e94560; padding: 8px 10px;
             text-align: left; font-weight: 600; position: sticky; top: 0; z-index: 1; border-bottom: 2px solid #dfe6e9;
-            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+            white-space: nowrap;
         }}
-        .results-table td {{ padding: 8px 10px; border-bottom: 1px solid #eee; position: relative; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+        .results-table td {{ padding: 8px 10px; border-bottom: 1px solid #eee; position: relative; white-space: nowrap; }}
         .results-table tr:hover {{ background: #f8f9fa; }}
         .results-table .rank {{ color: #e94560; font-weight: bold; }}
         .red-good {{ color: #00b894; font-weight: bold; }}
@@ -722,6 +728,13 @@ full_html = f"""<!DOCTYPE html>
         const _polymerMap = new Map(POLYMERS.map(p => [p.name, p]));
         const CAT_COLORS = {cat_colors_json};
         const POLY_CAT_COLORS = {poly_cat_colors_json};
+        const POLYMER_TYPE_TO_CAT = {poly_type_to_cat_json};
+
+        function _catBadge(label, color) {{
+            if (!label) return '';
+            return '<span style="display:inline-block;width:12px;height:12px;background:' + color + ';border-radius:2px;vertical-align:middle;margin-right:5px"></span>'
+                 + '<span style="color:' + color + ';font-weight:700">' + label + '</span>';
+        }}
 
         // Dataset toggle state (read from localStorage, managed on manage page)
         const _LS_DS_KEY = 'materialism_active_datasets';
@@ -901,9 +914,9 @@ full_html = f"""<!DOCTYPE html>
                     else if (field === 'bp') arr[idx].bp = parseFloat(val) || arr[idx].bp;
                     else if (field === 'name') arr[idx].name = val;
                     else if (field === 'cas') arr[idx].cas = val;
-                    else if (field === 'cat') arr[idx].cat = val;
+                    else if (field === 'cat') {{ arr[idx].cat = val; arr[idx].color = CAT_COLORS[val] || '#888'; }}
                     else if (field === 'r' && type === 'polymers') arr[idx].r = parseFloat(val) || arr[idx].r;
-                    else if (field === 'type' && type === 'polymers') arr[idx].type = val;
+                    else if (field === 'type' && type === 'polymers') {{ arr[idx].type = val; var _pc = POLYMER_TYPE_TO_CAT[val] || 'Other'; arr[idx].cat = _pc; arr[idx].color = POLY_CAT_COLORS[_pc] || '#a9a9a9'; }}
                     else if (field === 'src') arr[idx].src = val;
                 }}
             }} catch(e) {{}}
@@ -1770,11 +1783,6 @@ full_html = f"""<!DOCTYPE html>
             // --- Single unified table with shared columns ---
             const tableId = 'rt-' + Date.now();
             h.push('<table class="results-table" id="', tableId, '" style="margin-top:10px">');
-            // Fixed column widths so table doesn't shift between queries
-            var rw = getWidths('results');
-            h.push('<colgroup>');
-            rw.forEach(function(w) {{ h.push('<col style="width:', w, '">'); }});
-            h.push('</colgroup>');
             h.push('<thead><tr>');
             let colNum = 0;
             var _rColTips = {{
@@ -1795,8 +1803,8 @@ full_html = f"""<!DOCTYPE html>
                 return '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + (colNum++) + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
             }};
             h.push(th('#'), th('Name'), th('CAS #'), th('&delta;D (MPa<sup>\u00bd</sup>)'), th('&delta;P (MPa<sup>\u00bd</sup>)'), th('&delta;H (MPa<sup>\u00bd</sup>)'), th('MW (g/mol)'), th('BP (&deg;C)'));
-            if (isMulti) {{ result.targets.forEach(t => {{ h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }}); }}
-            else if (showRed) {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('RED')); }}
+            if (isMulti) {{ result.targets.forEach(t => {{ h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }}); h.push(th('Classification')); }}
+            else if (showRed) {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('RED'), th('Classification')); }}
             else if (parentIntent === 'similar_solvents') {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('Classification')); }}
             else {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('R&#8320; (MPa<sup>\u00bd</sup>)'), th('Classification')); }}
             h.push('</tr></thead><tbody>');
@@ -1821,14 +1829,16 @@ full_html = f"""<!DOCTYPE html>
                                 h.push('<td><span style="display:inline-block;background:', chipColor, ';color:white;padding:2px 10px;border-radius:12px;font-size:0.8rem;font-weight:600">', t.requirement, '</span></td>');
                             }} else {{ h.push('<td></td>'); }}
                         }});
+                        h.push('<td></td>');
                     }} else if (showRed) {{
-                        h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td>');
+                        var _tsc = t.color || (t.type ? POLY_CAT_COLORS[t.cat] || '#a9a9a9' : CAT_COLORS[t.cat] || '#888');
+                        h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td><td>', (t.type ? _catBadge(t.type, _tsc) : (t.cat ? _catBadge(t.cat, _tsc) : '')), '</td>');
                     }} else if (parentIntent === 'similar_solvents') {{
                         var _tc = t.color || CAT_COLORS[t.cat] || '#888';
-                        h.push('<td></td><td style="color:', _tc, '">', (t.cat || ''), '</td>');
+                        h.push('<td></td><td>', (t.cat ? _catBadge(t.cat, _tc) : ''), '</td>');
                     }} else {{
                         var _tc = t.color || POLY_CAT_COLORS[t.cat] || '#a9a9a9';
-                        h.push('<td></td><td>', (t.r || ''), '</td><td style="color:', _tc, '">', (t.type || ''), '</td>');
+                        h.push('<td></td><td>', (t.r || ''), '</td><td>', (t.type ? _catBadge(t.type, _tc) : ''), '</td>');
                     }}
                     h.push('</tr>');
                 }});
@@ -1842,8 +1852,8 @@ full_html = f"""<!DOCTYPE html>
                 h.push('<td>', (r.cas || ''), '</td>');
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
-                if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); }}
-                else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ var _rc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td style="color:', _rc, '">', (r.cat || ''), '</td>'); }} else {{ var _rc = r.color || POLY_CAT_COLORS[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td style="color:', _rc, '">', (r.type || ''), '</td>'); }} }}
+                if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); var _rci = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? _catBadge(r.cat, _rci) : ''), '</td>'); }}
+                else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); var _rrc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? _catBadge(r.cat, _rrc) : ''), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ var _rc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? _catBadge(r.cat, _rc) : ''), '</td>'); }} else {{ var _rc = r.color || POLY_CAT_COLORS[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td>', (r.type ? _catBadge(r.type, _rc) : ''), '</td>'); }} }}
                 h.push('</tr>');
             }});
             h.push('</tbody></table>');
@@ -2372,20 +2382,12 @@ full_html = f"""<!DOCTYPE html>
                 return '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + idx + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
             }}
 
-            // Set fixed colgroup for consistent column widths
+            // Remove any existing colgroup (auto-sizing: let browser determine column widths)
             var existingCg = tbl.querySelector('colgroup');
             if (existingCg) existingCg.remove();
-            var cg = document.createElement('colgroup');
 
             if (homeTab === 'solvents') {{
-                // Name, CAS #, δD, δP, δH, MW, BP, Category, Confidence, Source
-                var solWidths = getWidths('solvents');
-                solWidths.forEach(function(w) {{
-                    var col = document.createElement('col');
-                    col.style.width = w;
-                    cg.appendChild(col);
-                }});
-                tbl.insertBefore(cg, thead);
+                // Name, CAS #, δD, δP, δH, MW, BP, Category
                 headerHtml = '<tr>';
                 ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)','Classification'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
@@ -2416,18 +2418,11 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(s.dh, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
                     rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
-                    rowsHtml += '<td style="color:' + catColor + '">' + (s.cat || '') + '</td>';
+                    rowsHtml += '<td>' + (s.cat ? _catBadge(s.cat, catColor) : '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }} else {{
-                // Name, CAS, δD, δP, δH, R₀, Type, Confidence, Source
-                var polyWidths = getWidths('polymers');
-                polyWidths.forEach(function(w) {{
-                    var col = document.createElement('col');
-                    col.style.width = w;
-                    cg.appendChild(col);
-                }});
-                tbl.insertBefore(cg, thead);
+                // Name, CAS, δD, δP, δH, R₀, Type
                 headerHtml = '<tr>';
                 ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)','Classification'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
@@ -2457,7 +2452,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
-                    rowsHtml += '<td style="color:' + catColor + '">' + (p.type || '') + '</td>';
+                    rowsHtml += '<td>' + (p.type ? _catBadge(p.type, catColor) : '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }}
@@ -2692,17 +2687,22 @@ with open(CHEM_CSV) as f:
         if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
             continue
         src_key = row.get("source", "").strip()
+        _db_cat_raw = row.get("category", "other").strip() or "other"
+        _db_name = row["name"].strip()
+        _db_smiles = row.get("smiles", "").strip()
+        _db_cat = classify_chemical(_db_name, _db_smiles) if _db_cat_raw == "other" else _db_cat_raw
         db_solvents.append({
-            "name": row["name"].strip(),
+            "name": _db_name,
             "cas": row.get("cas_number", "").strip(),
-            "smiles": row.get("smiles", "").strip(),
+            "smiles": _db_smiles,
             "formula": row.get("molecular_formula", "").strip(),
             "dd": dd, "dp": dp, "dh": dh,
             "mw": row.get("molecular_weight", "").strip(),
             "bp": row.get("boiling_point", "").strip(),
             "density": row.get("density", "").strip(),
             "mv": row.get("molar_volume", "").strip(),
-            "cat": row.get("category", "other").strip() or "other",
+            "cat": _db_cat,
+            "color": CATEGORY_COLORS.get(_db_cat, "#888888"),
             "ghs": row.get("ghs_hazard", "").strip(),
             "conf": row.get("confidence", "").strip(),
             "srcN": int(row.get("source_count", "1").strip() or "1"),
@@ -2721,12 +2721,16 @@ with open(POLY_CSV) as f:
         if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
             continue
         src_key = row.get("source", "").strip()
+        _db_poly_type = row.get("type", "").strip()
+        _db_poly_cat = POLYMER_TYPE_TO_CAT.get(_db_poly_type, "Other")
         db_polymers.append({
             "name": row["name"].strip(),
             "cas": row.get("cas_number", "").strip(),
             "dd": dd, "dp": dp, "dh": dh,
             "r": row.get("radius", "").strip(),
-            "type": row.get("type", "").strip(),
+            "type": _db_poly_type,
+            "cat": _db_poly_cat,
+            "color": POLYMER_CAT_COLORS.get(_db_poly_cat, "#a9a9a9"),
             "conf": row.get("confidence", "").strip(),
             "srcN": int(row.get("source_count", "1").strip() or "1"),
             "src": SOURCE_NAMES.get(src_key, src_key),
@@ -2789,7 +2793,11 @@ for ds_id, ds_meta in DATASETS_META.items():
                     "bp": row.get("boiling_point", "").strip(),
                     "density": row.get("density", "").strip(),
                     "mv": row.get("molar_volume", "").strip(),
-                    "cat": row.get("category", "other").strip() or "other",
+                    "cat": (lambda _c, _n, _s: classify_chemical(_n, _s) if _c == "other" else _c)(
+                        row.get("category", "other").strip() or "other",
+                        row.get("name", "").strip(),
+                        row.get("smiles", "").strip(),
+                    ),
                     "ghs": row.get("ghs_hazard", "").strip(),
                     "conf": row.get("confidence", "").strip(),
                 })
@@ -2812,6 +2820,26 @@ for ds_id, ds_meta in DATASETS_META.items():
     per_dataset_data[ds_id] = {"chemicals": chems, "polymers": polys, "meta": ds_meta}
 
 per_dataset_json = json.dumps(per_dataset_data)
+
+# Generate color legend rows for database sidebar
+_legend_solvent_rows = ''
+for _lname, _lcolor in CATEGORY_COLORS.items():
+    _legend_solvent_rows += (
+        '<div style="display:flex;align-items:center;gap:6px;padding:2px 0">'
+        '<span style="display:inline-block;width:14px;height:14px;background:' + _lcolor + ';border-radius:2px;flex-shrink:0"></span>'
+        '<span style="flex:1;font-size:0.75rem;color:#2d3436">' + _lname + '</span>'
+        '<code style="font-size:0.68rem;color:' + _lcolor + ';padding:1px 4px;font-family:monospace">' + _lcolor + '</code>'
+        '</div>'
+    )
+_legend_polymer_rows = ''
+for _lname, _lcolor in POLYMER_CAT_COLORS.items():
+    _legend_polymer_rows += (
+        '<div style="display:flex;align-items:center;gap:6px;padding:2px 0">'
+        '<span style="display:inline-block;width:14px;height:14px;background:' + _lcolor + ';border-radius:2px;flex-shrink:0"></span>'
+        '<span style="flex:1;font-size:0.75rem;color:#2d3436">' + _lname + '</span>'
+        '<code style="font-size:0.68rem;color:' + _lcolor + ';padding:1px 4px;font-family:monospace">' + _lcolor + '</code>'
+        '</div>'
+    )
 
 database_html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -3014,7 +3042,7 @@ th {{
 th:hover {{ background: #e8eaed; }}
 th.sort-asc::after {{ content: ' ▲'; font-size: 0.7em; color: #e94560; }}
 th.sort-desc::after {{ content: ' ▼'; font-size: 0.7em; color: #e94560; }}
-td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; max-width: 300px; overflow: hidden; text-overflow: ellipsis; }}
+td {{ padding: 6px 10px; border-bottom: 1px solid #eee; white-space: nowrap; }}
 tr:hover {{ background: #f8f9fa; }}
 td a {{ color: #0984e3; text-decoration: none; }}
 td a:hover {{ text-decoration: underline; }}
@@ -3157,6 +3185,13 @@ td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-sp
             </div>
         </div>
         <div id="ds-list"></div>
+        <div style="margin-top:14px;border-top:1px solid #dfe6e9;padding-top:10px">
+            <div style="font-size:0.78rem;font-weight:700;color:#636e72;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Classification Colors</div>
+            <div style="font-size:0.7rem;font-weight:700;color:#b2bec3;margin-bottom:4px;text-transform:uppercase">Solvents</div>
+            {_legend_solvent_rows}
+            <div style="font-size:0.7rem;font-weight:700;color:#b2bec3;margin:8px 0 4px;text-transform:uppercase">Polymers</div>
+            {_legend_polymer_rows}
+        </div>
         <button class="rebuild-btn" onclick="triggerRebuild()">Export Datasets</button>
     </div>
     <div class="content" id="content">
@@ -3169,6 +3204,16 @@ var POLYMERS = {db_polymers_json};
 var CAS_CANDIDATES = {cas_candidates_json};
 var DATASETS_META = {datasets_meta_json};
 var DATASETS = {per_dataset_json};
+// Color maps — same as search page so classification colors are consistent
+var CAT_COLORS = {cat_colors_json};
+var POLY_CAT_COLORS = {poly_cat_colors_json};
+var POLY_TYPE_TO_CAT = {poly_type_to_cat_json};
+
+function _catBadge(label, color) {{
+    if (!label) return '';
+    return '<span style="display:inline-block;width:12px;height:12px;background:' + color + ';border-radius:2px;vertical-align:middle;margin-right:5px"></span>'
+         + '<span style="color:' + color + ';font-weight:700">' + label + '</span>';
+}}
 
 // ===================== STATE =====================
 var _LS_DS_KEY = 'materialism_active_datasets';
@@ -3509,7 +3554,7 @@ function renderActiveDb() {{
         if (c.key === 'src') {{
             var nSel = Object.keys(srcFilterSet).length;
             var btnLabel = nSel === 0 ? 'All sources' : nSel + ' selected';
-            hdr += '<th' + cls + ' data-col="' + c.key + '" style="width:' + c.w + ';position:relative">';
+            hdr += '<th' + cls + ' data-col="' + c.key + '" style="position:relative">';
             hdr += '<span onclick="dbSortBy(' + ci + ')" style="cursor:pointer">' + c.label + '</span>';
             hdr += '<div class="src-filter-wrap">';
             hdr += '<button class="src-filter-btn" onclick="toggleSrcDrop(event)">' + btnLabel + ' &#9662;</button>';
@@ -3525,7 +3570,7 @@ function renderActiveDb() {{
             }});
             hdr += '</div></div></th>';
         }} else {{
-            hdr += '<th' + cls + ' data-col="' + c.key + '" style="width:' + c.w + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="dbSortBy(' + ci + ')">' + c.label + '</th>';
+            hdr += '<th' + cls + ' data-col="' + c.key + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="dbSortBy(' + ci + ')">' + c.label + '</th>';
         }}
     }}
     hdr += '</tr>';
@@ -3584,7 +3629,19 @@ function renderActiveDb() {{
                     var isPoly = _activeDbTab === 'polymers';
                     display = '<span class="conf-badge" data-src="' + (mat.src || '').replace(/"/g, '&quot;') + '" data-cas="' + (mat.cas ? '1' : '0') + '" data-smi="' + (!isPoly && mat.smiles ? '1' : '0') + '" data-poly="' + (isPoly ? '1' : '0') + '" data-srcn="' + (mat.srcN || 1) + '" data-pct="' + pct + '" style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + cColor + ';cursor:help">' + pct + '%</span>';
                 }}
-                html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>' + display + '</td>';
+                var cellStyle = isEdited ? 'background:#e8f8f0' : '';
+                if (c.key === 'cat') {{
+                    var catCol = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx].color || CAT_COLORS[val] || '#888';
+                    cellStyle = isEdited ? 'background:#e8f8f0' : '';
+                    display = val ? _catBadge(val, catCol) : '';
+                }}
+                if (c.key === 'type') {{
+                    var polyMat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
+                    var typeCol = polyMat.color || POLY_CAT_COLORS[POLY_TYPE_TO_CAT[val]] || '#a9a9a9';
+                    cellStyle = isEdited ? 'background:#e8f8f0' : '';
+                    display = val ? _catBadge(val, typeCol) : '';
+                }}
+                html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (cellStyle ? ' style="' + cellStyle + '"' : '') + '>' + display + '</td>';
             }}
         }}
         html += '</tr>';
@@ -3736,7 +3793,18 @@ function renderDetail() {{
                 if (cls) cls += ' ';
                 cls += 'editable';
             }}
-            html += '<td' + (cls ? ' class="' + cls + '"' : '') + attrs + '>' + v;
+            var catStyle = '';
+            var display = v;
+            if (!isEdit) {{
+                if (c === 'cat') {{
+                    var catCol = CAT_COLORS[v] || '#888';
+                    display = v ? _catBadge(v, catCol) : '';
+                }} else if (c === 'type') {{
+                    var typeCol = POLY_CAT_COLORS[POLY_TYPE_TO_CAT[v]] || '#a9a9a9';
+                    display = v ? _catBadge(v, typeCol) : '';
+                }}
+            }}
+            html += '<td' + (cls ? ' class="' + cls + '"' : '') + attrs + catStyle + '>' + display;
             if (isUncertain && !isEdit && !isNote) html += '<span class="q-mark">?</span>';
             html += '</td>';
         }});
