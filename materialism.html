@@ -4715,7 +4715,15 @@ return Plotly;
             var pOpacity = _plotDimmed ? 0.12 : 0.95;
             var hInfo = _plotDimmed ? 'skip' : 'none';
 
-            // Update solvent trace (trace 0)
+            // Build filtered coordinate and color arrays for all traces,
+            // then apply via a single batched Plotly.restyle call.
+            // (Plotly.react with mutated data can interfere with scatter3d
+            //  WebGL diamond marker rendering; restyle is more reliable.)
+            var indices = [0];
+            var allX = [], allY = [], allZ = [];
+            var allSize = [], allColor = [], allOpacity = [], allHInfo = [];
+
+            // Solvent trace (trace 0)
             var sx = [], sy = [], sz = [], sc = [];
             SOLVENTS.forEach(function(s, i) {
                 var visible = true;
@@ -4727,16 +4735,14 @@ return Plotly;
                 sz.push(visible ? s.dh : null);
                 sc.push(visible ? (s.color || '#888') : 'rgba(0,0,0,0)');
             });
-            var t0 = plotDiv.data[0];
-            t0.x = sx; t0.y = sy; t0.z = sz;
-            t0.marker.size = sSize;
-            t0.marker.color = _plotDimmed ? '#999' : sc;
-            t0.marker.opacity = sOpacity;
-            t0.hoverinfo = hInfo;
+            allX.push(sx); allY.push(sy); allZ.push(sz);
+            allSize.push(sSize);
+            allColor.push(_plotDimmed ? '#999' : sc);
+            allOpacity.push(sOpacity);
+            allHInfo.push(hInfo);
 
-            // Update each polymer category trace
+            // Polymer category traces
             for (var ti = 0; ti < _polyTraceCount; ti++) {
-                var trace = plotDiv.data[_polyTraceStart + ti];
                 var cat = _polyCatOrder[ti];
                 var items = _polyCatData[cat];
                 var catHidden = !!_hiddenPolyCats[cat];
@@ -4752,13 +4758,19 @@ return Plotly;
                     py.push(visible ? p.dp : null);
                     pz.push(visible ? p.dh : null);
                 }
-                trace.x = px; trace.y = py; trace.z = pz;
-                trace.marker.size = pSize;
-                trace.marker.color = _plotDimmed ? '#665500' : trColor;
-                trace.marker.opacity = pOpacity;
-                trace.hoverinfo = hInfo;
+                indices.push(_polyTraceStart + ti);
+                allX.push(px); allY.push(py); allZ.push(pz);
+                allSize.push(pSize);
+                allColor.push(_plotDimmed ? '#665500' : trColor);
+                allOpacity.push(pOpacity);
+                allHInfo.push(hInfo);
             }
-            Plotly.react(plotDiv, plotDiv.data, plotDiv.layout);
+
+            Plotly.restyle(plotDiv, {
+                'x': allX, 'y': allY, 'z': allZ,
+                'marker.size': allSize, 'marker.color': allColor,
+                'marker.opacity': allOpacity, 'hoverinfo': allHInfo,
+            }, indices);
         }
 
         // ===================== HSP MATH =====================
@@ -5384,10 +5396,18 @@ return Plotly;
             });
             _baseTraceCount = fullTraces.length;
             _highlightIdx = _baseTraceCount - 1;
-            Plotly.newPlot(plotDiv, fullTraces, makeLayout(), { responsive: true });
-            // Apply all active filters (datasets, simpleMode, hidden cats)
-            _updatePlotForCommonFilter();
-            _buildLegend();
+            // Render the plot. Only apply dataset/filter updates on initial load
+            // if there are actually saved filters — calling restyle immediately
+            // after newPlot on scatter3d diamond markers can reset colors.
+            Plotly.newPlot(plotDiv, fullTraces, makeLayout(), { responsive: true }).then(function() {
+                var needsFilter = simpleMode || _hasHiddenCats();
+                if (!needsFilter) {
+                    var saved = _loadActiveDsets();
+                    if (saved) { for (var k in saved) { if (saved[k] === false) { needsFilter = true; break; } } }
+                }
+                if (needsFilter) _updatePlotForCommonFilter();
+                _buildLegend();
+            });
         }
 
         function _buildLegend() {
