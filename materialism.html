@@ -5445,11 +5445,11 @@ return Plotly;
             var allSolHidden = sList.length > 0 && sList.every(function(c) { return !!_hiddenSolCats[c]; });
             h += '<div class="legend-group">';
             h += '<div class="legend-header' + (allSolHidden ? ' legend-hidden' : '') + '" onclick="toggleGroupVisibility(this)">';
-            h += '<span class="legend-arrow" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
+            h += '<span class="legend-arrow open" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
             h += '<span class="legend-marker" style="background:#000"></span>';
             h += 'Solvents (' + activeSolCount + ')';
             h += '</div>';
-            h += '<div class="legend-items">';
+            h += '<div class="legend-items open">';
             sList.forEach(function(cat) {
                 var color = CAT_COLORS[cat] || '#888';
                 var label = cat.charAt(0).toUpperCase() + cat.slice(1);
@@ -5461,11 +5461,11 @@ return Plotly;
             var allPolyHidden = pList.length > 0 && pList.every(function(c) { return !!_hiddenPolyCats[c]; });
             h += '<div class="legend-group">';
             h += '<div class="legend-header' + (allPolyHidden ? ' legend-hidden' : '') + '" onclick="toggleGroupVisibility(this)">';
-            h += '<span class="legend-arrow" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
+            h += '<span class="legend-arrow open" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
             h += '<span class="legend-marker diamond" style="background:#000"></span>';
             h += 'Polymers (' + activePolyCount + ')';
             h += '</div>';
-            h += '<div class="legend-items">';
+            h += '<div class="legend-items open">';
             pList.forEach(function(cat) {
                 var color = POLY_CAT_COLORS[cat] || '#a9a9a9';
                 var hiddenCls = _hiddenPolyCats[cat] ? ' legend-hidden' : '';
