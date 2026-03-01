@@ -3421,8 +3421,12 @@ function renderActiveDb() {{
     toolbar += '</button>';
     toolbar += '<span class="edit-count" id="edit-count"></span>';
     toolbar += '<span class="save-indicator" id="save-ind">Saved</span>';
+    var _dbSelN = Object.keys(_selCells).length;
+    var _dbInferLabel = _dbSelN > 0 ? 'Infer Missing Values (' + _dbSelN + ' cell' + (_dbSelN > 1 ? 's' : '') + ')' : 'Infer Missing Values';
+    toolbar += '<button class="infer-btn" id="db-infer-btn" onclick="inferActiveDb()"' + (_inferRunning ? ' disabled' : '') + '>' + _dbInferLabel + '</button>';
     toolbar += '<span class="sel-info" id="db-sel-info"></span>';
     toolbar += '</div>';
+    toolbar += '<div class="infer-progress" id="infer-progress" style="display:none"></div>';
 
     // Build index array for filtering
     var indices = [];
@@ -3973,8 +3977,13 @@ function _updateDbSelInfo() {{
     var el = document.getElementById('db-sel-info');
     if (!el) return;
     var n = Object.keys(_selCells).length;
-    if (n === 0) {{ el.innerHTML = ''; return; }}
-    el.innerHTML = n + ' cell' + (n > 1 ? 's' : '') + ' selected <button onclick="clearCellSel()">Clear</button>';
+    if (n === 0) {{ el.innerHTML = ''; }} else {{
+        el.innerHTML = n + ' cell' + (n > 1 ? 's' : '') + ' selected <button onclick="clearCellSel()">Clear</button>';
+    }}
+    var ibtn = document.getElementById('db-infer-btn');
+    if (ibtn && !_inferRunning) {{
+        ibtn.textContent = n > 0 ? 'Infer Missing Values (' + n + ' cell' + (n > 1 ? 's' : '') + ')' : 'Infer Missing Values';
+    }}
 }}
 
 function clearCellSel() {{
@@ -5033,6 +5042,124 @@ async function inferMissing(dsId) {{
     _saveImportedDatasets();
     var bar2 = document.getElementById('infer-progress');
     if (bar2) bar2.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">Done! Filled <b>' + filled + '</b> values.' + (errors > 0 ? ' (' + errors + ' errors)' : '') + '</span>';
+    renderContent();
+}}
+
+// ===================== INFER ACTIVE DB =====================
+async function inferActiveDb() {{
+    if (_inferRunning) return;
+    _inferRunning = true;
+    _inferCancelled = false;
+    var progEl = document.getElementById('infer-progress');
+    if (progEl) {{ progEl.style.display = 'block'; progEl.innerHTML = '<div class="loading" style="padding:8px">Starting inference...</div>'; }}
+    var btn = document.getElementById('db-infer-btn');
+    if (btn) btn.disabled = true;
+    var data = _activeDbTab === 'solvents' ? SOLVENTS : POLYMERS;
+    var isSolvents = _activeDbTab === 'solvents';
+    var fillable = isSolvents ? ['cas','mw','smiles','bp','cat'] : ['cas'];
+    var queue = [];
+    // Parse cell selection into per-row field sets
+    var selFieldsByRow = {{}};
+    Object.keys(_selCells).forEach(function(k) {{
+        var parts = k.split(':'); selFieldsByRow[parts[0]] = selFieldsByRow[parts[0]] || {{}};
+        selFieldsByRow[parts[0]][parts[1]] = true;
+    }});
+    var hasSelection = Object.keys(selFieldsByRow).length > 0;
+    // Build queue from visible, active items
+    for (var i = 0; i < data.length; i++) {{
+        if (!_isDsActive(data[i].dsId)) continue;
+        if (hasSelection && !selFieldsByRow[String(i)]) continue;
+        var rowFields = hasSelection ? selFieldsByRow[String(i)] : null;
+        var fieldsToCheck = rowFields ? fillable.filter(function(f) {{ return rowFields[f]; }}) : fillable;
+        var missing = fieldsToCheck.filter(function(f) {{
+            var v = getDbVal(_activeDbTab, i, f);
+            return v == null || v === '' || v === 0;
+        }});
+        if (missing.length > 0) queue.push({{ idx: i, item: data[i], missing: missing }});
+    }}
+    if (queue.length === 0) {{
+        _inferRunning = false;
+        if (progEl) progEl.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">All fields already populated.</span>';
+        if (btn) btn.disabled = false;
+        return;
+    }}
+    var filled = 0, errors = 0;
+    function _showStep(itemName, itemNum, total, stepText) {{
+        var bar = document.getElementById('infer-progress');
+        if (!bar) return;
+        var pct = Math.round(100 * itemNum / total);
+        var h = '<div style="font-size:0.82rem;color:#2d3436;font-weight:600;margin-bottom:4px">Processing <b>' + (itemName||'').substring(0,45) + '</b> (' + itemNum + '/' + total + ')</div>';
+        h += '<div class="bar-bg"><div class="bar-fg" style="width:' + pct + '%"></div></div>';
+        h += '<div class="infer-step-log" id="infer-step-log"><div class="infer-step active"><span class="step-icon">&#8987;</span> ' + stepText + '</div></div>';
+        h += '<div style="display:flex;align-items:center;gap:10px;margin-top:6px"><button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.72rem" onclick="_inferCancelled=true">Cancel</button>';
+        h += '<span style="font-size:0.72rem;color:#b2bec3">' + filled + ' values filled</span></div>';
+        bar.innerHTML = h;
+    }}
+    function _setStep(itemName, itemNum, total, stepText, prevOk) {{
+        var log = document.getElementById('infer-step-log');
+        if (log) {{
+            var active = log.querySelector('.infer-step.active');
+            if (active) {{ active.classList.remove('active'); active.classList.add(prevOk ? 'ok' : 'warn'); active.querySelector('.step-icon').innerHTML = prevOk ? '&#10003;' : '&#10007;'; }}
+            var div = document.createElement('div'); div.className = 'infer-step active';
+            div.innerHTML = '<span class="step-icon">&#8987;</span> ' + stepText; log.appendChild(div);
+        }} else _showStep(itemName, itemNum, total, stepText);
+    }}
+
+    for (var qi = 0; qi < queue.length; qi++) {{
+        if (_inferCancelled) break;
+        var entry = queue[qi];
+        var item = entry.item;
+        var itemIdx = entry.idx;
+        var _iName = (item.name || item.cas || 'Item ' + (qi+1));
+        _showStep(_iName, qi+1, queue.length, 'Searching PubChem...');
+        try {{
+            var pub = null, lookupByCAS = false;
+            var curCas = getDbVal(_activeDbTab, itemIdx, 'cas');
+            var curName = getDbVal(_activeDbTab, itemIdx, 'name');
+            if (curCas && curCas.length > 3) {{ pub = await _pubchemLookup(curCas, true); if (pub) lookupByCAS = true; }}
+            if (!pub && curName) {{ _setStep(_iName, qi+1, queue.length, 'Retrying by name...', false); await _delay(200); pub = await _pubchemLookup(curName, false); }}
+            _setStep(_iName, qi+1, queue.length, 'Searching CAS...', !!pub);
+            var casChem = null, casRnToLookup = curCas || (pub && pub.cas);
+            if (casRnToLookup) {{ await _delay(200); casChem = await _casChemDetail(casRnToLookup); }}
+            else if (curName && !pub) {{ await _delay(200); var foundCas = await _casChemSearch(curName); if (foundCas) {{ await _delay(200); casChem = await _casChemDetail(foundCas); }} }}
+            var bpVal = null;
+            if (entry.missing.indexOf('bp') !== -1 && pub && pub.cid) {{
+                _setStep(_iName, qi+1, queue.length, 'Looking up BP...', !!casChem);
+                await _delay(200); bpVal = await _pubchemBP(pub.cid);
+            }}
+            _setStep(_iName, qi+1, queue.length, 'Filling values...', true);
+            entry.missing.forEach(function(field) {{
+                var val = null;
+                if (field === 'cat' && isSolvents) {{
+                    var smi = getDbVal(_activeDbTab, itemIdx, 'smiles') || (pub && pub.smiles) || '';
+                    val = _categorizeSolvent(smi, curName || '');
+                    if (!val) val = 'other';
+                }} else if (field === 'bp') {{
+                    if (bpVal != null) val = Math.round(bpVal * 10) / 10;
+                    else val = 'Not found';
+                }} else {{
+                    var pubVal = null, casVal = null;
+                    if (pub) {{ if (field === 'cas') pubVal = pub.cas; else if (field === 'mw') pubVal = pub.mw; else if (field === 'smiles') pubVal = pub.smiles; }}
+                    if (casChem) {{ if (field === 'cas') casVal = casChem.cas; else if (field === 'mw') casVal = casChem.mw; else if (field === 'smiles') casVal = casChem.smiles; }}
+                    if (pubVal && casVal) {{
+                        var match = (field === 'mw') ? _mwClose(pubVal, casVal) : (String(pubVal) === String(casVal));
+                        val = match ? pubVal : pubVal;
+                    }} else if (pubVal) {{ val = pubVal; }}
+                    else if (casVal) {{ val = casVal; }}
+                    else {{ val = 'Not found'; }}
+                }}
+                if (val != null) {{
+                    setDbVal(_activeDbTab, itemIdx, field, String(val));
+                    filled++;
+                }}
+            }});
+        }} catch(e) {{ errors++; }}
+        await _delay(250);
+    }}
+    _inferRunning = false;
+    var bar2 = document.getElementById('infer-progress');
+    if (bar2) bar2.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">Done! Filled <b>' + filled + '</b> values.' + (errors > 0 ? ' (' + errors + ' errors)' : '') + '</span>';
+    if (btn) btn.disabled = false;
     renderContent();
 }}
 
