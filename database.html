@@ -366,6 +366,7 @@ function _saveActiveDsets(obj) { try { localStorage.setItem(_LS_DS_KEY, JSON.str
 function _getActiveDsets() { var s = _loadActiveDsets(); if (s) return s; var d = {}; Object.keys(DATASETS_META).forEach(function(k) { d[k] = true; }); return d; }
 var _activeDsets = _getActiveDsets();
 function _isDsActive(dsId) { if (!dsId) return true; var ids = dsId.split(','); for (var i = 0; i < ids.length; i++) { if (_activeDsets[ids[i]] !== false) return true; } return false; }
+function _isFromActiveDataset(item) { return !!item._imported && !!DATASETS[item.dsId] && _isDsActive(item.dsId); }
 
 // View mode: 'active_db' or a dataset id
 var _viewMode = 'active_db';
@@ -559,12 +560,12 @@ function _countForTab(tab) {
     var data = tab === 'solvents' ? SOLVENTS : POLYMERS;
     if (!_hasSrcFilter()) {
         var n = 0;
-        for (var i = 0; i < data.length; i++) { if (_isDsActive(data[i].dsId)) n++; }
+        for (var i = 0; i < data.length; i++) { if (_isFromActiveDataset(data[i])) n++; }
         return n;
     }
     var n = 0;
     for (var i = 0; i < data.length; i++) {
-        if (_isDsActive(data[i].dsId) && srcFilterSet[data[i].src]) n++;
+        if (_isFromActiveDataset(data[i]) && srcFilterSet[data[i].src]) n++;
     }
     return n;
 }
@@ -672,7 +673,7 @@ function renderActiveDb() {
     // Build index array for filtering
     var indices = [];
     for (var i = 0; i < data.length; i++) {
-        if (!_isDsActive(data[i].dsId)) continue;
+        if (!_isFromActiveDataset(data[i])) continue;
         if (filter) {
             var name = getDbVal(_activeDbTab, i, 'name').toLowerCase();
             var cas = getDbVal(_activeDbTab, i, 'cas').toLowerCase();

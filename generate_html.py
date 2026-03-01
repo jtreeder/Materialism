@@ -1161,40 +1161,48 @@ full_html = f"""<!DOCTYPE html>
         var _allSolX = SOLVENTS.map(function(s) {{ return s.dd; }});
         var _allSolY = SOLVENTS.map(function(s) {{ return s.dp; }});
         var _allSolZ = SOLVENTS.map(function(s) {{ return s.dh; }});
-        // Group polymers by category for per-category traces (ensures reliable
+        // Color palette for data sources — assigned deterministically by first appearance
+        var _srcColorPalette = ['#3498db','#e74c3c','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#34495e','#e91e8c','#00bcd4'];
+        var _srcColorMap = {{}};
+        var _srcColorIdx = 0;
+        function _getSrcColor(src) {{
+            var key = src || 'Base Database';
+            if (!_srcColorMap[key]) {{ _srcColorMap[key] = _srcColorPalette[_srcColorIdx++ % _srcColorPalette.length]; }}
+            return _srcColorMap[key];
+        }}
+        // Pre-seed Base Database first so it always gets the first palette color
+        _getSrcColor('');
+        // Group polymers by source for per-source traces (ensures reliable
         // scatter3d coloring — per-point color arrays can fail with non-default symbols).
-        var _polyCatOrder = Object.keys({poly_cat_colors_json});
-        var _polyCatData = {{}};
-        _polyCatOrder.forEach(function(cat) {{ _polyCatData[cat] = []; }});
+        var _polySrcOrder = [];
+        var _polySrcData = {{}};
         POLYMERS.forEach(function(p, i) {{
-            var cat = p.cat || 'Other';
-            if (!_polyCatData[cat]) {{ _polyCatData[cat] = []; if (_polyCatOrder.indexOf(cat) === -1) _polyCatOrder.push(cat); }}
-            _polyCatData[cat].push({{ idx: i, p: p }});
+            var src = p.src || 'Base Database';
+            if (!_polySrcData[src]) {{ _polySrcData[src] = []; _polySrcOrder.push(src); }}
+            _polySrcData[src].push({{ idx: i, p: p }});
         }});
-        // Remove empty categories
-        _polyCatOrder = _polyCatOrder.filter(function(c) {{ return _polyCatData[c].length > 0; }});
         var _polyTraceStart = 1; // polymer traces start right after solvents trace (index 0)
-        var _polyTraceCount = _polyCatOrder.length;
+        var _polyTraceCount = _polySrcOrder.length;
 
-        // Hidden-category state for legend toggle
-        var _hiddenSolCats = {{}};
-        var _hiddenPolyCats = {{}};
+        // Hidden-source state for legend toggle
+        var _hiddenSolSrcs = {{}};
+        var _hiddenPolySrcs = {{}};
 
-        function _hasHiddenCats() {{
-            for (var k in _hiddenSolCats) return true;
-            for (var k in _hiddenPolyCats) return true;
+        function _hasHiddenSrcs() {{
+            for (var k in _hiddenSolSrcs) return true;
+            for (var k in _hiddenPolySrcs) return true;
             return false;
         }}
 
         function toggleCategoryVisibility(el) {{
-            var cat = el.getAttribute('data-cat');
+            var src = el.getAttribute('data-src');
             var type = el.getAttribute('data-type');
-            var set = (type === 'solvent') ? _hiddenSolCats : _hiddenPolyCats;
-            if (set[cat]) {{
-                delete set[cat];
+            var set = (type === 'solvent') ? _hiddenSolSrcs : _hiddenPolySrcs;
+            if (set[src]) {{
+                delete set[src];
                 el.classList.remove('legend-hidden');
             }} else {{
-                set[cat] = true;
+                set[src] = true;
                 el.classList.add('legend-hidden');
             }}
             // Update the parent header hidden state
@@ -1209,19 +1217,19 @@ full_html = f"""<!DOCTYPE html>
             var items = group.querySelectorAll('.legend-item');
             var type = items[0] ? items[0].getAttribute('data-type') : null;
             if (!type) return;
-            var set = (type === 'solvent') ? _hiddenSolCats : _hiddenPolyCats;
+            var set = (type === 'solvent') ? _hiddenSolSrcs : _hiddenPolySrcs;
             // If any are visible, hide all; if all hidden, show all
             var anyVisible = false;
             items.forEach(function(it) {{
-                if (!set[it.getAttribute('data-cat')]) anyVisible = true;
+                if (!set[it.getAttribute('data-src')]) anyVisible = true;
             }});
             items.forEach(function(it) {{
-                var cat = it.getAttribute('data-cat');
+                var src = it.getAttribute('data-src');
                 if (anyVisible) {{
-                    set[cat] = true;
+                    set[src] = true;
                     it.classList.add('legend-hidden');
                 }} else {{
-                    delete set[cat];
+                    delete set[src];
                     it.classList.remove('legend-hidden');
                 }}
             }});
@@ -1237,10 +1245,10 @@ full_html = f"""<!DOCTYPE html>
             var items = group.querySelectorAll('.legend-item');
             var type = items[0] ? items[0].getAttribute('data-type') : null;
             if (!type) return;
-            var set = (type === 'solvent') ? _hiddenSolCats : _hiddenPolyCats;
+            var set = (type === 'solvent') ? _hiddenSolSrcs : _hiddenPolySrcs;
             var allHidden = true;
             items.forEach(function(it) {{
-                if (!set[it.getAttribute('data-cat')]) allHidden = false;
+                if (!set[it.getAttribute('data-src')]) allHidden = false;
             }});
             header.classList.toggle('legend-hidden', allHidden);
         }}
@@ -1268,11 +1276,12 @@ full_html = f"""<!DOCTYPE html>
                 var visible = true;
                 if (!_isDsActive(s.dsId)) visible = false;
                 else if (simpleMode && !s.common) visible = false;
-                else if (_hiddenSolCats[s.cat || 'other']) visible = false;
+                else if (_hiddenSolSrcs[s.src || 'Base Database']) visible = false;
+                var color = _getSrcColor(s.src || '');
                 sx.push(visible ? s.dd : null);
                 sy.push(visible ? s.dp : null);
                 sz.push(visible ? s.dh : null);
-                sc.push(visible ? (s.color || '#888') : 'rgba(0,0,0,0)');
+                sc.push(visible ? color : 'rgba(0,0,0,0)');
             }});
             allX.push(sx); allY.push(sy); allZ.push(sz);
             allSize.push(sSize);
@@ -1280,19 +1289,19 @@ full_html = f"""<!DOCTYPE html>
             allOpacity.push(sOpacity);
             allHInfo.push(hInfo);
 
-            // Polymer category traces
+            // Polymer source traces
             for (var ti = 0; ti < _polyTraceCount; ti++) {{
-                var cat = _polyCatOrder[ti];
-                var items = _polyCatData[cat];
-                var catHidden = !!_hiddenPolyCats[cat];
-                var trColor = POLY_CAT_COLORS[cat] || '#a9a9a9';
+                var src = _polySrcOrder[ti];
+                var items = _polySrcData[src];
+                var srcHidden = !!_hiddenPolySrcs[src];
+                var trColor = _getSrcColor(src === 'Base Database' ? '' : src);
                 var px = [], py = [], pz = [];
                 for (var j = 0; j < items.length; j++) {{
                     var p = items[j].p;
                     var visible = true;
                     if (!_isDsActive(p.dsId)) visible = false;
                     else if (simpleMode && !p.common) visible = false;
-                    else if (catHidden) visible = false;
+                    else if (srcHidden) visible = false;
                     px.push(visible ? p.dd : null);
                     py.push(visible ? p.dp : null);
                     pz.push(visible ? p.dh : null);
@@ -1650,7 +1659,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var si = 0; si < N; si++) {{
                     if (!_isDsActive(SOLVENTS[si].dsId)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
-                    if (_hiddenSolCats[SOLVENTS[si].cat || 'other']) continue;
+                    if (_hiddenSolSrcs[SOLVENTS[si].src || 'Base Database']) continue;
                     var cs = 0, dd0 = _sDD[si], dp0 = _sDP[si], dh0 = _sDH[si];
                     for (var ti = 0; ti < targets.length; ti++) {{
                         var ddd = dd0 - tDDs[ti], ddp = dp0 - tDPs[ti], ddh = dh0 - tDHs[ti];
@@ -1683,7 +1692,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var si = 0; si < N; si++) {{
                     if (!_isDsActive(SOLVENTS[si].dsId)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
-                    if (_hiddenSolCats[SOLVENTS[si].cat || 'other']) continue;
+                    if (_hiddenSolSrcs[SOLVENTS[si].src || 'Base Database']) continue;
                     var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
                     scored.push({{ _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) }});
                 }}
@@ -1716,7 +1725,7 @@ full_html = f"""<!DOCTYPE html>
                     if (SOLVENTS[si].name === target.name) continue;
                     if (!_isDsActive(SOLVENTS[si].dsId)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
-                    if (_hiddenSolCats[SOLVENTS[si].cat || 'other']) continue;
+                    if (_hiddenSolSrcs[SOLVENTS[si].src || 'Base Database']) continue;
                     var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
                     scored.push({{ _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) }});
                 }}
@@ -1730,7 +1739,7 @@ full_html = f"""<!DOCTYPE html>
                 let target = findPolymer(material);
                 if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findPolymer(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find polymer "' + material + '". Try "polystyrene", "epoxy", "PMMA", etc.' }};
-                var scored = POLYMERS.filter(function(p) {{ return p.name !== target.name && _isDsActive(p.dsId) && !_hiddenPolyCats[p.cat || 'Other']; }});
+                var scored = POLYMERS.filter(function(p) {{ return p.name !== target.name && _isDsActive(p.dsId) && !_hiddenPolySrcs[p.src || 'Base Database']; }});
                 if (simpleMode) scored = scored.filter(function(p) {{ return p.common; }});
                 scored = scored.map(p => ({{ ...p, ra: hspDistance(p, target) }}));
                 var results = topK(scored, resultCount, function(x) {{ return x.ra; }});
@@ -1742,7 +1751,7 @@ full_html = f"""<!DOCTYPE html>
                 let target = findSolvent(material);
                 if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findSolvent(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find solvent "' + material + '". Try "toluene", "acetone", "NMP", "DMSO", etc.' }};
-                var scored = POLYMERS.filter(function(p) {{ return p.r && p.r > 0 && _isDsActive(p.dsId) && !_hiddenPolyCats[p.cat || 'Other']; }});
+                var scored = POLYMERS.filter(function(p) {{ return p.r && p.r > 0 && _isDsActive(p.dsId) && !_hiddenPolySrcs[p.src || 'Base Database']; }});
                 if (simpleMode) scored = scored.filter(function(p) {{ return p.common; }});
                 scored = scored.map(p => ({{ ...p, ra: hspDistance(target, p), red: redNumber(target, p) }}));
                 var results = topK(scored, resultCount, function(x) {{ return x.ra; }});
@@ -1892,25 +1901,25 @@ full_html = f"""<!DOCTYPE html>
                     name: 'Solvents',
                     x: _allSolX, y: _allSolY, z: _allSolZ,
                     hoverinfo: 'none',
-                    marker: {{ size: 5, color: SOLVENTS.map(function(s){{ return s.color || '#888'; }}), opacity: 0.85 }},
+                    marker: {{ size: 5, color: SOLVENTS.map(function(s){{ return _getSrcColor(s.src || ''); }}), opacity: 0.85 }},
                     showlegend: false,
                 }},
             ];
-            // One trace per polymer category — single color per trace is
+            // One trace per polymer source — single color per trace is
             // the only reliable way to color scatter3d diamond markers.
-            _polyCatOrder.forEach(function(cat) {{
-                var items = _polyCatData[cat];
-                var color = POLY_CAT_COLORS[cat] || '#a9a9a9';
+            _polySrcOrder.forEach(function(src) {{
+                var items = _polySrcData[src];
+                var color = _getSrcColor(src === 'Base Database' ? '' : src);
                 fullTraces.push({{
                     type: 'scatter3d', mode: 'markers',
-                    name: cat,
+                    name: src,
                     x: items.map(function(e) {{ return e.p.dd; }}),
                     y: items.map(function(e) {{ return e.p.dp; }}),
                     z: items.map(function(e) {{ return e.p.dh; }}),
                     hoverinfo: 'none',
                     marker: {{ size: 7, color: color, symbol: 'diamond', opacity: 0.95 }},
                     showlegend: false,
-                    _polyCat: cat,
+                    _polySrc: src,
                     _polyIndices: items.map(function(e) {{ return e.idx; }}),
                 }});
             }});
@@ -1933,7 +1942,7 @@ full_html = f"""<!DOCTYPE html>
             // if there are actually saved filters — calling restyle immediately
             // after newPlot on scatter3d diamond markers can reset colors.
             Plotly.newPlot(plotDiv, fullTraces, makeLayout(), {{ responsive: true }}).then(function() {{
-                var needsFilter = simpleMode || _hasHiddenCats();
+                var needsFilter = simpleMode || _hasHiddenSrcs();
                 if (!needsFilter) {{
                     var saved = _loadActiveDsets();
                     if (saved) {{ for (var k in saved) {{ if (saved[k] === false) {{ needsFilter = true; break; }} }} }}
@@ -1946,32 +1955,37 @@ full_html = f"""<!DOCTYPE html>
         function _buildLegend() {{
             var el = document.getElementById('plot-legend');
             if (!el) return;
-            // Collect unique solvent categories with counts — only from active datasets
-            var sCats = {{}};
+            // Collect unique solvent sources with counts — only from active datasets
+            var sSrcs = {{}};
             var activeSolCount = 0;
             SOLVENTS.forEach(function(s) {{
                 if (!_isDsActive(s.dsId)) return;
                 activeSolCount++;
-                var c = s.cat || 'other';
-                if (!sCats[c]) sCats[c] = 0;
-                sCats[c]++;
+                var src = s.src || 'Base Database';
+                if (!sSrcs[src]) sSrcs[src] = 0;
+                sSrcs[src]++;
             }});
-            // Collect unique polymer categories with counts — only from active datasets
-            var pCats = {{}};
+            // Collect unique polymer sources with counts — only from active datasets
+            var pSrcs = {{}};
             var activePolyCount = 0;
             POLYMERS.forEach(function(p) {{
                 if (!_isDsActive(p.dsId)) return;
                 activePolyCount++;
-                var c = p.cat || 'Other';
-                if (!pCats[c]) pCats[c] = 0;
-                pCats[c]++;
+                var src = p.src || 'Base Database';
+                if (!pSrcs[src]) pSrcs[src] = 0;
+                pSrcs[src]++;
             }});
-            // Sort categories by count descending
-            var sList = Object.keys(sCats).sort(function(a,b) {{ return sCats[b] - sCats[a]; }});
-            var pList = Object.keys(pCats).sort(function(a,b) {{ return pCats[b] - pCats[a]; }});
+            // Sort: Base Database first, then alphabetically
+            function _srcSort(a, b) {{
+                if (a === 'Base Database') return -1;
+                if (b === 'Base Database') return 1;
+                return a.localeCompare(b);
+            }}
+            var sList = Object.keys(sSrcs).sort(_srcSort);
+            var pList = Object.keys(pSrcs).sort(_srcSort);
             var h = '';
-            // Solvents group — show only active-dataset count
-            var allSolHidden = sList.length > 0 && sList.every(function(c) {{ return !!_hiddenSolCats[c]; }});
+            // Solvents group
+            var allSolHidden = sList.length > 0 && sList.every(function(s) {{ return !!_hiddenSolSrcs[s]; }});
             h += '<div class="legend-group">';
             h += '<div class="legend-header' + (allSolHidden ? ' legend-hidden' : '') + '" onclick="toggleGroupVisibility(this)">';
             h += '<span class="legend-arrow open" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
@@ -1979,15 +1993,14 @@ full_html = f"""<!DOCTYPE html>
             h += 'Solvents (' + activeSolCount + ')';
             h += '</div>';
             h += '<div class="legend-items open">';
-            sList.forEach(function(cat) {{
-                var color = CAT_COLORS[cat] || '#888';
-                var label = cat.charAt(0).toUpperCase() + cat.slice(1);
-                var hiddenCls = _hiddenSolCats[cat] ? ' legend-hidden' : '';
-                h += '<div class="legend-item' + hiddenCls + '" data-cat="' + cat + '" data-type="solvent" onclick="toggleCategoryVisibility(this)"><span class="legend-swatch" style="background:' + color + '"></span>' + label + ' (' + sCats[cat] + ')</div>';
+            sList.forEach(function(src) {{
+                var color = _getSrcColor(src === 'Base Database' ? '' : src);
+                var hiddenCls = _hiddenSolSrcs[src] ? ' legend-hidden' : '';
+                h += '<div class="legend-item' + hiddenCls + '" data-src="' + src.replace(/"/g,'&quot;') + '" data-type="solvent" onclick="toggleCategoryVisibility(this)"><span class="legend-swatch" style="background:' + color + '"></span>' + src + ' (' + sSrcs[src] + ')</div>';
             }});
             h += '</div></div>';
-            // Polymers group — show only active-dataset count
-            var allPolyHidden = pList.length > 0 && pList.every(function(c) {{ return !!_hiddenPolyCats[c]; }});
+            // Polymers group
+            var allPolyHidden = pList.length > 0 && pList.every(function(s) {{ return !!_hiddenPolySrcs[s]; }});
             h += '<div class="legend-group">';
             h += '<div class="legend-header' + (allPolyHidden ? ' legend-hidden' : '') + '" onclick="toggleGroupVisibility(this)">';
             h += '<span class="legend-arrow open" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
@@ -1995,10 +2008,10 @@ full_html = f"""<!DOCTYPE html>
             h += 'Polymers (' + activePolyCount + ')';
             h += '</div>';
             h += '<div class="legend-items open">';
-            pList.forEach(function(cat) {{
-                var color = POLY_CAT_COLORS[cat] || '#a9a9a9';
-                var hiddenCls = _hiddenPolyCats[cat] ? ' legend-hidden' : '';
-                h += '<div class="legend-item' + hiddenCls + '" data-cat="' + cat + '" data-type="polymer" onclick="toggleCategoryVisibility(this)"><span class="legend-swatch diamond" style="background:' + color + '"></span>' + cat + ' (' + pCats[cat] + ')</div>';
+            pList.forEach(function(src) {{
+                var color = _getSrcColor(src === 'Base Database' ? '' : src);
+                var hiddenCls = _hiddenPolySrcs[src] ? ' legend-hidden' : '';
+                h += '<div class="legend-item' + hiddenCls + '" data-src="' + src.replace(/"/g,'&quot;') + '" data-type="polymer" onclick="toggleCategoryVisibility(this)"><span class="legend-swatch diamond" style="background:' + color + '"></span>' + src + ' (' + pSrcs[src] + ')</div>';
             }});
             h += '</div></div>';
             el.innerHTML = h;
@@ -2267,7 +2280,7 @@ full_html = f"""<!DOCTYPE html>
             if (!mat) mat = _polymerMap.get(name);
             if (!mat) return Promise.resolve();
             _currentAnnotation = name;
-            var bgColor = mat.color || (isSolvent ? '#888' : '#a9a9a9');
+            var bgColor = _getSrcColor(mat.src || '');
             return Plotly.relayout(plotDiv, {{
                 'scene.annotations': [
                     // Caret triangle
@@ -2417,8 +2430,8 @@ full_html = f"""<!DOCTYPE html>
                 if (simpleMode) {{
                     filtered = filtered.filter(function(s) {{ return s.common; }});
                 }}
-                if (_hasHiddenCats()) {{
-                    filtered = filtered.filter(function(s) {{ return !_hiddenSolCats[s.cat || 'other']; }});
+                if (_hasHiddenSrcs()) {{
+                    filtered = filtered.filter(function(s) {{ return !_hiddenSolSrcs[s.src || 'Base Database']; }});
                 }}
                 if (homeFilterText) {{
                     var q = homeFilterText.toLowerCase();
@@ -2428,7 +2441,7 @@ full_html = f"""<!DOCTYPE html>
                 rowsHtml = '';
                 for (var i = 0; i < filtered.length; i++) {{
                     var s = filtered[i];
-                    var catColor = s.color || CAT_COLORS[s.cat] || '#888';
+                    var catColor = _getSrcColor(s.src || '');
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
                     rowsHtml += '<tr data-name="' + s.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
@@ -2451,8 +2464,8 @@ full_html = f"""<!DOCTYPE html>
                 if (simpleMode) {{
                     filtered = filtered.filter(function(p) {{ return p.common; }});
                 }}
-                if (_hasHiddenCats()) {{
-                    filtered = filtered.filter(function(p) {{ return !_hiddenPolyCats[p.cat || 'Other']; }});
+                if (_hasHiddenSrcs()) {{
+                    filtered = filtered.filter(function(p) {{ return !_hiddenPolySrcs[p.src || 'Base Database']; }});
                 }}
                 if (homeFilterText) {{
                     var q = homeFilterText.toLowerCase();
@@ -2463,7 +2476,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var i = 0; i < filtered.length; i++) {{
                     var p = filtered[i];
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
-                    var catColor = p.color || POLY_CAT_COLORS[p.cat] || '#a9a9a9';
+                    var catColor = _getSrcColor(p.src || '');
                     rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name">' + p.name + '</span></td>';
                     rowsHtml += '<td>' + (p.cas || '') + '</td>';
@@ -2482,13 +2495,13 @@ full_html = f"""<!DOCTYPE html>
             if (homeTab === 'solvents') {{
                 var pf = _dsFilterPolymers();
                 if (simpleMode) pf = pf.filter(function(p) {{ return p.common; }});
-                if (_hasHiddenCats()) pf = pf.filter(function(p) {{ return !_hiddenPolyCats[p.cat || 'Other']; }});
+                if (_hasHiddenSrcs()) pf = pf.filter(function(p) {{ return !_hiddenPolySrcs[p.src || 'Base Database']; }});
                 if (homeFilterText) {{ var q = homeFilterText.toLowerCase(); pf = pf.filter(function(p) {{ return p.name.toLowerCase().indexOf(q) !== -1 || (p.cas && p.cas.indexOf(q) !== -1) || (p.src && p.src.toLowerCase().indexOf(q) !== -1); }}); }}
                 document.getElementById('tab-polymers').textContent = 'Polymers (' + pf.length + ')';
             }} else {{
                 var sf = _dsFilterSolvents();
                 if (simpleMode) sf = sf.filter(function(s) {{ return s.common; }});
-                if (_hasHiddenCats()) sf = sf.filter(function(s) {{ return !_hiddenSolCats[s.cat || 'other']; }});
+                if (_hasHiddenSrcs()) sf = sf.filter(function(s) {{ return !_hiddenSolSrcs[s.src || 'Base Database']; }});
                 if (homeFilterText) {{ var q = homeFilterText.toLowerCase(); sf = sf.filter(function(s) {{ return s.name.toLowerCase().indexOf(q) !== -1 || (s.cas && s.cas.indexOf(q) !== -1) || (s.src && s.src.toLowerCase().indexOf(q) !== -1); }}); }}
                 document.getElementById('tab-solvents').textContent = 'Solvents (' + sf.length + ')';
             }}
@@ -3227,6 +3240,7 @@ function _saveActiveDsets(obj) {{ try {{ localStorage.setItem(_LS_DS_KEY, JSON.s
 function _getActiveDsets() {{ var s = _loadActiveDsets(); if (s) return s; var d = {{}}; Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = true; }}); return d; }}
 var _activeDsets = _getActiveDsets();
 function _isDsActive(dsId) {{ if (!dsId) return true; var ids = dsId.split(','); for (var i = 0; i < ids.length; i++) {{ if (_activeDsets[ids[i]] !== false) return true; }} return false; }}
+function _isFromActiveDataset(item) {{ return !!item._imported && !!DATASETS[item.dsId] && _isDsActive(item.dsId); }}
 
 // View mode: 'active_db' or a dataset id
 var _viewMode = 'active_db';
@@ -3420,12 +3434,12 @@ function _countForTab(tab) {{
     var data = tab === 'solvents' ? SOLVENTS : POLYMERS;
     if (!_hasSrcFilter()) {{
         var n = 0;
-        for (var i = 0; i < data.length; i++) {{ if (_isDsActive(data[i].dsId)) n++; }}
+        for (var i = 0; i < data.length; i++) {{ if (_isFromActiveDataset(data[i])) n++; }}
         return n;
     }}
     var n = 0;
     for (var i = 0; i < data.length; i++) {{
-        if (_isDsActive(data[i].dsId) && srcFilterSet[data[i].src]) n++;
+        if (_isFromActiveDataset(data[i]) && srcFilterSet[data[i].src]) n++;
     }}
     return n;
 }}
@@ -3533,7 +3547,7 @@ function renderActiveDb() {{
     // Build index array for filtering
     var indices = [];
     for (var i = 0; i < data.length; i++) {{
-        if (!_isDsActive(data[i].dsId)) continue;
+        if (!_isFromActiveDataset(data[i])) continue;
         if (filter) {{
             var name = getDbVal(_activeDbTab, i, 'name').toLowerCase();
             var cas = getDbVal(_activeDbTab, i, 'cas').toLowerCase();
