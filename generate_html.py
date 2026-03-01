@@ -3330,7 +3330,6 @@ var POLY_COLS = [
     {{key:'dp', label:'\u03b4P (MPa\u00bd)', w:'78px', tip:'Polarity parameter'}},
     {{key:'dh', label:'\u03b4H (MPa\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
     {{key:'r', label:'R\u2080 (MPa\u00bd)', w:'70px', tip:'Interaction radius'}},
-    {{key:'type', label:'Type', w:'120px'}},
     {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
     {{key:'src', label:'Source', w:'140px'}},
 ];
@@ -3705,10 +3704,10 @@ function renderDetail() {{
     var items, cols;
     if (nc > 0) {{
         items = ds.chemicals;
-        cols = ['name','cas','dd','dp','dh','mw','bp','cat','conf'];
+        cols = ['name','cas','dd','dp','dh','mw','bp','conf'];
     }} else {{
         items = ds.polymers;
-        cols = ['name','cas','dd','dp','dh','r','type','conf'];
+        cols = ['name','cas','dd','dp','dh','r','conf'];
     }}
 
     if (!items || items.length === 0) {{
