@@ -373,6 +373,7 @@ solvents_json = json.dumps(solvents)
 polymers_json = json.dumps(poly_data)
 cat_colors_json = json.dumps(CATEGORY_COLORS)
 poly_cat_colors_json = json.dumps(POLYMER_CAT_COLORS)
+poly_type_to_cat_json = json.dumps(POLYMER_TYPE_TO_CAT)
 datasets_meta_json = json.dumps(DATASETS_META)
 
 # Embed Plotly.js inline so the file works offline / from file://
@@ -722,6 +723,7 @@ full_html = f"""<!DOCTYPE html>
         const _polymerMap = new Map(POLYMERS.map(p => [p.name, p]));
         const CAT_COLORS = {cat_colors_json};
         const POLY_CAT_COLORS = {poly_cat_colors_json};
+        const POLYMER_TYPE_TO_CAT = {poly_type_to_cat_json};
 
         // Dataset toggle state (read from localStorage, managed on manage page)
         const _LS_DS_KEY = 'materialism_active_datasets';
@@ -901,9 +903,9 @@ full_html = f"""<!DOCTYPE html>
                     else if (field === 'bp') arr[idx].bp = parseFloat(val) || arr[idx].bp;
                     else if (field === 'name') arr[idx].name = val;
                     else if (field === 'cas') arr[idx].cas = val;
-                    else if (field === 'cat') arr[idx].cat = val;
+                    else if (field === 'cat') {{ arr[idx].cat = val; arr[idx].color = CAT_COLORS[val] || '#888'; }}
                     else if (field === 'r' && type === 'polymers') arr[idx].r = parseFloat(val) || arr[idx].r;
-                    else if (field === 'type' && type === 'polymers') arr[idx].type = val;
+                    else if (field === 'type' && type === 'polymers') {{ arr[idx].type = val; var _pc = POLYMER_TYPE_TO_CAT[val] || 'Other'; arr[idx].cat = _pc; arr[idx].color = POLY_CAT_COLORS[_pc] || '#a9a9a9'; }}
                     else if (field === 'src') arr[idx].src = val;
                 }}
             }} catch(e) {{}}
@@ -1825,10 +1827,10 @@ full_html = f"""<!DOCTYPE html>
                         h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td>');
                     }} else if (parentIntent === 'similar_solvents') {{
                         var _tc = t.color || CAT_COLORS[t.cat] || '#888';
-                        h.push('<td></td><td style="color:', _tc, '">', (t.cat || ''), '</td>');
+                        h.push('<td></td><td style="color:', _tc, '">', (t.cat ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + _tc + ';margin-right:5px;vertical-align:middle"></span>' + t.cat : ''), '</td>');
                     }} else {{
                         var _tc = t.color || POLY_CAT_COLORS[t.cat] || '#a9a9a9';
-                        h.push('<td></td><td>', (t.r || ''), '</td><td style="color:', _tc, '">', (t.type || ''), '</td>');
+                        h.push('<td></td><td>', (t.r || ''), '</td><td style="color:', _tc, '">', (t.type ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + _tc + ';margin-right:5px;vertical-align:middle"></span>' + t.type : ''), '</td>');
                     }}
                     h.push('</tr>');
                 }});
@@ -1843,7 +1845,7 @@ full_html = f"""<!DOCTYPE html>
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
                 if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); }}
-                else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ var _rc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td style="color:', _rc, '">', (r.cat || ''), '</td>'); }} else {{ var _rc = r.color || POLY_CAT_COLORS[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td style="color:', _rc, '">', (r.type || ''), '</td>'); }} }}
+                else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ var _rc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td style="color:', _rc, '">', (r.cat ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + _rc + ';margin-right:5px;vertical-align:middle"></span>' + r.cat : ''), '</td>'); }} else {{ var _rc = r.color || POLY_CAT_COLORS[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td style="color:', _rc, '">', (r.type ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + _rc + ';margin-right:5px;vertical-align:middle"></span>' + r.type : ''), '</td>'); }} }}
                 h.push('</tr>');
             }});
             h.push('</tbody></table>');
@@ -2416,7 +2418,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(s.dh, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
                     rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
-                    rowsHtml += '<td style="color:' + catColor + '">' + (s.cat || '') + '</td>';
+                    rowsHtml += '<td style="color:' + catColor + '">' + (s.cat ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + catColor + ';margin-right:5px;vertical-align:middle"></span>' + s.cat : '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }} else {{
@@ -2457,7 +2459,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
-                    rowsHtml += '<td style="color:' + catColor + '">' + (p.type || '') + '</td>';
+                    rowsHtml += '<td style="color:' + catColor + '">' + (p.type ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + catColor + ';margin-right:5px;vertical-align:middle"></span>' + p.type : '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }}
@@ -2692,6 +2694,7 @@ with open(CHEM_CSV) as f:
         if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
             continue
         src_key = row.get("source", "").strip()
+        _db_cat = row.get("category", "other").strip() or "other"
         db_solvents.append({
             "name": row["name"].strip(),
             "cas": row.get("cas_number", "").strip(),
@@ -2702,7 +2705,8 @@ with open(CHEM_CSV) as f:
             "bp": row.get("boiling_point", "").strip(),
             "density": row.get("density", "").strip(),
             "mv": row.get("molar_volume", "").strip(),
-            "cat": row.get("category", "other").strip() or "other",
+            "cat": _db_cat,
+            "color": CATEGORY_COLORS.get(_db_cat, "#888888"),
             "ghs": row.get("ghs_hazard", "").strip(),
             "conf": row.get("confidence", "").strip(),
             "srcN": int(row.get("source_count", "1").strip() or "1"),
@@ -2721,12 +2725,16 @@ with open(POLY_CSV) as f:
         if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
             continue
         src_key = row.get("source", "").strip()
+        _db_poly_type = row.get("type", "").strip()
+        _db_poly_cat = POLYMER_TYPE_TO_CAT.get(_db_poly_type, "Other")
         db_polymers.append({
             "name": row["name"].strip(),
             "cas": row.get("cas_number", "").strip(),
             "dd": dd, "dp": dp, "dh": dh,
             "r": row.get("radius", "").strip(),
-            "type": row.get("type", "").strip(),
+            "type": _db_poly_type,
+            "cat": _db_poly_cat,
+            "color": POLYMER_CAT_COLORS.get(_db_poly_cat, "#a9a9a9"),
             "conf": row.get("confidence", "").strip(),
             "srcN": int(row.get("source_count", "1").strip() or "1"),
             "src": SOURCE_NAMES.get(src_key, src_key),
@@ -3169,6 +3177,10 @@ var POLYMERS = {db_polymers_json};
 var CAS_CANDIDATES = {cas_candidates_json};
 var DATASETS_META = {datasets_meta_json};
 var DATASETS = {per_dataset_json};
+// Color maps — same as search page so classification colors are consistent
+var CAT_COLORS = {cat_colors_json};
+var POLY_CAT_COLORS = {poly_cat_colors_json};
+var POLY_TYPE_TO_CAT = {poly_type_to_cat_json};
 
 // ===================== STATE =====================
 var _LS_DS_KEY = 'materialism_active_datasets';
@@ -3584,7 +3596,19 @@ function renderActiveDb() {{
                     var isPoly = _activeDbTab === 'polymers';
                     display = '<span class="conf-badge" data-src="' + (mat.src || '').replace(/"/g, '&quot;') + '" data-cas="' + (mat.cas ? '1' : '0') + '" data-smi="' + (!isPoly && mat.smiles ? '1' : '0') + '" data-poly="' + (isPoly ? '1' : '0') + '" data-srcn="' + (mat.srcN || 1) + '" data-pct="' + pct + '" style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + cColor + ';cursor:help">' + pct + '%</span>';
                 }}
-                html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (isEdited ? ' style="background:#e8f8f0"' : '') + '>' + display + '</td>';
+                var cellStyle = isEdited ? 'background:#e8f8f0' : '';
+                if (c.key === 'cat') {{
+                    var catCol = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx].color || CAT_COLORS[val] || '#888';
+                    cellStyle = (isEdited ? 'background:#e8f8f0;' : '') + 'color:' + catCol;
+                    display = val ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + catCol + ';margin-right:5px;flex-shrink:0"></span>' + val : '';
+                }}
+                if (c.key === 'type') {{
+                    var polyMat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
+                    var typeCol = polyMat.color || POLY_CAT_COLORS[POLY_TYPE_TO_CAT[val]] || '#a9a9a9';
+                    cellStyle = (isEdited ? 'background:#e8f8f0;' : '') + 'color:' + typeCol;
+                    display = val ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + typeCol + ';margin-right:5px;flex-shrink:0"></span>' + val : '';
+                }}
+                html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (cellStyle ? ' style="' + cellStyle + '"' : '') + '>' + display + '</td>';
             }}
         }}
         html += '</tr>';
@@ -3736,7 +3760,20 @@ function renderDetail() {{
                 if (cls) cls += ' ';
                 cls += 'editable';
             }}
-            html += '<td' + (cls ? ' class="' + cls + '"' : '') + attrs + '>' + v;
+            var catStyle = '';
+            var display = v;
+            if (!isEdit) {{
+                if (c === 'cat') {{
+                    var catCol = CAT_COLORS[v] || '#888';
+                    catStyle = ' style="color:' + catCol + '"';
+                    display = v ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + catCol + ';margin-right:5px"></span>' + v : '';
+                }} else if (c === 'type') {{
+                    var typeCol = POLY_CAT_COLORS[POLY_TYPE_TO_CAT[v]] || '#a9a9a9';
+                    catStyle = ' style="color:' + typeCol + '"';
+                    display = v ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + typeCol + ';margin-right:5px"></span>' + v : '';
+                }}
+            }}
+            html += '<td' + (cls ? ' class="' + cls + '"' : '') + attrs + catStyle + '>' + display;
             if (isUncertain && !isEdit && !isNote) html += '<span class="q-mark">?</span>';
             html += '</td>';
         }});

@@ -4219,6 +4219,7 @@ return Plotly;
         const _polymerMap = new Map(POLYMERS.map(p => [p.name, p]));
         const CAT_COLORS = {"hydrocarbon": "#636EFA", "aromatic": "#EF553B", "halogenated": "#00CC96", "ether": "#AB63FA", "ketone": "#FFA15A", "ester": "#19D3F3", "alcohol": "#FF6692", "amide": "#B6E880", "sulfoxide": "#FF97FF", "acid": "#FECB52", "nitrile": "#1F77B4", "glycol ether": "#2CA02C", "amine": "#D62728", "terpene": "#9467BD", "inorganic": "#8C564B", "nitro": "#E377C2", "glycol": "#7F7F7F", "fluorinated": "#BCBD22", "heterocyclic": "#17BECF", "aldehyde": "#FF7F0E", "sulfur compound": "#AEC7E8", "other": "#888888"};
         const POLY_CAT_COLORS = {"Polyolefin": "#4363d8", "Vinyl & Styrene": "#e6194B", "Acrylic": "#3cb44b", "Cellulose": "#ffe119", "Polyester & Alkyd": "#f58231", "Epoxy": "#911eb4", "Polyamide & Imide": "#42d4f4", "Rubber & Elastomer": "#f032e6", "Fluoropolymer": "#bfef45", "Engineering": "#fabed4", "Urethane": "#469990", "Natural & Bio": "#dcbeff", "Resin": "#9A6324", "Halogenated": "#aaffc3", "Other": "#a9a9a9"};
+        const POLYMER_TYPE_TO_CAT = {"Polyethylene": "Polyolefin", "Polypropylene": "Polyolefin", "Polyisobutylene": "Polyolefin", "Polybutadiene": "Polyolefin", "Polyisoprene": "Polyolefin", "Polyisoprene Swelling": "Polyolefin", "Permeation of LDPE by Organic Liquids": "Polyolefin", "Polyvinylchloride": "Vinyl & Styrene", "Polystyrene": "Vinyl & Styrene", "Polyvinylacetate": "Vinyl & Styrene", "Polyvinylbutyral": "Vinyl & Styrene", "Polyvinyl Alcohol": "Vinyl & Styrene", "Polyvinylpyrrolidone": "Vinyl & Styrene", "Vinyl Chloride Copolymers": "Vinyl & Styrene", "Vinyl Resins - Solvent Range": "Vinyl & Styrene", "Styrene-Butadiene (SBR)": "Vinyl & Styrene", "Styrene Polymers And Copolymers - Solvent Range": "Vinyl & Styrene", "Barex": "Vinyl & Styrene", "High Temperature Solubility of PVDC": "Vinyl & Styrene", "Ethylene Vinylacetate (EVA) Solubility": "Vinyl & Styrene", "Acrylate Resins": "Acrylic", "Acrylics": "Acrylic", "Acrylics - Solvent Range": "Acrylic", "Polyacrylate": "Acrylic", "Polyacrylonitrile": "Acrylic", "Solubility of Polyacrylonitirile": "Acrylic", "Acrylonitrile-Butadiene": "Acrylic", "Acrylic Modified Alkyd": "Acrylic", "Cellulose": "Cellulose", "Cellulose Acetate": "Cellulose", "Cellulose Acetobutyrate": "Cellulose", "Ethyl Cellulose": "Cellulose", "Nitrocellulose": "Cellulose", "Polyester": "Polyester & Alkyd", "Polyesters - Solvent Range": "Polyester & Alkyd", "Binders in Solution: Alkyds and Polyesters": "Polyester & Alkyd", "Epoxy": "Epoxy", "Epoxy Curing Agents": "Epoxy", "Polyamide": "Polyamide & Imide", "Polyimide": "Polyamide & Imide", "Polyetherimide": "Polyamide & Imide", "PEI - Polyethylene Imide - Environmental Stress Cracking (ESC)": "Polyamide & Imide", "Elastomer": "Rubber & Elastomer", "Chemical Resistance of Elastomers": "Rubber & Elastomer", "Bromobutyl Rubber Swelling": "Rubber & Elastomer", "Chlorinated Rubber": "Rubber & Elastomer", "Cyclized Rubber": "Rubber & Elastomer", "Chlorosulfonated PE": "Rubber & Elastomer", "Fluoropolymer": "Fluoropolymer", "Fluorinated Polyethers": "Fluoropolymer", "Poly(Ethylene/Chlorotrifluoroethylene)": "Fluoropolymer", "Polycarbonate": "Engineering", "Polyphenylene Oxide": "Engineering", "Polyphenylene Sulfide": "Engineering", "Polysulfone PSU": "Engineering", "Polyethersulfone": "Engineering", "COC Solubility": "Engineering", "Polyurethane": "Urethane", "Isocyanate": "Urethane", "Tolonate Solubility": "Urethane", "Natural": "Natural & Bio", "Rosin Derivatives": "Natural & Bio", "Biologically Interesting Systems": "Natural & Bio", "Polymers of Interest for Conservation of Paintings": "Natural & Bio", "Amino Resins": "Resin", "Phenolic Resins": "Resin", "Hydrocarbon Resins": "Resin", "Silicone Resins": "Resin", "Chlorinated Polypropylene": "Halogenated", "Chloroparaffin": "Halogenated", "Chemical Resistance of Plastics": "Engineering", "Chemical Resistance of High Performance and Other Polymers": "Engineering", "Chemical Resistance Data - Modern Plastics Encylopedia": "Engineering", "Correlations for Some Barrier-Type Polymers": "Engineering", "Practical Film Thickness": "Resin", "Polyvinylidene Chloride": "Vinyl & Styrene", "Alkyd": "Polyester & Alkyd", "Based on Solvent Range Solubility Data - Not too Reliable": "Other", "Miscellaneous - Solvent Range": "Other", "Miscellaneous": "Other", "Special Data": "Other", "Special": "Other", "Supplemental Chemical Resistance Corrlations": "Other", "Polymer Solubility Data from Various Sources": "Other"};
 
         // Dataset toggle state (read from localStorage, managed on manage page)
         const _LS_DS_KEY = 'materialism_active_datasets';
@@ -4398,9 +4399,9 @@ return Plotly;
                     else if (field === 'bp') arr[idx].bp = parseFloat(val) || arr[idx].bp;
                     else if (field === 'name') arr[idx].name = val;
                     else if (field === 'cas') arr[idx].cas = val;
-                    else if (field === 'cat') arr[idx].cat = val;
+                    else if (field === 'cat') { arr[idx].cat = val; arr[idx].color = CAT_COLORS[val] || '#888'; }
                     else if (field === 'r' && type === 'polymers') arr[idx].r = parseFloat(val) || arr[idx].r;
-                    else if (field === 'type' && type === 'polymers') arr[idx].type = val;
+                    else if (field === 'type' && type === 'polymers') { arr[idx].type = val; var _pc = POLYMER_TYPE_TO_CAT[val] || 'Other'; arr[idx].cat = _pc; arr[idx].color = POLY_CAT_COLORS[_pc] || '#a9a9a9'; }
                     else if (field === 'src') arr[idx].src = val;
                 }
             } catch(e) {}
@@ -5322,10 +5323,10 @@ return Plotly;
                         h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td>');
                     } else if (parentIntent === 'similar_solvents') {
                         var _tc = t.color || CAT_COLORS[t.cat] || '#888';
-                        h.push('<td></td><td style="color:', _tc, '">', (t.cat || ''), '</td>');
+                        h.push('<td></td><td style="color:', _tc, '">', (t.cat ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + _tc + ';margin-right:5px;vertical-align:middle"></span>' + t.cat : ''), '</td>');
                     } else {
                         var _tc = t.color || POLY_CAT_COLORS[t.cat] || '#a9a9a9';
-                        h.push('<td></td><td>', (t.r || ''), '</td><td style="color:', _tc, '">', (t.type || ''), '</td>');
+                        h.push('<td></td><td>', (t.r || ''), '</td><td style="color:', _tc, '">', (t.type ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + _tc + ';margin-right:5px;vertical-align:middle"></span>' + t.type : ''), '</td>');
                     }
                     h.push('</tr>');
                 });
@@ -5340,7 +5341,7 @@ return Plotly;
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
                 if (isMulti) { result.targets.forEach(t => { const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) { if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; } h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }); }
-                else { h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) { const red = r.red; let cls = 'red-bad'; if (red !== null) { if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; } h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); } else if (parentIntent === 'similar_solvents') { var _rc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td style="color:', _rc, '">', (r.cat || ''), '</td>'); } else { var _rc = r.color || POLY_CAT_COLORS[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td style="color:', _rc, '">', (r.type || ''), '</td>'); } }
+                else { h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) { const red = r.red; let cls = 'red-bad'; if (red !== null) { if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; } h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); } else if (parentIntent === 'similar_solvents') { var _rc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td style="color:', _rc, '">', (r.cat ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + _rc + ';margin-right:5px;vertical-align:middle"></span>' + r.cat : ''), '</td>'); } else { var _rc = r.color || POLY_CAT_COLORS[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td style="color:', _rc, '">', (r.type ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + _rc + ';margin-right:5px;vertical-align:middle"></span>' + r.type : ''), '</td>'); } }
                 h.push('</tr>');
             });
             h.push('</tbody></table>');
@@ -5913,7 +5914,7 @@ return Plotly;
                     rowsHtml += '<td>' + lnk(s.dh, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
                     rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
-                    rowsHtml += '<td style="color:' + catColor + '">' + (s.cat || '') + '</td>';
+                    rowsHtml += '<td style="color:' + catColor + '">' + (s.cat ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + catColor + ';margin-right:5px;vertical-align:middle"></span>' + s.cat : '') + '</td>';
                     rowsHtml += '</tr>';
                 }
             } else {
@@ -5954,7 +5955,7 @@ return Plotly;
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
-                    rowsHtml += '<td style="color:' + catColor + '">' + (p.type || '') + '</td>';
+                    rowsHtml += '<td style="color:' + catColor + '">' + (p.type ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + catColor + ';margin-right:5px;vertical-align:middle"></span>' + p.type : '') + '</td>';
                     rowsHtml += '</tr>';
                 }
             }
