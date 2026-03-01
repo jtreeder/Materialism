@@ -776,14 +776,14 @@ function renderActiveDb() {
                 var cellStyle = isEdited ? 'background:#e8f8f0' : '';
                 if (c.key === 'cat') {
                     var catCol = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx].color || CAT_COLORS[val] || '#888';
-                    cellStyle = (isEdited ? 'background:#e8f8f0;' : '') + 'color:' + catCol;
-                    display = val ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + catCol + ';margin-right:5px;flex-shrink:0"></span>' + val : '';
+                    cellStyle = isEdited ? 'background:#e8f8f0' : '';
+                    display = val ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + catCol + '22;border-left:3px solid ' + catCol + ';color:' + catCol + ';font-weight:600;white-space:nowrap">' + val + '</span>' : '';
                 }
                 if (c.key === 'type') {
                     var polyMat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
                     var typeCol = polyMat.color || POLY_CAT_COLORS[POLY_TYPE_TO_CAT[val]] || '#a9a9a9';
-                    cellStyle = (isEdited ? 'background:#e8f8f0;' : '') + 'color:' + typeCol;
-                    display = val ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + typeCol + ';margin-right:5px;flex-shrink:0"></span>' + val : '';
+                    cellStyle = isEdited ? 'background:#e8f8f0' : '';
+                    display = val ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + typeCol + '22;border-left:3px solid ' + typeCol + ';color:' + typeCol + ';font-weight:600;white-space:nowrap">' + val + '</span>' : '';
                 }
                 html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (cellStyle ? ' style="' + cellStyle + '"' : '') + '>' + display + '</td>';
             }
@@ -942,12 +942,10 @@ function renderDetail() {
             if (!isEdit) {
                 if (c === 'cat') {
                     var catCol = CAT_COLORS[v] || '#888';
-                    catStyle = ' style="color:' + catCol + '"';
-                    display = v ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + catCol + ';margin-right:5px"></span>' + v : '';
+                    display = v ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + catCol + '22;border-left:3px solid ' + catCol + ';color:' + catCol + ';font-weight:600;white-space:nowrap">' + v + '</span>' : '';
                 } else if (c === 'type') {
                     var typeCol = POLY_CAT_COLORS[POLY_TYPE_TO_CAT[v]] || '#a9a9a9';
-                    catStyle = ' style="color:' + typeCol + '"';
-                    display = v ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + typeCol + ';margin-right:5px"></span>' + v : '';
+                    display = v ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + typeCol + '22;border-left:3px solid ' + typeCol + ';color:' + typeCol + ';font-weight:600;white-space:nowrap">' + v + '</span>' : '';
                 }
             }
             html += '<td' + (cls ? ' class="' + cls + '"' : '') + attrs + catStyle + '>' + display;

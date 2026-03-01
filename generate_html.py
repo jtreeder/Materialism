@@ -1797,8 +1797,8 @@ full_html = f"""<!DOCTYPE html>
                 return '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + (colNum++) + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
             }};
             h.push(th('#'), th('Name'), th('CAS #'), th('&delta;D (MPa<sup>\u00bd</sup>)'), th('&delta;P (MPa<sup>\u00bd</sup>)'), th('&delta;H (MPa<sup>\u00bd</sup>)'), th('MW (g/mol)'), th('BP (&deg;C)'));
-            if (isMulti) {{ result.targets.forEach(t => {{ h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }}); }}
-            else if (showRed) {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('RED')); }}
+            if (isMulti) {{ result.targets.forEach(t => {{ h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }}); h.push(th('Classification')); }}
+            else if (showRed) {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('RED'), th('Classification')); }}
             else if (parentIntent === 'similar_solvents') {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('Classification')); }}
             else {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('R&#8320; (MPa<sup>\u00bd</sup>)'), th('Classification')); }}
             h.push('</tr></thead><tbody>');
@@ -1823,14 +1823,16 @@ full_html = f"""<!DOCTYPE html>
                                 h.push('<td><span style="display:inline-block;background:', chipColor, ';color:white;padding:2px 10px;border-radius:12px;font-size:0.8rem;font-weight:600">', t.requirement, '</span></td>');
                             }} else {{ h.push('<td></td>'); }}
                         }});
+                        h.push('<td></td>');
                     }} else if (showRed) {{
-                        h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td>');
+                        var _tsc = t.color || (t.type ? POLY_CAT_COLORS[t.cat] || '#a9a9a9' : CAT_COLORS[t.cat] || '#888');
+                        h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td><td>', (t.type ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _tsc + '22;border-left:3px solid ' + _tsc + ';color:' + _tsc + ';font-weight:600;white-space:nowrap">' + t.type + '</span>' : (t.cat ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _tsc + '22;border-left:3px solid ' + _tsc + ';color:' + _tsc + ';font-weight:600;white-space:nowrap">' + t.cat + '</span>' : '')), '</td>');
                     }} else if (parentIntent === 'similar_solvents') {{
                         var _tc = t.color || CAT_COLORS[t.cat] || '#888';
-                        h.push('<td></td><td style="color:', _tc, '">', (t.cat ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + _tc + ';margin-right:5px;vertical-align:middle"></span>' + t.cat : ''), '</td>');
+                        h.push('<td></td><td>', (t.cat ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _tc + '22;border-left:3px solid ' + _tc + ';color:' + _tc + ';font-weight:600;white-space:nowrap">' + t.cat + '</span>' : ''), '</td>');
                     }} else {{
                         var _tc = t.color || POLY_CAT_COLORS[t.cat] || '#a9a9a9';
-                        h.push('<td></td><td>', (t.r || ''), '</td><td style="color:', _tc, '">', (t.type ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + _tc + ';margin-right:5px;vertical-align:middle"></span>' + t.type : ''), '</td>');
+                        h.push('<td></td><td>', (t.r || ''), '</td><td>', (t.type ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _tc + '22;border-left:3px solid ' + _tc + ';color:' + _tc + ';font-weight:600;white-space:nowrap">' + t.type + '</span>' : ''), '</td>');
                     }}
                     h.push('</tr>');
                 }});
@@ -1844,8 +1846,8 @@ full_html = f"""<!DOCTYPE html>
                 h.push('<td>', (r.cas || ''), '</td>');
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
-                if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); }}
-                else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ var _rc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td style="color:', _rc, '">', (r.cat ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + _rc + ';margin-right:5px;vertical-align:middle"></span>' + r.cat : ''), '</td>'); }} else {{ var _rc = r.color || POLY_CAT_COLORS[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td style="color:', _rc, '">', (r.type ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + _rc + ';margin-right:5px;vertical-align:middle"></span>' + r.type : ''), '</td>'); }} }}
+                if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); var _rci = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _rci + '22;border-left:3px solid ' + _rci + ';color:' + _rci + ';font-weight:600;white-space:nowrap">' + r.cat + '</span>' : ''), '</td>'); }}
+                else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); var _rrc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _rrc + '22;border-left:3px solid ' + _rrc + ';color:' + _rrc + ';font-weight:600;white-space:nowrap">' + r.cat + '</span>' : ''), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ var _rc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _rc + '22;border-left:3px solid ' + _rc + ';color:' + _rc + ';font-weight:600;white-space:nowrap">' + r.cat + '</span>' : ''), '</td>'); }} else {{ var _rc = r.color || POLY_CAT_COLORS[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td>', (r.type ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _rc + '22;border-left:3px solid ' + _rc + ';color:' + _rc + ';font-weight:600;white-space:nowrap">' + r.type + '</span>' : ''), '</td>'); }} }}
                 h.push('</tr>');
             }});
             h.push('</tbody></table>');
@@ -2410,7 +2412,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(s.dh, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
                     rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
-                    rowsHtml += '<td style="color:' + catColor + '">' + (s.cat ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + catColor + ';margin-right:5px;vertical-align:middle"></span>' + s.cat : '') + '</td>';
+                    rowsHtml += '<td>' + (s.cat ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + catColor + '22;border-left:3px solid ' + catColor + ';color:' + catColor + ';font-weight:600;white-space:nowrap">' + s.cat + '</span>' : '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }} else {{
@@ -2444,7 +2446,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
-                    rowsHtml += '<td style="color:' + catColor + '">' + (p.type ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + catColor + ';margin-right:5px;vertical-align:middle"></span>' + p.type : '') + '</td>';
+                    rowsHtml += '<td>' + (p.type ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + catColor + '22;border-left:3px solid ' + catColor + ';color:' + catColor + ';font-weight:600;white-space:nowrap">' + p.type + '</span>' : '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }}
@@ -3591,14 +3593,14 @@ function renderActiveDb() {{
                 var cellStyle = isEdited ? 'background:#e8f8f0' : '';
                 if (c.key === 'cat') {{
                     var catCol = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx].color || CAT_COLORS[val] || '#888';
-                    cellStyle = (isEdited ? 'background:#e8f8f0;' : '') + 'color:' + catCol;
-                    display = val ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + catCol + ';margin-right:5px;flex-shrink:0"></span>' + val : '';
+                    cellStyle = isEdited ? 'background:#e8f8f0' : '';
+                    display = val ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + catCol + '22;border-left:3px solid ' + catCol + ';color:' + catCol + ';font-weight:600;white-space:nowrap">' + val + '</span>' : '';
                 }}
                 if (c.key === 'type') {{
                     var polyMat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
                     var typeCol = polyMat.color || POLY_CAT_COLORS[POLY_TYPE_TO_CAT[val]] || '#a9a9a9';
-                    cellStyle = (isEdited ? 'background:#e8f8f0;' : '') + 'color:' + typeCol;
-                    display = val ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + typeCol + ';margin-right:5px;flex-shrink:0"></span>' + val : '';
+                    cellStyle = isEdited ? 'background:#e8f8f0' : '';
+                    display = val ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + typeCol + '22;border-left:3px solid ' + typeCol + ';color:' + typeCol + ';font-weight:600;white-space:nowrap">' + val + '</span>' : '';
                 }}
                 html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (cellStyle ? ' style="' + cellStyle + '"' : '') + '>' + display + '</td>';
             }}
@@ -3757,12 +3759,10 @@ function renderDetail() {{
             if (!isEdit) {{
                 if (c === 'cat') {{
                     var catCol = CAT_COLORS[v] || '#888';
-                    catStyle = ' style="color:' + catCol + '"';
-                    display = v ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + catCol + ';margin-right:5px"></span>' + v : '';
+                    display = v ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + catCol + '22;border-left:3px solid ' + catCol + ';color:' + catCol + ';font-weight:600;white-space:nowrap">' + v + '</span>' : '';
                 }} else if (c === 'type') {{
                     var typeCol = POLY_CAT_COLORS[POLY_TYPE_TO_CAT[v]] || '#a9a9a9';
-                    catStyle = ' style="color:' + typeCol + '"';
-                    display = v ? '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + typeCol + ';margin-right:5px"></span>' + v : '';
+                    display = v ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + typeCol + '22;border-left:3px solid ' + typeCol + ';color:' + typeCol + ';font-weight:600;white-space:nowrap">' + v + '</span>' : '';
                 }}
             }}
             html += '<td' + (cls ? ' class="' + cls + '"' : '') + attrs + catStyle + '>' + display;
