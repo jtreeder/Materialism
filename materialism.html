@@ -4622,9 +4622,20 @@ return Plotly;
         var _allSolX = SOLVENTS.map(function(s) { return s.dd; });
         var _allSolY = SOLVENTS.map(function(s) { return s.dp; });
         var _allSolZ = SOLVENTS.map(function(s) { return s.dh; });
-        var _allPolyX = POLYMERS.map(function(p) { return p.dd; });
-        var _allPolyY = POLYMERS.map(function(p) { return p.dp; });
-        var _allPolyZ = POLYMERS.map(function(p) { return p.dh; });
+        // Group polymers by category for per-category traces (ensures reliable
+        // scatter3d coloring — per-point color arrays can fail with non-default symbols).
+        var _polyCatOrder = Object.keys({"Polyolefin": "#4363d8", "Vinyl & Styrene": "#e6194B", "Acrylic": "#3cb44b", "Cellulose": "#ffe119", "Polyester & Alkyd": "#f58231", "Epoxy": "#911eb4", "Polyamide & Imide": "#42d4f4", "Rubber & Elastomer": "#f032e6", "Fluoropolymer": "#bfef45", "Engineering": "#fabed4", "Urethane": "#469990", "Natural & Bio": "#dcbeff", "Resin": "#9A6324", "Halogenated": "#aaffc3", "Other": "#a9a9a9"});
+        var _polyCatData = {};
+        _polyCatOrder.forEach(function(cat) { _polyCatData[cat] = []; });
+        POLYMERS.forEach(function(p, i) {
+            var cat = p.cat || 'Other';
+            if (!_polyCatData[cat]) { _polyCatData[cat] = []; if (_polyCatOrder.indexOf(cat) === -1) _polyCatOrder.push(cat); }
+            _polyCatData[cat].push({ idx: i, p: p });
+        });
+        // Remove empty categories
+        _polyCatOrder = _polyCatOrder.filter(function(c) { return _polyCatData[c].length > 0; });
+        var _polyTraceStart = 1; // polymer traces start right after solvents trace (index 0)
+        var _polyTraceCount = _polyCatOrder.length;
 
         // Hidden-category state for legend toggle
         var _hiddenSolCats = {};
@@ -4704,8 +4715,7 @@ return Plotly;
             var pOpacity = _plotDimmed ? 0.12 : 0.95;
             var hInfo = _plotDimmed ? 'skip' : 'none';
 
-            // Always compute filtered coordinates so that dataset, simpleMode
-            // and hidden-category filters are applied consistently.
+            // Update solvent trace (trace 0)
             var sx = [], sy = [], sz = [], sc = [];
             SOLVENTS.forEach(function(s, i) {
                 var visible = true;
@@ -4717,30 +4727,37 @@ return Plotly;
                 sz.push(visible ? s.dh : null);
                 sc.push(visible ? (s.color || '#888') : 'rgba(0,0,0,0)');
             });
-            var px = [], py = [], pz = [], pc = [];
-            POLYMERS.forEach(function(p, i) {
-                var visible = true;
-                if (!_isDsActive(p.dsId)) visible = false;
-                else if (simpleMode && !p.common) visible = false;
-                else if (_hiddenPolyCats[p.cat || 'Other']) visible = false;
-                px.push(visible ? p.dd : null);
-                py.push(visible ? p.dp : null);
-                pz.push(visible ? p.dh : null);
-                pc.push(visible ? (p.color || '#a9a9a9') : 'rgba(0,0,0,0)');
-            });
-            // Update trace data directly and use Plotly.react — scatter3d
-            // per-point color arrays are not reliably applied via Plotly.restyle.
-            var t0 = plotDiv.data[0], t1 = plotDiv.data[1];
+            var t0 = plotDiv.data[0];
             t0.x = sx; t0.y = sy; t0.z = sz;
             t0.marker.size = sSize;
             t0.marker.color = _plotDimmed ? '#999' : sc;
             t0.marker.opacity = sOpacity;
             t0.hoverinfo = hInfo;
-            t1.x = px; t1.y = py; t1.z = pz;
-            t1.marker.size = pSize;
-            t1.marker.color = _plotDimmed ? '#665500' : pc;
-            t1.marker.opacity = pOpacity;
-            t1.hoverinfo = hInfo;
+
+            // Update each polymer category trace
+            for (var ti = 0; ti < _polyTraceCount; ti++) {
+                var trace = plotDiv.data[_polyTraceStart + ti];
+                var cat = _polyCatOrder[ti];
+                var items = _polyCatData[cat];
+                var catHidden = !!_hiddenPolyCats[cat];
+                var trColor = POLY_CAT_COLORS[cat] || '#a9a9a9';
+                var px = [], py = [], pz = [];
+                for (var j = 0; j < items.length; j++) {
+                    var p = items[j].p;
+                    var visible = true;
+                    if (!_isDsActive(p.dsId)) visible = false;
+                    else if (simpleMode && !p.common) visible = false;
+                    else if (catHidden) visible = false;
+                    px.push(visible ? p.dd : null);
+                    py.push(visible ? p.dp : null);
+                    pz.push(visible ? p.dh : null);
+                }
+                trace.x = px; trace.y = py; trace.z = pz;
+                trace.marker.size = pSize;
+                trace.marker.color = _plotDimmed ? '#665500' : trColor;
+                trace.marker.opacity = pOpacity;
+                trace.hoverinfo = hInfo;
+            }
             Plotly.react(plotDiv, plotDiv.data, plotDiv.layout);
         }
 
@@ -5333,15 +5350,25 @@ return Plotly;
                     marker: { size: 5, color: SOLVENTS.map(function(s){ return s.color || '#888'; }), opacity: 0.85 },
                     showlegend: false,
                 },
-                {
-                    type: 'scatter3d', mode: 'markers',
-                    name: 'Polymers',
-                    x: _allPolyX, y: _allPolyY, z: _allPolyZ,
-                    hoverinfo: 'none',
-                    marker: { size: 7, color: POLYMERS.map(function(p){ return p.color || '#a9a9a9'; }), symbol: 'diamond', opacity: 0.95 },
-                    showlegend: false,
-                },
             ];
+            // One trace per polymer category — single color per trace is
+            // the only reliable way to color scatter3d diamond markers.
+            _polyCatOrder.forEach(function(cat) {
+                var items = _polyCatData[cat];
+                var color = POLY_CAT_COLORS[cat] || '#a9a9a9';
+                fullTraces.push({
+                    type: 'scatter3d', mode: 'markers',
+                    name: cat,
+                    x: items.map(function(e) { return e.p.dd; }),
+                    y: items.map(function(e) { return e.p.dp; }),
+                    z: items.map(function(e) { return e.p.dh; }),
+                    hoverinfo: 'none',
+                    marker: { size: 7, color: color, symbol: 'diamond', opacity: 0.95 },
+                    showlegend: false,
+                    _polyCat: cat,
+                    _polyIndices: items.map(function(e) { return e.idx; }),
+                });
+            });
             // Pre-allocate a hidden highlight trace so clicking in the home table works
             fullTraces.push({
                 type: 'scatter3d', mode: 'markers+text',
@@ -5485,27 +5512,20 @@ return Plotly;
                 showscale: false, name: 'Sphere: ' + tgt.name, hoverinfo: 'name' });
         }
 
-        // Track result traces layered on top of the 2 base traces
+        // Track result traces layered on top of base traces (solvents + N polymer categories + highlight)
         var _baseTraceCount = 0;
         var _resultTraceCount = 0;
         var _plotDimmed = false;
 
         function _dimBaseTraces() {
-            // Dim the 2 base traces to background dots.
-            // Camera stays exactly where it is because we reuse the same layout.
             if (_plotDimmed) return;
             _plotDimmed = true;
-            // Delegate to _updatePlotForCommonFilter which handles dimming,
-            // dataset filtering, simpleMode, and hidden categories together.
             _updatePlotForCommonFilter();
         }
 
         function _restoreBaseTraces() {
-            // Restore the 2 base traces to full interactive appearance.
             if (!_plotDimmed) return;
             _plotDimmed = false;
-            // Delegate to _updatePlotForCommonFilter which handles both
-            // coordinate restoration and simpleMode filtering in one restyle.
             _updatePlotForCommonFilter();
         }
 
@@ -6081,13 +6101,21 @@ return Plotly;
             buildFullPlot();
             buildHomeTable();
             // All tooltips use scene annotations for one consistent style
+            function _nameFromPoint(pt) {
+                if (pt.curveNumber === 0 && SOLVENTS[pt.pointNumber]) return SOLVENTS[pt.pointNumber].name;
+                if (pt.curveNumber >= _polyTraceStart && pt.curveNumber < _polyTraceStart + _polyTraceCount) {
+                    var trace = plotDiv.data[pt.curveNumber];
+                    if (trace && trace._polyIndices) {
+                        var polyIdx = trace._polyIndices[pt.pointNumber];
+                        if (polyIdx != null && POLYMERS[polyIdx]) return POLYMERS[polyIdx].name;
+                    }
+                }
+                return '';
+            }
             plotDiv.on('plotly_hover', function(data) {
                 if (_pinnedName || _tableHover) return;
                 try {
-                    var pt = data.points[0];
-                    var name = '';
-                    if (pt.curveNumber === 0 && SOLVENTS[pt.pointNumber]) name = SOLVENTS[pt.pointNumber].name;
-                    else if (pt.curveNumber === 1 && POLYMERS[pt.pointNumber]) name = POLYMERS[pt.pointNumber].name;
+                    var name = _nameFromPoint(data.points[0]);
                     if (name) showAnnotation(name);
                 } catch(e) {}
             });
@@ -6097,10 +6125,7 @@ return Plotly;
             plotDiv.on('plotly_click', function(data) {
                 try {
                     if (!data || !data.points || !data.points.length) return;
-                    var pt = data.points[0];
-                    var name = '';
-                    if (pt.curveNumber === 0 && SOLVENTS[pt.pointNumber]) name = SOLVENTS[pt.pointNumber].name;
-                    else if (pt.curveNumber === 1 && POLYMERS[pt.pointNumber]) name = POLYMERS[pt.pointNumber].name;
+                    var name = _nameFromPoint(data.points[0]);
                     if (!name) return;
                     if (_pinnedName === name) {
                         unpinAll();
