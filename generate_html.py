@@ -730,6 +730,12 @@ full_html = f"""<!DOCTYPE html>
         const POLY_CAT_COLORS = {poly_cat_colors_json};
         const POLYMER_TYPE_TO_CAT = {poly_type_to_cat_json};
 
+        function _catBadge(label, color) {{
+            if (!label) return '';
+            return '<span style="display:inline-block;width:12px;height:12px;background:' + color + ';border-radius:2px;vertical-align:middle;margin-right:5px"></span>'
+                 + '<span style="color:' + color + ';font-weight:700">' + label + '</span>';
+        }}
+
         // Dataset toggle state (read from localStorage, managed on manage page)
         const _LS_DS_KEY = 'materialism_active_datasets';
         function _loadActiveDsets() {{
@@ -1826,13 +1832,13 @@ full_html = f"""<!DOCTYPE html>
                         h.push('<td></td>');
                     }} else if (showRed) {{
                         var _tsc = t.color || (t.type ? POLY_CAT_COLORS[t.cat] || '#a9a9a9' : CAT_COLORS[t.cat] || '#888');
-                        h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td><td>', (t.type ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _tsc + '22;border-left:3px solid ' + _tsc + ';color:' + _tsc + ';font-weight:600;white-space:nowrap">' + t.type + '</span>' : (t.cat ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _tsc + '22;border-left:3px solid ' + _tsc + ';color:' + _tsc + ';font-weight:600;white-space:nowrap">' + t.cat + '</span>' : '')), '</td>');
+                        h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td><td>', (t.type ? _catBadge(t.type, _tsc) : (t.cat ? _catBadge(t.cat, _tsc) : '')), '</td>');
                     }} else if (parentIntent === 'similar_solvents') {{
                         var _tc = t.color || CAT_COLORS[t.cat] || '#888';
-                        h.push('<td></td><td>', (t.cat ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _tc + '22;border-left:3px solid ' + _tc + ';color:' + _tc + ';font-weight:600;white-space:nowrap">' + t.cat + '</span>' : ''), '</td>');
+                        h.push('<td></td><td>', (t.cat ? _catBadge(t.cat, _tc) : ''), '</td>');
                     }} else {{
                         var _tc = t.color || POLY_CAT_COLORS[t.cat] || '#a9a9a9';
-                        h.push('<td></td><td>', (t.r || ''), '</td><td>', (t.type ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _tc + '22;border-left:3px solid ' + _tc + ';color:' + _tc + ';font-weight:600;white-space:nowrap">' + t.type + '</span>' : ''), '</td>');
+                        h.push('<td></td><td>', (t.r || ''), '</td><td>', (t.type ? _catBadge(t.type, _tc) : ''), '</td>');
                     }}
                     h.push('</tr>');
                 }});
@@ -1846,8 +1852,8 @@ full_html = f"""<!DOCTYPE html>
                 h.push('<td>', (r.cas || ''), '</td>');
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
-                if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); var _rci = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _rci + '22;border-left:3px solid ' + _rci + ';color:' + _rci + ';font-weight:600;white-space:nowrap">' + r.cat + '</span>' : ''), '</td>'); }}
-                else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); var _rrc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _rrc + '22;border-left:3px solid ' + _rrc + ';color:' + _rrc + ';font-weight:600;white-space:nowrap">' + r.cat + '</span>' : ''), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ var _rc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _rc + '22;border-left:3px solid ' + _rc + ';color:' + _rc + ';font-weight:600;white-space:nowrap">' + r.cat + '</span>' : ''), '</td>'); }} else {{ var _rc = r.color || POLY_CAT_COLORS[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td>', (r.type ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + _rc + '22;border-left:3px solid ' + _rc + ';color:' + _rc + ';font-weight:600;white-space:nowrap">' + r.type + '</span>' : ''), '</td>'); }} }}
+                if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); var _rci = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? _catBadge(r.cat, _rci) : ''), '</td>'); }}
+                else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); var _rrc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? _catBadge(r.cat, _rrc) : ''), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ var _rc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? _catBadge(r.cat, _rc) : ''), '</td>'); }} else {{ var _rc = r.color || POLY_CAT_COLORS[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td>', (r.type ? _catBadge(r.type, _rc) : ''), '</td>'); }} }}
                 h.push('</tr>');
             }});
             h.push('</tbody></table>');
@@ -2412,7 +2418,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(s.dh, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
                     rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
-                    rowsHtml += '<td>' + (s.cat ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + catColor + '22;border-left:3px solid ' + catColor + ';color:' + catColor + ';font-weight:600;white-space:nowrap">' + s.cat + '</span>' : '') + '</td>';
+                    rowsHtml += '<td>' + (s.cat ? _catBadge(s.cat, catColor) : '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }} else {{
@@ -2446,7 +2452,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
-                    rowsHtml += '<td>' + (p.type ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + catColor + '22;border-left:3px solid ' + catColor + ';color:' + catColor + ';font-weight:600;white-space:nowrap">' + p.type + '</span>' : '') + '</td>';
+                    rowsHtml += '<td>' + (p.type ? _catBadge(p.type, catColor) : '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }}
@@ -2815,6 +2821,26 @@ for ds_id, ds_meta in DATASETS_META.items():
 
 per_dataset_json = json.dumps(per_dataset_data)
 
+# Generate color legend rows for database sidebar
+_legend_solvent_rows = ''
+for _lname, _lcolor in CATEGORY_COLORS.items():
+    _legend_solvent_rows += (
+        '<div style="display:flex;align-items:center;gap:6px;padding:2px 0">'
+        '<span style="display:inline-block;width:14px;height:14px;background:' + _lcolor + ';border-radius:2px;flex-shrink:0"></span>'
+        '<span style="flex:1;font-size:0.75rem;color:#2d3436">' + _lname + '</span>'
+        '<code style="font-size:0.68rem;color:' + _lcolor + ';padding:1px 4px;font-family:monospace">' + _lcolor + '</code>'
+        '</div>'
+    )
+_legend_polymer_rows = ''
+for _lname, _lcolor in POLYMER_CAT_COLORS.items():
+    _legend_polymer_rows += (
+        '<div style="display:flex;align-items:center;gap:6px;padding:2px 0">'
+        '<span style="display:inline-block;width:14px;height:14px;background:' + _lcolor + ';border-radius:2px;flex-shrink:0"></span>'
+        '<span style="flex:1;font-size:0.75rem;color:#2d3436">' + _lname + '</span>'
+        '<code style="font-size:0.68rem;color:' + _lcolor + ';padding:1px 4px;font-family:monospace">' + _lcolor + '</code>'
+        '</div>'
+    )
+
 database_html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -3159,6 +3185,13 @@ td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-sp
             </div>
         </div>
         <div id="ds-list"></div>
+        <div style="margin-top:14px;border-top:1px solid #dfe6e9;padding-top:10px">
+            <div style="font-size:0.78rem;font-weight:700;color:#636e72;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Classification Colors</div>
+            <div style="font-size:0.7rem;font-weight:700;color:#b2bec3;margin-bottom:4px;text-transform:uppercase">Solvents</div>
+            {_legend_solvent_rows}
+            <div style="font-size:0.7rem;font-weight:700;color:#b2bec3;margin:8px 0 4px;text-transform:uppercase">Polymers</div>
+            {_legend_polymer_rows}
+        </div>
         <button class="rebuild-btn" onclick="triggerRebuild()">Export Datasets</button>
     </div>
     <div class="content" id="content">
@@ -3175,6 +3208,12 @@ var DATASETS = {per_dataset_json};
 var CAT_COLORS = {cat_colors_json};
 var POLY_CAT_COLORS = {poly_cat_colors_json};
 var POLY_TYPE_TO_CAT = {poly_type_to_cat_json};
+
+function _catBadge(label, color) {{
+    if (!label) return '';
+    return '<span style="display:inline-block;width:12px;height:12px;background:' + color + ';border-radius:2px;vertical-align:middle;margin-right:5px"></span>'
+         + '<span style="color:' + color + ';font-weight:700">' + label + '</span>';
+}}
 
 // ===================== STATE =====================
 var _LS_DS_KEY = 'materialism_active_datasets';
@@ -3594,13 +3633,13 @@ function renderActiveDb() {{
                 if (c.key === 'cat') {{
                     var catCol = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx].color || CAT_COLORS[val] || '#888';
                     cellStyle = isEdited ? 'background:#e8f8f0' : '';
-                    display = val ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + catCol + '22;border-left:3px solid ' + catCol + ';color:' + catCol + ';font-weight:600;white-space:nowrap">' + val + '</span>' : '';
+                    display = val ? _catBadge(val, catCol) : '';
                 }}
                 if (c.key === 'type') {{
                     var polyMat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
                     var typeCol = polyMat.color || POLY_CAT_COLORS[POLY_TYPE_TO_CAT[val]] || '#a9a9a9';
                     cellStyle = isEdited ? 'background:#e8f8f0' : '';
-                    display = val ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + typeCol + '22;border-left:3px solid ' + typeCol + ';color:' + typeCol + ';font-weight:600;white-space:nowrap">' + val + '</span>' : '';
+                    display = val ? _catBadge(val, typeCol) : '';
                 }}
                 html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (cellStyle ? ' style="' + cellStyle + '"' : '') + '>' + display + '</td>';
             }}
@@ -3759,10 +3798,10 @@ function renderDetail() {{
             if (!isEdit) {{
                 if (c === 'cat') {{
                     var catCol = CAT_COLORS[v] || '#888';
-                    display = v ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + catCol + '22;border-left:3px solid ' + catCol + ';color:' + catCol + ';font-weight:600;white-space:nowrap">' + v + '</span>' : '';
+                    display = v ? _catBadge(v, catCol) : '';
                 }} else if (c === 'type') {{
                     var typeCol = POLY_CAT_COLORS[POLY_TYPE_TO_CAT[v]] || '#a9a9a9';
-                    display = v ? '<span style="display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border-radius:4px;background:' + typeCol + '22;border-left:3px solid ' + typeCol + ';color:' + typeCol + ';font-weight:600;white-space:nowrap">' + v + '</span>' : '';
+                    display = v ? _catBadge(v, typeCol) : '';
                 }}
             }}
             html += '<td' + (cls ? ' class="' + cls + '"' : '') + attrs + catStyle + '>' + display;
