@@ -730,12 +730,6 @@ full_html = f"""<!DOCTYPE html>
         const POLY_CAT_COLORS = {poly_cat_colors_json};
         const POLYMER_TYPE_TO_CAT = {poly_type_to_cat_json};
 
-        function _catBadge(label, color) {{
-            if (!label) return '';
-            return '<span style="display:inline-block;width:12px;height:12px;background:' + color + ';border-radius:2px;vertical-align:middle;margin-right:5px"></span>'
-                 + '<span style="color:' + color + ';font-weight:700">' + label + '</span>';
-        }}
-
         function _normalizeCat(cat) {{
             if (!cat) return 'other';
             if (CAT_COLORS[cat]) return cat;
@@ -1832,10 +1826,10 @@ full_html = f"""<!DOCTYPE html>
                 return '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + (colNum++) + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
             }};
             h.push(th('#'), th('Name'), th('CAS #'), th('&delta;D (MPa<sup>\u00bd</sup>)'), th('&delta;P (MPa<sup>\u00bd</sup>)'), th('&delta;H (MPa<sup>\u00bd</sup>)'), th('MW (g/mol)'), th('BP (&deg;C)'));
-            if (isMulti) {{ result.targets.forEach(t => {{ h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }}); h.push(th('Classification')); }}
-            else if (showRed) {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('RED'), th('Classification')); }}
-            else if (parentIntent === 'similar_solvents') {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('Classification')); }}
-            else {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('R&#8320; (MPa<sup>\u00bd</sup>)'), th('Classification')); }}
+            if (isMulti) {{ result.targets.forEach(t => {{ h.push(th('Ra(' + t.name.slice(0, 15) + ')'), th('RED(' + t.name.slice(0, 15) + ')')); }}); }}
+            else if (showRed) {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('RED')); }}
+            else if (parentIntent === 'similar_solvents') {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)')); }}
+            else {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('R&#8320; (MPa<sup>\u00bd</sup>)')); }}
             h.push('</tr></thead><tbody>');
 
             // --- Target material rows ---
@@ -1860,14 +1854,11 @@ full_html = f"""<!DOCTYPE html>
                         }});
                         h.push('<td></td>');
                     }} else if (showRed) {{
-                        var _tsc = t.color || (t.type ? POLY_CAT_COLORS[t.cat] || '#a9a9a9' : CAT_COLORS[t.cat] || '#888');
-                        h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td><td>', (t.type ? _catBadge(t.type, _tsc) : (t.cat ? _catBadge(t.cat, _tsc) : '')), '</td>');
+                        h.push('<td></td><td style="color:#636e72">R&#8320;=', (t.r || 'N/A'), '</td>');
                     }} else if (parentIntent === 'similar_solvents') {{
-                        var _tc = t.color || CAT_COLORS[t.cat] || '#888';
-                        h.push('<td></td><td>', (t.cat ? _catBadge(t.cat, _tc) : ''), '</td>');
+                        h.push('<td></td>');
                     }} else {{
-                        var _tc = t.color || POLY_CAT_COLORS[t.cat] || '#a9a9a9';
-                        h.push('<td></td><td>', (t.r || ''), '</td><td>', (t.type ? _catBadge(t.type, _tc) : ''), '</td>');
+                        h.push('<td></td><td>', (t.r || ''), '</td>');
                     }}
                     h.push('</tr>');
                 }});
@@ -1881,8 +1872,8 @@ full_html = f"""<!DOCTYPE html>
                 h.push('<td>', (r.cas || ''), '</td>');
                 h.push('<td>', (r.dd != null ? r.dd.toFixed(1) : ''), '</td><td>', (r.dp != null ? r.dp.toFixed(1) : ''), '</td><td>', (r.dh != null ? r.dh.toFixed(1) : ''), '</td>');
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
-                if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); var _rci = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? _catBadge(r.cat, _rci) : ''), '</td>'); }}
-                else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); var _rrc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? _catBadge(r.cat, _rrc) : ''), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ var _rc = r.color || CAT_COLORS[r.cat] || '#888'; h.push('<td>', (r.cat ? _catBadge(r.cat, _rc) : ''), '</td>'); }} else {{ var _rc = r.color || POLY_CAT_COLORS[r.cat] || '#a9a9a9'; h.push('<td>', (r.r || ''), '</td><td>', (r.type ? _catBadge(r.type, _rc) : ''), '</td>'); }} }}
+                if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); }}
+                else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ }} else {{ h.push('<td>', (r.r || ''), '</td>'); }} }}
                 h.push('</tr>');
             }});
             h.push('</tbody></table>');
@@ -2418,7 +2409,7 @@ full_html = f"""<!DOCTYPE html>
             if (homeTab === 'solvents') {{
                 // Name, CAS #, δD, δP, δH, MW, BP, Category
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)','Classification'].forEach(function(label, i) {{
+                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
@@ -2447,13 +2438,12 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(s.dh, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
                     rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
-                    rowsHtml += '<td>' + (s.cat ? _catBadge(s.cat, catColor) : '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }} else {{
                 // Name, CAS, δD, δP, δH, R₀, Type
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)','Classification'].forEach(function(label, i) {{
+                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
@@ -2481,7 +2471,6 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
-                    rowsHtml += '<td>' + (p.type ? _catBadge(p.type, catColor) : '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }}
@@ -3178,7 +3167,7 @@ td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-sp
 </head>
 <body>
 <div class="header">
-    <h1><a href="materialism.html">Materialism</a> &mdash; Database <button id="title-lock-btn" onclick="toggleDbLock()" title="Click to unlock editing" style="background:none;border:none;cursor:pointer;padding:0 0 2px 6px;vertical-align:middle;color:#b2bec3;line-height:1"><svg id="title-lock-svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path id="title-lock-path" d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z"/></svg></button></h1>
+    <h1><a href="materialism.html">Materialism</a> &mdash; Database <button id="title-lock-btn" onclick="toggleDbLock()" title="Click to unlock editing" style="background:none;border:none;cursor:pointer;padding:0 0 2px 6px;vertical-align:middle;color:#b2bec3;line-height:1"><svg id="title-lock-svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z"/></svg></button></h1>
     <div class="nav-links">
         <a href="cas_review.html">Crosslink</a>
         <a href="materialism.html">Search</a>
@@ -3226,16 +3215,10 @@ var POLYMERS = {db_polymers_json};
 var CAS_CANDIDATES = {cas_candidates_json};
 var DATASETS_META = {datasets_meta_json};
 var DATASETS = {per_dataset_json};
-// Color maps — same as search page so classification colors are consistent
+// Color maps for category-based coloring
 var CAT_COLORS = {cat_colors_json};
 var POLY_CAT_COLORS = {poly_cat_colors_json};
 var POLY_TYPE_TO_CAT = {poly_type_to_cat_json};
-
-function _catBadge(label, color) {{
-    if (!label) return '';
-    return '<span style="display:inline-block;width:12px;height:12px;background:' + color + ';border-radius:2px;vertical-align:middle;margin-right:5px"></span>'
-         + '<span style="color:' + color + ';font-weight:700">' + label + '</span>';
-}}
 
 // ===================== STATE =====================
 var _LS_DS_KEY = 'materialism_active_datasets';
@@ -3336,7 +3319,6 @@ var SOLV_COLS = [
     {{key:'bp', label:'BP (\u00b0C)', w:'70px', tip:'Boiling point'}},
     {{key:'density', label:'Density (g/mL)', w:'90px', tip:'Density (g/mL)'}},
     {{key:'mv', label:'V\u2098 (cm\u00b3/mol)', w:'90px', tip:'Molar volume'}},
-    {{key:'cat', label:'Classification', w:'100px'}},
     {{key:'ghs', label:'GHS Hazard', w:'120px'}},
     {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
     {{key:'src', label:'Source', w:'140px'}},
@@ -3348,7 +3330,7 @@ var POLY_COLS = [
     {{key:'dp', label:'\u03b4P (MPa\u00bd)', w:'78px', tip:'Polarity parameter'}},
     {{key:'dh', label:'\u03b4H (MPa\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
     {{key:'r', label:'R\u2080 (MPa\u00bd)', w:'70px', tip:'Interaction radius'}},
-    {{key:'type', label:'Classification', w:'120px'}},
+    {{key:'type', label:'Type', w:'120px'}},
     {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
     {{key:'src', label:'Source', w:'140px'}},
 ];
@@ -3400,17 +3382,20 @@ function setDbVal(type, idx, field, val) {{
     saveDbEdits();
 }}
 
+var _LOCK_ICON_LOCKED = '<path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z"/>';
+var _LOCK_ICON_UNLOCKED = '<path fill-rule="evenodd" d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM6 10h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z"/><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" d="M9 10V6a3 3 0 0 1 6 0"/>';
+
 function toggleDbLock() {{
     _dbEditing = !_dbEditing;
     var btn = document.getElementById('title-lock-btn');
-    var path = document.getElementById('title-lock-path');
-    if (btn && path) {{
+    var svg = document.getElementById('title-lock-svg');
+    if (btn && svg) {{
         if (_dbEditing) {{
-            path.setAttribute('d', 'M18 8h-1V6A5 5 0 0 0 7 6h2a3 3 0 0 1 6 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z');
+            svg.innerHTML = _LOCK_ICON_UNLOCKED;
             btn.style.color = '#e94560';
             btn.title = 'Click to lock';
         }} else {{
-            path.setAttribute('d', 'M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z');
+            svg.innerHTML = _LOCK_ICON_LOCKED;
             btn.style.color = '#b2bec3';
             btn.title = 'Click to unlock editing';
         }}
@@ -3658,17 +3643,6 @@ function renderActiveDb() {{
                     display = '<span class="conf-badge" data-src="' + (mat.src || '').replace(/"/g, '&quot;') + '" data-cas="' + (mat.cas ? '1' : '0') + '" data-smi="' + (!isPoly && mat.smiles ? '1' : '0') + '" data-poly="' + (isPoly ? '1' : '0') + '" data-srcn="' + (mat.srcN || 1) + '" data-pct="' + pct + '" style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + cColor + ';cursor:help">' + pct + '%</span>';
                 }}
                 var cellStyle = isEdited ? 'background:#e8f8f0' : '';
-                if (c.key === 'cat') {{
-                    var catCol = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx].color || CAT_COLORS[val] || '#888';
-                    cellStyle = isEdited ? 'background:#e8f8f0' : '';
-                    display = val ? _catBadge(val, catCol) : '';
-                }}
-                if (c.key === 'type') {{
-                    var polyMat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
-                    var typeCol = polyMat.color || POLY_CAT_COLORS[POLY_TYPE_TO_CAT[val]] || '#a9a9a9';
-                    cellStyle = isEdited ? 'background:#e8f8f0' : '';
-                    display = val ? _catBadge(val, typeCol) : '';
-                }}
                 html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (cellStyle ? ' style="' + cellStyle + '"' : '') + '>' + display + '</td>';
             }}
         }}
@@ -3767,8 +3741,8 @@ function renderDetail() {{
     var colLabels = {{
         name:'Name', cas:'CAS #',
         dd:'\u03b4D (MPa\u00bd)', dp:'\u03b4P (MPa\u00bd)', dh:'\u03b4H (MPa\u00bd)',
-        mw:'MW (g/mol)', bp:'BP (\u00b0C)', cat:'Classification', conf:'Conf.',
-        r:'R\u2080 (MPa\u00bd)', type:'Classification',
+        mw:'MW (g/mol)', bp:'BP (\u00b0C)', cat:'Category', conf:'Conf.',
+        r:'R\u2080 (MPa\u00bd)', type:'Type',
         smiles:'SMILES', formula:'Formula', density:'Density (g/mL)',
         mv:'V\u2098 (cm\u00b3/mol)', ghs:'GHS'
     }};
@@ -3816,15 +3790,6 @@ function renderDetail() {{
             }}
             var catStyle = '';
             var display = v;
-            if (!isEdit) {{
-                if (c === 'cat') {{
-                    var catCol = CAT_COLORS[v] || '#888';
-                    display = v ? _catBadge(v, catCol) : '';
-                }} else if (c === 'type') {{
-                    var typeCol = POLY_CAT_COLORS[POLY_TYPE_TO_CAT[v]] || '#a9a9a9';
-                    display = v ? _catBadge(v, typeCol) : '';
-                }}
-            }}
             html += '<td' + (cls ? ' class="' + cls + '"' : '') + attrs + catStyle + '>' + display;
             if (isUncertain && !isEdit && !isNote) html += '<span class="q-mark">?</span>';
             html += '</td>';
