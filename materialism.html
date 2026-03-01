@@ -4181,7 +4181,7 @@ return Plotly;
                 <div id="plot-legend" class="plot-legend"></div>
             </div>
             <p style="color:#636e72; padding:6px 10px; font-size:0.8rem; margin:0;">
-                Drag to rotate &middot; Scroll to zoom &middot; Diamonds = polymers, dots = solvents
+                Drag to rotate &middot; Scroll to zoom
             </p>
         </div>
         <div id="chat-panel" class="chat-panel"></div>
@@ -4225,6 +4225,35 @@ return Plotly;
             if (!label) return '';
             return '<span style="display:inline-block;width:12px;height:12px;background:' + color + ';border-radius:2px;vertical-align:middle;margin-right:5px"></span>'
                  + '<span style="color:' + color + ';font-weight:700">' + label + '</span>';
+        }
+
+        function _normalizeCat(cat) {
+            if (!cat) return 'other';
+            if (CAT_COLORS[cat]) return cat;
+            var lc = cat.toLowerCase();
+            if (CAT_COLORS[lc]) return lc;
+            if (lc.indexOf('aromatic') !== -1) return 'aromatic';
+            if (lc.indexOf('glycol ether') !== -1) return 'glycol ether';
+            if (lc.indexOf('glycol') !== -1 || lc.indexOf('polyol') !== -1) return 'glycol';
+            if (lc.indexOf('hydrocarbon') !== -1) return 'hydrocarbon';
+            if (lc.indexOf('sulfoxide') !== -1 || lc.indexOf('sulfone') !== -1) return 'sulfoxide';
+            if (lc.indexOf('sulfur') !== -1) return 'sulfur compound';
+            if (lc.indexOf('fluorin') !== -1) return 'fluorinated';
+            if (lc.indexOf('halogen') !== -1 || lc.indexOf('chlorin') !== -1) return 'halogenated';
+            if (lc.indexOf('nitrile') !== -1) return 'nitrile';
+            if (lc.indexOf('nitro') !== -1) return 'nitro';
+            if (lc.indexOf('heterocycl') !== -1) return 'heterocyclic';
+            if (lc.indexOf('aldehyde') !== -1) return 'aldehyde';
+            if (lc.indexOf('terpene') !== -1) return 'terpene';
+            if (lc.indexOf('inorganic') !== -1) return 'inorganic';
+            if (lc.indexOf('ketone') !== -1) return 'ketone';
+            if (lc.indexOf('ester') !== -1) return 'ester';
+            if (lc.indexOf('amide') !== -1) return 'amide';
+            if (lc.indexOf('amine') !== -1 || lc.indexOf('amino') !== -1) return 'amine';
+            if (lc.indexOf('alcohol') !== -1) return 'alcohol';
+            if (lc.indexOf('acid') !== -1) return 'acid';
+            if (lc.indexOf('ether') !== -1) return 'ether';
+            return 'other';
         }
 
         // Dataset toggle state (read from localStorage, managed on manage page)
@@ -4276,7 +4305,7 @@ return Plotly;
                     var srcLabel = meta.name || dsId;
                     var srcUrl = meta.source_url || '';
                     (ds.chemicals || []).forEach(function(c) {
-                        var cat = c.cat || 'other';
+                        var cat = _normalizeCat(c.cat);
                         var entry = {
                             name: c.name || '', cas: c.cas || '', smiles: c.smiles || '',
                             formula: c.formula || '', dd: c.dd || '', dp: c.dp || '', dh: c.dh || '',
@@ -4290,7 +4319,7 @@ return Plotly;
                         if (!_solventMap.has(entry.name)) _solventMap.set(entry.name, entry);
                     });
                     (ds.polymers || []).forEach(function(p) {
-                        var cat = p.cat || 'Other';
+                        var cat = p.cat || POLY_TYPE_TO_CAT[p.type] || 'Other';
                         var entry = {
                             name: p.name || '', cas: p.cas || '', dd: p.dd || '', dp: p.dp || '', dh: p.dh || '',
                             r: p.r || '', type: p.type || '', cat: cat, conf: p.conf || '',

@@ -690,7 +690,7 @@ full_html = f"""<!DOCTYPE html>
                 <div id="plot-legend" class="plot-legend"></div>
             </div>
             <p style="color:#636e72; padding:6px 10px; font-size:0.8rem; margin:0;">
-                Drag to rotate &middot; Scroll to zoom &middot; Diamonds = polymers, dots = solvents
+                Drag to rotate &middot; Scroll to zoom
             </p>
         </div>
         <div id="chat-panel" class="chat-panel"></div>
@@ -734,6 +734,35 @@ full_html = f"""<!DOCTYPE html>
             if (!label) return '';
             return '<span style="display:inline-block;width:12px;height:12px;background:' + color + ';border-radius:2px;vertical-align:middle;margin-right:5px"></span>'
                  + '<span style="color:' + color + ';font-weight:700">' + label + '</span>';
+        }}
+
+        function _normalizeCat(cat) {{
+            if (!cat) return 'other';
+            if (CAT_COLORS[cat]) return cat;
+            var lc = cat.toLowerCase();
+            if (CAT_COLORS[lc]) return lc;
+            if (lc.indexOf('aromatic') !== -1) return 'aromatic';
+            if (lc.indexOf('glycol ether') !== -1) return 'glycol ether';
+            if (lc.indexOf('glycol') !== -1 || lc.indexOf('polyol') !== -1) return 'glycol';
+            if (lc.indexOf('hydrocarbon') !== -1) return 'hydrocarbon';
+            if (lc.indexOf('sulfoxide') !== -1 || lc.indexOf('sulfone') !== -1) return 'sulfoxide';
+            if (lc.indexOf('sulfur') !== -1) return 'sulfur compound';
+            if (lc.indexOf('fluorin') !== -1) return 'fluorinated';
+            if (lc.indexOf('halogen') !== -1 || lc.indexOf('chlorin') !== -1) return 'halogenated';
+            if (lc.indexOf('nitrile') !== -1) return 'nitrile';
+            if (lc.indexOf('nitro') !== -1) return 'nitro';
+            if (lc.indexOf('heterocycl') !== -1) return 'heterocyclic';
+            if (lc.indexOf('aldehyde') !== -1) return 'aldehyde';
+            if (lc.indexOf('terpene') !== -1) return 'terpene';
+            if (lc.indexOf('inorganic') !== -1) return 'inorganic';
+            if (lc.indexOf('ketone') !== -1) return 'ketone';
+            if (lc.indexOf('ester') !== -1) return 'ester';
+            if (lc.indexOf('amide') !== -1) return 'amide';
+            if (lc.indexOf('amine') !== -1 || lc.indexOf('amino') !== -1) return 'amine';
+            if (lc.indexOf('alcohol') !== -1) return 'alcohol';
+            if (lc.indexOf('acid') !== -1) return 'acid';
+            if (lc.indexOf('ether') !== -1) return 'ether';
+            return 'other';
         }}
 
         // Dataset toggle state (read from localStorage, managed on manage page)
@@ -785,7 +814,7 @@ full_html = f"""<!DOCTYPE html>
                     var srcLabel = meta.name || dsId;
                     var srcUrl = meta.source_url || '';
                     (ds.chemicals || []).forEach(function(c) {{
-                        var cat = c.cat || 'other';
+                        var cat = _normalizeCat(c.cat);
                         var entry = {{
                             name: c.name || '', cas: c.cas || '', smiles: c.smiles || '',
                             formula: c.formula || '', dd: c.dd || '', dp: c.dp || '', dh: c.dh || '',
@@ -799,7 +828,7 @@ full_html = f"""<!DOCTYPE html>
                         if (!_solventMap.has(entry.name)) _solventMap.set(entry.name, entry);
                     }});
                     (ds.polymers || []).forEach(function(p) {{
-                        var cat = p.cat || 'Other';
+                        var cat = p.cat || POLY_TYPE_TO_CAT[p.type] || 'Other';
                         var entry = {{
                             name: p.name || '', cas: p.cas || '', dd: p.dd || '', dp: p.dp || '', dh: p.dh || '',
                             r: p.r || '', type: p.type || '', cat: cat, conf: p.conf || '',
@@ -3149,7 +3178,7 @@ td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-sp
 </head>
 <body>
 <div class="header">
-    <h1><a href="materialism.html">Materialism</a> &mdash; Database</h1>
+    <h1><a href="materialism.html">Materialism</a> &mdash; Database <button id="title-lock-btn" onclick="toggleDbLock()" title="Click to unlock editing" style="background:none;border:none;cursor:pointer;padding:0 0 2px 6px;vertical-align:middle;color:#b2bec3;line-height:1"><svg id="title-lock-svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path id="title-lock-path" d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z"/></svg></button></h1>
     <div class="nav-links">
         <a href="cas_review.html">Crosslink</a>
         <a href="materialism.html">Search</a>
@@ -3185,13 +3214,6 @@ td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-sp
             </div>
         </div>
         <div id="ds-list"></div>
-        <div style="margin-top:14px;border-top:1px solid #dfe6e9;padding-top:10px">
-            <div style="font-size:0.78rem;font-weight:700;color:#636e72;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Classification Colors</div>
-            <div style="font-size:0.7rem;font-weight:700;color:#b2bec3;margin-bottom:4px;text-transform:uppercase">Solvents</div>
-            {_legend_solvent_rows}
-            <div style="font-size:0.7rem;font-weight:700;color:#b2bec3;margin:8px 0 4px;text-transform:uppercase">Polymers</div>
-            {_legend_polymer_rows}
-        </div>
         <button class="rebuild-btn" onclick="triggerRebuild()">Export Datasets</button>
     </div>
     <div class="content" id="content">
@@ -3380,6 +3402,19 @@ function setDbVal(type, idx, field, val) {{
 
 function toggleDbLock() {{
     _dbEditing = !_dbEditing;
+    var btn = document.getElementById('title-lock-btn');
+    var path = document.getElementById('title-lock-path');
+    if (btn && path) {{
+        if (_dbEditing) {{
+            path.setAttribute('d', 'M18 8h-1V6A5 5 0 0 0 7 6h2a3 3 0 0 1 6 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z');
+            btn.style.color = '#e94560';
+            btn.title = 'Click to lock';
+        }} else {{
+            path.setAttribute('d', 'M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z');
+            btn.style.color = '#b2bec3';
+            btn.title = 'Click to unlock editing';
+        }}
+    }}
     renderContent();
 }}
 
@@ -3502,13 +3537,6 @@ function renderActiveDb() {{
     toolbar += '<button id="tab-poly" class="db-tab' + (_activeDbTab === 'polymers' ? ' active' : '') + '" onclick="switchTab(\\x27polymers\\x27)">Polymers (' + _countForTab('polymers') + ')</button>';
     toolbar += '</div>';
     toolbar += '<input type="text" id="db-filter" placeholder="Filter by name or CAS..." oninput="_filterText=this.value;renderContent()" value="' + (_filterText||'').replace(/"/g,'&quot;') + '">';
-    toolbar += '<button id="lock-btn" class="lock-btn' + (_dbEditing ? ' unlocked' : '') + '" onclick="toggleDbLock()" title="' + (_dbEditing ? 'Click to lock' : 'Click to unlock editing') + '">';
-    if (_dbEditing) {{
-        toolbar += '<svg viewBox="0 0 24 24"><path d="M18 8h-1V6A5 5 0 0 0 7 6h2a3 3 0 0 1 6 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>Editing';
-    }} else {{
-        toolbar += '<svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z"/></svg>Locked';
-    }}
-    toolbar += '</button>';
     toolbar += '<span class="edit-count" id="edit-count"></span>';
     toolbar += '<span class="save-indicator" id="save-ind">Saved</span>';
     var _dbSelN = Object.keys(_selCells).length;
@@ -3676,13 +3704,6 @@ function renderDetail() {{
     html += '<div class="ds-detail-header">';
     html += '<div class="ds-title-row">';
     html += '<h2>' + (m.name || dsId) + '</h2>';
-    html += '<button class="lock-btn' + (isEdit ? ' unlocked' : '') + '" onclick="toggleEditMode(\\x27' + dsId + '\\x27)">';
-    if (isEdit) {{
-        html += '<svg viewBox="0 0 24 24"><path d="M18 8h-1V6A5 5 0 0 0 7 6h2a3 3 0 0 1 6 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm-6 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>Editing';
-    }} else {{
-        html += '<svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2h1V6a5 5 0 0 1 10 0v2h1zM9 6v2h6V6a3 3 0 0 0-6 0z"/></svg>Locked';
-    }}
-    html += '</button>';
     html += '<button class="delete-ds-btn" id="delete-ds-btn" onclick="deleteDsClick(\\x27' + dsId + '\\x27)">';
     html += '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
     html += 'Delete';
