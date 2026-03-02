@@ -2156,6 +2156,7 @@ full_html = f"""<!DOCTYPE html>
                         return h + '<extra></extra>';
                     }}),
                     marker: {{ size: 10, color: resultColors, opacity: 1, line: {{ color: '#2d3436', width: 1 }} }},
+                    _names: valid.map(r => r.name),
                 }});
                 const tgtColors = ['#e94560', '#3A86FF', '#06D6A0', '#FFBE0B'];
                 const sphereColors = ['rgba(233,69,96,0.2)', 'rgba(58,134,255,0.2)', 'rgba(6,214,160,0.2)', 'rgba(255,190,11,0.2)'];
@@ -2167,6 +2168,7 @@ full_html = f"""<!DOCTYPE html>
                         textposition: 'top center', textfont: {{ size: 12, color: c }},
                         hovertemplate: '<b>' + tgt.name + '</b> (' + tgt.requirement + ')<br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>R₀=' + tgt.r + '<extra></extra>',
                         marker: {{ size: 14, color: c, symbol: 'diamond', opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
+                        _names: [tgt.name],
                     }});
                     addSphere(newTraces, tgt, sphereColors[ti % sphereColors.length]);
                 }});
@@ -2181,12 +2183,14 @@ full_html = f"""<!DOCTYPE html>
                         '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>Ra=' + r.ra.toFixed(2) +
                         (r.red !== null ? '<br>RED=' + r.red.toFixed(2) : '') + '<extra></extra>'),
                     marker: {{ size: 10, color: resultColors, symbol: isReverse ? 'diamond' : 'circle', opacity: 1, line: {{ color: '#2d3436', width: 1 }} }},
+                    _names: valid.map(r => r.name),
                 }});
                 newTraces.push({{ type: 'scatter3d', mode: 'markers+text', name: '★ Target: ' + target.name,
                     x: [target.dd], y: [target.dp], z: [target.dh], text: ['★ ' + target.name],
                     textposition: 'top center', textfont: {{ size: 13, color: '#e94560' }},
                     hovertemplate: '<b>★ ' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}' + (target.r ? '<br>R₀=' + target.r : '') + '<extra></extra>',
                     marker: {{ size: 16, color: '#e94560', symbol: isReverse ? 'circle' : 'diamond', opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
+                    _names: [target.name],
                 }});
                 if (!isReverse) addSphere(newTraces, target, 'rgba(233,69,96,0.2)');
             }} else {{
@@ -2199,6 +2203,7 @@ full_html = f"""<!DOCTYPE html>
                     hovertemplate: valid.map((r, i) =>
                         '<b>' + (i+1) + '. ' + r.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<br>Ra=' + r.ra.toFixed(2) + '<extra></extra>'),
                     marker: {{ size: 10, color: resultColors, symbol: sym, opacity: 1, line: {{ color: '#2d3436', width: 1 }} }},
+                    _names: valid.map(r => r.name),
                 }});
                 const tsym = (parentIntent === 'similar_polymers') ? 'diamond' : 'circle';
                 newTraces.push({{ type: 'scatter3d', mode: 'markers+text', name: '★ Target: ' + target.name,
@@ -2206,6 +2211,7 @@ full_html = f"""<!DOCTYPE html>
                     textposition: 'top center', textfont: {{ size: 13, color: '#e94560' }},
                     hovertemplate: '<b>★ ' + target.name + '</b><br>δD=%{{x:.1f}}, δP=%{{y:.1f}}, δH=%{{z:.1f}}<extra></extra>',
                     marker: {{ size: 16, color: '#e94560', symbol: tsym, opacity: 1, line: {{ color: '#2d3436', width: 2 }} }},
+                    _names: [target.name],
                 }});
             }}
 
@@ -2682,6 +2688,13 @@ full_html = f"""<!DOCTYPE html>
                     if (trace && trace._polyIndices) {{
                         var polyIdx = trace._polyIndices[pt.pointNumber];
                         if (polyIdx != null && POLYMERS[polyIdx]) return POLYMERS[polyIdx].name;
+                    }}
+                }}
+                // Results-state traces: check _names attached when building result traces
+                if (pt.curveNumber >= _baseTraceCount) {{
+                    var rtrace = plotDiv.data[pt.curveNumber];
+                    if (rtrace && rtrace._names && rtrace._names[pt.pointNumber] != null) {{
+                        return rtrace._names[pt.pointNumber];
                     }}
                 }}
                 return '';
