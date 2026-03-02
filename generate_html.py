@@ -2900,10 +2900,11 @@ for _lname, _lcolor in POLYMER_CAT_COLORS.items():
     )
 
 def generate_import_html():
-    return IMPORT_HTML_CONTENT
-
-
-IMPORT_HTML_CONTENT = """placeholder"""
+    # Load from _write_import_html.py (separate file for the full pipeline HTML)
+    _import_mod = {}
+    with open(os.path.join(os.path.dirname(__file__), "_write_import_html.py")) as _f:
+        exec(_f.read(), _import_mod)
+    return _import_mod.get("IMPORT_HTML", "")
 
 
 database_html = f"""<!DOCTYPE html>
