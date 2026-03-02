@@ -1200,42 +1200,39 @@ full_html = f"""<!DOCTYPE html>
             if (!_srcColorMap[key]) {{ _srcColorMap[key] = _srcColorPalette[_srcColorIdx++ % _srcColorPalette.length]; }}
             return _srcColorMap[key];
         }}
-        // Pre-seed Base Database first so it always gets the first palette color
-        _getSrcColor('');
-        // Group polymers by source for per-source traces (ensures reliable
+        // Group polymers by category for per-category traces (ensures reliable
         // scatter3d coloring — per-point color arrays can fail with non-default symbols).
-        var _polySrcOrder = [];
-        var _polySrcData = {{}};
+        var _polyCatOrder = [];
+        var _polyCatData = {{}};
         POLYMERS.forEach(function(p, i) {{
-            var src = p.src || 'Base Database';
-            if (!_polySrcData[src]) {{ _polySrcData[src] = []; _polySrcOrder.push(src); }}
-            _polySrcData[src].push({{ idx: i, p: p }});
+            var cat = p.cat || 'Other';
+            if (!_polyCatData[cat]) {{ _polyCatData[cat] = []; _polyCatOrder.push(cat); }}
+            _polyCatData[cat].push({{ idx: i, p: p }});
         }});
         var _polyTraceStart = 1; // polymer traces start right after solvents trace (index 0)
-        var _polyTraceCount = _polySrcOrder.length;
+        var _polyTraceCount = _polyCatOrder.length;
 
-        // Hidden-source state for legend toggle
-        var _hiddenSolSrcs = {{}};
-        var _hiddenPolySrcs = {{}};
+        // Hidden-category state for legend toggle
+        var _hiddenSolCats = {{}};
+        var _hiddenPolyCats = {{}};
 
-        function _hasHiddenSrcs() {{
-            for (var k in _hiddenSolSrcs) return true;
-            for (var k in _hiddenPolySrcs) return true;
+        function _hasHiddenCats() {{
+            for (var k in _hiddenSolCats) return true;
+            for (var k in _hiddenPolyCats) return true;
             return false;
         }}
 
         function toggleCategoryVisibility(el) {{
-            var src = el.getAttribute('data-src');
+            var cat = el.getAttribute('data-cat');
             var type = el.getAttribute('data-type');
-            var set = (type === 'solvent') ? _hiddenSolSrcs : _hiddenPolySrcs;
-            if (set[src]) {{
-                delete set[src];
+            var set = (type === 'solvent') ? _hiddenSolCats : _hiddenPolyCats;
+            if (set[cat]) {{
+                delete set[cat];
                 el.classList.remove('legend-hidden');
             }} else {{
-                set[src] = true;
+                set[cat] = true;
                 el.classList.add('legend-hidden');
             }}
-            // Update the parent header hidden state
             _syncGroupHeader(el.closest('.legend-group'));
             _updatePlotForCommonFilter();
             buildHomeTable();
@@ -1247,19 +1244,18 @@ full_html = f"""<!DOCTYPE html>
             var items = group.querySelectorAll('.legend-item');
             var type = items[0] ? items[0].getAttribute('data-type') : null;
             if (!type) return;
-            var set = (type === 'solvent') ? _hiddenSolSrcs : _hiddenPolySrcs;
-            // If any are visible, hide all; if all hidden, show all
+            var set = (type === 'solvent') ? _hiddenSolCats : _hiddenPolyCats;
             var anyVisible = false;
             items.forEach(function(it) {{
-                if (!set[it.getAttribute('data-src')]) anyVisible = true;
+                if (!set[it.getAttribute('data-cat')]) anyVisible = true;
             }});
             items.forEach(function(it) {{
-                var src = it.getAttribute('data-src');
+                var cat = it.getAttribute('data-cat');
                 if (anyVisible) {{
-                    set[src] = true;
+                    set[cat] = true;
                     it.classList.add('legend-hidden');
                 }} else {{
-                    delete set[src];
+                    delete set[cat];
                     it.classList.remove('legend-hidden');
                 }}
             }});
@@ -1275,10 +1271,10 @@ full_html = f"""<!DOCTYPE html>
             var items = group.querySelectorAll('.legend-item');
             var type = items[0] ? items[0].getAttribute('data-type') : null;
             if (!type) return;
-            var set = (type === 'solvent') ? _hiddenSolSrcs : _hiddenPolySrcs;
+            var set = (type === 'solvent') ? _hiddenSolCats : _hiddenPolyCats;
             var allHidden = true;
             items.forEach(function(it) {{
-                if (!set[it.getAttribute('data-src')]) allHidden = false;
+                if (!set[it.getAttribute('data-cat')]) allHidden = false;
             }});
             header.classList.toggle('legend-hidden', allHidden);
         }}
@@ -1306,12 +1302,11 @@ full_html = f"""<!DOCTYPE html>
                 var visible = true;
                 if (!_isDsActive(s.dsId)) visible = false;
                 else if (simpleMode && !s.common) visible = false;
-                else if (_hiddenSolSrcs[s.src || 'Base Database']) visible = false;
-                var color = _getSrcColor(s.src || '');
+                else if (_hiddenSolCats[s.cat || 'other']) visible = false;
                 sx.push(visible ? s.dd : null);
                 sy.push(visible ? s.dp : null);
                 sz.push(visible ? s.dh : null);
-                sc.push(visible ? color : 'rgba(0,0,0,0)');
+                sc.push(visible ? (s.color || '#888') : 'rgba(0,0,0,0)');
             }});
             allX.push(sx); allY.push(sy); allZ.push(sz);
             allSize.push(sSize);
@@ -1319,19 +1314,19 @@ full_html = f"""<!DOCTYPE html>
             allOpacity.push(sOpacity);
             allHInfo.push(hInfo);
 
-            // Polymer source traces
+            // Polymer category traces
             for (var ti = 0; ti < _polyTraceCount; ti++) {{
-                var src = _polySrcOrder[ti];
-                var items = _polySrcData[src];
-                var srcHidden = !!_hiddenPolySrcs[src];
-                var trColor = _getSrcColor(src === 'Base Database' ? '' : src);
+                var cat = _polyCatOrder[ti];
+                var items = _polyCatData[cat];
+                var catHidden = !!_hiddenPolyCats[cat];
+                var trColor = POLY_CAT_COLORS[cat] || '#a9a9a9';
                 var px = [], py = [], pz = [];
                 for (var j = 0; j < items.length; j++) {{
                     var p = items[j].p;
                     var visible = true;
                     if (!_isDsActive(p.dsId)) visible = false;
                     else if (simpleMode && !p.common) visible = false;
-                    else if (srcHidden) visible = false;
+                    else if (catHidden) visible = false;
                     px.push(visible ? p.dd : null);
                     py.push(visible ? p.dp : null);
                     pz.push(visible ? p.dh : null);
@@ -1689,7 +1684,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var si = 0; si < N; si++) {{
                     if (!_isDsActive(SOLVENTS[si].dsId)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
-                    if (_hiddenSolSrcs[SOLVENTS[si].src || 'Base Database']) continue;
+                    if (_hiddenSolCats[SOLVENTS[si].cat || 'other']) continue;
                     var cs = 0, dd0 = _sDD[si], dp0 = _sDP[si], dh0 = _sDH[si];
                     for (var ti = 0; ti < targets.length; ti++) {{
                         var ddd = dd0 - tDDs[ti], ddp = dp0 - tDPs[ti], ddh = dh0 - tDHs[ti];
@@ -1722,7 +1717,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var si = 0; si < N; si++) {{
                     if (!_isDsActive(SOLVENTS[si].dsId)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
-                    if (_hiddenSolSrcs[SOLVENTS[si].src || 'Base Database']) continue;
+                    if (_hiddenSolCats[SOLVENTS[si].cat || 'other']) continue;
                     var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
                     scored.push({{ _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) }});
                 }}
@@ -1755,7 +1750,7 @@ full_html = f"""<!DOCTYPE html>
                     if (SOLVENTS[si].name === target.name) continue;
                     if (!_isDsActive(SOLVENTS[si].dsId)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
-                    if (_hiddenSolSrcs[SOLVENTS[si].src || 'Base Database']) continue;
+                    if (_hiddenSolCats[SOLVENTS[si].cat || 'other']) continue;
                     var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
                     scored.push({{ _i: si, ra: Math.sqrt(4 * ddd * ddd + ddp * ddp + ddh * ddh) }});
                 }}
@@ -1769,7 +1764,7 @@ full_html = f"""<!DOCTYPE html>
                 let target = findPolymer(material);
                 if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findPolymer(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find polymer "' + material + '". Try "polystyrene", "epoxy", "PMMA", etc.' }};
-                var scored = POLYMERS.filter(function(p) {{ return p.name !== target.name && _isDsActive(p.dsId) && !_hiddenPolySrcs[p.src || 'Base Database']; }});
+                var scored = POLYMERS.filter(function(p) {{ return p.name !== target.name && _isDsActive(p.dsId) && !_hiddenPolyCats[p.cat || 'Other']; }});
                 if (simpleMode) scored = scored.filter(function(p) {{ return p.common; }});
                 scored = scored.map(p => ({{ ...p, ra: hspDistance(p, target) }}));
                 var results = topK(scored, resultCount, function(x) {{ return x.ra; }});
@@ -1781,7 +1776,7 @@ full_html = f"""<!DOCTYPE html>
                 let target = findSolvent(material);
                 if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findSolvent(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find solvent "' + material + '". Try "toluene", "acetone", "NMP", "DMSO", etc.' }};
-                var scored = POLYMERS.filter(function(p) {{ return p.r && p.r > 0 && _isDsActive(p.dsId) && !_hiddenPolySrcs[p.src || 'Base Database']; }});
+                var scored = POLYMERS.filter(function(p) {{ return p.r && p.r > 0 && _isDsActive(p.dsId) && !_hiddenPolyCats[p.cat || 'Other']; }});
                 if (simpleMode) scored = scored.filter(function(p) {{ return p.common; }});
                 scored = scored.map(p => ({{ ...p, ra: hspDistance(target, p), red: redNumber(target, p) }}));
                 var results = topK(scored, resultCount, function(x) {{ return x.ra; }});
@@ -1931,25 +1926,25 @@ full_html = f"""<!DOCTYPE html>
                     name: 'Solvents',
                     x: _allSolX, y: _allSolY, z: _allSolZ,
                     hoverinfo: 'none',
-                    marker: {{ size: 5, color: SOLVENTS.map(function(s){{ return _getSrcColor(s.src || ''); }}), opacity: 0.85 }},
+                    marker: {{ size: 5, color: SOLVENTS.map(function(s){{ return s.color || '#888'; }}), opacity: 0.85 }},
                     showlegend: false,
                 }},
             ];
-            // One trace per polymer source — single color per trace is
+            // One trace per polymer category — single color per trace is
             // the only reliable way to color scatter3d diamond markers.
-            _polySrcOrder.forEach(function(src) {{
-                var items = _polySrcData[src];
-                var color = _getSrcColor(src === 'Base Database' ? '' : src);
+            _polyCatOrder.forEach(function(cat) {{
+                var items = _polyCatData[cat];
+                var color = POLY_CAT_COLORS[cat] || '#a9a9a9';
                 fullTraces.push({{
                     type: 'scatter3d', mode: 'markers',
-                    name: src,
+                    name: cat,
                     x: items.map(function(e) {{ return e.p.dd; }}),
                     y: items.map(function(e) {{ return e.p.dp; }}),
                     z: items.map(function(e) {{ return e.p.dh; }}),
                     hoverinfo: 'none',
                     marker: {{ size: 7, color: color, symbol: 'diamond', opacity: 0.95 }},
                     showlegend: false,
-                    _polySrc: src,
+                    _polyCat: cat,
                     _polyIndices: items.map(function(e) {{ return e.idx; }}),
                 }});
             }});
@@ -1972,7 +1967,7 @@ full_html = f"""<!DOCTYPE html>
             // if there are actually saved filters — calling restyle immediately
             // after newPlot on scatter3d diamond markers can reset colors.
             Plotly.newPlot(plotDiv, fullTraces, makeLayout(), {{ responsive: true }}).then(function() {{
-                var needsFilter = simpleMode || _hasHiddenSrcs();
+                var needsFilter = simpleMode || _hasHiddenCats();
                 if (!needsFilter) {{
                     var saved = _loadActiveDsets();
                     if (saved) {{ for (var k in saved) {{ if (saved[k] === false) {{ needsFilter = true; break; }} }} }}
@@ -1985,63 +1980,59 @@ full_html = f"""<!DOCTYPE html>
         function _buildLegend() {{
             var el = document.getElementById('plot-legend');
             if (!el) return;
-            // Collect unique solvent sources with counts — only from active datasets
-            var sSrcs = {{}};
+            // Collect solvent category counts — only active datasets
+            var sCats = {{}};
             var activeSolCount = 0;
             SOLVENTS.forEach(function(s) {{
                 if (!_isDsActive(s.dsId)) return;
                 activeSolCount++;
-                var src = s.src || 'Base Database';
-                if (!sSrcs[src]) sSrcs[src] = 0;
-                sSrcs[src]++;
+                var cat = s.cat || 'other';
+                sCats[cat] = (sCats[cat] || 0) + 1;
             }});
-            // Collect unique polymer sources with counts — only from active datasets
-            var pSrcs = {{}};
+            // Collect polymer category counts — only active datasets
+            var pCats = {{}};
             var activePolyCount = 0;
             POLYMERS.forEach(function(p) {{
                 if (!_isDsActive(p.dsId)) return;
                 activePolyCount++;
-                var src = p.src || 'Base Database';
-                if (!pSrcs[src]) pSrcs[src] = 0;
-                pSrcs[src]++;
+                var cat = p.cat || 'Other';
+                pCats[cat] = (pCats[cat] || 0) + 1;
             }});
-            // Sort: Base Database first, then alphabetically
-            function _srcSort(a, b) {{
-                if (a === 'Base Database') return -1;
-                if (b === 'Base Database') return 1;
-                return a.localeCompare(b);
-            }}
-            var sList = Object.keys(sSrcs).sort(_srcSort);
-            var pList = Object.keys(pSrcs).sort(_srcSort);
+            // Order categories by their defined palette order, then alphabetically
+            var sCatOrder = Object.keys(CAT_COLORS).filter(function(c) {{ return sCats[c]; }});
+            Object.keys(sCats).forEach(function(c) {{ if (sCatOrder.indexOf(c) === -1) sCatOrder.push(c); }});
+            var pCatOrder = Object.keys(POLY_CAT_COLORS).filter(function(c) {{ return pCats[c]; }});
+            Object.keys(pCats).forEach(function(c) {{ if (pCatOrder.indexOf(c) === -1) pCatOrder.push(c); }});
             var h = '';
             // Solvents group
-            var allSolHidden = sList.length > 0 && sList.every(function(s) {{ return !!_hiddenSolSrcs[s]; }});
+            var allSolHidden = sCatOrder.length > 0 && sCatOrder.every(function(c) {{ return !!_hiddenSolCats[c]; }});
             h += '<div class="legend-group">';
             h += '<div class="legend-header' + (allSolHidden ? ' legend-hidden' : '') + '" onclick="toggleGroupVisibility(this)">';
             h += '<span class="legend-arrow open" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
-            h += '<span class="legend-marker" style="background:#000"></span>';
+            h += '<span class="legend-marker" style="background:#888"></span>';
             h += 'Solvents (' + activeSolCount + ')';
             h += '</div>';
             h += '<div class="legend-items open">';
-            sList.forEach(function(src) {{
-                var color = _getSrcColor(src === 'Base Database' ? '' : src);
-                var hiddenCls = _hiddenSolSrcs[src] ? ' legend-hidden' : '';
-                h += '<div class="legend-item' + hiddenCls + '" data-src="' + src.replace(/"/g,'&quot;') + '" data-type="solvent" onclick="toggleCategoryVisibility(this)"><span class="legend-swatch" style="background:' + color + '"></span>' + src + ' (' + sSrcs[src] + ')</div>';
+            sCatOrder.forEach(function(cat) {{
+                var color = CAT_COLORS[cat] || '#888';
+                var hiddenCls = _hiddenSolCats[cat] ? ' legend-hidden' : '';
+                var label = cat.charAt(0).toUpperCase() + cat.slice(1);
+                h += '<div class="legend-item' + hiddenCls + '" data-cat="' + cat.replace(/"/g,'&quot;') + '" data-type="solvent" onclick="toggleCategoryVisibility(this)"><span class="legend-swatch" style="background:' + color + '"></span>' + label + ' (' + sCats[cat] + ')</div>';
             }});
             h += '</div></div>';
             // Polymers group
-            var allPolyHidden = pList.length > 0 && pList.every(function(s) {{ return !!_hiddenPolySrcs[s]; }});
+            var allPolyHidden = pCatOrder.length > 0 && pCatOrder.every(function(c) {{ return !!_hiddenPolyCats[c]; }});
             h += '<div class="legend-group">';
             h += '<div class="legend-header' + (allPolyHidden ? ' legend-hidden' : '') + '" onclick="toggleGroupVisibility(this)">';
             h += '<span class="legend-arrow open" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
-            h += '<span class="legend-marker diamond" style="background:#000"></span>';
+            h += '<span class="legend-marker diamond" style="background:#a9a9a9"></span>';
             h += 'Polymers (' + activePolyCount + ')';
             h += '</div>';
             h += '<div class="legend-items open">';
-            pList.forEach(function(src) {{
-                var color = _getSrcColor(src === 'Base Database' ? '' : src);
-                var hiddenCls = _hiddenPolySrcs[src] ? ' legend-hidden' : '';
-                h += '<div class="legend-item' + hiddenCls + '" data-src="' + src.replace(/"/g,'&quot;') + '" data-type="polymer" onclick="toggleCategoryVisibility(this)"><span class="legend-swatch diamond" style="background:' + color + '"></span>' + src + ' (' + pSrcs[src] + ')</div>';
+            pCatOrder.forEach(function(cat) {{
+                var color = POLY_CAT_COLORS[cat] || '#a9a9a9';
+                var hiddenCls = _hiddenPolyCats[cat] ? ' legend-hidden' : '';
+                h += '<div class="legend-item' + hiddenCls + '" data-cat="' + cat.replace(/"/g,'&quot;') + '" data-type="polymer" onclick="toggleCategoryVisibility(this)"><span class="legend-swatch diamond" style="background:' + color + '"></span>' + cat + ' (' + pCats[cat] + ')</div>';
             }});
             h += '</div></div>';
             el.innerHTML = h;
@@ -2316,7 +2307,7 @@ full_html = f"""<!DOCTYPE html>
             if (!mat) mat = _polymerMap.get(name);
             if (!mat) return Promise.resolve();
             _currentAnnotation = name;
-            var bgColor = _getSrcColor(mat.src || '');
+            var bgColor = mat.color || '#888';
             return Plotly.relayout(plotDiv, {{
                 'scene.annotations': [
                     // Caret triangle
@@ -2466,8 +2457,8 @@ full_html = f"""<!DOCTYPE html>
                 if (simpleMode) {{
                     filtered = filtered.filter(function(s) {{ return s.common; }});
                 }}
-                if (_hasHiddenSrcs()) {{
-                    filtered = filtered.filter(function(s) {{ return !_hiddenSolSrcs[s.src || 'Base Database']; }});
+                if (_hasHiddenCats()) {{
+                    filtered = filtered.filter(function(s) {{ return !_hiddenSolCats[s.cat || 'other']; }});
                 }}
                 if (homeFilterText) {{
                     var q = homeFilterText.toLowerCase();
@@ -2477,7 +2468,7 @@ full_html = f"""<!DOCTYPE html>
                 rowsHtml = '';
                 for (var i = 0; i < filtered.length; i++) {{
                     var s = filtered[i];
-                    var catColor = _getSrcColor(s.src || '');
+                    var catColor = s.color || CAT_COLORS[s.cat] || '#888';
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
                     rowsHtml += '<tr data-name="' + s.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
@@ -2502,8 +2493,8 @@ full_html = f"""<!DOCTYPE html>
                 if (simpleMode) {{
                     filtered = filtered.filter(function(p) {{ return p.common; }});
                 }}
-                if (_hasHiddenSrcs()) {{
-                    filtered = filtered.filter(function(p) {{ return !_hiddenPolySrcs[p.src || 'Base Database']; }});
+                if (_hasHiddenCats()) {{
+                    filtered = filtered.filter(function(p) {{ return !_hiddenPolyCats[p.cat || 'Other']; }});
                 }}
                 if (homeFilterText) {{
                     var q = homeFilterText.toLowerCase();
@@ -2514,7 +2505,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var i = 0; i < filtered.length; i++) {{
                     var p = filtered[i];
                     function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
-                    var catColor = _getSrcColor(p.src || '');
+                    var catColor = p.color || POLY_CAT_COLORS[p.cat] || '#a9a9a9';
                     rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name">' + p.name + '</span></td>';
                     rowsHtml += '<td>' + (p.cas || '') + '</td>';
@@ -2533,13 +2524,13 @@ full_html = f"""<!DOCTYPE html>
             if (homeTab === 'solvents') {{
                 var pf = _dsFilterPolymers();
                 if (simpleMode) pf = pf.filter(function(p) {{ return p.common; }});
-                if (_hasHiddenSrcs()) pf = pf.filter(function(p) {{ return !_hiddenPolySrcs[p.src || 'Base Database']; }});
+                if (_hasHiddenCats()) pf = pf.filter(function(p) {{ return !_hiddenPolyCats[p.cat || 'Other']; }});
                 if (homeFilterText) {{ var q = homeFilterText.toLowerCase(); pf = pf.filter(function(p) {{ return p.name.toLowerCase().indexOf(q) !== -1 || (p.cas && p.cas.indexOf(q) !== -1) || (p.src && p.src.toLowerCase().indexOf(q) !== -1); }}); }}
                 document.getElementById('tab-polymers').textContent = 'Polymers (' + pf.length + ')';
             }} else {{
                 var sf = _dsFilterSolvents();
                 if (simpleMode) sf = sf.filter(function(s) {{ return s.common; }});
-                if (_hasHiddenSrcs()) sf = sf.filter(function(s) {{ return !_hiddenSolSrcs[s.src || 'Base Database']; }});
+                if (_hasHiddenCats()) sf = sf.filter(function(s) {{ return !_hiddenSolCats[s.cat || 'other']; }});
                 if (homeFilterText) {{ var q = homeFilterText.toLowerCase(); sf = sf.filter(function(s) {{ return s.name.toLowerCase().indexOf(q) !== -1 || (s.cas && s.cas.indexOf(q) !== -1) || (s.src && s.src.toLowerCase().indexOf(q) !== -1); }}); }}
                 document.getElementById('tab-solvents').textContent = 'Solvents (' + sf.length + ')';
             }}
@@ -3101,6 +3092,8 @@ td input {{
 td input:focus {{ background: #fff3cd; border-radius: 2px; }}
 td.editing {{ padding: 2px 4px; background: #fffcf0; }}
 td.cell-selected {{ background: #dfe6fd !important; }}
+tr.row-selected td {{ background: #e3edff !important; }}
+tr.row-selected .rownum-cell {{ background: #b3c9f7 !important; color: #1a3a8f !important; font-weight: 700; }}
 #db-tbody {{ user-select: none; -webkit-user-select: none; }}
 #content tbody {{ user-select: none; -webkit-user-select: none; }}
 .rownum-cell {{ color: #b2bec3; text-align: right; font-size: 0.72rem; cursor: pointer; padding: 6px 6px 6px 4px !important; }}
@@ -3260,6 +3253,7 @@ var _visibleIndices = [];
 
 // Cell selection for dataset detail view
 var _mSelCells = {{}};
+var _mSelRows = {{}};  // row-level selection (keyed by oidx) for gutter click/drag
 var _mDragSel = false;
 var _mDragStart = null;
 var _mDragRowNum = false;
@@ -3670,10 +3664,13 @@ function renderDetail() {{
     if (m.fields_available) html += 'Fields: ' + m.fields_available.join(', ') + '<br>';
     html += '</div>';
     html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\\x27' + dsId + '\\x27)">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
+    var _rowSelN = Object.keys(_mSelRows).length;
     var _selN = _mGetSelCount();
-    var _inferLabel = _selN > 0 ? 'Infer Missing Values (' + _selN + ' cell' + (_selN > 1 ? 's' : '') + ')' : 'Infer Missing Values';
+    var _inferLabel = _rowSelN > 0 ? 'Infer ' + _rowSelN + ' Row' + (_rowSelN > 1 ? 's' : '') : (_selN > 0 ? 'Infer Missing Values (' + _selN + ' cell' + (_selN > 1 ? 's' : '') + ')' : 'Infer All Rows');
     html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\\x27' + dsId + '\\x27)"' + (_inferRunning ? ' disabled' : '') + '>' + _inferLabel + '</button>';
-    html += '<span class="sel-info" id="sel-info"' + (_selN > 0 ? '' : ' style="display:none"') + '>' + (_selN > 0 ? _selN + ' cell' + (_selN > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>' : '') + '</span>';
+    var _anySelN = _rowSelN > 0 ? _rowSelN : _selN;
+    var _selInfoText = _rowSelN > 0 ? _rowSelN + ' row' + (_rowSelN > 1 ? 's' : '') + ' selected' : (_selN > 0 ? _selN + ' cell' + (_selN > 1 ? 's' : '') + ' selected' : '');
+    html += '<span class="sel-info" id="sel-info"' + (_anySelN > 0 ? '' : ' style="display:none"') + '>' + (_anySelN > 0 ? _selInfoText + ' <button onclick="clearSelection()">Clear</button>' : '') + '</span>';
     html += '</div>';
     html += '<div class="infer-progress" id="infer-progress" style="display:none"></div>';
 
@@ -4146,21 +4143,28 @@ function _mSelectFullCol(colKey) {{
 }}
 
 function _mGetSelCount() {{ return Object.keys(_mSelCells).length; }}
+function _mGetRowSelCount() {{ return Object.keys(_mSelRows).length; }}
 
 function _updateInferBtn() {{
     var btn = document.getElementById('infer-btn');
     if (!btn) return;
-    var n = _mGetSelCount();
-    if (n > 0) {{ btn.textContent = 'Infer Missing Values (' + n + ' cell' + (n > 1 ? 's' : '') + ')'; }}
-    else {{ btn.textContent = 'Infer Missing Values'; }}
+    var rn = _mGetRowSelCount();
+    var cn = _mGetSelCount();
+    if (rn > 0) {{ btn.textContent = 'Infer ' + rn + ' Row' + (rn > 1 ? 's' : ''); }}
+    else if (cn > 0) {{ btn.textContent = 'Infer Missing Values (' + cn + ' cell' + (cn > 1 ? 's' : '') + ')'; }}
+    else {{ btn.textContent = 'Infer All Rows'; }}
 }}
 
 function _updateSelInfo() {{
     var el = document.getElementById('sel-info');
-    var n = _mGetSelCount();
+    var rn = _mGetRowSelCount();
+    var cn = _mGetSelCount();
     if (el) {{
-        if (n > 0) {{
-            el.innerHTML = n + ' cell' + (n > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>';
+        if (rn > 0) {{
+            el.innerHTML = rn + ' row' + (rn > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>';
+            el.style.display = '';
+        }} else if (cn > 0) {{
+            el.innerHTML = cn + ' cell' + (cn > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>';
             el.style.display = '';
         }} else {{ el.style.display = 'none'; }}
     }}
@@ -4169,10 +4173,13 @@ function _updateSelInfo() {{
 
 function clearSelection() {{
     _mSelCells = {{}};
+    _mSelRows = {{}};
     _mDragStart = null;
     _mLastRowNum = null;
     var tds = document.querySelectorAll('#content tbody td.cell-selected');
     for (var i = 0; i < tds.length; i++) tds[i].classList.remove('cell-selected');
+    var trs = document.querySelectorAll('#content tbody tr.row-selected');
+    for (var i = 0; i < trs.length; i++) trs[i].classList.remove('row-selected');
     _updateSelInfo();
 }}
 
@@ -4182,6 +4189,15 @@ function _mApplyCellSelClasses() {{
         var key = tds[i].getAttribute('data-row') + ':' + tds[i].getAttribute('data-col');
         if (_mSelCells[key]) tds[i].classList.add('cell-selected');
         else tds[i].classList.remove('cell-selected');
+    }}
+}}
+
+function _mApplyRowSelClasses() {{
+    var trs = document.querySelectorAll('#content tbody tr[data-oidx]');
+    for (var i = 0; i < trs.length; i++) {{
+        var oidx = trs[i].getAttribute('data-oidx');
+        if (_mSelRows[oidx]) trs[i].classList.add('row-selected');
+        else trs[i].classList.remove('row-selected');
     }}
 }}
 
@@ -4253,33 +4269,33 @@ document.addEventListener('mousedown', function(e) {{
         _applyCellSelClasses();
         _updateDbSelInfo();
     }} else {{
-        // Dataset detail cell selection
+        // Dataset detail row selection via gutter
         var rnCell = e.target.closest('#content tbody td.rownum-cell');
         if (rnCell) {{
             e.preventDefault();
+            // Gutter clicks always use row selection, clear cell selection
+            _mSelCells = {{}};
             var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
             if (e.shiftKey && _mLastRowNum != null) {{
                 var vi1 = _mVisibleOidxs.indexOf(_mLastRowNum);
                 var vi2 = _mVisibleOidxs.indexOf(rowIdx);
                 if (vi1 !== -1 && vi2 !== -1) {{
                     var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
-                    _mSelCells = {{}};
-                    for (var v = vMin; v <= vMax; v++) _mSelectFullRow(_mVisibleOidxs[v]);
+                    _mSelRows = {{}};
+                    for (var v = vMin; v <= vMax; v++) _mSelRows[String(_mVisibleOidxs[v])] = true;
                 }}
             }} else if (e.ctrlKey || e.metaKey) {{
-                var firstKey = rowIdx + ':' + _mCurrentCols[0];
-                if (_mSelCells[firstKey]) {{
-                    _mCurrentCols.forEach(function(c) {{ delete _mSelCells[rowIdx + ':' + c]; }});
-                }} else {{ _mSelectFullRow(rowIdx); }}
+                if (_mSelRows[String(rowIdx)]) {{ delete _mSelRows[String(rowIdx)]; }}
+                else {{ _mSelRows[String(rowIdx)] = true; }}
                 _mLastRowNum = rowIdx;
             }} else {{
-                _mSelCells = {{}};
-                _mSelectFullRow(rowIdx);
+                _mSelRows = {{}};
+                _mSelRows[String(rowIdx)] = true;
                 _mLastRowNum = rowIdx;
                 _mDragRowNum = true;
                 _mDragRowStart = rowIdx;
             }}
-            _mApplyCellSelClasses();
+            _mApplyRowSelClasses();
             _updateSelInfo();
             return;
         }}
@@ -4351,9 +4367,9 @@ document.addEventListener('mousemove', function(e) {{
             var vi2 = _mVisibleOidxs.indexOf(rowIdx);
             if (vi1 === -1 || vi2 === -1) return;
             var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
-            _mSelCells = {{}};
-            for (var v = vMin; v <= vMax; v++) _mSelectFullRow(_mVisibleOidxs[v]);
-            _mApplyCellSelClasses();
+            _mSelRows = {{}};
+            for (var v = vMin; v <= vMax; v++) _mSelRows[String(_mVisibleOidxs[v])] = true;
+            _mApplyRowSelClasses();
             _updateSelInfo();
             return;
         }}
@@ -4565,18 +4581,26 @@ async function inferMissing(dsId) {{
     var btn = document.getElementById('infer-btn');
     if (btn) btn.disabled = true;
     var ds = DATASETS[dsId];
-    var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
-    var fillable = ['cas','mw','smiles','bp','cat'];
+    var isSolvents = !!(ds.chemicals && ds.chemicals.length > 0);
+    var items = isSolvents ? ds.chemicals : (ds.polymers || []);
+    var fillable = isSolvents ? ['cas','mw','smiles','bp','cat'] : ['cas','mw','smiles'];
     var queue = [];
+    var hasRowSel = Object.keys(_mSelRows).length > 0;
+    // Cell-level selection (for targeted field inference when no row selection)
     var selFieldsByRow = {{}};
-    Object.keys(_mSelCells).forEach(function(k) {{
-        var parts = k.split(':'); selFieldsByRow[parts[0]] = selFieldsByRow[parts[0]] || {{}};
-        selFieldsByRow[parts[0]][parts[1]] = true;
-    }});
-    var hasSelection = Object.keys(selFieldsByRow).length > 0;
+    if (!hasRowSel) {{
+        Object.keys(_mSelCells).forEach(function(k) {{
+            var parts = k.split(':'); selFieldsByRow[parts[0]] = selFieldsByRow[parts[0]] || {{}};
+            selFieldsByRow[parts[0]][parts[1]] = true;
+        }});
+    }}
+    var hasCellSel = Object.keys(selFieldsByRow).length > 0;
     items.forEach(function(item, idx) {{
-        if (hasSelection && !selFieldsByRow[String(idx)]) return;
-        var rowFields = hasSelection ? selFieldsByRow[String(idx)] : null;
+        // Row selection: process only selected rows, all fillable fields
+        if (hasRowSel) {{ if (!_mSelRows[String(idx)]) return; }}
+        // Cell selection: process only rows with selected cells, only selected fields
+        else if (hasCellSel) {{ if (!selFieldsByRow[String(idx)]) return; }}
+        var rowFields = (!hasRowSel && hasCellSel) ? selFieldsByRow[String(idx)] : null;
         var fieldsToCheck = rowFields ? fillable.filter(function(f) {{ return rowFields[f]; }}) : fillable;
         var missing = fieldsToCheck.filter(function(f) {{ var v = item[f]; return v == null || v === '' || v === 0; }});
         if (missing.length > 0) queue.push({{ item: item, idx: idx, missing: missing }});

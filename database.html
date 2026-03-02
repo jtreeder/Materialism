@@ -170,6 +170,8 @@ td input {
 td input:focus { background: #fff3cd; border-radius: 2px; }
 td.editing { padding: 2px 4px; background: #fffcf0; }
 td.cell-selected { background: #dfe6fd !important; }
+tr.row-selected td { background: #e3edff !important; }
+tr.row-selected .rownum-cell { background: #b3c9f7 !important; color: #1a3a8f !important; font-weight: 700; }
 #db-tbody { user-select: none; -webkit-user-select: none; }
 #content tbody { user-select: none; -webkit-user-select: none; }
 .rownum-cell { color: #b2bec3; text-align: right; font-size: 0.72rem; cursor: pointer; padding: 6px 6px 6px 4px !important; }
@@ -329,6 +331,7 @@ var _visibleIndices = [];
 
 // Cell selection for dataset detail view
 var _mSelCells = {};
+var _mSelRows = {};  // row-level selection (keyed by oidx) for gutter click/drag
 var _mDragSel = false;
 var _mDragStart = null;
 var _mDragRowNum = false;
@@ -739,10 +742,13 @@ function renderDetail() {
     if (m.fields_available) html += 'Fields: ' + m.fields_available.join(', ') + '<br>';
     html += '</div>';
     html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\x27' + dsId + '\x27)">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
+    var _rowSelN = Object.keys(_mSelRows).length;
     var _selN = _mGetSelCount();
-    var _inferLabel = _selN > 0 ? 'Infer Missing Values (' + _selN + ' cell' + (_selN > 1 ? 's' : '') + ')' : 'Infer Missing Values';
+    var _inferLabel = _rowSelN > 0 ? 'Infer ' + _rowSelN + ' Row' + (_rowSelN > 1 ? 's' : '') : (_selN > 0 ? 'Infer Missing Values (' + _selN + ' cell' + (_selN > 1 ? 's' : '') + ')' : 'Infer All Rows');
     html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\x27' + dsId + '\x27)"' + (_inferRunning ? ' disabled' : '') + '>' + _inferLabel + '</button>';
-    html += '<span class="sel-info" id="sel-info"' + (_selN > 0 ? '' : ' style="display:none"') + '>' + (_selN > 0 ? _selN + ' cell' + (_selN > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>' : '') + '</span>';
+    var _anySelN = _rowSelN > 0 ? _rowSelN : _selN;
+    var _selInfoText = _rowSelN > 0 ? _rowSelN + ' row' + (_rowSelN > 1 ? 's' : '') + ' selected' : (_selN > 0 ? _selN + ' cell' + (_selN > 1 ? 's' : '') + ' selected' : '');
+    html += '<span class="sel-info" id="sel-info"' + (_anySelN > 0 ? '' : ' style="display:none"') + '>' + (_anySelN > 0 ? _selInfoText + ' <button onclick="clearSelection()">Clear</button>' : '') + '</span>';
     html += '</div>';
     html += '<div class="infer-progress" id="infer-progress" style="display:none"></div>';
 
@@ -1215,21 +1221,28 @@ function _mSelectFullCol(colKey) {
 }
 
 function _mGetSelCount() { return Object.keys(_mSelCells).length; }
+function _mGetRowSelCount() { return Object.keys(_mSelRows).length; }
 
 function _updateInferBtn() {
     var btn = document.getElementById('infer-btn');
     if (!btn) return;
-    var n = _mGetSelCount();
-    if (n > 0) { btn.textContent = 'Infer Missing Values (' + n + ' cell' + (n > 1 ? 's' : '') + ')'; }
-    else { btn.textContent = 'Infer Missing Values'; }
+    var rn = _mGetRowSelCount();
+    var cn = _mGetSelCount();
+    if (rn > 0) { btn.textContent = 'Infer ' + rn + ' Row' + (rn > 1 ? 's' : ''); }
+    else if (cn > 0) { btn.textContent = 'Infer Missing Values (' + cn + ' cell' + (cn > 1 ? 's' : '') + ')'; }
+    else { btn.textContent = 'Infer All Rows'; }
 }
 
 function _updateSelInfo() {
     var el = document.getElementById('sel-info');
-    var n = _mGetSelCount();
+    var rn = _mGetRowSelCount();
+    var cn = _mGetSelCount();
     if (el) {
-        if (n > 0) {
-            el.innerHTML = n + ' cell' + (n > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>';
+        if (rn > 0) {
+            el.innerHTML = rn + ' row' + (rn > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>';
+            el.style.display = '';
+        } else if (cn > 0) {
+            el.innerHTML = cn + ' cell' + (cn > 1 ? 's' : '') + ' selected <button onclick="clearSelection()">Clear</button>';
             el.style.display = '';
         } else { el.style.display = 'none'; }
     }
@@ -1238,10 +1251,13 @@ function _updateSelInfo() {
 
 function clearSelection() {
     _mSelCells = {};
+    _mSelRows = {};
     _mDragStart = null;
     _mLastRowNum = null;
     var tds = document.querySelectorAll('#content tbody td.cell-selected');
     for (var i = 0; i < tds.length; i++) tds[i].classList.remove('cell-selected');
+    var trs = document.querySelectorAll('#content tbody tr.row-selected');
+    for (var i = 0; i < trs.length; i++) trs[i].classList.remove('row-selected');
     _updateSelInfo();
 }
 
@@ -1251,6 +1267,15 @@ function _mApplyCellSelClasses() {
         var key = tds[i].getAttribute('data-row') + ':' + tds[i].getAttribute('data-col');
         if (_mSelCells[key]) tds[i].classList.add('cell-selected');
         else tds[i].classList.remove('cell-selected');
+    }
+}
+
+function _mApplyRowSelClasses() {
+    var trs = document.querySelectorAll('#content tbody tr[data-oidx]');
+    for (var i = 0; i < trs.length; i++) {
+        var oidx = trs[i].getAttribute('data-oidx');
+        if (_mSelRows[oidx]) trs[i].classList.add('row-selected');
+        else trs[i].classList.remove('row-selected');
     }
 }
 
@@ -1322,33 +1347,33 @@ document.addEventListener('mousedown', function(e) {
         _applyCellSelClasses();
         _updateDbSelInfo();
     } else {
-        // Dataset detail cell selection
+        // Dataset detail row selection via gutter
         var rnCell = e.target.closest('#content tbody td.rownum-cell');
         if (rnCell) {
             e.preventDefault();
+            // Gutter clicks always use row selection, clear cell selection
+            _mSelCells = {};
             var rowIdx = parseInt(rnCell.getAttribute('data-rowidx'));
             if (e.shiftKey && _mLastRowNum != null) {
                 var vi1 = _mVisibleOidxs.indexOf(_mLastRowNum);
                 var vi2 = _mVisibleOidxs.indexOf(rowIdx);
                 if (vi1 !== -1 && vi2 !== -1) {
                     var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
-                    _mSelCells = {};
-                    for (var v = vMin; v <= vMax; v++) _mSelectFullRow(_mVisibleOidxs[v]);
+                    _mSelRows = {};
+                    for (var v = vMin; v <= vMax; v++) _mSelRows[String(_mVisibleOidxs[v])] = true;
                 }
             } else if (e.ctrlKey || e.metaKey) {
-                var firstKey = rowIdx + ':' + _mCurrentCols[0];
-                if (_mSelCells[firstKey]) {
-                    _mCurrentCols.forEach(function(c) { delete _mSelCells[rowIdx + ':' + c]; });
-                } else { _mSelectFullRow(rowIdx); }
+                if (_mSelRows[String(rowIdx)]) { delete _mSelRows[String(rowIdx)]; }
+                else { _mSelRows[String(rowIdx)] = true; }
                 _mLastRowNum = rowIdx;
             } else {
-                _mSelCells = {};
-                _mSelectFullRow(rowIdx);
+                _mSelRows = {};
+                _mSelRows[String(rowIdx)] = true;
                 _mLastRowNum = rowIdx;
                 _mDragRowNum = true;
                 _mDragRowStart = rowIdx;
             }
-            _mApplyCellSelClasses();
+            _mApplyRowSelClasses();
             _updateSelInfo();
             return;
         }
@@ -1420,9 +1445,9 @@ document.addEventListener('mousemove', function(e) {
             var vi2 = _mVisibleOidxs.indexOf(rowIdx);
             if (vi1 === -1 || vi2 === -1) return;
             var vMin = Math.min(vi1, vi2), vMax = Math.max(vi1, vi2);
-            _mSelCells = {};
-            for (var v = vMin; v <= vMax; v++) _mSelectFullRow(_mVisibleOidxs[v]);
-            _mApplyCellSelClasses();
+            _mSelRows = {};
+            for (var v = vMin; v <= vMax; v++) _mSelRows[String(_mVisibleOidxs[v])] = true;
+            _mApplyRowSelClasses();
             _updateSelInfo();
             return;
         }
@@ -1634,18 +1659,26 @@ async function inferMissing(dsId) {
     var btn = document.getElementById('infer-btn');
     if (btn) btn.disabled = true;
     var ds = DATASETS[dsId];
-    var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
-    var fillable = ['cas','mw','smiles','bp','cat'];
+    var isSolvents = !!(ds.chemicals && ds.chemicals.length > 0);
+    var items = isSolvents ? ds.chemicals : (ds.polymers || []);
+    var fillable = isSolvents ? ['cas','mw','smiles','bp','cat'] : ['cas','mw','smiles'];
     var queue = [];
+    var hasRowSel = Object.keys(_mSelRows).length > 0;
+    // Cell-level selection (for targeted field inference when no row selection)
     var selFieldsByRow = {};
-    Object.keys(_mSelCells).forEach(function(k) {
-        var parts = k.split(':'); selFieldsByRow[parts[0]] = selFieldsByRow[parts[0]] || {};
-        selFieldsByRow[parts[0]][parts[1]] = true;
-    });
-    var hasSelection = Object.keys(selFieldsByRow).length > 0;
+    if (!hasRowSel) {
+        Object.keys(_mSelCells).forEach(function(k) {
+            var parts = k.split(':'); selFieldsByRow[parts[0]] = selFieldsByRow[parts[0]] || {};
+            selFieldsByRow[parts[0]][parts[1]] = true;
+        });
+    }
+    var hasCellSel = Object.keys(selFieldsByRow).length > 0;
     items.forEach(function(item, idx) {
-        if (hasSelection && !selFieldsByRow[String(idx)]) return;
-        var rowFields = hasSelection ? selFieldsByRow[String(idx)] : null;
+        // Row selection: process only selected rows, all fillable fields
+        if (hasRowSel) { if (!_mSelRows[String(idx)]) return; }
+        // Cell selection: process only rows with selected cells, only selected fields
+        else if (hasCellSel) { if (!selFieldsByRow[String(idx)]) return; }
+        var rowFields = (!hasRowSel && hasCellSel) ? selFieldsByRow[String(idx)] : null;
         var fieldsToCheck = rowFields ? fillable.filter(function(f) { return rowFields[f]; }) : fillable;
         var missing = fieldsToCheck.filter(function(f) { var v = item[f]; return v == null || v === '' || v === 0; });
         if (missing.length > 0) queue.push({ item: item, idx: idx, missing: missing });
