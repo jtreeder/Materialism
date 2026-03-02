@@ -3664,8 +3664,9 @@ function renderDetail() {{
     html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\\x27' + dsId + '\\x27)">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
     var _rowSelN = Object.keys(_mSelRows).length;
     var _selN = _mGetSelCount();
-    var _inferLabel = _rowSelN > 0 ? 'Infer ' + _rowSelN + ' Row' + (_rowSelN > 1 ? 's' : '') : (_selN > 0 ? 'Infer Missing Values (' + _selN + ' cell' + (_selN > 1 ? 's' : '') + ')' : 'Infer All Rows');
-    html += '<button class="infer-btn" id="infer-btn" onclick="inferMissing(\\x27' + dsId + '\\x27)"' + (_inferRunning ? ' disabled' : '') + '>' + _inferLabel + '</button>';
+    var _rowSfx = _rowSelN > 0 ? ' (' + _rowSelN + ' row' + (_rowSelN > 1 ? 's' : '') + ')' : '';
+    html += '<button class="infer-btn" id="solvent-infer-btn" onclick="inferMissing(\\x27' + dsId + '\\x27)"' + (_inferRunning ? ' disabled' : '') + '>Solvent Infer' + _rowSfx + '</button>';
+    html += '<button class="infer-btn" id="poly-infer-btn" onclick="inferPolymer(\\x27' + dsId + '\\x27)"' + (_inferRunning ? ' disabled' : '') + '>Polymer Infer' + _rowSfx + '</button>';
     var _anySelN = _rowSelN > 0 ? _rowSelN : _selN;
     var _selInfoText = _rowSelN > 0 ? _rowSelN + ' row' + (_rowSelN > 1 ? 's' : '') + ' selected' : (_selN > 0 ? _selN + ' cell' + (_selN > 1 ? 's' : '') + ' selected' : '');
     html += '<span class="sel-info" id="sel-info"' + (_anySelN > 0 ? '' : ' style="display:none"') + '>' + (_anySelN > 0 ? _selInfoText + ' <button onclick="clearSelection()">Clear</button>' : '') + '</span>';
@@ -4148,9 +4149,15 @@ function _mGetSelCount() {{ return Object.keys(_mSelCells).length; }}
 function _mGetRowSelCount() {{ return Object.keys(_mSelRows).length; }}
 
 function _updateInferBtn() {{
-    var btn = document.getElementById('infer-btn');
-    if (!btn) return;
     var rn = _mGetRowSelCount();
+    var sfx = rn > 0 ? ' (' + rn + ' row' + (rn > 1 ? 's' : '') + ')' : '';
+    var sb = document.getElementById('solvent-infer-btn');
+    if (sb) sb.textContent = 'Solvent Infer' + sfx;
+    var pb = document.getElementById('poly-infer-btn');
+    if (pb) pb.textContent = 'Polymer Infer' + sfx;
+    // active-db infer btn (unchanged)
+    var btn = document.getElementById('db-infer-btn');
+    if (!btn) return;
     var cn = _mGetSelCount();
     if (rn > 0) {{ btn.textContent = 'Infer ' + rn + ' Row' + (rn > 1 ? 's' : ''); }}
     else if (cn > 0) {{ btn.textContent = 'Infer Missing Values (' + cn + ' cell' + (cn > 1 ? 's' : '') + ')'; }}
@@ -4594,7 +4601,7 @@ async function inferMissing(dsId) {{
     _inferCancelled = false;
     var progEl = document.getElementById('infer-progress');
     if (progEl) {{ progEl.style.display = 'block'; progEl.innerHTML = '<div class="loading" style="padding:8px">Starting inference...</div>'; }}
-    var btn = document.getElementById('infer-btn');
+    var btn = document.getElementById('solvent-infer-btn');
     if (btn) btn.disabled = true;
     var ds = DATASETS[dsId];
     var isSolvents = !!(ds.chemicals && ds.chemicals.length > 0);
@@ -4701,6 +4708,223 @@ async function inferMissing(dsId) {{
     _saveImportedDatasets();
     var bar2 = document.getElementById('infer-progress');
     if (bar2) bar2.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">Done! Filled <b>' + filled + '</b> values.' + (errors > 0 ? ' (' + errors + ' errors)' : '') + '</span>';
+    renderContent();
+}}
+
+// ===================== POLYMER INFER (Trade Name Resolution) =====================
+
+// Step T1 — detect whether a name is a trade/product name
+var _KNOWN_BRANDS = ['Viton','Sylgard','Kraton','Elvax','Cellit','Ultem','Delrin','Udel','Nylon',
+    'Kynar','Kevlar','Teflon','Hytrel','Santoprene','Pebax','Engage','Nordel','Versify',
+    'Affinity','Exact','Surlyn','Nucrel','Bynel','Elvaloy','Vamac','Kalrez','Chemraz',
+    'Tecnoflon','Fluorel','Dyneon','Solef','Hylar','Kynar','Neoprene','Buna','Thiokol',
+    'Perbunan','Nitroflex','Urethane','Estane','Pellethane','Texin','Desmopan','Elastollan',
+    'Covestro','Bayflex','Vulkollan','Adiprene','Vibrathane','Andur','Irogran','Avalon',
+    'Isoplast','Makrolon','Lexan','Calibre','Cycoloy','Xenoy','Valox','Celanex','Rynite',
+    'Dacron','Mylar','Melinex','Arnitel','Hytrel','Lomod','Riteflex','Ecdel','Tritan',
+    'Eastman','Tenite','Durastar','PETG','PET','ABS','SBS','SEBS','TPU','TPE','TPV'];
+var _IUPAC_TERMS = ['yl','ene','ane','ol','one','oate','ate','amine','ether','ester',
+    'oxide','acid','nitrile','aldehyde','ketone','phenyl','methyl','ethyl','propyl',
+    'butyl','vinyl','acrylic','styrene','urethane','siloxane'];
+
+function _detectNameType(name, cas) {{
+    if (!name) return 'unknown';
+    var n = name.trim();
+    // Has CAS and short clean name → chemical
+    if (cas && cas.length > 3 && !/\d{{3,}}/.test(n)) return 'chemical_name';
+    // Known brand prefix
+    if (_KNOWN_BRANDS.some(function(b) {{ return n.toLowerCase().startsWith(b.toLowerCase()); }})) return 'trade_name';
+    // Pattern: Word + alphanumeric grade code (e.g. "Kraton G1652", "Viton A", "Sylgard 184")
+    if (/^[A-Z][a-zA-Z]+[\s-][A-Z0-9]/.test(n) && !/\(/.test(n)) return 'trade_name';
+    // All-caps abbreviation likely to be trade or acronym
+    if (/^[A-Z]{{3,}}$/.test(n)) return 'ambiguous';
+    // Has IUPAC terms → chemical
+    var nl = n.toLowerCase();
+    if (_IUPAC_TERMS.some(function(t) {{ return nl.indexOf(t) !== -1; }})) return 'chemical_name';
+    // Has a number that looks like a grade code (not a locant like 2-butanol)
+    if (/\b\d{{2,}}\b/.test(n) && !/\d-[A-Za-z]/.test(n)) return 'trade_name';
+    return 'ambiguous';
+}}
+
+// EPA CompTox Dashboard public API search
+async function _comptoxSearch(name) {{
+    try {{
+        var url = 'https://comptox.epa.gov/dashboard/api/search/exactsearch?word=' + encodeURIComponent(name);
+        var r = await fetch(url, {{ signal: AbortSignal.timeout(6000) }});
+        if (!r.ok) return null;
+        var data = await r.json();
+        if (Array.isArray(data) && data.length > 0) {{
+            var d = data[0];
+            return {{ cas: d.casrn || null, name: d.preferredName || d.iupacName || null, url: 'https://comptox.epa.gov/dashboard/dsstoxdb/results?search=' + encodeURIComponent(name) }};
+        }}
+    }} catch(e) {{}}
+    return null;
+}}
+
+// Shared progress helpers for inferPolymer
+function _showPolyStep(itemName, itemNum, total, stepText) {{
+    var bar = document.getElementById('infer-progress');
+    if (!bar) return;
+    var pct = Math.round(100 * itemNum / total);
+    var h = '<div style="font-size:0.82rem;color:#2d3436;font-weight:600;margin-bottom:4px">Processing <b>' + (itemName||'').substring(0,45) + '</b> (' + itemNum + '/' + total + ')</div>';
+    h += '<div class="bar-bg"><div class="bar-fg" style="width:' + pct + '%"></div></div>';
+    h += '<div class="infer-step-log" id="poly-step-log"><div class="infer-step active"><span class="step-icon">&#8987;</span> ' + stepText + '</div></div>';
+    h += '<div style="display:flex;align-items:center;gap:10px;margin-top:6px"><button class="import-btn secondary" style="width:auto;padding:2px 10px;font-size:0.72rem" onclick="_inferCancelled=true">Cancel</button></div>';
+    bar.innerHTML = h;
+}}
+function _setPolyStep(itemName, itemNum, total, stepText, prevOk) {{
+    var log = document.getElementById('poly-step-log');
+    if (log) {{
+        var active = log.querySelector('.infer-step.active');
+        if (active) {{ active.classList.remove('active'); active.classList.add(prevOk ? 'ok' : 'warn'); active.querySelector('.step-icon').innerHTML = prevOk ? '&#10003;' : '&#10007;'; }}
+        var div = document.createElement('div'); div.className = 'infer-step active';
+        div.innerHTML = '<span class="step-icon">&#8987;</span> ' + stepText; log.appendChild(div);
+    }} else _showPolyStep(itemName, itemNum, total, stepText);
+}}
+function _appendManualLinks(name, links) {{
+    var log = document.getElementById('poly-step-log');
+    if (!log) return;
+    var div = document.createElement('div');
+    div.className = 'infer-step';
+    div.style.cssText = 'font-size:0.75rem;margin-top:4px;color:#636e72';
+    div.innerHTML = 'Manual lookup: ' + links.map(function(l) {{
+        return '<a href="' + l.url + '" target="_blank" rel="noopener" style="color:#0984e3;margin-right:8px">' + l.label + ' \u2197</a>';
+    }}).join('');
+    log.appendChild(div);
+}}
+
+async function inferPolymer(dsId) {{
+    if (_inferRunning) return;
+    _inferRunning = true;
+    _inferCancelled = false;
+    var progEl = document.getElementById('infer-progress');
+    if (progEl) {{ progEl.style.display = 'block'; progEl.innerHTML = '<div class="loading" style="padding:8px">Starting trade name resolution...</div>'; }}
+    var polyBtn = document.getElementById('poly-infer-btn');
+    if (polyBtn) polyBtn.disabled = true;
+
+    var ds = DATASETS[dsId];
+    var isSolvents = !!(ds.chemicals && ds.chemicals.length > 0);
+    var items = isSolvents ? ds.chemicals : (ds.polymers || []);
+
+    var hasRowSel = Object.keys(_mSelRows).length > 0;
+    var queue = [];
+    items.forEach(function(item, idx) {{
+        if (hasRowSel && !_mSelRows[String(idx)]) return;
+        queue.push({{ item: item, idx: idx }});
+    }});
+
+    if (queue.length === 0) {{
+        _inferRunning = false;
+        if (progEl) progEl.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">No rows to process.</span>';
+        renderContent();
+        return;
+    }}
+
+    var resolved = 0, errors = 0;
+    for (var i = 0; i < queue.length; i++) {{
+        if (_inferCancelled) break;
+        var entry = queue[i];
+        var item = entry.item;
+        var name = item.name || '';
+        if (!item._src) item._src = {{}};
+
+        _showPolyStep(name, i+1, queue.length, 'Detecting name type...');
+        var nameType = _detectNameType(name, item.cas);
+        item._nameType = nameType;
+
+        var results = {{}};
+
+        // Source 1: PubChem name/synonym lookup
+        _setPolyStep(name, i+1, queue.length, 'PubChem synonym search...', true);
+        try {{
+            await _delay(200);
+            var pub = await _pubchemLookup(name, false);
+            if (pub) results.pubchem = pub;
+        }} catch(e) {{ errors++; }}
+
+        // Source 2: CAS Common Chemistry
+        if (!results.pubchem || !results.pubchem.cas) {{
+            _setPolyStep(name, i+1, queue.length, 'CAS Common Chemistry search...', !!results.pubchem);
+            try {{
+                await _delay(200);
+                var casRn = await _casChemSearch(name);
+                if (casRn) {{
+                    await _delay(200);
+                    var casDetail = await _casChemDetail(casRn);
+                    if (casDetail) results.cas_chem = casDetail;
+                }}
+            }} catch(e) {{ errors++; }}
+        }}
+
+        // Source 3: EPA CompTox
+        _setPolyStep(name, i+1, queue.length, 'EPA CompTox search...', !!(results.pubchem || results.cas_chem));
+        try {{
+            await _delay(200);
+            var comptox = await _comptoxSearch(name);
+            if (comptox) results.comptox = comptox;
+        }} catch(e) {{}}
+
+        // Step T3 — consolidate
+        _setPolyStep(name, i+1, queue.length, 'Consolidating results...', true);
+        var resolvedCas = null, resolvedSmiles = null, resolvedMw = null, srcLabel = '', srcUrl = '', confidence = 0;
+
+        if (results.pubchem && results.cas_chem) {{
+            var pubCas = results.pubchem.cas, casCas = results.cas_chem.cas;
+            if (pubCas && casCas && pubCas === casCas) {{
+                resolvedCas = pubCas; srcLabel = 'PubChem + CAS Common Chemistry'; srcUrl = results.pubchem.url; confidence = 0.95;
+            }} else if (pubCas) {{
+                resolvedCas = pubCas; srcLabel = 'PubChem (CAS disagrees)'; srcUrl = results.pubchem.url; confidence = 0.70;
+            }} else if (casCas) {{
+                resolvedCas = casCas; srcLabel = 'CAS Common Chemistry'; srcUrl = results.cas_chem.url; confidence = 0.70;
+            }}
+        }} else if (results.pubchem && results.pubchem.cas) {{
+            resolvedCas = results.pubchem.cas; srcLabel = 'PubChem'; srcUrl = results.pubchem.url || ''; confidence = 0.75;
+            resolvedSmiles = results.pubchem.smiles; resolvedMw = results.pubchem.mw;
+        }} else if (results.cas_chem && results.cas_chem.cas) {{
+            resolvedCas = results.cas_chem.cas; srcLabel = 'CAS Common Chemistry'; srcUrl = results.cas_chem.url || ''; confidence = 0.70;
+        }} else if (results.comptox && results.comptox.cas) {{
+            resolvedCas = results.comptox.cas; srcLabel = 'EPA CompTox'; srcUrl = results.comptox.url || ''; confidence = 0.60;
+        }}
+
+        // Apply resolved values
+        var uncertain = confidence < 0.80;
+        if (resolvedCas && !item.cas) {{
+            item.cas = resolvedCas;
+            item._src.cas = {{ label: srcLabel, url: srcUrl, uncertain: uncertain }};
+            resolved++;
+        }}
+        if (resolvedSmiles && !item.smiles) {{
+            item.smiles = resolvedSmiles;
+            item._src.smiles = {{ label: srcLabel, url: srcUrl, uncertain: false }};
+        }}
+        if (resolvedMw && !item.mw) {{
+            item.mw = resolvedMw;
+            item._src.mw = {{ label: srcLabel, url: srcUrl, uncertain: false }};
+        }}
+
+        // Step T4 — confidence score
+        item._tradeResScore = confidence;
+
+        var enc = encodeURIComponent(name);
+        if (resolvedCas) {{
+            _setPolyStep(name, i+1, queue.length, 'Resolved \u2192 CAS ' + resolvedCas + ' (' + Math.round(confidence*100) + '% confidence via ' + srcLabel + ')', true);
+        }} else {{
+            _setPolyStep(name, i+1, queue.length, 'Not resolved automatically \u2014 manual lookup links below', false);
+            _appendManualLinks(name, [
+                {{ label: 'SpecialChem', url: 'https://polymer.specialchem.com/tradename/' + enc }},
+                {{ label: 'Sigma-Aldrich', url: 'https://www.sigmaaldrich.com/US/en/search#' + enc + '?focus=products' }},
+                {{ label: 'EPA CompTox', url: 'https://comptox.epa.gov/dashboard/search?search=' + enc }},
+                {{ label: 'ECHA', url: 'https://echa.europa.eu/search-for-chemicals?p_p_id=disssubstancesearch_WAR_disssubstances&_disssubstancesearch_WAR_disssubstances_searchop=search&_disssubstancesearch_WAR_disssubstances_trade_name=' + enc }},
+            ]);
+        }}
+
+        await _delay(300);
+    }}
+
+    _inferRunning = false;
+    _saveImportedDatasets();
+    var bar2 = document.getElementById('infer-progress');
+    if (bar2) bar2.innerHTML = '<span style="color:#27ae60;font-size:0.82rem">Done! Resolved <b>' + resolved + '</b> of <b>' + queue.length + '</b> identities.' + (errors > 0 ? ' (' + errors + ' lookup errors)' : '') + '</span>';
     renderContent();
 }}
 
