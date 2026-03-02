@@ -799,9 +799,12 @@ full_html = f"""<!DOCTYPE html>
             if (!dsId) return true; // entries without dataset_id always shown
             var active = _getActiveDsets();
             // dsId may be comma-separated (entry present in multiple datasets);
-            // visible if ANY contributing dataset is active.
+            // visible if ANY contributing dataset is active AND not deleted.
+            var _delRaw = localStorage.getItem('materialism_deleted_datasets');
+            var _deletedIds = _delRaw ? JSON.parse(_delRaw) : [];
             var ids = dsId.split(',');
             for (var i = 0; i < ids.length; i++) {{
+                if (_deletedIds.indexOf(ids[i]) !== -1) continue; // deleted
                 if (active[ids[i]] !== false) return true;
             }}
             return false;
@@ -824,8 +827,12 @@ full_html = f"""<!DOCTYPE html>
                 var raw = localStorage.getItem('materialism_imported_datasets');
                 if (!raw) return;
                 var imported = JSON.parse(raw);
+                var _delRaw = localStorage.getItem('materialism_deleted_datasets');
+                var _deletedIds = _delRaw ? JSON.parse(_delRaw) : [];
                 Object.keys(imported).forEach(function(dsId) {{
-                    if (_activeDsets[dsId] === false) return;
+                    if (_activeDsets[dsId] === false) return; // explicitly toggled off
+                    if (_deletedIds.indexOf(dsId) !== -1) return; // deleted via UI — never re-add
+                    if (DATASETS_META[dsId]) return; // already in embedded data — skip to prevent duplication
                     var ds = imported[dsId];
                     var meta = ds.meta || {{}};
                     var srcLabel = meta.name || dsId;
@@ -3229,7 +3236,7 @@ function _loadActiveDsets() {{ try {{ var v = localStorage.getItem(_LS_DS_KEY); 
 function _saveActiveDsets(obj) {{ try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); }} catch(e) {{}} }}
 function _getActiveDsets() {{ var s = _loadActiveDsets(); if (s) return s; var d = {{}}; Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = true; }}); return d; }}
 var _activeDsets = _getActiveDsets();
-function _isDsActive(dsId) {{ if (!dsId) return true; var ids = dsId.split(','); for (var i = 0; i < ids.length; i++) {{ if (_activeDsets[ids[i]] !== false) return true; }} return false; }}
+function _isDsActive(dsId) {{ if (!dsId) return true; var ids = dsId.split(','); for (var i = 0; i < ids.length; i++) {{ if (DATASETS[ids[i]] && _activeDsets[ids[i]] !== false) return true; }} return false; }}
 function _isFromActiveDataset(item) {{ return !!item._imported && !!DATASETS[item.dsId] && _isDsActive(item.dsId); }}
 
 // View mode: 'active_db' or a dataset id
@@ -3267,8 +3274,12 @@ var _mCurrentCols = [];
         var raw = localStorage.getItem('materialism_imported_datasets');
         if (!raw) return;
         var imported = JSON.parse(raw);
+        var _delRaw = localStorage.getItem('materialism_deleted_datasets');
+        var _deletedIds = _delRaw ? JSON.parse(_delRaw) : [];
         Object.keys(imported).forEach(function(dsId) {{
-            if (_activeDsets[dsId] === false) return;
+            if (_activeDsets[dsId] === false) return; // explicitly toggled off
+            if (_deletedIds.indexOf(dsId) !== -1) return; // deleted via UI — never re-add
+            if (DATASETS[dsId] && DATASETS[dsId]._embedded) return; // already in embedded unified data
             var ds = imported[dsId];
             var meta = ds.meta || {{}};
             var srcLabel = meta.name || dsId;
