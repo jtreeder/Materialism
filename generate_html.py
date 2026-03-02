@@ -2914,7 +2914,7 @@ body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMa
 .ds-card .ds-status {{ display: inline-block; font-size: 0.7rem; padding: 1px 6px; border-radius: 3px; margin-top: 4px; }}
 .ds-card .ds-status.on {{ background: #d5f5e3; color: #27ae60; }}
 .ds-card .ds-status.off {{ background: #fadbd8; color: #e74c3c; }}
-.content {{ flex: 1; min-width: 0; overflow: auto; padding: 0; position: relative; z-index: 0; }}
+.content {{ flex: 1; min-width: 0; overflow: hidden; padding: 0; position: relative; z-index: 0; display: flex; flex-direction: column; }}
 .toolbar {{ background: #fff; padding: 10px 20px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #dfe6e9; }}
 .toolbar input {{ padding: 8px 12px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.85rem; width: 220px; }}
 .toolbar input:focus {{ outline: none; border-color: #e94560; }}
@@ -2930,7 +2930,7 @@ body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMa
 .lock-btn:hover {{ background: #f5f6fa; }}
 .lock-btn.unlocked {{ border-color: #e94560; color: #e94560; }}
 .lock-btn svg {{ width: 14px; height: 14px; fill: currentColor; }}
-.table-wrap {{ overflow: auto; height: calc(100vh - 100px); }}
+.table-wrap {{ overflow: auto; flex: 1; min-height: 0; }}
 table {{ width: max-content; min-width: 100%; border-collapse: collapse; font-size: 0.8rem; }}
 /* Dataset detail styles */
 .ds-detail-header {{ margin-bottom: 16px; }}
@@ -2964,7 +2964,7 @@ td[contenteditable="true"]:focus {{
     box-shadow: inset 0 0 0 2px #e94560;
     background: #fff;
 }}
-.detail-content {{ padding: 20px; }}
+.detail-content {{ padding: 20px; flex: 1; min-height: 0; overflow-y: auto; }}
 .filter-row {{ margin-bottom: 10px; }}
 .filter-row input {{ padding: 6px 10px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.82rem; width: 250px; }}
 .filter-row input:focus {{ outline: none; border-color: #e94560; }}
@@ -3469,6 +3469,8 @@ function buildSidebar() {{
 // ===================== RENDER ACTIVE DATABASE =====================
 function renderActiveDb() {{
     var ct = document.getElementById('content');
+    var _prevWrap = ct.querySelector('.table-wrap');
+    var _savedScroll = _prevWrap ? _prevWrap.scrollTop : 0;
     var cols = _activeDbTab === 'solvents' ? SOLV_COLS : POLY_COLS;
     var data = _activeDbTab === 'solvents' ? SOLVENTS : POLYMERS;
     var filter = _filterText.toLowerCase().trim();
@@ -3608,6 +3610,7 @@ function renderActiveDb() {{
     }}
 
     ct.innerHTML = toolbar + '<div class="table-wrap"><table id="db-table"><thead id="db-thead">' + hdr + '</thead><tbody id="db-tbody">' + html + '</tbody></table></div>';
+    if (_savedScroll) {{ var _nw = ct.querySelector('.table-wrap'); if (_nw) _nw.scrollTop = _savedScroll; }}
     updateEditCount();
 }}
 
@@ -3620,6 +3623,8 @@ function dbSortBy(col) {{
 // ===================== RENDER DATASET DETAIL =====================
 function renderDetail() {{
     var ct = document.getElementById('content');
+    var _prevDC = ct.querySelector('.detail-content');
+    var _savedDetailScroll = _prevDC ? _prevDC.scrollTop : 0;
     var dsId = _viewMode;
     var ds = DATASETS[dsId];
     if (!ds) {{
@@ -3673,6 +3678,7 @@ function renderDetail() {{
         html += '<p style="color:#636e72">No data in this dataset.</p>';
         html += '</div>';
         ct.innerHTML = html;
+        if (_savedDetailScroll) {{ var _ndc2 = ct.querySelector('.detail-content'); if (_ndc2) _ndc2.scrollTop = _savedDetailScroll; }}
         return;
     }}
 
@@ -3768,6 +3774,7 @@ function renderDetail() {{
     }}
 
     ct.innerHTML = html;
+    if (_savedDetailScroll) {{ var _ndc = ct.querySelector('.detail-content'); if (_ndc) _ndc.scrollTop = _savedDetailScroll; }}
 
     if (_prevSel !== null) {{
         var inp = document.getElementById('manage-filter');
