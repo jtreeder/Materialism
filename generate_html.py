@@ -3092,6 +3092,8 @@ td input {{
 td input:focus {{ background: #fff3cd; border-radius: 2px; }}
 td.editing {{ padding: 2px 4px; background: #fffcf0; }}
 td.cell-selected {{ background: #dfe6fd !important; }}
+td[data-src-url].active {{ outline: 2px solid #e94560; outline-offset: -2px; cursor: pointer; }}
+td[data-src-url] {{ cursor: pointer; }}
 tr.row-selected td {{ background: #e3edff !important; }}
 tr.row-selected .rownum-cell {{ background: #b3c9f7 !important; color: #1a3a8f !important; font-weight: 700; }}
 #db-tbody {{ user-select: none; -webkit-user-select: none; }}
@@ -3595,7 +3597,7 @@ function renderActiveDb() {{
                     var isPoly = _activeDbTab === 'polymers';
                     display = '<span class="conf-badge" data-src="' + (mat.src || '').replace(/"/g, '&quot;') + '" data-cas="' + (mat.cas ? '1' : '0') + '" data-smi="' + (!isPoly && mat.smiles ? '1' : '0') + '" data-poly="' + (isPoly ? '1' : '0') + '" data-srcn="' + (mat.srcN || 1) + '" data-pct="' + pct + '" style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + cColor + ';cursor:help">' + pct + '%</span>';
                 }}
-                // Per-cell source reference indicator
+                // Per-cell source reference — stored as data attrs, shown on cell click
                 var _mat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
                 var _fieldSrc = _mat._src && _mat._src[c.key];
                 var _refLabel = '', _refUrl = '';
@@ -3606,13 +3608,9 @@ function renderActiveDb() {{
                     _refLabel = _mat.src || 'Source';
                     _refUrl = _mat.srcUrl;
                 }}
-                if (_refUrl) {{
-                    var _rLabel = _refLabel.replace(/\\\\/g,'\\\\\\\\').replace(/'/g,'\\x27');
-                    var _rUrl = _refUrl.replace(/\\\\/g,'\\\\\\\\').replace(/'/g,'\\x27');
-                    display += '<span class="cell-ref" onclick="_showSrcPop(this,\\x27' + _rLabel + '\\x27,\\x27' + _rUrl + '\\x27)" title="View source">\u00b0</span>';
-                }}
                 var cellStyle = isEdited ? 'background:#e8f8f0' : '';
-                html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (cellStyle ? ' style="' + cellStyle + '"' : '') + '>' + display + '</td>';
+                var _srcAttrs = _refUrl ? ' data-src-lbl="' + _refLabel.replace(/"/g,'&quot;') + '" data-src-url="' + _refUrl.replace(/"/g,'&quot;') + '"' : '';
+                html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + _srcAttrs + (cellStyle ? ' style="' + cellStyle + '"' : '') + '>' + display + '</td>';
             }}
         }}
         html += '</tr>';
@@ -3680,10 +3678,10 @@ function renderDetail() {{
     var items, cols;
     if (nc > 0) {{
         items = ds.chemicals;
-        cols = ['name','cas','dd','dp','dh','mw','bp','conf'];
+        cols = ['name','cas','dd','dp','dh','mw','bp','cat','conf'];
     }} else {{
         items = ds.polymers;
-        cols = ['name','cas','dd','dp','dh','r','conf'];
+        cols = ['name','cas','dd','dp','dh','r','cat','conf'];
     }}
 
     if (!items || items.length === 0) {{
@@ -3766,8 +3764,12 @@ function renderDetail() {{
             }}
             var catStyle = '';
             var display = v;
+            if (c === 'cat' && v) {{
+                var _catMap = (nc > 0) ? CAT_COLORS : POLY_CAT_COLORS;
+                var _catC = _catMap[v] || '#888';
+                display = '<span style="display:inline-flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;flex-shrink:0;background:' + _catC + '"></span>' + v + '</span>';
+            }}
             html += '<td' + (cls ? ' class="' + cls + '"' : '') + attrs + catStyle + '>' + display;
-            if (isUncertain && !isEdit && !isNote) html += '<span class="q-mark">?</span>';
             html += '</td>';
         }});
         html += '</tr>';
@@ -3966,7 +3968,7 @@ document.addEventListener('click', function(e) {{
         closeCrosslink();
     }}
     // close src popup on outside click
-    if (_srcPop && !_srcPop.contains(e.target) && !e.target.classList.contains('cell-ref')) {{
+    if (_srcPop && _srcPop.style.display !== 'none' && !_srcPop.contains(e.target) && !e.target.closest('td[data-src-url]')) {{
         _closeSrcPop();
     }}
 }});
@@ -4250,6 +4252,13 @@ document.addEventListener('mousedown', function(e) {{
             return;
         }}
 
+        var srcTd = e.target.closest('#db-tbody td[data-src-url]');
+        if (srcTd) {{
+            e.preventDefault();
+            _showSrcPop(srcTd, srcTd.getAttribute('data-src-lbl') || '', srcTd.getAttribute('data-src-url') || '');
+            return;
+        }}
+
         var cell = _getCellFromEvent(e);
         if (!cell) return;
         e.preventDefault();
@@ -4309,6 +4318,13 @@ document.addEventListener('mousedown', function(e) {{
             }} else {{ _mSelectFullCol(colKey); }}
             _mApplyCellSelClasses();
             _updateSelInfo();
+            return;
+        }}
+
+        var srcTd = e.target.closest('#content tbody td[data-src-url]');
+        if (srcTd) {{
+            e.preventDefault();
+            _showSrcPop(srcTd, srcTd.getAttribute('data-src') || '', srcTd.getAttribute('data-src-url') || '');
             return;
         }}
 
