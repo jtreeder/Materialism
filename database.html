@@ -197,29 +197,26 @@ td.cell-note { font-style: italic; color: #b2bec3; font-size: 0.72rem; white-spa
 .conf-row .conf-val.pos { color: #00b894; }
 .conf-row .conf-val.zero { color: #636e72; }
 .conf-sep { border-top: 1px solid #636e72; margin: 4px 0; }
-/* Source filter in header */
-.src-filter-wrap { position: relative; margin-top: 4px; }
-.src-filter-btn {
-    display: block; width: 100%; padding: 2px 4px; font-size: 0.7rem;
-    border: 1px solid #dfe6e9; border-radius: 3px; background: #fff;
-    color: #636e72; cursor: pointer; text-align: left;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+/* Per-cell source reference indicator */
+.cell-ref {
+    display: inline-block; margin-left: 2px; font-size: 0.6rem; vertical-align: super;
+    color: #b2bec3; cursor: pointer; line-height: 1; user-select: none;
+    transition: color 0.15s;
 }
-.src-filter-btn:hover { border-color: #b2bec3; }
-.src-filter-drop {
-    display: none; position: absolute; top: 100%; left: 0; z-index: 20;
-    background: #fff; border: 1px solid #dfe6e9; border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12); min-width: 180px;
-    max-height: 260px; overflow-y: auto; padding: 4px 0;
+.cell-ref:hover { color: #e94560; }
+.cell-ref.active { color: #e94560; }
+.src-popup {
+    position: fixed; z-index: 9999; background: #fff; border: 1px solid #dfe6e9;
+    border-radius: 6px; box-shadow: 0 4px 18px rgba(0,0,0,0.14);
+    padding: 8px 12px; font-size: 0.78rem; color: #2d3436;
+    max-width: 280px; pointer-events: auto;
 }
-.src-filter-drop.open { display: block; }
-.src-filter-opt {
-    display: flex; align-items: center; gap: 6px; padding: 4px 10px;
-    font-size: 0.72rem; color: #2d3436; cursor: pointer; white-space: nowrap;
+.src-popup-label { display: block; font-weight: 600; margin-bottom: 4px; color: #2d3436; }
+.src-popup-link {
+    display: inline-block; color: #e94560; text-decoration: none;
+    font-size: 0.74rem; word-break: break-all;
 }
-.src-filter-opt:hover { background: #f5f6fa; }
-.src-filter-opt input { margin: 0; cursor: pointer; }
-.src-filter-opt label { cursor: pointer; }
+.src-popup-link:hover { text-decoration: underline; }
 /* Crosslink ? badge */
 .cas-missing {
     display: inline-flex; align-items: center; justify-content: center;
@@ -335,9 +332,6 @@ var _mLastRowNum = null;
 var _mVisibleOidxs = [];
 var _mCurrentCols = [];
 
-var srcFilterSet = {};
-var _srcDropOpen = false;
-
 // ===================== LOAD IMPORTED DATASETS =====================
 (function() {
     try {
@@ -399,7 +393,6 @@ var SOLV_COLS = [
     {key:'mv', label:'Vₘ (cm³/mol)', w:'90px', tip:'Molar volume'},
     {key:'ghs', label:'GHS Hazard', w:'120px'},
     {key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'},
-    {key:'src', label:'Source', w:'140px'},
 ];
 var POLY_COLS = [
     {key:'name', label:'Name', w:'250px'},
@@ -409,16 +402,7 @@ var POLY_COLS = [
     {key:'dh', label:'δH (MPa½)', w:'78px', tip:'Hydrogen bonding parameter'},
     {key:'r', label:'R₀ (MPa½)', w:'70px', tip:'Interaction radius'},
     {key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'},
-    {key:'src', label:'Source', w:'140px'},
 ];
-
-// Build sorted list of unique source names
-var _srcOptions = (function() {
-    var srcSet = {};
-    SOLVENTS.forEach(function(s) { if (s.src) srcSet[s.src] = true; });
-    POLYMERS.forEach(function(p) { if (p.src) srcSet[p.src] = true; });
-    return Object.keys(srcSet).sort();
-})();
 
 // ===================== ACTIVE DATABASE EDITS =====================
 function loadDbEdits() {
@@ -480,38 +464,11 @@ function toggleDbLock() {
     renderContent();
 }
 
-// ===================== SOURCE FILTER =====================
-function toggleSrcFilter(val) {
-    if (srcFilterSet[val]) delete srcFilterSet[val];
-    else srcFilterSet[val] = true;
-    renderContent();
-    updateActiveDbCounts();
-}
-function clearSrcFilter() {
-    srcFilterSet = {};
-    renderContent();
-    updateActiveDbCounts();
-}
-function _hasSrcFilter() { return Object.keys(srcFilterSet).length > 0; }
-function _matchesSrcFilter(src) { return !_hasSrcFilter() || srcFilterSet[src]; }
 function _countForTab(tab) {
     var data = tab === 'solvents' ? SOLVENTS : POLYMERS;
-    if (!_hasSrcFilter()) {
-        var n = 0;
-        for (var i = 0; i < data.length; i++) { if (_isFromActiveDataset(data[i])) n++; }
-        return n;
-    }
     var n = 0;
-    for (var i = 0; i < data.length; i++) {
-        if (_isFromActiveDataset(data[i]) && srcFilterSet[data[i].src]) n++;
-    }
+    for (var i = 0; i < data.length; i++) { if (_isFromActiveDataset(data[i])) n++; }
     return n;
-}
-function toggleSrcDrop(e) {
-    e.stopPropagation();
-    _srcDropOpen = !_srcDropOpen;
-    var drop = document.getElementById('src-drop');
-    if (drop) drop.classList.toggle('open', _srcDropOpen);
 }
 
 // ===================== VIEW SWITCHING =====================
@@ -619,7 +576,6 @@ function renderActiveDb() {
             var cas = getDbVal(_activeDbTab, i, 'cas').toLowerCase();
             if (name.indexOf(filter) === -1 && cas.indexOf(filter) === -1) continue;
         }
-        if (_hasSrcFilter() && !_matchesSrcFilter(getDbVal(_activeDbTab, i, 'src'))) continue;
         indices.push(i);
     }
 
@@ -643,27 +599,7 @@ function renderActiveDb() {
         var c = cols[ci];
         var cls = '';
         if (_sortCol === ci) cls = _sortAsc ? ' class="sort-asc"' : ' class="sort-desc"';
-        if (c.key === 'src') {
-            var nSel = Object.keys(srcFilterSet).length;
-            var btnLabel = nSel === 0 ? 'All sources' : nSel + ' selected';
-            hdr += '<th' + cls + ' data-col="' + c.key + '" style="position:relative">';
-            hdr += '<span onclick="dbSortBy(' + ci + ')" style="cursor:pointer">' + c.label + '</span>';
-            hdr += '<div class="src-filter-wrap">';
-            hdr += '<button class="src-filter-btn" onclick="toggleSrcDrop(event)">' + btnLabel + ' &#9662;</button>';
-            hdr += '<div class="src-filter-drop' + (_srcDropOpen ? ' open' : '') + '" id="src-drop" onclick="event.stopPropagation()">';
-            if (nSel > 0) {
-                hdr += '<div class="src-filter-opt" onclick="clearSrcFilter()" style="color:#e94560;font-weight:600">Clear all</div>';
-            }
-            _srcOptions.forEach(function(s) {
-                var checked = srcFilterSet[s] ? ' checked' : '';
-                var esc = s.replace(/'/g, '\x27');
-                hdr += '<div class="src-filter-opt" onclick="toggleSrcFilter(\x27' + esc + '\x27)">';
-                hdr += '<input type="checkbox"' + checked + ' tabindex="-1"><label>' + s + '</label></div>';
-            });
-            hdr += '</div></div></th>';
-        } else {
-            hdr += '<th' + cls + ' data-col="' + c.key + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="dbSortBy(' + ci + ')">' + c.label + '</th>';
-        }
+        hdr += '<th' + cls + ' data-col="' + c.key + '"' + (c.tip ? ' title="' + c.tip + '"' : '') + ' onclick="dbSortBy(' + ci + ')">' + c.label + '</th>';
     }
     hdr += '</tr>';
 
@@ -706,10 +642,6 @@ function renderActiveDb() {
                         }
                     }
                 }
-                if (c.key === 'src') {
-                    var srcUrl = _activeDbTab === 'solvents' ? SOLVENTS[idx].srcUrl : POLYMERS[idx].srcUrl;
-                    if (srcUrl) display = '<a href="' + srcUrl + '" target="_blank" rel="noopener">' + val + '</a>';
-                }
                 if (c.key === 'conf' && val) {
                     var cv = parseFloat(val);
                     var pct = Math.round(cv * 100);
@@ -720,6 +652,22 @@ function renderActiveDb() {
                     var mat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
                     var isPoly = _activeDbTab === 'polymers';
                     display = '<span class="conf-badge" data-src="' + (mat.src || '').replace(/"/g, '&quot;') + '" data-cas="' + (mat.cas ? '1' : '0') + '" data-smi="' + (!isPoly && mat.smiles ? '1' : '0') + '" data-poly="' + (isPoly ? '1' : '0') + '" data-srcn="' + (mat.srcN || 1) + '" data-pct="' + pct + '" style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + cColor + ';cursor:help">' + pct + '%</span>';
+                }
+                // Per-cell source reference indicator
+                var _mat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
+                var _fieldSrc = _mat._src && _mat._src[c.key];
+                var _refLabel = '', _refUrl = '';
+                if (_fieldSrc && _fieldSrc.url) {
+                    _refLabel = _fieldSrc.label || _mat.src || 'Source';
+                    _refUrl = _fieldSrc.url;
+                } else if (_mat.srcUrl && val !== '' && val != null) {
+                    _refLabel = _mat.src || 'Source';
+                    _refUrl = _mat.srcUrl;
+                }
+                if (_refUrl) {
+                    var _rLabel = _refLabel.replace(/\\/g,'\\\\').replace(/'/g,'\x27');
+                    var _rUrl = _refUrl.replace(/\\/g,'\\\\').replace(/'/g,'\x27');
+                    display += '<span class="cell-ref" onclick="_showSrcPop(this,\x27' + _rLabel + '\x27,\x27' + _rUrl + '\x27)" title="View source">°</span>';
                 }
                 var cellStyle = isEdited ? 'background:#e8f8f0' : '';
                 html += '<td class="' + cellSel.trim() + '" data-row="' + idx + '" data-col="' + c.key + '"' + (cellStyle ? ' style="' + cellStyle + '"' : '') + '>' + display + '</td>';
@@ -1072,12 +1020,9 @@ document.addEventListener('click', function(e) {
     if (_xlPop && _xlPop.classList.contains('visible') && !_xlPop.contains(e.target) && !e.target.classList.contains('cas-missing')) {
         closeCrosslink();
     }
-    if (_srcDropOpen) {
-        var drop = document.getElementById('src-drop');
-        if (drop && !drop.contains(e.target) && !e.target.classList.contains('src-filter-btn')) {
-            _srcDropOpen = false;
-            drop.classList.remove('open');
-        }
+    // close src popup on outside click
+    if (_srcPop && !_srcPop.contains(e.target) && !e.target.classList.contains('cell-ref')) {
+        _closeSrcPop();
     }
 });
 
@@ -1122,6 +1067,42 @@ document.addEventListener('mouseover', function(e) {
         _confBadgeActive = null;
     }
 });
+
+// ===================== SOURCE REFERENCE POPUP =====================
+var _srcPop = null;
+var _srcPopRef = null; // the .cell-ref element that opened the popup
+function _showSrcPop(el, label, url) {
+    if (_srcPop && _srcPopRef === el) {
+        // Second click on same ref → navigate
+        window.open(url, '_blank', 'noopener');
+        _closeSrcPop();
+        return;
+    }
+    _closeSrcPop();
+    _srcPopRef = el;
+    el.classList.add('active');
+    if (!_srcPop) {
+        _srcPop = document.createElement('div');
+        _srcPop.className = 'src-popup';
+        document.body.appendChild(_srcPop);
+    }
+    _srcPop.innerHTML = '<span class="src-popup-label">' + label.replace(/</g,'&lt;') + '</span>' +
+        '<a class="src-popup-link" href="' + url + '" target="_blank" rel="noopener">Open source ↗</a>';
+    _srcPop.style.display = 'block';
+    var rect = el.getBoundingClientRect();
+    var popW = _srcPop.offsetWidth, popH = _srcPop.offsetHeight;
+    var left = rect.left;
+    var top = rect.bottom + 6;
+    if (top + popH > window.innerHeight - 8) top = rect.top - popH - 6;
+    if (left + popW > window.innerWidth - 8) left = window.innerWidth - popW - 8;
+    if (left < 4) left = 4;
+    _srcPop.style.left = left + 'px';
+    _srcPop.style.top = top + 'px';
+}
+function _closeSrcPop() {
+    if (_srcPopRef) { _srcPopRef.classList.remove('active'); _srcPopRef = null; }
+    if (_srcPop) { _srcPop.style.display = 'none'; }
+}
 
 // ===================== CELL SELECTION (ACTIVE DB) =====================
 function _getCellFromEvent(e) {
