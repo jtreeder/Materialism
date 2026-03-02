@@ -1,0 +1,7094 @@
+{
+  "08-88-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "100-00-5": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "CZGCEKJOLUNIFY-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1[N+](=O)[O-])Cl",
+    "subclass": "Nitrobenzenes"
+  },
+  "100-02-7": {
+    "class": "Phenols",
+    "inchikey": "BTJIUGUIPKRLHP-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1[N+](=O)[O-])O",
+    "subclass": "Nitrophenols"
+  },
+  "100-06-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "NTPLXRHDUXRPNE-UHFFFAOYSA-N",
+    "smiles": "CC(=O)C1=CC=C(C=C1)OC",
+    "subclass": "Carbonyl compounds"
+  },
+  "100-21-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "KKEYFWRCBNTPAC-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1C(=O)O)C(=O)O",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "100-37-8": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "100-41-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "YNQLUTRBYVCPMQ-UHFFFAOYSA-N",
+    "smiles": "CCC1=CC=CC=C1",
+    "subclass": ""
+  },
+  "100-42-5": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "PPBRXRYQALVLMV-UHFFFAOYSA-N",
+    "smiles": "C=CC1=CC=CC=C1",
+    "subclass": "Styrenes"
+  },
+  "100-43-6": {
+    "class": "Pyridines and derivatives",
+    "inchikey": "KFDVPJUYSDEJTH-UHFFFAOYSA-N",
+    "smiles": "C=CC1=CC=NC=C1",
+    "subclass": ""
+  },
+  "100-44-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "100-46-9": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "WGQKYBSKWIADBV-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)CN",
+    "subclass": "Phenylmethylamines"
+  },
+  "100-47-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "100-51-6": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "100-52-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "HUMNYLRZRPPJDN-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)C=O",
+    "subclass": "Benzoyl derivatives"
+  },
+  "100-61-8": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "100-63-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "HKOOXMFOFWEVGF-UHFFFAOYSA-N",
+    "subclass": "Phenylhydrazines"
+  },
+  "100-66-3": {
+    "class": "Phenol ethers",
+    "inchikey": "RDOXTESZEPMUJZ-UHFFFAOYSA-N",
+    "smiles": "COC1=CC=CC=C1",
+    "subclass": "Anisoles"
+  },
+  "100-68-5": {
+    "class": "Thioethers",
+    "inchikey": "HNKJADCVZUBCPG-UHFFFAOYSA-N",
+    "smiles": "CSC1=CC=CC=C1",
+    "subclass": "Aryl thioethers"
+  },
+  "100-74-3": {
+    "class": "Oxazinanes",
+    "inchikey": "HVCNXQOWACZAFN-UHFFFAOYSA-N",
+    "smiles": "CCN1CCOCC1",
+    "subclass": "Morpholines"
+  },
+  "100-97-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "10025-78-2": {
+    "class": "Metalloid salts",
+    "inchikey": "ZDHXKXAHOVTTAH-UHFFFAOYSA-N",
+    "smiles": "[SiH](Cl)(Cl)Cl",
+    "subclass": "Metalloid chlorides"
+  },
+  "10025-87-3": {
+    "class": "Halogen organides",
+    "inchikey": "XHXFXVLFKHQFAL-UHFFFAOYSA-N",
+    "smiles": "O=P(Cl)(Cl)Cl",
+    "subclass": "Halogen oxides"
+  },
+  "10028-15-6": {
+    "class": "Other non-metal organides",
+    "inchikey": "CBENFWSGALASAD-UHFFFAOYSA-N",
+    "smiles": "[O-][O+]=O",
+    "subclass": "Other non-metal oxides"
+  },
+  "1003-09-4": {
+    "class": "Aryl halides",
+    "inchikey": "TUCRZHGAIRVWTI-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Aryl bromides"
+  },
+  "1003-10-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "101-68-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "UPMLOUAZCHDJJD-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1CC2=CC=C(C=C2)N=C=O)N=C=O",
+    "subclass": "Diphenylmethanes"
+  },
+  "101-81-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "101-84-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "USIUVYZYUHIAEV-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)OC2=CC=CC=C2",
+    "subclass": "Diphenylethers"
+  },
+  "10143-53-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "AYMDJPGTQFHDSA-UHFFFAOYSA-N",
+    "smiles": "CCOCCOCCOC=C",
+    "subclass": "Ethers"
+  },
+  "10143-60-9": {
+    "class": "Organooxygen compounds",
+    "inchikey": "YHCCCMIWRBJYHG-UHFFFAOYSA-N",
+    "smiles": "CCCCC(CC)COCC(CC)CCCC",
+    "subclass": "Ethers"
+  },
+  "10143-66-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "JCRQEORWPZVZJP-UHFFFAOYSA-N",
+    "smiles": "CC(CCOC)OC",
+    "subclass": "Ethers"
+  },
+  "102-52-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "XHTYQFMRBQUCPX-UHFFFAOYSA-N",
+    "subclass": "Ethers"
+  },
+  "102-71-6": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "GSEJCLTVZPLZKY-UHFFFAOYSA-N",
+    "smiles": "C(CO)N(CCO)CCO",
+    "subclass": "Amines"
+  },
+  "102-76-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "102-94-3": {
+    "class": "Cinnamic acids and derivatives",
+    "inchikey": "WBYWAXJHAXSJNI-SREVYHEPSA-N",
+    "smiles": "C1=CC=C(C=C1)/C=C\\C(=O)O",
+    "subclass": "Cinnamic acids"
+  },
+  "10294-34-5": {
+    "class": "Metalloid salts",
+    "inchikey": "FAQYAMRNWDIXMY-UHFFFAOYSA-N",
+    "smiles": "B(Cl)(Cl)Cl",
+    "subclass": "Metalloid chlorides"
+  },
+  "103-09-3": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "WOYWLLHHWAMFCB-UHFFFAOYSA-N",
+    "smiles": "CCCCC(CC)COC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "103-11-7": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "GOXQRTZXKQZDDN-UHFFFAOYSA-N",
+    "smiles": "CCCCC(CC)COC(=O)C=C",
+    "subclass": "Acrylic acids and derivatives"
+  },
+  "103-23-1": {
+    "class": "Fatty Acyls",
+    "inchikey": "SAOKZLXYCUGLFA-UHFFFAOYSA-N",
+    "smiles": "CCCCC(CC)COC(=O)CCCCC(=O)OCC(CC)CCCC",
+    "subclass": "Fatty acid esters"
+  },
+  "103-24-2": {
+    "class": "Fatty Acyls",
+    "inchikey": "ZDWGXBPVPXVXMQ-UHFFFAOYSA-N",
+    "smiles": "CCCCC(CC)COC(=O)CCCCCCCC(=O)OCC(CC)CCCC",
+    "subclass": "Fatty acid esters"
+  },
+  "103-36-6": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "103-44-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "DSSAWHFZNWVJEC-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": ""
+  },
+  "103-50-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "MHDVGSVTJDSBDK-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)COCC2=CC=CC=C2",
+    "subclass": "Benzylethers"
+  },
+  "103-73-1": {
+    "class": "Phenol ethers",
+    "inchikey": "DLRJIFUOBPOJNS-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "103-84-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "FZERHIULMFGESH-UHFFFAOYSA-N",
+    "smiles": "CC(=O)NC1=CC=CC=C1",
+    "subclass": ""
+  },
+  "103-90-2": {
+    "class": "Phenols",
+    "inchikey": "RZVAJINKPMORJF-UHFFFAOYSA-N",
+    "smiles": "CC(=O)NC1=CC=C(C=C1)O",
+    "subclass": "1-hydroxy-2-unsubstituted benzenoids"
+  },
+  "103429-90-9": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "RYNQKSJRFHJZTK-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OCCC(C)(C)OC",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "104-40-5": {
+    "class": "Phenols",
+    "inchikey": "IGFHQQFPSIBGKE-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCC1=CC=C(C=C1)O",
+    "subclass": "1-hydroxy-2-unsubstituted benzenoids"
+  },
+  "104-46-1": {
+    "class": "Phenol ethers",
+    "inchikey": "RUVINXPYWBROJD-ONEGZZNKSA-N",
+    "smiles": "C/C=C/C1=CC=C(C=C1)OC",
+    "subclass": "Anisoles"
+  },
+  "104-51-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "OCKPCBLVNKHBMX-UHFFFAOYSA-N",
+    "smiles": "CCCCC1=CC=CC=C1",
+    "subclass": ""
+  },
+  "104-54-1": {
+    "class": "Cinnamyl alcohols",
+    "inchikey": "OOCCDEMITAIZTP-QPJJXVBHSA-N",
+    "smiles": "C1=CC=C(C=C1)/C=C/CO",
+    "subclass": ""
+  },
+  "104-76-7": {
+    "class": "Fatty Acyls",
+    "inchikey": "YIWUKEYIRIRTPP-UHFFFAOYSA-N",
+    "smiles": "CCCCC(CC)CO",
+    "subclass": "Fatty alcohols"
+  },
+  "104-80-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "104-88-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "AVPYQKSLYISFPO-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1C=O)Cl",
+    "subclass": "Benzoyl derivatives"
+  },
+  "104-94-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "10458-14-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "105-05-5": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "DSNHSQKRULAAEI-UHFFFAOYSA-N",
+    "smiles": "CCC1=CC=C(C=C1)CC",
+    "subclass": ""
+  },
+  "105-06-6": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "WEERVPDNCOGWJF-UHFFFAOYSA-N",
+    "smiles": "C=CC1=CC=C(C=C1)C=C",
+    "subclass": "Styrenes"
+  },
+  "105-30-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "PFNHSEQQEPMLNI-UHFFFAOYSA-N",
+    "smiles": "CCCC(C)CO",
+    "subclass": "Alcohols and polyols"
+  },
+  "105-34-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "105-37-3": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "FKRCODPIKNYEAC-UHFFFAOYSA-N",
+    "smiles": "CCC(=O)OCC",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "105-38-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "105-45-3": {
+    "class": "Keto acids and derivatives",
+    "inchikey": "WRQNANDWMGAFTP-UHFFFAOYSA-N",
+    "smiles": "CC(=O)CC(=O)OC",
+    "subclass": "Beta-keto acids and derivatives"
+  },
+  "105-46-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "DCKVNWZUADLDEH-UHFFFAOYSA-N",
+    "smiles": "CCC(C)OC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "105-53-3": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "IYXGSMUGOJNHAZ-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)CC(=O)OCC",
+    "subclass": "Dicarboxylic acids and derivatives"
+  },
+  "105-54-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "105-56-6": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "ZIUSEGSNTOUIPT-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)CC#N",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "105-57-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "DHKHKXVYLBGOIT-UHFFFAOYSA-N",
+    "subclass": "Ethers"
+  },
+  "105-58-8": {
+    "class": "Organic carbonic acids and derivatives",
+    "inchikey": "OIFBSDVPJOWBCH-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)OCC",
+    "subclass": "Carbonic acid diesters"
+  },
+  "105-60-2": {
+    "class": "Lactams",
+    "inchikey": "JBKVHLHDHHXQEQ-UHFFFAOYSA-N",
+    "smiles": "C1CCC(=O)NCC1",
+    "subclass": "Caprolactams"
+  },
+  "105-68-0": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "XAOGXQMKWQFZEM-UHFFFAOYSA-N",
+    "smiles": "CCC(=O)OCCC(C)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "105-75-9": {
+    "class": "Fatty Acyls",
+    "inchikey": "JBSLOWBPDRZSMB-BQYQJAHWSA-N",
+    "smiles": "CCCCOC(=O)/C=C/C(=O)OCCCC",
+    "subclass": "Fatty acid esters"
+  },
+  "105-76-0": {
+    "class": "Fatty Acyls",
+    "inchikey": "JBSLOWBPDRZSMB-FPLPWBNLSA-N",
+    "smiles": "CCCCOC(=O)/C=C\\C(=O)OCCCC",
+    "subclass": "Fatty acid esters"
+  },
+  "106-20-7": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "SAIKULLUBZKPDA-UHFFFAOYSA-N",
+    "smiles": "CCCCC(CC)CNCC(CC)CCCC",
+    "subclass": "Amines"
+  },
+  "106-31-0": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "YHASWHZGWUONAO-UHFFFAOYSA-N",
+    "smiles": "CCCC(=O)OC(=O)CCC",
+    "subclass": "Dicarboxylic acids and derivatives"
+  },
+  "106-35-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "106-36-5": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "MCSINKKTEDDPNK-UHFFFAOYSA-N",
+    "smiles": "CCCOC(=O)CC",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "106-38-7": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "106-42-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "URLKBWYHVLBVBO-UHFFFAOYSA-N",
+    "smiles": "CC1=CC=C(C=C1)C",
+    "subclass": "Xylenes"
+  },
+  "106-43-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "NPDACUSDTOMAMK-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Halobenzenes"
+  },
+  "106-46-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "OCJBOOLMMGQPQU-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1Cl)Cl",
+    "subclass": "Halobenzenes"
+  },
+  "106-54-7": {
+    "class": "Thiophenols",
+    "inchikey": "VZXOZSQDJJNBRC-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1S)Cl",
+    "subclass": ""
+  },
+  "106-63-8": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "CFVWNXQPGQOHRJ-UHFFFAOYSA-N",
+    "smiles": "CC(C)COC(=O)C=C",
+    "subclass": "Acrylic acids and derivatives"
+  },
+  "106-65-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "106-68-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "106-74-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "106-79-6": {
+    "class": "Fatty Acyls",
+    "inchikey": "ALOUNLDAKADEEB-UHFFFAOYSA-N",
+    "smiles": "COC(=O)CCCCCCCCC(=O)OC",
+    "subclass": "Fatty acid esters"
+  },
+  "106-88-7": {
+    "class": "Epoxides",
+    "inchikey": "RBACIKXCRWGCBB-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": ""
+  },
+  "106-89-8": {
+    "class": "Epoxides",
+    "inchikey": "BRLQWZUYTZBJKN-UHFFFAOYSA-N",
+    "smiles": "C1C(O1)CCl",
+    "subclass": ""
+  },
+  "106-91-2": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "VOZRXNHHFUQHIL-UHFFFAOYSA-N",
+    "smiles": "CC(=C)C(=O)OCC1CO1",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "106-93-4": {
+    "class": "Organobromides",
+    "inchikey": "PAAZPARNPHGIKF-UHFFFAOYSA-N",
+    "smiles": "C(CBr)Br",
+    "subclass": ""
+  },
+  "106-94-5": {
+    "class": "Organobromides",
+    "inchikey": "CYNYIHKIEHGYOZ-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": ""
+  },
+  "106-95-6": {
+    "class": "Organobromides",
+    "inchikey": "BHELZAPQIKSEDF-UHFFFAOYSA-N",
+    "smiles": "C=CCBr",
+    "subclass": ""
+  },
+  "106-96-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "106-97-8": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "IJDNQMDRQITEOD-UHFFFAOYSA-N",
+    "smiles": "CCCC",
+    "subclass": "Alkanes"
+  },
+  "106-98-9": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "VXNZUUAINFGPBY-UHFFFAOYSA-N",
+    "smiles": "CCC=C",
+    "subclass": "Unsaturated aliphatic hydrocarbons"
+  },
+  "106-99-0": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "KAKZBPTYRLMSJV-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Olefins"
+  },
+  "107-00-6": {
+    "class": "",
+    "inchikey": "KDKYADYSIPSCCQ-UHFFFAOYSA-N",
+    "smiles": "CCC#C",
+    "subclass": ""
+  },
+  "107-02-8": {
+    "class": "Organooxygen compounds",
+    "inchikey": "HGINCPLSRVDWNT-UHFFFAOYSA-N",
+    "smiles": "C=CC=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "107-03-9": {
+    "class": "Thiols",
+    "inchikey": "SUVIGLJNEAMWEG-UHFFFAOYSA-N",
+    "smiles": "CCCS",
+    "subclass": "Alkylthiols"
+  },
+  "107-05-1": {
+    "class": "Organochlorides",
+    "inchikey": "OSDWBNJEKMUWAV-UHFFFAOYSA-N",
+    "smiles": "C=CCCl",
+    "subclass": ""
+  },
+  "107-06-2": {
+    "class": "Organochlorides",
+    "inchikey": "WSLDOOZREJYCGB-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "107-07-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "107-10-8": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "WGYKZJWCGVVSQN-UHFFFAOYSA-N",
+    "smiles": "CCCN",
+    "subclass": "Amines"
+  },
+  "107-11-9": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "VVJKKWFAADXIJK-UHFFFAOYSA-N",
+    "smiles": "C=CCN",
+    "subclass": "Amines"
+  },
+  "107-12-0": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "FVSKHRXBFJPNKK-UHFFFAOYSA-N",
+    "smiles": "CCC#N",
+    "subclass": "Organic cyanides"
+  },
+  "107-13-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "107-14-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "107-15-3": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "PIICEJLVQHRZGT-UHFFFAOYSA-N",
+    "smiles": "C(CN)N",
+    "subclass": "Amines"
+  },
+  "107-18-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "XXROGKLTLUQVRX-UHFFFAOYSA-N",
+    "smiles": "C=CCO",
+    "subclass": "Alcohols and polyols"
+  },
+  "107-19-7": {
+    "class": "",
+    "inchikey": "TVDSBUOJIPERQY-UHFFFAOYSA-N",
+    "smiles": "C#CCO",
+    "subclass": ""
+  },
+  "107-20-0": {
+    "class": "Organochlorides",
+    "inchikey": "QSKPIOLLBIHNAC-UHFFFAOYSA-N",
+    "smiles": "C(C=O)Cl",
+    "subclass": ""
+  },
+  "107-21-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "LYCAIKOWRPUZTN-UHFFFAOYSA-N",
+    "smiles": "C(CO)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "107-22-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "LEQAOMBKQFMDFZ-UHFFFAOYSA-N",
+    "smiles": "C(=O)C=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "107-25-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "XJRBAMWJDBPFIM-UHFFFAOYSA-N",
+    "smiles": "COC=C",
+    "subclass": ""
+  },
+  "107-29-9": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "FZENGILVLUJGJX-UHFFFAOYSA-N",
+    "smiles": "CC=NO",
+    "subclass": "Oximes"
+  },
+  "107-31-3": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "TZIHFWKZFHZASV-UHFFFAOYSA-N",
+    "smiles": "COC=O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "107-46-0": {
+    "class": "Organometalloid compounds",
+    "inchikey": "UQEAIHBTYFGYIE-UHFFFAOYSA-N",
+    "smiles": "C[Si](C)(C)O[Si](C)(C)C",
+    "subclass": "Organosilicon compounds"
+  },
+  "107-51-7": {
+    "class": "Organometalloid compounds",
+    "inchikey": "CXQXSVUQTKDNFP-UHFFFAOYSA-N",
+    "smiles": "C[Si](C)(C)O[Si](C)(C)O[Si](C)(C)C",
+    "subclass": "Organosilicon compounds"
+  },
+  "107-70-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "107-87-9": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "107-88-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "PUPZLCDOIYMWBV-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Alcohols and polyols"
+  },
+  "107-92-6": {
+    "class": "Fatty Acyls",
+    "inchikey": "FERIUCNNQQJTOY-UHFFFAOYSA-N",
+    "smiles": "CCCC(=O)O",
+    "subclass": "Fatty acids and conjugates"
+  },
+  "107-93-7": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "107-98-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ARXJGSRGQADJSQ-UHFFFAOYSA-N",
+    "smiles": "CC(COC)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "1070-70-8": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "JHWGFJBTMHEZME-UHFFFAOYSA-N",
+    "smiles": "C=CC(=O)OCCCCOC(=O)C=C",
+    "subclass": "Dicarboxylic acids and derivatives"
+  },
+  "1070-71-9": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "LNDJVIYUJOJFSO-UHFFFAOYSA-N",
+    "smiles": "C#CC#N",
+    "subclass": "Organic cyanides"
+  },
+  "1071-98-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "1073-67-2": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "108-01-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "108-03-2": {
+    "class": "Allyl-type 1,3-dipolar organic compounds",
+    "inchikey": "JSZOAYXJRCEYSX-UHFFFAOYSA-N",
+    "smiles": "CCC[N+](=O)[O-]",
+    "subclass": "Organic nitro compounds"
+  },
+  "108-05-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "XTXRWKRVRITETP-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "108-10-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "NTIZESTWPVYFNL-UHFFFAOYSA-N",
+    "smiles": "CC(C)CC(=O)C",
+    "subclass": "Carbonyl compounds"
+  },
+  "108-11-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "WVYWICLMDOOCFB-UHFFFAOYSA-N",
+    "smiles": "CC(C)CC(C)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "108-18-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "108-19-0": {
+    "class": "Carboximidic acids and derivatives",
+    "inchikey": "OHJMTUPIZMNBFR-UHFFFAOYSA-N",
+    "smiles": "C(=O)(N)NC(=O)N",
+    "subclass": "Carboximidic acids"
+  },
+  "108-20-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "108-21-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "JMMWKPVZQRWMSS-UHFFFAOYSA-N",
+    "smiles": "CC(C)OC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "108-24-7": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "WFDIJRYMOXRFFG-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OC(=O)C",
+    "subclass": "Dicarboxylic acids and derivatives"
+  },
+  "108-30-5": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "RINCXYDBBGOEEQ-UHFFFAOYSA-N",
+    "smiles": "C1CC(=O)OC1=O",
+    "subclass": "Dicarboxylic acids and derivatives"
+  },
+  "108-31-6": {
+    "class": "Dihydrofurans",
+    "inchikey": "FPYJFEHAWHCUMM-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=O)OC1=O",
+    "subclass": "Furanones"
+  },
+  "108-32-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "108-39-4": {
+    "class": "Phenols",
+    "inchikey": "RLSSMJSEOOYNOY-UHFFFAOYSA-N",
+    "smiles": "CC1=CC(=CC=C1)O",
+    "subclass": "Cresols"
+  },
+  "108-42-9": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "PNPCRKVUWYDDST-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC(=C1)Cl)N",
+    "subclass": "Aniline and substituted anilines"
+  },
+  "108-46-3": {
+    "class": "Phenols",
+    "inchikey": "GHMLBKRAJCXXBS-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Benzenediols"
+  },
+  "108-60-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "QCFYJCYNJLBDRT-UHFFFAOYSA-N",
+    "smiles": "CC(CCl)OC(C)CCl",
+    "subclass": "Ethers"
+  },
+  "108-65-6": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "LLHKCFNBLRBOGN-UHFFFAOYSA-N",
+    "smiles": "CC(COC)OC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "108-67-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "AUHZEENZYGFFBQ-UHFFFAOYSA-N",
+    "smiles": "CC1=CC(=CC(=C1)C)C",
+    "subclass": ""
+  },
+  "108-82-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "HXQPUEQDBSPXTE-UHFFFAOYSA-N",
+    "smiles": "CC(C)CC(CC(C)C)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "108-83-8": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "108-84-9": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "CPIVYSAVIPTCCX-UHFFFAOYSA-N",
+    "smiles": "CC(C)CC(C)OC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "108-86-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "QARVLSVVCXYDNA-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)Br",
+    "subclass": "Halobenzenes"
+  },
+  "108-87-2": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "108-90-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "108-91-8": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "108-93-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "HPXRVTGHNJAIIH-UHFFFAOYSA-N",
+    "smiles": "C1CCC(CC1)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "108-94-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "JHIVVAPYMSGYDF-UHFFFAOYSA-N",
+    "smiles": "C1CCC(=O)CC1",
+    "subclass": "Carbonyl compounds"
+  },
+  "108-95-2": {
+    "class": "Phenols",
+    "inchikey": "ISWSIDIOOBJBQZ-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)O",
+    "subclass": "1-hydroxy-4-unsubstituted benzenoids"
+  },
+  "108-98-5": {
+    "class": "Thiophenols",
+    "inchikey": "RMVRSNDYEFQCLF-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)S",
+    "subclass": ""
+  },
+  "109-08-0": {
+    "class": "Diazines",
+    "inchikey": "CAWHJQAVHZEVTJ-UHFFFAOYSA-N",
+    "smiles": "CC1=NC=CN=C1",
+    "subclass": "Pyrazines"
+  },
+  "109-21-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "109-43-3": {
+    "class": "Fatty Acyls",
+    "inchikey": "PYGXAGIECVVIOZ-UHFFFAOYSA-N",
+    "smiles": "CCCCOC(=O)CCCCCCCCC(=O)OCCCC",
+    "subclass": "Fatty acid esters"
+  },
+  "109-52-4": {
+    "class": "Fatty Acyls",
+    "inchikey": "NQPDZGIKBAWPEJ-UHFFFAOYSA-N",
+    "smiles": "CCCCC(=O)O",
+    "subclass": "Fatty acids and conjugates"
+  },
+  "109-53-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "OZCMOJQQLBXBKI-UHFFFAOYSA-N",
+    "smiles": "CC(C)COC=C",
+    "subclass": ""
+  },
+  "109-59-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "109-60-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "YKYONYBAUNKHLG-UHFFFAOYSA-N",
+    "smiles": "CCCOC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "109-66-0": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "OFBQJSOFQDEBGM-UHFFFAOYSA-N",
+    "smiles": "CCCCC",
+    "subclass": "Alkanes"
+  },
+  "109-67-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "109-69-3": {
+    "class": "Organochlorides",
+    "inchikey": "VFWCMGCRMGJXDK-UHFFFAOYSA-N",
+    "smiles": "CCCCCl",
+    "subclass": ""
+  },
+  "109-73-9": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "HQABUPZFAYXKJW-UHFFFAOYSA-N",
+    "smiles": "CCCCN",
+    "subclass": "Amines"
+  },
+  "109-74-0": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "KVNRLNFWIYMESJ-UHFFFAOYSA-N",
+    "smiles": "CCCC#N",
+    "subclass": "Organic cyanides"
+  },
+  "109-75-1": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "SJNALLRHIVGIBI-UHFFFAOYSA-N",
+    "smiles": "C=CCC#N",
+    "subclass": "Organic cyanides"
+  },
+  "109-77-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "109-78-4": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "WSGYTJNNHPZFKR-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Organic cyanides"
+  },
+  "109-79-5": {
+    "class": "Thiols",
+    "inchikey": "WQAQPCDUOCURKW-UHFFFAOYSA-N",
+    "smiles": "CCCCS",
+    "subclass": "Alkylthiols"
+  },
+  "109-86-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "109-87-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "NKDDWNXOKDWJAK-UHFFFAOYSA-N",
+    "smiles": "COCOC",
+    "subclass": "Ethers"
+  },
+  "109-89-7": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "HPNMFZURTQLUMO-UHFFFAOYSA-N",
+    "smiles": "CCNCC",
+    "subclass": "Amines"
+  },
+  "109-90-0": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "WUDNUHPRLBTKOJ-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Isocyanates"
+  },
+  "109-92-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "FJKIXWOMBXYWOQ-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": ""
+  },
+  "109-93-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "QYKIQEUNHZKYBP-UHFFFAOYSA-N",
+    "smiles": "C=COC=C",
+    "subclass": ""
+  },
+  "109-94-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "WBJINCZRORDGAQ-UHFFFAOYSA-N",
+    "smiles": "CCOC=O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "109-97-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "109-99-9": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "110-00-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "110-01-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "110-02-1": {
+    "class": "Heteroaromatic compounds",
+    "inchikey": "YTPLMLYBLZKORZ-UHFFFAOYSA-N",
+    "smiles": "C1=CSC=C1",
+    "subclass": ""
+  },
+  "110-12-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "110-19-0": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "GJRQTCIYDGXPES-UHFFFAOYSA-N",
+    "smiles": "CC(C)COC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "110-43-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "110-49-6": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "XLLIQLLCWZCATF-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OCCOC",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "110-54-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "110-56-5": {
+    "class": "Organochlorides",
+    "inchikey": "KJDRSWPQXHESDQ-UHFFFAOYSA-N",
+    "smiles": "C(CCCl)CCl",
+    "subclass": ""
+  },
+  "110-59-8": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "RFFFKMOABOFIDF-UHFFFAOYSA-N",
+    "smiles": "CCCCC#N",
+    "subclass": "Organic cyanides"
+  },
+  "110-61-2": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "IAHFWCOBPZCAEA-UHFFFAOYSA-N",
+    "smiles": "C(CC#N)C#N",
+    "subclass": "Organic cyanides"
+  },
+  "110-62-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "HGBOYTHUEUWSSQ-UHFFFAOYSA-N",
+    "smiles": "CCCCC=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "110-63-4": {
+    "class": "Organooxygen compounds",
+    "inchikey": "WERYXYBDKMZEQL-UHFFFAOYSA-N",
+    "subclass": "Alcohols and polyols"
+  },
+  "110-67-8": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "110-71-4": {
+    "class": "Organooxygen compounds",
+    "inchikey": "XTHFKEDIFFGKHM-UHFFFAOYSA-N",
+    "subclass": "Ethers"
+  },
+  "110-74-7": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "KFNNIILCVOLYIR-UHFFFAOYSA-N",
+    "smiles": "CCCOC=O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "110-75-8": {
+    "class": "Organochlorides",
+    "inchikey": "DNJRKFKAFWSXSE-UHFFFAOYSA-N",
+    "smiles": "C=COCCCl",
+    "subclass": ""
+  },
+  "110-80-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ZNQVEEAIQZEUHB-UHFFFAOYSA-N",
+    "smiles": "CCOCCO",
+    "subclass": "Ethers"
+  },
+  "110-81-6": {
+    "class": "Organic disulfides",
+    "inchikey": "CETBSQOFQKLHHZ-UHFFFAOYSA-N",
+    "smiles": "CCSSCC",
+    "subclass": "Dialkyldisulfides"
+  },
+  "110-82-7": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "XDTMQSROBMDMFD-UHFFFAOYSA-N",
+    "smiles": "C1CCCCC1",
+    "subclass": "Cycloalkanes"
+  },
+  "110-83-8": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "HGCIXCUEYOPUTN-UHFFFAOYSA-N",
+    "smiles": "C1CCC=CC1",
+    "subclass": "Olefins"
+  },
+  "110-85-0": {
+    "class": "Diazinanes",
+    "inchikey": "GLUUGHFHXGJENI-UHFFFAOYSA-N",
+    "smiles": "C1CNCCN1",
+    "subclass": "Piperazines"
+  },
+  "110-86-1": {
+    "class": "Pyridines and derivatives",
+    "inchikey": "JUJWROOIHBZHMG-UHFFFAOYSA-N",
+    "smiles": "C1=CC=NC=C1",
+    "subclass": ""
+  },
+  "110-87-2": {
+    "class": "Oxacyclic compounds",
+    "inchikey": "BUDQDWGNQVEFAC-UHFFFAOYSA-N",
+    "smiles": "C1CC=COC1",
+    "subclass": ""
+  },
+  "110-88-3": {
+    "class": "Trioxanes",
+    "inchikey": "BGJSXRVXTHVRSN-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "110-89-4": {
+    "class": "Piperidines",
+    "inchikey": "NQRYJNQNLNOLGT-UHFFFAOYSA-N",
+    "smiles": "C1CCNCC1",
+    "subclass": ""
+  },
+  "110-91-8": {
+    "class": "Oxazinanes",
+    "inchikey": "YNAVUWVOSKDBBP-UHFFFAOYSA-N",
+    "smiles": "C1COCCN1",
+    "subclass": "Morpholines"
+  },
+  "111-15-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "111-20-6": {
+    "class": "Fatty Acyls",
+    "inchikey": "CXMXRPHRNRROMY-UHFFFAOYSA-N",
+    "smiles": "C(CCCCC(=O)O)CCCC(=O)O",
+    "subclass": "Fatty acids and conjugates"
+  },
+  "111-27-3": {
+    "class": "Fatty Acyls",
+    "inchikey": "ZSIAUFGUXNUGDI-UHFFFAOYSA-N",
+    "subclass": "Fatty alcohols"
+  },
+  "111-34-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "UZKWTJUDCOPSNM-UHFFFAOYSA-N",
+    "smiles": "CCCCOC=C",
+    "subclass": ""
+  },
+  "111-40-0": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "RPNUMPOLZDHAAY-UHFFFAOYSA-N",
+    "smiles": "C(CNCCN)N",
+    "subclass": "Amines"
+  },
+  "111-42-2": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "ZBCBWPMODOFKDW-UHFFFAOYSA-N",
+    "smiles": "C(CO)NCCO",
+    "subclass": "Amines"
+  },
+  "111-43-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "111-44-4": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ZNSMNVMLTJELDZ-UHFFFAOYSA-N",
+    "subclass": "Ethers"
+  },
+  "111-46-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "111-48-8": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "111-55-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "111-62-6": {
+    "class": "Fatty Acyls",
+    "inchikey": "LVGKNOAMLMIIKO-QXMHVHEDSA-N",
+    "smiles": "CCCCCCCC/C=C\\CCCCCCCC(=O)OCC",
+    "subclass": "Fatty acid esters"
+  },
+  "111-65-9": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "TVMXDCGIABBOFY-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCC",
+    "subclass": "Alkanes"
+  },
+  "111-66-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "111-70-6": {
+    "class": "Fatty Acyls",
+    "inchikey": "BBMCTIGTTCKYKF-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCO",
+    "subclass": "Fatty alcohols"
+  },
+  "111-76-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "POAOYUHQDCAZBD-UHFFFAOYSA-N",
+    "smiles": "CCCCOCCO",
+    "subclass": "Ethers"
+  },
+  "111-77-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "SBASXUCJHJRPEV-UHFFFAOYSA-N",
+    "smiles": "COCCOCCO",
+    "subclass": "Ethers"
+  },
+  "111-84-2": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "BKIMMITUMNQMOS-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCC",
+    "subclass": "Alkanes"
+  },
+  "111-87-5": {
+    "class": "Fatty Acyls",
+    "inchikey": "KBPLFHHGFOOTCA-UHFFFAOYSA-N",
+    "subclass": "Fatty alcohols"
+  },
+  "111-90-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "XXJWXESWEXIICW-UHFFFAOYSA-N",
+    "smiles": "CCOCCOCCO",
+    "subclass": "Ethers"
+  },
+  "111-91-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "NLXGURFLBLRZRO-UHFFFAOYSA-N",
+    "smiles": "C(CCl)OCOCCCl",
+    "subclass": "Ethers"
+  },
+  "111-92-2": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "JQVDAXLFBXTEQA-UHFFFAOYSA-N",
+    "smiles": "CCCCNCCCC",
+    "subclass": "Amines"
+  },
+  "111-96-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "SBZXBUIDTXKZTM-UHFFFAOYSA-N",
+    "smiles": "COCCOCCOC",
+    "subclass": "Ethers"
+  },
+  "1118-84-9": {
+    "class": "Keto acids and derivatives",
+    "inchikey": "AXLMPTNTPOWPLT-UHFFFAOYSA-N",
+    "subclass": "Beta-keto acids and derivatives"
+  },
+  "1119-40-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "112-06-1": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "ZCZSIDMEHXZRLG-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCOC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "112-07-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "112-14-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "112-15-2": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "FPZWZCWUIYYYBU-UHFFFAOYSA-N",
+    "smiles": "CCOCCOCCOC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "112-25-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "112-27-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ZIBGPFATKBEMQZ-UHFFFAOYSA-N",
+    "smiles": "C(COCCOCCO)O",
+    "subclass": "Ethers"
+  },
+  "112-28-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "QCAHUFWKIQLBNB-UHFFFAOYSA-N",
+    "subclass": "Ethers"
+  },
+  "112-30-1": {
+    "class": "Fatty Acyls",
+    "inchikey": "MWKFXSUHUHTGQN-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCCO",
+    "subclass": "Fatty alcohols"
+  },
+  "112-34-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "OAYXUHPQHDHDDZ-UHFFFAOYSA-N",
+    "smiles": "CCCCOCCOCCO",
+    "subclass": "Ethers"
+  },
+  "112-35-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "JLGLQAWTXXGVEM-UHFFFAOYSA-N",
+    "smiles": "COCCOCCOCCO",
+    "subclass": "Ethers"
+  },
+  "112-36-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "112-40-3": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "SNRUBQQJIBEYMU-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCCCC",
+    "subclass": "Alkanes"
+  },
+  "112-48-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "112-53-8": {
+    "class": "Fatty Acyls",
+    "inchikey": "LQZZUXJYWNFBMV-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCCCCO",
+    "subclass": "Fatty alcohols"
+  },
+  "112-58-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "BPIUIOXAFBGMNB-UHFFFAOYSA-N",
+    "smiles": "CCCCCCOCCCCCC",
+    "subclass": "Ethers"
+  },
+  "112-59-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "112-62-9": {
+    "class": "Fatty Acyls",
+    "inchikey": "QYDYPVFESGNLHU-KHPPLWFESA-N",
+    "smiles": "CCCCCCCC/C=C\\CCCCCCCC(=O)OC",
+    "subclass": "Fatty acid esters"
+  },
+  "112-70-9": {
+    "class": "Fatty Acyls",
+    "inchikey": "XFRVVPUIAFSTFO-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCCCCCO",
+    "subclass": "Fatty alcohols"
+  },
+  "112-73-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "KZVBBTZJMSWGTK-UHFFFAOYSA-N",
+    "smiles": "CCCCOCCOCCOCCCC",
+    "subclass": "Ethers"
+  },
+  "112-80-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "112-95-8": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "1120-06-5": {
+    "class": "Fatty Acyls",
+    "inchikey": "ACUZDYFTRHEKOS-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCC(C)O",
+    "subclass": "Fatty alcohols"
+  },
+  "1120-21-4": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "RSJKGSCJYJTIGS-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Alkanes"
+  },
+  "1120-36-1": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "HFDVRLIODXPAHB-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCCCCC=C",
+    "subclass": "Unsaturated aliphatic hydrocarbons"
+  },
+  "1120-71-4": {
+    "class": "Oxathiolanes",
+    "inchikey": "FSSPGSAQUIYDCN-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Gamma sultones"
+  },
+  "1135-24-6": {
+    "class": "Cinnamic acids and derivatives",
+    "inchikey": "KSEBMYQBYZTDHS-HWKANZROSA-N",
+    "smiles": "COC1=C(C=CC(=C1)/C=C/C(=O)O)O",
+    "subclass": "Hydroxycinnamic acids and derivatives"
+  },
+  "115-07-1": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "QQONPFPTGQHPMA-UHFFFAOYSA-N",
+    "smiles": "CC=C",
+    "subclass": "Unsaturated aliphatic hydrocarbons"
+  },
+  "115-10-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "LCGLNKUTAGEVQW-UHFFFAOYSA-N",
+    "smiles": "COC",
+    "subclass": "Ethers"
+  },
+  "115-11-7": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "VQTUBCCKSQIDNK-UHFFFAOYSA-N",
+    "smiles": "CC(=C)C",
+    "subclass": "Branched unsaturated hydrocarbons"
+  },
+  "115-86-6": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "116-11-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "116-14-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "116-16-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "DOJXGHGHTWFZHK-UHFFFAOYSA-N",
+    "subclass": "Carbonyl compounds"
+  },
+  "117-81-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "BJQHLKABXJIVAM-UHFFFAOYSA-N",
+    "smiles": "CCCCC(CC)COC(=O)C1=CC=CC=C1C(=O)OCC(CC)CCCC",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "117-84-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "MQIUGAXCHLFZKX-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCOC(=O)C1=CC=CC=C1C(=O)OCCCCCCCC",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "118-74-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "CKAPSXZOOQJIBF-UHFFFAOYSA-N",
+    "smiles": "C1(=C(C(=C(C(=C1Cl)Cl)Cl)Cl)Cl)Cl",
+    "subclass": "Halobenzenes"
+  },
+  "118-79-6": {
+    "class": "Phenols",
+    "inchikey": "BSWWXRFVMJHFBN-UHFFFAOYSA-N",
+    "smiles": "C1=C(C=C(C(=C1Br)O)Br)Br",
+    "subclass": "Halophenols"
+  },
+  "118-96-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "119-06-2": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "YCZJVRCZIPDYHH-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCCCCCOC(=O)C1=CC=CC=C1C(=O)OCCCCCCCCCCCCC",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "119-36-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "OSWPMRLSEDHDFF-UHFFFAOYSA-N",
+    "smiles": "COC(=O)C1=CC=CC=C1O",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "119-53-9": {
+    "class": "Stilbenes",
+    "inchikey": "ISAOCJYIOMOJEB-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)C(C(=O)C2=CC=CC=C2)O",
+    "subclass": "Benzoins"
+  },
+  "119-61-9": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "RWCCWEUUXYIKHB-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)C(=O)C2=CC=CC=C2",
+    "subclass": "Benzophenones"
+  },
+  "119-64-2": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "1191-95-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "SHQSVMDWKBRBGB-UHFFFAOYSA-N",
+    "smiles": "C1CC(=O)C1",
+    "subclass": "Carbonyl compounds"
+  },
+  "120-51-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "SESFRYSPDFLNCH-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)COC(=O)C2=CC=CC=C2",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "120-72-9": {
+    "class": "Indoles and derivatives",
+    "inchikey": "SIKJAQJRHWYJAI-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C2C(=C1)C=CN2",
+    "subclass": "Indoles"
+  },
+  "120-73-0": {
+    "class": "Imidazopyrimidines",
+    "inchikey": "KDCGOANMDULRCW-UHFFFAOYSA-N",
+    "smiles": "C1=C2C(=NC=N1)N=CN2",
+    "subclass": "Purines and purine derivatives"
+  },
+  "120-80-9": {
+    "class": "Phenols",
+    "inchikey": "YCIMNLLNPGFGHC-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Benzenediols"
+  },
+  "120-82-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "PBKONEOXTCPAFI-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Halobenzenes"
+  },
+  "120-83-2": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "HFZWRUODUSTPEG-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1Cl)Cl)O",
+    "subclass": "Halobenzenes"
+  },
+  "120-92-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "BGTOWKSIORTVQH-UHFFFAOYSA-N",
+    "smiles": "C1CCC(=O)C1",
+    "subclass": "Carbonyl compounds"
+  },
+  "120-94-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "121-14-2": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "RMBFBMJGBANMMK-UHFFFAOYSA-N",
+    "smiles": "CC1=C(C=C(C=C1)[N+](=O)[O-])[N+](=O)[O-]",
+    "subclass": "Toluenes"
+  },
+  "121-33-5": {
+    "class": "Phenols",
+    "inchikey": "MWOOGOJBHIARFG-UHFFFAOYSA-N",
+    "smiles": "COC1=C(C=CC(=C1)C=O)O",
+    "subclass": "Methoxyphenols"
+  },
+  "121-44-8": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "ZMANZCXQSJIPKH-UHFFFAOYSA-N",
+    "smiles": "CCN(CC)CC",
+    "subclass": "Amines"
+  },
+  "122-01-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "122-32-7": {
+    "class": "Glycerolipids",
+    "inchikey": "PHYFQTYBJUILEZ-IUPFWZBJSA-N",
+    "smiles": "CCCCCCCC/C=C\\CCCCCCCC(=O)OCC(OC(=O)CCCCCCC/C=C\\CCCCCCCC)COC(=O)CCCCCCC/C=C\\CCCCCCCC",
+    "subclass": "Triradylcglycerols"
+  },
+  "122-39-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "DMBHHRLKUKUOEG-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)NC2=CC=CC=C2",
+    "subclass": "Aniline and substituted anilines"
+  },
+  "122-62-3": {
+    "class": "Fatty Acyls",
+    "inchikey": "MIMDHDXOBDPUQW-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCOC(=O)CCCCCCCCC(=O)OCCCCCCCC",
+    "subclass": "Fatty alcohol esters"
+  },
+  "122-79-2": {
+    "class": "Phenol esters",
+    "inchikey": "IPBVNPXQWQGGJP-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OC1=CC=CC=C1",
+    "subclass": ""
+  },
+  "122-99-6": {
+    "class": "Phenol ethers",
+    "inchikey": "QCDWFXQBSFUVSP-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)OCCO",
+    "subclass": ""
+  },
+  "123-07-9": {
+    "class": "Phenols",
+    "inchikey": "HXDOZKJGKXYMEW-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "1-hydroxy-2-unsubstituted benzenoids"
+  },
+  "123-08-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "RGHHSNMVTDWUBI-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1C=O)O",
+    "subclass": "Carbonyl compounds"
+  },
+  "123-19-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "HCFAJYNVAYBARA-UHFFFAOYSA-N",
+    "smiles": "CCCC(=O)CCC",
+    "subclass": "Carbonyl compounds"
+  },
+  "123-20-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "123-25-1": {
+    "class": "Fatty Acyls",
+    "inchikey": "DKMROQRQHGEIOW-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)CCC(=O)OCC",
+    "subclass": "Fatty acid esters"
+  },
+  "123-31-9": {
+    "class": "Phenols",
+    "inchikey": "QIGBRXMKCJKVMJ-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1O)O",
+    "subclass": "Benzenediols"
+  },
+  "123-38-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "NBBJYMSMWIIQGU-UHFFFAOYSA-N",
+    "smiles": "CCC=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "123-39-7": {
+    "class": "Carboximidic acids and derivatives",
+    "inchikey": "ATHHXGZTWNVVOU-UHFFFAOYSA-N",
+    "smiles": "CNC=O",
+    "subclass": "Carboximidic acids"
+  },
+  "123-42-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "SWXVUIWOUIDPGS-UHFFFAOYSA-N",
+    "smiles": "CC(=O)CC(C)(C)O",
+    "subclass": "Carbonyl compounds"
+  },
+  "123-51-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "123-54-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "YRKCREAYFQTBPV-UHFFFAOYSA-N",
+    "smiles": "CC(=O)CC(=O)C",
+    "subclass": "Carbonyl compounds"
+  },
+  "123-62-6": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "WYVAMUWZEOHJOQ-UHFFFAOYSA-N",
+    "smiles": "CCC(=O)OC(=O)CC",
+    "subclass": "Dicarboxylic acids and derivatives"
+  },
+  "123-63-7": {
+    "class": "Trioxanes",
+    "inchikey": "SQYNKIJPMDEDEG-UHFFFAOYSA-N",
+    "smiles": "CC1OC(OC(O1)C)C",
+    "subclass": ""
+  },
+  "123-66-0": {
+    "class": "Fatty Acyls",
+    "inchikey": "SHZIWNPUGXLXDT-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Fatty acid esters"
+  },
+  "123-72-8": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ZTQSAGDEMFDKMZ-UHFFFAOYSA-N",
+    "smiles": "CCCC=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "123-73-9": {
+    "class": "Organooxygen compounds",
+    "inchikey": "MLUCVPSAIODCQM-NSCUHMNNSA-N",
+    "smiles": "C/C=C/C=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "123-75-1": {
+    "class": "Pyrrolidines",
+    "inchikey": "RWRDLPDLKQPQOW-UHFFFAOYSA-N",
+    "smiles": "C1CCNC1",
+    "subclass": ""
+  },
+  "123-79-5": {
+    "class": "Fatty Acyls",
+    "inchikey": "NEHDRDVHPTWWFG-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCOC(=O)CCCCC(=O)OCCCCCCCC",
+    "subclass": "Fatty alcohol esters"
+  },
+  "123-86-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "DKPFZGUDAPQIHT-UHFFFAOYSA-N",
+    "smiles": "CCCCOC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "123-91-1": {
+    "class": "Dioxanes",
+    "inchikey": "RYHBNJHYFVUHQT-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "1,4-dioxanes"
+  },
+  "123-92-2": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "MLFHJEHSLIIPHL-UHFFFAOYSA-N",
+    "smiles": "CC(C)CCOC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "123-95-5": {
+    "class": "Fatty Acyls",
+    "inchikey": "ULBTUVJTXULMLP-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCCCCCCCCCC(=O)OCCCC",
+    "subclass": "Fatty acid esters"
+  },
+  "123-96-6": {
+    "class": "Fatty Acyls",
+    "inchikey": "SJWFXCIHNDVPSH-UHFFFAOYSA-N",
+    "smiles": "CCCCCCC(C)O",
+    "subclass": "Fatty alcohols"
+  },
+  "124-02-7": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "DYUWTXWIYMHBQS-UHFFFAOYSA-N",
+    "smiles": "C=CCNCC=C",
+    "subclass": "Amines"
+  },
+  "124-04-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "124-07-2": {
+    "class": "Fatty Acyls",
+    "inchikey": "WWZKQHOCKIZLMA-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCC(=O)O",
+    "subclass": "Fatty acids and conjugates"
+  },
+  "124-11-8": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "JRZJOMJEPLMPRA-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCC=C",
+    "subclass": "Unsaturated aliphatic hydrocarbons"
+  },
+  "124-17-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "VXQBJTKSVGFQOL-UHFFFAOYSA-N",
+    "smiles": "CCCCOCCOCCOC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "124-18-5": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "DIOQZVSQGTUSAI-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Alkanes"
+  },
+  "124-20-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "124-38-9": {
+    "class": "Other non-metal organides",
+    "inchikey": "CURLTUGMZLYLDI-UHFFFAOYSA-N",
+    "smiles": "C(=O)=O",
+    "subclass": "Other non-metal oxides"
+  },
+  "124-40-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "126-33-0": {
+    "class": "Thiolanes",
+    "inchikey": "HXJUTPCZVOIRIF-UHFFFAOYSA-N",
+    "smiles": "C1CCS(=O)(=O)C1",
+    "subclass": ""
+  },
+  "126-73-8": {
+    "class": "Organic phosphoric acids and derivatives",
+    "inchikey": "STCOOQWBFONSKY-UHFFFAOYSA-N",
+    "smiles": "CCCCOP(=O)(OCCCC)OCCCC",
+    "subclass": "Phosphate esters"
+  },
+  "126-98-7": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "GYCMBHHDWRMZGG-UHFFFAOYSA-N",
+    "smiles": "CC(=C)C#N",
+    "subclass": "Organic cyanides"
+  },
+  "126-99-8": {
+    "class": "Vinyl halides",
+    "inchikey": "YACLQRRMGMJLJV-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Vinyl chlorides"
+  },
+  "127-00-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "127-06-0": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "PXAJQJMDEXJWFB-UHFFFAOYSA-N",
+    "smiles": "CC(=NO)C",
+    "subclass": "Oximes"
+  },
+  "127-18-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "127-19-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "127-63-9": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "KZTYYGOKRVBIMI-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)S(=O)(=O)C2=CC=CC=C2",
+    "subclass": "Benzenesulfonyl compounds"
+  },
+  "130-95-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "13057-17-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "JAMFGQBENKSWOF-UHFFFAOYSA-N",
+    "smiles": "COCBr",
+    "subclass": "Ethers"
+  },
+  "131-11-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "13116-60-4": {
+    "class": "Organochlorides",
+    "inchikey": "MDCBRXYTSHYYJE-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "13169-01-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "QKBBSZTVZOCUAD-UHFFFAOYSA-N",
+    "smiles": "CC#COC",
+    "subclass": ""
+  },
+  "13205-44-2": {
+    "class": "Organic metal salts",
+    "inchikey": "ZJUVLBOEAXFSHP-UHFFFAOYSA-N",
+    "smiles": "[BH3-]C#[O+]",
+    "subclass": "Organic metalloid salts"
+  },
+  "1330-78-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "13343-98-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "XDFQEFFBRPGSMC-UHFFFAOYSA-N",
+    "smiles": "CCCCOCCOC",
+    "subclass": "Ethers"
+  },
+  "13465-07-1": {
+    "class": "Other non-metal organides",
+    "inchikey": "BWGNESOTFCXPMA-UHFFFAOYSA-N",
+    "smiles": "SS",
+    "subclass": "Other non-metal sulfides"
+  },
+  "135-01-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "KVNYFPKFSJIPBJ-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "135-02-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "PKZJLOCLABXVMC-UHFFFAOYSA-N",
+    "smiles": "COC1=CC=CC=C1C=O",
+    "subclass": "Benzoyl derivatives"
+  },
+  "136-60-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "XSIFPSYPOVKYCO-UHFFFAOYSA-N",
+    "smiles": "CCCCOC(=O)C1=CC=CC=C1",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "137-32-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "QPRQEDXDYOZYLA-UHFFFAOYSA-N",
+    "smiles": "CCC(C)CO",
+    "subclass": "Alcohols and polyols"
+  },
+  "138-22-7": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "MRABAEUHTLLEML-UHFFFAOYSA-N",
+    "smiles": "CCCCOC(=O)C(C)O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "138-86-3": {
+    "class": "Prenol lipids",
+    "inchikey": "XMGQYMWWDOXHJM-UHFFFAOYSA-N",
+    "smiles": "CC1=CCC(CC1)C(=C)C",
+    "subclass": "Monoterpenoids"
+  },
+  "138495-42-8": {
+    "class": "Organofluorides",
+    "inchikey": "RIQRGMUSBYGDBL-UHFFFAOYSA-N",
+    "smiles": "C(C(C(F)(F)F)F)(C(C(F)(F)F)(F)F)F",
+    "subclass": ""
+  },
+  "140-11-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "QUKGYYKBILRGFE-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OCC1=CC=CC=C1",
+    "subclass": "Benzyloxycarbonyls"
+  },
+  "140-24-9": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "DVLXEVMGHXWBOZ-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)COC(=O)CCCCCCCCC(=O)OCC2=CC=CC=C2",
+    "subclass": "Benzyloxycarbonyls"
+  },
+  "140-29-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "140-88-5": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "JIGUQPWFLRLWPJ-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Acrylic acids and derivatives"
+  },
+  "14035-94-0": {
+    "class": "Fatty Acyls",
+    "inchikey": "ZWKKRUNHAVNSFW-UHFFFAOYSA-N",
+    "smiles": "CC(CCC(=O)OC)C(=O)OC",
+    "subclass": "Fatty acid esters"
+  },
+  "141-04-8": {
+    "class": "Fatty Acyls",
+    "inchikey": "RDOFJDLLWVCMRU-UHFFFAOYSA-N",
+    "smiles": "CC(C)COC(=O)CCCCC(=O)OCC(C)C",
+    "subclass": "Fatty acid esters"
+  },
+  "141-28-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "141-32-2": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "CQEYYJKEWSMYFG-UHFFFAOYSA-N",
+    "smiles": "CCCCOC(=O)C=C",
+    "subclass": "Acrylic acids and derivatives"
+  },
+  "141-43-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "141-62-8": {
+    "class": "Organometalloid compounds",
+    "inchikey": "YFCGDEUVHLPRCZ-UHFFFAOYSA-N",
+    "smiles": "C[Si](C)(C)O[Si](C)(C)O[Si](C)(C)O[Si](C)(C)C",
+    "subclass": "Organosilicon compounds"
+  },
+  "141-75-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "141-78-6": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "XEKOWRVHYACXOJ-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "141-79-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "SHOJXDKTYKFBRD-UHFFFAOYSA-N",
+    "smiles": "CC(=CC(=O)C)C",
+    "subclass": "Carbonyl compounds"
+  },
+  "141-97-9": {
+    "class": "Keto acids and derivatives",
+    "inchikey": "XYIBRDXRRQCHLP-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Beta-keto acids and derivatives"
+  },
+  "142-28-9": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "142-29-0": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "LPIQUOYDBNQMRZ-UHFFFAOYSA-N",
+    "smiles": "C1CC=CC1",
+    "subclass": "Olefins"
+  },
+  "142-62-1": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "142-68-7": {
+    "class": "Oxanes",
+    "inchikey": "DHXVGJBLRPWPCS-UHFFFAOYSA-N",
+    "smiles": "C1CCOCC1",
+    "subclass": ""
+  },
+  "142-77-8": {
+    "class": "Fatty Acyls",
+    "inchikey": "WIBFFTLQMKKBLZ-SEYXRHQNSA-N",
+    "smiles": "CCCCCCCC/C=C\\CCCCCCCC(=O)OCCCC",
+    "subclass": "Fatty acid esters"
+  },
+  "142-82-5": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "IMNFDUFMRHMDMM-UHFFFAOYSA-N",
+    "smiles": "CCCCCCC",
+    "subclass": "Alkanes"
+  },
+  "142-84-7": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "142-85-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "142-90-5": {
+    "class": "Fatty Acyls",
+    "inchikey": "GMSCBRSQMRDRCD-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Fatty alcohol esters"
+  },
+  "142-91-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "142-92-7": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "142-96-1": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "14272-48-1": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "OPZOJJICKVTDSR-UHFFFAOYSA-N",
+    "smiles": "CCC(=O)O.CCOCCO",
+    "subclass": "Carboxylic acids"
+  },
+  "14273-06-4": {
+    "class": "Organooxygen compounds",
+    "inchikey": "AEENFMCEQQAULS-UHFFFAOYSA-N",
+    "smiles": "CCOC#CC",
+    "subclass": ""
+  },
+  "143-08-8": {
+    "class": "Fatty Acyls",
+    "inchikey": "ZWRUINPWMLAQRD-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCO",
+    "subclass": "Fatty alcohols"
+  },
+  "143-28-2": {
+    "class": "Fatty Acyls",
+    "inchikey": "ALSTYHKOOCGGFT-KTKRTIGZSA-N",
+    "smiles": "CCCCCCCC/C=C\\CCCCCCCCO",
+    "subclass": "Fatty alcohols"
+  },
+  "14371-10-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "144-19-4": {
+    "class": "Organooxygen compounds",
+    "inchikey": "JCTXKRPTIMZBJT-UHFFFAOYSA-N",
+    "smiles": "CC(C)C(C(C)(C)CO)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "144-62-7": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "MUBZPKHOEPUJKR-UHFFFAOYSA-N",
+    "smiles": "C(=O)(C(=O)O)O",
+    "subclass": "Dicarboxylic acids and derivatives"
+  },
+  "1445-75-6": {
+    "class": "Organic phosphonic acids and derivatives",
+    "inchikey": "WOAFDHWYKSOANX-UHFFFAOYSA-N",
+    "smiles": "CC(C)OP(=O)(C)OC(C)C",
+    "subclass": "Phosphonic acid diesters"
+  },
+  "1464-53-5": {
+    "class": "Epoxides",
+    "inchikey": "ZFIVKAOQEXOYFY-UHFFFAOYSA-N",
+    "smiles": "C1C(O1)C2CO2",
+    "subclass": ""
+  },
+  "14861-06-4": {
+    "class": "Fatty Acyls",
+    "inchikey": "IYNRVIKPUTZSOR-HWKANZROSA-N",
+    "smiles": "C/C=C/C(=O)OC=C",
+    "subclass": "Fatty acid esters"
+  },
+  "1493-02-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "1502-06-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "SXOZDDAFVJANJP-UHFFFAOYSA-N",
+    "smiles": "C1CCCCC(=O)CCCC1",
+    "subclass": "Carbonyl compounds"
+  },
+  "151-56-4": {
+    "class": "Aziridines",
+    "inchikey": "NOWKCMXCCJGMRR-UHFFFAOYSA-N",
+    "smiles": "C1CN1",
+    "subclass": ""
+  },
+  "1515-76-0": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "NMQQBXHZBNUXGJ-SNAWJCMRSA-N",
+    "smiles": "CC(=O)O/C=C/C=C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "1528-20-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "AQTYNINXYJFSHD-AATRIKPKSA-N",
+    "smiles": "CC/C=C/OCC",
+    "subclass": ""
+  },
+  "1559-35-9": {
+    "class": "Organooxygen compounds",
+    "inchikey": "OHJYHAOODFPJOD-UHFFFAOYSA-N",
+    "smiles": "CCCCC(CC)COCCO",
+    "subclass": "Ethers"
+  },
+  "156-59-2": {
+    "class": "Vinyl halides",
+    "inchikey": "KFUSEUYYWQURPO-UPHRSURJSA-N",
+    "subclass": "Vinyl chlorides"
+  },
+  "156-60-5": {
+    "class": "Vinyl halides",
+    "inchikey": "KFUSEUYYWQURPO-OWOJBTEDSA-N",
+    "smiles": "C(=C/Cl)\\Cl",
+    "subclass": "Vinyl chlorides"
+  },
+  "1569-01-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "FENFUOGYJVOCRY-UHFFFAOYSA-N",
+    "smiles": "CCCOCC(C)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "1569-02-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "1585-74-6": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "MAGVJLLHDZWQFM-UHFFFAOYSA-N",
+    "smiles": "CN(C)Cl",
+    "subclass": ""
+  },
+  "1595-04-6": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "OAPCPUDMDJIBOQ-UHFFFAOYSA-N",
+    "smiles": "CCCCC1=CC=CC(=C1)C",
+    "subclass": "Toluenes"
+  },
+  "1595-05-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "1595-11-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "15980-15-1": {
+    "class": "Oxathianes",
+    "inchikey": "JBYHSSAVUBIJMK-UHFFFAOYSA-N",
+    "smiles": "C1CSCCO1",
+    "subclass": ""
+  },
+  "1600-44-8": {
+    "class": "Thiolanes",
+    "inchikey": "ISXOBTBCNRIIQO-UHFFFAOYSA-N",
+    "smiles": "C1CCS(=O)C1",
+    "subclass": ""
+  },
+  "1607-31-4": {
+    "class": "Organic carbonic acids and derivatives",
+    "inchikey": "UCWHARBCMODQPN-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OCC1COC(=O)O1",
+    "subclass": "Carbonic acid diesters"
+  },
+  "1613-51-0": {
+    "class": "Thianes",
+    "inchikey": "YPWFISCTZQNZAU-UHFFFAOYSA-N",
+    "smiles": "C1CCSCC1",
+    "subclass": ""
+  },
+  "1615-70-9": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "STSRVFAXSLNLLI-ONEGZZNKSA-N",
+    "smiles": "C=C/C=C/C#N",
+    "subclass": "Organic cyanides"
+  },
+  "1629-58-9": {
+    "class": "Organooxygen compounds",
+    "inchikey": "JLIDVCMBCGBIEY-UHFFFAOYSA-N",
+    "smiles": "CCC(=O)C=C",
+    "subclass": "Carbonyl compounds"
+  },
+  "1634-04-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "163702-07-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "OKIYQFLILPKULA-UHFFFAOYSA-N",
+    "smiles": "COC(C(C(C(F)(F)F)(F)F)(F)F)(F)F",
+    "subclass": "Ethers"
+  },
+  "16529-56-9": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "1653-19-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "1663-35-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "GXZPMXGRNUXGHN-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Ethers"
+  },
+  "1676-63-7": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "1678-93-9": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "GGBJHURWWWLEQH-UHFFFAOYSA-N",
+    "smiles": "CCCCC1CCCCC1",
+    "subclass": "Cycloalkanes"
+  },
+  "1687-30-5": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "QSAWQNUELGIYBC-UHFFFAOYSA-N",
+    "subclass": "Dicarboxylic acids and derivatives"
+  },
+  "1696-20-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "1717-00-6": {
+    "class": "Organofluorides",
+    "inchikey": "FRCHKSNAZZFGCA-UHFFFAOYSA-N",
+    "smiles": "CC(F)(Cl)Cl",
+    "subclass": ""
+  },
+  "1774-35-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "1794-84-9": {
+    "class": "Allyl-type 1,3-dipolar organic compounds",
+    "inchikey": "CGKPGVZMSKVVOF-UHFFFAOYSA-N",
+    "smiles": "C([N+](=O)[O-])Cl",
+    "subclass": "Organic nitro compounds"
+  },
+  "1806-54-8": {
+    "class": "Organic phosphoric acids and derivatives",
+    "inchikey": "WVPGXJOLGGFBCR-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCOP(=O)(OCCCCCCCC)OCCCCCCCC",
+    "subclass": "Phosphate esters"
+  },
+  "1822-74-8": {
+    "class": "Thioethers",
+    "inchikey": "AMBKPYJJYUKNFI-UHFFFAOYSA-N",
+    "smiles": "CSC=C",
+    "subclass": "Thioenol ethers"
+  },
+  "1822-86-2": {
+    "class": "Vinyl halides",
+    "inchikey": "WWJSRLYOPQYXMZ-UHFFFAOYSA-N",
+    "smiles": "C=CC(=C)Br",
+    "subclass": "Vinyl bromides"
+  },
+  "1838-59-1": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "ZHHZHHSFKCANOC-UHFFFAOYSA-N",
+    "smiles": "C=CCOC=O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "18668-68-3": {
+    "class": "Organobromides",
+    "inchikey": "SLNVSARGOSPIPA-UHFFFAOYSA-N",
+    "smiles": "C=C=CCBr",
+    "subclass": ""
+  },
+  "1888-91-1": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "18913-31-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "JXKCVRNKAPHWJG-UHFFFAOYSA-N",
+    "smiles": "C=C=CCO",
+    "subclass": "Alcohols and polyols"
+  },
+  "1897-52-5": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "BNBRIFIJRKJGEI-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Benzonitriles"
+  },
+  "19221-28-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "19434-65-2": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "19693-75-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "19780-25-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "1984-65-2": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "KZLMCDNAVVJKPX-UHFFFAOYSA-N",
+    "smiles": "COC1=C(C=CC=C1Cl)Cl",
+    "subclass": "Halobenzenes"
+  },
+  "2004-70-8": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "PMJHHCWVYXUKFD-SNAWJCMRSA-N",
+    "smiles": "C/C=C/C=C",
+    "subclass": "Olefins"
+  },
+  "20352-67-4": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "WSTNFGAKGUERTC-UHFFFAOYSA-N",
+    "smiles": "CCCCCCNCC",
+    "subclass": "Amines"
+  },
+  "2039-87-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "ISRGONDNXBCDBM-UHFFFAOYSA-N",
+    "smiles": "C=CC1=CC=CC=C1Cl",
+    "subclass": "Styrenes"
+  },
+  "2039-88-5": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "SSZOCHFYWWVSAI-UHFFFAOYSA-N",
+    "smiles": "C=CC1=CC=CC=C1Br",
+    "subclass": "Styrenes"
+  },
+  "2040-95-1": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "ZAGHKONXGGSVDV-UHFFFAOYSA-N",
+    "smiles": "CCCCC1CCCC1",
+    "subclass": "Cycloalkanes"
+  },
+  "2052-14-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "YFDUWSBGVPBWKF-UHFFFAOYSA-N",
+    "smiles": "CCCCOC(=O)C1=CC=CC=C1O",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "20682-69-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "XFJWHICSGRNOKN-UHFFFAOYSA-N",
+    "subclass": "Ethers"
+  },
+  "2100-17-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "QUMSUJWRUHPEEJ-UHFFFAOYSA-N",
+    "smiles": "C=CCCC=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "21400-25-9": {
+    "class": "Vinyl halides",
+    "inchikey": "LIPPKMMVZOHCIF-UHFFFAOYSA-N",
+    "subclass": "Vinyl chlorides"
+  },
+  "2168-93-6": {
+    "class": "Sulfoxides",
+    "inchikey": "LOWMYOWHQMKBTM-UHFFFAOYSA-N",
+    "smiles": "CCCCS(=O)CCCC",
+    "subclass": ""
+  },
+  "22022-33-9": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "22059-21-8": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "2210-28-8": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "NHARPDSAXCBDDR-UHFFFAOYSA-N",
+    "smiles": "CCCOC(=O)C(=C)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "2211-89-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "2216-51-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "2233-00-3": {
+    "class": "Organochlorides",
+    "inchikey": "VKEIPALYOJMDAC-UHFFFAOYSA-N",
+    "smiles": "C=CC(Cl)(Cl)Cl",
+    "subclass": ""
+  },
+  "2268-05-5": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "JORVCRLRRRRLFI-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C(=C1)Cl)F)Cl",
+    "subclass": "Halobenzenes"
+  },
+  "2273-93-0": {
+    "class": "Imidazopyrimidines",
+    "inchikey": "HVMUWHZAZGTMJK-UHFFFAOYSA-N",
+    "smiles": "CN1C=NC2=C1C(=NC(=N2)Cl)Cl",
+    "subclass": "Purines and purine derivatives"
+  },
+  "2317-91-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "FPBWSPZHCJXUBL-UHFFFAOYSA-N",
+    "smiles": "C=C(F)Cl",
+    "subclass": "Ketene acetals"
+  },
+  "23436-19-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "2396-61-4": {
+    "class": "Organooxygen compounds",
+    "inchikey": "SZXQTJUDPRGNJN-UHFFFAOYSA-N",
+    "smiles": "C(CO)COCCCO",
+    "subclass": "Ethers"
+  },
+  "2409-55-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "2495-37-6": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "AOJOEFVRHOZDFN-UHFFFAOYSA-N",
+    "smiles": "CC(=C)C(=O)OCC1=CC=CC=C1",
+    "subclass": "Benzyloxycarbonyls"
+  },
+  "25114-81-2": {
+    "class": "Azepanes",
+    "inchikey": "AIPVTTKYSPOWFO-UHFFFAOYSA-N",
+    "smiles": "C1CCCN(CC1)C=O",
+    "subclass": ""
+  },
+  "25125-85-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "JWBPCSXRWORRAI-UHFFFAOYSA-N",
+    "smiles": "CC=C(C)OC",
+    "subclass": ""
+  },
+  "2517-43-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "JSGVZVOGOQILFM-UHFFFAOYSA-N",
+    "smiles": "CC(CCO)OC",
+    "subclass": "Ethers"
+  },
+  "25265-77-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "DAFHKNAQFPVRKR-UHFFFAOYSA-N",
+    "smiles": "CC(C)C(C(C)(C)COC(=O)C(C)C)O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "25790-55-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "2591-86-8": {
+    "class": "Piperidines",
+    "inchikey": "FEWLNYSYJNLUOO-UHFFFAOYSA-N",
+    "smiles": "C1CCN(CC1)C=O",
+    "subclass": ""
+  },
+  "260-94-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "2623-23-6": {
+    "class": "Prenol lipids",
+    "inchikey": "XHXUANMFYXWVNG-ADEWGFFLSA-N",
+    "smiles": "",
+    "subclass": "Monoterpenoids"
+  },
+  "26547-47-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "KWGJJEBPCVMBIG-UHFFFAOYSA-N",
+    "smiles": "CC(C)(C)OCCOC(C)(C)C",
+    "subclass": "Ethers"
+  },
+  "26761-40-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "ZVFDTKUVRCTHQE-UHFFFAOYSA-N",
+    "smiles": "CC(C)CCCCCCCOC(=O)C1=CC=CC=C1C(=O)OCCCCCCCC(C)C",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "2687-91-4": {
+    "class": "Pyrrolidines",
+    "inchikey": "ZFPGARUNNKGOBB-UHFFFAOYSA-N",
+    "smiles": "CCN1CCCC1=O",
+    "subclass": "N-alkylpyrrolidines"
+  },
+  "26952-21-6": {
+    "class": "Fatty Acyls",
+    "inchikey": "BWDBEAQIHAEVLV-UHFFFAOYSA-N",
+    "smiles": "CC(C)CCCCCO",
+    "subclass": "Fatty alcohols"
+  },
+  "271-58-9": {
+    "class": "",
+    "inchikey": "FZKCAHQKNJXICB-UHFFFAOYSA-N",
+    "smiles": "C1=CC2=CON=C2C=C1",
+    "subclass": ""
+  },
+  "271-89-6": {
+    "class": "Benzofurans",
+    "inchikey": "IANQTJSKSUMEQM-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C2C(=C1)C=CO2",
+    "subclass": ""
+  },
+  "27251-75-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "WDRCVXGINNJWPH-UHFFFAOYSA-N",
+    "smiles": "CC(C)CCCCCOC(=O)C1=CC(=C(C=C1)C(=O)OCCCCCC(C)C)C(=O)OCCCCCC(C)C",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "274-09-9": {
+    "class": "Benzodioxoles",
+    "inchikey": "FTNJQNQLEGKTGD-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "2781-85-3": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "OOXWYYGXTJLWHA-UHFFFAOYSA-N",
+    "smiles": "C1C=C1",
+    "subclass": "Olefins"
+  },
+  "2782-91-4": {
+    "class": "Thioureas",
+    "inchikey": "MNOILHPDHOHILI-UHFFFAOYSA-N",
+    "smiles": "CN(C)C(=S)N(C)C",
+    "subclass": ""
+  },
+  "27986-36-3": {
+    "class": "Phenol ethers",
+    "inchikey": "IEORSVTYLWZQJQ-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCC1=CC=CC=C1OCCO",
+    "subclass": ""
+  },
+  "2806-85-1": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "2807-30-9": {
+    "class": "Organooxygen compounds",
+    "inchikey": "YEYKMVJDLWJFOA-UHFFFAOYSA-N",
+    "smiles": "CCCOCCO",
+    "subclass": "Ethers"
+  },
+  "2835-21-4": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "LXJDXBGQVSHLOJ-UHFFFAOYSA-N",
+    "smiles": "C=CC[N+]#[C-]",
+    "subclass": "Organic isocyanides"
+  },
+  "28553-12-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "HBGGXOJOCNVPFY-UHFFFAOYSA-N",
+    "smiles": "CC(C)CCCCCCOC(=O)C1=CC=CC=C1C(=O)OCCCCCCC(C)C",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "287-27-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "287-92-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "288-13-1": {
+    "class": "Azoles",
+    "inchikey": "WTKZEGDFNFYCGP-UHFFFAOYSA-N",
+    "smiles": "C1=CNN=C1",
+    "subclass": "Pyrazoles"
+  },
+  "288-14-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "288-36-8": {
+    "class": "Azoles",
+    "inchikey": "QWENRTYMTSOGBR-UHFFFAOYSA-N",
+    "subclass": "Triazoles"
+  },
+  "288-47-1": {
+    "class": "Azoles",
+    "inchikey": "FZWLAAWBMGSTSO-UHFFFAOYSA-N",
+    "smiles": "C1=CSC=N1",
+    "subclass": "Thiazoles"
+  },
+  "289-80-5": {
+    "class": "Diazines",
+    "inchikey": "PBMFSQRYOILNGV-UHFFFAOYSA-N",
+    "smiles": "C1=CC=NN=C1",
+    "subclass": "Pyridazines and derivatives"
+  },
+  "289-95-2": {
+    "class": "Diazines",
+    "inchikey": "CZPWVGJYEJSRLH-UHFFFAOYSA-N",
+    "smiles": "C1=CN=CN=C1",
+    "subclass": "Pyrimidines and pyrimidine derivatives"
+  },
+  "2902-96-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "291-64-5": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "DMEGYFMYUHOHGS-UHFFFAOYSA-N",
+    "smiles": "C1CCCCCC1",
+    "subclass": "Cycloalkanes"
+  },
+  "294-62-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "29560-84-7": {
+    "class": "Vinyl halides",
+    "inchikey": "HJGHXDNIPAWLLE-UHFFFAOYSA-N",
+    "smiles": "C(C=CCl)O",
+    "subclass": "Vinyl chlorides"
+  },
+  "297730-93-9": {
+    "class": "Organooxygen compounds",
+    "inchikey": "HHBBIOLEJRWIGU-UHFFFAOYSA-N",
+    "smiles": "CCOC(C(C(F)(F)F)(C(F)(F)F)F)(C(C(C(F)(F)F)(F)F)(F)F)F",
+    "subclass": "Ethers"
+  },
+  "29871-57-6": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "299-42-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "29911-27-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "WEZPLQKRXDBPEP-UHFFFAOYSA-N",
+    "smiles": "CCCOCC(C)OCC(C)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "29911-28-2": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "300-62-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "3018-12-0": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "STZZWJCGRKXEFF-UHFFFAOYSA-N",
+    "smiles": "C(#N)C(Cl)Cl",
+    "subclass": "Organic cyanides"
+  },
+  "302-01-2": {
+    "class": "Homogeneous other non-metal compounds",
+    "inchikey": "OAKJQQAXSVQMHS-UHFFFAOYSA-N",
+    "smiles": "NN",
+    "subclass": ""
+  },
+  "3031-73-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "3036-66-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "30373-82-1": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "306-83-2": {
+    "class": "Organofluorides",
+    "inchikey": "OHMHBGPWCHTMQE-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": ""
+  },
+  "307949-19-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "30842-90-1": {
+    "class": "Azoles",
+    "inchikey": "CUMCMYMKECWGHO-UHFFFAOYSA-N",
+    "smiles": "CC1=NOC=C1",
+    "subclass": "Isoxazoles"
+  },
+  "3085-40-3": {
+    "class": "Sulfoxides",
+    "inchikey": "MCDJZKPTBCWNSJ-UHFFFAOYSA-N",
+    "smiles": "CC(C)CS(=O)CC(C)C",
+    "subclass": ""
+  },
+  "3112-85-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "JCDWETOKTFWTHA-UHFFFAOYSA-N",
+    "smiles": "CS(=O)(=O)C1=CC=CC=C1",
+    "subclass": "Benzenesulfonyl compounds"
+  },
+  "3131-52-0": {
+    "class": "Indoles and derivatives",
+    "inchikey": "SGNZYJXNUURYCH-UHFFFAOYSA-N",
+    "smiles": "C1=CNC2=CC(=C(C=C21)O)O",
+    "subclass": "Hydroxyindoles"
+  },
+  "31366-25-3": {
+    "class": "Dithioles",
+    "inchikey": "FHCPAXDKURNIOZ-UHFFFAOYSA-N",
+    "smiles": "C1=CSC(=C2SC=CS2)S1",
+    "subclass": "1,3-dithioles"
+  },
+  "320-50-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "DYBYUWVMLBBEMA-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1Cl)C(F)(F)F)Cl",
+    "subclass": "Trifluoromethylbenzenes"
+  },
+  "3209-22-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "CMVQZRLQEOAYSW-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C(=C1)Cl)Cl)[N+](=O)[O-]",
+    "subclass": "Nitrobenzenes"
+  },
+  "3212-60-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "PSBABBDEUFNFKJ-UHFFFAOYSA-N",
+    "smiles": "C1CC(C=C1)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "3218-49-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "QWZNCAFWRZZJMA-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1CC#N)Cl)Cl",
+    "subclass": "Benzyl cyanides"
+  },
+  "328-84-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "XILPLWOGHPSJBK-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1C(F)(F)F)Cl)Cl",
+    "subclass": "Trifluoromethylbenzenes"
+  },
+  "3320-90-9": {
+    "class": "Tetrahydrofurans",
+    "inchikey": "ZLKHNURELCONBB-UHFFFAOYSA-N",
+    "smiles": "CCOC1CCC(O1)OCC",
+    "subclass": ""
+  },
+  "334-22-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "334-88-3": {
+    "class": "Propargyl-type 1,3-dipolar organic compounds",
+    "inchikey": "YXHKONLOYHBTNS-UHFFFAOYSA-N",
+    "smiles": "C=[N+]=[N-]",
+    "subclass": "Diazo compounds"
+  },
+  "335-57-9": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "33703-08-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "3376-35-0": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "QMOLZSLXSAVSPU-UHFFFAOYSA-N",
+    "smiles": "CC(=NOC)C",
+    "subclass": "Oximes"
+  },
+  "3380-34-5": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "XEFQLINVKFYRCS-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1Cl)O)OC2=C(C=C(C=C2)Cl)Cl",
+    "subclass": "Diphenylethers"
+  },
+  "3404-63-5": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "IGLWCQMNTGCUBB-UHFFFAOYSA-N",
+    "smiles": "CCC(=C)C=C",
+    "subclass": "Branched unsaturated hydrocarbons"
+  },
+  "344-38-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "ZHLYHEDQTJZYFI-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1Br)C(F)(F)F)[N+](=O)[O-]",
+    "subclass": "Trifluoromethylbenzenes"
+  },
+  "3445-11-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "34590-94-8": {
+    "class": "Organooxygen compounds",
+    "inchikey": "WGYZMNBUZFHYRX-UHFFFAOYSA-N",
+    "smiles": "CC(COC(C)COC)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "3470-98-2": {
+    "class": "Pyrrolidines",
+    "inchikey": "BNXZHVUCNYMNOS-UHFFFAOYSA-N",
+    "smiles": "CCCCN1CCCC1=O",
+    "subclass": "N-alkylpyrrolidines"
+  },
+  "348-51-6": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "ZCJAYDKWZAWMPR-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C(=C1)F)Cl",
+    "subclass": "Halobenzenes"
+  },
+  "34994-48-4": {
+    "class": "Vinyl halides",
+    "inchikey": "GVTJVTFUVRQJKK-UHFFFAOYSA-N",
+    "smiles": "C=C(C(=C)Br)Br",
+    "subclass": "Vinyl bromides"
+  },
+  "352-93-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "353-36-6": {
+    "class": "Organofluorides",
+    "inchikey": "UHCBBWUQDAVSMS-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": ""
+  },
+  "355-02-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "355-25-9": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "355-42-0": {
+    "class": "Organofluorides",
+    "inchikey": "ZJIJAJXFLBMLCK-UHFFFAOYSA-N",
+    "smiles": "C(C(C(C(F)(F)F)(F)F)(F)F)(C(C(F)(F)F)(F)F)(F)F",
+    "subclass": ""
+  },
+  "3574-40-1": {
+    "class": "Vinyl halides",
+    "inchikey": "CRNSOGJNJXTEQG-ARJAWSKDSA-N",
+    "smiles": "C=C/C(=C/Cl)/Cl",
+    "subclass": "Vinyl chlorides"
+  },
+  "3592-44-7": {
+    "class": "Thioethers",
+    "inchikey": "KRIFIIWBVJKVST-UHFFFAOYSA-N",
+    "smiles": "C(SCCl)Cl",
+    "subclass": "Dialkylthioethers"
+  },
+  "3638-64-0": {
+    "class": "Allyl-type 1,3-dipolar organic compounds",
+    "inchikey": "RPMXALUWKZHYOV-UHFFFAOYSA-N",
+    "smiles": "C=C[N+](=O)[O-]",
+    "subclass": "Organic nitro compounds"
+  },
+  "364-74-9": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "XNJAYQHWXYJBBD-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Nitrobenzenes"
+  },
+  "3658-95-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "UVHXZFGCCJLFMX-UHFFFAOYSA-N",
+    "subclass": "Ethers"
+  },
+  "36653-82-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "367-11-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "3680-02-2": {
+    "class": "Sulfonyls",
+    "inchikey": "WUIJTQZXUURFQU-UHFFFAOYSA-N",
+    "smiles": "CS(=O)(=O)C=C",
+    "subclass": "Sulfones"
+  },
+  "3690-05-9": {
+    "class": "Cinnamyl alcohols",
+    "inchikey": "PTNLHDGQWUGONS-OWOJBTEDSA-N",
+    "smiles": "C1=CC(=CC=C1/C=C/CO)O",
+    "subclass": ""
+  },
+  "374-77-6": {
+    "class": "Alkyl halides",
+    "inchikey": "LYMIGLGNHPPIQP-UHFFFAOYSA-N",
+    "smiles": "C1(C(C(C(C(C1(F)F)(F)F)(C(F)(F)F)F)(F)F)(F)F)(C(F)(F)F)F",
+    "subclass": "Cyclohexyl halides"
+  },
+  "3741-38-6": {
+    "class": "Organic oxoanionic compounds",
+    "inchikey": "WDXYVJKNSMILOQ-UHFFFAOYSA-N",
+    "smiles": "C1COS(=O)O1",
+    "subclass": "Organic sulfites"
+  },
+  "375-03-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "377-36-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "3773-14-6": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "3776-30-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "QCAHVKJGHYVLIS-UHFFFAOYSA-N",
+    "smiles": "C1CC(C(=O)C(C1)(Cl)Cl)(Cl)Cl",
+    "subclass": "Carbonyl compounds"
+  },
+  "381-61-3": {
+    "class": "Vinyl halides",
+    "inchikey": "BQHQZFUAEAVJRE-UHFFFAOYSA-N",
+    "smiles": "C=CC(=C)F",
+    "subclass": "Vinyl fluorides"
+  },
+  "3913-02-8": {
+    "class": "Fatty Acyls",
+    "inchikey": "XMVBHZBLHNOQON-UHFFFAOYSA-N",
+    "smiles": "CCCCCCC(CCCC)CO",
+    "subclass": "Fatty alcohols"
+  },
+  "3917-15-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ZXABMDQSAABDMG-UHFFFAOYSA-N",
+    "smiles": "C=CCOC=C",
+    "subclass": ""
+  },
+  "392-56-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "ZQBFAOFFOQMSGJ-UHFFFAOYSA-N",
+    "smiles": "C1(=C(C(=C(C(=C1F)F)F)F)F)F",
+    "subclass": "Halobenzenes"
+  },
+  "393-79-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "JSEVUBOYVADSHX-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C(=C1[N+](=O)[O-])Cl)F)Cl",
+    "subclass": "Nitrobenzenes"
+  },
+  "39332-55-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "XGSQEQCOQAAOHE-UHFFFAOYSA-N",
+    "smiles": "CCCCOCCOC(C)CO",
+    "subclass": "Ethers"
+  },
+  "3937-56-2": {
+    "class": "Fatty Acyls",
+    "inchikey": "ALVZNPYWJMLXKV-UHFFFAOYSA-N",
+    "smiles": "C(CCCCO)CCCCO",
+    "subclass": "Fatty alcohols"
+  },
+  "3944-36-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "AFHJYKBGDDJSRR-UHFFFAOYSA-N",
+    "smiles": "CC(C)OCC(C)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "400-70-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "VLVNHMVSVDVAOA-UHFFFAOYSA-N",
+    "smiles": "C1=C(C(=CC(=C1[N+](=O)[O-])Cl)Cl)C(F)(F)F",
+    "subclass": "Trifluoromethylbenzenes"
+  },
+  "40079-14-9": {
+    "class": "Epoxides",
+    "inchikey": "AAEZMHSWRQVQEK-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": ""
+  },
+  "402-31-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "SJBBXFLOLUTGCW-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC(=C1)C(F)(F)F)C(F)(F)F",
+    "subclass": "Trifluoromethylbenzenes"
+  },
+  "4043-59-8": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "406-58-6": {
+    "class": "Organofluorides",
+    "inchikey": "WZLFPVPRZGTCKP-UHFFFAOYSA-N",
+    "smiles": "CC(CC(F)(F)F)(F)F",
+    "subclass": ""
+  },
+  "420-04-2": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "XZMCDFZZKTWFGF-UHFFFAOYSA-N",
+    "smiles": "C(#N)N",
+    "subclass": "Amines"
+  },
+  "420-12-2": {
+    "class": "Thiiranes",
+    "inchikey": "VOVUARRWDCVURC-UHFFFAOYSA-N",
+    "smiles": "C1CS1",
+    "subclass": ""
+  },
+  "420-46-2": {
+    "class": "Organofluorides",
+    "inchikey": "UJPMYEOUBPIPHQ-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "422-56-0": {
+    "class": "Organofluorides",
+    "inchikey": "COAUHYBSXMIJDK-UHFFFAOYSA-N",
+    "smiles": "C(C(C(F)(F)F)(F)F)(Cl)Cl",
+    "subclass": ""
+  },
+  "42345-82-4": {
+    "class": "Vinyl halides",
+    "inchikey": "CIVPSPVLMYVHNC-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Vinyl chlorides"
+  },
+  "4253-91-2": {
+    "class": "Sulfoxides",
+    "inchikey": "BQCCJWMQESHLIT-UHFFFAOYSA-N",
+    "smiles": "CCCS(=O)CCC",
+    "subclass": ""
+  },
+  "42542-10-9": {
+    "class": "Benzodioxoles",
+    "inchikey": "SHXWCVYOXRDMCX-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "42842-08-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "430-49-9": {
+    "class": "Vinyl halides",
+    "inchikey": "DDXZFLFMKZXQOT-UHFFFAOYSA-N",
+    "smiles": "C=C(C#N)F",
+    "subclass": "Vinyl fluorides"
+  },
+  "430-99-9": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "TYCFGHUTYSLISP-UHFFFAOYSA-N",
+    "smiles": "C=C(C(=O)O)F",
+    "subclass": "Alpha-halocarboxylic acids and derivatives"
+  },
+  "431-03-8": {
+    "class": "Organooxygen compounds",
+    "inchikey": "QSJXEFYPDANLFS-UHFFFAOYSA-N",
+    "smiles": "CC(=O)C(=O)C",
+    "subclass": "Carbonyl compounds"
+  },
+  "433-28-3": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "ZBGRMWIREQJHPK-UHFFFAOYSA-N",
+    "smiles": "C=COC(=O)C(F)(F)F",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "4376-20-9": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "DJDSLBVSSOQSLW-UHFFFAOYSA-N",
+    "smiles": "CCCCC(CC)COC(=O)C1=CC=CC=C1C(=O)O",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "4413-13-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ZWPUOFSQNASCII-UHFFFAOYSA-N",
+    "smiles": "CCCCOCCOCC",
+    "subclass": "Ethers"
+  },
+  "4435-53-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "QMYGFTJCQFEDST-UHFFFAOYSA-N",
+    "smiles": "CC(CCOC(=O)C)OC",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "4437-70-1": {
+    "class": "Organic carbonic acids and derivatives",
+    "inchikey": "LWLOKSXSAUHTJO-UHFFFAOYSA-N",
+    "smiles": "CC1C(OC(=O)O1)C",
+    "subclass": "Carbonic acid diesters"
+  },
+  "4437-85-8": {
+    "class": "Organic carbonic acids and derivatives",
+    "inchikey": "ZZXUZKXVROWEIF-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Carbonic acid diesters"
+  },
+  "4439-24-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "HHAPGMVKBLELOE-UHFFFAOYSA-N",
+    "smiles": "CC(C)COCCO",
+    "subclass": "Ethers"
+  },
+  "446-35-5": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "RJXOVESYJFXCGI-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1F)F)[N+](=O)[O-]",
+    "subclass": "Nitrobenzenes"
+  },
+  "4461-52-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "VHWYCFISAQVCCP-UHFFFAOYSA-N",
+    "smiles": "COCO",
+    "subclass": "Ethers"
+  },
+  "453-20-3": {
+    "class": "Tetrahydrofurans",
+    "inchikey": "XDPCNPCKDGQBAN-UHFFFAOYSA-N",
+    "smiles": "C1COCC1O",
+    "subclass": ""
+  },
+  "458-35-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "459-60-9": {
+    "class": "Phenol ethers",
+    "inchikey": "VIPWUFMFHBIKQI-UHFFFAOYSA-N",
+    "smiles": "COC1=CC=C(C=C1)F",
+    "subclass": "Anisoles"
+  },
+  "460-19-5": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "JMANVNJQNLATNU-UHFFFAOYSA-N",
+    "smiles": "C(#N)C#N",
+    "subclass": "Organic cyanides"
+  },
+  "460-35-5": {
+    "class": "Organofluorides",
+    "inchikey": "ZPIFKCVYZBVZIV-UHFFFAOYSA-N",
+    "smiles": "C(CCl)C(F)(F)F",
+    "subclass": ""
+  },
+  "460-73-1": {
+    "class": "Organofluorides",
+    "inchikey": "MSSNHSVIGIHOJA-UHFFFAOYSA-N",
+    "smiles": "C(C(F)F)C(F)(F)F",
+    "subclass": ""
+  },
+  "462-06-6": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "PYLWMHQQBFSUBP-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)F",
+    "subclass": "Halobenzenes"
+  },
+  "463-49-0": {
+    "class": "Acyclic allenes",
+    "inchikey": "IYABWNGZIDDRAK-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": ""
+  },
+  "463-51-4": {
+    "class": "Organooxygen compounds",
+    "inchikey": "CCGKOQOJPYTBIH-UHFFFAOYSA-N",
+    "smiles": "C=C=O",
+    "subclass": "Ketenes"
+  },
+  "463-56-9": {
+    "class": "Thiocyanates",
+    "inchikey": "ZMZDMBWJUHKJPS-UHFFFAOYSA-N",
+    "smiles": "C(#N)S",
+    "subclass": ""
+  },
+  "463-58-1": {
+    "class": "",
+    "inchikey": "JJWKPURADFRFRB-UHFFFAOYSA-N",
+    "smiles": "C(=O)=S",
+    "subclass": ""
+  },
+  "464-49-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "4672-49-5": {
+    "class": "Organic sulfonic acids and derivatives",
+    "inchikey": "QSQFARNGNIZGAW-UHFFFAOYSA-N",
+    "smiles": "CS(=O)(=O)OCCOS(=O)(=O)C",
+    "subclass": "Organosulfonic acids and derivatives"
+  },
+  "4685-14-7": {
+    "class": "Pyridines and derivatives",
+    "inchikey": "INFDPOAKFNIJBF-UHFFFAOYSA-N",
+    "smiles": "C[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)C",
+    "subclass": "Bipyridines and oligopyridines"
+  },
+  "4696-30-4": {
+    "class": "Organooxygen compounds",
+    "inchikey": "VDTUJQCSPFYIKZ-UHFFFAOYSA-N",
+    "smiles": "COCCC=C",
+    "subclass": "Ethers"
+  },
+  "470-82-6": {
+    "class": "Oxanes",
+    "inchikey": "WEEGYLXZBRQIMU-UHFFFAOYSA-N",
+    "smiles": "CC1(C2CCC(O1)(CC2)C)C",
+    "subclass": ""
+  },
+  "471-84-1": {
+    "class": "Prenol lipids",
+    "inchikey": "XCPQUQHBVVXMRQ-UHFFFAOYSA-N",
+    "smiles": "CC1(C2CCC1C(=C)C2)C",
+    "subclass": "Monoterpenoids"
+  },
+  "4789-70-2": {
+    "class": "Thioethers",
+    "inchikey": "LBMGSGLAWRZARD-UHFFFAOYSA-N",
+    "smiles": "CCCCSC=C",
+    "subclass": "Thioenol ethers"
+  },
+  "4790-08-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "488-23-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "UOHMMEJUHBCKEE-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "488-81-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "493-01-6": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "493-02-7": {
+    "class": "Polycyclic hydrocarbons",
+    "inchikey": "NNBZCPXTIHJBJL-UHFFFAOYSA-N",
+    "smiles": "C1CCC2CCCCC2C1",
+    "subclass": ""
+  },
+  "494-90-6": {
+    "class": "Prenol lipids",
+    "inchikey": "YGWKXXYGDYYFJU-UHFFFAOYSA-N",
+    "smiles": "CC1CCC2=C(C1)OC=C2C",
+    "subclass": "Monoterpenoids"
+  },
+  "497-03-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ACWQBUSCFPJUPN-HWKANZROSA-N",
+    "smiles": "C/C=C(\\C)/C=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "497-23-4": {
+    "class": "Dihydrofurans",
+    "inchikey": "VIHAEDVKXSOUAT-UHFFFAOYSA-N",
+    "smiles": "C1C=CC(=O)O1",
+    "subclass": "Furanones"
+  },
+  "497-26-7": {
+    "class": "Dioxolanes",
+    "inchikey": "HTWIZMNMTWYQRN-UHFFFAOYSA-N",
+    "smiles": "CC1OCCO1",
+    "subclass": "1,3-dioxolanes"
+  },
+  "50-00-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "50-21-5": {
+    "class": "Hydroxy acids and derivatives",
+    "inchikey": "JVTAAEKCZFNVCJ-UHFFFAOYSA-N",
+    "smiles": "CC(C(=O)O)O",
+    "subclass": "Alpha hydroxy acids and derivatives"
+  },
+  "50-29-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "YVGGHNCTFXOJCH-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1C(C2=CC=C(C=C2)Cl)C(Cl)(Cl)Cl)Cl",
+    "subclass": "Diphenylmethanes"
+  },
+  "50-67-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "50-78-2": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "50-81-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "501-65-5": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "JRXXLCKWQFKACW-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "502-42-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "CGZZMOTZOONQIA-UHFFFAOYSA-N",
+    "smiles": "C1CCCC(=O)CC1",
+    "subclass": "Carbonyl compounds"
+  },
+  "502-44-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "502-49-8": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "502-56-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "WSGCRAOTEDLMFQ-UHFFFAOYSA-N",
+    "smiles": "CCCCC(=O)CCCC",
+    "subclass": "Carbonyl compounds"
+  },
+  "503-17-3": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "XNMQEEKYCVKGBD-UHFFFAOYSA-N",
+    "smiles": "CC#CC",
+    "subclass": "Acetylenes"
+  },
+  "503-30-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "503-64-0": {
+    "class": "Fatty Acyls",
+    "inchikey": "LDHQCZJRKDOVOX-IHWYPQMZSA-N",
+    "smiles": "C/C=C\\C(=O)O",
+    "subclass": "Fatty acids and conjugates"
+  },
+  "503-74-2": {
+    "class": "Fatty Acyls",
+    "inchikey": "GWYFCOCPABKNJV-UHFFFAOYSA-N",
+    "smiles": "CC(C)CC(=O)O",
+    "subclass": "Fatty acids and conjugates"
+  },
+  "504-24-5": {
+    "class": "Pyridines and derivatives",
+    "inchikey": "NUKYPUAOHBNCPY-UHFFFAOYSA-N",
+    "smiles": "C1=CN=CC=C1N",
+    "subclass": "Aminopyridines and derivatives"
+  },
+  "504-29-0": {
+    "class": "Pyridines and derivatives",
+    "inchikey": "ICSNLGPSRYBMBD-UHFFFAOYSA-N",
+    "smiles": "C1=CC=NC(=C1)N",
+    "subclass": "Aminopyridines and derivatives"
+  },
+  "504-61-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "WCASXYBKJHWFMY-NSCUHMNNSA-N",
+    "smiles": "C/C=C/CO",
+    "subclass": "Alcohols and polyols"
+  },
+  "504-63-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "YPFDHNVEDLHUCE-UHFFFAOYSA-N",
+    "smiles": "C(CO)CO",
+    "subclass": "Alcohols and polyols"
+  },
+  "506-68-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "506-77-4": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "QPJDMGCKMHUXFD-UHFFFAOYSA-N",
+    "smiles": "C(#N)Cl",
+    "subclass": "Organic cyanides"
+  },
+  "506-96-7": {
+    "class": "Acyl halides",
+    "inchikey": "FXXACINHVKSMDR-UHFFFAOYSA-N",
+    "smiles": "CC(=O)Br",
+    "subclass": "Acyl bromides"
+  },
+  "507-09-5": {
+    "class": "Carbothioic S-acids",
+    "inchikey": "DUYAAUVXQSMXQP-UHFFFAOYSA-N",
+    "smiles": "CC(=O)S",
+    "subclass": ""
+  },
+  "507-20-0": {
+    "class": "Organochlorides",
+    "inchikey": "NBRKLOOSMBRFMH-UHFFFAOYSA-N",
+    "smiles": "CC(C)(C)Cl",
+    "subclass": ""
+  },
+  "507-55-1": {
+    "class": "Organofluorides",
+    "inchikey": "UJIGKESMIPTWJH-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": ""
+  },
+  "508-32-7": {
+    "class": "Prenol lipids",
+    "inchikey": "RRBYUSWBLVXTQN-UHFFFAOYSA-N",
+    "smiles": "CC1(C2CC3C1(C3C2)C)C",
+    "subclass": "Monoterpenoids"
+  },
+  "509-14-8": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "NYTOUQBROMCLBJ-UHFFFAOYSA-N",
+    "smiles": "C([N+](=O)[O-])([N+](=O)[O-])([N+](=O)[O-])[N+](=O)[O-]",
+    "subclass": "Ortho amides"
+  },
+  "51-17-2": {
+    "class": "Benzimidazoles",
+    "inchikey": "HYZJCKYKOHLVJF-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C2C(=C1)NC=N2",
+    "subclass": ""
+  },
+  "51-43-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "51-61-6": {
+    "class": "Phenols",
+    "inchikey": "VYFYYTLLBUKUHU-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1CCN)O)O",
+    "subclass": "Benzenediols"
+  },
+  "51-68-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "XZTYGFHCIAKPGJ-UHFFFAOYSA-N",
+    "smiles": "CN(C)CCOC(=O)COC1=CC=C(C=C1)Cl",
+    "subclass": "Phenoxyacetic acid derivatives"
+  },
+  "51-79-6": {
+    "class": "Carboximidic acids and derivatives",
+    "inchikey": "JOYRKODLDBILNP-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)N",
+    "subclass": ""
+  },
+  "512-56-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "513-35-9": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "BKOOMYPCSUNDGP-UHFFFAOYSA-N",
+    "smiles": "CC=C(C)C",
+    "subclass": "Branched unsaturated hydrocarbons"
+  },
+  "513-37-1": {
+    "class": "Vinyl halides",
+    "inchikey": "KWISWUFGPUHDRY-UHFFFAOYSA-N",
+    "smiles": "CC(=CCl)C",
+    "subclass": "Vinyl chlorides"
+  },
+  "513-88-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "CSVFWMMPUJDVKH-UHFFFAOYSA-N",
+    "subclass": "Carbonyl compounds"
+  },
+  "5131-66-8": {
+    "class": "Organooxygen compounds",
+    "inchikey": "RWNUSVWFHDHRCJ-UHFFFAOYSA-N",
+    "smiles": "CCCCOCC(C)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "5162-44-7": {
+    "class": "Organobromides",
+    "inchikey": "DMAYBPBPEUFIHJ-UHFFFAOYSA-N",
+    "smiles": "C=CCCBr",
+    "subclass": ""
+  },
+  "517-25-9": {
+    "class": "Orthocarboxylic acid derivatives",
+    "inchikey": "LZGVDNRJCGPNDS-UHFFFAOYSA-N",
+    "smiles": "C([N+](=O)[O-])([N+](=O)[O-])[N+](=O)[O-]",
+    "subclass": ""
+  },
+  "5216-25-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "LVZPKYYPPLUECL-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1C(Cl)(Cl)Cl)Cl",
+    "subclass": "Halobenzenes"
+  },
+  "527-53-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "BFIMMTCNYPIMRN-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "5274-66-8": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "52788-79-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "IVBLRSMVJDVLCP-UHFFFAOYSA-N",
+    "smiles": "CC(C)(C)OCCOCCOC",
+    "subclass": "Ethers"
+  },
+  "528-29-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "IZUKQUVSCNEFMJ-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Nitrobenzenes"
+  },
+  "5291-77-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "LVUQCTGSDJLWCE-UHFFFAOYSA-N",
+    "smiles": "C1CC(=O)N(C1)CC2=CC=CC=C2",
+    "subclass": ""
+  },
+  "5306-85-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "53175-28-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "GMUIHGWBQIUCST-RQOWECAXSA-N",
+    "smiles": "C/C=C(/C=O)\\Cl",
+    "subclass": "Carbonyl compounds"
+  },
+  "532-27-4": {
+    "class": "Organooxygen compounds",
+    "inchikey": "IMACFCSSMIZSPP-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)C(=O)CCl",
+    "subclass": "Carbonyl compounds"
+  },
+  "534-15-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "SPEUIVXLLWOEMJ-UHFFFAOYSA-N",
+    "subclass": "Ethers"
+  },
+  "534-22-5": {
+    "class": "Heteroaromatic compounds",
+    "inchikey": "VQKFNUFAXTZWDK-UHFFFAOYSA-N",
+    "smiles": "CC1=CC=CO1",
+    "subclass": ""
+  },
+  "536-74-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "537-33-7": {
+    "class": "Phenols",
+    "inchikey": "LZFOPEXOUVTGJS-ONEGZZNKSA-N",
+    "smiles": "COC1=CC(=CC(=C1O)OC)/C=C/CO",
+    "subclass": "Methoxyphenols"
+  },
+  "53894-23-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "YPDXSCXISVYHOB-UHFFFAOYSA-N",
+    "smiles": "CC(C)CCCCCCOC(=O)C1=CC(=C(C=C1)C(=O)OCCCCCCC(C)C)C(=O)OCCCCCCC(C)C",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "539-30-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "AXPZDYVDTMMLNB-UHFFFAOYSA-N",
+    "smiles": "CCOCC1=CC=CC=C1",
+    "subclass": "Benzylethers"
+  },
+  "54-11-5": {
+    "class": "Pyridines and derivatives",
+    "inchikey": "SNICXCGAKADSCV-JTQLQIEISA-N",
+    "smiles": "CN1CCC[C@H]1C2=CN=CC=C2",
+    "subclass": "Pyrrolidinylpyridines"
+  },
+  "540-49-8": {
+    "class": "Vinyl halides",
+    "inchikey": "UWTUEMKLYAGTNQ-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Vinyl bromides"
+  },
+  "540-54-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "540-63-6": {
+    "class": "Thiols",
+    "inchikey": "VYMPLPIFKRHAAC-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Alkylthiols"
+  },
+  "540-67-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "XOBKSJJDNFUZPF-UHFFFAOYSA-N",
+    "smiles": "CCOC",
+    "subclass": "Ethers"
+  },
+  "540-84-1": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "NHTMVDHEPJAVLT-UHFFFAOYSA-N",
+    "smiles": "CC(C)CC(C)(C)C",
+    "subclass": "Alkanes"
+  },
+  "540-88-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "541-02-6": {
+    "class": "Organometalloid compounds",
+    "inchikey": "XMSXQFUHVRWGNA-UHFFFAOYSA-N",
+    "subclass": "Organosilicon compounds"
+  },
+  "541-35-5": {
+    "class": "Fatty Acyls",
+    "inchikey": "DNSISZSEWVHGLH-UHFFFAOYSA-N",
+    "smiles": "CCCC(=O)N",
+    "subclass": "Fatty amides"
+  },
+  "541-41-3": {
+    "class": "Organic carbonic acids and derivatives",
+    "inchikey": "RIFGWPKJUGCATF-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)Cl",
+    "subclass": ""
+  },
+  "541-73-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "ZPQOPVIELGIULI-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Halobenzenes"
+  },
+  "542-18-7": {
+    "class": "Alkyl halides",
+    "inchikey": "UNFUYWDGSFDHCW-UHFFFAOYSA-N",
+    "smiles": "C1CCC(CC1)Cl",
+    "subclass": "Cyclohexyl halides"
+  },
+  "542-55-2": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "AVMSWPWPYJVYKY-UHFFFAOYSA-N",
+    "smiles": "CC(C)COC=O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "542-58-5": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "VIRWKAJWTKAIMA-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OCCCl",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "542-76-7": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "GNHMRTZZNHZDDM-UHFFFAOYSA-N",
+    "smiles": "C(CCl)C#N",
+    "subclass": "Organic cyanides"
+  },
+  "542-85-8": {
+    "class": "Isothiocyanates",
+    "inchikey": "HBNYJWAFDZLWRS-UHFFFAOYSA-N",
+    "smiles": "CCN=C=S",
+    "subclass": ""
+  },
+  "542-88-1": {
+    "class": "Organochlorides",
+    "inchikey": "HRQGCQVOJVTVLU-UHFFFAOYSA-N",
+    "smiles": "C(OCCl)Cl",
+    "subclass": ""
+  },
+  "542-90-5": {
+    "class": "Thiocyanates",
+    "inchikey": "WFCLYEAZTHWNEH-UHFFFAOYSA-N",
+    "smiles": "CCSC#N",
+    "subclass": ""
+  },
+  "542-92-7": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "543-49-7": {
+    "class": "Fatty Acyls",
+    "inchikey": "CETWDUZRCINIHU-UHFFFAOYSA-N",
+    "smiles": "CCCCCC(C)O",
+    "subclass": "Fatty alcohols"
+  },
+  "543-59-9": {
+    "class": "Organochlorides",
+    "inchikey": "SQCZQTSHSZLZIQ-UHFFFAOYSA-N",
+    "smiles": "CCCCCCl",
+    "subclass": ""
+  },
+  "544-10-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "544-76-3": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "DCAYPVUWAIABOU-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCCCCCCCC",
+    "subclass": "Alkanes"
+  },
+  "545-06-2": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "DRUIESSIVFYOMK-UHFFFAOYSA-N",
+    "smiles": "C(#N)C(Cl)(Cl)Cl",
+    "subclass": "Organic cyanides"
+  },
+  "5459-90-5": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "PPHOKWJFQIHKNR-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OC(C(=C)Cl)OC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "5464-28-8": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "54722-81-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "54839-24-6": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "LIPRQQHINVWJCH-UHFFFAOYSA-N",
+    "smiles": "CCOCC(C)OC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "55-21-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "KXDAEFPNCMNJSK-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)C(=O)N",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "55-63-0": {
+    "class": "Organic oxoanionic compounds",
+    "inchikey": "SNIOPGDIGTZGOP-UHFFFAOYSA-N",
+    "smiles": "C(C(CO[N+](=O)[O-])O[N+](=O)[O-])O[N+](=O)[O-]",
+    "subclass": "Organic nitrates"
+  },
+  "55-91-4": {
+    "class": "Organic phosphoric acids and derivatives",
+    "inchikey": "MUCZHBLJLSDCSD-UHFFFAOYSA-N",
+    "smiles": "CC(C)OP(=O)(OC(C)C)F",
+    "subclass": "Phosphate esters"
+  },
+  "5500-21-0": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "AUQDITHEDVOTCU-UHFFFAOYSA-N",
+    "smiles": "C1CC1C#N",
+    "subclass": "Organic cyanides"
+  },
+  "554-00-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "KQCMTOWTPBNWDB-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1Cl)Cl)N",
+    "subclass": "Halobenzenes"
+  },
+  "554-12-1": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "RJUFJBKOKNCXHH-UHFFFAOYSA-N",
+    "smiles": "CCC(=O)OC",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "556-52-5": {
+    "class": "Epoxides",
+    "inchikey": "CTKINSOISVBQLD-UHFFFAOYSA-N",
+    "smiles": "C1C(O1)CO",
+    "subclass": ""
+  },
+  "556-56-9": {
+    "class": "Organoiodides",
+    "inchikey": "HFEHLDPGIKPNKL-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "556-61-6": {
+    "class": "Isothiocyanates",
+    "inchikey": "LGDSHSYDSCRFAB-UHFFFAOYSA-N",
+    "smiles": "CN=C=S",
+    "subclass": ""
+  },
+  "556-64-9": {
+    "class": "Thiocyanates",
+    "inchikey": "VYHVQEYOFIYNJP-UHFFFAOYSA-N",
+    "smiles": "CSC#N",
+    "subclass": ""
+  },
+  "556-67-2": {
+    "class": "Organometalloid compounds",
+    "inchikey": "HMMGMWAXVFQUOA-UHFFFAOYSA-N",
+    "smiles": "C[Si]1(O[Si](O[Si](O[Si](O1)(C)C)(C)C)(C)C)C",
+    "subclass": "Organosilicon compounds"
+  },
+  "557-31-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "OJPSFJLSZZTSDF-UHFFFAOYSA-N",
+    "smiles": "CCOCC=C",
+    "subclass": "Ethers"
+  },
+  "557-40-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "557-91-5": {
+    "class": "Organobromides",
+    "inchikey": "APQIUTYORBAGEZ-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "557-93-7": {
+    "class": "Vinyl halides",
+    "inchikey": "PHMRPWPDDRGGGF-UHFFFAOYSA-N",
+    "smiles": "CC(=C)Br",
+    "subclass": "Vinyl bromides"
+  },
+  "557-98-2": {
+    "class": "Vinyl halides",
+    "inchikey": "PNLQPWWBHXMFCA-UHFFFAOYSA-N",
+    "smiles": "CC(=C)Cl",
+    "subclass": "Vinyl chlorides"
+  },
+  "557-99-3": {
+    "class": "Acyl halides",
+    "inchikey": "JUCMRTZQCZRJDC-UHFFFAOYSA-N",
+    "smiles": "CC(=O)F",
+    "subclass": "Acyl fluorides"
+  },
+  "55702-46-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "IUYHQGMDSZOPDZ-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)C2=C(C(=C(C=C2)Cl)Cl)Cl",
+    "subclass": "Biphenyls and derivatives"
+  },
+  "558-30-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "56-23-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "56-81-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "PEDCQBHIVMGVHV-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Carbohydrates and carbohydrate conjugates"
+  },
+  "5614-37-9": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "563-45-1": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "YHQXBTXEYZIYOV-UHFFFAOYSA-N",
+    "smiles": "CC(C)C=C",
+    "subclass": "Unsaturated aliphatic hydrocarbons"
+  },
+  "563-46-2": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "MHNNAWXXUZQSNM-UHFFFAOYSA-N",
+    "smiles": "CCC(=C)C",
+    "subclass": "Branched unsaturated hydrocarbons"
+  },
+  "563-47-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "563-58-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ZAIDIVBQUMFXEC-UHFFFAOYSA-N",
+    "subclass": "Ketene acetals"
+  },
+  "563-78-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "56539-66-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "MFKRHJVUCZRDTF-UHFFFAOYSA-N",
+    "smiles": "CC(C)(CCO)OC",
+    "subclass": "Ethers"
+  },
+  "57-06-7": {
+    "class": "Isothiocyanates",
+    "inchikey": "ZOJBYZNEUISWFT-UHFFFAOYSA-N",
+    "smiles": "C=CCN=C=S",
+    "subclass": ""
+  },
+  "57-11-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "57-13-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "57-14-7": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "RHUYHJGZWVXEHW-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Hydrazines and derivatives"
+  },
+  "57-55-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "57-57-8": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "57018-52-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "GQCZPFJGIXHZMB-UHFFFAOYSA-N",
+    "smiles": "CC(COC(C)(C)C)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "576-26-1": {
+    "class": "Phenols",
+    "inchikey": "NXXYKOUNUYWIHA-UHFFFAOYSA-N",
+    "smiles": "CC1=C(C(=CC=C1)C)O",
+    "subclass": "Cresols"
+  },
+  "577-71-9": {
+    "class": "Phenols",
+    "inchikey": "AKLOLDQYWQAREW-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1O)[N+](=O)[O-])[N+](=O)[O-]",
+    "subclass": "Nitrophenols"
+  },
+  "578-57-4": {
+    "class": "Phenol ethers",
+    "inchikey": "HTDQSWDEWGSAMN-UHFFFAOYSA-N",
+    "smiles": "COC1=CC=CC=C1Br",
+    "subclass": "Anisoles"
+  },
+  "58-08-2": {
+    "class": "Imidazopyrimidines",
+    "inchikey": "RYYVLZVUVIJVGH-UHFFFAOYSA-N",
+    "smiles": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
+    "subclass": "Purines and purine derivatives"
+  },
+  "582-59-2": {
+    "class": "Indoles and derivatives",
+    "inchikey": "IGGVVGHJSQSLFO-UHFFFAOYSA-N",
+    "smiles": "C1=CNC2=CC(=O)C(=O)C=C21",
+    "subclass": ""
+  },
+  "582-83-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "QHDXPJMOWRLLRV-UHFFFAOYSA-N",
+    "smiles": "CCCC(=O)C1=CC=C(C=C1)F",
+    "subclass": "Carbonyl compounds"
+  },
+  "583-53-9": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "WQONPSCCEXUXTQ-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C(=C1)Br)Br",
+    "subclass": "Halobenzenes"
+  },
+  "583-59-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "583-60-8": {
+    "class": "Organooxygen compounds",
+    "inchikey": "LFSAPCRASZRSKS-UHFFFAOYSA-N",
+    "smiles": "CC1CCCCC1=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "583-78-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "RANCECPPZPIPNO-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1Cl)O)Cl",
+    "subclass": "Halobenzenes"
+  },
+  "586-11-8": {
+    "class": "Phenols",
+    "inchikey": "UEMBNLWZFIWQFL-UHFFFAOYSA-N",
+    "smiles": "C1=C(C=C(C=C1[N+](=O)[O-])O)[N+](=O)[O-]",
+    "subclass": "Nitrophenols"
+  },
+  "586-75-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "586-78-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "ZDFBKZUDCQQKAC-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Nitrobenzenes"
+  },
+  "586-96-9": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "NLRKCXQQSUWLCH-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)N=O",
+    "subclass": ""
+  },
+  "588-96-5": {
+    "class": "Phenol ethers",
+    "inchikey": "WVUYYXUATWMVIT-UHFFFAOYSA-N",
+    "smiles": "CCOC1=CC=C(C=C1)Br",
+    "subclass": ""
+  },
+  "589-82-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "RZKSECIXORKHQS-UHFFFAOYSA-N",
+    "smiles": "CCCCC(CC)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "589-91-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "MQWCXKGKQLNYQG-UHFFFAOYSA-N",
+    "smiles": "CC1CCC(CC1)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "59-92-7": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "WTDRDQBEARUVNC-LURJTMIESA-N",
+    "smiles": "C1=CC(=C(C=C1C[C@@H](C(=O)O)N)O)O",
+    "subclass": "Amino acids, peptides, and analogues"
+  },
+  "590-01-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "590-13-6": {
+    "class": "Vinyl halides",
+    "inchikey": "NNQDMQVWOWCVEM-IHWYPQMZSA-N",
+    "smiles": "C/C=C\\Br",
+    "subclass": "Vinyl bromides"
+  },
+  "590-18-1": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "IAQRGUVFOMOMEM-ARJAWSKDSA-N",
+    "smiles": "C/C=C\\C",
+    "subclass": "Unsaturated aliphatic hydrocarbons"
+  },
+  "590-19-2": {
+    "class": "Acyclic allenes",
+    "inchikey": "QNRMTGGDHLBXQZ-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": ""
+  },
+  "590-21-6": {
+    "class": "Vinyl halides",
+    "inchikey": "OWXJKYNZGFSVRC-UHFFFAOYSA-N",
+    "smiles": "CC=CCl",
+    "subclass": "Vinyl chlorides"
+  },
+  "590-67-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "590-86-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "YGHRJJRRZDOVPD-UHFFFAOYSA-N",
+    "smiles": "CC(C)CC=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "591-23-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "HTSABYAWKQAHBT-UHFFFAOYSA-N",
+    "smiles": "CC1CCCC(C1)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "591-24-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "UJBOOUHRTQVGRU-UHFFFAOYSA-N",
+    "smiles": "CC1CCCC(=O)C1",
+    "subclass": "Carbonyl compounds"
+  },
+  "591-50-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "SNHMUERNLJLMHN-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)I",
+    "subclass": "Halobenzenes"
+  },
+  "591-60-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "591-78-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "QQZOPKMRPOGIEB-UHFFFAOYSA-N",
+    "smiles": "CCCCC(=O)C",
+    "subclass": "Carbonyl compounds"
+  },
+  "591-80-0": {
+    "class": "Fatty Acyls",
+    "inchikey": "HVAMZGADVCBITI-UHFFFAOYSA-N",
+    "smiles": "C=CCCC(=O)O",
+    "subclass": "Fatty acids and conjugates"
+  },
+  "591-87-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "591-97-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "592-41-6": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "LIKMAJRDDDTEIG-UHFFFAOYSA-N",
+    "subclass": "Unsaturated aliphatic hydrocarbons"
+  },
+  "592-51-8": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "CFEYBLWMNFZOPB-UHFFFAOYSA-N",
+    "subclass": "Organic cyanides"
+  },
+  "592-76-7": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "ZGEGCLOFRBLKSE-UHFFFAOYSA-N",
+    "smiles": "CCCCCC=C",
+    "subclass": "Unsaturated aliphatic hydrocarbons"
+  },
+  "592-84-7": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "NMJJFJNHVMGPGM-UHFFFAOYSA-N",
+    "smiles": "CCCCOC=O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "593-45-3": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "RZJRJXONCZWCBN-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCCCCCCCCCC",
+    "subclass": "Alkanes"
+  },
+  "593-53-3": {
+    "class": "Alkyl halides",
+    "inchikey": "NBVXSUQYWXRMNV-UHFFFAOYSA-N",
+    "smiles": "CF",
+    "subclass": "Halomethanes"
+  },
+  "593-60-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "593-61-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "593-63-5": {
+    "class": "Haloacetylenes and derivatives",
+    "inchikey": "DIWKDXFZXXCDLF-UHFFFAOYSA-N",
+    "smiles": "C#CCl",
+    "subclass": ""
+  },
+  "593-66-8": {
+    "class": "Vinyl halides",
+    "inchikey": "GHXZPUGJZVBLGC-UHFFFAOYSA-N",
+    "smiles": "C=CI",
+    "subclass": "Vinyl iodides"
+  },
+  "593-67-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "593-92-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "IWHJPYXAFGKABF-UHFFFAOYSA-N",
+    "subclass": "Ketene acetals"
+  },
+  "594-44-5": {
+    "class": "Sulfonyl halides",
+    "inchikey": "FRYHCSODNHYDPU-UHFFFAOYSA-N",
+    "smiles": "CCS(=O)(=O)Cl",
+    "subclass": "Sulfonyl chlorides"
+  },
+  "594-72-9": {
+    "class": "Allyl-type 1,3-dipolar organic compounds",
+    "inchikey": "OQOGEOLRYAOSKO-UHFFFAOYSA-N",
+    "subclass": "Organic nitro compounds"
+  },
+  "5976-47-6": {
+    "class": "Halohydrins",
+    "inchikey": "OSCXYTRISGREIM-UHFFFAOYSA-N",
+    "smiles": "C=C(CO)Cl",
+    "subclass": "Chlorohydrins"
+  },
+  "598-16-3": {
+    "class": "Vinyl halides",
+    "inchikey": "OZVJKTHTULCNHB-UHFFFAOYSA-N",
+    "subclass": "Vinyl bromides"
+  },
+  "598-19-6": {
+    "class": "Halohydrins",
+    "inchikey": "MDFFZNIQPLKQSG-UHFFFAOYSA-N",
+    "smiles": "C=C(CO)Br",
+    "subclass": "Bromohydrins"
+  },
+  "598-25-4": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "PAKGDPSCXSUALC-UHFFFAOYSA-N",
+    "smiles": "CC(=C=C)C",
+    "subclass": "Branched unsaturated hydrocarbons"
+  },
+  "598-26-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "VDOKWPVSGXHSNP-UHFFFAOYSA-N",
+    "smiles": "CC(=C=O)C",
+    "subclass": "Ketenes"
+  },
+  "598-58-3": {
+    "class": "Organic oxoanionic compounds",
+    "inchikey": "LRMHVVPPGGOAJQ-UHFFFAOYSA-N",
+    "smiles": "CO[N+](=O)[O-]",
+    "subclass": "Organic nitrates"
+  },
+  "598-75-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "598-79-8": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "SZTBMYHIYNGYIA-UHFFFAOYSA-N",
+    "smiles": "C=C(C(=O)O)Cl",
+    "subclass": "Alpha-halocarboxylic acids and derivatives"
+  },
+  "598-92-5": {
+    "class": "Allyl-type 1,3-dipolar organic compounds",
+    "inchikey": "LPIWIOBGUAPNQW-UHFFFAOYSA-N",
+    "smiles": "CC([N+](=O)[O-])Cl",
+    "subclass": "Organic nitro compounds"
+  },
+  "5989-27-5": {
+    "class": "Prenol lipids",
+    "inchikey": "XMGQYMWWDOXHJM-JTQLQIEISA-N",
+    "smiles": "CC1=CC[C@@H](CC1)C(=C)C",
+    "subclass": "Monoterpenoids"
+  },
+  "60-01-5": {
+    "class": "Glycerolipids",
+    "inchikey": "UYXTWWCETRIEDR-UHFFFAOYSA-N",
+    "smiles": "CCCC(=O)OCC(COC(=O)CCC)OC(=O)CCC",
+    "subclass": "Triradylcglycerols"
+  },
+  "60-12-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "WRMNZCZEMHIOCP-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "60-18-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "OUYCCCASQSFEME-QMMMGPOBSA-N",
+    "smiles": "",
+    "subclass": "Amino acids, peptides, and analogues"
+  },
+  "60-29-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "RTZKZFJDLAIYFH-UHFFFAOYSA-N",
+    "smiles": "CCOCC",
+    "subclass": "Ethers"
+  },
+  "60-34-4": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "HDZGCSFEDULWCS-UHFFFAOYSA-N",
+    "smiles": "CNN",
+    "subclass": "Hydrazines and derivatives"
+  },
+  "60-35-5": {
+    "class": "Carboximidic acids and derivatives",
+    "inchikey": "DLFVBJFMPXGRIB-UHFFFAOYSA-N",
+    "smiles": "CC(=O)N",
+    "subclass": "Carboximidic acids"
+  },
+  "600-25-9": {
+    "class": "Allyl-type 1,3-dipolar organic compounds",
+    "inchikey": "XEKUXTMJEFPWCG-UHFFFAOYSA-N",
+    "smiles": "CCC([N+](=O)[O-])Cl",
+    "subclass": "Organic nitro compounds"
+  },
+  "6032-29-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "609-40-5": {
+    "class": "Thiophenes",
+    "inchikey": "JIZRGGUCOQKGQD-UHFFFAOYSA-N",
+    "subclass": "Nitrothiophenes"
+  },
+  "611-06-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "QUIMTLZDMCNYGY-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1Cl)Cl)[N+](=O)[O-]",
+    "subclass": "Nitrobenzenes"
+  },
+  "611-13-2": {
+    "class": "Furans",
+    "inchikey": "HDJLSECJEQSPKW-UHFFFAOYSA-N",
+    "smiles": "COC(=O)C1=CC=CO1",
+    "subclass": "Furoic acid and derivatives"
+  },
+  "611-15-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "614-72-2": {
+    "class": "Phenol ethers",
+    "inchikey": "IRYSAAMKXPLGAM-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "6140-80-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "615-65-6": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "XGYLSRFSXKAYCR-UHFFFAOYSA-N",
+    "smiles": "CC1=CC(=C(C=C1)N)Cl",
+    "subclass": "Toluenes"
+  },
+  "615-74-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "616-02-4": {
+    "class": "Dihydrofurans",
+    "inchikey": "AYKYXWQEBUNJCN-UHFFFAOYSA-N",
+    "smiles": "CC1=CC(=O)OC1=O",
+    "subclass": "Furanones"
+  },
+  "616-23-9": {
+    "class": "Halohydrins",
+    "inchikey": "ZXCYIJGIGSDJQQ-UHFFFAOYSA-N",
+    "smiles": "C(C(CCl)Cl)O",
+    "subclass": "Chlorohydrins"
+  },
+  "616-38-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "616-45-5": {
+    "class": "Pyrrolidines",
+    "inchikey": "HNJBEVLQSNELDL-UHFFFAOYSA-N",
+    "smiles": "C1CC(=O)NC1",
+    "subclass": "Pyrrolidones"
+  },
+  "616-47-7": {
+    "class": "Azoles",
+    "inchikey": "MCTWTZJPVLRJOU-UHFFFAOYSA-N",
+    "smiles": "CN1C=CN=C1",
+    "subclass": "Imidazoles"
+  },
+  "617-84-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "617-90-3": {
+    "class": "Heteroaromatic compounds",
+    "inchikey": "YXDXXGXWFJCXEB-UHFFFAOYSA-N",
+    "smiles": "C1=COC(=C1)C#N",
+    "subclass": ""
+  },
+  "618-42-8": {
+    "class": "Piperidines",
+    "inchikey": "KDISMIMTGUMORD-UHFFFAOYSA-N",
+    "subclass": "N-acylpiperidines"
+  },
+  "62-53-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "62-55-5": {
+    "class": "Thioamides",
+    "inchikey": "YUKQRDCYNOVPGJ-UHFFFAOYSA-N",
+    "smiles": "CC(=S)N",
+    "subclass": ""
+  },
+  "62-56-6": {
+    "class": "Thioureas",
+    "inchikey": "UMGDCJDMYOKAJW-UHFFFAOYSA-N",
+    "smiles": "C(=S)(N)N",
+    "subclass": ""
+  },
+  "620-20-2": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "DDGRAFHHXYIQQR-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC(=C1)Cl)CCl",
+    "subclass": "Benzyl halides"
+  },
+  "622-08-2": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "CUZKCNWZBXLAJX-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)COCCO",
+    "subclass": "Benzylethers"
+  },
+  "622-24-2": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "MNNZINNZIQVULG-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)CCCl",
+    "subclass": ""
+  },
+  "622-61-7": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "6222-17-9": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "ZMFWEWMHABZQNB-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OCCCCCCOC(=O)C",
+    "subclass": "Dicarboxylic acids and derivatives"
+  },
+  "623-00-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "623-03-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "GJNGXPDXRVXSEH-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1C#N)Cl",
+    "subclass": "Benzonitriles"
+  },
+  "623-12-1": {
+    "class": "Phenol ethers",
+    "inchikey": "YRGAYAGBVIXNAQ-UHFFFAOYSA-N",
+    "smiles": "COC1=CC=C(C=C1)Cl",
+    "subclass": "Anisoles"
+  },
+  "624-48-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "624-54-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "TWSRVQVEYJNFKQ-UHFFFAOYSA-N",
+    "smiles": "CCCCCOC(=O)CC",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "624-65-7": {
+    "class": "",
+    "inchikey": "LJZPPWWHKPGCHS-UHFFFAOYSA-N",
+    "smiles": "C#CCCl",
+    "subclass": ""
+  },
+  "624-67-9": {
+    "class": "",
+    "inchikey": "IJNJLGFTSIAHEA-UHFFFAOYSA-N",
+    "smiles": "C#CC=O",
+    "subclass": ""
+  },
+  "624-79-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "624-83-9": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "HAMGRBXTJNITHG-UHFFFAOYSA-N",
+    "smiles": "CN=C=O",
+    "subclass": "Isocyanates"
+  },
+  "624-85-1": {
+    "class": "Organic oxoanionic compounds",
+    "inchikey": "NSHIYIMHYBAIEY-UHFFFAOYSA-N",
+    "smiles": "CCOCl",
+    "subclass": ""
+  },
+  "624-89-5": {
+    "class": "Thioethers",
+    "inchikey": "WXEHBUMAEPOYKP-UHFFFAOYSA-N",
+    "smiles": "CCSC",
+    "subclass": "Dialkylthioethers"
+  },
+  "624-92-0": {
+    "class": "Organic disulfides",
+    "inchikey": "WQOXQRCZOLPYPM-UHFFFAOYSA-N",
+    "smiles": "CSSC",
+    "subclass": "Dialkyldisulfides"
+  },
+  "625-33-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "LABTWGUMFABVFG-ONEGZZNKSA-N",
+    "smiles": "C/C=C/C(=O)C",
+    "subclass": "Carbonyl compounds"
+  },
+  "625-38-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "625-84-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "6262-51-7": {
+    "class": "Organochlorides",
+    "inchikey": "IACJMSLMMMSESC-UHFFFAOYSA-N",
+    "smiles": "C1(C(C1(Cl)Cl)(Cl)Cl)Cl",
+    "subclass": ""
+  },
+  "627-09-8": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "RIZZXCJMFIGMON-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OCC#C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "627-13-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "627-22-5": {
+    "class": "Vinyl halides",
+    "inchikey": "PCPYTNCQOSFKGG-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Vinyl chlorides"
+  },
+  "627-26-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "627-30-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "627-40-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "FASUFOTUSHAIHG-UHFFFAOYSA-N",
+    "smiles": "COCC=C",
+    "subclass": "Ethers"
+  },
+  "627-45-2": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "KERBAAIBDHEFDD-UHFFFAOYSA-N",
+    "smiles": "CCNC=O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "627-50-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "627-51-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "627-52-1": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "627-93-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "628-34-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "GPTVQTPMFOLLOA-UHFFFAOYSA-N",
+    "smiles": "CCOCCCl",
+    "subclass": "Ethers"
+  },
+  "628-63-7": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "PGMYKACGEOXYJE-UHFFFAOYSA-N",
+    "smiles": "CCCCCOC(=O)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "628-76-2": {
+    "class": "Organochlorides",
+    "inchikey": "LBKDGROORAKTLC-UHFFFAOYSA-N",
+    "smiles": "C(CCCl)CCCl",
+    "subclass": ""
+  },
+  "628-81-9": {
+    "class": "Organooxygen compounds",
+    "inchikey": "PZHIWRCQKBBTOW-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Ethers"
+  },
+  "628-96-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "629-11-8": {
+    "class": "Fatty Acyls",
+    "inchikey": "XXMIOPMDWAUFGU-UHFFFAOYSA-N",
+    "smiles": "C(CCCO)CCO",
+    "subclass": "Fatty alcohols"
+  },
+  "629-14-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "629-59-4": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "BGHCVCJVXZWKCC-UHFFFAOYSA-N",
+    "smiles": "CCCCCCCCCCCCCC",
+    "subclass": "Alkanes"
+  },
+  "63-74-1": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "630-20-6": {
+    "class": "Organochlorides",
+    "inchikey": "QVLAWKAXOMEXPM-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "631-57-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "QLDHWVVRQCGZLE-UHFFFAOYSA-N",
+    "smiles": "CC(=O)C#N",
+    "subclass": "Carbonyl compounds"
+  },
+  "632-22-4": {
+    "class": "Organic carbonic acids and derivatives",
+    "inchikey": "AVQQQNCBBIEMEU-UHFFFAOYSA-N",
+    "smiles": "CN(C)C(=O)N(C)C",
+    "subclass": "Ureas"
+  },
+  "6320-03-2": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "638-37-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "64-17-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
+    "smiles": "CCO",
+    "subclass": "Alcohols and polyols"
+  },
+  "64-18-6": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "BDAGIHXWWSANSR-UHFFFAOYSA-N",
+    "smiles": "C(=O)O",
+    "subclass": "Carboxylic acids"
+  },
+  "64-19-7": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "QTBSBXVTEAMEQO-UHFFFAOYSA-N",
+    "smiles": "CC(=O)O",
+    "subclass": "Carboxylic acids"
+  },
+  "64-67-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "64248-63-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "CQXZSEXZQVKCHW-UHFFFAOYSA-N",
+    "smiles": "C1=C(C=C(C=C1F)F)C#N",
+    "subclass": "Benzonitriles"
+  },
+  "6443-91-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "646-06-0": {
+    "class": "Dioxolanes",
+    "inchikey": "WNXJIVFYUVYPPR-UHFFFAOYSA-N",
+    "smiles": "C1COCO1",
+    "subclass": "1,3-dioxolanes"
+  },
+  "65-71-4": {
+    "class": "Diazines",
+    "inchikey": "RWQNBRDOKXIBIV-UHFFFAOYSA-N",
+    "smiles": "CC1=CNC(=O)NC1=O",
+    "subclass": "Pyrimidines and pyrimidine derivatives"
+  },
+  "65-85-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "652-29-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "6581-66-4": {
+    "class": "Oxanes",
+    "inchikey": "XTDKZSUYCXHXJM-UHFFFAOYSA-N",
+    "smiles": "COC1CCCCO1",
+    "subclass": ""
+  },
+  "66-25-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "JARKCYVAAOWBJS-UHFFFAOYSA-N",
+    "smiles": "CCCCCC=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "66-81-9": {
+    "class": "Pyridines and derivatives",
+    "inchikey": "YPHMISFOHDHNIV-FSZOTQKASA-N",
+    "smiles": "C[C@H]1C[C@@H](C(=O)[C@@H](C1)[C@@H](CC2CC(=O)NC(=O)C2)O)C",
+    "subclass": "Hydropyridines"
+  },
+  "66728-50-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "FQQBAHSCHMASLR-UHFFFAOYSA-N",
+    "smiles": "CC(C)(C)OCCOC",
+    "subclass": "Ethers"
+  },
+  "67-56-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "OKKJLVBELUTLKV-UHFFFAOYSA-N",
+    "smiles": "CO",
+    "subclass": "Alcohols and polyols"
+  },
+  "67-63-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "67-64-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "CSCPPACGZOOCGX-UHFFFAOYSA-N",
+    "smiles": "CC(=O)C",
+    "subclass": "Carbonyl compounds"
+  },
+  "67-66-3": {
+    "class": "Alkyl halides",
+    "inchikey": "HEDRZPFGACZZDS-UHFFFAOYSA-N",
+    "smiles": "C(Cl)(Cl)Cl",
+    "subclass": "Halomethanes"
+  },
+  "67-68-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "67-71-0": {
+    "class": "Sulfonyls",
+    "inchikey": "HHVIBTZHLRERCL-UHFFFAOYSA-N",
+    "smiles": "CS(=O)(=O)C",
+    "subclass": "Sulfones"
+  },
+  "67-72-1": {
+    "class": "Organochlorides",
+    "inchikey": "VHHHONWQHHHLTI-UHFFFAOYSA-N",
+    "smiles": "C(C(Cl)(Cl)Cl)(Cl)(Cl)Cl",
+    "subclass": ""
+  },
+  "674-82-8": {
+    "class": "Lactones",
+    "inchikey": "WASQWSOJHCZDFK-UHFFFAOYSA-N",
+    "smiles": "C=C1CC(=O)O1",
+    "subclass": "Beta propiolactones"
+  },
+  "676-99-3": {
+    "class": "Organic phosphonic acids and derivatives",
+    "inchikey": "PQIOSYKVBBWRRI-UHFFFAOYSA-N",
+    "smiles": "CP(=O)(F)F",
+    "subclass": ""
+  },
+  "678-26-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "68-11-1": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "CWERGRDVMFNCDR-UHFFFAOYSA-N",
+    "smiles": "C(C(=O)O)S",
+    "subclass": "Carboxylic acids"
+  },
+  "68-12-2": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "ZMXDDKWLCZADIW-UHFFFAOYSA-N",
+    "smiles": "CN(C)C=O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "680-31-9": {
+    "class": "Organic phosphoric acids and derivatives",
+    "inchikey": "GNOIPBMMFNIUFM-UHFFFAOYSA-N",
+    "subclass": "Organic phosphoramides"
+  },
+  "683-51-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ZWHANXMMZRUTAY-UHFFFAOYSA-N",
+    "smiles": "C=C(C=O)Cl",
+    "subclass": "Carbonyl compounds"
+  },
+  "6837-24-7": {
+    "class": "Pyrrolidines",
+    "inchikey": "PZYDAVFRVJXFHS-UHFFFAOYSA-N",
+    "smiles": "C1CCC(CC1)N2CCCC2=O",
+    "subclass": "N-alkylpyrrolidines"
+  },
+  "685-63-2": {
+    "class": "Vinyl halides",
+    "inchikey": "LGPPATCNSOSOQH-UHFFFAOYSA-N",
+    "subclass": "Vinyl fluorides"
+  },
+  "685-91-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "6863-58-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "HHBZZTKMMLDNDN-UHFFFAOYSA-N",
+    "smiles": "CCC(C)OC(C)CC",
+    "subclass": "Ethers"
+  },
+  "688-74-4": {
+    "class": "Organic oxoanionic compounds",
+    "inchikey": "LGQXXHMEBUOXRP-UHFFFAOYSA-N",
+    "smiles": "B(OCCCC)(OCCCC)OCCCC",
+    "subclass": ""
+  },
+  "6881-94-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "DJCYDDALXPHSHR-UHFFFAOYSA-N",
+    "smiles": "CCCOCCOCCO",
+    "subclass": "Ethers"
+  },
+  "689-97-4": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "WFYPICNXBKQZGB-UHFFFAOYSA-N",
+    "smiles": "C=CC#C",
+    "subclass": "Enynes"
+  },
+  "69-72-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "YGSDEFSMJLZEOE-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C(=C1)C(=O)O)O",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "692-45-5": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "GFJVXXWOPWLRNU-UHFFFAOYSA-N",
+    "smiles": "C=COC=O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "6923-20-2": {
+    "class": "Vinyl halides",
+    "inchikey": "PPKPKFIWDXDAGC-IHWYPQMZSA-N",
+    "subclass": "Vinyl chlorides"
+  },
+  "693-07-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "693-65-2": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "694-80-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "QBELEDRHMPMKHP-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C(=C1)Cl)Br",
+    "subclass": "Halobenzenes"
+  },
+  "696-59-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "7085-85-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "709-63-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "HHAISVSEJFEWBZ-UHFFFAOYSA-N",
+    "smiles": "CC(=O)C1=CC=C(C=C1)C(F)(F)F",
+    "subclass": "Carbonyl compounds"
+  },
+  "71-23-8": {
+    "class": "Organooxygen compounds",
+    "inchikey": "BDERNNFJNOPAEC-UHFFFAOYSA-N",
+    "smiles": "CCCO",
+    "subclass": "Alcohols and polyols"
+  },
+  "71-36-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "LRHPLDYGYMQRHN-UHFFFAOYSA-N",
+    "smiles": "CCCCO",
+    "subclass": "Alcohols and polyols"
+  },
+  "71-41-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "71-43-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "71-55-6": {
+    "class": "Organochlorides",
+    "inchikey": "UOCLXMDMGBRAIB-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "71888-89-6": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "7291-09-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "73-24-5": {
+    "class": "Imidazopyrimidines",
+    "inchikey": "GFFGJBXGBJISGV-UHFFFAOYSA-N",
+    "smiles": "C1=NC2=NC=NC(=C2N1)N",
+    "subclass": "Purines and purine derivatives"
+  },
+  "7319-16-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "7393-45-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "74-82-8": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "VNWKTOKETHGBQD-UHFFFAOYSA-N",
+    "smiles": "C",
+    "subclass": "Alkanes"
+  },
+  "74-83-9": {
+    "class": "Alkyl halides",
+    "inchikey": "GZUXJHMPEANEGY-UHFFFAOYSA-N",
+    "smiles": "CBr",
+    "subclass": "Halomethanes"
+  },
+  "74-84-0": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "OTMSDBZUPAUEDD-UHFFFAOYSA-N",
+    "smiles": "CC",
+    "subclass": "Alkanes"
+  },
+  "74-85-1": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "VGGSQFUCUMXWEO-UHFFFAOYSA-N",
+    "smiles": "C=C",
+    "subclass": "Unsaturated aliphatic hydrocarbons"
+  },
+  "74-86-2": {
+    "class": "",
+    "inchikey": "HSFWRNGVRCDJHI-UHFFFAOYSA-N",
+    "smiles": "C#C",
+    "subclass": ""
+  },
+  "74-87-3": {
+    "class": "Alkyl halides",
+    "inchikey": "NEHMKBQYUWJMIP-UHFFFAOYSA-N",
+    "smiles": "CCl",
+    "subclass": "Halomethanes"
+  },
+  "74-88-4": {
+    "class": "Alkyl halides",
+    "inchikey": "INQOMBQAUSQDDS-UHFFFAOYSA-N",
+    "smiles": "CI",
+    "subclass": "Halomethanes"
+  },
+  "74-89-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "74-90-8": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "74-93-1": {
+    "class": "Thiols",
+    "inchikey": "LSDPWZHWYPCBBB-UHFFFAOYSA-N",
+    "smiles": "CS",
+    "subclass": "Alkylthiols"
+  },
+  "74-95-3": {
+    "class": "Alkyl halides",
+    "inchikey": "FJBFPHVGVWTDIP-UHFFFAOYSA-N",
+    "smiles": "C(Br)Br",
+    "subclass": "Halomethanes"
+  },
+  "74-96-4": {
+    "class": "Organobromides",
+    "inchikey": "RDHPKYGYEGBMSE-UHFFFAOYSA-N",
+    "smiles": "CCBr",
+    "subclass": ""
+  },
+  "74-97-5": {
+    "class": "Alkyl halides",
+    "inchikey": "JPOXNPPZZKNXOV-UHFFFAOYSA-N",
+    "smiles": "C(Cl)Br",
+    "subclass": "Halomethanes"
+  },
+  "74-98-6": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "74-99-7": {
+    "class": "",
+    "inchikey": "MWWATHDPGQKSAR-UHFFFAOYSA-N",
+    "smiles": "CC#C",
+    "subclass": ""
+  },
+  "7400-08-0": {
+    "class": "Cinnamic acids and derivatives",
+    "inchikey": "NGSWKAQJJWESNS-ZZXKWVIFSA-N",
+    "smiles": "C1=CC(=CC=C1/C=C/C(=O)O)O",
+    "subclass": "Hydroxycinnamic acids and derivatives"
+  },
+  "7446-09-5": {
+    "class": "Other non-metal organides",
+    "inchikey": "RAHZWNYVWXNFOC-UHFFFAOYSA-N",
+    "smiles": "O=S=O",
+    "subclass": "Other non-metal oxides"
+  },
+  "748-30-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "MVCITNPWSJQCBC-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)OC2=CC(=CC=C2)OC3=CC=CC(=C3)OC4=CC=CC=C4",
+    "subclass": "Diphenylethers"
+  },
+  "7491-74-9": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "75-00-3": {
+    "class": "Organochlorides",
+    "inchikey": "HRYZWHHZPQKTII-UHFFFAOYSA-N",
+    "smiles": "CCCl",
+    "subclass": ""
+  },
+  "75-01-4": {
+    "class": "Vinyl halides",
+    "inchikey": "BZHJMEDXRYGGRV-UHFFFAOYSA-N",
+    "smiles": "C=CCl",
+    "subclass": "Vinyl chlorides"
+  },
+  "75-02-5": {
+    "class": "Vinyl halides",
+    "inchikey": "XUCNUKMRBVNAPB-UHFFFAOYSA-N",
+    "smiles": "C=CF",
+    "subclass": "Vinyl fluorides"
+  },
+  "75-03-6": {
+    "class": "Organoiodides",
+    "inchikey": "HVTICUPFWKNHNG-UHFFFAOYSA-N",
+    "smiles": "CCI",
+    "subclass": ""
+  },
+  "75-04-7": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "QUSNBJAOOMFDIB-UHFFFAOYSA-N",
+    "smiles": "CCN",
+    "subclass": "Amines"
+  },
+  "75-05-8": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "WEVYAHXRMPXWCK-UHFFFAOYSA-N",
+    "smiles": "CC#N",
+    "subclass": "Organic cyanides"
+  },
+  "75-07-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "IKHGUXGNUITLKF-UHFFFAOYSA-N",
+    "smiles": "CC=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "75-08-1": {
+    "class": "Thiols",
+    "inchikey": "DNJIEGIFACGWOD-UHFFFAOYSA-N",
+    "subclass": "Alkylthiols"
+  },
+  "75-09-2": {
+    "class": "Alkyl halides",
+    "inchikey": "YMWUJEATGCHHMB-UHFFFAOYSA-N",
+    "smiles": "C(Cl)Cl",
+    "subclass": "Halomethanes"
+  },
+  "75-11-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "75-12-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "75-13-8": {
+    "class": "Organooxygen compounds",
+    "inchikey": "OWIKHYCFFJSOEH-UHFFFAOYSA-N",
+    "smiles": "C(=N)=O",
+    "subclass": ""
+  },
+  "75-15-0": {
+    "class": "Other non-metal organides",
+    "inchikey": "QGJOPFRUJISHPQ-UHFFFAOYSA-N",
+    "smiles": "C(=S)=S",
+    "subclass": "Other non-metal sulfides"
+  },
+  "75-18-3": {
+    "class": "Thioethers",
+    "inchikey": "QMMFVYPAHWMCMS-UHFFFAOYSA-N",
+    "smiles": "CSC",
+    "subclass": "Dialkylthioethers"
+  },
+  "75-19-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "75-21-8": {
+    "class": "Epoxides",
+    "inchikey": "IAYPIBMASNFSPL-UHFFFAOYSA-N",
+    "smiles": "C1CO1",
+    "subclass": ""
+  },
+  "75-25-2": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "75-26-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "75-29-6": {
+    "class": "Organochlorides",
+    "inchikey": "ULYZAYCEDJDHCC-UHFFFAOYSA-N",
+    "smiles": "CC(C)Cl",
+    "subclass": ""
+  },
+  "75-31-0": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "JJWLVOIRVHMVIS-UHFFFAOYSA-N",
+    "smiles": "CC(C)N",
+    "subclass": "Amines"
+  },
+  "75-33-2": {
+    "class": "Thiols",
+    "inchikey": "KJRCEJOSASVSRA-UHFFFAOYSA-N",
+    "subclass": "Alkylthiols"
+  },
+  "75-34-3": {
+    "class": "Organochlorides",
+    "inchikey": "SCYULBFZEHDVBN-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "75-35-4": {
+    "class": "Organooxygen compounds",
+    "inchikey": "LGXVIGDEPROXKC-UHFFFAOYSA-N",
+    "subclass": "Ketene acetals"
+  },
+  "75-36-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "75-37-6": {
+    "class": "Organofluorides",
+    "inchikey": "NPNPZTNLOVBDOC-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": ""
+  },
+  "75-38-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "BQCIDUSAKPWEOX-UHFFFAOYSA-N",
+    "subclass": "Ketene acetals"
+  },
+  "75-43-4": {
+    "class": "Alkyl halides",
+    "inchikey": "UMNKXPULIDJLSU-UHFFFAOYSA-N",
+    "smiles": "C(F)(Cl)Cl",
+    "subclass": "Halomethanes"
+  },
+  "75-44-5": {
+    "class": "Halogen organides",
+    "inchikey": "YGYAWVDWMABLBF-UHFFFAOYSA-N",
+    "smiles": "C(=O)(Cl)Cl",
+    "subclass": "Halogen oxides"
+  },
+  "75-45-6": {
+    "class": "Alkyl halides",
+    "inchikey": "VOPWNXZWBYDODV-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Halomethanes"
+  },
+  "75-46-7": {
+    "class": "Alkyl halides",
+    "inchikey": "XPDWGBQVDMORPB-UHFFFAOYSA-N",
+    "smiles": "C(F)(F)F",
+    "subclass": "Halomethanes"
+  },
+  "75-47-8": {
+    "class": "Alkyl halides",
+    "inchikey": "OKJPEAGHQZHRQV-UHFFFAOYSA-N",
+    "smiles": "C(I)(I)I",
+    "subclass": "Halomethanes"
+  },
+  "75-50-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "75-52-5": {
+    "class": "Allyl-type 1,3-dipolar organic compounds",
+    "inchikey": "LYGJENNIWJXYER-UHFFFAOYSA-N",
+    "smiles": "C[N+](=O)[O-]",
+    "subclass": "Organic nitro compounds"
+  },
+  "75-55-8": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "75-56-9": {
+    "class": "Epoxides",
+    "inchikey": "GOOHAUXETOMSMM-UHFFFAOYSA-N",
+    "smiles": "CC1CO1",
+    "subclass": ""
+  },
+  "75-62-7": {
+    "class": "Alkyl halides",
+    "inchikey": "XNNQFQFUQLJSQT-UHFFFAOYSA-N",
+    "smiles": "C(Cl)(Cl)(Cl)Br",
+    "subclass": "Halomethanes"
+  },
+  "75-63-8": {
+    "class": "Alkyl halides",
+    "inchikey": "RJCQBQGAPKAMLL-UHFFFAOYSA-N",
+    "smiles": "C(F)(F)(F)Br",
+    "subclass": "Halomethanes"
+  },
+  "75-65-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "75-69-4": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "75-71-8": {
+    "class": "Alkyl halides",
+    "inchikey": "PXBRQCKWGAHEHS-UHFFFAOYSA-N",
+    "smiles": "C(F)(F)(Cl)Cl",
+    "subclass": "Alkyl chlorides"
+  },
+  "75-79-6": {
+    "class": "Organometalloid compounds",
+    "inchikey": "JLUFWMXJHAVVNN-UHFFFAOYSA-N",
+    "smiles": "C[Si](Cl)(Cl)Cl",
+    "subclass": "Organosilicon compounds"
+  },
+  "75-84-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "KPSSIOMAKSHJJG-UHFFFAOYSA-N",
+    "smiles": "CC(C)(C)CO",
+    "subclass": "Alcohols and polyols"
+  },
+  "75-85-4": {
+    "class": "Organooxygen compounds",
+    "inchikey": "MSXVEPNJUHWQHW-UHFFFAOYSA-N",
+    "smiles": "CCC(C)(C)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "75-86-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "MWFMGBPGAXYFAR-UHFFFAOYSA-N",
+    "smiles": "CC(C)(C#N)O",
+    "subclass": "Alcohols and polyols"
+  },
+  "75-87-6": {
+    "class": "Organochlorides",
+    "inchikey": "HFFLGKNGCAIQMO-UHFFFAOYSA-N",
+    "smiles": "C(=O)C(Cl)(Cl)Cl",
+    "subclass": ""
+  },
+  "75-89-8": {
+    "class": "Halohydrins",
+    "inchikey": "RHQDFWAXVIIEBN-UHFFFAOYSA-N",
+    "smiles": "C(C(F)(F)F)O",
+    "subclass": "Fluorohydrins"
+  },
+  "7529-22-8": {
+    "class": "Oxazinanes",
+    "inchikey": "LFTLOKWAGJYHHR-UHFFFAOYSA-N",
+    "smiles": "C[N+]1(CCOCC1)[O-]",
+    "subclass": "Morpholines"
+  },
+  "754-05-2": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "756-79-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "7580-85-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "BDLXTDLGTWNUFM-UHFFFAOYSA-N",
+    "smiles": "CC(C)(C)OCCO",
+    "subclass": "Ethers"
+  },
+  "76-01-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "76-03-9": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "YNJBWRMUSHSURL-UHFFFAOYSA-N",
+    "smiles": "C(=O)(C(Cl)(Cl)Cl)O",
+    "subclass": "Alpha-halocarboxylic acids and derivatives"
+  },
+  "76-05-1": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "DTQVDTLACAAQTR-UHFFFAOYSA-N",
+    "subclass": "Alpha-halocarboxylic acids and derivatives"
+  },
+  "76-06-2": {
+    "class": "Alkyl halides",
+    "inchikey": "LFHISGNCFUNFFM-UHFFFAOYSA-N",
+    "smiles": "C([N+](=O)[O-])(Cl)(Cl)Cl",
+    "subclass": "Halomethanes"
+  },
+  "76-13-1": {
+    "class": "Alkyl halides",
+    "inchikey": "AJDIZQLSFPQPEY-UHFFFAOYSA-N",
+    "subclass": "Alkyl chlorides"
+  },
+  "76-14-2": {
+    "class": "Alkyl halides",
+    "inchikey": "DDMOUSALMHHKOS-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Alkyl chlorides"
+  },
+  "760-21-4": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "RYKZRKKEYSRDNF-UHFFFAOYSA-N",
+    "smiles": "CCC(=C)CC",
+    "subclass": "Branched unsaturated hydrocarbons"
+  },
+  "760-79-2": {
+    "class": "Fatty Acyls",
+    "inchikey": "VIJUZNJJLALGNJ-UHFFFAOYSA-N",
+    "smiles": "CCCC(=O)N(C)C",
+    "subclass": "Fatty amides"
+  },
+  "761-65-9": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "NZMAJUHVSZBJHL-UHFFFAOYSA-N",
+    "smiles": "CCCCN(CCCC)C=O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "764-41-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "764-42-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "764-47-6": {
+    "class": "Organooxygen compounds",
+    "inchikey": "OVGRCEFMXPHEBL-UHFFFAOYSA-N",
+    "smiles": "CCCOC=C",
+    "subclass": ""
+  },
+  "764-99-8": {
+    "class": "Organooxygen compounds",
+    "inchikey": "SAMJGBVVQUEMGC-UHFFFAOYSA-N",
+    "smiles": "C=COCCOCCOC=C",
+    "subclass": "Ethers"
+  },
+  "765-34-4": {
+    "class": "Epoxides",
+    "inchikey": "IWYRWIUNAVNFPE-UHFFFAOYSA-N",
+    "smiles": "C1C(O1)C=O",
+    "subclass": ""
+  },
+  "765-43-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "765-87-7": {
+    "class": "Organooxygen compounds",
+    "inchikey": "OILAIQUEIWYQPH-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Carbonyl compounds"
+  },
+  "7651-91-4": {
+    "class": "Organonitrogen compounds",
+    "inchikey": "DWEYPOWXNBAIDU-UHFFFAOYSA-N",
+    "smiles": "CN(Cl)Cl",
+    "subclass": ""
+  },
+  "7664-38-2": {
+    "class": "Non-metal oxoanionic compounds",
+    "inchikey": "NBIIXXVUZAFLBC-UHFFFAOYSA-N",
+    "smiles": "OP(=O)(O)O",
+    "subclass": "Non-metal phosphates"
+  },
+  "7664-41-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "7697-37-2": {
+    "class": "Non-metal oxoanionic compounds",
+    "inchikey": "GRYLNZFGIOXLOG-UHFFFAOYSA-N",
+    "smiles": "[N+](=O)(O)[O-]",
+    "subclass": "Non-metal nitrates"
+  },
+  "77-78-1": {
+    "class": "Organic sulfuric acids and derivatives",
+    "inchikey": "VAYGXNSJCAHWJZ-UHFFFAOYSA-N",
+    "smiles": "COS(=O)(=O)OC",
+    "subclass": "Sulfuric acid esters"
+  },
+  "77-89-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "WEAPVABOECTMGR-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)CC(CC(=O)OCC)(C(=O)OCC)OC(=O)C",
+    "subclass": "Tetracarboxylic acids and derivatives"
+  },
+  "77-90-7": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "QZCLKYGREBVARF-UHFFFAOYSA-N",
+    "smiles": "CCCCOC(=O)CC(CC(=O)OCCCC)(C(=O)OCCCC)OC(=O)C",
+    "subclass": "Tetracarboxylic acids and derivatives"
+  },
+  "77-93-0": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "DOOTYTYQINUNNV-UHFFFAOYSA-N",
+    "subclass": "Tricarboxylic acids and derivatives"
+  },
+  "77-94-1": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "ZFOZVQLOBQUTQQ-UHFFFAOYSA-N",
+    "smiles": "CCCCOC(=O)CC(CC(=O)OCCCC)(C(=O)OCCCC)O",
+    "subclass": "Tricarboxylic acids and derivatives"
+  },
+  "770-35-4": {
+    "class": "Phenol ethers",
+    "inchikey": "IBLKWZIFZMJLFL-UHFFFAOYSA-N",
+    "smiles": "CC(COC1=CC=CC=C1)O",
+    "subclass": ""
+  },
+  "771-69-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "ARCACZWMYGILNI-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C(=C1[N+](=O)[O-])F)F)F",
+    "subclass": "Nitrobenzenes"
+  },
+  "7719-09-7": {
+    "class": "Halogen organides",
+    "inchikey": "FYSNRJHAOHDILO-UHFFFAOYSA-N",
+    "smiles": "O=S(Cl)Cl",
+    "subclass": "Halogen oxides"
+  },
+  "7719-12-2": {
+    "class": "Other non-metal halides",
+    "inchikey": "FAIAAWCVCHQXDN-UHFFFAOYSA-N",
+    "smiles": "P(Cl)(Cl)Cl",
+    "subclass": ""
+  },
+  "7722-84-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "7726-95-6": {
+    "class": "Homogeneous halogens",
+    "inchikey": "GDTBXPJZTBHREO-UHFFFAOYSA-N",
+    "smiles": "BrBr",
+    "subclass": ""
+  },
+  "7732-18-5": {
+    "class": "Homogeneous other non-metal compounds",
+    "inchikey": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+    "smiles": "O",
+    "subclass": ""
+  },
+  "7782-50-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "7783-06-4": {
+    "class": "Other non-metal organides",
+    "inchikey": "RWSOTUBLDIXVET-UHFFFAOYSA-N",
+    "smiles": "S",
+    "subclass": "Other non-metal sulfides"
+  },
+  "7791-25-5": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "78-10-4": {
+    "class": "Organometalloid compounds",
+    "inchikey": "BOTDANWDWHJENH-UHFFFAOYSA-N",
+    "subclass": "Organosilicon compounds"
+  },
+  "78-40-0": {
+    "class": "Organic phosphoric acids and derivatives",
+    "inchikey": "DQWPFSLDHJDLRL-UHFFFAOYSA-N",
+    "smiles": "CCOP(=O)(OCC)OCC",
+    "subclass": "Phosphate esters"
+  },
+  "78-59-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "HJOVHMDZYOCNQW-UHFFFAOYSA-N",
+    "smiles": "CC1=CC(=O)CC(C1)(C)C",
+    "subclass": "Carbonyl compounds"
+  },
+  "78-76-2": {
+    "class": "Organobromides",
+    "inchikey": "UPSXAPQYNGXVBF-UHFFFAOYSA-N",
+    "smiles": "CCC(C)Br",
+    "subclass": ""
+  },
+  "78-78-4": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "QWTDNUCVQCZILF-UHFFFAOYSA-N",
+    "smiles": "CCC(C)C",
+    "subclass": "Alkanes"
+  },
+  "78-79-5": {
+    "class": "Unsaturated hydrocarbons",
+    "inchikey": "RRHGJUQNOFWUDK-UHFFFAOYSA-N",
+    "smiles": "CC(=C)C=C",
+    "subclass": "Branched unsaturated hydrocarbons"
+  },
+  "78-83-1": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ZXEKIIBDNHEJCQ-UHFFFAOYSA-N",
+    "smiles": "CC(C)CO",
+    "subclass": "Alcohols and polyols"
+  },
+  "78-85-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "STNJBCKSHOAVAJ-UHFFFAOYSA-N",
+    "smiles": "CC(=C)C=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "78-86-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "78-87-5": {
+    "class": "Organochlorides",
+    "inchikey": "KNKRKFALVUDBJE-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "78-88-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "78-92-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "BTANRVKWQNVYAZ-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Alcohols and polyols"
+  },
+  "78-93-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ZWEHNKRNPOVVGH-UHFFFAOYSA-N",
+    "smiles": "CCC(=O)C",
+    "subclass": "Carbonyl compounds"
+  },
+  "78-94-4": {
+    "class": "Organooxygen compounds",
+    "inchikey": "FUSUHKVFWTUUBE-UHFFFAOYSA-N",
+    "smiles": "CC(=O)C=C",
+    "subclass": "Carbonyl compounds"
+  },
+  "78-95-5": {
+    "class": "Organooxygen compounds",
+    "inchikey": "BULLHNJGPPOUOX-UHFFFAOYSA-N",
+    "smiles": "CC(=O)CCl",
+    "subclass": "Carbonyl compounds"
+  },
+  "78-98-8": {
+    "class": "Organooxygen compounds",
+    "inchikey": "AIJULSRZWUXGPQ-UHFFFAOYSA-N",
+    "smiles": "CC(=O)C=O",
+    "subclass": "Carbonyl compounds"
+  },
+  "78-99-9": {
+    "class": "Organochlorides",
+    "inchikey": "WIHMGGWNMISDNJ-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "79-00-5": {
+    "class": "Organochlorides",
+    "inchikey": "UBOXGVDOUJQMTN-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "79-01-6": {
+    "class": "Vinyl halides",
+    "inchikey": "XSTXAVWGXDQKEL-UHFFFAOYSA-N",
+    "smiles": "C(=C(Cl)Cl)Cl",
+    "subclass": "Vinyl chlorides"
+  },
+  "79-02-7": {
+    "class": "Organochlorides",
+    "inchikey": "NWQWQKUXRJYXFH-UHFFFAOYSA-N",
+    "smiles": "C(=O)C(Cl)Cl",
+    "subclass": ""
+  },
+  "79-03-8": {
+    "class": "Acyl halides",
+    "inchikey": "RZWZRACFZGVKFM-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Acyl chlorides"
+  },
+  "79-04-9": {
+    "class": "Acyl halides",
+    "inchikey": "VGCXGMAHQTYDJK-UHFFFAOYSA-N",
+    "smiles": "C(C(=O)Cl)Cl",
+    "subclass": "Acyl chlorides"
+  },
+  "79-05-0": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "QLNJFJADRCOGBJ-UHFFFAOYSA-N",
+    "smiles": "CCC(=O)N",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "79-06-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "79-07-2": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "VXIVSQZSERGHQP-UHFFFAOYSA-N",
+    "smiles": "C(C(=O)N)Cl",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "79-09-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "XBDQKXXYIPTUBI-UHFFFAOYSA-N",
+    "smiles": "CCC(=O)O",
+    "subclass": "Carboxylic acids"
+  },
+  "79-10-7": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "NIXOWILDQLNWCW-UHFFFAOYSA-N",
+    "smiles": "C=CC(=O)O",
+    "subclass": "Acrylic acids and derivatives"
+  },
+  "79-11-8": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "FOCAUTSVDIKZOP-UHFFFAOYSA-N",
+    "smiles": "C(C(=O)O)Cl",
+    "subclass": "Alpha-halocarboxylic acids and derivatives"
+  },
+  "79-16-3": {
+    "class": "Carboximidic acids and derivatives",
+    "inchikey": "OHLUUHNLEMFGTQ-UHFFFAOYSA-N",
+    "smiles": "CC(=O)NC",
+    "subclass": "Carboximidic acids"
+  },
+  "79-20-9": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "KXKVLQRXCPHEJC-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OC",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "79-22-1": {
+    "class": "Organic carbonic acids and derivatives",
+    "inchikey": "XMJHPCRAQCTCFT-UHFFFAOYSA-N",
+    "smiles": "COC(=O)Cl",
+    "subclass": ""
+  },
+  "79-24-3": {
+    "class": "Allyl-type 1,3-dipolar organic compounds",
+    "inchikey": "MCSAJNNLRCFZED-UHFFFAOYSA-N",
+    "smiles": "CC[N+](=O)[O-]",
+    "subclass": "Organic nitro compounds"
+  },
+  "79-27-6": {
+    "class": "Organobromides",
+    "inchikey": "QXSZNDIIPUOQMB-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "79-31-2": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "KQNPFQTWMSNSAP-UHFFFAOYSA-N",
+    "smiles": "CC(C)C(=O)O",
+    "subclass": "Carboxylic acids"
+  },
+  "79-34-5": {
+    "class": "Organochlorides",
+    "inchikey": "QPFMBZIOSGYJDE-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "79-37-8": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "79-38-9": {
+    "class": "Vinyl halides",
+    "inchikey": "UUAGAQFQZIEFAH-UHFFFAOYSA-N",
+    "smiles": "C(=C(F)Cl)(F)F",
+    "subclass": "Vinyl fluorides"
+  },
+  "79-39-0": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "FQPSGWSUVKBHSU-UHFFFAOYSA-N",
+    "smiles": "CC(=C)C(=O)N",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "79-41-4": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "CERQOIWHTDAKMF-UHFFFAOYSA-N",
+    "smiles": "CC(=C)C(=O)O",
+    "subclass": "Carboxylic acids"
+  },
+  "79-43-6": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "JXTHNDFMNIQAHM-UHFFFAOYSA-N",
+    "smiles": "C(C(=O)O)(Cl)Cl",
+    "subclass": "Alpha-halocarboxylic acids and derivatives"
+  },
+  "79-46-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "79-92-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "79-94-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "VEORPZCZECFIRK-UHFFFAOYSA-N",
+    "smiles": "CC(C)(C1=CC(=C(C(=C1)Br)O)Br)C2=CC(=C(C(=C2)Br)O)Br",
+    "subclass": "Diphenylmethanes"
+  },
+  "80-05-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "IISBACLAFKSPIT-UHFFFAOYSA-N",
+    "smiles": "CC(C)(C1=CC=C(C=C1)O)C2=CC=C(C=C2)O",
+    "subclass": "Diphenylmethanes"
+  },
+  "80-09-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "VPWNQTHUCYMVMZ-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1O)S(=O)(=O)C2=CC=C(C=C2)O",
+    "subclass": "Benzenesulfonyl compounds"
+  },
+  "80-48-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "VUQUOGPMUUJORT-UHFFFAOYSA-N",
+    "smiles": "CC1=CC=C(C=C1)S(=O)(=O)OC",
+    "subclass": "Benzenesulfonic acids and derivatives"
+  },
+  "80-56-8": {
+    "class": "Prenol lipids",
+    "inchikey": "GRWFGVWFFZKLTI-UHFFFAOYSA-N",
+    "smiles": "CC1=CCC2CC1C2(C)C",
+    "subclass": "Monoterpenoids"
+  },
+  "80-62-6": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "VVQNEPGJFQJSBK-UHFFFAOYSA-N",
+    "smiles": "CC(=C)C(=O)OC",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "80-63-7": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "AWJZTPWDQYFQPQ-UHFFFAOYSA-N",
+    "smiles": "COC(=O)C(=C)Cl",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "8001-79-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "8006-88-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "8030-30-6": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "81-07-2": {
+    "class": "Benzothiazoles",
+    "inchikey": "CVHZOJJKTDOEJC-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C2C(=C1)C(=O)NS2(=O)=O",
+    "subclass": ""
+  },
+  "811-97-2": {
+    "class": "Organofluorides",
+    "inchikey": "LVGUZGTVOIAKKC-UHFFFAOYSA-N",
+    "smiles": "C(C(F)(F)F)F",
+    "subclass": ""
+  },
+  "814-68-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "814-78-8": {
+    "class": "Organooxygen compounds",
+    "inchikey": "ZGHFDIIVVIFNPS-UHFFFAOYSA-N",
+    "smiles": "CC(=C)C(=O)C",
+    "subclass": "Carbonyl compounds"
+  },
+  "818-38-2": {
+    "class": "Fatty Acyls",
+    "inchikey": "OUWSNHWQZPEFEX-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)CCCC(=O)OCC",
+    "subclass": "Fatty acid esters"
+  },
+  "818-61-1": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "OMIGHNLMNHATMP-UHFFFAOYSA-N",
+    "smiles": "C=CC(=O)OCCO",
+    "subclass": "Acrylic acids and derivatives"
+  },
+  "818-92-8": {
+    "class": "Organofluorides",
+    "inchikey": "QCMKXHXKNIOBBC-UHFFFAOYSA-N",
+    "smiles": "C=CCF",
+    "subclass": ""
+  },
+  "821-13-6": {
+    "class": "Allyl-type 1,3-dipolar organic compounds",
+    "inchikey": "VYZOFUACMOJPRL-UHFFFAOYSA-N",
+    "smiles": "C=CCN=[N+]=[N-]",
+    "subclass": "Azo imides"
+  },
+  "822-87-7": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "827-52-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "IGARGHRYKHJQSM-UHFFFAOYSA-N",
+    "subclass": ""
+  },
+  "83-34-1": {
+    "class": "Indoles and derivatives",
+    "inchikey": "ZFRKQXVRDFCRJG-UHFFFAOYSA-N",
+    "smiles": "CC1=CNC2=CC=CC=C12",
+    "subclass": "Indoles"
+  },
+  "83-42-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "XCSNRORTQRKCHB-UHFFFAOYSA-N",
+    "smiles": "CC1=C(C=CC=C1Cl)[N+](=O)[O-]",
+    "subclass": "Nitrobenzenes"
+  },
+  "84-11-7": {
+    "class": "Phenanthrenes and derivatives",
+    "inchikey": "YYVYAPXYZVYDHN-UHFFFAOYSA-N",
+    "subclass": "Phenanthraquinones"
+  },
+  "84-65-1": {
+    "class": "Anthracenes",
+    "inchikey": "RZVHIXYEVGDQDX-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C2C(=C1)C(=O)C3=CC=CC=C3C2=O",
+    "subclass": "Anthraquinones"
+  },
+  "84-66-2": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "FLKPEMZONWLCSK-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)C1=CC=CC=C1C(=O)OCC",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "84-74-2": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "DOIRQSBPFJWKBE-UHFFFAOYSA-N",
+    "smiles": "CCCCOC(=O)C1=CC=CC=C1C(=O)OCCCC",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "84-75-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "KCXZNSGUUQJJTR-UHFFFAOYSA-N",
+    "smiles": "CCCCCCOC(=O)C1=CC=CC=C1C(=O)OCCCCCC",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "85-44-9": {
+    "class": "Benzofurans",
+    "inchikey": "LGRFSURHDFAFJT-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C2C(=C1)C(=O)OC2=O",
+    "subclass": "Benzofuranones"
+  },
+  "85-68-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "IRIAEXORFWYRCZ-UHFFFAOYSA-N",
+    "smiles": "CCCCOC(=O)C1=CC=CC=C1C(=O)OCC2=CC=CC=C2",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "86-73-7": {
+    "class": "Fluorenes",
+    "inchikey": "NIHNNTQXNPWCJQ-UHFFFAOYSA-N",
+    "smiles": "C1C2=CC=CC=C2C3=CC=CC=C31",
+    "subclass": ""
+  },
+  "86-74-8": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "86-91-9": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "87-40-1": {
+    "class": "Phenol ethers",
+    "inchikey": "WCVOGSZTONGSQY-UHFFFAOYSA-N",
+    "smiles": "COC1=C(C=C(C=C1Cl)Cl)Cl",
+    "subclass": "Anisoles"
+  },
+  "87-65-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "87-66-1": {
+    "class": "Phenols",
+    "inchikey": "WQGWDDDVZFFDIG-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C(=C1)O)O)O",
+    "subclass": "Benzenetriols and derivatives"
+  },
+  "87-85-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "87-86-5": {
+    "class": "Phenols",
+    "inchikey": "IZUPBVBPLAPZRR-UHFFFAOYSA-N",
+    "smiles": "C1(=C(C(=C(C(=C1Cl)Cl)Cl)Cl)Cl)O",
+    "subclass": "Halophenols"
+  },
+  "870-23-5": {
+    "class": "Allyl sulfur compounds",
+    "inchikey": "ULIKDJVNUXNQHS-UHFFFAOYSA-N",
+    "smiles": "C=CCS",
+    "subclass": ""
+  },
+  "871-31-8": {
+    "class": "Allyl-type 1,3-dipolar organic compounds",
+    "inchikey": "UCSVJZQSZZAKLD-UHFFFAOYSA-N",
+    "smiles": "CCN=[N+]=[N-]",
+    "subclass": "Azo imides"
+  },
+  "872-05-9": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "872-36-6": {
+    "class": "Organic carbonic acids and derivatives",
+    "inchikey": "VAYTZRYEBVHVLE-UHFFFAOYSA-N",
+    "smiles": "C1=COC(=O)O1",
+    "subclass": "Carbonic acid diesters"
+  },
+  "872-50-4": {
+    "class": "Pyrrolidines",
+    "inchikey": "SECXISVLQFMRJM-UHFFFAOYSA-N",
+    "smiles": "CN1CCCC1=O",
+    "subclass": "N-alkylpyrrolidines"
+  },
+  "872-93-5": {
+    "class": "Thiolanes",
+    "inchikey": "CMJLMPKFQPJDKP-UHFFFAOYSA-N",
+    "smiles": "CC1CCS(=O)(=O)C1",
+    "subclass": ""
+  },
+  "873-76-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "PTHGDVCPCZKZKR-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=CC=C1CO)Cl",
+    "subclass": "Benzyl alcohols"
+  },
+  "874-42-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "YSFBEAASFUWWHU-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1Cl)Cl)C=O",
+    "subclass": "Halobenzenes"
+  },
+  "874-90-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "XDJAAZYHCCRJOK-UHFFFAOYSA-N",
+    "smiles": "COC1=CC=C(C=C1)C#N",
+    "subclass": "Benzonitriles"
+  },
+  "88-06-2": {
+    "class": "Phenols",
+    "inchikey": "LINPIYWFGCPVIE-UHFFFAOYSA-N",
+    "smiles": "C1=C(C=C(C(=C1Cl)O)Cl)Cl",
+    "subclass": "Halophenols"
+  },
+  "88-12-0": {
+    "class": "Pyrrolidines",
+    "inchikey": "WHNWPMSKXPGLAX-UHFFFAOYSA-N",
+    "smiles": "C=CN1CCCC1=O",
+    "subclass": "Pyrrolidones"
+  },
+  "88-15-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "88-89-1": {
+    "class": "Phenols",
+    "inchikey": "OXNIZHLAWKMVMX-UHFFFAOYSA-N",
+    "smiles": "C1=C(C=C(C(=C1[N+](=O)[O-])O)[N+](=O)[O-])[N+](=O)[O-]",
+    "subclass": "Nitrophenols"
+  },
+  "88917-22-0": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "89-59-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "SQFLFRQWPBEDHM-UHFFFAOYSA-N",
+    "smiles": "CC1=C(C=C(C=C1)Cl)[N+](=O)[O-]",
+    "subclass": "Nitrobenzenes"
+  },
+  "89-82-7": {
+    "class": "Prenol lipids",
+    "inchikey": "NZGWDASTMWDZIW-MRVPVSSYSA-N",
+    "smiles": "C[C@@H]1CCC(=C(C)C)C(=O)C1",
+    "subclass": "Monoterpenoids"
+  },
+  "89-83-8": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "89-96-3": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "90-02-8": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "90-04-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "90-05-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "90-11-9": {
+    "class": "Naphthalenes",
+    "inchikey": "DLKQHBOKULLWDQ-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C2C(=C1)C=CC=C2Br",
+    "subclass": ""
+  },
+  "90-12-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "90-13-1": {
+    "class": "Naphthalenes",
+    "inchikey": "JTPNRXUCIXHOKM-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C2C(=C1)C=CC=C2Cl",
+    "subclass": "Chloronaphthalenes"
+  },
+  "90-15-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "91-10-1": {
+    "class": "Phenols",
+    "inchikey": "KLIDCXVFHGNTTM-UHFFFAOYSA-N",
+    "smiles": "COC1=C(C(=CC=C1)OC)O",
+    "subclass": "Methoxyphenols"
+  },
+  "91-16-7": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "91-20-3": {
+    "class": "Naphthalenes",
+    "inchikey": "UFWIBTONFRDIAS-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C2C=CC=CC2=C1",
+    "subclass": ""
+  },
+  "91-22-5": {
+    "class": "Quinolines and derivatives",
+    "inchikey": "SMWDFEZZVXVKRB-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C2C(=C1)C=CC=N2",
+    "subclass": ""
+  },
+  "91-23-6": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "91-64-5": {
+    "class": "Coumarins and derivatives",
+    "inchikey": "ZYGHJZDHTFUPRJ-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C2C(=C1)C=CC(=O)O2",
+    "subclass": ""
+  },
+  "92-51-3": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "WVIIMZNLDWSIRH-UHFFFAOYSA-N",
+    "smiles": "C1CCC(CC1)C2CCCCC2",
+    "subclass": ""
+  },
+  "92-52-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "ZUOUZKKEUPVFJK-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)C2=CC=CC=C2",
+    "subclass": "Biphenyls and derivatives"
+  },
+  "920-66-1": {
+    "class": "Halohydrins",
+    "inchikey": "BYEAHWXPCBROCE-UHFFFAOYSA-N",
+    "smiles": "C(C(F)(F)F)(C(F)(F)F)O",
+    "subclass": "Fluorohydrins"
+  },
+  "922-64-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "926-57-8": {
+    "class": "Vinyl halides",
+    "inchikey": "WLIADPFXSACYLS-UHFFFAOYSA-N",
+    "smiles": "CC(=CCCl)Cl",
+    "subclass": "Vinyl chlorides"
+  },
+  "926-65-8": {
+    "class": "Organooxygen compounds",
+    "inchikey": "GNUGVECARVKIPH-UHFFFAOYSA-N",
+    "smiles": "CC(C)OC=C",
+    "subclass": ""
+  },
+  "926-66-9": {
+    "class": "Organooxygen compounds",
+    "inchikey": "FSGHEPDRMHVUCQ-UHFFFAOYSA-N",
+    "smiles": "CCOC(=C)C",
+    "subclass": ""
+  },
+  "927-80-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "WMYNMYVRWWCRPS-UHFFFAOYSA-N",
+    "smiles": "CCOC#C",
+    "subclass": ""
+  },
+  "929-37-3": {
+    "class": "Organooxygen compounds",
+    "inchikey": "WULAHPYSGCVQHM-UHFFFAOYSA-N",
+    "smiles": "C=COCCOCCO",
+    "subclass": "Ethers"
+  },
+  "93-58-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "93-89-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "MTZQAGJQAFMTAQ-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)C1=CC=CC=C1",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "930-22-3": {
+    "class": "Epoxides",
+    "inchikey": "GXBYFVGCMPJVJX-UHFFFAOYSA-N",
+    "smiles": "C=CC1CO1",
+    "subclass": ""
+  },
+  "931-17-9": {
+    "class": "Organooxygen compounds",
+    "inchikey": "PFURGBBHAOXLIO-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Alcohols and polyols"
+  },
+  "931-40-8": {
+    "class": "Organic carbonic acids and derivatives",
+    "inchikey": "JFMGYULNQJPJCY-UHFFFAOYSA-N",
+    "smiles": "C1C(OC(=O)O1)CO",
+    "subclass": "Carbonic acid diesters"
+  },
+  "932-17-2": {
+    "class": "Pyrrolidines",
+    "inchikey": "YLHUPYSUKYAIBW-UHFFFAOYSA-N",
+    "subclass": "N-acylpyrrolidines"
+  },
+  "94-04-2": {
+    "class": "Fatty Acyls",
+    "inchikey": "IGBZOHMCHDADGY-UHFFFAOYSA-N",
+    "smiles": "CCCCC(CC)C(=O)OC=C",
+    "subclass": "Fatty acid esters"
+  },
+  "95-13-6": {
+    "class": "Indenes and isoindenes",
+    "inchikey": "YBYIRNPNPLQARY-UHFFFAOYSA-N",
+    "smiles": "C1C=CC2=CC=CC=C21",
+    "subclass": ""
+  },
+  "95-14-7": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "95-16-9": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "95-46-5": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "QSSXJPIWXQTSIX-UHFFFAOYSA-N",
+    "smiles": "CC1=CC=CC=C1Br",
+    "subclass": "Halobenzenes"
+  },
+  "95-47-6": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "CTQNGGLPUBDAKN-UHFFFAOYSA-N",
+    "smiles": "CC1=CC=CC=C1C",
+    "subclass": "Xylenes"
+  },
+  "95-49-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "IBSQPLPBRSHTTG-UHFFFAOYSA-N",
+    "smiles": "CC1=CC=CC=C1Cl",
+    "subclass": "Halobenzenes"
+  },
+  "95-50-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "RFFLAFLAYFXFSW-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Halobenzenes"
+  },
+  "95-53-4": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "95-57-8": {
+    "class": "Phenols",
+    "inchikey": "ISPYQTSUDJAMAB-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C(=C1)O)Cl",
+    "subclass": "Halophenols"
+  },
+  "95-63-6": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "GWHJZXXIDMPWGX-UHFFFAOYSA-N",
+    "smiles": "CC1=CC(=C(C=C1)C)C",
+    "subclass": ""
+  },
+  "95-65-8": {
+    "class": "Phenols",
+    "inchikey": "YCOXTKKNXUZSKD-UHFFFAOYSA-N",
+    "smiles": "CC1=C(C=C(C=C1)O)C",
+    "subclass": "Cresols"
+  },
+  "95-68-1": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "CZZZABOKJQXEBO-UHFFFAOYSA-N",
+    "smiles": "CC1=CC(=C(C=C1)N)C",
+    "subclass": "Xylenes"
+  },
+  "95-75-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "WYUIWKFIFOJVKW-UHFFFAOYSA-N",
+    "smiles": "CC1=CC(=C(C=C1)Cl)Cl",
+    "subclass": "Halobenzenes"
+  },
+  "95-92-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "95-94-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "JHBKHLUZVFWLAG-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Halobenzenes"
+  },
+  "96-02-6": {
+    "class": "Dihydrofurans",
+    "inchikey": "CXJAFLQWMOMYOW-UHFFFAOYSA-N",
+    "smiles": "C1=C(C(=O)OC1=O)Cl",
+    "subclass": "Furanones"
+  },
+  "96-05-9": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "FBCQUCJYYPMKRO-UHFFFAOYSA-N",
+    "smiles": "CC(=C)C(=O)OCC=C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "96-09-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "AWMVMTVKBNGEAK-UHFFFAOYSA-N",
+    "smiles": "C1C(O1)C2=CC=CC=C2",
+    "subclass": ""
+  },
+  "96-18-4": {
+    "class": "Organochlorides",
+    "inchikey": "CFXQEHVMCRXUSD-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": ""
+  },
+  "96-19-5": {
+    "class": "Vinyl halides",
+    "inchikey": "HIILBTHBHCLUER-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Vinyl chlorides"
+  },
+  "96-22-0": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "96-23-1": {
+    "class": "Halohydrins",
+    "inchikey": "DEWLEGDTCGBNGU-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Chlorohydrins"
+  },
+  "96-29-7": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "96-33-3": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "BAPJBEWLBFYGME-UHFFFAOYSA-N",
+    "smiles": "COC(=O)C=C",
+    "subclass": "Acrylic acids and derivatives"
+  },
+  "96-37-7": {
+    "class": "Saturated hydrocarbons",
+    "inchikey": "GDOPTJXRTPNYNR-UHFFFAOYSA-N",
+    "smiles": "CC1CCCC1",
+    "subclass": "Cycloalkanes"
+  },
+  "96-43-5": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "96-47-9": {
+    "class": "Tetrahydrofurans",
+    "inchikey": "JWUJQDFVADABEY-UHFFFAOYSA-N",
+    "smiles": "CC1CCCO1",
+    "subclass": ""
+  },
+  "96-48-0": {
+    "class": "Lactones",
+    "inchikey": "YEJRWHAVMIAJKC-UHFFFAOYSA-N",
+    "smiles": "C1CC(=O)OC1",
+    "subclass": "Gamma butyrolactones"
+  },
+  "96-49-1": {
+    "class": "Organic carbonic acids and derivatives",
+    "inchikey": "KMTRUDSVKNLOMY-UHFFFAOYSA-N",
+    "smiles": "C1COC(=O)O1",
+    "subclass": "Carbonic acid diesters"
+  },
+  "97-53-0": {
+    "class": "Phenols",
+    "inchikey": "RRAFCDWBNXTKKO-UHFFFAOYSA-N",
+    "smiles": "COC1=C(C=CC(=C1)CC=C)O",
+    "subclass": "Methoxyphenols"
+  },
+  "97-63-2": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "SUPCQIBBMFXVTL-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)C(=C)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "97-64-3": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "LZCLXQDLBQLTDK-UHFFFAOYSA-N",
+    "smiles": "CCOC(=O)C(C)O",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "97-85-8": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "RXGUIWHIADMCFC-UHFFFAOYSA-N",
+    "smiles": "CC(C)COC(=O)C(C)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "97-88-1": {
+    "class": "Carboxylic acids and derivatives",
+    "inchikey": "SOGAXMICEFXMKE-UHFFFAOYSA-N",
+    "smiles": "CCCCOC(=O)C(=C)C",
+    "subclass": "Carboxylic acid derivatives"
+  },
+  "97-95-0": {
+    "class": "Organooxygen compounds",
+    "inchikey": "TZYRSLHNPKPEFV-UHFFFAOYSA-N",
+    "smiles": "CCC(CC)CO",
+    "subclass": "Alcohols and polyols"
+  },
+  "97-99-4": {
+    "class": "Tetrahydrofurans",
+    "inchikey": "BSYVTEYKTMYBMK-UHFFFAOYSA-N",
+    "smiles": "C1CC(OC1)CO",
+    "subclass": ""
+  },
+  "98-00-0": {
+    "class": "Heteroaromatic compounds",
+    "inchikey": "XPFVYQJUAUNWIW-UHFFFAOYSA-N",
+    "smiles": "C1=COC(=C1)CO",
+    "subclass": ""
+  },
+  "98-01-1": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "98-07-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "XEMRAKSQROQPBR-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)C(Cl)(Cl)Cl",
+    "subclass": ""
+  },
+  "98-08-8": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "98-82-8": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "RWGFKTVRMDUZSP-UHFFFAOYSA-N",
+    "smiles": "CC(C)C1=CC=CC=C1",
+    "subclass": "Cumenes"
+  },
+  "98-83-9": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "XYLMUPLGERFSHI-UHFFFAOYSA-N",
+    "smiles": "CC(=C)C1=CC=CC=C1",
+    "subclass": "Phenylpropenes"
+  },
+  "98-86-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "KWOLFJPFCHCOCG-UHFFFAOYSA-N",
+    "smiles": "CC(=O)C1=CC=CC=C1",
+    "subclass": "Carbonyl compounds"
+  },
+  "98-87-3": {
+    "class": "",
+    "inchikey": "",
+    "smiles": "",
+    "subclass": ""
+  },
+  "98-88-4": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "PASDCCFISLVPSO-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)C(=O)Cl",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "98-95-3": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "LQNUZADURLCDLV-UHFFFAOYSA-N",
+    "smiles": "C1=CC=C(C=C1)[N+](=O)[O-]",
+    "subclass": "Nitrobenzenes"
+  },
+  "99-09-2": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  },
+  "99-54-7": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "NTBYINQTYWZXLH-UHFFFAOYSA-N",
+    "smiles": "C1=CC(=C(C=C1[N+](=O)[O-])Cl)Cl",
+    "subclass": "Nitrobenzenes"
+  },
+  "99-75-2": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "QSSJZLPUHJDYKF-UHFFFAOYSA-N",
+    "subclass": "Benzoic acids and derivatives"
+  },
+  "99-91-2": {
+    "class": "Organooxygen compounds",
+    "inchikey": "BUZYGTVTZYSBCU-UHFFFAOYSA-N",
+    "smiles": "",
+    "subclass": "Carbonyl compounds"
+  },
+  "99-99-0": {
+    "class": "Benzene and substituted derivatives",
+    "inchikey": "ZPTVNYMJQHSSEA-UHFFFAOYSA-N",
+    "smiles": "CC1=CC=C(C=C1)[N+](=O)[O-]",
+    "subclass": "Nitrobenzenes"
+  },
+  "992-94-9": {
+    "class": "",
+    "error": "no_inchikey",
+    "inchikey": "",
+    "subclass": ""
+  }
+}

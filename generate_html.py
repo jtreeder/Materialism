@@ -22,6 +22,27 @@ seed_database(session)
 CHEM_CSV = os.path.join(os.path.dirname(__file__), "data", "processed", "unified_chemicals.csv")
 POLY_CSV = os.path.join(os.path.dirname(__file__), "data", "processed", "unified_polymers.csv")
 MANIFEST_PATH = os.path.join(os.path.dirname(__file__), "data", "manifest.json")
+CF_CACHE_PATH = os.path.join(os.path.dirname(__file__), "data", "classyfire_cache.json")
+
+# Load ClassyFire classification cache { CAS: {class, subclass} }
+if os.path.exists(CF_CACHE_PATH):
+    with open(CF_CACHE_PATH) as _cf:
+        _cf_cache = json.load(_cf)
+else:
+    _cf_cache = {}
+
+def _get_cfclass(cas):
+    """Return (cfclass, cflevel) where cflevel is 'subclass' or 'class' or ''."""
+    entry = _cf_cache.get(cas)
+    if not entry:
+        return "", ""
+    sub = entry.get("subclass", "").strip()
+    cls = entry.get("class", "").strip()
+    if sub:
+        return sub, "subclass"
+    if cls:
+        return cls, "class"
+    return "", ""
 
 # Load manifest for dataset metadata
 if os.path.exists(MANIFEST_PATH):
@@ -236,6 +257,8 @@ with open(CHEM_CSV) as f:
             "bpSrc": bp_src if bp_val else "",
             "common": _is_common_solvent(chem_name, chem_cas),
             "dsId": row.get("dataset_id", "").strip(),
+            "cfclass": _get_cfclass(chem_cas)[0],
+            "cflevel": _get_cfclass(chem_cas)[1],
         })
 
 poly_data = []
@@ -2420,9 +2443,9 @@ full_html = f"""<!DOCTYPE html>
             if (existingCg) existingCg.remove();
 
             if (homeTab === 'solvents') {{
-                // Name, CAS #, δD, δP, δH, MW, BP, Category
+                // Name, CAS #, δD, δP, δH, MW, BP, Class
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)'].forEach(function(label, i) {{
+                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)','Class'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
@@ -2451,6 +2474,8 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(s.dh, s.srcUrl) + '</td>';
                     rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
                     rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
+                    var _cfNote = s.cfclass ? (s.cflevel === 'class' ? '<sup title="ClassyFire class used \u2014 no subclass available" style="color:#b2bec3;font-size:0.65rem;cursor:help">\u2020</sup>' : '') : '';
+                    rowsHtml += '<td style="color:#636e72;font-size:0.82rem">' + (s.cfclass || '') + _cfNote + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }} else {{
@@ -2740,6 +2765,8 @@ with open(CHEM_CSV) as f:
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": row.get("source_url", "").strip(),
             "dsId": row.get("dataset_id", "").strip(),
+            "cfclass": _get_cfclass(row.get("cas_number", "").strip())[0],
+            "cflevel": _get_cfclass(row.get("cas_number", "").strip())[1],
         })
 db_polymers = []
 with open(POLY_CSV) as f:
@@ -3098,6 +3125,11 @@ td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-sp
     font-size: 0.74rem; word-break: break-all;
 }}
 .src-popup-link:hover {{ text-decoration: underline; }}
+/* ClassyFire class-level note superscript */
+.cf-class-note {{
+    font-size: 0.65rem; vertical-align: super; color: #b2bec3;
+    cursor: help; margin-left: 1px;
+}}
 /* Crosslink ? badge */
 .cas-missing {{
     display: inline-flex; align-items: center; justify-content: center;
@@ -3273,6 +3305,7 @@ var SOLV_COLS = [
     {{key:'density', label:'Density (g/mL)', w:'90px', tip:'Density (g/mL)'}},
     {{key:'mv', label:'V\u2098 (cm\u00b3/mol)', w:'90px', tip:'Molar volume'}},
     {{key:'ghs', label:'GHS Hazard', w:'120px'}},
+    {{key:'cfclass', label:'Class', w:'160px', tip:'ClassyFire chemical classification (subclass preferred)'}},
     {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
 ];
 var POLY_COLS = [
@@ -3348,7 +3381,7 @@ function toggleDbLock() {{
 function _countForTab(tab) {{
     var data = tab === 'solvents' ? SOLVENTS : POLYMERS;
     var n = 0;
-    for (var i = 0; i < data.length; i++) {{ if (_isFromActiveDataset(data[i])) n++; }}
+    for (var i = 0; i < data.length; i++) {{ if (_isDsActive(data[i].dsId)) n++; }}
     return n;
 }}
 
@@ -3451,7 +3484,7 @@ function renderActiveDb() {{
     // Build index array for filtering
     var indices = [];
     for (var i = 0; i < data.length; i++) {{
-        if (!_isFromActiveDataset(data[i])) continue;
+        if (!_isDsActive(data[i].dsId)) continue;
         if (filter) {{
             var name = getDbVal(_activeDbTab, i, 'name').toLowerCase();
             var cas = getDbVal(_activeDbTab, i, 'cas').toLowerCase();
@@ -3521,6 +3554,13 @@ function renderActiveDb() {{
                         if (CAS_CANDIDATES[matName]) {{
                             display = '<button class="cas-missing" onclick="openCrosslink(event,\\x27' + _activeDbTab + '\\x27,' + idx + ')" title="Find CAS #">?</button>';
                         }}
+                    }}
+                }}
+                if (c.key === 'cfclass' && val) {{
+                    var _cfMat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
+                    var _cfLvl = _cfMat.cflevel || '';
+                    if (_cfLvl === 'class') {{
+                        display = val + '<sup class="cf-class-note" title="ClassyFire class used \u2014 no subclass available for this compound">\u2020</sup>';
                     }}
                 }}
                 if (c.key === 'conf' && val) {{
