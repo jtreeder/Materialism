@@ -50,7 +50,7 @@ if os.path.exists(MANIFEST_PATH):
         _manifest = json.load(_mf)
 else:
     _manifest = {"version": 1, "datasets": {}}
-DATASETS_META = _manifest.get("datasets", {})
+DATASETS_META = {k: v for k, v in _manifest.get("datasets", {}).items() if v.get("active", True)}
 
 # Source display name mapping
 SOURCE_NAMES = {
@@ -2841,6 +2841,8 @@ cas_candidates_json = json.dumps(cas_candidates_map)
 DATASETS_DIR = os.path.join(os.path.dirname(__file__), "data", "datasets")
 per_dataset_data = {}
 for ds_id, ds_meta in DATASETS_META.items():
+    if not ds_meta.get("active", True):
+        continue
     ds_dir = os.path.join(DATASETS_DIR, ds_id)
     chems = []
     polys = []

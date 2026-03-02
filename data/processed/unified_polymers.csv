@@ -1,468 +1,467 @@
 name,cas_number,delta_d,delta_p,delta_h,radius,type,confidence,source_count,source,source_url,dataset_id
-1%IN WATER +AMINES,,14.96,18.33,15.15,16.22,Biologically Interesting Systems,0.3,1,hansen_a2,,hansen_a2
-1%IN WATER -AMINES,,15.07,20.44,16.5,18.12,Biologically Interesting Systems,0.3,1,hansen_a2,,hansen_a2
-1/2-sec.-NITRO CELLULOSE H 23,,15.41,14.73,8.84,11.46,Nitrocellulose,0.3,1,hansen_a2,,hansen_a2
-2-COMP EPOXY CHEMICAL RES.,,18.4,9.4,10.1,7.0,Special Data,0.3,1,hansen_a2,,hansen_a2
-4H 35°C,,19.4,13.4,18.0,8.6,Correlations for Some Barrier-Type Polymers,0.3,1,hansen_a2,,hansen_a2
-4H 35°C no plasticizer included,,20.5,11.3,10.3,6.7,Correlations for Some Barrier-Type Polymers,0.3,1,hansen_a2,,hansen_a2
-ABS CR,,16.3,2.7,7.1,7.8,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-ACETAL CELANESE,,21.1,9.3,5.9,11.4,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-ACETALHOMO-DUO,,19.0,5.0,8.0,5.0,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-ACID DEGMP,,15.3,13.3,14.9,15.6,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-ACRYLAMIDE MONOMER,,16.9,18.1,19.9,17.0,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-ACRYLOID B-44,,19.4,11.2,4.4,10.5,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-ACRYLOID B-66,,18.0,9.0,3.0,9.0,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-ACRYLOID B-72,,19.2,11.2,1.8,11.0,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-ACRYLOID B-82,,19.1,9.1,3.3,9.0,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-ACRYLOID K120N,,17.6,10.0,3.8,9.5,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-Acrylonitrile butadiene styrene (ABS),9003-56-9,17.0,5.7,6.8,9.4,Polystyrene,0.4,1,accudyne_polymers,,accudyne_polymers
-ALFTALAT AC 366,,18.6,10.0,5.0,10.4,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-ALFTALAT AM 756,,23.0,2.2,4.2,16.9,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-ALFTALAT AN 896,,22.9,15.2,7.6,18.1,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-ALFTALAT AN 950,,22.6,13.8,8.1,17.1,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-ALFTALAT AT 316,,20.5,9.3,9.1,12.4,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-ALFTALAT AT 576,,19.2,5.3,6.3,11.9,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-ALKYD 45 SOYA,,17.5,2.3,7.7,10.0,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-ALKYDAL F 261 HS,,23.6,1.0,7.6,19.0,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-ALKYDAL F 41,,20.6,4.6,5.5,12.6,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-ALLOPREN R10,,17.4,4.3,3.9,6.1,Chlorinated Rubber,0.3,1,hansen_a2,,hansen_a2
-ALLOPRENE R10 (10%),,19.5,9.2,6.9,7.5,Chlorinated Rubber,0.3,1,hansen_a2,,hansen_a2
-ALPEX,,19.9,0.0,0.0,9.4,Cyclized Rubber,0.3,1,hansen_a2,,hansen_a2
-AMOCO 18-290,,19.3,3.7,7.9,7.8,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-ARALDITE DY O25,,14.0,7.4,9.4,13.7,Epoxy,0.3,1,hansen_a2,,hansen_a2
-BAKELITE SULFONE P-47,,20.0,3.0,6.0,3.0,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-BAREX 210 CR,,20.1,9.1,12.7,10.9,Barex,0.3,1,hansen_a2,,hansen_a2
-BAREX 210 CR-STYRENE,,17.7,8.9,10.9,6.4,Barex,0.3,1,hansen_a2,,hansen_a2
-BAYSILON UD 125,,19.4,9.9,10.1,6.9,Silicone Resins,0.3,1,hansen_a2,,hansen_a2
-BE 370,,20.7,6.1,12.7,14.8,Amino Resins,0.3,1,hansen_a2,,hansen_a2
-BECKOLIN 27 MODIF OIL,,11.4,0.0,3.0,18.1,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-BEETLE 681,,22.2,-0.4,10.1,18.4,Amino Resins,0.3,1,hansen_a2,,hansen_a2
-BETHOXAZIN,,22.4,7.6,10.8,13.9,Miscellaneous,0.3,1,hansen_a2,,hansen_a2
-BLOOD SERUM,,23.2,22.73,30.6,20.48,Biologically Interesting Systems,0.3,1,hansen_a2,,hansen_a2
-BMA/AN 80/20,,17.5,9.9,4.1,9.5,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-BROMOBUTYL RUBBER L,,17.0,3.4,2.0,6.0,Bromobutyl Rubber Swelling,0.3,1,hansen_a2,,hansen_a2
-BROMOBUTYL RUBBER S,,17.6,1.7,2.0,6.0,Bromobutyl Rubber Swelling,0.3,1,hansen_a2,,hansen_a2
-BUNA HULS B10,,17.53,2.25,3.42,6.55,Polybutadiene,0.3,1,hansen_a2,,hansen_a2
-BUNA N B UTADIENE/ACRYLONITRILE,,17.8,3.2,3.4,3.7,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-BUTON 100 B UTAD-STY,,17.0,4.0,3.0,7.3,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-BUTON 300,,17.3,3.7,7.3,7.0,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-BUTVAR B 76,,18.6,4.36,13.03,10.64,Polyvinylbutyral,0.3,1,hansen_a2,,hansen_a2
-BUTYL 1 HR,,15.8,-2.1,4.0,8.2,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-BUTYL 20 MIN,,16.5,1.0,5.1,5.0,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-BUTYL 4 HR (2),,17.6,2.1,2.1,7.0,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-CARB DEG PTH,,19.4,13.4,11.6,11.1,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-CARBON-60,,19.7,2.9,2.7,3.9,Miscellaneous,0.3,1,hansen_a2,,hansen_a2
-CARIFLEX IR 305,,16.57,1.41,-0.82,9.62,Polyisoprene,0.3,1,hansen_a2,,hansen_a2
-CELL. ACET. BUTYRATE,,17.2,13.8,2.8,12.6,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-CELL. ACET. PROPIONATE,,9.8,13.6,11.4,15.2,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-CELLIDORA A,,18.2,12.4,10.8,7.4,Cellulose Acetate,0.3,1,hansen_a2,,hansen_a2
-CELLIT BP-300,,16.6,12.0,6.7,10.2,Cellulose Acetobutyrate,0.3,1,hansen_a2,,hansen_a2
-CELLOLYN 102,,21.73,0.94,8.53,15.75,Rosin Derivatives,0.3,1,hansen_a2,,hansen_a2
-CELLOPHAN SW,,16.1,18.5,14.5,9.3,Correlations for Some Barrier-Type Polymers,0.3,1,hansen_a2,,hansen_a2
-Cellophane,9005-81-6,16.1,18.5,14.5,7.3,Cellulose,0.4,1,accudyne_polymers,,accudyne_polymers
-Cellulose acetate (CA),9004-35-7,17.1,13.1,9.4,10.6,Cellulose,0.4,1,accudyne_polymers,,"accudyne_polymers,hansen_a2"
-Cellulose acetate butyrate (CAB),9004-36-8,17.2,13.8,2.8,12.6,Cellulose,0.4,1,accudyne_polymers,,accudyne_polymers
-CELLULOSE NITRATE,,16.9,13.5,10.3,9.9,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-CELLULOSE-PAPER STRENGTH,,25.4,18.6,24.8,21.7,Biologically Interesting Systems,0.3,1,hansen_a2,,hansen_a2
-CERECLOR 70,,20.0,8.3,6.8,9.8,Chloroparaffin,0.3,1,hansen_a2,,hansen_a2
-CH 5100 3 HR,,16.6,5.4,4.0,3.8,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-CH 5200 3 HR,,16.6,6.0,4.8,3.7,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-CHLORINATED RUBBER,,17.9,6.3,5.1,7.6,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-CHLOROPAR 40,,17.0,7.6,7.9,11.9,Chloroparaffin,0.3,1,hansen_a2,,hansen_a2
-CHLOROPHYLL,,20.2,15.6,18.2,11.1,Biologically Interesting Systems,0.3,1,hansen_a2,,hansen_a2
-CHOLESTEROL,,20.4,2.8,9.4,12.6,Biologically Interesting Systems,0.3,1,hansen_a2,,hansen_a2
-COAL TAR PITCH SOL.,,18.7,7.5,8.9,5.8,Special Data,0.3,1,hansen_a2,,hansen_a2
-CONOCO H-35 HYDROCARBON M,,11.4,0.0,3.0,18.1,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-CRODA AC500 THERMOSET (10%),,17.8,6.4,4.7,10.7,Acrylics,0.3,1,hansen_a2,,hansen_a2
-CRODA AC550 THERMOSET (10%),,16.3,10.6,7.4,12.9,Acrylics,0.3,1,hansen_a2,,hansen_a2
-CRYPLEX 1473-5,,19.2,9.4,5.6,8.9,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-CYMEL 300,,19.35,12.83,12.87,9.82,Amino Resins,0.3,1,hansen_a2,,hansen_a2
-CYMEL 325,,25.5,15.2,9.5,22.2,Amino Resins,0.3,1,hansen_a2,,hansen_a2
-CZ RESIN SOL,,18.0,1.0,3.0,4.0,COC Solubility,0.3,1,hansen_a2,,hansen_a2
-DAMMAR DEWAXED,,19.0,2.0,9.0,9.0,Polymers of Interest for Conservation of Paintings,0.3,1,hansen_a2,,hansen_a2
-DAMMAR GUM,,18.4,4.2,7.8,8.3,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-DAMMAR GUM DEWAXED,,19.0,2.0,9.0,9.0,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-DEG ISOPH,,19.2,17.2,14.6,11.8,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-DEG PHTH,,21.0,15.2,13.2,13.7,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-DESMODUR L,,17.5,11.3,5.9,8.5,Isocyanate,0.3,1,hansen_a2,,hansen_a2
-DESMODUR N,,17.6,10.0,3.7,9.3,Isocyanate,0.3,1,hansen_a2,,hansen_a2
-DESMOLAC 4200,,18.7,9.6,9.9,8.2,Polyurethane,0.3,1,hansen_a2,,hansen_a2
-DESMOPHEN 1100,,16.0,13.1,9.2,11.4,Polyurethane,0.3,1,hansen_a2,,hansen_a2
-DESMOPHEN 1150,,20.6,7.8,11.6,13.1,Polyurethane,0.3,1,hansen_a2,,hansen_a2
-DESMOPHEN 1200,,19.4,7.4,6.0,9.8,Polyurethane,0.3,1,hansen_a2,,hansen_a2
-DESMOPHEN 1700,,17.9,9.6,5.9,8.2,Polyurethane,0.3,1,hansen_a2,,hansen_a2
-DESMOPHEN 651,,17.7,10.6,11.6,9.5,Polyurethane,0.3,1,hansen_a2,,hansen_a2
-DESMOPHEN 800,,19.1,12.2,9.9,8.0,Polyurethane,0.3,1,hansen_a2,,hansen_a2
-DESMOPHEN 850,,21.54,14.94,12.28,16.78,Polyurethane,0.3,1,hansen_a2,,hansen_a2
-DODA 3457,,19.0,2.0,1.0,3.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-DODA 6225,,19.0,2.0,1.0,3.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-DOW ADIP TEREP,,17.8,10.4,6.8,9.3,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-DOW EPOXY NOVOLAC 438,,20.3,15.4,5.3,15.1,Special Data,0.3,1,hansen_a2,,hansen_a2
-DOW EPOXY NOVOLAC 444,,19.5,11.6,9.3,10.0,Special Data,0.3,1,hansen_a2,,hansen_a2
-DOW X-2635 MALEATE,,17.8,5.6,6.8,4.5,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-DPG PHTH,,20.1,11.5,6.7,11.6,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-DUROFTAL T 354,,17.3,4.2,7.9,9.3,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-DYNAPOL L 812,,22.6,13.1,5.8,16.8,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-DYNAPOL L 850,,20.0,6.2,7.0,9.5,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-DYNOMIN MM 9,,18.8,14.0,12.3,10.5,Amino Resins,0.3,1,hansen_a2,,hansen_a2
-DYNOMIN UM 15,,19.9,15.8,13.4,11.7,Amino Resins,0.3,1,hansen_a2,,hansen_a2
-ELVAX 150,,18.7,2.3,0.7,6.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-ELVAX 250,,19.0,2.0,1.0,3.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-ELVAX EOD 3602-1,,17.7,3.3,2.7,5.4,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-EPIKOTE 1001,,20.0,10.32,10.11,10.02,Epoxy,0.3,1,hansen_a2,,hansen_a2
-EPIKOTE 1004,,17.4,10.5,9.0,7.9,Epoxy,0.3,1,hansen_a2,,hansen_a2
-EPIKOTE 1007,,21.0,11.1,13.4,11.7,Epoxy,0.3,1,hansen_a2,,hansen_a2
-EPIKOTE 1009,,19.3,9.37,10.95,8.26,Epoxy,0.3,1,hansen_a2,,hansen_a2
-EPIKOTE 828,,23.1,14.6,5.0,20.5,Epoxy,0.3,1,hansen_a2,,hansen_a2
-EPOCRYL E-11 ?,,17.3,12.9,12.1,8.5,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-EPON 1001,,17.0,9.6,7.8,7.1,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-Epoxies,,19.2,10.9,9.6,11.1,Epoxy,0.25,1,accudyne_polymers,,accudyne_polymers
-ESTANE X-7 ?? DIO XANE ONLY,,19.0,1.8,7.4,1.0,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-ESTER GUM,,16.9,4.5,6.5,9.2,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-ESTER GUM BL,,19.64,4.73,7.77,10.64,Rosin Derivatives,0.3,1,hansen_a2,,hansen_a2
-ESTIMATE DRIED OIL,,16.0,6.0,7.0,5.0,Polymers of Interest for Conservation of Paintings,0.3,1,hansen_a2,,hansen_a2
-ETHCEL N22?,,22.7,0.5,16.5,20.1,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-ETHOCEL HE10,,17.9,4.3,3.9,5.9,Ethyl Cellulose,0.3,1,hansen_a2,,hansen_a2
-ETHOCEL STD 20,,20.1,6.9,5.9,9.9,Ethyl Cellulose,0.3,1,hansen_a2,,hansen_a2
-Ethyl cellulose,9004-57-3,19.0,5.6,4.9,7.9,Cellulose,0.4,1,accudyne_polymers,,accudyne_polymers
-EVA 4055 SOL,,17.7,3.5,3.7,4.7,Ethylene Vinylacetate (EVA) Solubility,0.3,1,hansen_a2,,hansen_a2
-EVOH SOL,,20.5,10.5,12.3,7.3,Correlations for Some Barrier-Type Polymers,0.3,1,hansen_a2,,hansen_a2
-EXON 470 PVC,,17.4,7.8,3.8,7.7,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-EXON 471,,17.9,8.7,2.5,9.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-EXON 473,,17.4,7.8,3.8,7.7,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-FEP,,19.0,4.0,3.0,4.0,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-Fluorinated ethylene polypropylene (FEP),25067-11-2,19.0,4.0,3.0,4.0,Polypropylene,0.4,1,accudyne_polymers,,accudyne_polymers
-FORMVAR 15/95E,,22.2,12.6,14.2,14.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-FORMVAR 7/70E PVFORMAL,,22.2,12.6,14.2,14.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-FURAN,,19.0,6.0,8.0,5.0,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-FURF ALC,,19.9,3.9,5.1,3.8,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-GEON 121,,19.5,6.7,11.1,8.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-GILSONITE,,17.1,2.1,3.9,4.9,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-HDPE,,18.0,0.0,2.0,2.0,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-HEXADECYL MONOESTER TRIME,,19.0,11.6,14.0,11.9,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-HYCAR 1052,,18.62,8.78,4.17,9.62,Acrylonitrile-Butadiene,0.3,1,hansen_a2,,hansen_a2
-HYD BIS A FUM ISPH,,17.0,4.4,6.2,5.0,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-HYD BIS A PG FUM ISPH,,18.7,8.9,5.5,8.4,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-HYDR SPERM OIL WX135,,20.0,4.0,2.0,5.0,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-HYP 20 CHLOROSULFONATED PE,,17.4,3.2,4.0,4.8,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-HYPALON +/- NOT OK,,18.4,5.6,6.0,9.4,Supplemental Chemical Resistance Corrlations,0.3,1,hansen_a2,,hansen_a2
-HYPALON +/- OK,,18.4,3.6,6.4,9.0,Supplemental Chemical Resistance Corrlations,0.3,1,hansen_a2,,hansen_a2
-HYPALON 20,,18.1,3.4,4.9,3.6,Chlorosulfonated PE,0.3,1,hansen_a2,,hansen_a2
-HYPALON 20 CHL SULF PE,,17.8,3.2,4.4,4.1,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-HYPALON 30,,18.2,4.7,2.0,5.0,Chlorosulfonated PE,0.3,1,hansen_a2,,hansen_a2
-HYTREL +/- NOT OK,,26.4,18.8,7.4,26.3,Supplemental Chemical Resistance Corrlations,0.3,1,hansen_a2,,hansen_a2
-HYTREL +/- OK,,24.2,14.6,13.2,18.8,Supplemental Chemical Resistance Corrlations,0.3,1,hansen_a2,,hansen_a2
-ISOB MALANH/CYCLOL 75/25,,16.8,-0.4,7.2,8.5,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-KAURI GUM,,18.7,8.1,13.0,8.2,Miscellaneous,0.3,1,hansen_a2,,hansen_a2
-KETONE RESIN S588,,18.0,10.8,13.2,12.2,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-KOPPERS KTPL-A,,19.3,3.7,7.9,7.8,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-LARD 23C,,17.69,2.66,4.36,7.98,Biologically Interesting Systems,0.3,1,hansen_a2,,hansen_a2
-LARD 37C,,15.9,1.16,5.41,12.03,Biologically Interesting Systems,0.3,1,hansen_a2,,hansen_a2
-LAROFLEX MP 45,,18.4,8.4,5.8,9.0,Vinyl Chloride Copolymers,0.3,1,hansen_a2,,hansen_a2
-LDPE PERM<0.8,,15.3,5.3,2.5,10.1,Permeation of LDPE by Organic Liquids,0.3,1,hansen_a2,,hansen_a2
-LDPE PERM>80,,16.5,4.5,0.5,6.0,Permeation of LDPE by Organic Liquids,0.3,1,hansen_a2,,hansen_a2
-LIGNIN,,20.17,14.61,15.04,11.66,Special,0.3,1,hansen_a2,,hansen_a2
-LUCITE 2042 PEMA,,17.6,9.66,3.97,10.64,Polyacrylate,0.3,1,hansen_a2,,hansen_a2
-LUCITE 2044 PMMA,,16.2,6.8,5.7,9.1,Polyacrylate,0.3,1,hansen_a2,,hansen_a2
-LUMFLON LF200 (10%),,18.5,5.4,6.9,9.9,Fluorinated Polyethers,0.3,1,hansen_a2,,hansen_a2
-LUMFLON LF916 (10%),,17.5,6.8,10.5,12.5,Fluorinated Polyethers,0.3,1,hansen_a2,,hansen_a2
-LUTANAL I60,,16.9,2.5,4.0,7.2,Polyisobutylene,0.3,1,hansen_a2,,hansen_a2
-LUTONAL IC/1203,,14.2,2.5,4.6,12.4,Polyisobutylene,0.3,1,hansen_a2,,hansen_a2
-LYTRON 820,,21.1,13.1,14.5,14.4,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MAA/EA/ST 15/38/47,,17.6,5.2,7.0,4.5,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MAA/MA/VA 15/17.5/67.5,,25.5,15.7,18.1,21.5,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MAA/MA/VA 15/27.5/57.5,,28.5,15.7,18.1,21.5,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MACRYNAL SM 510N,,19.9,8.1,6.0,9.8,Polyurethane,0.3,1,hansen_a2,,hansen_a2
-MARBON 9200,,19.0,4.0,4.0,6.0,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MMA/CYCLOL 58/42,,18.7,9.9,8.7,8.8,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MMA/EA 25/75,,19.0,9.0,15.0,12.0,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MMA/EA 50/50,,17.5,9.9,4.1,9.5,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MMA/EA/AA,,15.9,15.9,11.5,11.1,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MMA/EA/AGE 40/40/20,,17.6,9.8,5.6,9.7,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MMA/EA/AN 40/40/20,,20.4,13.2,11.0,12.3,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MMA/EA/AN 55/30/15?,,16.7,10.9,8.5,8.5,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MMA/EA/BAMA 40/40/20,,17.9,8.5,11.7,12.9,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MMA/EA/BVBE 40/40/20,,17.8,10.0,6.6,9.8,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MMA/EA/CYCLOL,,17.6,9.8,6.4,9.8,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MMA/EA/MAM 40/40/20,,19.0,9.0,15.0,12.0,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MMA/EA/MAM 45/45/10?,,19.5,11.1,8.7,11.2,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-MODAFLOW,,16.1,3.7,7.9,8.9,Special,0.3,1,hansen_a2,,hansen_a2
-MOWILITH 50 PVAC,,20.93,11.27,9.66,13.71,Polyvinylacetate,0.3,1,hansen_a2,,hansen_a2
-MOWITAL B 30 H,,18.6,12.9,10.3,8.3,Polyvinylbutyral,0.3,1,hansen_a2,,hansen_a2
-MOWITAL B 60 H,,20.2,11.2,13.3,11.2,Polyvinylbutyral,0.3,1,hansen_a2,,hansen_a2
-MYLAR PET,,18.0,6.2,6.2,5.0,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-NAT RUBBER,,16.0,4.0,6.0,1.3,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-NATURAL RUBBER 1 HR,,15.6,3.4,9.1,14.0,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-NATURAL RUBBER 20 MIN,,14.5,7.3,4.5,11.0,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-NATURAL RUBBER 4 HR,,19.4,13.2,7.7,19.0,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-NEOPRENE 1 HR,,19.0,8.0,0.0,13.2,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-NEOPRENE 20 MIN,,17.6,2.5,5.9,6.2,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-NEOPRENE 4 HR,,14.6,13.9,2.3,15.9,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-NEOPRENE CR,,18.1,4.3,6.7,8.9,Supplemental Chemical Resistance Corrlations,0.3,1,hansen_a2,,hansen_a2
-NITRILE 1 HR,,16.6,9.1,4.4,10.0,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-NITRILE 20 MIN,,17.5,7.3,6.5,5.1,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-NITRILE 4 HR,,19.0,12.6,3.8,13.3,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-Nitrocellulose (cellulose nitrate),9004-70-0,16.2,14.1,9.5,10.7,Cellulose,0.4,1,accudyne_polymers,,accudyne_polymers
-Nylon 11,25587-80-8,17.0,4.4,10.6,5.1,Polyamide,0.4,1,accudyne_polymers,,accudyne_polymers
-Nylon 12,24937-16-4,18.5,8.1,9.1,6.3,Polyamide,0.4,1,accudyne_polymers,,accudyne_polymers
-"Nylon 6 (polycaprolactum, aramid 6)",25038-54-4,17.0,3.4,10.6,5.1,Polyamide,0.4,1,accudyne_polymers,,accudyne_polymers
-"Nylon 6,6",32131-17-2,17.2,9.9,16.5,4.4,Polyamide,0.4,1,accudyne_polymers,,"accudyne_polymers,hansen_a2"
-PA11 CR,,17.0,4.4,10.6,5.1,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PA6 CR,,17.0,3.4,10.6,5.1,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PA66 SOL,,17.4,9.8,14.6,5.1,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PALM OIL,,17.7,3.5,3.7,4.7,Miscellaneous,0.3,1,hansen_a2,,hansen_a2
-PAN,,21.7,14.1,9.1,10.9,Solubility of Polyacrylonitirile,0.3,1,hansen_a2,,hansen_a2
-PARALOID B72,,17.6,7.4,5.6,9.4,Polymers of Interest for Conservation of Paintings,0.3,1,hansen_a2,,hansen_a2
-PARALOID EXPER. RES. QR 954,,18.4,9.8,10.0,12.4,Acrylate Resins,0.3,1,hansen_a2,,hansen_a2
-PARALOID P 400,,19.2,9.6,9.3,12.2,Acrylate Resins,0.3,1,hansen_a2,,hansen_a2
-PARALOID P 410,,19.6,9.1,6.8,12.2,Acrylate Resins,0.3,1,hansen_a2,,hansen_a2
-PARAPOL S-50,,17.9,3.9,4.9,3.9,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-PARAPOL S-60,,17.9,3.9,4.9,3.9,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-PARLON P 10,,20.26,6.32,5.4,10.64,Chlorinated Polypropylene,0.3,1,hansen_a2,,hansen_a2
-PBMA (10%),,20.6,3.5,7.2,12.8,Acrylics,0.3,1,hansen_a2,,hansen_a2
-PBMA?,,15.9,5.5,5.9,8.5,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-PBUTYLACRYLATE,,16.2,9.0,3.0,10.1,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-PC,,18.1,5.9,6.9,5.5,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-PCTFE,,14.1,2.7,5.5,6.6,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-PE,,16.0,0.8,2.8,3.2,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-PE? CR Q UESTIONABLE VALUES,,16.8,5.4,2.4,4.7,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PECTFE SOL AT HIGH TEMP.,,19.5,7.3,1.7,5.1,Poly(Ethylene/Chlorotrifluoroethylene),0.3,1,hansen_a2,,hansen_a2
-PEI 1200PSI,,17.2,6.4,5.2,3.6,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),0.3,1,hansen_a2,,hansen_a2
-PEI 2400PSI,,17.4,4.6,9.0,7.2,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),0.3,1,hansen_a2,,hansen_a2
-PEI 600PSI,,17.3,5.3,4.7,3.3,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),0.3,1,hansen_a2,,hansen_a2
-PEMA (10%),,16.5,8.7,5.0,10.4,Acrylics,0.3,1,hansen_a2,,hansen_a2
-PENTA BENZ MAL,,19.4,12.2,10.2,10.8,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-PENTALYN 255,,17.55,9.37,14.32,10.64,Rosin Derivatives,0.3,1,hansen_a2,,hansen_a2
-PENTALYN 830,,20.03,5.81,10.93,11.66,Rosin Derivatives,0.3,1,hansen_a2,,hansen_a2
-PEO 4000 ? HEATED SAMPLES,,21.5,10.9,13.1,15.9,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-PEO 4000 ? SAMPLES HEA TED,,22.2,11.2,13.2,17.1,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-PERGUT S 5,,17.4,9.5,3.8,10.0,Chlorinated Rubber,0.3,1,hansen_a2,,hansen_a2
-PES L B + C =1,,17.7,9.7,6.4,9.3,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PES L C=1,,18.7,10.5,7.6,9.1,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PES SOL,,19.6,10.8,9.2,6.2,Polymer Solubility Data from Various Sources,0.3,1,hansen_a2,,hansen_a2
-PETG,,18.0,3.0,4.0,6.0,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-PETP CR,,18.2,6.4,6.6,5.0,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PFA(?),,16.7,7.7,-0.5,8.1,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-PHENODUR 373U,,19.74,11.62,14.59,12.69,Phenolic Resins,0.3,1,hansen_a2,,hansen_a2
-PHENOLIC,,21.6,5.2,18.8,15.4,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-PHENOLICS,,19.8,7.2,10.8,12.8,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-PIBMA (10%),,17.0,4.6,7.6,9.5,Acrylics,0.3,1,hansen_a2,,hansen_a2
-PICCOFLEX 120,,17.4,7.8,3.8,7.7,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-PICCOPALE 110,,17.55,1.19,3.6,6.55,Hydrocarbon Resins,0.3,1,hansen_a2,,hansen_a2
-PICCORONE 450L,,19.42,5.48,5.77,9.62,Hydrocarbon Resins,0.3,1,hansen_a2,,hansen_a2
-PKHH,,23.4,7.2,14.8,14.9,Epoxy,0.3,1,hansen_a2,,hansen_a2
-PLASTOKYD AC4X (30%),,23.9,7.8,8.8,19.9,Acrylic Modified Alkyd,0.3,1,hansen_a2,,hansen_a2
-PLASTOKYD S27 (30%),,20.1,5.7,5.3,20.0,Acrylic Modified Alkyd,0.3,1,hansen_a2,,hansen_a2
-PLASTOKYD SC140 (30%),,25.2,9.2,3.7,20.0,Acrylic Modified Alkyd,0.3,1,hansen_a2,,hansen_a2
-PLASTOKYD SC400 (30%),,23.7,0.5,10.3,20.0,Acrylic Modified Alkyd,0.3,1,hansen_a2,,hansen_a2
-PLASTOPAL H,,20.81,8.29,14.96,12.69,Amino Resins,0.3,1,hansen_a2,,hansen_a2
-PLEXAL C-34,,18.5,9.21,4.91,10.64,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-PLEXIGUM M527,,18.4,9.4,6.5,10.7,Polyacrylate,0.3,1,hansen_a2,,hansen_a2
-PLEXIGUM MB319,,18.6,10.8,4.1,11.5,Polyacrylate,0.3,1,hansen_a2,,hansen_a2
-PLIOLITE P1230,,18.1,4.7,3.7,3.9,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-PLIOLYTE S-100,,16.47,0.37,2.84,8.59,Hydrocarbon Resins,0.3,1,hansen_a2,,hansen_a2
-PMMA,,18.64,10.52,7.51,8.59,Polyacrylate,0.3,1,hansen_a2,,hansen_a2
-PMMA CR,,16.0,5.0,12.0,13.0,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-Poly iso-butyl methacrylate (PIBMA),9011-15-8,18.3,4.9,6.3,9.4,Polyacrylate,0.4,1,accudyne_polymers,,accudyne_polymers
-Poly n-butyl methacrylate (PnBMA),95608-33-7,16.0,6.2,6.6,9.5,Polyacrylate,0.4,1,accudyne_polymers,,accudyne_polymers
-Polyacrylonitrile (PAN),25014-41-9,21.7,14.1,9.1,10.9,Polyacrylonitrile,0.4,1,accudyne_polymers,,accudyne_polymers
-Polybutadiene,9003-17-2,17.5,2.3,3.4,6.6,Polybutadiene,0.4,1,accudyne_polymers,,accudyne_polymers
-Polycarbonate (PC),24936-68-3,19.6,8.8,5.7,10.2,Polycarbonate,0.4,1,accudyne_polymers,,accudyne_polymers
-Polychlorotrifluoroethylene,9002-83-9,15.6,2.5,4.7,5.8,Fluoropolymer,0.4,1,accudyne_polymers,,accudyne_polymers
-POLYCYCLOLa,,19.0,9.0,15.0,12.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-Polyetherimide (PEI),61128-46-9,17.7,6.0,6.4,4.8,Polyetherimide,0.4,1,accudyne_polymers,,accudyne_polymers
-Polyethersulfone (PES),25154-01-2,18.3,8.2,6.4,6.3,Polyethersulfone,0.4,1,accudyne_polymers,,accudyne_polymers
-Polyethyl methacrylate (PEMA),9003-42-3,17.5,8.5,4.7,9.6,Polyacrylate,0.4,1,accudyne_polymers,,accudyne_polymers
-Polyethylene (PE),9002-88-4,16.8,3.8,3.8,6.6,Polyethylene,0.4,1,accudyne_polymers,,accudyne_polymers
-POLYETHYLENE 1 HR,,17.1,3.1,5.2,8.2,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-POLYETHYLENE 20 MIN,,16.9,3.3,4.1,8.1,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-POLYETHYLENE 4 HR,,24.1,14.9,0.3,24.3,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-Polyethylene terephthalate (PET),25038-59-9,18.7,6.3,6.7,6.5,Polyester,0.4,1,accudyne_polymers,,accudyne_polymers
-POLYETHYLENESULFIDE (GOOD),,17.8,3.8,2.2,4.1,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-"Polyisobutylene (PIB, butyl (rubber)",9003-27-4,16.4,1.7,4.7,7.9,Elastomer,0.4,1,accudyne_polymers,,accudyne_polymers
-Polyisoprene (PIP),9003-31-0,18.1,2.4,2.3,10.3,Polyisoprene,0.4,1,accudyne_polymers,,accudyne_polymers
-POLYISOPRENE SW,,17.0,4.0,4.0,7.3,Polyisoprene Swelling,0.3,1,hansen_a2,,hansen_a2
-Polymethacrylonitrile (PMAN),25067-61-2,17.2,14.4,7.6,3.8,Based on Solvent Range Solubility Data - Not too Reliable,0.4,1,accudyne_polymers,,"accudyne_polymers,hansen_a2"
-"Polymethyl methacrylate (PMMA, acrylic, plexiglas)",9011-14-7,17.9,10.1,5.4,11.0,Polyacrylate,0.4,1,accudyne_polymers,,accudyne_polymers
-Polyphenylene oxide (PPO),25134-01-4,17.9,3.1,8.5,8.6,Polyphenylene Oxide,0.4,1,accudyne_polymers,,accudyne_polymers
-Polyphenylene sulfide (PPS),26125-40-6,18.7,5.3,3.7,6.7,Polyphenylene Sulfide,0.4,1,accudyne_polymers,,accudyne_polymers
-Polypropylene (PP),,17.7,2.9,1.2,6.2,Polypropylene,0.25,1,accudyne_polymers,,accudyne_polymers
-POLYSAR 5630,,17.55,3.35,2.7,6.55,Styrene-Butadiene (SBR),0.3,1,hansen_a2,,hansen_a2
-Polystyrene (PS),9003-53-6,22.8,5.8,4.3,12.7,Polystyrene,0.4,1,accudyne_polymers,,accudyne_polymers
-POLYSTYRENE LG,,22.28,5.75,4.3,12.68,Polystyrene,0.3,1,hansen_a2,,hansen_a2
-Polysulfone (PSU),25135-51-7,18.5,8.5,7.0,9.4,Polysulfone PSU,0.4,1,accudyne_polymers,,accudyne_polymers
-Polytetrafluoroethylene (PTFE),9002-84-0,16.2,1.8,3.4,3.9,Fluoropolymer,0.4,1,accudyne_polymers,,accudyne_polymers
-Polyurethanes,,18.8,10.0,8.2,9.8,Polyurethane,0.25,1,accudyne_polymers,,accudyne_polymers
-Polyvinyl acetate (PVA),9003-20-7,20.9,11.3,9.7,13.7,Polyvinylacetate,0.4,1,accudyne_polymers,,accudyne_polymers
-Polyvinyl alcohol (PVOH),25213-24-5,14.7,14.1,14.9,10.5,Polyvinyl Alcohol,0.4,1,accudyne_polymers,,"accudyne_polymers,hansen_a2"
-Polyvinyl butyral,63148-65-2,19.1,9.5,12.2,10.0,Polyvinylbutyral,0.4,1,accudyne_polymers,,accudyne_polymers
-Polyvinyl chloride (PVC),9002-86-2,16.8,8.9,6.1,8.5,Polyvinylchloride,0.4,1,accudyne_polymers,,accudyne_polymers
-POLYVINYLALCOHOL 1 HR,,15.3,13.2,13.5,8.8,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-POLYVINYLALCOHOL 20 MIN,,11.2,12.4,13.0,12.1,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-POLYVINYLALCOHOL 4 HR,,17.2,13.6,15.4,10.9,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-POLYVINYLBUTYL ETHER,,17.4,4.3,8.4,7.4,Polyisobutylene,0.3,1,hansen_a2,,hansen_a2
-"Polyvinylidene chloride (PVDC, Saran)",9002-85-1,19.0,9.6,9.0,5.8,Polyvinylidene Chloride,0.4,1,accudyne_polymers,,accudyne_polymers
-Polyvinylidene fluoride (PVDF),24937-79-9,17.0,12.1,10.2,4.1,Polyvinylidene Chloride,0.4,1,accudyne_polymers,,accudyne_polymers
-POLYVINYLIDINE FLUORIDE SOL.,,17.0,12.1,10.2,4.1,Special Data,0.3,1,hansen_a2,,hansen_a2
-POLYVINYLPYRROLIDONE (PVP),,21.4,11.6,21.6,17.3,Miscellaneous,0.3,1,hansen_a2,,hansen_a2
-POMH+POMC CR,,17.1,3.1,10.7,5.2,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PP,,18.0,0.0,1.0,6.0,Chemical Resistance Data - Modern Plastics Encylopedia,0.3,1,hansen_a2,,hansen_a2
-PPO CR,,17.9,3.1,8.5,8.6,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PPS CR 93°C,,18.8,4.8,6.8,2.8,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PPS TS60%12MO,,18.7,5.3,3.7,6.7,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PS,,18.5,4.5,2.9,5.3,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-PSORIASIS SCALES,,24.64,11.94,12.92,19.04,Biologically Interesting Systems,0.3,1,hansen_a2,,hansen_a2
-PSU CR,,16.0,6.0,6.6,9.0,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PSU ULTRASON S,,19.7,8.3,8.3,8.0,Polysulfone PSU,0.3,1,hansen_a2,,hansen_a2
-PTFE L80 CR,,16.2,1.8,3.4,3.9,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-pTOLSULFONAMIDE-FORMALDEH,,24.6,18.6,16.4,20.9,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-PUR,,17.9,6.9,3.7,2.7,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-PUR CR,,18.1,9.3,4.5,9.7,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-PVAC,,17.6,2.2,4.0,4.1,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-PVBE,,16.7,3.7,8.3,8.6,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-PVC,,17.6,7.8,3.4,8.2,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-PVC 1 HR,,14.9,11.1,3.8,13.2,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-PVC 20 MIN,,16.1,7.1,5.9,9.3,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-PVC 4 HR,,24.4,4.9,9.9,22.7,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-PVDC (110C) SOLUBILITY,,17.6,9.1,7.8,3.9,High Temperature Solubility of PVDC,0.3,1,hansen_a2,,hansen_a2
-PVDC (130C) SOLUBILITY,,20.4,10.0,10.2,7.6,High Temperature Solubility of PVDC,0.3,1,hansen_a2,,hansen_a2
-PVEE,,16.0,4.0,12.0,14.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-PVETHYLETHER?,,15.1,3.1,11.9,12.9,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-PVF? (DMF ONLY GOOD SOLVENT),,17.4,13.7,11.3,2.0,Polymer Solubility Data from Various Sources,0.3,1,hansen_a2,,hansen_a2
-PVIBE,,16.0,1.0,8.0,10.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-PVINYLBUTYLETHER,,17.4,3.4,7.8,8.4,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-"PVOH (NOT GOOD, SEE CHAP. 5)",,17.0,9.0,18.0,4.0,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-R ABS,,17.6,8.6,6.4,10.9,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R ACM,,16.8,11.8,11.6,17.0,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R AU ESTER PU,,17.9,13.3,10.7,17.1,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R BUTYL,,18.0,0.0,3.0,9.0,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R CELLULOSE ACETATE,,14.9,7.1,11.1,12.4,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R CHLORINATED PVC,,17.5,6.5,5.5,6.3,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R CR CHLOROPRENE,,24.6,8.6,6.4,20.4,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R CSM,,28.0,14.0,3.4,28.3,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R DIALLYLPHTHALATE,,22.2,12.2,8.6,15.8,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R EBONITE (DATA FIT 0.722),,18.7,6.1,2.7,6.6,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R ECO,,21.3,8.1,6.1,12.0,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R EPDM,,18.6,-3.4,4.4,10.7,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R EPOXY COLD CURING,,16.8,10.8,8.8,8.2,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R EPOXY HOT CURING,,18.3,12.3,9.7,7.3,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R ETHYLENE/PROPYLENE,,16.6,0.0,5.2,9.1,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R FKM (VIT ON) (0.76 DATA FIT),,11.6,23.0,5.0,21.6,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R FQ FL/SI,,15.9,20.1,6.9,16.8,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R HDPE/LDPE,,17.5,4.3,8.3,3.9,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R HET RESIN,,17.5,11.3,8.3,8.6,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R ISOPHTHALIC,,19.8,17.4,4.2,18.0,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R NBR,,19.8,17.8,3.2,19.0,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R NR NAT RUB,,20.8,1.8,3.6,14.0,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R PA12,,18.5,8.1,9.1,6.3,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R PA66,,18.2,8.8,10.8,5.2,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R PET,,19.1,6.3,9.1,4.8,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R PEU ETHER PU,,17.9,13.3,10.7,17.1,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R PMMA,,19.3,16.7,4.7,17.4,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R POLYAMIDEIMIDE,,18.5,5.7,8.7,4.2,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R POLYBUTYLENETEREPH,,18.0,5.6,8.4,4.5,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R POLYCARBONATE,,19.1,10.9,5.1,12.1,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R POLYIMIDES,,24.3,19.5,22.9,21.6,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R POLYPHENYLENEOXIDE,,16.9,8.9,2.7,11.7,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R POLYPROPYLENE,,17.2,5.6,-0.4,4.5,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R POLYSULPHONE,,19.8,11.2,6.2,11.3,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R POM ACETAL,,17.2,9.0,9.8,5.3,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R Q SILICONE (0.748 D ATA FIT),,13.8,5.0,1.2,14.3,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R SBR,,17.2,6.0,4.6,9.8,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R T SULPHIDE,,25.3,17.3,6.7,23.6,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R TEREPHTALIC,,19.8,17.4,4.2,18.0,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R TFP TETFLPROP (0.744 DATA FIT),,16.6,6.8,0.6,7.9,Chemical Resistance of Elastomers,0.3,1,hansen_a2,,hansen_a2
-R TPX,,18.8,1.4,6.4,7.9,Chemical Resistance of Plastics,0.3,1,hansen_a2,,hansen_a2
-R+H PBA,,16.0,8.0,8.0,12.0,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-R+H PEMA,,19.0,9.0,8.0,11.0,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-R+H PiMBA,,20.7,4.1,10.7,11.5,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-R+H PMAA,,25.6,11.2,19.6,20.3,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-R+H PMMA,,19.1,11.3,4.1,10.3,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-R+H PNBMA,,16.0,6.2,6.6,9.5,Acrylics - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-RUBBER MOD PS,,20.0,5.0,1.0,7.0,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-SAN,,16.6,9.8,7.6,4.8,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-SAN 85/15,,19.1,9.5,3.1,8.7,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-SANTOLITE MHP ARYLSULFONA,,18.4,12.0,8.4,10.6,Miscellaneous - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-SARAN F-120 VCL2/AN?,,28.8,16.8,0.8,23.7,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-SARAN F-220 ?,,28.8,16.8,0.8,23.7,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-SARANEX 4HR,,17.7,18.3,0.7,18.4,Correlations for Some Barrier-Type Polymers,0.3,1,hansen_a2,,hansen_a2
-SHELL POLYALDEHYDE EX 39,,19.6,10.0,3.6,9.4,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-SHELL POLYALDEHYDE EX 40,,19.6,10.0,3.6,9.4,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-SHELL X-450,,19.3,9.5,11.1,11.1,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-SHELLAC,,19.7,10.1,15.1,10.7,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-SILICONE DC 23?,,16.4,0.0,7.8,5.5,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-SILICONE DC-1107?,,19.6,3.4,10.8,9.8,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-SINCLAIR 3840A,,18.4,4.0,9.6,7.3,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-SMA 1430A,,18.8,11.4,16.4,14.1,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-SOALKYD 1935-EGAX,,18.0,11.6,8.5,9.0,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-SOAMIN M 60,,15.9,8.1,6.5,10.6,Amino Resins,0.3,1,hansen_a2,,hansen_a2
-SOL MYLAR 49001,,19.0,5.0,4.0,5.0,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-SOL MYLAR 49002,,19.0,5.0,5.0,5.0,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-STY MAL ANH,,23.4,13.8,15.2,16.5,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-STY/2EHA/AA 81/11/8,,17.7,4.9,5.9,5.9,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-STY/BUTENOL 85/15,,17.4,7.8,3.8,7.7,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-STY/CYCLOL 82/18,,18.2,5.6,7.2,5.7,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-STY/HALF ESTER MA 60/40,,18.9,10.9,10.7,9.7,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-STY/MA 85/15,,18.0,9.0,3.0,9.0,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-STY/MAA 90/10,,18.7,6.3,7.3,6.7,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-STY/PROP HALF E MA 57/43,,18.0,9.8,8.4,10.1,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-STY/VBE 85/15,,17.4,7.8,3.8,7.7,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-STYRON 44OM-27 MOD PS,,20.0,5.0,1.0,7.0,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-STYRON 475M-27,,20.0,5.0,1.0,7.0,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-STYRON 480-27,,20.0,6.0,4.0,5.3,Styrene Polymers And Copolymers - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-SUCROSE,,21.67,26.26,29.62,20.44,Biologically Interesting Systems,0.3,1,hansen_a2,,hansen_a2
-SUPER BECKACITE 1001,,23.26,6.55,8.35,19.85,Phenolic Resins,0.3,1,hansen_a2,,hansen_a2
-SUPRASEC F-5100,,19.7,12.9,12.8,11.4,Isocyanate,0.3,1,hansen_a2,,hansen_a2
-SYNRESIN A 560,,22.1,5.0,11.3,15.5,Amino Resins,0.3,1,hansen_a2,,hansen_a2
-TEFLON (SL2-),,17.1,8.1,1.3,4.7,Silicone Resins,0.3,1,hansen_a2,,hansen_a2
-TEG EG MAL TEREP,,18.8,11.4,9.2,10.2,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-TEG MALEATE,,18.1,13.9,12.1,9.7,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-TOLONATE HDB (RH-POULENC),,19.0,11.0,2.0,11.3,Tolonate Solubility,0.3,1,hansen_a2,,hansen_a2
-TOLONATE HDT (RH-POULENC),,19.0,11.0,3.0,12.0,Tolonate Solubility,0.3,1,hansen_a2,,hansen_a2
-TOPAS 6013 SOL,,18.0,3.0,2.0,5.0,COC Solubility,0.3,1,hansen_a2,,hansen_a2
-UFORMITE MX-61,,22.7,2.8,5.4,16.2,Amino Resins,0.3,1,hansen_a2,,hansen_a2
-URACRON 15,,19.2,7.7,5.7,10.6,Acrylate Resins,0.3,1,hansen_a2,,hansen_a2
-UREA,,20.9,18.7,26.4,19.42,Biologically Interesting Systems,0.3,1,hansen_a2,,hansen_a2
-VA/EA/CY 70/20/10,,20.0,12.0,11.0,15.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VA/EHA/CYC/MAA/76/12/8/4,,21.2,12.4,13.0,12.6,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VA/EHA/MA 63/33/4,,17.7,6.3,7.7,5.3,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VAREZ 123,,17.3,10.9,11.9,10.7,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VBE/AN/MAA 46/27/27,,18.9,11.7,11.1,9.6,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VBE/MA/MAC46/27/27,,19.4,13.0,13.8,12.3,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VCVA COPOLY,,17.3,8.7,6.1,7.8,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-VDC/AA 75/25 ?,,20.4,11.0,0.8,11.7,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VERSAMID 100,,23.8,5.3,16.2,16.1,Epoxy Curing Agents,0.3,1,hansen_a2,,hansen_a2
-VERSAMID 100?,,18.8,3.0,9.2,7.8,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-VERSAMID 115,,20.3,6.6,14.1,9.6,Epoxy Curing Agents,0.3,1,hansen_a2,,hansen_a2
-VERSAMID 125,,24.9,3.1,18.7,20.3,Epoxy Curing Agents,0.3,1,hansen_a2,,hansen_a2
-VERSAMID 140,,26.9,2.4,18.5,24.0,Epoxy Curing Agents,0.3,1,hansen_a2,,hansen_a2
-VERSAMID 930,,17.43,-1.92,14.89,9.62,Polyamide,0.3,1,hansen_a2,,hansen_a2
-VERSAMID 961,,18.9,9.6,11.1,6.2,Polyamide,0.3,1,hansen_a2,,hansen_a2
-VERSAMID 965,,20.15,6.04,12.9,9.2,Polyamide,0.3,1,hansen_a2,,hansen_a2
-VESTURIT BL 908,,18.8,12.0,6.0,11.5,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-VESTURIT BL 915,,17.7,13.0,7.6,11.5,Binders in Solution: Alkyds and Polyesters,0.3,1,hansen_a2,,hansen_a2
-VILIT MB 30,,20.0,8.3,6.7,9.4,Vinyl Chloride Copolymers,0.3,1,hansen_a2,,hansen_a2
-VILIT MC 31,,20.0,8.3,6.7,9.4,Vinyl Chloride Copolymers,0.3,1,hansen_a2,,hansen_a2
-VILIT MC 39,,18.4,7.6,6.7,6.8,Vinyl Chloride Copolymers,0.3,1,hansen_a2,,hansen_a2
-VINSOL ROSIN,,17.4,10.0,13.0,10.5,Based on Solvent Range Solubility Data - Not too Reliable,0.3,1,hansen_a2,,hansen_a2
-VINYL SILANE,,16.4,3.7,4.5,10.0,Chemical Resistance of High Performance and Other Polymers,0.3,1,hansen_a2,,hansen_a2
-VINYLITE AYAA PVAC,,22.9,18.3,7.7,20.4,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VINYLITE VAGD,,17.1,10.4,6.5,7.5,Vinyl Chloride Copolymers,0.3,1,hansen_a2,,hansen_a2
-VINYLITE VAGH,,16.5,10.9,6.4,7.7,Vinyl Chloride Copolymers,0.3,1,hansen_a2,,hansen_a2
-VINYLITE VMCA,,17.7,11.1,6.9,8.7,Vinyl Chloride Copolymers,0.3,1,hansen_a2,,hansen_a2
-VINYLITE VMCC,,17.6,11.1,6.8,8.8,Vinyl Chloride Copolymers,0.3,1,hansen_a2,,hansen_a2
-VINYLITE VMCH,,17.6,11.1,6.4,8.6,Vinyl Chloride Copolymers,0.3,1,hansen_a2,,hansen_a2
-VINYLITE VXCC,,18.0,9.4,4.6,8.4,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VINYLITE VYHH,,17.4,10.2,5.9,7.8,Vinyl Chloride Copolymers,0.3,1,hansen_a2,,hansen_a2
-VINYLITE VYLF,,18.1,10.3,4.2,8.3,Vinyl Chloride Copolymers,0.3,1,hansen_a2,,hansen_a2
-VINYLITE XYHL PVB UTYRAL,,19.0,9.0,15.0,12.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VINYLITE XYSG PVB UTYRAL,,19.0,9.0,15.0,12.0,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VIPLA KR (PVC),,18.4,6.6,8.0,3.0,Polyvinylchloride,0.3,1,hansen_a2,,hansen_a2
-VITEL PE LINEAR,,14.9,10.1,2.9,6.1,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VITEL PE101-X,,21.3,6.3,4.7,7.3,Polyesters - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-VITON 1 HR,,16.5,8.1,8.3,6.6,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-VITON 20 MIN,,10.9,14.5,3.1,14.1,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-VITON 4 HR,,13.6,15.4,8.6,14.4,Practical Film Thickness,0.3,1,hansen_a2,,hansen_a2
-VYHH-NIF REPT,,17.4,9.9,6.7,7.5,Polymer Solubility Data from Various Sources,0.3,1,hansen_a2,,hansen_a2
-VYSET 69,,17.9,3.5,7.5,5.9,Vinyl Resins - Solvent Range,0.3,1,hansen_a2,,hansen_a2
-ZINK SILICATE - CHEMICAL RES.,,23.5,17.5,16.8,15.6,Special Data,0.3,1,hansen_a2,,hansen_a2
+1%IN WATER +AMINES,,14.96,18.33,15.15,16.22,Biologically Interesting Systems,0.8,1,hansen_a2,,hansen_a2
+1%IN WATER -AMINES,,15.07,20.44,16.5,18.12,Biologically Interesting Systems,0.8,1,hansen_a2,,hansen_a2
+1/2-sec.-NITRO CELLULOSE H 23,,15.41,14.73,8.84,11.46,Nitrocellulose,0.8,1,hansen_a2,,hansen_a2
+2-COMP EPOXY CHEMICAL RES.,,18.4,9.4,10.1,7.0,Special Data,0.8,1,hansen_a2,,hansen_a2
+4H 35°C,,19.4,13.4,18.0,8.6,Correlations for Some Barrier-Type Polymers,0.8,1,hansen_a2,,hansen_a2
+4H 35°C no plasticizer included,,20.5,11.3,10.3,6.7,Correlations for Some Barrier-Type Polymers,0.8,1,hansen_a2,,hansen_a2
+ABS CR,,16.3,2.7,7.1,7.8,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+ACETAL CELANESE,,21.1,9.3,5.9,11.4,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+ACETALHOMO-DUO,,19.0,5.0,8.0,5.0,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+ACID DEGMP,,15.3,13.3,14.9,15.6,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+ACRYLAMIDE MONOMER,,16.9,18.1,19.9,17.0,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+ACRYLOID B-44,,19.4,11.2,4.4,10.5,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+ACRYLOID B-66,,18.0,9.0,3.0,9.0,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+ACRYLOID B-72,,19.2,11.2,1.8,11.0,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+ACRYLOID B-82,,19.1,9.1,3.3,9.0,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+ACRYLOID K120N,,17.6,10.0,3.8,9.5,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+ALFTALAT AC 366,,18.6,10.0,5.0,10.4,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+ALFTALAT AM 756,,23.0,2.2,4.2,16.9,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+ALFTALAT AN 896,,22.9,15.2,7.6,18.1,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+ALFTALAT AN 950,,22.6,13.8,8.1,17.1,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+ALFTALAT AT 316,,20.5,9.3,9.1,12.4,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+ALFTALAT AT 576,,19.2,5.3,6.3,11.9,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+ALKYD 45 SOYA,,17.5,2.3,7.7,10.0,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+ALKYDAL F 261 HS,,23.6,1.0,7.6,19.0,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+ALKYDAL F 41,,20.6,4.6,5.5,12.6,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+ALLOPREN R10,,17.4,4.3,3.9,6.1,Chlorinated Rubber,0.8,1,hansen_a2,,hansen_a2
+ALLOPRENE R10 (10%),,19.5,9.2,6.9,7.5,Chlorinated Rubber,0.8,1,hansen_a2,,hansen_a2
+ALLOPRENE R10 (30%),,17.9,5.6,6.7,5.8,Chlorinated Rubber,0.8,1,hansen_a2,,hansen_a2
+ALLOPRENE R10 (60%),,19.6,6.5,5.8,9.1,Chlorinated Rubber,0.8,1,hansen_a2,,hansen_a2
+ALPEX,,19.9,0.0,0.0,9.4,Cyclized Rubber,0.8,1,hansen_a2,,hansen_a2
+AMOCO 18-290,,19.3,3.7,7.9,7.8,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+ARALDITE DY O25,,14.0,7.4,9.4,13.7,Epoxy,0.8,1,hansen_a2,,hansen_a2
+BAKELITE SULFONE P-47,,20.0,3.0,6.0,3.0,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+BAREX 210 CR,,20.1,9.1,12.7,10.9,Barex,0.8,1,hansen_a2,,hansen_a2
+BAREX 210 CR-STYRENE,,17.7,8.9,10.9,6.4,Barex,0.8,1,hansen_a2,,hansen_a2
+BAYSILON UD 125,,19.4,9.9,10.1,6.9,Silicone Resins,0.8,1,hansen_a2,,hansen_a2
+BE 370,,20.7,6.1,12.7,14.8,Amino Resins,0.8,1,hansen_a2,,hansen_a2
+BECKOLIN 27 MODIF OIL,,11.4,0.0,3.0,18.1,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+BEETLE 681,,22.2,-0.4,10.1,18.4,Amino Resins,0.8,1,hansen_a2,,hansen_a2
+BETHOXAZIN,,22.4,7.6,10.8,13.9,Miscellaneous,0.8,1,hansen_a2,,hansen_a2
+BLOOD SERUM,,23.2,22.73,30.6,20.48,Biologically Interesting Systems,0.8,1,hansen_a2,,hansen_a2
+BMA/AN 80/20,,17.5,9.9,4.1,9.5,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+BROMOBUTYL RUBBER L,,17.0,3.4,2.0,6.0,Bromobutyl Rubber Swelling,0.8,1,hansen_a2,,hansen_a2
+BROMOBUTYL RUBBER S,,17.6,1.7,2.0,6.0,Bromobutyl Rubber Swelling,0.8,1,hansen_a2,,hansen_a2
+BUNA HULS B10,,17.53,2.25,3.42,6.55,Polybutadiene,0.8,1,hansen_a2,,hansen_a2
+BUNA N B UTADIENE/ACRYLONITRILE,,17.8,3.2,3.4,3.7,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+BUTON 100 B UTAD-STY,,17.0,4.0,3.0,7.3,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+BUTON 300,,17.3,3.7,7.3,7.0,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+BUTVAR B 76,,18.6,4.36,13.03,10.64,Polyvinylbutyral,0.8,1,hansen_a2,,hansen_a2
+BUTYL 1 HR,,15.8,-2.1,4.0,8.2,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+BUTYL 20 MIN,,16.5,1.0,5.1,5.0,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+BUTYL 4 HR (2),,17.6,2.1,2.1,7.0,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+CARB DEG PTH,,19.4,13.4,11.6,11.1,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+CARBON-60,,19.7,2.9,2.7,3.9,Miscellaneous,0.8,1,hansen_a2,,hansen_a2
+CARIFLEX IR 305,,16.57,1.41,-0.82,9.62,Polyisoprene,0.8,1,hansen_a2,,hansen_a2
+CELL. ACET. BUTYRATE,,17.2,13.8,2.8,12.6,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+CELL. ACET. PROPIONATE,,9.8,13.6,11.4,15.2,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+CELLIDORA A,,18.2,12.4,10.8,7.4,Cellulose Acetate,0.8,1,hansen_a2,,hansen_a2
+CELLIT BP-300,,16.6,12.0,6.7,10.2,Cellulose Acetobutyrate,0.8,1,hansen_a2,,hansen_a2
+CELLOLYN 102,,21.73,0.94,8.53,15.75,Rosin Derivatives,0.8,1,hansen_a2,,hansen_a2
+CELLOPHAN SW,,16.1,18.5,14.5,9.3,Correlations for Some Barrier-Type Polymers,0.8,1,hansen_a2,,hansen_a2
+CELLULOSE ACETATE,,16.9,16.3,3.7,13.7,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+CELLULOSE ACETATE,,18.3,16.5,11.9,8.8,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+CELLULOSE NITRATE,,16.9,13.5,10.3,9.9,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+CELLULOSE-PAPER STRENGTH,,25.4,18.6,24.8,21.7,Biologically Interesting Systems,0.8,1,hansen_a2,,hansen_a2
+CERECLOR 70,,20.0,8.3,6.8,9.8,Chloroparaffin,0.8,1,hansen_a2,,hansen_a2
+CH 5100 3 HR,,16.6,5.4,4.0,3.8,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+CH 5200 3 HR,,16.6,6.0,4.8,3.7,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+CHLORINATED RUBBER,,17.9,6.3,5.1,7.6,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+CHLORINATED RUBBER,,18.0,6.0,5.0,7.0,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+CHLOROPAR 40,,17.0,7.6,7.9,11.9,Chloroparaffin,0.8,1,hansen_a2,,hansen_a2
+CHLOROPHYLL,,20.2,15.6,18.2,11.1,Biologically Interesting Systems,0.8,1,hansen_a2,,hansen_a2
+CHOLESTEROL,,20.4,2.8,9.4,12.6,Biologically Interesting Systems,0.8,1,hansen_a2,,hansen_a2
+COAL TAR PITCH SOL.,,18.7,7.5,8.9,5.8,Special Data,0.8,1,hansen_a2,,hansen_a2
+CONOCO H-35 HYDROCARBON M,,11.4,0.0,3.0,18.1,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+CRODA AC500 THERMOSET (10%),,17.8,6.4,4.7,10.7,Acrylics,0.8,1,hansen_a2,,hansen_a2
+CRODA AC500 THERMOSET (30%),,21.2,1.4,10.7,12.3,Acrylics,0.8,1,hansen_a2,,hansen_a2
+CRODA AC550 THERMOSET (10%),,16.3,10.6,7.4,12.9,Acrylics,0.8,1,hansen_a2,,hansen_a2
+CRODA AC550 THERMOSET (30%),,16.3,10.6,7.4,12.9,Acrylics,0.8,1,hansen_a2,,hansen_a2
+CRYPLEX 1473-5,,19.2,9.4,5.6,8.9,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+CYMEL 300,,19.35,12.83,12.87,9.82,Amino Resins,0.8,1,hansen_a2,,hansen_a2
+CYMEL 325,,25.5,15.2,9.5,22.2,Amino Resins,0.8,1,hansen_a2,,hansen_a2
+CZ RESIN SOL,,18.0,1.0,3.0,4.0,COC Solubility,0.8,1,hansen_a2,,hansen_a2
+DAMMAR DEWAXED,,19.0,2.0,9.0,9.0,Polymers of Interest for Conservation of Paintings,0.8,1,hansen_a2,,hansen_a2
+DAMMAR GUM,,18.4,4.2,7.8,8.3,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+DAMMAR GUM DEWAXED,,19.0,2.0,9.0,9.0,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+DEG ISOPH,,19.2,17.2,14.6,11.8,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+DEG PHTH,,21.0,15.2,13.2,13.7,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+DESMODUR L,,17.5,11.3,5.9,8.5,Isocyanate,0.8,1,hansen_a2,,hansen_a2
+DESMODUR N,,17.6,10.0,3.7,9.3,Isocyanate,0.8,1,hansen_a2,,hansen_a2
+DESMOLAC 4200,,18.7,9.6,9.9,8.2,Polyurethane,0.8,1,hansen_a2,,hansen_a2
+DESMOPHEN 1100,,16.0,13.1,9.2,11.4,Polyurethane,0.8,1,hansen_a2,,hansen_a2
+DESMOPHEN 1150,,20.6,7.8,11.6,13.1,Polyurethane,0.8,1,hansen_a2,,hansen_a2
+DESMOPHEN 1200,,19.4,7.4,6.0,9.8,Polyurethane,0.8,1,hansen_a2,,hansen_a2
+DESMOPHEN 1700,,17.9,9.6,5.9,8.2,Polyurethane,0.8,1,hansen_a2,,hansen_a2
+DESMOPHEN 651,,17.7,10.6,11.6,9.5,Polyurethane,0.8,1,hansen_a2,,hansen_a2
+DESMOPHEN 800,,19.1,12.2,9.9,8.0,Polyurethane,0.8,1,hansen_a2,,hansen_a2
+DESMOPHEN 850,,21.54,14.94,12.28,16.78,Polyurethane,0.8,1,hansen_a2,,hansen_a2
+DODA 3457,,19.0,2.0,1.0,3.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+DODA 6225,,19.0,2.0,1.0,3.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+DOW ADIP TEREP,,17.8,10.4,6.8,9.3,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+DOW EPOXY NOVOLAC 438,,20.3,15.4,5.3,15.1,Special Data,0.8,1,hansen_a2,,hansen_a2
+DOW EPOXY NOVOLAC 444,,19.5,11.6,9.3,10.0,Special Data,0.8,1,hansen_a2,,hansen_a2
+DOW X-2635 MALEATE,,17.8,5.6,6.8,4.5,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+DPG PHTH,,20.1,11.5,6.7,11.6,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+DUROFTAL T 354,,17.3,4.2,7.9,9.3,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+DYNAPOL L 812,,22.6,13.1,5.8,16.8,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+DYNAPOL L 850,,20.0,6.2,7.0,9.5,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+DYNOMIN MM 9,,18.8,14.0,12.3,10.5,Amino Resins,0.8,1,hansen_a2,,hansen_a2
+DYNOMIN UM 15,,19.9,15.8,13.4,11.7,Amino Resins,0.8,1,hansen_a2,,hansen_a2
+ELVAX 150,,18.7,2.3,0.7,6.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+ELVAX 250,,19.0,2.0,1.0,3.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+ELVAX EOD 3602-1,,17.7,3.3,2.7,5.4,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1001,,20.0,10.32,10.11,10.02,Epoxy,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1001 (10%),,18.1,11.4,9.0,9.1,Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1001 (20%),,19.8,13.6,8.9,12.0,Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1001 (40%),,16.3,13.1,6.3,10.9,Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1001 (60%),,15.8,16.3,3.3,16.4,Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1004,,17.4,10.5,9.0,7.9,Epoxy,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1004 (30%),,18.5,9.3,8.0,9.6,Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1004 (60%),,17.7,10.1,7.6,9.8,Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1007,,21.0,11.1,13.4,11.7,Epoxy,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1007 (30%),,18.6,10.6,8.1,8.8,Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1009,,19.3,9.37,10.95,8.26,Epoxy,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1009 (10%),,19.0,9.1,10.7,8.0,Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1009 (30%),,19.8,10.6,10.3,9.7,Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 1009 (60%),,17.0,9.6,8.5,7.6,Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 828,,23.1,14.6,5.0,20.5,Epoxy,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 828 (30%),,16.3,16.4,1.9,16.7,Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,0.8,1,hansen_a2,,hansen_a2
+EPIKOTE 828 (60%),,16.6,14.0,2.8,14.9,Polymers at Different Test Concentrations - (Conc) Epoxy Polymers,0.8,1,hansen_a2,,hansen_a2
+EPOCRYL E-11 ?,,17.3,12.9,12.1,8.5,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+EPON 1001,,17.0,9.6,7.8,7.1,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+ESTANE X-7 ?? DIO XANE ONLY,,19.0,1.8,7.4,1.0,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+ESTER GUM,,16.9,4.5,6.5,9.2,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+ESTER GUM BL,,19.64,4.73,7.77,10.64,Rosin Derivatives,0.8,1,hansen_a2,,hansen_a2
+ESTIMATE DRIED OIL,,16.0,6.0,7.0,5.0,Polymers of Interest for Conservation of Paintings,0.8,1,hansen_a2,,hansen_a2
+ETHCEL N22?,,22.7,0.5,16.5,20.1,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+ETHOCEL HE10,,17.9,4.3,3.9,5.9,Ethyl Cellulose,0.8,1,hansen_a2,,hansen_a2
+ETHOCEL STD 20,,20.1,6.9,5.9,9.9,Ethyl Cellulose,0.8,1,hansen_a2,,hansen_a2
+EVA 4055 SOL,,17.7,3.5,3.7,4.7,Ethylene Vinylacetate (EVA) Solubility,0.8,1,hansen_a2,,hansen_a2
+EVOH SOL,,20.5,10.5,12.3,7.3,Correlations for Some Barrier-Type Polymers,0.8,1,hansen_a2,,hansen_a2
+EXON 470 PVC,,17.4,7.8,3.8,7.7,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+EXON 471,,17.9,8.7,2.5,9.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+EXON 473,,17.4,7.8,3.8,7.7,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+FEP,,19.0,4.0,3.0,4.0,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+FORMVAR 15/95E,,22.2,12.6,14.2,14.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+FORMVAR 7/70E PVFORMAL,,22.2,12.6,14.2,14.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+FURAN,,19.0,6.0,8.0,5.0,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+FURF ALC,,19.9,3.9,5.1,3.8,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+GEON 121,,19.5,6.7,11.1,8.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+GILSONITE,,17.1,2.1,3.9,4.9,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+HDPE,,18.0,0.0,2.0,2.0,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+HEXADECYL MONOESTER TRIME,,19.0,11.6,14.0,11.9,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+HYCAR 1052,,18.62,8.78,4.17,9.62,Acrylonitrile-Butadiene,0.8,1,hansen_a2,,hansen_a2
+HYD BIS A FUM ISPH,,17.0,4.4,6.2,5.0,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+HYD BIS A PG FUM ISPH,,18.7,8.9,5.5,8.4,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+HYDR SPERM OIL WX135,,20.0,4.0,2.0,5.0,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+HYP 20 CHLOROSULFONATED PE,,17.4,3.2,4.0,4.8,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+HYPALON +/- NOT OK,,18.4,5.6,6.0,9.4,Supplemental Chemical Resistance Corrlations,0.8,1,hansen_a2,,hansen_a2
+HYPALON +/- OK,,18.4,3.6,6.4,9.0,Supplemental Chemical Resistance Corrlations,0.8,1,hansen_a2,,hansen_a2
+HYPALON 20,,18.1,3.4,4.9,3.6,Chlorosulfonated PE,0.8,1,hansen_a2,,hansen_a2
+HYPALON 20 (30%),,20.3,3.2,0.7,11.3,Chlorosulfonated Polyethylene,0.8,1,hansen_a2,,hansen_a2
+HYPALON 20 CHL SULF PE,,17.8,3.2,4.4,4.1,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+HYPALON 30,,18.2,4.7,2.0,5.0,Chlorosulfonated PE,0.8,1,hansen_a2,,hansen_a2
+HYPALON 30,,17.8,3.4,3.2,5.1,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+HYTREL +/- NOT OK,,26.4,18.8,7.4,26.3,Supplemental Chemical Resistance Corrlations,0.8,1,hansen_a2,,hansen_a2
+HYTREL +/- OK,,24.2,14.6,13.2,18.8,Supplemental Chemical Resistance Corrlations,0.8,1,hansen_a2,,hansen_a2
+ISOB MALANH/CYCLOL 75/25,,16.8,-0.4,7.2,8.5,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+KAURI GUM,,18.7,8.1,13.0,8.2,Miscellaneous,0.8,1,hansen_a2,,hansen_a2
+KETONE RESIN S588,,18.0,10.8,13.2,12.2,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+KOPPERS KTPL-A,,19.3,3.7,7.9,7.8,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+LARD 23C,,17.69,2.66,4.36,7.98,Biologically Interesting Systems,0.8,1,hansen_a2,,hansen_a2
+LARD 37C,,15.9,1.16,5.41,12.03,Biologically Interesting Systems,0.8,1,hansen_a2,,hansen_a2
+LAROFLEX MP 45,,18.4,8.4,5.8,9.0,Vinyl Chloride Copolymers,0.8,1,hansen_a2,,hansen_a2
+LDPE PERM<0.8,,15.3,5.3,2.5,10.1,Permeation of LDPE by Organic Liquids,0.8,1,hansen_a2,,hansen_a2
+LDPE PERM>80,,16.5,4.5,0.5,6.0,Permeation of LDPE by Organic Liquids,0.8,1,hansen_a2,,hansen_a2
+LIGNIN,,20.17,14.61,15.04,11.66,Special,0.8,1,hansen_a2,,hansen_a2
+LIGNIN,,20.61,13.88,15.25,11.83,Biologically Interesting Systems,0.8,1,hansen_a2,,hansen_a2
+LUCITE 2042 PEMA,,17.6,9.66,3.97,10.64,Polyacrylate,0.8,1,hansen_a2,,hansen_a2
+LUCITE 2044 PMMA,,16.2,6.8,5.7,9.1,Polyacrylate,0.8,1,hansen_a2,,hansen_a2
+LUMFLON LF200 (10%),,18.5,5.4,6.9,9.9,Fluorinated Polyethers,0.8,1,hansen_a2,,hansen_a2
+LUMFLON LF200 (30%),,20.1,4.4,3.2,8.5,Fluorinated Polyethers,0.8,1,hansen_a2,,hansen_a2
+LUMFLON LF916 (10%),,17.5,6.8,10.5,12.5,Fluorinated Polyethers,0.8,1,hansen_a2,,hansen_a2
+LUMFLON LF916 (30%),,18.1,3.9,8.3,8.8,Fluorinated Polyethers,0.8,1,hansen_a2,,hansen_a2
+LUTANAL I60,,16.9,2.5,4.0,7.2,Polyisobutylene,0.8,1,hansen_a2,,hansen_a2
+LUTONAL IC/1203,,14.2,2.5,4.6,12.4,Polyisobutylene,0.8,1,hansen_a2,,hansen_a2
+LYTRON 820,,21.1,13.1,14.5,14.4,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MAA/EA/ST 15/38/47,,17.6,5.2,7.0,4.5,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MAA/MA/VA 15/17.5/67.5,,25.5,15.7,18.1,21.5,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MAA/MA/VA 15/27.5/57.5,,28.5,15.7,18.1,21.5,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MACRYNAL SM 510N,,19.9,8.1,6.0,9.8,Polyurethane,0.8,1,hansen_a2,,hansen_a2
+MARBON 9200,,19.0,4.0,4.0,6.0,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MMA/CYCLOL 58/42,,18.7,9.9,8.7,8.8,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MMA/EA 25/75,,19.0,9.0,15.0,12.0,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MMA/EA 50/50,,17.5,9.9,4.1,9.5,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MMA/EA/AA,,15.9,15.9,11.5,11.1,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MMA/EA/AGE 40/40/20,,17.6,9.8,5.6,9.7,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MMA/EA/AN 40/40/20,,20.4,13.2,11.0,12.3,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MMA/EA/AN 55/30/15?,,16.7,10.9,8.5,8.5,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MMA/EA/BAMA 40/40/20,,17.9,8.5,11.7,12.9,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MMA/EA/BVBE 40/40/20,,17.8,10.0,6.6,9.8,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MMA/EA/CYCLOL,,17.6,9.8,6.4,9.8,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MMA/EA/MAM 40/40/20,,19.0,9.0,15.0,12.0,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MMA/EA/MAM 45/45/10?,,19.5,11.1,8.7,11.2,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+MODAFLOW,,16.1,3.7,7.9,8.9,Special,0.8,1,hansen_a2,,hansen_a2
+MOWILITH 50 PVAC,,20.93,11.27,9.66,13.71,Polyvinylacetate,0.8,1,hansen_a2,,hansen_a2
+MOWITAL B 30 H,,18.6,12.9,10.3,8.3,Polyvinylbutyral,0.8,1,hansen_a2,,hansen_a2
+MOWITAL B 60 H,,20.2,11.2,13.3,11.2,Polyvinylbutyral,0.8,1,hansen_a2,,hansen_a2
+MYLAR PET,,18.0,6.2,6.2,5.0,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+NAT RUBBER,,16.0,4.0,6.0,1.3,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+NATURAL RUBBER 1 HR,,15.6,3.4,9.1,14.0,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+NATURAL RUBBER 20 MIN,,14.5,7.3,4.5,11.0,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+NATURAL RUBBER 4 HR,,19.4,13.2,7.7,19.0,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+NEOPRENE 1 HR,,19.0,8.0,0.0,13.2,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+NEOPRENE 20 MIN,,17.6,2.5,5.9,6.2,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+NEOPRENE 4 HR,,14.6,13.9,2.3,15.9,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+NEOPRENE CR,,18.1,4.3,6.7,8.9,Supplemental Chemical Resistance Corrlations,0.8,1,hansen_a2,,hansen_a2
+NITRILE 1 HR,,16.6,9.1,4.4,10.0,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+NITRILE 20 MIN,,17.5,7.3,6.5,5.1,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+NITRILE 4 HR,,19.0,12.6,3.8,13.3,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+NYLON 66,,16.0,11.0,24.0,3.0,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PA11 CR,,17.0,4.4,10.6,5.1,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PA6 CR,,17.0,3.4,10.6,5.1,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PA66 SOL,,17.4,9.8,14.6,5.1,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PALM OIL,,17.7,3.5,3.7,4.7,Miscellaneous,0.8,1,hansen_a2,,hansen_a2
+PAN,,21.7,14.1,9.1,10.9,Solubility of Polyacrylonitirile,0.8,1,hansen_a2,,hansen_a2
+PARALOID B72,,17.6,7.4,5.6,9.4,Polymers of Interest for Conservation of Paintings,0.8,1,hansen_a2,,hansen_a2
+PARALOID EXPER. RES. QR 954,,18.4,9.8,10.0,12.4,Acrylate Resins,0.8,1,hansen_a2,,hansen_a2
+PARALOID P 400,,19.2,9.6,9.3,12.2,Acrylate Resins,0.8,1,hansen_a2,,hansen_a2
+PARALOID P 410,,19.6,9.1,6.8,12.2,Acrylate Resins,0.8,1,hansen_a2,,hansen_a2
+PARAPOL S-50,,17.9,3.9,4.9,3.9,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+PARAPOL S-60,,17.9,3.9,4.9,3.9,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+PARLON P 10,,20.26,6.32,5.4,10.64,Chlorinated Polypropylene,0.8,1,hansen_a2,,hansen_a2
+PBMA (10%),,20.6,3.5,7.2,12.8,Acrylics,0.8,1,hansen_a2,,hansen_a2
+PBMA (30%),,18.1,5.7,0.0,8.5,Acrylics,0.8,1,hansen_a2,,hansen_a2
+PBMA?,,15.9,5.5,5.9,8.5,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PBUTYLACRYLATE,,16.2,9.0,3.0,10.1,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PC,,18.1,5.9,6.9,5.5,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PCTFE,,14.1,2.7,5.5,6.6,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+PE,,16.0,0.8,2.8,3.2,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PE? CR Q UESTIONABLE VALUES,,16.8,5.4,2.4,4.7,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PECTFE SOL AT HIGH TEMP.,,19.5,7.3,1.7,5.1,Poly(Ethylene/Chlorotrifluoroethylene),0.8,1,hansen_a2,,hansen_a2
+PEI 1200PSI,,17.2,6.4,5.2,3.6,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),0.8,1,hansen_a2,,hansen_a2
+PEI 2400PSI,,17.4,4.6,9.0,7.2,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),0.8,1,hansen_a2,,hansen_a2
+PEI 600PSI,,17.3,5.3,4.7,3.3,PEI - Polyethylene Imide - Environmental Stress Cracking (ESC),0.8,1,hansen_a2,,hansen_a2
+PEMA (10%),,16.5,8.7,5.0,10.4,Acrylics,0.8,1,hansen_a2,,hansen_a2
+PEMA (30%),,16.9,7.8,0.5,7.3,Acrylics,0.8,1,hansen_a2,,hansen_a2
+PENTA BENZ MAL,,19.4,12.2,10.2,10.8,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+PENTALYN 255,,17.55,9.37,14.32,10.64,Rosin Derivatives,0.8,1,hansen_a2,,hansen_a2
+PENTALYN 830,,20.03,5.81,10.93,11.66,Rosin Derivatives,0.8,1,hansen_a2,,hansen_a2
+PEO 4000 ? HEATED SAMPLES,,21.5,10.9,13.1,15.9,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PEO 4000 ? SAMPLES HEA TED,,22.2,11.2,13.2,17.1,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+PERGUT S 5,,17.4,9.5,3.8,10.0,Chlorinated Rubber,0.8,1,hansen_a2,,hansen_a2
+PES L B + C =1,,17.7,9.7,6.4,9.3,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PES L C=1,,18.7,10.5,7.6,9.1,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PES SOL,,19.6,10.8,9.2,6.2,Polymer Solubility Data from Various Sources,0.8,1,hansen_a2,,hansen_a2
+PETG,,18.0,3.0,4.0,6.0,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+PETP CR,,18.2,6.4,6.6,5.0,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PFA(?),,16.7,7.7,-0.5,8.1,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+PHENODUR 373U,,19.74,11.62,14.59,12.69,Phenolic Resins,0.8,1,hansen_a2,,hansen_a2
+PHENOLIC,,21.6,5.2,18.8,15.4,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+PHENOLICS,,19.8,7.2,10.8,12.8,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PIBMA (10%),,17.0,4.6,7.6,9.5,Acrylics,0.8,1,hansen_a2,,hansen_a2
+PIBMA (30%),,17.1,5.9,0.7,7.3,Acrylics,0.8,1,hansen_a2,,hansen_a2
+PICCOFLEX 120,,17.4,7.8,3.8,7.7,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+PICCOPALE 110,,17.55,1.19,3.6,6.55,Hydrocarbon Resins,0.8,1,hansen_a2,,hansen_a2
+PICCORONE 450L,,19.42,5.48,5.77,9.62,Hydrocarbon Resins,0.8,1,hansen_a2,,hansen_a2
+PKHH,,23.4,7.2,14.8,14.9,Epoxy,0.8,1,hansen_a2,,hansen_a2
+PLASTOKYD AC4X (30%),,23.9,7.8,8.8,19.9,Acrylic Modified Alkyd,0.8,1,hansen_a2,,hansen_a2
+PLASTOKYD S27 (30%),,20.1,5.7,5.3,20.0,Acrylic Modified Alkyd,0.8,1,hansen_a2,,hansen_a2
+PLASTOKYD SC140 (30%),,25.2,9.2,3.7,20.0,Acrylic Modified Alkyd,0.8,1,hansen_a2,,hansen_a2
+PLASTOKYD SC400 (30%),,23.7,0.5,10.3,20.0,Acrylic Modified Alkyd,0.8,1,hansen_a2,,hansen_a2
+PLASTOPAL H,,20.81,8.29,14.96,12.69,Amino Resins,0.8,1,hansen_a2,,hansen_a2
+PLEXAL C-34,,18.5,9.21,4.91,10.64,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+PLEXIGUM M527,,18.4,9.4,6.5,10.7,Polyacrylate,0.8,1,hansen_a2,,hansen_a2
+PLEXIGUM MB319,,18.6,10.8,4.1,11.5,Polyacrylate,0.8,1,hansen_a2,,hansen_a2
+PLIOLITE P1230,,18.1,4.7,3.7,3.9,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PLIOLYTE S-100,,16.47,0.37,2.84,8.59,Hydrocarbon Resins,0.8,1,hansen_a2,,hansen_a2
+PMMA,,18.64,10.52,7.51,8.59,Polyacrylate,0.8,1,hansen_a2,,hansen_a2
+PMMA,,18.1,10.5,5.1,9.5,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PMMA (10%),,17.8,10.4,2.9,9.6,Acrylics,0.8,1,hansen_a2,,hansen_a2
+PMMA (10%),,17.6,10.1,5.8,9.4,Acrylics,0.8,1,hansen_a2,,hansen_a2
+PMMA (30%),,17.2,7.2,3.5,4.8,Acrylics,0.8,1,hansen_a2,,hansen_a2
+PMMA (30%),,17.5,5.5,3.8,4.5,Acrylics,0.8,1,hansen_a2,,hansen_a2
+PMMA CR,,16.0,5.0,12.0,13.0,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+POLYCYCLOLa,,19.0,9.0,15.0,12.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+POLYETHYLENE 1 HR,,17.1,3.1,5.2,8.2,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+POLYETHYLENE 20 MIN,,16.9,3.3,4.1,8.1,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+POLYETHYLENE 4 HR,,24.1,14.9,0.3,24.3,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+POLYETHYLENESULFIDE (GOOD),,17.8,3.8,2.2,4.1,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+POLYISOPRENE SW,,17.0,4.0,4.0,7.3,Polyisoprene Swelling,0.8,1,hansen_a2,,hansen_a2
+POLYMETHACRYLONITRILE,,17.2,14.4,7.6,3.8,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+POLYSAR 5630,,17.55,3.35,2.7,6.55,Styrene-Butadiene (SBR),0.8,1,hansen_a2,,hansen_a2
+POLYSTYRENE LG,,22.28,5.75,4.3,12.68,Polystyrene,0.8,1,hansen_a2,,hansen_a2
+POLYVINYLALCOHOL,,15.0,17.2,17.8,10.2,Correlations for Some Barrier-Type Polymers,0.8,1,hansen_a2,,hansen_a2
+POLYVINYLALCOHOL 1 HR,,15.3,13.2,13.5,8.8,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+POLYVINYLALCOHOL 20 MIN,,11.2,12.4,13.0,12.1,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+POLYVINYLALCOHOL 4 HR,,17.2,13.6,15.4,10.9,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+POLYVINYLBUTYL ETHER,,17.4,4.3,8.4,7.4,Polyisobutylene,0.8,1,hansen_a2,,hansen_a2
+POLYVINYLIDINE FLUORIDE SOL.,,17.0,12.1,10.2,4.1,Special Data,0.8,1,hansen_a2,,hansen_a2
+POLYVINYLPYRROLIDONE (PVP),,21.4,11.6,21.6,17.3,Miscellaneous,0.8,1,hansen_a2,,hansen_a2
+POMH+POMC CR,,17.1,3.1,10.7,5.2,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PP,,18.0,0.0,1.0,6.0,Chemical Resistance Data - Modern Plastics Encylopedia,0.8,1,hansen_a2,,hansen_a2
+PPO CR,,17.9,3.1,8.5,8.6,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PPS CR 93°C,,18.8,4.8,6.8,2.8,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PPS TS60%12MO,,18.7,5.3,3.7,6.7,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PS,,18.5,4.5,2.9,5.3,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PSORIASIS SCALES,,24.64,11.94,12.92,19.04,Biologically Interesting Systems,0.8,1,hansen_a2,,hansen_a2
+PSU CR,,16.0,6.0,6.6,9.0,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PSU ULTRASON S,,19.7,8.3,8.3,8.0,Polysulfone PSU,0.8,1,hansen_a2,,hansen_a2
+PTFE L80 CR,,16.2,1.8,3.4,3.9,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+pTOLSULFONAMIDE-FORMALDEH,,24.6,18.6,16.4,20.9,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+PUR,,17.9,6.9,3.7,2.7,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PUR CR,,18.1,9.3,4.5,9.7,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+PVAC,,17.6,2.2,4.0,4.1,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PVBE,,16.7,3.7,8.3,8.6,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+PVC,,17.6,7.8,3.4,8.2,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PVC 1 HR,,14.9,11.1,3.8,13.2,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+PVC 20 MIN,,16.1,7.1,5.9,9.3,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+PVC 4 HR,,24.4,4.9,9.9,22.7,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+PVDC (110C) SOLUBILITY,,17.6,9.1,7.8,3.9,High Temperature Solubility of PVDC,0.8,1,hansen_a2,,hansen_a2
+PVDC (130C) SOLUBILITY,,20.4,10.0,10.2,7.6,High Temperature Solubility of PVDC,0.8,1,hansen_a2,,hansen_a2
+PVEE,,16.0,4.0,12.0,14.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+PVETHYLETHER?,,15.1,3.1,11.9,12.9,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+PVF? (DMF ONLY GOOD SOLVENT),,17.4,13.7,11.3,2.0,Polymer Solubility Data from Various Sources,0.8,1,hansen_a2,,hansen_a2
+PVIBE,,16.0,1.0,8.0,10.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+PVINYLBUTYLETHER,,17.4,3.4,7.8,8.4,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+"PVOH (NOT GOOD, SEE CHAP. 5)",,17.0,9.0,18.0,4.0,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+R ABS,,17.6,8.6,6.4,10.9,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R ACM,,16.8,11.8,11.6,17.0,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R AU ESTER PU,,17.9,13.3,10.7,17.1,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R BUTYL,,18.0,0.0,3.0,9.0,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R CELLULOSE ACETATE,,14.9,7.1,11.1,12.4,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R CHLORINATED PVC,,17.5,6.5,5.5,6.3,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R CR CHLOROPRENE,,24.6,8.6,6.4,20.4,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R CSM,,28.0,14.0,3.4,28.3,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R DIALLYLPHTHALATE,,22.2,12.2,8.6,15.8,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R EBONITE (DATA FIT 0.722),,18.7,6.1,2.7,6.6,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R ECO,,21.3,8.1,6.1,12.0,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R EPDM,,18.6,-3.4,4.4,10.7,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R EPOXY COLD CURING,,16.8,10.8,8.8,8.2,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R EPOXY HOT CURING,,18.3,12.3,9.7,7.3,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R ETHYLENE/PROPYLENE,,16.6,0.0,5.2,9.1,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R FKM (VIT ON) (0.76 DATA FIT),,11.6,23.0,5.0,21.6,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R FQ FL/SI,,15.9,20.1,6.9,16.8,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R HDPE/LDPE,,17.5,4.3,8.3,3.9,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R HET RESIN,,17.5,11.3,8.3,8.6,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R ISOPHTHALIC,,19.8,17.4,4.2,18.0,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R NBR,,19.8,17.8,3.2,19.0,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R NR NAT RUB,,20.8,1.8,3.6,14.0,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R PA12,,18.5,8.1,9.1,6.3,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R PA66,,18.2,8.8,10.8,5.2,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R PET,,19.1,6.3,9.1,4.8,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R PEU ETHER PU,,17.9,13.3,10.7,17.1,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R PMMA,,19.3,16.7,4.7,17.4,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R POLYAMIDEIMIDE,,18.5,5.7,8.7,4.2,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R POLYBUTYLENETEREPH,,18.0,5.6,8.4,4.5,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R POLYCARBONATE,,19.1,10.9,5.1,12.1,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R POLYIMIDES,,24.3,19.5,22.9,21.6,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R POLYPHENYLENEOXIDE,,16.9,8.9,2.7,11.7,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R POLYPROPYLENE,,17.2,5.6,-0.4,4.5,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R POLYSULPHONE,,19.8,11.2,6.2,11.3,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R POM ACETAL,,17.2,9.0,9.8,5.3,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R Q SILICONE (0.748 D ATA FIT),,13.8,5.0,1.2,14.3,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R SBR,,17.2,6.0,4.6,9.8,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R T SULPHIDE,,25.3,17.3,6.7,23.6,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R TEREPHTALIC,,19.8,17.4,4.2,18.0,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R TFP TETFLPROP (0.744 DATA FIT),,16.6,6.8,0.6,7.9,Chemical Resistance of Elastomers,0.8,1,hansen_a2,,hansen_a2
+R TPX,,18.8,1.4,6.4,7.9,Chemical Resistance of Plastics,0.8,1,hansen_a2,,hansen_a2
+R+H PBA,,16.0,8.0,8.0,12.0,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+R+H PEMA,,19.0,9.0,8.0,11.0,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+R+H PiMBA,,20.7,4.1,10.7,11.5,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+R+H PMAA,,25.6,11.2,19.6,20.3,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+R+H PMMA,,19.1,11.3,4.1,10.3,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+R+H PNBMA,,16.0,6.2,6.6,9.5,Acrylics - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+RUBBER MOD PS,,20.0,5.0,1.0,7.0,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+SAN,,16.6,9.8,7.6,4.8,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+SAN 85/15,,19.1,9.5,3.1,8.7,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+SANTOLITE MHP ARYLSULFONA,,18.4,12.0,8.4,10.6,Miscellaneous - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+SARAN F-120 VCL2/AN?,,28.8,16.8,0.8,23.7,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+SARAN F-220 ?,,28.8,16.8,0.8,23.7,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+SARANEX 4HR,,17.7,18.3,0.7,18.4,Correlations for Some Barrier-Type Polymers,0.8,1,hansen_a2,,hansen_a2
+SHELL POLYALDEHYDE EX 39,,19.6,10.0,3.6,9.4,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+SHELL POLYALDEHYDE EX 40,,19.6,10.0,3.6,9.4,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+SHELL X-450,,19.3,9.5,11.1,11.1,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+SHELLAC,,19.7,10.1,15.1,10.7,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+SILICONE DC 23?,,16.4,0.0,7.8,5.5,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+SILICONE DC-1107?,,19.6,3.4,10.8,9.8,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+SINCLAIR 3840A,,18.4,4.0,9.6,7.3,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+SMA 1430A,,18.8,11.4,16.4,14.1,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+SOALKYD 1935-EGAX,,18.0,11.6,8.5,9.0,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+SOAMIN M 60,,15.9,8.1,6.5,10.6,Amino Resins,0.8,1,hansen_a2,,hansen_a2
+SOL MYLAR 49001,,19.0,5.0,4.0,5.0,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+SOL MYLAR 49002,,19.0,5.0,5.0,5.0,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+STY MAL ANH,,23.4,13.8,15.2,16.5,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+STY/2EHA/AA 81/11/8,,17.7,4.9,5.9,5.9,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+STY/BUTENOL 85/15,,17.4,7.8,3.8,7.7,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+STY/CYCLOL 82/18,,18.2,5.6,7.2,5.7,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+STY/HALF ESTER MA 60/40,,18.9,10.9,10.7,9.7,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+STY/MA 85/15,,18.0,9.0,3.0,9.0,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+STY/MAA 90/10,,18.7,6.3,7.3,6.7,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+STY/PROP HALF E MA 57/43,,18.0,9.8,8.4,10.1,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+STY/VBE 85/15,,17.4,7.8,3.8,7.7,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+STYRON 44OM-27 MOD PS,,20.0,5.0,1.0,7.0,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+STYRON 475M-27,,20.0,5.0,1.0,7.0,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+STYRON 480-27,,20.0,6.0,4.0,5.3,Styrene Polymers And Copolymers - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+SUCROSE,,21.67,26.26,29.62,20.44,Biologically Interesting Systems,0.8,1,hansen_a2,,hansen_a2
+SUPER BECKACITE 1001,,23.26,6.55,8.35,19.85,Phenolic Resins,0.8,1,hansen_a2,,hansen_a2
+SUPRASEC F-5100,,19.7,12.9,12.8,11.4,Isocyanate,0.8,1,hansen_a2,,hansen_a2
+SYNRESIN A 560,,22.1,5.0,11.3,15.5,Amino Resins,0.8,1,hansen_a2,,hansen_a2
+TEFLON (SL2-),,17.1,8.1,1.3,4.7,Silicone Resins,0.8,1,hansen_a2,,hansen_a2
+TEG EG MAL TEREP,,18.8,11.4,9.2,10.2,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+TEG MALEATE,,18.1,13.9,12.1,9.7,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+TOLONATE HDB (RH-POULENC),,19.0,11.0,2.0,11.3,Tolonate Solubility,0.8,1,hansen_a2,,hansen_a2
+TOLONATE HDT (RH-POULENC),,19.0,11.0,3.0,12.0,Tolonate Solubility,0.8,1,hansen_a2,,hansen_a2
+TOPAS 6013 SOL,,18.0,3.0,2.0,5.0,COC Solubility,0.8,1,hansen_a2,,hansen_a2
+UFORMITE MX-61,,22.7,2.8,5.4,16.2,Amino Resins,0.8,1,hansen_a2,,hansen_a2
+URACRON 15,,19.2,7.7,5.7,10.6,Acrylate Resins,0.8,1,hansen_a2,,hansen_a2
+UREA,,20.9,18.7,26.4,19.42,Biologically Interesting Systems,0.8,1,hansen_a2,,hansen_a2
+VA/EA/CY 70/20/10,,20.0,12.0,11.0,15.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VA/EHA/CYC/MAA/76/12/8/4,,21.2,12.4,13.0,12.6,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VA/EHA/MA 63/33/4,,17.7,6.3,7.7,5.3,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VAREZ 123,,17.3,10.9,11.9,10.7,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VBE/AN/MAA 46/27/27,,18.9,11.7,11.1,9.6,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VBE/MA/MAC46/27/27,,19.4,13.0,13.8,12.3,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VCVA COPOLY,,17.3,8.7,6.1,7.8,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+VDC/AA 75/25 ?,,20.4,11.0,0.8,11.7,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VERSAMID 100,,23.8,5.3,16.2,16.1,Epoxy Curing Agents,0.8,1,hansen_a2,,hansen_a2
+VERSAMID 100?,,18.8,3.0,9.2,7.8,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+VERSAMID 115,,20.3,6.6,14.1,9.6,Epoxy Curing Agents,0.8,1,hansen_a2,,hansen_a2
+VERSAMID 125,,24.9,3.1,18.7,20.3,Epoxy Curing Agents,0.8,1,hansen_a2,,hansen_a2
+VERSAMID 140,,26.9,2.4,18.5,24.0,Epoxy Curing Agents,0.8,1,hansen_a2,,hansen_a2
+VERSAMID 930,,17.43,-1.92,14.89,9.62,Polyamide,0.8,1,hansen_a2,,hansen_a2
+VERSAMID 961,,18.9,9.6,11.1,6.2,Polyamide,0.8,1,hansen_a2,,hansen_a2
+VERSAMID 965,,20.15,6.04,12.9,9.2,Polyamide,0.8,1,hansen_a2,,hansen_a2
+VESTURIT BL 908,,18.8,12.0,6.0,11.5,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+VESTURIT BL 915,,17.7,13.0,7.6,11.5,Binders in Solution: Alkyds and Polyesters,0.8,1,hansen_a2,,hansen_a2
+VILIT MB 30,,20.0,8.3,6.7,9.4,Vinyl Chloride Copolymers,0.8,1,hansen_a2,,hansen_a2
+VILIT MC 31,,20.0,8.3,6.7,9.4,Vinyl Chloride Copolymers,0.8,1,hansen_a2,,hansen_a2
+VILIT MC 39,,18.4,7.6,6.7,6.8,Vinyl Chloride Copolymers,0.8,1,hansen_a2,,hansen_a2
+VINSOL ROSIN,,17.4,10.0,13.0,10.5,Based on Solvent Range Solubility Data - Not too Reliable,0.8,1,hansen_a2,,hansen_a2
+VINYL SILANE,,16.4,3.7,4.5,10.0,Chemical Resistance of High Performance and Other Polymers,0.8,1,hansen_a2,,hansen_a2
+VINYLITE AYAA PVAC,,22.9,18.3,7.7,20.4,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VINYLITE VAGD,,17.1,10.4,6.5,7.5,Vinyl Chloride Copolymers,0.8,1,hansen_a2,,hansen_a2
+VINYLITE VAGH,,16.5,10.9,6.4,7.7,Vinyl Chloride Copolymers,0.8,1,hansen_a2,,hansen_a2
+VINYLITE VAGH,,17.0,7.8,6.8,7.1,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VINYLITE VMCA,,17.7,11.1,6.9,8.7,Vinyl Chloride Copolymers,0.8,1,hansen_a2,,hansen_a2
+VINYLITE VMCC,,17.6,11.1,6.8,8.8,Vinyl Chloride Copolymers,0.8,1,hansen_a2,,hansen_a2
+VINYLITE VMCH,,17.6,11.1,6.4,8.6,Vinyl Chloride Copolymers,0.8,1,hansen_a2,,hansen_a2
+VINYLITE VMCH,,18.3,9.7,7.7,8.5,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VINYLITE VXCC,,18.0,9.4,4.6,8.4,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VINYLITE VYHH,,17.4,10.2,5.9,7.8,Vinyl Chloride Copolymers,0.8,1,hansen_a2,,hansen_a2
+VINYLITE VYHH,,19.0,11.0,5.0,10.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VINYLITE VYLF,,18.1,10.3,4.2,8.3,Vinyl Chloride Copolymers,0.8,1,hansen_a2,,hansen_a2
+VINYLITE VYLF,,18.0,9.4,4.6,8.4,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VINYLITE XYHL PVB UTYRAL,,19.0,9.0,15.0,12.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VINYLITE XYSG PVB UTYRAL,,19.0,9.0,15.0,12.0,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VIPLA KR (PVC),,18.4,6.6,8.0,3.0,Polyvinylchloride,0.8,1,hansen_a2,,hansen_a2
+VITEL PE LINEAR,,14.9,10.1,2.9,6.1,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VITEL PE101-X,,21.3,6.3,4.7,7.3,Polyesters - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+VITON 1 HR,,16.5,8.1,8.3,6.6,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+VITON 20 MIN,,10.9,14.5,3.1,14.1,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+VITON 4 HR,,13.6,15.4,8.6,14.4,Practical Film Thickness,0.8,1,hansen_a2,,hansen_a2
+VYHH-NIF REPT,,17.4,9.9,6.7,7.5,Polymer Solubility Data from Various Sources,0.8,1,hansen_a2,,hansen_a2
+VYSET 69,,17.9,3.5,7.5,5.9,Vinyl Resins - Solvent Range,0.8,1,hansen_a2,,hansen_a2
+ZINK SILICATE - CHEMICAL RES.,,23.5,17.5,16.8,15.6,Special Data,0.8,1,hansen_a2,,hansen_a2
