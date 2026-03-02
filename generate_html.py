@@ -2872,6 +2872,13 @@ for _lname, _lcolor in POLYMER_CAT_COLORS.items():
         '</div>'
     )
 
+def generate_import_html():
+    return IMPORT_HTML_CONTENT
+
+
+IMPORT_HTML_CONTENT = """placeholder"""
+
+
 database_html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2967,65 +2974,25 @@ td[contenteditable="true"]:focus {{
 .empty-state h2 {{ font-size: 1.4rem; color: #2d3436; margin-bottom: 12px; }}
 .empty-state p {{ font-size: 0.95rem; line-height: 1.6; max-width: 500px; margin: 0 auto; }}
 .empty-state code {{ background: #f0f2f5; padding: 2px 6px; border-radius: 3px; font-size: 0.85rem; }}
-/* Import panels */
-.import-section {{ margin-bottom: 16px; border-bottom: 1px solid #dfe6e9; padding-bottom: 12px; }}
-.import-section h4 {{
-    font-size: 0.8rem; color: #636e72; text-transform: uppercase; letter-spacing: 0.5px;
-    margin-bottom: 8px; cursor: pointer; user-select: none;
+/* Import link button */
+.import-link-btn {{
+    display: block; width: 100%; padding: 8px 0; margin-bottom: 12px; border: 1px dashed #e94560;
+    border-radius: 4px; background: #fff5f7; color: #e94560; font-size: 0.82rem; cursor: pointer;
+    text-align: center; text-decoration: none; transition: all 0.2s;
 }}
-.import-section h4:hover {{ color: #2d3436; }}
-.import-section h4::before {{ content: '\\25B6 '; font-size: 0.6rem; }}
-.import-section h4.open::before {{ content: '\\25BC '; }}
-.import-panel {{ display: none; }}
-.import-panel.open {{ display: block; }}
-.drop-zone {{
-    border: 2px dashed #dfe6e9; border-radius: 6px; padding: 18px 12px; text-align: center;
-    font-size: 0.8rem; color: #636e72; cursor: pointer; transition: all 0.2s; margin-bottom: 8px;
-}}
-.drop-zone:hover, .drop-zone.dragover {{ border-color: #e94560; background: #fff5f7; color: #e94560; }}
-.drop-zone input[type="file"] {{ display: none; }}
-.import-input {{
-    width: 100%; padding: 6px 8px; border: 1px solid #dfe6e9; border-radius: 4px;
-    font-size: 0.8rem; margin-bottom: 6px;
-}}
-.import-input:focus {{ outline: none; border-color: #e94560; }}
+.import-link-btn:hover {{ background: #e94560; color: #fff; }}
+/* Export/utility buttons */
 .import-btn {{
     width: 100%; padding: 6px 0; border: none; border-radius: 4px; font-size: 0.8rem;
     cursor: pointer; transition: all 0.2s; background: #e94560; color: #fff;
 }}
 .import-btn:hover {{ background: #d63851; }}
-.import-btn:disabled {{ background: #b2bec3; cursor: not-allowed; }}
 .import-btn.secondary {{ background: #fff; color: #636e72; border: 1px solid #dfe6e9; }}
 .import-btn.secondary:hover {{ background: #f5f6fa; }}
 .analysis-card {{
     background: #fff; border: 1px solid #dfe6e9; border-radius: 8px; padding: 20px; margin-bottom: 16px;
 }}
 .analysis-card h3 {{ font-size: 1rem; color: #2d3436; margin-bottom: 12px; }}
-.analysis-stat {{ display: inline-block; margin-right: 16px; margin-bottom: 8px; }}
-.analysis-stat .label {{ font-size: 0.75rem; color: #636e72; }}
-.analysis-stat .value {{ font-size: 1.1rem; font-weight: 600; color: #2d3436; }}
-.analysis-issue {{ padding: 4px 8px; margin: 2px 0; border-radius: 3px; font-size: 0.8rem; }}
-.analysis-issue.warning {{ background: #ffeaa7; color: #856404; }}
-.analysis-issue.error {{ background: #fab1a0; color: #721c24; }}
-.mapping-table {{ width: 100%; border-collapse: collapse; font-size: 0.8rem; margin: 8px 0; }}
-.mapping-table th {{ background: #f0f2f5; padding: 4px 8px; text-align: left; font-size: 0.75rem; }}
-.mapping-table td {{ padding: 4px 8px; border-bottom: 1px solid #eee; }}
-.mapping-table select {{ font-size: 0.8rem; padding: 2px 4px; border: 1px solid #dfe6e9; border-radius: 3px; }}
-.import-form {{ margin-top: 12px; display: flex; gap: 8px; align-items: end; flex-wrap: wrap; }}
-.import-form label {{ font-size: 0.8rem; color: #636e72; }}
-.import-form input {{ padding: 6px 8px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.8rem; }}
-.search-result-card {{
-    background: #fff; border: 1px solid #dfe6e9; border-radius: 6px; padding: 14px; margin-bottom: 10px;
-}}
-.search-result-card h4 {{ font-size: 0.9rem; color: #2d3436; margin-bottom: 4px; }}
-.search-result-card .sr-desc {{ font-size: 0.82rem; color: #636e72; margin-bottom: 6px; }}
-.search-result-card .sr-tags {{ display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }}
-.search-result-card .sr-tag {{ font-size: 0.7rem; padding: 2px 6px; border-radius: 3px; background: #f0f2f5; color: #636e72; }}
-.search-result-card .sr-tag.good {{ background: #d5f5e3; color: #27ae60; }}
-.search-result-card .sr-tag.warn {{ background: #ffeaa7; color: #856404; }}
-.loading {{ text-align: center; padding: 30px; color: #636e72; }}
-.loading::after {{ content: ''; display: inline-block; width: 18px; height: 18px; border: 2px solid #dfe6e9; border-top-color: #e94560; border-radius: 50%; animation: spin 0.8s linear infinite; margin-left: 8px; vertical-align: middle; }}
-@keyframes spin {{ to {{ transform: rotate(360deg); }} }}
 .rebuild-btn {{
     width: 100%; padding: 8px 0; margin-top: 12px; border: 1px solid #dfe6e9; border-radius: 4px;
     background: #fff; color: #636e72; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;
@@ -3192,29 +3159,7 @@ td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-sp
             Active Database
             <div class="btn-counts" id="active-db-counts"></div>
         </button>
-        <div class="import-section">
-            <h4 onclick="togglePanel('upload-panel', this)">Upload File</h4>
-            <div class="import-panel" id="upload-panel">
-                <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
-                    Drop CSV, Excel, JSON, or PDF here<br><small>or click to browse</small>
-                    <input type="file" id="file-input" accept=".csv,.xlsx,.xls,.json,.pdf,.tsv">
-                </div>
-            </div>
-            <h4 onclick="togglePanel('url-panel', this)">From URL</h4>
-            <div class="import-panel" id="url-panel">
-                <input class="import-input" id="url-input" placeholder="https://example.com/data.csv">
-                <button class="import-btn" onclick="analyzeUrl()">Analyze</button>
-            </div>
-            <h4 onclick="togglePanel('search-panel', this)">Search Databases</h4>
-            <div class="import-panel" id="search-panel">
-                <div class="api-key-row">
-                    <input class="import-input" id="claude-api-key" type="password" placeholder="Claude API key (sk-ant-...)" style="margin-bottom:0">
-                    <button class="import-btn secondary" style="width:auto;padding:2px 8px;font-size:0.7rem" onclick="saveApiKey()">Save</button>
-                </div>
-                <input class="import-input" id="search-input" placeholder="e.g. polymer HSP databases">
-                <button class="import-btn" onclick="searchDatabases()">Search</button>
-            </div>
-        </div>
+        <a href="import.html" class="import-link-btn">+ Import New Dataset</a>
         <div id="ds-list"></div>
         <button class="rebuild-btn" onclick="triggerRebuild()">Export Datasets</button>
     </div>
@@ -4425,487 +4370,6 @@ document.addEventListener('mouseout', function(e) {{
     if (td && _tooltipEl) {{ _tooltipEl.remove(); _tooltipEl = null; }}
 }});
 
-// ===================== IMPORT PANEL =====================
-function togglePanel(panelId, header) {{
-    var p = document.getElementById(panelId);
-    var isOpen = p.classList.contains('open');
-    document.querySelectorAll('.import-panel').forEach(function(el) {{ el.classList.remove('open'); }});
-    document.querySelectorAll('.import-section h4').forEach(function(el) {{ el.classList.remove('open'); }});
-    if (!isOpen) {{
-        p.classList.add('open');
-        header.classList.add('open');
-    }}
-}}
-
-var _ALIASES = {{
-    name: ['name','chemical','compound','solvent','material','molecule'],
-    cas_number: ['cas','cas_number','cas_no','casrn','cas number','cas #'],
-    delta_d: ['delta_d','dd','dispersion','\u03b4d','deltad','d_d','hansen_d','dd_mpa05','dd_mpa0.5','\u03b4d (mpa^0.5)'],
-    delta_p: ['delta_p','dp','polar','polarity','\u03b4p','deltap','d_p','hansen_p','dp_mpa05','dp_mpa0.5','\u03b4p (mpa^0.5)'],
-    delta_h: ['delta_h','dh','hydrogen','h-h bonding','h_bonding','\u03b4h','deltah','d_h','hansen_h','dh_mpa05','dh_mpa0.5','\u03b4h (mpa^0.5)','hydrogen_bonding'],
-    molecular_weight: ['molecular_weight','mw','mol_weight','molar_mass','mwt_g_mol'],
-    boiling_point: ['boiling_point','bp','boiling','b.p.','tb_c'],
-    density: ['density','rho','\u03c1','density_g_cm3'],
-    molar_volume: ['molar_volume','mv','mol_volume','vm','mvol_cm3_mol','volume_cm3_per_mol'],
-    category: ['category','type','class','group'],
-    smiles: ['smiles','smi'],
-    molecular_formula: ['molecular_formula','formula','molecular formula'],
-    ghs_hazard: ['ghs_hazard','ghs','h_statements','hazard'],
-    radius: ['radius','r0','r_0','interaction_radius'],
-}};
-
-function _autoMap(headers) {{
-    var mapping = {{}}, used = {{}};
-    var lowerMap = {{}};
-    headers.forEach(function(h) {{ lowerMap[h.toLowerCase().trim()] = h; }});
-    Object.keys(_ALIASES).forEach(function(canon) {{
-        _ALIASES[canon].forEach(function(alias) {{
-            if (lowerMap[alias] && !used[canon]) {{
-                var orig = lowerMap[alias];
-                if (!mapping[orig]) {{ mapping[orig] = canon; used[canon] = true; }}
-            }}
-        }});
-    }});
-    return mapping;
-}}
-
-function _parseFloat(v) {{
-    if (v == null || v === '') return null;
-    var n = parseFloat(String(v).replace(',','.'));
-    return isNaN(n) ? null : n;
-}}
-
-function _normCAS(v) {{
-    if (!v) return '';
-    var s = String(v).trim();
-    if (/^\d{{2,7}}-\d{{2}}-\d$/.test(s)) return s;
-    var digits = s.replace(/\D/g, '');
-    if (digits.length >= 5 && digits.length <= 10) {{
-        return digits.slice(0,-3) + '-' + digits.slice(-3,-1) + '-' + digits.slice(-1);
-    }}
-    return '';
-}}
-
-function _parseCSVText(text) {{
-    var delim = (text.indexOf('\\t') > -1 && text.split('\\t').length > text.split(',').length) ? '\\t' : ',';
-    var lines = text.split(/\\r?\\n/);
-    var headers = lines[0].split(delim).map(function(h) {{ return h.trim().replace(/^["']|["']$/g, ''); }});
-    var rows = [];
-    for (var i = 1; i < lines.length; i++) {{
-        if (!lines[i].trim()) continue;
-        var vals = lines[i].split(delim);
-        var row = {{}};
-        headers.forEach(function(h, j) {{ var v = (vals[j] || '').trim().replace(/^["']|["']$/g, ''); row[h] = v; }});
-        rows.push(row);
-    }}
-    return {{ headers: headers, rows: rows }};
-}}
-
-function _parseExcelBuffer(buf) {{
-    if (typeof XLSX === 'undefined') throw new Error('SheetJS library not loaded.');
-    var wb = XLSX.read(buf, {{ type: 'array' }});
-    var ws = wb.Sheets[wb.SheetNames[0]];
-    var data = XLSX.utils.sheet_to_json(ws, {{ defval: '' }});
-    var headers = data.length > 0 ? Object.keys(data[0]) : [];
-    return {{ headers: headers, rows: data }};
-}}
-
-function _parsePDFBuffer(buf) {{
-    if (typeof pdfjsLib === 'undefined') throw new Error('PDF.js library not loaded.');
-    return pdfjsLib.getDocument({{ data: buf }}).promise.then(function(pdf) {{
-        var allText = [];
-        var chain = Promise.resolve();
-        for (var p = 1; p <= pdf.numPages; p++) {{
-            (function(pageNum) {{
-                chain = chain.then(function() {{
-                    return pdf.getPage(pageNum).then(function(page) {{
-                        return page.getTextContent().then(function(tc) {{
-                            var lineMap = {{}};
-                            tc.items.forEach(function(item) {{
-                                var y = Math.round(item.transform[5]);
-                                if (!lineMap[y]) lineMap[y] = [];
-                                lineMap[y].push({{ x: item.transform[4], str: item.str }});
-                            }});
-                            var yKeys = Object.keys(lineMap).map(Number).sort(function(a,b) {{ return b - a; }});
-                            yKeys.forEach(function(y) {{
-                                var items = lineMap[y].sort(function(a,b) {{ return a.x - b.x; }});
-                                var lineStr = items.map(function(it) {{ return it.str; }}).join(' ').trim();
-                                if (lineStr) allText.push(lineStr);
-                            }});
-                        }});
-                    }});
-                }});
-            }})(p);
-        }}
-        return chain.then(function() {{ return _extractTableFromPDFLines(allText); }});
-    }});
-}}
-
-function _extractTableFromPDFLines(lines) {{
-    var hspKeywords = ['delta', '\u03b4d', '\u03b4p', '\u03b4h', 'disp', 'polar', 'hydrog', 'name', 'solvent', 'cas', 'smiles', 'mpa', 'hansen', 'd_d', 'd_p', 'd_h', 'dd', 'dp', 'dh'];
-    var headerIdx = -1, bestHeaderScore = 0;
-    for (var i = 0; i < Math.min(lines.length, 40); i++) {{
-        var lower = lines[i].toLowerCase();
-        var score = 0;
-        hspKeywords.forEach(function(kw) {{ if (lower.indexOf(kw) > -1) score++; }});
-        if (score > bestHeaderScore) {{ bestHeaderScore = score; headerIdx = i; }}
-    }}
-    if (bestHeaderScore < 2) {{
-        for (var i = 0; i < Math.min(lines.length, 30); i++) {{
-            var parts = _splitPDFLine(lines[i]);
-            if (parts.length >= 3 && i + 1 < lines.length) {{
-                var nextParts = _splitPDFLine(lines[i + 1]);
-                var numCount = 0;
-                nextParts.forEach(function(p) {{ if (/^-?\d+\.?\d*$/.test(p.trim())) numCount++; }});
-                if (numCount >= 2 && Math.abs(parts.length - nextParts.length) <= 2) {{ headerIdx = i; break; }}
-            }}
-        }}
-    }}
-    if (headerIdx === -1) headerIdx = 0;
-    var headerParts = _splitPDFLine(lines[headerIdx]);
-    if (headerParts.length < 2) headerParts = lines[headerIdx].split(/\s{{2,}}/).map(function(s) {{ return s.trim(); }}).filter(Boolean);
-    var rows = [];
-    var expectedCols = headerParts.length;
-    for (var i = headerIdx + 1; i < lines.length; i++) {{
-        var parts = _splitPDFLine(lines[i]);
-        if (parts.length < 2) continue;
-        var lower = lines[i].toLowerCase();
-        if (/^(page|table|figure|note|source|ref)\s/i.test(lower)) continue;
-        if (/^\d+\s*$/.test(lines[i].trim())) continue;
-        if (Math.abs(parts.length - expectedCols) <= 2) {{
-            var row = {{}};
-            if (parts.length > expectedCols) {{
-                var extra = parts.length - expectedCols;
-                var merged = parts.slice(0, extra + 1).join(' ');
-                parts = [merged].concat(parts.slice(extra + 1));
-            }}
-            for (var j = 0; j < headerParts.length; j++) {{ row[headerParts[j]] = (parts[j] || '').trim(); }}
-            rows.push(row);
-        }}
-    }}
-    if (rows.length === 0) throw new Error('Could not find tabular data in the PDF.');
-    return {{ headers: headerParts, rows: rows }};
-}}
-
-function _splitPDFLine(line) {{
-    var parts = line.split(/\s{{2,}}/).map(function(s) {{ return s.trim(); }}).filter(Boolean);
-    if (parts.length >= 3) return parts;
-    parts = line.split('\\t').map(function(s) {{ return s.trim(); }}).filter(Boolean);
-    if (parts.length >= 3) return parts;
-    if (line.indexOf('|') > -1) {{
-        parts = line.split('|').map(function(s) {{ return s.trim(); }}).filter(Boolean);
-        if (parts.length >= 3) return parts;
-    }}
-    var tokens = line.split(/\s+/);
-    var result = []; var current = '';
-    tokens.forEach(function(t) {{
-        if (/^-?\d+\.?\d*$/.test(t)) {{
-            if (current) {{ result.push(current.trim()); current = ''; }}
-            result.push(t);
-        }} else {{ current += (current ? ' ' : '') + t; }}
-    }});
-    if (current) result.push(current.trim());
-    return result;
-}}
-
-function _analyzeLocally(headers, rows, filename) {{
-    var mapping = _autoMap(headers);
-    var rev = {{}};
-    Object.keys(mapping).forEach(function(k) {{ rev[mapping[k]] = k; }});
-    var total = rows.length;
-    var hspCount = 0, casCount = 0, smilesCount = 0, outliers = 0, dupNames = 0;
-    var namesSeen = {{}}, hasRadius = false;
-    rows.forEach(function(row) {{
-        var dd = _parseFloat(row[rev.delta_d]);
-        var dp = _parseFloat(row[rev.delta_p]);
-        var dh = _parseFloat(row[rev.delta_h]);
-        if (dd != null && dp != null && dh != null) {{
-            hspCount++;
-            if (dd < 10 || dd > 25 || dp < 0 || dp > 25 || dh < 0 || dh > 30) outliers++;
-        }}
-        var cas = rev.cas_number ? _normCAS(row[rev.cas_number]) : '';
-        if (cas) casCount++;
-        var smi = rev.smiles ? String(row[rev.smiles] || '').trim() : '';
-        if (smi && smi !== 'None' && smi !== 'nan') smilesCount++;
-        if (rev.radius && _parseFloat(row[rev.radius]) != null) hasRadius = true;
-        var nm = rev.name ? String(row[rev.name] || '').trim().toLowerCase() : '';
-        if (nm) {{ if (namesSeen[nm]) dupNames++; namesSeen[nm] = true; }}
-    }});
-    var issues = [];
-    if (!rev.name) issues.push({{ severity: 'error', message: 'No name column detected' }});
-    if (!rev.delta_d || !rev.delta_p || !rev.delta_h) issues.push({{ severity: 'error', message: 'Missing HSP columns' }});
-    if (outliers > 0) issues.push({{ severity: 'warning', message: outliers + ' rows have HSP values outside typical ranges' }});
-    if (dupNames > 0) issues.push({{ severity: 'warning', message: dupNames + ' duplicate names' }});
-    var sampleRows = rows.slice(0, 5).map(function(row) {{
-        var s = {{}};
-        Object.keys(mapping).forEach(function(k) {{ s[mapping[k]] = String(row[k] || '').substring(0, 80); }});
-        return s;
-    }});
-    var ext = (filename || '').split('.').pop().toLowerCase();
-    var fileType = (ext === 'xlsx' || ext === 'xls') ? 'excel' : ext === 'json' ? 'json' : 'csv';
-    return {{
-        file_type: fileType, original_filename: filename, row_count: total,
-        columns_found: headers, column_mapping: mapping,
-        unmapped_columns: headers.filter(function(h) {{ return !mapping[h]; }}),
-        hsp_coverage: total > 0 ? Math.round(1000 * hspCount / total) / 10 : 0,
-        cas_coverage: total > 0 ? Math.round(1000 * casCount / total) / 10 : 0,
-        smiles_coverage: total > 0 ? Math.round(1000 * smilesCount / total) / 10 : 0,
-        quality_issues: issues, sample_rows: sampleRows,
-        detected_type: hasRadius ? 'both' : 'chemicals',
-        _headers: headers, _rows: rows,
-    }};
-}}
-
-// ===================== FILE UPLOAD =====================
-var _dropZone = document.getElementById('drop-zone');
-var _fileInput = document.getElementById('file-input');
-_dropZone.addEventListener('dragover', function(e) {{ e.preventDefault(); _dropZone.classList.add('dragover'); }});
-_dropZone.addEventListener('dragleave', function() {{ _dropZone.classList.remove('dragover'); }});
-_dropZone.addEventListener('drop', function(e) {{ e.preventDefault(); _dropZone.classList.remove('dragover'); if (e.dataTransfer.files.length) uploadFile(e.dataTransfer.files[0]); }});
-_fileInput.addEventListener('change', function() {{ if (_fileInput.files.length) uploadFile(_fileInput.files[0]); _fileInput.value=''; }});
-
-var _pendingAnalysis = null;
-
-function uploadFile(file) {{
-    _viewMode = '_import';
-    buildSidebar();
-    var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="detail-content"><div class="loading">Analyzing ' + file.name + '...</div></div>';
-    var reader = new FileReader();
-    reader.onerror = function() {{ ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Error</h3><p>Failed to read file.</p></div></div>'; }};
-    reader.onload = function(e) {{
-        var ext = file.name.split('.').pop().toLowerCase();
-        if (ext === 'pdf') {{
-            _parsePDFBuffer(new Uint8Array(e.target.result)).then(function(parsed) {{
-                var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
-                _pendingAnalysis = report;
-                showAnalysis(report);
-            }}).catch(function(err) {{
-                ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div></div>';
-            }});
-            return;
-        }}
-        try {{
-            var parsed;
-            if (ext === 'xlsx' || ext === 'xls') {{
-                parsed = _parseExcelBuffer(new Uint8Array(e.target.result));
-            }} else if (ext === 'json') {{
-                var data = JSON.parse(new TextDecoder().decode(new Uint8Array(e.target.result)));
-                if (Array.isArray(data)) {{ parsed = {{ headers: data.length ? Object.keys(data[0]) : [], rows: data }}; }}
-                else {{
-                    var arr = null;
-                    ['data','chemicals','solvents','compounds','results','entries'].forEach(function(k) {{ if (!arr && data[k] && Array.isArray(data[k])) arr = data[k]; }});
-                    if (!arr) Object.values(data).forEach(function(v) {{ if (!arr && Array.isArray(v) && v.length && typeof v[0] === 'object') arr = v; }});
-                    arr = arr || [];
-                    parsed = {{ headers: arr.length ? Object.keys(arr[0]) : [], rows: arr }};
-                }}
-            }} else {{
-                var bytes = new Uint8Array(e.target.result);
-                if (bytes.length >= 5 && String.fromCharCode(bytes[0],bytes[1],bytes[2],bytes[3],bytes[4]) === '%PDF-') {{
-                    _parsePDFBuffer(bytes).then(function(parsed) {{
-                        var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
-                        _pendingAnalysis = report;
-                        showAnalysis(report);
-                    }}).catch(function(err) {{
-                        ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div></div>';
-                    }});
-                    return;
-                }}
-                parsed = _parseCSVText(new TextDecoder().decode(bytes));
-            }}
-            var report = _analyzeLocally(parsed.headers, parsed.rows, file.name);
-            _pendingAnalysis = report;
-            showAnalysis(report);
-        }} catch(err) {{
-            ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Error</h3><p>' + err.message + '</p></div></div>';
-        }}
-    }};
-    reader.readAsArrayBuffer(file);
-}}
-
-function analyzeUrl() {{
-    var url = document.getElementById('url-input').value.trim();
-    if (!url) return;
-    _viewMode = '_import';
-    buildSidebar();
-    var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="detail-content"><div class="loading">Fetching ' + url.substring(0, 60) + '...</div></div>';
-    var urlLower = url.toLowerCase();
-    var isExcel = urlLower.match(/\.xlsx?($|\?)/);
-    var isJson = urlLower.match(/\.json($|\?)/);
-    var isPdf = urlLower.match(/\.pdf($|\?)/);
-    var isBinary = isExcel || isPdf;
-    _fetchWithFallback(url, !!isBinary).then(function(result) {{
-        if (!result) {{
-            ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Could not fetch URL</h3><p>The server blocked the request (CORS). Try downloading manually.</p></div></div>';
-            return;
-        }}
-        var fname = url.split('/').pop().split('?')[0] || 'data';
-        if (isPdf) {{
-            _parsePDFBuffer(new Uint8Array(result)).then(function(parsed) {{
-                var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
-                report.original_url = url;
-                _pendingAnalysis = report;
-                showAnalysis(report);
-            }}).catch(function(err) {{
-                ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div></div>';
-            }});
-            return;
-        }}
-        try {{
-            var parsed;
-            if (isExcel) {{ parsed = _parseExcelBuffer(new Uint8Array(result)); }}
-            else if (isJson) {{
-                var text = typeof result === 'string' ? result : new TextDecoder().decode(new Uint8Array(result));
-                var data = JSON.parse(text);
-                if (Array.isArray(data)) {{ parsed = {{ headers: data.length ? Object.keys(data[0]) : [], rows: data }}; }}
-                else {{
-                    var arr = null;
-                    ['data','chemicals','solvents','compounds','results','entries'].forEach(function(k) {{ if (!arr && data[k] && Array.isArray(data[k])) arr = data[k]; }});
-                    if (!arr) Object.values(data).forEach(function(v) {{ if (!arr && Array.isArray(v) && v.length && typeof v[0] === 'object') arr = v; }});
-                    arr = arr || [];
-                    parsed = {{ headers: arr.length ? Object.keys(arr[0]) : [], rows: arr }};
-                }}
-            }} else {{
-                var text = typeof result === 'string' ? result : new TextDecoder().decode(new Uint8Array(result));
-                if (text.substring(0, 5) === '%PDF-') {{
-                    var buf = typeof result === 'string' ? new TextEncoder().encode(result) : new Uint8Array(result);
-                    _parsePDFBuffer(buf).then(function(parsed) {{
-                        var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
-                        report.original_url = url;
-                        _pendingAnalysis = report;
-                        showAnalysis(report);
-                    }}).catch(function(err) {{
-                        ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>PDF Parse Error</h3><p>' + err.message + '</p></div></div>';
-                    }});
-                    return;
-                }}
-                parsed = _parseCSVText(text);
-            }}
-            var report = _analyzeLocally(parsed.headers, parsed.rows, fname);
-            report.original_url = url;
-            _pendingAnalysis = report;
-            showAnalysis(report);
-        }} catch(err) {{
-            ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Parse Error</h3><p>' + err.message + '</p></div></div>';
-        }}
-    }}).catch(function(err) {{
-        ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Fetch Error</h3><p>' + err.message + '</p></div></div>';
-    }});
-}}
-
-function _fetchWithFallback(url, asBinary) {{
-    return fetch(url, {{ mode: 'cors' }}).then(function(r) {{
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return asBinary ? r.arrayBuffer() : r.text();
-    }}).catch(function() {{
-        var proxyUrl = 'https://api.allorigins.win/' + (asBinary ? 'raw' : 'get') + '?url=' + encodeURIComponent(url);
-        return fetch(proxyUrl).then(function(r) {{
-            if (!r.ok) return null;
-            if (asBinary) return r.arrayBuffer();
-            return r.json().then(function(d) {{ return d.contents; }});
-        }}).catch(function() {{ return null; }});
-    }});
-}}
-
-function showAnalysis(report) {{
-    var ct = document.getElementById('content');
-    var h = '<div class="detail-content"><div class="analysis-card">';
-    h += '<h3>Analysis: ' + (report.original_filename || 'File') + '</h3>';
-    h += '<div style="margin-bottom:12px">';
-    h += '<span class="analysis-stat"><span class="label">Type</span><br><span class="value">' + report.file_type + '</span></span>';
-    h += '<span class="analysis-stat"><span class="label">Rows</span><br><span class="value">' + report.row_count + '</span></span>';
-    h += '<span class="analysis-stat"><span class="label">Detected</span><br><span class="value">' + report.detected_type + '</span></span>';
-    h += '<span class="analysis-stat"><span class="label">HSP</span><br><span class="value">' + report.hsp_coverage + '%</span></span>';
-    h += '<span class="analysis-stat"><span class="label">CAS</span><br><span class="value">' + report.cas_coverage + '%</span></span>';
-    h += '<span class="analysis-stat"><span class="label">SMILES</span><br><span class="value">' + report.smiles_coverage + '%</span></span>';
-    h += '</div>';
-    if (report.quality_issues && report.quality_issues.length > 0) {{
-        h += '<div style="margin-bottom:12px">';
-        report.quality_issues.forEach(function(iss) {{ h += '<div class="analysis-issue ' + iss.severity + '">' + iss.message + '</div>'; }});
-        h += '</div>';
-    }}
-    if (report.column_mapping) {{
-        var canonicals = ['name','cas_number','delta_d','delta_p','delta_h','molecular_weight','boiling_point','density','molar_volume','smiles','molecular_formula','ghs_hazard','category','radius'];
-        h += '<table class="mapping-table"><thead><tr><th>Source Column</th><th>Maps To</th></tr></thead><tbody>';
-        (report.columns_found || []).forEach(function(col) {{
-            var mapped = report.column_mapping[col] || '';
-            h += '<tr><td>' + col + '</td><td><select data-col="' + col + '" class="mapping-select">';
-            h += '<option value="">(unmapped)</option>';
-            canonicals.forEach(function(c) {{ h += '<option value="' + c + '"' + (mapped === c ? ' selected' : '') + '>' + c + '</option>'; }});
-            h += '</select></td></tr>';
-        }});
-        h += '</tbody></table>';
-    }}
-    if (report.sample_rows && report.sample_rows.length > 0) {{
-        h += '<details style="margin-top:8px"><summary style="font-size:0.85rem;cursor:pointer;color:#636e72">Sample rows (' + report.sample_rows.length + ')</summary>';
-        h += '<table class="mapping-table" style="margin-top:4px"><thead><tr>';
-        var sampleKeys = Object.keys(report.sample_rows[0]);
-        sampleKeys.forEach(function(k) {{ h += '<th>' + k + '</th>'; }});
-        h += '</tr></thead><tbody>';
-        report.sample_rows.forEach(function(row) {{ h += '<tr>'; sampleKeys.forEach(function(k) {{ h += '<td>' + (row[k]||'') + '</td>'; }}); h += '</tr>'; }});
-        h += '</tbody></table></details>';
-    }}
-    h += '<div class="import-form">';
-    h += '<div><label>Dataset ID</label><br><input id="import-id" placeholder="my_dataset" style="width:180px"></div>';
-    h += '<div><label>Name</label><br><input id="import-name" placeholder="My Dataset" style="width:220px"></div>';
-    h += '<div><label>Source URL</label><br><input id="import-url" placeholder="https://..." style="width:220px" value="' + (report.original_url || '').replace(/"/g,'&quot;') + '"></div>';
-    h += '<div><label>Confidence</label><br><input id="import-conf" type="number" step="0.05" min="0" max="1" value="0.30" style="width:70px"></div>';
-    h += '<div style="padding-top:18px"><button class="import-btn" style="width:auto;padding:6px 20px" onclick="doImport()">Import</button></div>';
-    h += '</div>';
-    h += '</div></div>';
-    ct.innerHTML = h;
-}}
-
-function doImport() {{
-    if (!_pendingAnalysis) return;
-    var dsId = document.getElementById('import-id').value.trim();
-    if (!dsId) {{ alert('Dataset ID is required'); return; }}
-    if (!/^[a-z0-9_]+$/.test(dsId)) {{ alert('ID must be lowercase alphanumeric with underscores'); return; }}
-    var mapping = {{}};
-    document.querySelectorAll('.mapping-select').forEach(function(sel) {{
-        var col = sel.getAttribute('data-col');
-        if (sel.value) mapping[col] = sel.value;
-    }});
-    var rev = {{}};
-    Object.keys(mapping).forEach(function(k) {{ rev[mapping[k]] = k; }});
-    var dsName = document.getElementById('import-name').value.trim() || dsId;
-    var sourceUrl = document.getElementById('import-url').value.trim();
-    var confTier = parseFloat(document.getElementById('import-conf').value) || 0.30;
-    var rows = _pendingAnalysis._rows || [];
-    var chemicals = [], polymers = [];
-    rows.forEach(function(row) {{
-        var name = rev.name ? String(row[rev.name] || '').trim() : '';
-        if (!name) return;
-        var dd = _parseFloat(row[rev.delta_d]);
-        var dp = _parseFloat(row[rev.delta_p]);
-        var dh = _parseFloat(row[rev.delta_h]);
-        if (dd == null || dp == null || dh == null) return;
-        var cas = rev.cas_number ? _normCAS(row[rev.cas_number]) : '';
-        var radius = rev.radius ? _parseFloat(row[rev.radius]) : null;
-        if (radius != null) {{
-            polymers.push({{ name: name, cas: cas, dd: dd, dp: dp, dh: dh, r: radius,
-                type: rev.category ? String(row[rev.category] || '').trim() : '', conf: confTier, dsId: dsId }});
-        }} else {{
-            chemicals.push({{ name: name, cas: cas, dd: dd, dp: dp, dh: dh,
-                mw: rev.molecular_weight ? _parseFloat(row[rev.molecular_weight]) : null,
-                bp: rev.boiling_point ? _parseFloat(row[rev.boiling_point]) : null,
-                cat: rev.category ? String(row[rev.category] || '').trim() : '',
-                smiles: rev.smiles ? String(row[rev.smiles] || '').trim() : '',
-                density: rev.density ? _parseFloat(row[rev.density]) : null, conf: confTier, dsId: dsId }});
-        }}
-    }});
-    var meta = {{ id: dsId, name: dsName, source_url: sourceUrl, imported_at: new Date().toISOString(),
-        chemical_count: chemicals.length, polymer_count: polymers.length,
-        confidence_tier: confTier, fields_available: Object.values(mapping) }};
-    DATASETS[dsId] = {{ chemicals: chemicals, polymers: polymers, meta: meta }};
-    _activeDsets[dsId] = true;
-    _saveActiveDsets(_activeDsets);
-    _saveImportedDatasets();
-    _pendingAnalysis = null;
-    selectDs(dsId);
-}}
-
 // ===================== LOCALSTORAGE PERSISTENCE =====================
 var _LS_IMPORTED_KEY = 'materialism_imported_datasets';
 
@@ -4933,18 +4397,6 @@ function _loadImportedDatasets() {{
         }});
     }} catch(e) {{}}
 }}
-
-// ===================== API KEY =====================
-var _LS_API_KEY = 'materialism_claude_api_key';
-function saveApiKey() {{
-    var k = document.getElementById('claude-api-key').value.trim();
-    if (k) {{ localStorage.setItem(_LS_API_KEY, k); alert('API key saved.'); }}
-}}
-function _getApiKey() {{ return localStorage.getItem(_LS_API_KEY) || ''; }}
-setTimeout(function() {{
-    var saved = _getApiKey();
-    if (saved) document.getElementById('claude-api-key').value = saved;
-}}, 0);
 
 // ===================== PUBCHEM + CAS LOOKUP =====================
 function _delay(ms) {{ return new Promise(function(r) {{ setTimeout(r, ms); }}); }}
@@ -5275,57 +4727,6 @@ async function inferActiveDb() {{
     renderContent();
 }}
 
-// ===================== SEARCH DATABASES =====================
-function searchDatabases() {{
-    var q = document.getElementById('search-input').value.trim();
-    if (!q) return;
-    var apiKey = _getApiKey();
-    if (!apiKey) {{
-        var ct = document.getElementById('content');
-        ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>API Key Required</h3><p>Enter your Claude API key first.</p></div></div>';
-        return;
-    }}
-    _viewMode = '_import';
-    buildSidebar();
-    var ct = document.getElementById('content');
-    ct.innerHTML = '<div class="detail-content"><div class="loading">Searching for HSP databases...</div></div>';
-    fetch('https://api.anthropic.com/v1/messages', {{
-        method: 'POST',
-        headers: {{ 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' }},
-        body: JSON.stringify({{ model: 'claude-sonnet-4-5-20250929', max_tokens: 2048, messages: [{{ role: 'user', content: 'Find downloadable Hansen Solubility Parameter (HSP) databases matching: "' + q + '". Return a JSON array with: name, url, description, estimated_materials, material_types, download_format, has_cas, has_smiles, quality. Only real sources. Return ONLY the JSON array.' }}] }})
-    }}).then(function(r) {{ if (!r.ok) return r.json().then(function(err) {{ throw new Error(err.error && err.error.message || 'API error'); }}); return r.json(); }}).then(function(data) {{
-        var text = data.content && data.content[0] && data.content[0].text || '';
-        var jsonMatch = text.match(/\[.*\]/s);
-        if (!jsonMatch) {{ ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>No results</h3><pre style="white-space:pre-wrap;font-size:0.8rem">' + text + '</pre></div></div>'; return; }}
-        try {{ showSearchResults(JSON.parse(jsonMatch[0])); }} catch(e) {{ ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Parse Error</h3></div></div>'; }}
-    }}).catch(function(err) {{ ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>Error</h3><p>' + err.message + '</p></div></div>'; }});
-}}
-
-function showSearchResults(results) {{
-    var ct = document.getElementById('content');
-    if (results.length === 0) {{ ct.innerHTML = '<div class="detail-content"><div class="analysis-card"><h3>No Results</h3></div></div>'; return; }}
-    var h = '<div class="detail-content"><h3 style="margin-bottom:12px">Search Results (' + results.length + ')</h3>';
-    results.forEach(function(r) {{
-        h += '<div class="search-result-card"><h4>' + (r.name || 'Unknown') + '</h4>';
-        if (r.url) h += '<div style="font-size:0.78rem;margin-bottom:4px"><a href="' + r.url + '" target="_blank" style="color:#0984e3">' + r.url + '</a></div>';
-        if (r.description) h += '<div class="sr-desc">' + r.description + '</div>';
-        h += '<div class="sr-tags">';
-        if (r.estimated_materials) h += '<span class="sr-tag">' + r.estimated_materials + ' materials</span>';
-        if (r.material_types) r.material_types.forEach(function(t) {{ h += '<span class="sr-tag">' + t + '</span>'; }});
-        if (r.download_format) h += '<span class="sr-tag">' + r.download_format + '</span>';
-        if (r.has_cas === true) h += '<span class="sr-tag good">Has CAS</span>';
-        if (r.has_smiles === true) h += '<span class="sr-tag good">Has SMILES</span>';
-        if (r.quality) h += '<span class="sr-tag ' + (r.quality === 'high' ? 'good' : '') + '">Quality: ' + r.quality + '</span>';
-        h += '</div>';
-        if (r.url) h += '<button class="import-btn secondary" style="width:auto;padding:4px 14px;font-size:0.78rem" onclick="analyzeSearchResult(\\x27' + r.url.replace(/'/g,"\\\\x27") + '\\x27)">Analyze</button>';
-        h += '</div>';
-    }});
-    h += '</div>';
-    ct.innerHTML = h;
-}}
-
-function analyzeSearchResult(url) {{ document.getElementById('url-input').value = url; analyzeUrl(); }}
-
 // ===================== EXPORT =====================
 function triggerRebuild() {{
     _viewMode = '_import';
@@ -5387,3 +4788,10 @@ print(f"Database page: {len(db_solvents)} solvents, {len(db_polymers)} polymers"
 ds_total_chems = sum(len(d.get("chemicals", [])) for d in per_dataset_data.values())
 ds_total_polys = sum(len(d.get("polymers", [])) for d in per_dataset_data.values())
 print(f"Datasets: {len(per_dataset_data)} datasets, {ds_total_chems} chemicals, {ds_total_polys} polymers")
+
+# ===================== IMPORT PAGE =====================
+import_html = generate_import_html()
+import_output_path = os.path.join(os.path.dirname(__file__), "import.html")
+with open(import_output_path, "w") as f:
+    f.write(import_html)
+print(f"Generated: {import_output_path}")
