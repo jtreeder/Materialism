@@ -265,6 +265,12 @@ td.cell-note { font-style: italic; color: #b2bec3; font-size: 0.72rem; white-spa
 .xl-opt-mv { font-size: 0.7rem; margin-left: 4px; }
 .xl-opt-mv.match { color: #27ae60; }
 .xl-opt-mv.mismatch { color: #e74c3c; }
+/* Structure tooltip */
+.struct-tooltip { display: none; position: fixed; z-index: 9999; background: #fff; border: 2px solid #e94560; border-radius: 8px; padding: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); pointer-events: none; }
+.struct-tooltip img { display: block; width: 200px; height: 200px; border-radius: 4px; }
+.struct-tooltip .struct-name { text-align: center; font-size: 0.7rem; color: #333; padding: 2px 4px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.struct-tooltip.loading img { opacity: 0.3; }
+.hoverable-name { cursor: help; border-bottom: 1px dotted #b2bec3; }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -638,6 +644,9 @@ function renderActiveDb() {
                 html += '</td>';
             } else {
                 var display = val;
+                if (c.key === 'name' && val) {
+                    display = '<span class="hoverable-name" onmouseenter="showStructure(event,\x27' + encodeURIComponent(String(val)) + '\x27)" onmouseleave="hideStructure()">' + val + '</span>';
+                }
                 if (val !== '' && val != null) {
                     if (c.key === 'dd' || c.key === 'dp' || c.key === 'dh' || c.key === 'mw' || c.key === 'mv' || c.key === 'r') {
                         var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(1);
@@ -843,7 +852,9 @@ function renderDetail() {
             }
             var catStyle = '';
             var display = v;
-            if (c === 'cat' && v) {
+            if (c === 'name' && v) {
+                display = '<span class="hoverable-name" onmouseenter="showStructure(event,\x27' + encodeURIComponent(String(v)) + '\x27)" onmouseleave="hideStructure()">' + v + '</span>';
+            } else if (c === 'cat' && v) {
                 var _catMap = (nc > 0) ? CAT_COLORS : POLY_CAT_COLORS;
                 var _catC = _catMap[v] || '#888';
                 display = '<span style="display:inline-flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;flex-shrink:0;background:' + _catC + '"></span>' + v + '</span>';
@@ -2172,6 +2183,46 @@ _loadImportedDatasets();
 loadDbEdits();
 buildSidebar();
 renderContent();
+
+// ---- Structure image tooltip ----
+var _dbStructCache = {};
+var _dbTooltip = { el: null, img: null, nameEl: null };
+function showStructure(event, encodedName) {
+    var name = decodeURIComponent(encodedName);
+    if (!_dbTooltip.el) {
+        _dbTooltip.el = document.getElementById('db-struct-tooltip');
+        _dbTooltip.img = document.getElementById('db-struct-img');
+        _dbTooltip.nameEl = document.getElementById('db-struct-name');
+    }
+    _dbTooltip.nameEl.textContent = name;
+    _dbTooltip.el.style.display = 'block';
+    var x = event.clientX + 15, y = event.clientY - 110;
+    if (x + 220 > window.innerWidth) x = event.clientX - 225;
+    if (y < 8) y = event.clientY + 20;
+    _dbTooltip.el.style.left = x + 'px'; _dbTooltip.el.style.top = y + 'px';
+    if (_dbStructCache[name] === 'error') { _dbTooltip.el.style.display = 'none'; return; }
+    var mat = (_solventMap && _solventMap.get) ? _solventMap.get(name) : null;
+    if (!mat) { var arr = SOLVENTS.concat(POLYMERS); for (var i=0;i<arr.length;i++) { if (arr[i].name===name) { mat=arr[i]; break; } } }
+    var cas = mat && mat.cas;
+    var smiles = mat && mat.smiles;
+    var url = cas ? 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(cas) + '/PNG?image_size=200x200'
+                  : (smiles ? 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/' + encodeURIComponent(smiles) + '/PNG?image_size=200x200'
+                            : 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(name) + '/PNG?image_size=200x200');
+    if (_dbStructCache[name]) {
+        _dbTooltip.img.src = _dbStructCache[name]; _dbTooltip.el.classList.remove('loading');
+    } else {
+        _dbTooltip.el.classList.add('loading'); _dbTooltip.img.src = url;
+        _dbTooltip.img.onload = function() { _dbStructCache[name] = url; _dbTooltip.el.classList.remove('loading'); };
+        _dbTooltip.img.onerror = function() { _dbStructCache[name] = 'error'; _dbTooltip.el.style.display = 'none'; };
+    }
+}
+function hideStructure() {
+    if (_dbTooltip.el) _dbTooltip.el.style.display = 'none';
+}
 </script>
+<div id="db-struct-tooltip" class="struct-tooltip">
+    <img id="db-struct-img" src="" alt="Structure">
+    <div id="db-struct-name" class="struct-name"></div>
+</div>
 </body>
 </html>

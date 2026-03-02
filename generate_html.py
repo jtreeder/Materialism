@@ -669,6 +669,12 @@ full_html = f"""<!DOCTYPE html>
         .legend-item.legend-hidden .legend-swatch {{
             opacity: 0.3;
         }}
+        .src-popup {{ position: fixed; z-index: 9999; background: #fff; border: 1px solid #dfe6e9; border-radius: 6px; box-shadow: 0 4px 18px rgba(0,0,0,0.14); padding: 8px 12px; font-size: 0.78rem; color: #2d3436; max-width: 280px; pointer-events: auto; }}
+        .src-popup-label {{ display: block; font-weight: 600; margin-bottom: 4px; color: #2d3436; }}
+        .src-popup-link {{ display: inline-block; color: #e94560; text-decoration: none; font-size: 0.74rem; word-break: break-all; }}
+        .src-popup-link:hover {{ text-decoration: underline; }}
+        .src-val {{ cursor: pointer; border-bottom: 1px dashed #b2bec3; }}
+        .src-val:hover {{ color: #e94560; border-color: #e94560; }}
     </style>
 </head>
 <body>
@@ -2469,15 +2475,15 @@ full_html = f"""<!DOCTYPE html>
                 for (var i = 0; i < filtered.length; i++) {{
                     var s = filtered[i];
                     var catColor = s.color || CAT_COLORS[s.cat] || '#888';
-                    function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
+                    function lnk(val, url, lbl) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; if (!url) return String(v); var sl = (lbl || 'Source').replace(/'/g,'\\x27'); var su = url.replace(/'/g,'\\x27'); return '<span class="src-val" onclick="event.stopPropagation();_showSrcPop(this,\\x27' + sl + '\\x27,\\x27' + su + '\\x27)">' + v + '</span>'; }}
                     rowsHtml += '<tr data-name="' + s.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
                     rowsHtml += '<td>' + (s.cas || '') + '</td>';
-                    rowsHtml += '<td>' + lnk(s.dd, s.srcUrl) + '</td>';
-                    rowsHtml += '<td>' + lnk(s.dp, s.srcUrl) + '</td>';
-                    rowsHtml += '<td>' + lnk(s.dh, s.srcUrl) + '</td>';
-                    rowsHtml += '<td>' + lnk(s.mw, s.mwSrc) + '</td>';
-                    rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc) : '') + '</td>';
+                    rowsHtml += '<td>' + lnk(s.dd, s.srcUrl, s.src) + '</td>';
+                    rowsHtml += '<td>' + lnk(s.dp, s.srcUrl, s.src) + '</td>';
+                    rowsHtml += '<td>' + lnk(s.dh, s.srcUrl, s.src) + '</td>';
+                    rowsHtml += '<td>' + lnk(s.mw, s.mwSrc, s.src) + '</td>';
+                    rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc, s.src) : '') + '</td>';
                     var _cfNote = s.cfclass ? (s.cflevel === 'class' ? '<sup title="ClassyFire class used \u2014 no subclass available" style="color:#b2bec3;font-size:0.65rem;cursor:help">\u2020</sup>' : '') : '';
                     rowsHtml += '<td style="color:#636e72;font-size:0.82rem">' + (s.cfclass || '') + _cfNote + '</td>';
                     rowsHtml += '</tr>';
@@ -2504,14 +2510,14 @@ full_html = f"""<!DOCTYPE html>
                 rowsHtml = '';
                 for (var i = 0; i < filtered.length; i++) {{
                     var p = filtered[i];
-                    function lnk(val, url) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; return url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:#0984e3;text-decoration:none">' + v + '</a>' : v; }}
+                    function lnk(val, url, lbl) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; if (!url) return String(v); var sl = (lbl || 'Source').replace(/'/g,'\\x27'); var su = url.replace(/'/g,'\\x27'); return '<span class="src-val" onclick="event.stopPropagation();_showSrcPop(this,\\x27' + sl + '\\x27,\\x27' + su + '\\x27)">' + v + '</span>'; }}
                     var catColor = p.color || POLY_CAT_COLORS[p.cat] || '#a9a9a9';
                     rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
                     rowsHtml += '<td><span class="hoverable-name">' + p.name + '</span></td>';
                     rowsHtml += '<td>' + (p.cas || '') + '</td>';
-                    rowsHtml += '<td>' + lnk(p.dd, p.srcUrl) + '</td>';
-                    rowsHtml += '<td>' + lnk(p.dp, p.srcUrl) + '</td>';
-                    rowsHtml += '<td>' + lnk(p.dh, p.srcUrl) + '</td>';
+                    rowsHtml += '<td>' + lnk(p.dd, p.srcUrl, p.src) + '</td>';
+                    rowsHtml += '<td>' + lnk(p.dp, p.srcUrl, p.src) + '</td>';
+                    rowsHtml += '<td>' + lnk(p.dh, p.srcUrl, p.src) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
                     rowsHtml += '</tr>';
                 }}
@@ -2605,6 +2611,35 @@ full_html = f"""<!DOCTYPE html>
         function hideStructure() {{
             if (tooltip.el) tooltip.el.style.display = 'none';
         }}
+
+        // ---- Citation popup (shared with database page behavior) ----
+        var _srcPop2 = null, _srcPopRef2 = null;
+        function _showSrcPop(el, label, url) {{
+            if (_srcPop2 && _srcPopRef2 === el) {{
+                if (url) window.open(url, '_blank', 'noopener');
+                _closeSrcPop2(); return;
+            }}
+            _closeSrcPop2();
+            _srcPopRef2 = el;
+            el.classList.add('active');
+            if (!_srcPop2) {{ _srcPop2 = document.createElement('div'); _srcPop2.className = 'src-popup'; document.body.appendChild(_srcPop2); }}
+            _srcPop2.innerHTML = '<span class="src-popup-label">' + label.replace(/</g,'&lt;') + '</span>' + (url ? '<a class="src-popup-link" href="' + url + '" target="_blank" rel="noopener">Open source \u2197</a>' : '');
+            _srcPop2.style.display = 'block';
+            var rect = el.getBoundingClientRect();
+            var popW = _srcPop2.offsetWidth, popH = _srcPop2.offsetHeight;
+            var left = rect.left, top = rect.bottom + 6;
+            if (top + popH > window.innerHeight - 8) top = rect.top - popH - 6;
+            if (left + popW > window.innerWidth - 8) left = window.innerWidth - popW - 8;
+            if (left < 4) left = 4;
+            _srcPop2.style.left = left + 'px'; _srcPop2.style.top = top + 'px';
+        }}
+        function _closeSrcPop2() {{
+            if (_srcPopRef2) {{ _srcPopRef2.classList.remove('active'); _srcPopRef2 = null; }}
+            if (_srcPop2) _srcPop2.style.display = 'none';
+        }}
+        document.addEventListener('click', function(e) {{
+            if (_srcPop2 && _srcPop2.style.display !== 'none' && !_srcPop2.contains(e.target) && !e.target.closest('.src-val')) _closeSrcPop2();
+        }});
 
         function positionTooltip(event) {{
             if (!tooltip.el) return;
@@ -3187,6 +3222,12 @@ td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-sp
 .xl-opt-mv {{ font-size: 0.7rem; margin-left: 4px; }}
 .xl-opt-mv.match {{ color: #27ae60; }}
 .xl-opt-mv.mismatch {{ color: #e74c3c; }}
+/* Structure tooltip */
+.struct-tooltip {{ display: none; position: fixed; z-index: 9999; background: #fff; border: 2px solid #e94560; border-radius: 8px; padding: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); pointer-events: none; }}
+.struct-tooltip img {{ display: block; width: 200px; height: 200px; border-radius: 4px; }}
+.struct-tooltip .struct-name {{ text-align: center; font-size: 0.7rem; color: #333; padding: 2px 4px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+.struct-tooltip.loading img {{ opacity: 0.3; }}
+.hoverable-name {{ cursor: help; border-bottom: 1px dotted #b2bec3; }}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -3560,6 +3601,9 @@ function renderActiveDb() {{
                 html += '</td>';
             }} else {{
                 var display = val;
+                if (c.key === 'name' && val) {{
+                    display = '<span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(String(val)) + '\\x27)" onmouseleave="hideStructure()">' + val + '</span>';
+                }}
                 if (val !== '' && val != null) {{
                     if (c.key === 'dd' || c.key === 'dp' || c.key === 'dh' || c.key === 'mw' || c.key === 'mv' || c.key === 'r') {{
                         var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(1);
@@ -3765,7 +3809,9 @@ function renderDetail() {{
             }}
             var catStyle = '';
             var display = v;
-            if (c === 'cat' && v) {{
+            if (c === 'name' && v) {{
+                display = '<span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(String(v)) + '\\x27)" onmouseleave="hideStructure()">' + v + '</span>';
+            }} else if (c === 'cat' && v) {{
                 var _catMap = (nc > 0) ? CAT_COLORS : POLY_CAT_COLORS;
                 var _catC = _catMap[v] || '#888';
                 display = '<span style="display:inline-flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;flex-shrink:0;background:' + _catC + '"></span>' + v + '</span>';
@@ -5094,7 +5140,47 @@ _loadImportedDatasets();
 loadDbEdits();
 buildSidebar();
 renderContent();
+
+// ---- Structure image tooltip ----
+var _dbStructCache = {{}};
+var _dbTooltip = {{ el: null, img: null, nameEl: null }};
+function showStructure(event, encodedName) {{
+    var name = decodeURIComponent(encodedName);
+    if (!_dbTooltip.el) {{
+        _dbTooltip.el = document.getElementById('db-struct-tooltip');
+        _dbTooltip.img = document.getElementById('db-struct-img');
+        _dbTooltip.nameEl = document.getElementById('db-struct-name');
+    }}
+    _dbTooltip.nameEl.textContent = name;
+    _dbTooltip.el.style.display = 'block';
+    var x = event.clientX + 15, y = event.clientY - 110;
+    if (x + 220 > window.innerWidth) x = event.clientX - 225;
+    if (y < 8) y = event.clientY + 20;
+    _dbTooltip.el.style.left = x + 'px'; _dbTooltip.el.style.top = y + 'px';
+    if (_dbStructCache[name] === 'error') {{ _dbTooltip.el.style.display = 'none'; return; }}
+    var mat = (_solventMap && _solventMap.get) ? _solventMap.get(name) : null;
+    if (!mat) {{ var arr = SOLVENTS.concat(POLYMERS); for (var i=0;i<arr.length;i++) {{ if (arr[i].name===name) {{ mat=arr[i]; break; }} }} }}
+    var cas = mat && mat.cas;
+    var smiles = mat && mat.smiles;
+    var url = cas ? 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(cas) + '/PNG?image_size=200x200'
+                  : (smiles ? 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/' + encodeURIComponent(smiles) + '/PNG?image_size=200x200'
+                            : 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(name) + '/PNG?image_size=200x200');
+    if (_dbStructCache[name]) {{
+        _dbTooltip.img.src = _dbStructCache[name]; _dbTooltip.el.classList.remove('loading');
+    }} else {{
+        _dbTooltip.el.classList.add('loading'); _dbTooltip.img.src = url;
+        _dbTooltip.img.onload = function() {{ _dbStructCache[name] = url; _dbTooltip.el.classList.remove('loading'); }};
+        _dbTooltip.img.onerror = function() {{ _dbStructCache[name] = 'error'; _dbTooltip.el.style.display = 'none'; }};
+    }}
+}}
+function hideStructure() {{
+    if (_dbTooltip.el) _dbTooltip.el.style.display = 'none';
+}}
 </script>
+<div id="db-struct-tooltip" class="struct-tooltip">
+    <img id="db-struct-img" src="" alt="Structure">
+    <div id="db-struct-name" class="struct-name"></div>
+</div>
 </body>
 </html>"""
 
