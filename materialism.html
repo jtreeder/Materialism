@@ -4060,18 +4060,7 @@ return Plotly;
         .js-plotly-plot .hoverlayer .hovertext { display: none !important; visibility: hidden !important; }
         th.sort-asc::after { content: ' ▲'; font-size: 0.7em; color: #e94560; }
         th.sort-desc::after { content: ' ▼'; font-size: 0.7em; color: #e94560; }
-        .conf-tip {
-            display: none; position: fixed; z-index: 9999;
-            background: #2d3436; color: #dfe6e9; border-radius: 6px; padding: 10px 14px;
-            font-size: 0.75rem; line-height: 1.5; white-space: nowrap;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        .conf-row { display: flex; justify-content: space-between; gap: 18px; }
-        .conf-row .conf-label { color: #b2bec3; }
-        .conf-row .conf-val { font-weight: 600; }
-        .conf-row .conf-val.pos { color: #00b894; }
-        .conf-row .conf-val.zero { color: #636e72; }
-        .conf-sep { border-top: 1px solid #636e72; margin: 4px 0; }
+
 
         /* --- Custom Plot Legend --- */
         .plot-legend {
@@ -4271,12 +4260,17 @@ return Plotly;
         }
         function _isDsActive(dsId) {
             if (!dsId) return true; // entries without dataset_id always shown
+            // Base/embedded datasets (in DATASETS_META) are always active on the search
+            // page — the database-page toggle only affects the editing/management view.
+            var ids = dsId.split(',');
+            for (var i = 0; i < ids.length; i++) {
+                if (DATASETS_META[ids[i]]) return true;
+            }
             var active = _getActiveDsets();
             // dsId may be comma-separated (entry present in multiple datasets);
             // visible if ANY contributing dataset is active AND not deleted.
             var _delRaw = localStorage.getItem('materialism_deleted_datasets');
             var _deletedIds = _delRaw ? JSON.parse(_delRaw) : [];
-            var ids = dsId.split(',');
             for (var i = 0; i < ids.length; i++) {
                 if (_deletedIds.indexOf(ids[i]) !== -1) continue; // deleted
                 if (active[ids[i]] !== false) return true;
@@ -4352,74 +4346,6 @@ return Plotly;
             return POLYMERS.filter(function(p) { return _isDsActive(p.dsId); });
         }
 
-        // Source base confidence tiers
-        var SRC_TIERS = {
-            'Hansen Handbook 2007': 50, 'Mendeley (Langner 2022)': 40,
-            'SolvPred (Fang)': 35, 'Accudyne Test': 40, 'Wolfram Data Repo': 35,
-            'Pang et al. 2024': 30, 'Hansen Handbook A.1': 30, 'Hansen Handbook A.2': 30,
-        };
-        // Lightweight confidence badge — tooltip data stored in attributes, not inline HTML
-        function confBadge(mat, isPoly) {
-            if (!mat || mat.conf == null) return '';
-            var pct = Math.round(mat.conf * 100);
-            var color;
-            if (mat.conf >= 0.8) color = '#27ae60';
-            else if (mat.conf >= 0.5) color = '#f39c12';
-            else color = '#e74c3c';
-            return '<span class="conf-badge" data-src="' + (mat.src || '').replace(/"/g, '&quot;') + '" data-cas="' + (mat.cas ? '1' : '0') + '" data-smi="' + (!isPoly && mat.smiles ? '1' : '0') + '" data-poly="' + (isPoly ? '1' : '0') + '" data-srcn="' + (mat.srcN || 1) + '" data-pct="' + pct + '" style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + color + ';cursor:help">' + pct + '%</span>';
-        }
-        // Shared confidence tooltip element (created once, positioned on hover)
-        var _confTip = null;
-        var _confBadgeActive = null;
-        function _showConfTip(badge) {
-            if (!_confTip) {
-                _confTip = document.createElement('div');
-                _confTip.className = 'conf-tip';
-                document.body.appendChild(_confTip);
-            }
-            _confBadgeActive = badge;
-            var src = badge.dataset.src || 'Unknown';
-            var base = SRC_TIERS[src] || 25;
-            var hasCas = badge.dataset.cas === '1';
-            var hasSmi = badge.dataset.smi === '1';
-            var isPoly = badge.dataset.poly === '1';
-            var srcN = parseInt(badge.dataset.srcn) || 1;
-            var crossBonus = srcN > 1 ? Math.min((srcN - 1) * 15, 30) : 0;
-            var pct = badge.dataset.pct;
-            function row(lbl, val) {
-                var cls = val > 0 ? 'pos' : 'zero';
-                return '<div class="conf-row"><span class="conf-label">' + lbl + '</span><span class="conf-val ' + cls + '">' + (val > 0 ? '+' : '') + val + '%</span></div>';
-            }
-            var h = '<div style="font-weight:700;margin-bottom:4px;color:#fff">Confidence Breakdown</div>';
-            h += row('Source: ' + src, base);
-            h += row('CAS verified', hasCas ? 15 : 0);
-            if (!isPoly) h += row('SMILES confirmed', hasSmi ? 10 : 0);
-            if (srcN > 1) h += row('Cross-ref (' + srcN + ' sources)', crossBonus);
-            h += '<div class="conf-sep"></div>';
-            h += '<div class="conf-row"><span class="conf-label" style="color:#fff">Total</span><span class="conf-val" style="color:#fff">' + pct + '%</span></div>';
-            _confTip.innerHTML = h;
-            var rect = badge.getBoundingClientRect();
-            _confTip.style.display = 'block';
-            var tipW = _confTip.offsetWidth;
-            var tipH = _confTip.offsetHeight;
-            var left = rect.left + rect.width / 2 - tipW / 2;
-            // Position below badge; if it would go off-screen bottom, flip above
-            var top = rect.bottom + 8;
-            if (top + tipH > window.innerHeight) top = rect.top - tipH - 8;
-            if (left < 4) left = 4;
-            if (left + tipW > window.innerWidth - 4) left = window.innerWidth - tipW - 4;
-            _confTip.style.left = left + 'px';
-            _confTip.style.top = top + 'px';
-        }
-        document.addEventListener('mouseover', function(e) {
-            var badge = e.target.closest('.conf-badge');
-            if (badge) {
-                if (badge !== _confBadgeActive) _showConfTip(badge);
-            } else if (_confTip && !_confTip.contains(e.target)) {
-                _confTip.style.display = 'none';
-                _confBadgeActive = null;
-            }
-        });
 
         // ===================== APPLY DATABASE EDITS =====================
         (function applyDbEdits() {
@@ -5909,7 +5835,7 @@ return Plotly;
                 'Ra (MPa<sup>½</sup>)': 'HSP distance between solvent and polymer in 3D Hansen space (MPa½)',
                 'R&#8320; (MPa<sup>½</sup>)': 'Interaction radius of the polymer solubility sphere (MPa½)',
                 'RED': 'Relative Energy Difference = Ra/R₀. RED &lt; 1 = compatible, RED &gt; 1 = incompatible',
-                'Conf.': 'Data confidence: High (≥80%) = cross-referenced with CAS/SMILES, Med (50-79%) = verified identity, Low (&lt;50%) = single source only'
+                'Conf.': ''
             };
             function thWithTip(label, idx) {
                 var tip = colTips[label] || '';

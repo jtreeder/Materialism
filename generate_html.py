@@ -592,18 +592,7 @@ full_html = f"""<!DOCTYPE html>
         .js-plotly-plot .hoverlayer .hovertext {{ display: none !important; visibility: hidden !important; }}
         th.sort-asc::after {{ content: ' ▲'; font-size: 0.7em; color: #e94560; }}
         th.sort-desc::after {{ content: ' ▼'; font-size: 0.7em; color: #e94560; }}
-        .conf-tip {{
-            display: none; position: fixed; z-index: 9999;
-            background: #2d3436; color: #dfe6e9; border-radius: 6px; padding: 10px 14px;
-            font-size: 0.75rem; line-height: 1.5; white-space: nowrap;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }}
-        .conf-row {{ display: flex; justify-content: space-between; gap: 18px; }}
-        .conf-row .conf-label {{ color: #b2bec3; }}
-        .conf-row .conf-val {{ font-weight: 600; }}
-        .conf-row .conf-val.pos {{ color: #00b894; }}
-        .conf-row .conf-val.zero {{ color: #636e72; }}
-        .conf-sep {{ border-top: 1px solid #636e72; margin: 4px 0; }}
+
 
         /* --- Custom Plot Legend --- */
         .plot-legend {{
@@ -803,12 +792,17 @@ full_html = f"""<!DOCTYPE html>
         }}
         function _isDsActive(dsId) {{
             if (!dsId) return true; // entries without dataset_id always shown
+            // Base/embedded datasets (in DATASETS_META) are always active on the search
+            // page — the database-page toggle only affects the editing/management view.
+            var ids = dsId.split(',');
+            for (var i = 0; i < ids.length; i++) {{
+                if (DATASETS_META[ids[i]]) return true;
+            }}
             var active = _getActiveDsets();
             // dsId may be comma-separated (entry present in multiple datasets);
             // visible if ANY contributing dataset is active AND not deleted.
             var _delRaw = localStorage.getItem('materialism_deleted_datasets');
             var _deletedIds = _delRaw ? JSON.parse(_delRaw) : [];
-            var ids = dsId.split(',');
             for (var i = 0; i < ids.length; i++) {{
                 if (_deletedIds.indexOf(ids[i]) !== -1) continue; // deleted
                 if (active[ids[i]] !== false) return true;
@@ -884,74 +878,6 @@ full_html = f"""<!DOCTYPE html>
             return POLYMERS.filter(function(p) {{ return _isDsActive(p.dsId); }});
         }}
 
-        // Source base confidence tiers
-        var SRC_TIERS = {{
-            'Hansen Handbook 2007': 50, 'Mendeley (Langner 2022)': 40,
-            'SolvPred (Fang)': 35, 'Accudyne Test': 40, 'Wolfram Data Repo': 35,
-            'Pang et al. 2024': 30, 'Hansen Handbook A.1': 30, 'Hansen Handbook A.2': 30,
-        }};
-        // Lightweight confidence badge — tooltip data stored in attributes, not inline HTML
-        function confBadge(mat, isPoly) {{
-            if (!mat || mat.conf == null) return '';
-            var pct = Math.round(mat.conf * 100);
-            var color;
-            if (mat.conf >= 0.8) color = '#27ae60';
-            else if (mat.conf >= 0.5) color = '#f39c12';
-            else color = '#e74c3c';
-            return '<span class="conf-badge" data-src="' + (mat.src || '').replace(/"/g, '&quot;') + '" data-cas="' + (mat.cas ? '1' : '0') + '" data-smi="' + (!isPoly && mat.smiles ? '1' : '0') + '" data-poly="' + (isPoly ? '1' : '0') + '" data-srcn="' + (mat.srcN || 1) + '" data-pct="' + pct + '" style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + color + ';cursor:help">' + pct + '%</span>';
-        }}
-        // Shared confidence tooltip element (created once, positioned on hover)
-        var _confTip = null;
-        var _confBadgeActive = null;
-        function _showConfTip(badge) {{
-            if (!_confTip) {{
-                _confTip = document.createElement('div');
-                _confTip.className = 'conf-tip';
-                document.body.appendChild(_confTip);
-            }}
-            _confBadgeActive = badge;
-            var src = badge.dataset.src || 'Unknown';
-            var base = SRC_TIERS[src] || 25;
-            var hasCas = badge.dataset.cas === '1';
-            var hasSmi = badge.dataset.smi === '1';
-            var isPoly = badge.dataset.poly === '1';
-            var srcN = parseInt(badge.dataset.srcn) || 1;
-            var crossBonus = srcN > 1 ? Math.min((srcN - 1) * 15, 30) : 0;
-            var pct = badge.dataset.pct;
-            function row(lbl, val) {{
-                var cls = val > 0 ? 'pos' : 'zero';
-                return '<div class="conf-row"><span class="conf-label">' + lbl + '</span><span class="conf-val ' + cls + '">' + (val > 0 ? '+' : '') + val + '%</span></div>';
-            }}
-            var h = '<div style="font-weight:700;margin-bottom:4px;color:#fff">Confidence Breakdown</div>';
-            h += row('Source: ' + src, base);
-            h += row('CAS verified', hasCas ? 15 : 0);
-            if (!isPoly) h += row('SMILES confirmed', hasSmi ? 10 : 0);
-            if (srcN > 1) h += row('Cross-ref (' + srcN + ' sources)', crossBonus);
-            h += '<div class="conf-sep"></div>';
-            h += '<div class="conf-row"><span class="conf-label" style="color:#fff">Total</span><span class="conf-val" style="color:#fff">' + pct + '%</span></div>';
-            _confTip.innerHTML = h;
-            var rect = badge.getBoundingClientRect();
-            _confTip.style.display = 'block';
-            var tipW = _confTip.offsetWidth;
-            var tipH = _confTip.offsetHeight;
-            var left = rect.left + rect.width / 2 - tipW / 2;
-            // Position below badge; if it would go off-screen bottom, flip above
-            var top = rect.bottom + 8;
-            if (top + tipH > window.innerHeight) top = rect.top - tipH - 8;
-            if (left < 4) left = 4;
-            if (left + tipW > window.innerWidth - 4) left = window.innerWidth - tipW - 4;
-            _confTip.style.left = left + 'px';
-            _confTip.style.top = top + 'px';
-        }}
-        document.addEventListener('mouseover', function(e) {{
-            var badge = e.target.closest('.conf-badge');
-            if (badge) {{
-                if (badge !== _confBadgeActive) _showConfTip(badge);
-            }} else if (_confTip && !_confTip.contains(e.target)) {{
-                _confTip.style.display = 'none';
-                _confBadgeActive = null;
-            }}
-        }});
 
         // ===================== APPLY DATABASE EDITS =====================
         (function applyDbEdits() {{
@@ -2441,7 +2367,7 @@ full_html = f"""<!DOCTYPE html>
                 'Ra (MPa<sup>\u00bd</sup>)': 'HSP distance between solvent and polymer in 3D Hansen space (MPa\u00bd)',
                 'R&#8320; (MPa<sup>\u00bd</sup>)': 'Interaction radius of the polymer solubility sphere (MPa\u00bd)',
                 'RED': 'Relative Energy Difference = Ra/R\u2080. RED &lt; 1 = compatible, RED &gt; 1 = incompatible',
-                'Conf.': 'Data confidence: High (\u226580%) = cross-referenced with CAS/SMILES, Med (50-79%) = verified identity, Low (&lt;50%) = single source only'
+                'Conf.': ''
             }};
             function thWithTip(label, idx) {{
                 var tip = colTips[label] || '';
@@ -3146,18 +3072,6 @@ td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-sp
 .cas-link:hover {{ text-decoration: underline; }}
 .save-indicator {{ display: none; color: #00b894; font-size: 0.8rem; font-weight: 600; }}
 .save-indicator.visible {{ display: inline; }}
-.conf-tip {{
-    display: none; position: fixed; z-index: 9999;
-    background: #2d3436; color: #dfe6e9; border-radius: 6px; padding: 10px 14px;
-    font-size: 0.75rem; line-height: 1.5; white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}}
-.conf-row {{ display: flex; justify-content: space-between; gap: 18px; }}
-.conf-row .conf-label {{ color: #b2bec3; }}
-.conf-row .conf-val {{ font-weight: 600; }}
-.conf-row .conf-val.pos {{ color: #00b894; }}
-.conf-row .conf-val.zero {{ color: #636e72; }}
-.conf-sep {{ border-top: 1px solid #636e72; margin: 4px 0; }}
 /* Per-cell source reference indicator */
 .cell-ref {{
     display: inline-block; margin-left: 2px; font-size: 0.6rem; vertical-align: super;
@@ -3219,9 +3133,6 @@ td.cell-note {{ font-style: italic; color: #b2bec3; font-size: 0.72rem; white-sp
     display: inline-block; padding: 1px 6px; border-radius: 3px;
     font-size: 0.7rem; font-weight: 600; color: #fff; margin-left: 6px;
 }}
-.xl-opt-mv {{ font-size: 0.7rem; margin-left: 4px; }}
-.xl-opt-mv.match {{ color: #27ae60; }}
-.xl-opt-mv.mismatch {{ color: #e74c3c; }}
 /* Structure tooltip */
 .struct-tooltip {{ display: none; position: fixed; z-index: 9999; background: #fff; border: 2px solid #e94560; border-radius: 8px; padding: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); pointer-events: none; }}
 .struct-tooltip img {{ display: block; width: 200px; height: 200px; border-radius: 4px; }}
@@ -3367,10 +3278,8 @@ var SOLV_COLS = [
     {{key:'mw', label:'MW (g/mol)', w:'80px', tip:'Molecular weight'}},
     {{key:'bp', label:'BP (\u00b0C)', w:'70px', tip:'Boiling point'}},
     {{key:'density', label:'Density (g/mL)', w:'90px', tip:'Density (g/mL)'}},
-    {{key:'mv', label:'V\u2098 (cm\u00b3/mol)', w:'90px', tip:'Molar volume'}},
     {{key:'ghs', label:'GHS Hazard', w:'120px'}},
     {{key:'cfclass', label:'Class', w:'160px', tip:'ClassyFire chemical classification (subclass preferred)'}},
-    {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
 ];
 var POLY_COLS = [
     {{key:'name', label:'Name', w:'250px'}},
@@ -3379,7 +3288,6 @@ var POLY_COLS = [
     {{key:'dp', label:'\u03b4P (MPa\u00bd)', w:'78px', tip:'Polarity parameter'}},
     {{key:'dh', label:'\u03b4H (MPa\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
     {{key:'r', label:'R\u2080 (MPa\u00bd)', w:'70px', tip:'Interaction radius'}},
-    {{key:'conf', label:'Conf.', w:'56px', tip:'Data confidence score'}},
 ];
 
 // ===================== ACTIVE DATABASE EDITS =====================
@@ -3605,7 +3513,7 @@ function renderActiveDb() {{
                     display = '<span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(String(val)) + '\\x27)" onmouseleave="hideStructure()">' + val + '</span>';
                 }}
                 if (val !== '' && val != null) {{
-                    if (c.key === 'dd' || c.key === 'dp' || c.key === 'dh' || c.key === 'mw' || c.key === 'mv' || c.key === 'r') {{
+                    if (c.key === 'dd' || c.key === 'dp' || c.key === 'dh' || c.key === 'mw' || c.key === 'r') {{
                         var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(1);
                     }} else if (c.key === 'bp') {{
                         var n = parseFloat(val); if (!isNaN(n)) display = n.toFixed(0);
@@ -3629,17 +3537,6 @@ function renderActiveDb() {{
                     if (_cfLvl === 'class') {{
                         display = val + '<sup class="cf-class-note" title="ClassyFire class used \u2014 no subclass available for this compound">\u2020</sup>';
                     }}
-                }}
-                if (c.key === 'conf' && val) {{
-                    var cv = parseFloat(val);
-                    var pct = Math.round(cv * 100);
-                    var cColor;
-                    if (cv >= 0.8) {{ cColor = '#27ae60'; }}
-                    else if (cv >= 0.5) {{ cColor = '#f39c12'; }}
-                    else {{ cColor = '#e74c3c'; }}
-                    var mat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
-                    var isPoly = _activeDbTab === 'polymers';
-                    display = '<span class="conf-badge" data-src="' + (mat.src || '').replace(/"/g, '&quot;') + '" data-cas="' + (mat.cas ? '1' : '0') + '" data-smi="' + (!isPoly && mat.smiles ? '1' : '0') + '" data-poly="' + (isPoly ? '1' : '0') + '" data-srcn="' + (mat.srcN || 1) + '" data-pct="' + pct + '" style="display:inline-block;padding:2px 6px;border-radius:4px;font-size:0.75rem;font-weight:600;color:#fff;background:' + cColor + ';cursor:help">' + pct + '%</span>';
                 }}
                 // Per-cell source reference — stored as data attrs, shown on cell click
                 var _mat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];
@@ -3723,10 +3620,10 @@ function renderDetail() {{
     var items, cols;
     if (nc > 0) {{
         items = ds.chemicals;
-        cols = ['name','cas','dd','dp','dh','mw','bp','cat','conf'];
+        cols = ['name','cas','dd','dp','dh','mw','bp','cat'];
     }} else {{
         items = ds.polymers;
-        cols = ['name','cas','dd','dp','dh','r','cat','conf'];
+        cols = ['name','cas','dd','dp','dh','r','cat'];
     }}
 
     if (!items || items.length === 0) {{
@@ -3760,10 +3657,10 @@ function renderDetail() {{
     var colLabels = {{
         name:'Name', cas:'CAS #',
         dd:'\u03b4D (MPa\u00bd)', dp:'\u03b4P (MPa\u00bd)', dh:'\u03b4H (MPa\u00bd)',
-        mw:'MW (g/mol)', bp:'BP (\u00b0C)', cat:'Category', conf:'Conf.',
+        mw:'MW (g/mol)', bp:'BP (\u00b0C)', cat:'Category',
         r:'R\u2080 (MPa\u00bd)', type:'Type',
         smiles:'SMILES', formula:'Formula', density:'Density (g/mL)',
-        mv:'V\u2098 (cm\u00b3/mol)', ghs:'GHS'
+        ghs:'GHS'
     }};
 
     items.forEach(function(item, idx) {{ item._oidx = idx; }});
@@ -3802,7 +3699,7 @@ function renderDetail() {{
             var attrs = ' data-row="' + r._oidx + '" data-col="' + c + '"';
             attrs += ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
             if (srcUrl) attrs += ' data-src-url="' + srcUrl.replace(/"/g,'&quot;') + '"';
-            if (isEdit && c !== 'conf' && !isNote) {{
+            if (isEdit && !isNote) {{
                 attrs += ' contenteditable="true" data-ds="' + dsId + '" data-idx="' + r._oidx + '" data-field="' + c + '"';
                 if (cls) cls += ' ';
                 cls += 'editable';
@@ -3877,7 +3774,7 @@ function _cellEdited(td, dsId, itemIdx, field) {{
     var items = (ds.chemicals && ds.chemicals.length > 0) ? ds.chemicals : ds.polymers || [];
     var item = items[itemIdx];
     if (!item) return;
-    var numFields = ['dd','dp','dh','mw','bp','r','density','mv'];
+    var numFields = ['dd','dp','dh','mw','bp','r','density'];
     if (numFields.indexOf(field) !== -1) {{
         if (newVal === '') {{ item[field] = ''; }}
         else {{
@@ -3973,8 +3870,6 @@ function openCrosslink(event, type, idx) {{
         h += '<div><span class="xl-opt-name">' + o.name + '</span>';
         if (o.cas) h += ' <span class="xl-opt-cas">' + o.cas + '</span>';
         h += '<span class="xl-opt-conf" style="background:' + cColor + '">' + pct + '%</span>';
-        if (o.mv_match === true) h += '<span class="xl-opt-mv match">Vm \u2713</span>';
-        else if (o.mv_match === false) h += '<span class="xl-opt-mv mismatch">Vm ' + (o.mv_pct != null ? o.mv_pct + '%\u2195' : '\u2717') + '</span>';
         h += '</div>';
         if (o.iupac) h += '<div class="xl-opt-detail">IUPAC: ' + o.iupac + '</div>';
         h += '<div class="xl-opt-detail">' + o.reason + '</div>';
@@ -4017,48 +3912,6 @@ document.addEventListener('click', function(e) {{
     // close src popup on outside click
     if (_srcPop && _srcPop.style.display !== 'none' && !_srcPop.contains(e.target) && !e.target.closest('td[data-src-url]')) {{
         _closeSrcPop();
-    }}
-}});
-
-// ===================== CONFIDENCE TOOLTIP =====================
-var _confTip = null;
-var _confBadgeActive = null;
-document.addEventListener('mouseover', function(e) {{
-    var badge = e.target.closest('.conf-badge');
-    if (badge) {{
-        if (badge === _confBadgeActive) return;
-        if (!_confTip) {{ _confTip = document.createElement('div'); _confTip.className = 'conf-tip'; document.body.appendChild(_confTip); }}
-        _confBadgeActive = badge;
-        var src = badge.dataset.src || 'Unknown';
-        var base = SRC_TIERS[src] || 25;
-        var hasCas = badge.dataset.cas === '1';
-        var hasSmi = badge.dataset.smi === '1';
-        var isPoly = badge.dataset.poly === '1';
-        var srcN = parseInt(badge.dataset.srcn) || 1;
-        var crossBonus = srcN > 1 ? Math.min((srcN - 1) * 15, 30) : 0;
-        var pct = badge.dataset.pct;
-        function row(lbl, val) {{ var cls = val > 0 ? 'pos' : 'zero'; return '<div class="conf-row"><span class="conf-label">' + lbl + '</span><span class="conf-val ' + cls + '">' + (val > 0 ? '+' : '') + val + '%</span></div>'; }}
-        var h = '<div style="font-weight:700;margin-bottom:4px;color:#fff">Confidence Breakdown</div>';
-        h += row('Source: ' + src, base);
-        h += row('CAS verified', hasCas ? 15 : 0);
-        if (!isPoly) h += row('SMILES confirmed', hasSmi ? 10 : 0);
-        if (srcN > 1) h += row('Cross-ref (' + srcN + ' sources)', crossBonus);
-        h += '<div class="conf-sep"></div>';
-        h += '<div class="conf-row"><span class="conf-label" style="color:#fff">Total</span><span class="conf-val" style="color:#fff">' + pct + '%</span></div>';
-        _confTip.innerHTML = h;
-        var rect = badge.getBoundingClientRect();
-        _confTip.style.display = 'block';
-        var tipW = _confTip.offsetWidth, tipH = _confTip.offsetHeight;
-        var left = rect.left + rect.width / 2 - tipW / 2;
-        var top = rect.bottom + 8;
-        if (top + tipH > window.innerHeight) top = rect.top - tipH - 8;
-        if (left < 4) left = 4;
-        if (left + tipW > window.innerWidth - 4) left = window.innerWidth - tipW - 4;
-        _confTip.style.left = left + 'px';
-        _confTip.style.top = top + 'px';
-    }} else if (_confTip && !_confTip.contains(e.target)) {{
-        _confTip.style.display = 'none';
-        _confBadgeActive = null;
     }}
 }});
 
