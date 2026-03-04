@@ -792,17 +792,12 @@ full_html = f"""<!DOCTYPE html>
         }}
         function _isDsActive(dsId) {{
             if (!dsId) return true; // entries without dataset_id always shown
-            // Base/embedded datasets (in DATASETS_META) are always active on the search
-            // page — the database-page toggle only affects the editing/management view.
-            var ids = dsId.split(',');
-            for (var i = 0; i < ids.length; i++) {{
-                if (DATASETS_META[ids[i]]) return true;
-            }}
             var active = _getActiveDsets();
             // dsId may be comma-separated (entry present in multiple datasets);
             // visible if ANY contributing dataset is active AND not deleted.
             var _delRaw = localStorage.getItem('materialism_deleted_datasets');
             var _deletedIds = _delRaw ? JSON.parse(_delRaw) : [];
+            var ids = dsId.split(',');
             for (var i = 0; i < ids.length; i++) {{
                 if (_deletedIds.indexOf(ids[i]) !== -1) continue; // deleted
                 if (active[ids[i]] !== false) return true;
@@ -2849,7 +2844,7 @@ for ds_id, ds_meta in DATASETS_META.items():
                     "type": row.get("type", "").strip(),
                     "conf": row.get("confidence", "").strip(),
                 })
-    per_dataset_data[ds_id] = {"chemicals": chems, "polymers": polys, "meta": ds_meta}
+    per_dataset_data[ds_id] = {"chemicals": chems, "polymers": polys, "meta": ds_meta, "_embedded": True}
 
 per_dataset_json = json.dumps(per_dataset_data)
 
