@@ -547,7 +547,8 @@ function readXLSX(file) {
 // COLUMN AUTO-DETECTION
 // ============================================================
 const COL_PATTERNS = {
-  name: [/^name$/i, /^name[\s_]/i, /^chemical[\s_]*name/i, /^compound[\s_]*name/i,
+  name: [/^name$/i, /^name_clean$/i, /^name_standard$/i, /^name[\s_]/i,
+         /^chemical[\s_]*name/i, /^compound[\s_]*name/i,
          /^compound$/i, /^solvent$/i, /^material$/i, /^substance$/i,
          /^polymer$/i, /^product$/i, /^molecule$/i],
   cas:  [/^cas$/i, /^cas[\s_-]?no\.?$/i, /^cas[\s_-]?number$/i, /^cas[\s_-]?rn$/i, /^casno$/i],
