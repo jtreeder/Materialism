@@ -4564,6 +4564,8 @@ return Plotly;
             buildHomeTable();
             // Re-run last search so results table reflects the filter
             _rerunActiveSearch();
+            // Update legend counts to reflect filter
+            _buildLegend();
         }
 
         function _rerunActiveSearch() {
@@ -5371,20 +5373,22 @@ return Plotly;
         function _buildLegend() {
             var el = document.getElementById('plot-legend');
             if (!el) return;
-            // Collect solvent category counts — only active datasets
+            // Collect solvent category counts — only active datasets, respecting simpleMode
             var sCats = {};
             var activeSolCount = 0;
             SOLVENTS.forEach(function(s) {
                 if (!_isDsActive(s.dsId)) return;
+                if (simpleMode && !s.common) return;
                 activeSolCount++;
                 var cat = s.cat || 'other';
                 sCats[cat] = (sCats[cat] || 0) + 1;
             });
-            // Collect polymer category counts — only active datasets
+            // Collect polymer category counts — only active datasets, respecting simpleMode
             var pCats = {};
             var activePolyCount = 0;
             POLYMERS.forEach(function(p) {
                 if (!_isDsActive(p.dsId)) return;
+                if (simpleMode && !p.common) return;
                 activePolyCount++;
                 var cat = p.cat || 'Other';
                 pCats[cat] = (pCats[cat] || 0) + 1;

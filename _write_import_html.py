@@ -64,12 +64,11 @@ body { background: #f0f2f5; color: #2d3436; font-family: 'Open Sans', -apple-sys
 #section-meta { display: none; }
 #section-progress { display: none; }
 #section-results { display: none; }
-.audit-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 10px; }
-.audit-table th { background: #f0f2f5; padding: 6px 10px; text-align: left; font-weight: 600; color: #636e72; border-bottom: 2px solid #dfe6e9; }
-.audit-table td { padding: 5px 10px; border-bottom: 1px solid #f0f2f5; }
-.audit-table .ok { color: #27ae60; }
-.audit-table .warn { color: #f39c12; }
-.audit-table .err { color: #e74c3c; }
+.col-map-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 10px; }
+.col-map-table th { background: #f0f2f5; padding: 6px 10px; text-align: left; font-weight: 600; color: #636e72; border-bottom: 2px solid #dfe6e9; }
+.col-map-table td { padding: 5px 10px; border: 1px solid #eee; }
+.col-map-table select { padding: 3px 6px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.78rem; background: #fff; }
+.col-map-table select.mapped { border-color: #27ae60; background: #f0faf4; }
 .progress-section { }
 .step-tracker { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
 .step-chip { padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; background: #f0f2f5; color: #636e72; transition: all 0.3s; }
@@ -183,7 +182,7 @@ body { background: #f0f2f5; color: #2d3436; font-family: 'Open Sans', -apple-sys
             <div class="upload-zone" id="zone-solvents" ondragover="handleDragOver(event,'solvents')" ondragleave="handleDragLeave(event,'solvents')" ondrop="handleDrop(event,'solvents')">
               <div class="uz-icon">&#128196;</div>
               <div class="uz-title">Solvents / Chemicals</div>
-              <div class="uz-hint">CSV, XLSX, TSV &bull; rows with dd, dp, dh columns</div>
+              <div class="uz-hint">CSV, XLSX, TSV &bull; name, dd, dp, dh required</div>
               <div class="uz-filename" id="fn-solvents" style="display:none"></div>
               <input type="file" id="file-solvents" accept=".csv,.xlsx,.xls,.tsv,.txt" onchange="handleFileSelect('solvents')">
             </div>
@@ -193,7 +192,7 @@ body { background: #f0f2f5; color: #2d3436; font-family: 'Open Sans', -apple-sys
             <div class="upload-zone" id="zone-polymers" ondragover="handleDragOver(event,'polymers')" ondragleave="handleDragLeave(event,'polymers')" ondrop="handleDrop(event,'polymers')">
               <div class="uz-icon">&#129520;</div>
               <div class="uz-title">Polymers</div>
-              <div class="uz-hint">CSV, XLSX, TSV &bull; rows with dd, dp, dh, r (radius)</div>
+              <div class="uz-hint">CSV, XLSX, TSV &bull; name, dd, dp, dh required</div>
               <div class="uz-filename" id="fn-polymers" style="display:none"></div>
               <input type="file" id="file-polymers" accept=".csv,.xlsx,.xls,.tsv,.txt" onchange="handleFileSelect('polymers')">
             </div>
@@ -208,13 +207,7 @@ body { background: #f0f2f5; color: #2d3436; font-family: 'Open Sans', -apple-sys
 
     <!-- METADATA / AUDIT SECTION -->
     <div id="section-meta" style="display:none">
-      <div class="card">
-        <h2>Audit Results</h2>
-        <table class="audit-table" id="audit-table">
-          <thead><tr><th>File</th><th>Rows</th><th>Detected Columns</th><th>Missing</th><th>Status</th></tr></thead>
-          <tbody id="audit-tbody"></tbody>
-        </table>
-      </div>
+      <div id="col-mapping-section"></div>
       <div class="card">
         <h2>Dataset Metadata</h2>
         <div class="meta-form">
@@ -554,17 +547,37 @@ function readXLSX(file) {
 // COLUMN AUTO-DETECTION
 // ============================================================
 const COL_PATTERNS = {
-  name: [/^name$/i, /^chemical.*name/i, /^compound/i, /^solvent/i, /^material/i, /^substance/i],
-  cas: [/^cas$/i, /^cas.?no/i, /^cas.?number/i, /^cas.?rn/i],
-  dd: [/^d_?d$/i, /^delta.?d$/i, /^\u03b4d$/i, /^dd$/i, /^disp/i, /^hd$/i, /^\bfd\b/i, /^vd$/i],
-  dp: [/^d_?p$/i, /^delta.?p$/i, /^\u03b4p$/i, /^dp$/i, /^polar/i, /^hp$/i, /^\bfp\b/i, /^vp$/i],
-  dh: [/^d_?h$/i, /^delta.?h$/i, /^\u03b4h$/i, /^dh$/i, /^h.?bond/i, /^hh$/i, /^\bfh\b/i, /^vh$/i],
-  mw: [/^mw$/i, /^mol.?wt/i, /^molecular.?weight/i, /^mass$/i],
-  bp: [/^bp$/i, /^boiling.?point/i, /^b\.p\./i, /^tbp/i],
+  name: [/^name$/i, /^name[\s_]/i, /^chemical[\s_]*name/i, /^compound[\s_]*name/i,
+         /^compound$/i, /^solvent$/i, /^material$/i, /^substance$/i,
+         /^polymer$/i, /^product$/i, /^molecule$/i],
+  cas:  [/^cas$/i, /^cas[\s_-]?no\.?$/i, /^cas[\s_-]?number$/i, /^cas[\s_-]?rn$/i, /^casno$/i],
+  dd:   [/^d[\s_]?d$/i, /^delta[\s_-]?d$/i, /^\u03b4[\s_]?d$/i, /^dd$/i,
+         /^disp(ersion)?$/i, /^hd$/i, /^fd$/i, /^vd$/i, /^d[\s_-]disp/i, /^dispersive$/i],
+  dp:   [/^d[\s_]?p$/i, /^delta[\s_-]?p$/i, /^\u03b4[\s_]?p$/i, /^dp$/i,
+         /^polar(ity)?$/i, /^hp$/i, /^fp$/i, /^vp$/i, /^d[\s_-]pol/i],
+  dh:   [/^d[\s_]?h$/i, /^delta[\s_-]?h$/i, /^\u03b4[\s_]?h$/i, /^dh$/i,
+         /^h[\s_-]?bond(ing)?$/i, /^hbond$/i, /^hh$/i, /^fh$/i, /^vh$/i,
+         /^d[\s_-]hb/i, /^hydrogen[\s_-]?bond/i],
+  mw:   [/^mw$/i, /^mol[\s_-]?wt$/i, /^molecular[\s_-]?weight$/i, /^mass$/i],
+  bp:   [/^bp$/i, /^boiling[\s_-]?point$/i, /^b\.p\./i, /^tbp$/i],
   density: [/^density/i, /^rho/i, /^\u03c1/i, /^dens$/i],
   smiles: [/^smiles/i, /^canonical/i, /^smi$/i],
-  radius: [/^r$/i, /^radius/i, /^r0$/i, /^interaction.?radius/i, /^ra$/i],
+  radius: [/^r$/i, /^radius/i, /^r0$/i, /^interaction[\s_-]?radius/i, /^ra$/i],
 };
+const FIELD_DEFS = [
+  {id: '_ignore',  label: '(ignore)'},
+  {id: 'name',     label: 'Name',              required: true},
+  {id: 'cas',      label: 'CAS Number'},
+  {id: 'dd',       label: '\u03b4D \u2014 Dispersion', required: true},
+  {id: 'dp',       label: '\u03b4P \u2014 Polar',      required: true},
+  {id: 'dh',       label: '\u03b4H \u2014 H-Bond',     required: true},
+  {id: 'mw',       label: 'Mol. Weight'},
+  {id: 'bp',       label: 'Boiling Point'},
+  {id: 'density',  label: 'Density'},
+  {id: 'smiles',   label: 'SMILES'},
+  {id: 'radius',   label: 'Radius'},
+];
+const PREDEFINED_IDS = new Set(FIELD_DEFS.map(f => f.id));
 
 function detectColumns(headers) {
   const mapping = {};
@@ -574,6 +587,10 @@ function detectColumns(headers) {
       const found = headers.find(h => pat.test(h) && !used.has(h));
       if (found) { mapping[field] = found; used.add(found); break; }
     }
+  }
+  // Passthrough: unrecognized columns keep their original name as field key
+  for (const h of headers) {
+    if (!used.has(h)) mapping[h] = h;
   }
   return mapping;
 }
@@ -600,6 +617,60 @@ function toNum(v) {
 // ============================================================
 // AUDIT
 // ============================================================
+function renderColMapTable(rows, mapping, fileType, title) {
+  const headers = Object.keys(rows[0]).filter(k => k !== '_raw');
+  const revMap = {};
+  for (const [f, col] of Object.entries(mapping)) if (col) revMap[col] = f;
+  const usedFields = new Set(Object.keys(mapping).filter(f => mapping[f] && PREDEFINED_IDS.has(f)));
+
+  let h = `<div class="card"><h2>${title}</h2>`;
+  h += `<div style="font-size:0.78rem;color:#636e72;margin-bottom:12px">${rows.length} rows &bull; ${headers.length} columns &bull; map columns to standard HSP fields below</div>`;
+  h += `<table class="col-map-table"><thead><tr><th>CSV Column</th><th>Maps to</th><th>Sample Values</th></tr></thead><tbody>`;
+  for (const col of headers) {
+    const curField = revMap[col] || '_ignore';
+    const sample = rows.slice(0,3).map(r => r[col] || '').join(', ').substring(0, 60);
+    h += `<tr>`;
+    h += `<td style="font-family:monospace;font-size:0.8rem">${col}</td>`;
+    h += `<td><select class="${curField !== '_ignore' ? 'mapped' : ''}" onchange="updateColMapping('${fileType}',${JSON.stringify(col)},this.value)">`;
+    for (const fd of FIELD_DEFS) {
+      const inUse = fd.id !== '_ignore' && usedFields.has(fd.id) && revMap[col] !== fd.id;
+      h += `<option value="${fd.id}"${fd.id === curField ? ' selected' : ''}${inUse ? ' disabled' : ''}>${fd.label}${fd.required ? ' \u2731' : ''}</option>`;
+    }
+    const isPassthrough = curField === col && !PREDEFINED_IDS.has(col);
+    h += `<option value="${col}"${isPassthrough ? ' selected' : ''}>${col} (keep as-is)</option>`;
+    h += `</select></td>`;
+    h += `<td style="color:#636e72;font-size:0.78rem">${sample}</td>`;
+    h += `</tr>`;
+  }
+  h += `</tbody></table>`;
+  h += `<div style="font-size:0.72rem;color:#b2bec3;margin-top:4px">\u2731 required</div></div>`;
+  return h;
+}
+
+function renderColMappingSection() {
+  const section = document.getElementById('col-mapping-section');
+  let html = '';
+  if (state.solventRows.length) {
+    html += renderColMapTable(state.solventRows, state.solventMapping, 'solvent',
+      'Solvents / Chemicals: ' + state.solventFile.name);
+  }
+  if (state.polymerRows.length) {
+    html += renderColMapTable(state.polymerRows, state.polymerMapping, 'polymer',
+      'Polymers: ' + state.polymerFile.name);
+  }
+  section.innerHTML = html;
+}
+
+function updateColMapping(fileType, csvCol, fieldId) {
+  const mapping = fileType === 'solvent' ? state.solventMapping : state.polymerMapping;
+  for (const f of Object.keys(mapping)) {
+    if (mapping[f] === csvCol) delete mapping[f];
+  }
+  if (fieldId !== '_ignore') mapping[fieldId] = csvCol;
+  renderColMappingSection();
+  validateCanProcess();
+}
+
 async function runAudit() {
   const btn = document.getElementById('btn-audit');
   btn.disabled = true;
@@ -619,37 +690,13 @@ async function runAudit() {
     return;
   }
 
-  // Build audit table
-  const tbody = document.getElementById('audit-tbody');
-  tbody.innerHTML = '';
-
-  function auditFile(rows, filename, isPolymer) {
-    if (!rows.length) return;
-    const headers = rows.length ? Object.keys(rows[0]).filter(k => k !== '_raw') : [];
-    const mapping = detectColumns(headers);
-    const required = ['name', 'dd', 'dp', 'dh'];
-    const missing = required.filter(f => !mapping[f]);
-    const status = missing.length ? 'warn' : 'ok';
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${filename}</td>
-      <td>${rows.length}</td>
-      <td>${Object.entries(mapping).map(([k,v]) => `<span style="color:#0984e3">${k}</span>=${v}`).join(', ') || '<em>none detected</em>'}</td>
-      <td class="${missing.length ? 'err' : 'ok'}">${missing.length ? missing.join(', ') : '&#10003; All present'}</td>
-      <td class="${status}">${status === 'ok' ? '&#10003; Ready' : '&#9888; Missing required cols'}</td>`;
-    tbody.appendChild(tr);
-  }
-
   if (state.solventRows.length) {
-    const headers = Object.keys(state.solventRows[0]);
-    const mapping = detectColumns(headers);
-    state.solventMapping = mapping;
-    auditFile(state.solventRows, state.solventFile.name, false);
+    const headers = Object.keys(state.solventRows[0]).filter(k => k !== '_raw');
+    state.solventMapping = detectColumns(headers);
   }
   if (state.polymerRows.length) {
-    const headers = Object.keys(state.polymerRows[0]);
-    const mapping = detectColumns(headers);
-    state.polymerMapping = mapping;
-    auditFile(state.polymerRows, state.polymerFile.name, true);
+    const headers = Object.keys(state.polymerRows[0]).filter(k => k !== '_raw');
+    state.polymerMapping = detectColumns(headers);
   }
 
   // Auto-fill metadata from filename
@@ -657,6 +704,8 @@ async function runAudit() {
   const autoId = fname.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
   document.getElementById('meta-id').value = autoId;
   document.getElementById('meta-name').value = fname.replace(/\.[^.]+$/, '').replace(/[_-]/g, ' ');
+
+  renderColMappingSection();
   validateMetaId();
 
   document.getElementById('section-upload').style.display = 'none';
@@ -664,14 +713,34 @@ async function runAudit() {
   setSidebarActive('sbar-audit');
 }
 
+function validateCanProcess() {
+  const idEl = document.getElementById('meta-id');
+  const nameEl = document.getElementById('meta-name');
+  if (!idEl || !nameEl) return;
+  const idOk = /^[a-z0-9_]+$/.test(idEl.value) && idEl.value.length > 0;
+  const nameOk = nameEl.value.trim().length > 0;
+  const required = ['name', 'dd', 'dp', 'dh'];
+  const missing = [];
+  if (state.solventRows.length) {
+    required.filter(f => !state.solventMapping[f]).forEach(f => missing.push('solvent:' + f));
+  }
+  if (state.polymerRows.length) {
+    required.filter(f => !state.polymerMapping[f]).forEach(f => missing.push('polymer:' + f));
+  }
+  const btn = document.getElementById('btn-process');
+  if (btn) btn.disabled = !idOk || !nameOk || missing.length > 0;
+  const hint = document.getElementById('meta-hint');
+  if (!hint) return;
+  if (!idOk && idEl.value.length > 0) hint.textContent = 'ID must be lowercase letters, digits, underscores only';
+  else if (missing.length) hint.textContent = 'Required columns not mapped: ' + missing.join(', ');
+  else hint.textContent = '';
+}
+
 function validateMetaId() {
   const v = document.getElementById('meta-id').value;
   const ok = /^[a-z0-9_]+$/.test(v) && v.length > 0;
   document.getElementById('meta-id').classList.toggle('invalid', !ok);
-  document.getElementById('btn-process').disabled = !ok || !document.getElementById('meta-name').value.trim();
-  const hint = document.getElementById('meta-hint');
-  if (!ok && v.length > 0) hint.textContent = 'ID must be lowercase letters, digits, underscores only';
-  else hint.textContent = '';
+  validateCanProcess();
   return ok;
 }
 
@@ -1837,12 +1906,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.step-item').forEach(el => el.classList.remove('done','active'));
   document.getElementById('sbar-upload').classList.add('active');
   // Watch meta fields for enable/disable of process button
-  document.getElementById('meta-name').addEventListener('input', () => {
-    const ok = /^[a-z0-9_]+$/.test(document.getElementById('meta-id').value) &&
-               document.getElementById('meta-id').value.length > 0 &&
-               document.getElementById('meta-name').value.trim().length > 0;
-    document.getElementById('btn-process').disabled = !ok;
-  });
+  document.getElementById('meta-name').addEventListener('input', validateCanProcess);
   // Try to restore progress from sessionStorage on load
   // (User refreshed during pipeline - offer resume)
   const savedKeys = Object.keys(sessionStorage).filter(k => k.startsWith('materialism_checkpoint_'));
