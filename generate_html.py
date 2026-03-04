@@ -3173,7 +3173,7 @@ var POLY_CAT_COLORS = {poly_cat_colors_json};
 var POLY_TYPE_TO_CAT = {poly_type_to_cat_json};
 
 // ===================== STATE =====================
-var _LS_DS_KEY = 'materialism_active_datasets';
+var _LS_DS_KEY = 'materialism_db_active_datasets';
 function _loadActiveDsets() {{ try {{ var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; }} catch(e) {{ return null; }} }}
 function _saveActiveDsets(obj) {{ try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); }} catch(e) {{}} }}
 function _getActiveDsets() {{ var s = _loadActiveDsets(); if (s) return s; var d = {{}}; Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = true; }}); return d; }}
