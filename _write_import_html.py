@@ -480,7 +480,7 @@ function parseFileToRows(file) {
 }
 
 function parseDelimited(text, forcedDelim) {
-  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  const lines = text.split(/\\r?\\n/).filter(l => l.trim());
   if (!lines.length) return [];
   // Detect delimiter
   const delim = forcedDelim || detectDelimiter(lines[0]);
@@ -1763,10 +1763,10 @@ function downloadCSV(type) {
     const v = row[k];
     if (v === null || v === undefined) return '';
     const s = String(v);
-    if (s.includes(',') || s.includes('"') || s.includes('\n')) return '"' + s.replace(/"/g,'""') + '"';
+    if (s.includes(',') || s.includes('"') || s.includes('\\n')) return '"' + s.replace(/"/g,'""') + '"';
     return s;
   }).join(','));
-  const csv = header + '\n' + rows.join('\n');
+  const csv = header + '\\n' + rows.join('\\n');
   const blob = new Blob([csv], {type:'text/csv'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
