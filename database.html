@@ -2142,6 +2142,9 @@ var _CSV_FIELD_DEFS = [
     {id: 'type',    label: 'Type'},
     {id: 'conf',    label: 'Confidence'},
 ];
+// Fast lookup: which values are predefined field IDs (not passthrough)
+var _PREDEFINED_FIELD_ID_SET = {};
+_CSV_FIELD_DEFS.forEach(function(fd) { _PREDEFINED_FIELD_ID_SET[fd.id] = true; });
 
 // Patterns ordered from most-specific to least-specific to avoid false matches.
 var _CSV_PATTERNS = {
@@ -2184,6 +2187,11 @@ function _detectCsvCols(headers) {
             }
             if (found) { mapping[field] = found; used[found] = true; break; }
         }
+    }
+    // Default unrecognized columns to passthrough: keep original name as the field key
+    for (var hi2 = 0; hi2 < headers.length; hi2++) {
+        var h2 = headers[hi2];
+        if (!used[h2]) mapping[h2] = h2;
     }
     return mapping;
 }
@@ -2302,6 +2310,11 @@ function _renderColumnMappingTable() {
                + (inUse ? ' disabled' : '') + '>'
                + fd.label + (fd.required ? ' \u2731' : '') + '</option>';
         });
+        // Per-column passthrough option: "col_name (new)" — keep as custom field
+        // Only selectable when curField equals the column name itself (passthrough)
+        var isPassthrough = curField === col && !_PREDEFINED_FIELD_ID_SET[col];
+        h += '<option value="' + col + '"' + (isPassthrough ? ' selected' : '') + '>'
+           + col + ' (new)</option>';
         h += '</select></td>';
         h += '<td style="color:#636e72;font-size:0.78rem">' + sample + '</td>';
         h += '</tr>';
@@ -2356,20 +2369,30 @@ function _executeQuickImport() {
     rows.forEach(function(raw) {
         function g(f) { var col = mapping[f]; return col ? (raw[col] || '') : ''; }
         if (!g('name') && !g('dd')) return; // skip blank rows
+        var entry;
         if (dsType === 'polymers') {
-            polymers.push({
+            entry = {
                 name: g('name'), cas: g('cas'),
                 dd: g('dd'), dp: g('dp'), dh: g('dh'),
                 r: g('r'), type: g('type') || g('cat'), conf: g('conf')
-            });
+            };
+            polymers.push(entry);
         } else {
-            chemicals.push({
+            entry = {
                 name: g('name'), cas: g('cas'),
                 dd: g('dd'), dp: g('dp'), dh: g('dh'),
                 mw: g('mw'), bp: g('bp'), density: g('density'),
                 smiles: g('smiles'), cat: g('cat'), conf: g('conf')
-            });
+            };
+            chemicals.push(entry);
         }
+        // Passthrough fields: any mapping key that is not a predefined field ID
+        Object.keys(mapping).forEach(function(fieldId) {
+            if (!_PREDEFINED_FIELD_ID_SET[fieldId]) {
+                var col = mapping[fieldId];
+                if (col) entry[fieldId] = raw[col] || '';
+            }
+        });
     });
     DATASETS[dsId] = {
         chemicals: dsType === 'chemicals' ? chemicals : [],
