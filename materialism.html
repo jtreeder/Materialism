@@ -4245,15 +4245,9 @@ return Plotly;
             return 'other';
         }
 
-        // Dataset toggle state (read from localStorage, managed on manage page)
-        const _LS_DS_KEY = 'materialism_active_datasets';
-        function _loadActiveDsets() {
-            try { var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; } catch(e) { return null; }
-        }
+        // Search page always shows all datasets — toggle state is managed on the
+        // database page only and does not affect search page visibility.
         function _getActiveDsets() {
-            var saved = _loadActiveDsets();
-            if (saved) return saved;
-            // Default: all datasets active
             var d = {};
             Object.keys(DATASETS_META).forEach(function(k) { d[k] = true; });
             return d;
@@ -6093,7 +6087,7 @@ return Plotly;
         // ===================== INIT =====================
         // Listen for dataset changes from the manage page (localStorage sync)
         window.addEventListener('storage', function(e) {
-            if (e.key === _LS_DS_KEY || e.key === 'materialism_imported_datasets') {
+            if (e.key === 'materialism_imported_datasets') {
                 _onDatasetsChanged();
             }
         });
