@@ -292,14 +292,14 @@ with open(POLY_CSV) as f:
         })
 
 CATEGORY_COLORS = {
-    "hydrocarbon": "#636EFA", "aromatic": "#EF553B", "halogenated": "#00CC96",
-    "ether": "#AB63FA", "ketone": "#FFA15A", "ester": "#19D3F3",
-    "alcohol": "#FF6692", "amide": "#B6E880", "sulfoxide": "#FF97FF",
-    "acid": "#FECB52", "nitrile": "#1F77B4", "glycol ether": "#2CA02C",
-    "amine": "#D62728", "terpene": "#9467BD", "inorganic": "#8C564B",
-    "nitro": "#E377C2", "glycol": "#7F7F7F", "fluorinated": "#BCBD22",
-    "heterocyclic": "#17BECF",
-    "aldehyde": "#FF7F0E", "sulfur compound": "#AEC7E8", "other": "#888888",
+    "hydrocarbon": "#e6194b", "aromatic": "#c3a0e0", "halogenated": "#006400",
+    "ether": "#5f8796", "ketone": "#f5b4c8", "ester": "#c8a008",
+    "alcohol": "#600050", "amide": "#1a4850", "sulfoxide": "#5a2808",
+    "acid": "#84aa80", "nitrile": "#bbbce8", "glycol ether": "#907878",
+    "amine": "#2222f0", "terpene": "#d800d8", "inorganic": "#104838",
+    "nitro": "#f09080", "glycol": "#807820", "fluorinated": "#607098",
+    "heterocyclic": "#780808",
+    "aldehyde": "#383868", "sulfur compound": "#085858", "other": "#888888",
 }
 
 # Broad polymer categories and their type-to-category mapping
@@ -374,13 +374,13 @@ POLYMER_TYPE_TO_CAT = {
 }
 # Everything not explicitly mapped falls to "Other"
 POLYMER_CAT_COLORS = {
-    "Polyolefin": "#4363d8", "Vinyl & Styrene": "#e6194B",
-    "Acrylic": "#3cb44b", "Cellulose": "#ffe119",
-    "Polyester & Alkyd": "#f58231", "Epoxy": "#911eb4",
-    "Polyamide & Imide": "#42d4f4", "Rubber & Elastomer": "#f032e6",
-    "Fluoropolymer": "#bfef45", "Engineering": "#fabed4",
-    "Urethane": "#469990", "Natural & Bio": "#dcbeff",
-    "Resin": "#9A6324", "Halogenated": "#aaffc3",
+    "Polyolefin": "#f00080", "Vinyl & Styrene": "#1848f0",
+    "Acrylic": "#18d018", "Cellulose": "#b888d8",
+    "Polyester & Alkyd": "#782808", "Epoxy": "#88a018",
+    "Polyamide & Imide": "#481818", "Rubber & Elastomer": "#c88868",
+    "Fluoropolymer": "#906898", "Engineering": "#981838",
+    "Urethane": "#484808", "Natural & Bio": "#68c0f8",
+    "Resin": "#8800cc", "Halogenated": "#10d8b8",
     "Other": "#a9a9a9",
 }
 
@@ -2933,7 +2933,7 @@ _CSV_FIELD_DEFS.forEach(function(fd) { _PREDEFINED_FIELD_ID_SET[fd.id] = true; }
 var _CSV_PATTERNS = {
     name:    [/^name$/i, /^chemical[\s_]*name/i, /^compound[\s_]*name/i, /^compound$/i,
               /^solvent$/i, /^material$/i, /^substance$/i, /^polymer$/i,
-              /^product$/i, /^molecule$/i],
+              /^product$/i, /^molecule$/i, /^name[\s_-]/i, /[\s_-]name$/i],
     cas:     [/^cas$/i, /^cas[\s_-]?no\.?$/i, /^cas[\s_-]?number$/i,
               /^cas[\s_-]?rn$/i, /^casno$/i],
     dd:      [/^d[\s_]?d$/i, /^delta[\s_-]?d$/i, /^\u03b4[\s_]?d$/i,
