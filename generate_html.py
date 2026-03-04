@@ -790,14 +790,12 @@ full_html = f"""<!DOCTYPE html>
         }}
         function _isDsActive(dsId) {{
             if (!dsId) return true; // entries without dataset_id always shown
+            // Visibility on the search page is controlled solely by the active toggle.
+            // Deletion in the database management view does not hide embedded data here —
+            // user-imported datasets are already excluded by the IIFE before reaching this.
             var active = _getActiveDsets();
-            // dsId may be comma-separated (entry present in multiple datasets);
-            // visible if ANY contributing dataset is active AND not deleted.
-            var _delRaw = localStorage.getItem('materialism_deleted_datasets');
-            var _deletedIds = _delRaw ? JSON.parse(_delRaw) : [];
             var ids = dsId.split(',');
             for (var i = 0; i < ids.length; i++) {{
-                if (_deletedIds.indexOf(ids[i]) !== -1) continue; // deleted
                 if (active[ids[i]] !== false) return true;
             }}
             return false;
