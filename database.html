@@ -256,6 +256,32 @@ td.cell-note { font-style: italic; color: #b2bec3; font-size: 0.72rem; white-spa
 .struct-tooltip .struct-name { text-align: center; font-size: 0.7rem; color: #333; padding: 2px 4px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .struct-tooltip.loading img { opacity: 0.3; }
 .hoverable-name { cursor: help; border-bottom: 1px dotted #b2bec3; }
+
+/* Quick CSV Import */
+.csv-import-btn {
+    display: block; width: 100%; padding: 8px 0; margin-bottom: 8px;
+    border: 1px solid #0984e3; border-radius: 4px; background: #f0f7ff;
+    color: #0984e3; font-size: 0.82rem; cursor: pointer; text-align: center;
+    transition: all 0.2s; font-family: inherit;
+}
+.csv-import-btn:hover { background: #0984e3; color: #fff; }
+.col-map-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.col-map-table th {
+    background: #f0f2f5; padding: 6px 10px; font-weight: 600;
+    color: #636e72; text-align: left; border: 1px solid #e0e4e8;
+}
+.col-map-table td { padding: 5px 8px; border: 1px solid #eee; }
+.col-map-table select {
+    padding: 3px 6px; border: 1px solid #dfe6e9; border-radius: 3px;
+    font-size: 0.8rem; font-family: inherit; background: #fff;
+}
+.col-map-table select.mapped { border-color: #27ae60; background: #f0faf4; }
+.csv-drop-zone {
+    border: 2px dashed #dfe6e9; border-radius: 8px; padding: 40px 20px;
+    text-align: center; cursor: pointer; transition: all 0.2s;
+}
+.csv-drop-zone.drag-over { border-color: #e94560; background: #fff5f7; }
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -275,7 +301,8 @@ td.cell-note { font-style: italic; color: #b2bec3; font-size: 0.72rem; white-spa
             Active Database
             <div class="btn-counts" id="active-db-counts"></div>
         </button>
-        <a href="import.html" class="import-link-btn">+ Import New Dataset</a>
+        <button class="csv-import-btn" onclick="showCsvImportView()">&#8679; Quick CSV Import</button>
+        <a href="import.html" class="import-link-btn">+ Full Import Pipeline</a>
         <div id="ds-list"></div>
         <button class="rebuild-btn" onclick="triggerRebuild()">Export Datasets</button>
     </div>
@@ -867,6 +894,8 @@ function manageSort(col) {
 function renderContent() {
     if (_viewMode === 'active_db') {
         renderActiveDb();
+    } else if (_viewMode === '_csv_import') {
+        _renderCsvImportPanel();
     } else {
         renderDetail();
     }
@@ -2092,6 +2121,331 @@ function exportCSV(dsId, type) {
     var blob = new Blob([csv], { type: 'text/csv' });
     var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = dsId + '_' + type + '.csv'; a.click();
 }
+
+
+// ===================== QUICK CSV IMPORT =====================
+var _csvImportState = {rows: null, headers: null, mapping: {}, dsType: 'chemicals', dsName: '', fileName: ''};
+
+var _CSV_FIELD_DEFS = [
+    {id: '_ignore', label: '(ignore)'},
+    {id: 'name',    label: 'Name',              required: true},
+    {id: 'cas',     label: 'CAS Number'},
+    {id: 'dd',      label: '\u03b4D \u2014 Dispersion', required: true},
+    {id: 'dp',      label: '\u03b4P \u2014 Polar',      required: true},
+    {id: 'dh',      label: '\u03b4H \u2014 H-Bond',     required: true},
+    {id: 'r',       label: 'Radius'},
+    {id: 'mw',      label: 'Mol. Weight'},
+    {id: 'bp',      label: 'Boiling Point'},
+    {id: 'density', label: 'Density'},
+    {id: 'smiles',  label: 'SMILES'},
+    {id: 'cat',     label: 'Category'},
+    {id: 'type',    label: 'Type'},
+    {id: 'conf',    label: 'Confidence'},
+];
+
+// Patterns ordered from most-specific to least-specific to avoid false matches.
+var _CSV_PATTERNS = {
+    name:    [/^name$/i, /^chemical[\s_]*name/i, /^compound[\s_]*name/i, /^compound$/i,
+              /^solvent$/i, /^material$/i, /^substance$/i, /^polymer$/i,
+              /^product$/i, /^molecule$/i],
+    cas:     [/^cas$/i, /^cas[\s_-]?no\.?$/i, /^cas[\s_-]?number$/i,
+              /^cas[\s_-]?rn$/i, /^casno$/i],
+    dd:      [/^d[\s_]?d$/i, /^delta[\s_-]?d$/i, /^\u03b4[\s_]?d$/i,
+              /^dd$/i, /^disp(ersion)?$/i, /^hd$/i, /^fd$/i, /^vd$/i,
+              /^d[\s_-]disp/i, /^ddisp/i, /^dispersive$/i],
+    dp:      [/^d[\s_]?p$/i, /^delta[\s_-]?p$/i, /^\u03b4[\s_]?p$/i,
+              /^dp$/i, /^polar(ity)?$/i, /^hp$/i, /^fp$/i, /^vp$/i,
+              /^d[\s_-]pol/i, /^dpol/i],
+    dh:      [/^d[\s_]?h$/i, /^delta[\s_-]?h$/i, /^\u03b4[\s_]?h$/i,
+              /^dh$/i, /^h[\s_-]?bond(ing)?$/i, /^hbond$/i, /^hh$/i,
+              /^fh$/i, /^vh$/i, /^d[\s_-]hb/i, /^dhb/i, /^hydrogen[\s_-]?bond/i],
+    r:       [/^r$/i, /^radius$/i, /^r0$/i, /^interaction[\s_-]?radius/i, /^ra$/i],
+    mw:      [/^mw$/i, /^mol[\s_-]?wt$/i, /^molecular[\s_-]?weight$/i, /^mass$/i],
+    bp:      [/^bp$/i, /^boiling[\s_-]?point$/i, /^b\.p\.$/i, /^tbp$/i],
+    density: [/^density$/i, /^rho$/i, /^\u03c1$/i, /^dens$/i],
+    smiles:  [/^smiles$/i, /^canonical[\s_-]?smiles$/i, /^smi$/i, /^structure$/i],
+    cat:     [/^cat(egory)?$/i, /^class(ification)?$/i, /^group$/i],
+    type:    [/^type$/i, /^polymer[\s_-]?type$/i, /^kind$/i],
+    conf:    [/^conf(idence)?$/i, /^quality$/i, /^score$/i],
+};
+
+function _detectCsvCols(headers) {
+    var mapping = {};
+    var used = {};
+    var fields = Object.keys(_CSV_PATTERNS);
+    for (var fi = 0; fi < fields.length; fi++) {
+        var field = fields[fi];
+        var pats = _CSV_PATTERNS[field];
+        for (var pi = 0; pi < pats.length; pi++) {
+            var found = null;
+            for (var hi = 0; hi < headers.length; hi++) {
+                var h = headers[hi];
+                if (!used[h] && pats[pi].test(h)) { found = h; break; }
+            }
+            if (found) { mapping[field] = found; used[found] = true; break; }
+        }
+    }
+    return mapping;
+}
+
+function _parseCsvImportLine(line, delim) {
+    var result = [], cur = '', inQ = false;
+    for (var i = 0; i < line.length; i++) {
+        var c = line[i];
+        if (inQ) {
+            if (c === '"' && line[i+1] === '"') { cur += '"'; i++; }
+            else if (c === '"') { inQ = false; }
+            else { cur += c; }
+        } else {
+            if (c === '"') { inQ = true; }
+            else if (c === delim) { result.push(cur); cur = ''; }
+            else { cur += c; }
+        }
+    }
+    result.push(cur);
+    return result;
+}
+
+function _parseCsvImportText(text) {
+    var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+    if (!lines.length) return null;
+    var tabCount = (lines[0].match(/\t/g) || []).length;
+    var commaCount = (lines[0].match(/,/g) || []).length;
+    var delim = tabCount > commaCount ? '\t' : ',';
+    var headers = _parseCsvImportLine(lines[0], delim).map(function(h) { return h.trim(); });
+    var rows = [];
+    for (var i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        var vals = _parseCsvImportLine(lines[i], delim);
+        var row = {};
+        headers.forEach(function(h, idx) { row[h] = vals[idx] !== undefined ? vals[idx].trim() : ''; });
+        rows.push(row);
+    }
+    return {headers: headers, rows: rows};
+}
+
+function showCsvImportView() {
+    _viewMode = '_csv_import';
+    buildSidebar();
+    _renderCsvImportPanel();
+}
+
+function _onCsvDrop(e) {
+    e.preventDefault();
+    var file = e.dataTransfer.files[0];
+    if (file) _loadCsvFile(file);
+}
+
+function _onCsvFileSelect(e) {
+    var file = e.target.files[0];
+    if (file) _loadCsvFile(file);
+}
+
+function _loadCsvFile(file) {
+    _csvImportState.fileName = file.name;
+    if (!_csvImportState.dsName) {
+        _csvImportState.dsName = file.name.replace(/\.[^.]+$/, '');
+    }
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+        var parsed = _parseCsvImportText(ev.target.result);
+        if (!parsed || !parsed.rows.length) {
+            alert('Could not parse file or file is empty.');
+            return;
+        }
+        _csvImportState.headers = parsed.headers;
+        _csvImportState.rows = parsed.rows;
+        _csvImportState.mapping = _detectCsvCols(parsed.headers);
+        _renderCsvImportPanel();
+    };
+    reader.readAsText(file);
+}
+
+function _updateColMapping(csvCol, fieldId) {
+    // Unassign this csvCol from any existing field
+    Object.keys(_csvImportState.mapping).forEach(function(f) {
+        if (_csvImportState.mapping[f] === csvCol) delete _csvImportState.mapping[f];
+    });
+    if (fieldId !== '_ignore') _csvImportState.mapping[fieldId] = csvCol;
+    _renderCsvImportPanel();
+}
+
+function _getMissingRequired() {
+    var req = ['name', 'dd', 'dp', 'dh'];
+    return req.filter(function(f) { return !_csvImportState.mapping[f]; });
+}
+
+function _renderColumnMappingTable() {
+    var headers = _csvImportState.headers;
+    var mapping = _csvImportState.mapping;
+    // Reverse: csvCol -> fieldId
+    var revMap = {};
+    Object.keys(mapping).forEach(function(f) { if (mapping[f]) revMap[mapping[f]] = f; });
+    var usedFields = {};
+    Object.keys(mapping).forEach(function(f) { if (mapping[f]) usedFields[f] = true; });
+
+    var h = '<div style="margin-bottom:16px">';
+    h += '<div style="font-size:0.85rem;font-weight:600;color:#2d3436;margin-bottom:8px">Column Mapping</div>';
+    h += '<table class="col-map-table"><thead><tr><th>CSV Column</th><th>Maps to</th><th>Sample Values</th></tr></thead><tbody>';
+    headers.forEach(function(col) {
+        var curField = revMap[col] || '_ignore';
+        var sample = _csvImportState.rows.slice(0, 3).map(function(r) { return r[col] || ''; }).join(', ');
+        if (sample.length > 50) sample = sample.substring(0, 50) + '\u2026';
+        h += '<tr>';
+        h += '<td style="font-family:monospace;font-size:0.8rem">' + col + '</td>';
+        h += '<td><select class="' + (curField !== '_ignore' ? 'mapped' : '') + '"'
+           + ' onchange="_updateColMapping(' + JSON.stringify(col) + ',this.value)">';
+        _CSV_FIELD_DEFS.forEach(function(fd) {
+            var inUse = fd.id !== '_ignore' && usedFields[fd.id] && revMap[col] !== fd.id;
+            h += '<option value="' + fd.id + '"'
+               + (fd.id === curField ? ' selected' : '')
+               + (inUse ? ' disabled' : '') + '>'
+               + fd.label + (fd.required ? ' \u2731' : '') + '</option>';
+        });
+        h += '</select></td>';
+        h += '<td style="color:#636e72;font-size:0.78rem">' + sample + '</td>';
+        h += '</tr>';
+    });
+    h += '</tbody></table>';
+    h += '<div style="font-size:0.72rem;color:#b2bec3;margin-top:4px">\u2731 required</div></div>';
+    return h;
+}
+
+function _renderCsvPreview() {
+    var headers = _csvImportState.headers;
+    var rows = _csvImportState.rows.slice(0, 5);
+    var revMap = {};
+    Object.keys(_csvImportState.mapping).forEach(function(f) {
+        if (_csvImportState.mapping[f]) revMap[_csvImportState.mapping[f]] = f;
+    });
+    var h = '<div style="margin-bottom:8px">';
+    h += '<div style="font-size:0.85rem;font-weight:600;color:#2d3436;margin-bottom:8px">Preview ('
+       + _csvImportState.rows.length + ' rows total)</div>';
+    h += '<div style="overflow-x:auto"><table style="font-size:0.75rem;border-collapse:collapse"><thead><tr>';
+    headers.forEach(function(col) {
+        var field = revMap[col];
+        var mapped = field && field !== '_ignore';
+        h += '<th style="background:' + (mapped ? '#f0faf4' : '#f8f9fa')
+           + ';padding:5px 8px;border:1px solid #e0e4e8;white-space:nowrap;font-weight:600;color:'
+           + (mapped ? '#27ae60' : '#636e72') + '">' + col
+           + (mapped ? '<br><span style="font-size:0.68rem;font-weight:400">\u2192 ' + field + '</span>' : '')
+           + '</th>';
+    });
+    h += '</tr></thead><tbody>';
+    rows.forEach(function(row) {
+        h += '<tr>';
+        headers.forEach(function(col) {
+            var mapped = revMap[col] && revMap[col] !== '_ignore';
+            h += '<td style="padding:4px 8px;border:1px solid #eee;'
+               + (mapped ? 'background:#f9fffe' : '') + '">' + (row[col] || '') + '</td>';
+        });
+        h += '</tr>';
+    });
+    h += '</tbody></table></div></div>';
+    return h;
+}
+
+function _executeQuickImport() {
+    var nameEl = document.getElementById('csv-ds-name');
+    var dsName = (nameEl ? nameEl.value : '') || _csvImportState.dsName || 'Imported Dataset';
+    var dsType = _csvImportState.dsType;
+    var mapping = _csvImportState.mapping;
+    var rows = _csvImportState.rows;
+    var dsId = 'import_' + Date.now();
+    var chemicals = [], polymers = [];
+    rows.forEach(function(raw) {
+        function g(f) { var col = mapping[f]; return col ? (raw[col] || '') : ''; }
+        if (!g('name') && !g('dd')) return; // skip blank rows
+        if (dsType === 'polymers') {
+            polymers.push({
+                name: g('name'), cas: g('cas'),
+                dd: g('dd'), dp: g('dp'), dh: g('dh'),
+                r: g('r'), type: g('type') || g('cat'), conf: g('conf')
+            });
+        } else {
+            chemicals.push({
+                name: g('name'), cas: g('cas'),
+                dd: g('dd'), dp: g('dp'), dh: g('dh'),
+                mw: g('mw'), bp: g('bp'), density: g('density'),
+                smiles: g('smiles'), cat: g('cat'), conf: g('conf')
+            });
+        }
+    });
+    DATASETS[dsId] = {
+        chemicals: dsType === 'chemicals' ? chemicals : [],
+        polymers:  dsType === 'polymers'  ? polymers  : [],
+        meta: {
+            name: dsName,
+            imported_at: new Date().toISOString(),
+            source: _csvImportState.fileName || 'CSV import'
+        },
+        _imported: true
+    };
+    _activeDsets[dsId] = true;
+    _saveActiveDsets(_activeDsets);
+    _saveImportedDatasets();
+    _csvImportState = {rows: null, headers: null, mapping: {}, dsType: 'chemicals', dsName: '', fileName: ''};
+    _viewMode = dsId;
+    buildSidebar();
+    renderContent();
+}
+
+function _renderCsvImportPanel() {
+    var ct = document.getElementById('content');
+    var h = '<div class="detail-content"><div class="analysis-card" style="max-width:900px">';
+    h += '<h3>Quick CSV Import</h3>';
+    h += '<p style="font-size:0.82rem;color:#636e72;margin-bottom:16px">Import any CSV or TSV &mdash; column names are auto-detected and remapped to standard HSP fields. The search page is unaffected.</p>';
+    // Name + type row
+    h += '<div style="display:flex;gap:12px;margin-bottom:16px;align-items:flex-end">';
+    h += '<div style="flex:1"><label style="font-size:0.8rem;font-weight:600;color:#636e72;display:block;margin-bottom:4px">Dataset Name</label>';
+    h += '<input id="csv-ds-name" type="text" placeholder="My Dataset"'
+       + ' style="width:100%;padding:7px 10px;border:1px solid #dfe6e9;border-radius:4px;font-size:0.87rem"'
+       + ' value="' + (_csvImportState.dsName || '').replace(/"/g, '&quot;') + '"'
+       + ' oninput="_csvImportState.dsName=this.value"></div>';
+    h += '<div><label style="font-size:0.8rem;font-weight:600;color:#636e72;display:block;margin-bottom:4px">Data Type</label>';
+    h += '<select style="padding:7px 10px;border:1px solid #dfe6e9;border-radius:4px;font-size:0.87rem;background:#fff"'
+       + ' onchange="_csvImportState.dsType=this.value;_renderCsvImportPanel()">';
+    h += '<option value="chemicals"' + (_csvImportState.dsType === 'chemicals' ? ' selected' : '') + '>Chemicals / Solvents</option>';
+    h += '<option value="polymers"'  + (_csvImportState.dsType === 'polymers'  ? ' selected' : '') + '>Polymers</option>';
+    h += '</select></div></div>';
+    if (!_csvImportState.rows) {
+        // Drop zone
+        h += '<div class="csv-drop-zone"'
+           + ' ondragover="event.preventDefault();this.classList.add(\'drag-over\')"'
+           + ' ondragleave="this.classList.remove(\'drag-over\')"'
+           + ' ondrop="_onCsvDrop(event);this.classList.remove(\'drag-over\')">';
+        h += '<div style="font-size:2rem;margin-bottom:10px">&#128196;</div>';
+        h += '<div style="font-size:0.95rem;font-weight:600;color:#2d3436;margin-bottom:6px">Drop CSV or TSV file here</div>';
+        h += '<div style="font-size:0.78rem;color:#636e72;margin-bottom:14px">Any column names &bull; Comma or tab delimited</div>';
+        h += '<input type="file" id="csv-file-input" accept=".csv,.tsv,.txt" style="display:none" onchange="_onCsvFileSelect(event)">';
+        h += '<button class="import-btn secondary" style="width:auto;padding:6px 18px"'
+           + ' onclick="document.getElementById(\'csv-file-input\').click()">Browse File</button>';
+        h += '</div>';
+    } else {
+        h += '<div style="font-size:0.78rem;color:#636e72;margin-bottom:12px">File: <b>'
+           + _csvImportState.fileName + '</b> \u2022 '
+           + _csvImportState.rows.length + ' rows \u2022 '
+           + _csvImportState.headers.length + ' columns</div>';
+        h += _renderColumnMappingTable();
+        h += _renderCsvPreview();
+        var missing = _getMissingRequired();
+        var btnStyle = 'width:auto;padding:6px 20px' + (missing.length ? ';opacity:0.5;cursor:not-allowed' : '');
+        h += '<div style="margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">';
+        h += '<button class="import-btn" style="' + btnStyle + '"'
+           + (missing.length ? '' : ' onclick="_executeQuickImport()"')
+           + '>Import ' + _csvImportState.rows.length + ' Rows</button>';
+        h += '<button class="import-btn secondary" style="width:auto;padding:6px 20px"'
+           + ' onclick="_csvImportState.rows=null;_csvImportState.headers=null;_csvImportState.mapping={};_renderCsvImportPanel()">'
+           + '\u2190 Change File</button>';
+        if (missing.length) {
+            h += '<span style="color:#e74c3c;font-size:0.82rem">Required: ' + missing.join(', ') + '</span>';
+        }
+        h += '</div>';
+    }
+    h += '</div></div>';
+    ct.innerHTML = h;
+}
+
 
 // ===================== INIT =====================
 // Mark embedded datasets
