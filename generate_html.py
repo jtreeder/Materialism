@@ -3146,7 +3146,7 @@ function _renderColumnMappingTable() {
         h += '<tr>';
         h += '<td style="font-family:monospace;font-size:0.8rem">' + col + '</td>';
         h += '<td><select class="' + (curField !== '_ignore' ? 'mapped' : '') + '"'
-           + ' onchange="_updateColMapping(' + JSON.stringify(col) + ',this.value)">';
+           + ' onchange="_updateColMapping(\'' + col.replace(/'/g, "\\'") + '\',this.value)">';
         _CSV_FIELD_DEFS.forEach(function(fd) {
             var inUse = fd.id !== '_ignore' && usedFields[fd.id] && revMap[col] !== fd.id;
             h += '<option value="' + fd.id + '"'
