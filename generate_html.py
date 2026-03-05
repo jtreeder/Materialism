@@ -4059,6 +4059,22 @@ function renderDetail() {{
         items = ds.polymers;
         cols = ['name','cas','dd','dp','dh','r','cat'];
     }}
+    // Append any extra fields present on imported entries (passthrough columns)
+    if (items && items.length) {{
+        var _stdSet = {{}};
+        cols.forEach(function(c) {{ _stdSet[c] = true; }});
+        var _extraKeys = [];
+        var _seenExtra = {{}};
+        items.forEach(function(item) {{
+            Object.keys(item).forEach(function(k) {{
+                if (!_stdSet[k] && !_seenExtra[k] && k[0] !== '_') {{
+                    _seenExtra[k] = true;
+                    _extraKeys.push(k);
+                }}
+            }});
+        }});
+        if (_extraKeys.length) cols = cols.concat(_extraKeys);
+    }}
 
     if (!items || items.length === 0) {{
         html += '<p style="color:#636e72">No data in this dataset.</p>';
