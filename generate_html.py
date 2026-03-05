@@ -3114,6 +3114,10 @@ function _updateColMapping(csvCol, fieldId) {
     Object.keys(_csvImportState.mapping).forEach(function(f) {
         if (_csvImportState.mapping[f] === csvCol) delete _csvImportState.mapping[f];
     });
+    // Also evict whatever column previously held this fieldId
+    if (fieldId !== '_ignore' && _csvImportState.mapping[fieldId] && _csvImportState.mapping[fieldId] !== csvCol) {
+        delete _csvImportState.mapping[fieldId];
+    }
     if (fieldId !== '_ignore') _csvImportState.mapping[fieldId] = csvCol;
     _renderCsvImportPanel();
 }
@@ -3146,9 +3150,8 @@ function _renderColumnMappingTable() {
         _CSV_FIELD_DEFS.forEach(function(fd) {
             var inUse = fd.id !== '_ignore' && usedFields[fd.id] && revMap[col] !== fd.id;
             h += '<option value="' + fd.id + '"'
-               + (fd.id === curField ? ' selected' : '')
-               + (inUse ? ' disabled' : '') + '>'
-               + fd.label + (fd.required ? ' \u2731' : '') + '</option>';
+               + (fd.id === curField ? ' selected' : '') + '>'
+               + fd.label + (fd.required ? ' \u2731' : '') + (inUse ? ' \u2014 reassign' : '') + '</option>';
         });
         // Per-column passthrough option: "col_name (new)" — keep as custom field
         // Only selectable when curField equals the column name itself (passthrough)
