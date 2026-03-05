@@ -292,14 +292,14 @@ with open(POLY_CSV) as f:
         })
 
 CATEGORY_COLORS = {
-    "hydrocarbon": "#e6194b", "aromatic": "#c3a0e0", "halogenated": "#006400",
-    "ether": "#5f8796", "ketone": "#f5b4c8", "ester": "#c8a008",
-    "alcohol": "#600050", "amide": "#1a4850", "sulfoxide": "#5a2808",
-    "acid": "#84aa80", "nitrile": "#bbbce8", "glycol ether": "#907878",
-    "amine": "#2222f0", "terpene": "#d800d8", "inorganic": "#104838",
-    "nitro": "#f09080", "glycol": "#807820", "fluorinated": "#607098",
-    "heterocyclic": "#780808",
-    "aldehyde": "#383868", "sulfur compound": "#085858", "other": "#888888",
+    "hydrocarbon": "#1565c0", "aromatic": "#2e7d32", "halogenated": "#bf360c",
+    "ether": "#4a148c", "ketone": "#e65100", "ester": "#4e342e",
+    "alcohol": "#b71c1c", "amide": "#00695c", "sulfoxide": "#283593",
+    "acid": "#ff6f00", "nitrile": "#37474f", "glycol ether": "#1b5e20",
+    "amine": "#6a1b9a", "terpene": "#ce8eff", "inorganic": "#39c2d7",
+    "nitro": "#b6b200", "glycol": "#00ca79", "fluorinated": "#a68255",
+    "heterocyclic": "#826d96",
+    "aldehyde": "#759eff", "sulfur compound": "#ae24ff", "other": "#df968a",
 }
 
 # Broad polymer categories and their type-to-category mapping
@@ -374,14 +374,14 @@ POLYMER_TYPE_TO_CAT = {
 }
 # Everything not explicitly mapped falls to "Other"
 POLYMER_CAT_COLORS = {
-    "Polyolefin": "#f00080", "Vinyl & Styrene": "#1848f0",
-    "Acrylic": "#18d018", "Cellulose": "#b888d8",
-    "Polyester & Alkyd": "#782808", "Epoxy": "#88a018",
-    "Polyamide & Imide": "#481818", "Rubber & Elastomer": "#c88868",
-    "Fluoropolymer": "#906898", "Engineering": "#981838",
-    "Urethane": "#484808", "Natural & Bio": "#68c0f8",
-    "Resin": "#8800cc", "Halogenated": "#10d8b8",
-    "Other": "#a9a9a9",
+    "Polyolefin": "#619686", "Vinyl & Styrene": "#794100",
+    "Acrylic": "#6d20ff", "Cellulose": "#008eae",
+    "Polyester & Alkyd": "#55a600", "Epoxy": "#9eb682",
+    "Polyamide & Imide": "#751c14", "Rubber & Elastomer": "#716900",
+    "Fluoropolymer": "#d28e00", "Engineering": "#a6a2ca",
+    "Urethane": "#866df3", "Natural & Bio": "#494510",
+    "Resin": "#8e554d", "Halogenated": "#554d79",
+    "Other": "#49697d",
 }
 
 # Assign broad category to each polymer using the type-to-category mapping.
@@ -1339,8 +1339,9 @@ full_html = f"""<!DOCTYPE html>
             return 'rgb(' + r + ',' + g + ',' + b + ')';
         }}
 
-        function computeResultColors(validResults) {{
-            if (validResults.length === 0) return [];
+        function computeResultColors(validResults, r0) {{
+            if (validResults.length === 0) {{ _resultColorMeta = null; return []; }}
+            const useScore = validResults[0].ra == null && validResults[0].combinedScore != null;
             const distances = validResults.map(r => {{
                 if (r.ra != null) return r.ra;
                 if (r.combinedScore != null) return r.combinedScore;
@@ -1349,6 +1350,7 @@ full_html = f"""<!DOCTYPE html>
             const minD = Math.min(...distances);
             const maxD = Math.max(...distances);
             const range = maxD - minD;
+            _resultColorMeta = {{ min: minD, max: maxD, r0: r0 || null, metric: useScore ? 'Score' : 'Ra' }};
             return distances.map(d => {{
                 if (range === 0) return distanceToColor(0);
                 return distanceToColor((d - minD) / range);
@@ -1905,6 +1907,57 @@ full_html = f"""<!DOCTYPE html>
         function _buildLegend() {{
             var el = document.getElementById('plot-legend');
             if (!el) return;
+
+            // Results mode: replace category legend with a heat-bar
+            if (_resultTraceCount > 0 && _resultColorMeta) {{
+                var m = _resultColorMeta;
+                var hasRed = m.r0 && m.r0 > 0 && m.metric === 'Ra';
+                var minLabel, maxLabel;
+                if (hasRed) {{
+                    minLabel = 'RED&nbsp;' + (m.min / m.r0).toFixed(2);
+                    maxLabel = 'RED&nbsp;' + (m.max / m.r0).toFixed(2);
+                }} else if (m.metric === 'Ra') {{
+                    minLabel = 'Ra&nbsp;' + m.min.toFixed(1);
+                    maxLabel = 'Ra&nbsp;' + m.max.toFixed(1);
+                }} else {{
+                    minLabel = 'Best';
+                    maxLabel = 'Worst';
+                }}
+
+                // Position of RED=1 tick on the bar (0–1 fraction)
+                var tickPct = null;
+                if (hasRed) {{
+                    var t1 = (m.r0 - m.min) / (m.max - m.min);
+                    if (t1 > 0.02 && t1 < 0.98) tickPct = (t1 * 100).toFixed(1);
+                }}
+
+                var h = '<div style="padding:8px 10px;min-width:170px">';
+                h += '<div style="font-size:0.7rem;font-weight:700;color:#636e72;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px">Match Quality</div>';
+                // Gradient bar
+                h += '<div style="position:relative;height:14px;border-radius:3px;background:linear-gradient(to right,#00cc66,#cccc00 50%,#ef553b);margin-bottom:2px">';
+                if (tickPct !== null) {{
+                    h += '<div style="position:absolute;top:-4px;bottom:-4px;left:' + tickPct + '%;width:2px;background:#2d3436;border-radius:1px"></div>';
+                }}
+                h += '</div>';
+                // Value labels
+                h += '<div style="display:flex;justify-content:space-between;font-size:0.67rem;color:#636e72;font-family:monospace;margin-bottom:4px">';
+                h += '<span>' + minLabel + '</span><span>' + maxLabel + '</span></div>';
+                // RED=1 annotation
+                if (tickPct !== null) {{
+                    h += '<div style="font-size:0.67rem;color:#2d3436;padding-top:3px;border-top:1px solid #eee;margin-bottom:4px">';
+                    h += '<span style="display:inline-block;width:10px;height:2px;background:#2d3436;vertical-align:middle;margin-right:3px;border-radius:1px"></span>';
+                    h += 'RED\u00a0=\u00a01 (compatibility limit)</div>';
+                }}
+                // Good / poor labels
+                h += '<div style="display:flex;justify-content:space-between;font-size:0.7rem;padding-top:4px;border-top:1px solid #eee">';
+                h += '<span style="color:#00aa55;font-weight:600">&#9679; Good match</span>';
+                h += '<span style="color:#ef553b;font-weight:600">Poor &#9679;</span>';
+                h += '</div>';
+                h += '</div>';
+                el.innerHTML = h;
+                return;
+            }}
+
             // Collect solvent category counts — only active datasets, respecting simpleMode
             var sCats = {{}};
             var activeSolCount = 0;
@@ -2030,6 +2083,7 @@ full_html = f"""<!DOCTYPE html>
         var _baseTraceCount = 0;
         var _resultTraceCount = 0;
         var _plotDimmed = false;
+        var _resultColorMeta = null;  // {{min, max, r0, metric}} for heat-bar legend
 
         function _dimBaseTraces() {{
             if (_plotDimmed) return;
@@ -2066,7 +2120,7 @@ full_html = f"""<!DOCTYPE html>
             }}
 
             const valid = results.filter(r => !r.notFound);
-            const resultColors = computeResultColors(valid);
+            const resultColors = computeResultColors(valid, isMulti ? null : (target && target.r));
             var newTraces = [];
 
             if (isMulti) {{
@@ -2155,6 +2209,7 @@ full_html = f"""<!DOCTYPE html>
             Plotly.addTraces(plotDiv, newTraces);
             var title = isMulti ? 'Multi-Material Search' : 'Search Results — ' + target.name;
             Plotly.relayout(plotDiv, {{ 'title.text': title }});
+            _buildLegend();
         }}
 
         function resetPlot() {{
@@ -2172,6 +2227,8 @@ full_html = f"""<!DOCTYPE html>
             _restoreBaseTraces();
             unpinAll();
             Plotly.relayout(plotDiv, {{ 'title.text': 'Hansen Solubility Parameter Space' }});
+            _resultColorMeta = null;
+            _buildLegend();
         }}
 
         // ===================== TOOLTIP SYSTEM (scene annotations) =====================
