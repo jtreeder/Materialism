@@ -292,14 +292,14 @@ with open(POLY_CSV) as f:
         })
 
 CATEGORY_COLORS = {
-    "hydrocarbon": "#1565c0", "aromatic": "#2e7d32", "halogenated": "#bf360c",
-    "ether": "#4a148c", "ketone": "#e65100", "ester": "#4e342e",
-    "alcohol": "#b71c1c", "amide": "#00695c", "sulfoxide": "#283593",
-    "acid": "#ff6f00", "nitrile": "#37474f", "glycol ether": "#1b5e20",
-    "amine": "#6a1b9a", "terpene": "#ce8eff", "inorganic": "#39c2d7",
-    "nitro": "#b6b200", "glycol": "#00ca79", "fluorinated": "#a68255",
-    "heterocyclic": "#826d96",
-    "aldehyde": "#759eff", "sulfur compound": "#ae24ff", "other": "#df968a",
+    "hydrocarbon": "#1f77b4", "aromatic": "#ff7f0e", "halogenated": "#2ca02c",
+    "ether": "#d62728", "ketone": "#9467bd", "ester": "#8c564b",
+    "alcohol": "#e377c2", "amide": "#7f7f7f", "sulfoxide": "#bcbd22",
+    "acid": "#17becf", "nitrile": "#204d20", "glycol ether": "#750069",
+    "amine": "#4d0cbe", "terpene": "#9eaeff", "inorganic": "#8e7500",
+    "nitro": "#820000", "glycol": "#1c4959", "fluorinated": "#8ec28a",
+    "heterocyclic": "#00715d",
+    "aldehyde": "#db9e92", "sulfur compound": "#c200aa", "other": "#5d3d00",
 }
 
 # Broad polymer categories and their type-to-category mapping
@@ -374,14 +374,14 @@ POLYMER_TYPE_TO_CAT = {
 }
 # Everything not explicitly mapped falls to "Other"
 POLYMER_CAT_COLORS = {
-    "Polyolefin": "#619686", "Vinyl & Styrene": "#794100",
-    "Acrylic": "#6d20ff", "Cellulose": "#008eae",
-    "Polyester & Alkyd": "#55a600", "Epoxy": "#9eb682",
-    "Polyamide & Imide": "#751c14", "Rubber & Elastomer": "#716900",
-    "Fluoropolymer": "#d28e00", "Engineering": "#a6a2ca",
-    "Urethane": "#866df3", "Natural & Bio": "#494510",
-    "Resin": "#8e554d", "Halogenated": "#554d79",
-    "Other": "#49697d",
+    "Polyolefin": "#5d496d", "Vinyl & Styrene": "#6555ff",
+    "Acrylic": "#8600be", "Cellulose": "#2dd720",
+    "Polyester & Alkyd": "#ba5d08", "Epoxy": "#db92ff",
+    "Polyamide & Imide": "#00a6fb", "Rubber & Elastomer": "#496d00",
+    "Fluoropolymer": "#aa9a61", "Engineering": "#df35ff",
+    "Urethane": "#7d8aba", "Natural & Bio": "#965582",
+    "Resin": "#698a59", "Halogenated": "#eb6d5d",
+    "Other": "#0035ff",
 }
 
 # Assign broad category to each polymer using the type-to-category mapping.
