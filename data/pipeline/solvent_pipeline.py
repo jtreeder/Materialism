@@ -469,84 +469,95 @@ def classyfire_parse_entity(entity: dict) -> dict:
         "cf_classification_type": "full_molecule",
     }
 
+CLASSYFIRE_BATCH_SIZE = 100  # ClassyFire limit per submission
+
 def run_classyfire_batch(df: pd.DataFrame) -> pd.DataFrame:
     """
     Run ClassyFire on all rows in df that have smiles_canonical.
-    Adds/updates cf_* columns in-place. Returns modified df.
+    Batches submissions to CLASSYFIRE_BATCH_SIZE. Returns modified df.
     """
+    # Ensure cf_* columns are object dtype so string values can be assigned
+    cf_cols = ["cf_kingdom", "cf_superclass", "cf_class", "cf_subclass",
+               "cf_direct_parent", "cf_alternative_parents", "cf_classification_type"]
+    for col in cf_cols:
+        if col in df.columns:
+            df[col] = df[col].astype(object)
+
     # Collect rows that need ClassyFire and have SMILES
-    needs_cf = df[
-        df["smiles_canonical"].notna() &
-        (df["cf_class"].isna() | (df["cf_class"] == ""))
-    ]
+    needs_cf_mask = df["smiles_canonical"].notna()
+    if "cf_class" in df.columns:
+        needs_cf_mask = needs_cf_mask & (df["cf_class"].isna() | (df["cf_class"] == ""))
+    needs_cf = df[needs_cf_mask]
     log.info(f"ClassyFire batch: {len(needs_cf)} rows need classification.")
 
     if needs_cf.empty:
         return df
 
-    # Build submission dict: use row index as identifier
+    # Build full submission dict
     smiles_dict = {}
     for idx, row in needs_cf.iterrows():
         smi = str(row["smiles_canonical"]).strip()
         if smi and smi.lower() not in ("nan", "none", ""):
             smiles_dict[str(idx)] = smi
 
-    log.info(f"Submitting {len(smiles_dict)} SMILES to ClassyFire...")
-    query_id = classyfire_submit_batch(smiles_dict)
-    if not query_id:
-        log.warning("ClassyFire batch submission failed.")
-        return df
+    # Submit in batches of CLASSYFIRE_BATCH_SIZE
+    all_indices = list(smiles_dict.keys())
+    total_matched = 0
 
-    # Save query_id for recovery
-    qid_file = PIPELINE_DIR / "classyfire_query_id.txt"
-    qid_file.write_text(str(query_id))
-    log.info(f"ClassyFire query_id saved to {qid_file}")
+    for batch_start in range(0, len(all_indices), CLASSYFIRE_BATCH_SIZE):
+        batch_indices = all_indices[batch_start:batch_start + CLASSYFIRE_BATCH_SIZE]
+        batch_dict = {k: smiles_dict[k] for k in batch_indices}
+        batch_num = batch_start // CLASSYFIRE_BATCH_SIZE + 1
+        total_batches = math.ceil(len(all_indices) / CLASSYFIRE_BATCH_SIZE)
+        log.info(f"ClassyFire batch {batch_num}/{total_batches}: {len(batch_dict)} SMILES...")
 
-    # Poll for results
-    results_data = classyfire_poll(query_id, max_wait_minutes=90)
-    if not results_data:
-        return df
+        query_id = classyfire_submit_batch(batch_dict)
+        if not query_id:
+            log.warning(f"ClassyFire batch {batch_num} submission failed — skipping.")
+            continue
 
-    # Parse and merge results
-    entities = results_data.get("entities", [])
-    log.info(f"ClassyFire returned {len(entities)} entities.")
+        # Save query_id for recovery
+        qid_file = PIPELINE_DIR / f"classyfire_query_id_b{batch_num}.txt"
+        qid_file.write_text(str(query_id))
 
-    # ClassyFire returns entities in the same order as submission
-    # Use the identifier field to map back
-    entity_map = {}
-    for entity in entities:
-        ident = entity.get("identifier")
-        if ident is not None:
-            entity_map[str(ident)] = classyfire_parse_entity(entity)
+        results_data = classyfire_poll(query_id, max_wait_minutes=90)
+        if not results_data:
+            log.warning(f"ClassyFire batch {batch_num} timed out.")
+            continue
 
-    # Also try matching by index position if no identifier
-    submitted_indices = list(smiles_dict.keys())
-    for i, entity in enumerate(entities):
-        ident = entity.get("identifier")
-        if not ident and i < len(submitted_indices):
-            entity_map[submitted_indices[i]] = classyfire_parse_entity(entity)
+        entities = results_data.get("entities", [])
+        log.info(f"ClassyFire batch {batch_num}: returned {len(entities)} entities.")
 
-    matched = 0
-    cf_cols = ["cf_kingdom", "cf_superclass", "cf_class", "cf_subclass",
-               "cf_direct_parent", "cf_alternative_parents", "cf_classification_type"]
+        # Map results back — match by identifier field or submission order
+        entity_map = {}
+        for entity in entities:
+            ident = entity.get("identifier")
+            if ident is not None:
+                entity_map[str(ident)] = classyfire_parse_entity(entity)
+        # Positional fallback
+        for i, entity in enumerate(entities):
+            ident = entity.get("identifier")
+            if not ident and i < len(batch_indices):
+                entity_map[batch_indices[i]] = classyfire_parse_entity(entity)
 
-    for idx_str, cf_data in entity_map.items():
-        try:
-            idx = int(idx_str)
-            if idx in df.index:
-                for col, val in cf_data.items():
-                    df.at[idx, col] = val
-                matched += 1
-        except (ValueError, KeyError):
-            pass
+        matched = 0
+        for idx_str, cf_data in entity_map.items():
+            try:
+                idx = int(idx_str)
+                if idx in df.index:
+                    for col, val in cf_data.items():
+                        df.at[idx, col] = val
+                    matched += 1
+            except (ValueError, KeyError):
+                pass
+        total_matched += matched
+        log.info(f"ClassyFire batch {batch_num}: matched {matched}/{len(entity_map)} rows.")
 
-    log.info(f"ClassyFire: matched {matched}/{len(entity_map)} results to rows.")
+        # Cache batch results
+        cf_cache_file = CACHE_DIR / f"classyfire_{query_id}.json"
+        cf_cache_file.write_text(json.dumps(results_data))
 
-    # Save updated cache of query results
-    cf_cache_file = CACHE_DIR / f"classyfire_{query_id}.json"
-    cf_cache_file.write_text(json.dumps(results_data))
-    log.info(f"ClassyFire results cached to {cf_cache_file}")
-
+    log.info(f"ClassyFire complete: {total_matched} rows classified.")
     return df
 
 # ─── Name Cleaning ────────────────────────────────────────────────────────────

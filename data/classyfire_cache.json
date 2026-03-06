@@ -30,10 +30,11 @@
     "subclass": "Benzoic acids and derivatives"
   },
   "100-37-8": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Primary alcohols"
   },
   "100-41-4": {
     "class": "Benzene and substituted derivatives",
@@ -138,9 +139,10 @@
   },
   "1003-09-4": {
     "class": "Aryl halides",
-    "inchikey": "TUCRZHGAIRVWTI-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Aryl bromides"
+    "subclass": "Aryl bromides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Aryl bromides"
   },
   "1003-10-7": {
     "class": "",
@@ -180,14 +182,17 @@
   },
   "10143-66-5": {
     "class": "Organooxygen compounds",
-    "inchikey": "JCRQEORWPZVZJP-UHFFFAOYSA-N",
-    "smiles": "CC(CCOC)OC",
-    "subclass": "Ethers"
+    "subclass": "Ethers",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Dialkyl ethers"
   },
   "102-52-3": {
     "class": "Organooxygen compounds",
-    "inchikey": "XHTYQFMRBQUCPX-UHFFFAOYSA-N",
-    "subclass": "Ethers"
+    "subclass": "Ethers",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Acetals"
   },
   "102-71-6": {
     "class": "Organonitrogen compounds",
@@ -304,9 +309,10 @@
   },
   "104-76-7": {
     "class": "Fatty Acyls",
-    "inchikey": "YIWUKEYIRIRTPP-UHFFFAOYSA-N",
-    "smiles": "CCCCC(CC)CO",
-    "subclass": "Fatty alcohols"
+    "subclass": "Fatty alcohols",
+    "kingdom": "Organic compounds",
+    "superclass": "Lipids and lipid-like molecules",
+    "direct_parent": "Fatty alcohols"
   },
   "104-80-3": {
     "class": "",
@@ -346,9 +352,10 @@
   },
   "105-30-6": {
     "class": "Organooxygen compounds",
-    "inchikey": "PFNHSEQQEPMLNI-UHFFFAOYSA-N",
-    "smiles": "CCCC(C)CO",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Primary alcohols"
   },
   "105-34-0": {
     "class": "",
@@ -400,8 +407,10 @@
   },
   "105-57-7": {
     "class": "Organooxygen compounds",
-    "inchikey": "DHKHKXVYLBGOIT-UHFFFAOYSA-N",
-    "subclass": "Ethers"
+    "subclass": "Ethers",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Acetals"
   },
   "105-58-8": {
     "class": "Organic carbonic acids and derivatives",
@@ -543,9 +552,10 @@
   },
   "106-94-5": {
     "class": "Organobromides",
-    "inchikey": "CYNYIHKIEHGYOZ-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organobromides"
   },
   "106-95-6": {
     "class": "Organobromides",
@@ -567,15 +577,17 @@
   },
   "106-98-9": {
     "class": "Unsaturated hydrocarbons",
-    "inchikey": "VXNZUUAINFGPBY-UHFFFAOYSA-N",
-    "smiles": "CCC=C",
-    "subclass": "Unsaturated aliphatic hydrocarbons"
+    "subclass": "Unsaturated aliphatic hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Unsaturated aliphatic hydrocarbons"
   },
   "106-99-0": {
     "class": "Unsaturated hydrocarbons",
-    "inchikey": "KAKZBPTYRLMSJV-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Olefins"
+    "subclass": "Olefins",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Alkadienes"
   },
   "107-00-6": {
     "class": "",
@@ -591,9 +603,10 @@
   },
   "107-03-9": {
     "class": "Thiols",
-    "inchikey": "SUVIGLJNEAMWEG-UHFFFAOYSA-N",
-    "smiles": "CCCS",
-    "subclass": "Alkylthiols"
+    "subclass": "Alkylthiols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organosulfur compounds",
+    "direct_parent": "Alkylthiols"
   },
   "107-05-1": {
     "class": "Organochlorides",
@@ -722,9 +735,10 @@
   },
   "107-88-0": {
     "class": "Organooxygen compounds",
-    "inchikey": "PUPZLCDOIYMWBV-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Secondary alcohols"
   },
   "107-92-6": {
     "class": "Fatty Acyls",
@@ -746,9 +760,10 @@
   },
   "1070-70-8": {
     "class": "Carboxylic acids and derivatives",
-    "inchikey": "JHWGFJBTMHEZME-UHFFFAOYSA-N",
-    "smiles": "C=CC(=O)OCCCCOC(=O)C=C",
-    "subclass": "Dicarboxylic acids and derivatives"
+    "subclass": "Acrylic acids and derivatives",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic acids and derivatives",
+    "direct_parent": "Acrylic acids"
   },
   "1070-71-9": {
     "class": "Organonitrogen compounds",
@@ -757,10 +772,11 @@
     "subclass": "Organic cyanides"
   },
   "1071-98-3": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Organonitrogen compounds",
+    "subclass": "Organic cyanides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic nitrogen compounds",
+    "direct_parent": "Nitriles"
   },
   "1073-67-2": {
     "class": "",
@@ -776,9 +792,10 @@
   },
   "108-03-2": {
     "class": "Allyl-type 1,3-dipolar organic compounds",
-    "inchikey": "JSZOAYXJRCEYSX-UHFFFAOYSA-N",
-    "smiles": "CCC[N+](=O)[O-]",
-    "subclass": "Organic nitro compounds"
+    "subclass": "Organic nitro compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic 1,3-dipolar compounds",
+    "direct_parent": "C-nitro compounds"
   },
   "108-05-4": {
     "class": "Carboxylic acids and derivatives",
@@ -860,9 +877,10 @@
   },
   "108-46-3": {
     "class": "Phenols",
-    "inchikey": "GHMLBKRAJCXXBS-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Benzenediols"
+    "subclass": "Benzenediols",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Resorcinols"
   },
   "108-60-1": {
     "class": "Organooxygen compounds",
@@ -950,9 +968,10 @@
   },
   "109-08-0": {
     "class": "Diazines",
-    "inchikey": "CAWHJQAVHZEVTJ-UHFFFAOYSA-N",
-    "smiles": "CC1=NC=CN=C1",
-    "subclass": "Pyrazines"
+    "subclass": "Pyrazines",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Pyrazines"
   },
   "109-21-7": {
     "class": "",
@@ -997,16 +1016,18 @@
     "subclass": "Alkanes"
   },
   "109-67-1": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Unsaturated hydrocarbons",
+    "subclass": "Unsaturated aliphatic hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Unsaturated aliphatic hydrocarbons"
   },
   "109-69-3": {
     "class": "Organochlorides",
-    "inchikey": "VFWCMGCRMGJXDK-UHFFFAOYSA-N",
-    "smiles": "CCCCCl",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "109-73-9": {
     "class": "Organonitrogen compounds",
@@ -1040,9 +1061,10 @@
   },
   "109-79-5": {
     "class": "Thiols",
-    "inchikey": "WQAQPCDUOCURKW-UHFFFAOYSA-N",
-    "smiles": "CCCCS",
-    "subclass": "Alkylthiols"
+    "subclass": "Alkylthiols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organosulfur compounds",
+    "direct_parent": "Alkylthiols"
   },
   "109-86-4": {
     "class": "",
@@ -1148,9 +1170,10 @@
   },
   "110-56-5": {
     "class": "Organochlorides",
-    "inchikey": "KJDRSWPQXHESDQ-UHFFFAOYSA-N",
-    "smiles": "C(CCCl)CCl",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "110-59-8": {
     "class": "Organonitrogen compounds",
@@ -1172,8 +1195,10 @@
   },
   "110-63-4": {
     "class": "Organooxygen compounds",
-    "inchikey": "WERYXYBDKMZEQL-UHFFFAOYSA-N",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Primary alcohols"
   },
   "110-67-8": {
     "class": "",
@@ -1242,8 +1267,10 @@
   },
   "110-88-3": {
     "class": "Trioxanes",
-    "inchikey": "BGJSXRVXTHVRSN-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Trioxanes"
   },
   "110-89-4": {
     "class": "Piperidines",
@@ -1271,8 +1298,10 @@
   },
   "111-27-3": {
     "class": "Fatty Acyls",
-    "inchikey": "ZSIAUFGUXNUGDI-UHFFFAOYSA-N",
-    "subclass": "Fatty alcohols"
+    "subclass": "Fatty alcohols",
+    "kingdom": "Organic compounds",
+    "superclass": "Lipids and lipid-like molecules",
+    "direct_parent": "Fatty alcohols"
   },
   "111-34-2": {
     "class": "Organooxygen compounds",
@@ -1334,16 +1363,18 @@
     "subclass": "Alkanes"
   },
   "111-66-0": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Unsaturated hydrocarbons",
+    "subclass": "Unsaturated aliphatic hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Unsaturated aliphatic hydrocarbons"
   },
   "111-70-6": {
     "class": "Fatty Acyls",
-    "inchikey": "BBMCTIGTTCKYKF-UHFFFAOYSA-N",
-    "smiles": "CCCCCCCO",
-    "subclass": "Fatty alcohols"
+    "subclass": "Fatty alcohols",
+    "kingdom": "Organic compounds",
+    "superclass": "Lipids and lipid-like molecules",
+    "direct_parent": "Fatty alcohols"
   },
   "111-76-2": {
     "class": "Organooxygen compounds",
@@ -1365,8 +1396,10 @@
   },
   "111-87-5": {
     "class": "Fatty Acyls",
-    "inchikey": "KBPLFHHGFOOTCA-UHFFFAOYSA-N",
-    "subclass": "Fatty alcohols"
+    "subclass": "Fatty alcohols",
+    "kingdom": "Organic compounds",
+    "superclass": "Lipids and lipid-like molecules",
+    "direct_parent": "Fatty alcohols"
   },
   "111-90-0": {
     "class": "Organooxygen compounds",
@@ -1446,9 +1479,10 @@
   },
   "112-30-1": {
     "class": "Fatty Acyls",
-    "inchikey": "MWKFXSUHUHTGQN-UHFFFAOYSA-N",
-    "smiles": "CCCCCCCCCCO",
-    "subclass": "Fatty alcohols"
+    "subclass": "Fatty alcohols",
+    "kingdom": "Organic compounds",
+    "superclass": "Lipids and lipid-like molecules",
+    "direct_parent": "Fatty alcohols"
   },
   "112-34-5": {
     "class": "Organooxygen compounds",
@@ -1530,9 +1564,10 @@
   },
   "1120-06-5": {
     "class": "Fatty Acyls",
-    "inchikey": "ACUZDYFTRHEKOS-UHFFFAOYSA-N",
-    "smiles": "CCCCCCCCC(C)O",
-    "subclass": "Fatty alcohols"
+    "subclass": "Fatty alcohols",
+    "kingdom": "Organic compounds",
+    "superclass": "Lipids and lipid-like molecules",
+    "direct_parent": "Fatty alcohols"
   },
   "1120-21-4": {
     "class": "Saturated hydrocarbons",
@@ -1542,15 +1577,17 @@
   },
   "1120-36-1": {
     "class": "Unsaturated hydrocarbons",
-    "inchikey": "HFDVRLIODXPAHB-UHFFFAOYSA-N",
-    "smiles": "CCCCCCCCCCCCC=C",
-    "subclass": "Unsaturated aliphatic hydrocarbons"
+    "subclass": "Unsaturated aliphatic hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Unsaturated aliphatic hydrocarbons"
   },
   "1120-71-4": {
     "class": "Oxathiolanes",
-    "inchikey": "FSSPGSAQUIYDCN-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Gamma sultones"
+    "subclass": "Gamma sultones",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Gamma sultones"
   },
   "1135-24-6": {
     "class": "Cinnamic acids and derivatives",
@@ -1583,10 +1620,11 @@
     "subclass": ""
   },
   "116-11-0": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Organooxygen compounds"
   },
   "116-14-3": {
     "class": "",
@@ -1619,9 +1657,10 @@
   },
   "118-79-6": {
     "class": "Phenols",
-    "inchikey": "BSWWXRFVMJHFBN-UHFFFAOYSA-N",
-    "smiles": "C1=C(C=C(C(=C1Br)O)Br)Br",
-    "subclass": "Halophenols"
+    "subclass": "Halophenols",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "P-bromophenols"
   },
   "118-96-7": {
     "class": "",
@@ -1685,21 +1724,24 @@
   },
   "120-80-9": {
     "class": "Phenols",
-    "inchikey": "YCIMNLLNPGFGHC-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Benzenediols"
+    "subclass": "Benzenediols",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Catechols"
   },
   "120-82-1": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "PBKONEOXTCPAFI-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Halobenzenes"
+    "subclass": "Halobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Chlorobenzenes"
   },
   "120-83-2": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "HFZWRUODUSTPEG-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C=C1Cl)Cl)O",
-    "subclass": "Halobenzenes"
+    "subclass": "Halobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Dichlorobenzenes"
   },
   "120-92-3": {
     "class": "Organooxygen compounds",
@@ -1715,9 +1757,10 @@
   },
   "121-14-2": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "RMBFBMJGBANMMK-UHFFFAOYSA-N",
-    "smiles": "CC1=C(C=C(C=C1)[N+](=O)[O-])[N+](=O)[O-]",
-    "subclass": "Toluenes"
+    "subclass": "Toluenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Dinitrotoluenes"
   },
   "121-33-5": {
     "class": "Phenols",
@@ -1763,9 +1806,10 @@
   },
   "122-99-6": {
     "class": "Phenol ethers",
-    "inchikey": "QCDWFXQBSFUVSP-UHFFFAOYSA-N",
-    "smiles": "C1=CC=C(C=C1)OCCO",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Phenol ethers"
   },
   "123-07-9": {
     "class": "Phenols",
@@ -1799,9 +1843,10 @@
   },
   "123-31-9": {
     "class": "Phenols",
-    "inchikey": "QIGBRXMKCJKVMJ-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=CC=C1O)O",
-    "subclass": "Benzenediols"
+    "subclass": "Benzenediols",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Hydroquinones"
   },
   "123-38-6": {
     "class": "Organooxygen compounds",
@@ -1883,9 +1928,10 @@
   },
   "123-91-1": {
     "class": "Dioxanes",
-    "inchikey": "RYHBNJHYFVUHQT-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "1,4-dioxanes"
+    "subclass": "1,4-dioxanes",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "1,4-dioxanes"
   },
   "123-92-2": {
     "class": "Carboxylic acids and derivatives",
@@ -1901,9 +1947,10 @@
   },
   "123-96-6": {
     "class": "Fatty Acyls",
-    "inchikey": "SJWFXCIHNDVPSH-UHFFFAOYSA-N",
-    "smiles": "CCCCCCC(C)O",
-    "subclass": "Fatty alcohols"
+    "subclass": "Fatty alcohols",
+    "kingdom": "Organic compounds",
+    "superclass": "Lipids and lipid-like molecules",
+    "direct_parent": "Fatty alcohols"
   },
   "124-02-7": {
     "class": "Organonitrogen compounds",
@@ -1925,9 +1972,10 @@
   },
   "124-11-8": {
     "class": "Unsaturated hydrocarbons",
-    "inchikey": "JRZJOMJEPLMPRA-UHFFFAOYSA-N",
-    "smiles": "CCCCCCCC=C",
-    "subclass": "Unsaturated aliphatic hydrocarbons"
+    "subclass": "Unsaturated aliphatic hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Unsaturated aliphatic hydrocarbons"
   },
   "124-17-4": {
     "class": "Carboxylic acids and derivatives",
@@ -2033,8 +2081,10 @@
   },
   "13116-60-4": {
     "class": "Organochlorides",
-    "inchikey": "MDCBRXYTSHYYJE-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "13169-01-2": {
     "class": "Organooxygen compounds",
@@ -2068,8 +2118,10 @@
   },
   "135-01-3": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "KVNYFPKFSJIPBJ-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Benzene and substituted derivatives"
   },
   "135-02-4": {
     "class": "Benzene and substituted derivatives",
@@ -2085,9 +2137,10 @@
   },
   "137-32-6": {
     "class": "Organooxygen compounds",
-    "inchikey": "QPRQEDXDYOZYLA-UHFFFAOYSA-N",
-    "smiles": "CCC(C)CO",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Primary alcohols"
   },
   "138-22-7": {
     "class": "Carboxylic acids and derivatives",
@@ -2192,10 +2245,11 @@
     "subclass": "Beta-keto acids and derivatives"
   },
   "142-28-9": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organochlorides",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "142-29-0": {
     "class": "Unsaturated hydrocarbons",
@@ -2277,9 +2331,10 @@
   },
   "143-08-8": {
     "class": "Fatty Acyls",
-    "inchikey": "ZWRUINPWMLAQRD-UHFFFAOYSA-N",
-    "smiles": "CCCCCCCCCO",
-    "subclass": "Fatty alcohols"
+    "subclass": "Fatty alcohols",
+    "kingdom": "Organic compounds",
+    "superclass": "Lipids and lipid-like molecules",
+    "direct_parent": "Fatty alcohols"
   },
   "143-28-2": {
     "class": "Fatty Acyls",
@@ -2343,15 +2398,17 @@
   },
   "1515-76-0": {
     "class": "Carboxylic acids and derivatives",
-    "inchikey": "NMQQBXHZBNUXGJ-SNAWJCMRSA-N",
-    "smiles": "CC(=O)O/C=C/C=C",
-    "subclass": "Carboxylic acid derivatives"
+    "subclass": "Carboxylic acid derivatives",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic acids and derivatives",
+    "direct_parent": "Enol esters"
   },
   "1528-20-7": {
     "class": "Organooxygen compounds",
-    "inchikey": "AQTYNINXYJFSHD-AATRIKPKSA-N",
-    "smiles": "CC/C=C/OCC",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Organooxygen compounds"
   },
   "1559-35-9": {
     "class": "Organooxygen compounds",
@@ -2361,8 +2418,10 @@
   },
   "156-59-2": {
     "class": "Vinyl halides",
-    "inchikey": "KFUSEUYYWQURPO-UPHRSURJSA-N",
-    "subclass": "Vinyl chlorides"
+    "subclass": "Vinyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl chlorides"
   },
   "156-60-5": {
     "class": "Vinyl halides",
@@ -2408,9 +2467,10 @@
   },
   "15980-15-1": {
     "class": "Oxathianes",
-    "inchikey": "JBYHSSAVUBIJMK-UHFFFAOYSA-N",
-    "smiles": "C1CSCCO1",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Oxathianes"
   },
   "1600-44-8": {
     "class": "Thiolanes",
@@ -2461,10 +2521,11 @@
     "subclass": ""
   },
   "1653-19-6": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Vinyl halides",
+    "subclass": "Vinyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl chlorides"
   },
   "1663-35-0": {
     "class": "Organooxygen compounds",
@@ -2551,15 +2612,17 @@
   },
   "18913-31-0": {
     "class": "Organooxygen compounds",
-    "inchikey": "JXKCVRNKAPHWJG-UHFFFAOYSA-N",
-    "smiles": "C=C=CCO",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Primary alcohols"
   },
   "1897-52-5": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "BNBRIFIJRKJGEI-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Benzonitriles"
+    "subclass": "Benzonitriles",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Benzonitriles"
   },
   "19221-28-4": {
     "class": "",
@@ -2574,34 +2637,39 @@
     "subclass": ""
   },
   "19693-75-5": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "Ortho esters",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Ortho esters"
   },
   "19780-25-7": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "Carbonyl compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Enals"
   },
   "1984-65-2": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "KZLMCDNAVVJKPX-UHFFFAOYSA-N",
-    "smiles": "COC1=C(C=CC=C1Cl)Cl",
-    "subclass": "Halobenzenes"
+    "subclass": "Halobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Dichlorobenzenes"
   },
   "2004-70-8": {
     "class": "Unsaturated hydrocarbons",
-    "inchikey": "PMJHHCWVYXUKFD-SNAWJCMRSA-N",
-    "smiles": "C/C=C/C=C",
-    "subclass": "Olefins"
+    "subclass": "Olefins",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Alkadienes"
   },
   "20352-67-4": {
     "class": "Organonitrogen compounds",
-    "inchikey": "WSTNFGAKGUERTC-UHFFFAOYSA-N",
-    "smiles": "CCCCCCNCC",
-    "subclass": "Amines"
+    "subclass": "Amines",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic nitrogen compounds",
+    "direct_parent": "Monoalkylamines"
   },
   "2039-87-4": {
     "class": "Benzene and substituted derivatives",
@@ -2629,8 +2697,10 @@
   },
   "20682-69-3": {
     "class": "Organooxygen compounds",
-    "inchikey": "XFJWHICSGRNOKN-UHFFFAOYSA-N",
-    "subclass": "Ethers"
+    "subclass": "Ethers",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Acetals"
   },
   "2100-17-6": {
     "class": "Organooxygen compounds",
@@ -2640,8 +2710,10 @@
   },
   "21400-25-9": {
     "class": "Vinyl halides",
-    "inchikey": "LIPPKMMVZOHCIF-UHFFFAOYSA-N",
-    "subclass": "Vinyl chlorides"
+    "subclass": "Vinyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl chlorides"
   },
   "2168-93-6": {
     "class": "Sulfoxides",
@@ -2656,10 +2728,11 @@
     "subclass": ""
   },
   "22059-21-8": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Carboxylic acids and derivatives",
+    "subclass": "Amino acids, peptides, and analogues",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic acids and derivatives",
+    "direct_parent": "Alpha amino acids"
   },
   "2210-28-8": {
     "class": "Carboxylic acids and derivatives",
@@ -2681,27 +2754,31 @@
   },
   "2233-00-3": {
     "class": "Organochlorides",
-    "inchikey": "VKEIPALYOJMDAC-UHFFFAOYSA-N",
-    "smiles": "C=CC(Cl)(Cl)Cl",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "2268-05-5": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "JORVCRLRRRRLFI-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C(=C1)Cl)F)Cl",
-    "subclass": "Halobenzenes"
+    "subclass": "Halobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Dichlorobenzenes"
   },
   "2273-93-0": {
     "class": "Imidazopyrimidines",
-    "inchikey": "HVMUWHZAZGTMJK-UHFFFAOYSA-N",
-    "smiles": "CN1C=NC2=C1C(=NC(=N2)Cl)Cl",
-    "subclass": "Purines and purine derivatives"
+    "subclass": "Purines and purine derivatives",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Purines and purine derivatives"
   },
   "2317-91-1": {
     "class": "Organooxygen compounds",
-    "inchikey": "FPBWSPZHCJXUBL-UHFFFAOYSA-N",
-    "smiles": "C=C(F)Cl",
-    "subclass": "Ketene acetals"
+    "subclass": "Ketene acetals",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Ketene acetals"
   },
   "23436-19-3": {
     "class": "",
@@ -2716,10 +2793,11 @@
     "subclass": "Ethers"
   },
   "2409-55-4": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Benzene and substituted derivatives",
+    "subclass": "Phenylpropanes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Phenylpropanes"
   },
   "2495-37-6": {
     "class": "Benzene and substituted derivatives",
@@ -2735,9 +2813,10 @@
   },
   "25125-85-3": {
     "class": "Organooxygen compounds",
-    "inchikey": "JWBPCSXRWORRAI-UHFFFAOYSA-N",
-    "smiles": "CC=C(C)OC",
-    "subclass": ""
+    "subclass": "Ethers",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Dialkyl ethers"
   },
   "2517-43-3": {
     "class": "Organooxygen compounds",
@@ -2746,10 +2825,11 @@
     "subclass": "Ethers"
   },
   "25265-77-4": {
-    "class": "Carboxylic acids and derivatives",
-    "inchikey": "DAFHKNAQFPVRKR-UHFFFAOYSA-N",
-    "smiles": "CC(C)C(C(C)(C)COC(=O)C(C)C)O",
-    "subclass": "Carboxylic acid derivatives"
+    "class": "Organooxygen compounds",
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Secondary alcohols"
   },
   "25790-55-0": {
     "class": "",
@@ -2807,9 +2887,10 @@
   },
   "271-89-6": {
     "class": "Benzofurans",
-    "inchikey": "IANQTJSKSUMEQM-UHFFFAOYSA-N",
-    "smiles": "C1=CC=C2C(=C1)C=CO2",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Benzofurans"
   },
   "27251-75-8": {
     "class": "Benzene and substituted derivatives",
@@ -2819,8 +2900,10 @@
   },
   "274-09-9": {
     "class": "Benzodioxoles",
-    "inchikey": "FTNJQNQLEGKTGD-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Benzodioxoles"
   },
   "2781-85-3": {
     "class": "Unsaturated hydrocarbons",
@@ -2890,8 +2973,10 @@
   },
   "288-36-8": {
     "class": "Azoles",
-    "inchikey": "QWENRTYMTSOGBR-UHFFFAOYSA-N",
-    "subclass": "Triazoles"
+    "subclass": "Triazoles",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Triazoles"
   },
   "288-47-1": {
     "class": "Azoles",
@@ -2912,10 +2997,11 @@
     "subclass": "Pyrimidines and pyrimidine derivatives"
   },
   "2902-96-7": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Allyl-type 1,3-dipolar organic compounds",
+    "subclass": "Organic nitro compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic 1,3-dipolar compounds",
+    "direct_parent": "C-nitro compounds"
   },
   "291-64-5": {
     "class": "Saturated hydrocarbons",
@@ -2990,10 +3076,11 @@
     "subclass": ""
   },
   "3036-66-6": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Organooxygen compounds"
   },
   "30373-82-1": {
     "class": "",
@@ -3045,27 +3132,31 @@
   },
   "320-50-3": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "DYBYUWVMLBBEMA-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C=C1Cl)C(F)(F)F)Cl",
-    "subclass": "Trifluoromethylbenzenes"
+    "subclass": "Trifluoromethylbenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Trifluoromethylbenzenes"
   },
   "3209-22-1": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "CMVQZRLQEOAYSW-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C(=C1)Cl)Cl)[N+](=O)[O-]",
-    "subclass": "Nitrobenzenes"
+    "subclass": "Nitrobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Nitrobenzenes"
   },
   "3212-60-0": {
     "class": "Organooxygen compounds",
-    "inchikey": "PSBABBDEUFNFKJ-UHFFFAOYSA-N",
-    "smiles": "C1CC(C=C1)O",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Secondary alcohols"
   },
   "3218-49-3": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "QWZNCAFWRZZJMA-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C=C1CC#N)Cl)Cl",
-    "subclass": "Benzyl cyanides"
+    "subclass": "Benzyl cyanides",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Benzyl cyanides"
   },
   "328-84-7": {
     "class": "Benzene and substituted derivatives",
@@ -3075,9 +3166,10 @@
   },
   "3320-90-9": {
     "class": "Tetrahydrofurans",
-    "inchikey": "ZLKHNURELCONBB-UHFFFAOYSA-N",
-    "smiles": "CCOC1CCC(O1)OCC",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Tetrahydrofurans"
   },
   "334-22-5": {
     "class": "",
@@ -3117,9 +3209,10 @@
   },
   "3404-63-5": {
     "class": "Unsaturated hydrocarbons",
-    "inchikey": "IGLWCQMNTGCUBB-UHFFFAOYSA-N",
-    "smiles": "CCC(=C)C=C",
-    "subclass": "Branched unsaturated hydrocarbons"
+    "subclass": "Branched unsaturated hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Branched unsaturated hydrocarbons"
   },
   "344-38-7": {
     "class": "Benzene and substituted derivatives",
@@ -3213,8 +3306,10 @@
   },
   "3658-95-5": {
     "class": "Organooxygen compounds",
-    "inchikey": "UVHXZFGCCJLFMX-UHFFFAOYSA-N",
-    "subclass": "Ethers"
+    "subclass": "Ethers",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Acetals"
   },
   "36653-82-4": {
     "class": "",
@@ -3265,16 +3360,18 @@
     "subclass": ""
   },
   "3773-14-6": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Thiophenols",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Thiophenols"
   },
   "3776-30-5": {
     "class": "Organooxygen compounds",
-    "inchikey": "QCAHVKJGHYVLIS-UHFFFAOYSA-N",
-    "smiles": "C1CC(C(=O)C(C1)(Cl)Cl)(Cl)Cl",
-    "subclass": "Carbonyl compounds"
+    "subclass": "Carbonyl compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Alpha-chloroketones"
   },
   "381-61-3": {
     "class": "Vinyl halides",
@@ -3302,9 +3399,10 @@
   },
   "393-79-3": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "JSEVUBOYVADSHX-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C(=C1[N+](=O)[O-])Cl)F)Cl",
-    "subclass": "Nitrobenzenes"
+    "subclass": "Nitrobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Nitrobenzenes"
   },
   "39332-55-3": {
     "class": "Organooxygen compounds",
@@ -3314,9 +3412,10 @@
   },
   "3937-56-2": {
     "class": "Fatty Acyls",
-    "inchikey": "ALVZNPYWJMLXKV-UHFFFAOYSA-N",
-    "smiles": "C(CCCCO)CCCCO",
-    "subclass": "Fatty alcohols"
+    "subclass": "Fatty alcohols",
+    "kingdom": "Organic compounds",
+    "superclass": "Lipids and lipid-like molecules",
+    "direct_parent": "Fatty alcohols"
   },
   "3944-36-3": {
     "class": "Organooxygen compounds",
@@ -3326,15 +3425,17 @@
   },
   "400-70-4": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "VLVNHMVSVDVAOA-UHFFFAOYSA-N",
-    "smiles": "C1=C(C(=CC(=C1[N+](=O)[O-])Cl)Cl)C(F)(F)F",
-    "subclass": "Trifluoromethylbenzenes"
+    "subclass": "Trifluoromethylbenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Trifluoromethylbenzenes"
   },
   "40079-14-9": {
     "class": "Epoxides",
-    "inchikey": "AAEZMHSWRQVQEK-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Epoxides"
   },
   "402-31-3": {
     "class": "Benzene and substituted derivatives",
@@ -3343,10 +3444,11 @@
     "subclass": "Trifluoromethylbenzenes"
   },
   "4043-59-8": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Secondary alcohols"
   },
   "406-58-6": {
     "class": "Organofluorides",
@@ -3368,8 +3470,10 @@
   },
   "420-46-2": {
     "class": "Organofluorides",
-    "inchikey": "UJPMYEOUBPIPHQ-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organofluorides"
   },
   "422-56-0": {
     "class": "Organofluorides",
@@ -3379,9 +3483,10 @@
   },
   "42345-82-4": {
     "class": "Vinyl halides",
-    "inchikey": "CIVPSPVLMYVHNC-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Vinyl chlorides"
+    "subclass": "Vinyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl chlorides"
   },
   "4253-91-2": {
     "class": "Sulfoxides",
@@ -3426,9 +3531,10 @@
   },
   "4376-20-9": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "DJDSLBVSSOQSLW-UHFFFAOYSA-N",
-    "smiles": "CCCCC(CC)COC(=O)C1=CC=CC=C1C(=O)O",
-    "subclass": "Benzoic acids and derivatives"
+    "subclass": "Benzoic acids and derivatives",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Benzoic acid esters"
   },
   "4413-13-2": {
     "class": "Organooxygen compounds",
@@ -3444,9 +3550,10 @@
   },
   "4437-70-1": {
     "class": "Organic carbonic acids and derivatives",
-    "inchikey": "LWLOKSXSAUHTJO-UHFFFAOYSA-N",
-    "smiles": "CC1C(OC(=O)O1)C",
-    "subclass": "Carbonic acid diesters"
+    "subclass": "Carbonic acid diesters",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic acids and derivatives",
+    "direct_parent": "Carbonic acid diesters"
   },
   "4437-85-8": {
     "class": "Organic carbonic acids and derivatives",
@@ -3462,9 +3569,10 @@
   },
   "446-35-5": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "RJXOVESYJFXCGI-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C=C1F)F)[N+](=O)[O-]",
-    "subclass": "Nitrobenzenes"
+    "subclass": "Nitrobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Nitrobenzenes"
   },
   "4461-52-3": {
     "class": "Organooxygen compounds",
@@ -3516,9 +3624,10 @@
   },
   "463-49-0": {
     "class": "Acyclic allenes",
-    "inchikey": "IYABWNGZIDDRAK-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Allenes",
+    "direct_parent": "Acyclic allenes"
   },
   "463-51-4": {
     "class": "Organooxygen compounds",
@@ -3558,15 +3667,17 @@
   },
   "4696-30-4": {
     "class": "Organooxygen compounds",
-    "inchikey": "VDTUJQCSPFYIKZ-UHFFFAOYSA-N",
-    "smiles": "COCCC=C",
-    "subclass": "Ethers"
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Organooxygen compounds"
   },
   "470-82-6": {
     "class": "Oxanes",
-    "inchikey": "WEEGYLXZBRQIMU-UHFFFAOYSA-N",
-    "smiles": "CC1(C2CCC(O1)(CC2)C)C",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Oxanes"
   },
   "471-84-1": {
     "class": "Prenol lipids",
@@ -3588,8 +3699,10 @@
   },
   "488-23-3": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "UOHMMEJUHBCKEE-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Benzene and substituted derivatives"
   },
   "488-81-3": {
     "class": "",
@@ -3629,9 +3742,10 @@
   },
   "497-26-7": {
     "class": "Dioxolanes",
-    "inchikey": "HTWIZMNMTWYQRN-UHFFFAOYSA-N",
-    "smiles": "CC1OCCO1",
-    "subclass": "1,3-dioxolanes"
+    "subclass": "1,3-dioxolanes",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "1,3-dioxolanes"
   },
   "50-00-0": {
     "class": "",
@@ -3711,10 +3825,11 @@
     "subclass": ""
   },
   "503-64-0": {
-    "class": "Fatty Acyls",
-    "inchikey": "LDHQCZJRKDOVOX-IHWYPQMZSA-N",
-    "smiles": "C/C=C\\C(=O)O",
-    "subclass": "Fatty acids and conjugates"
+    "class": "Carboxylic acids and derivatives",
+    "subclass": "Carboxylic acids",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic acids and derivatives",
+    "direct_parent": "Carboxylic acids"
   },
   "503-74-2": {
     "class": "Fatty Acyls",
@@ -3730,9 +3845,10 @@
   },
   "504-29-0": {
     "class": "Pyridines and derivatives",
-    "inchikey": "ICSNLGPSRYBMBD-UHFFFAOYSA-N",
-    "smiles": "C1=CC=NC(=C1)N",
-    "subclass": "Aminopyridines and derivatives"
+    "subclass": "Aminopyridines and derivatives",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Aminopyridines and derivatives"
   },
   "504-61-0": {
     "class": "Organooxygen compounds",
@@ -3742,9 +3858,10 @@
   },
   "504-63-2": {
     "class": "Organooxygen compounds",
-    "inchikey": "YPFDHNVEDLHUCE-UHFFFAOYSA-N",
-    "smiles": "C(CO)CO",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Primary alcohols"
   },
   "506-68-3": {
     "class": "",
@@ -3772,9 +3889,10 @@
   },
   "507-20-0": {
     "class": "Organochlorides",
-    "inchikey": "NBRKLOOSMBRFMH-UHFFFAOYSA-N",
-    "smiles": "CC(C)(C)Cl",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "507-55-1": {
     "class": "Organofluorides",
@@ -3832,20 +3950,24 @@
   },
   "513-35-9": {
     "class": "Unsaturated hydrocarbons",
-    "inchikey": "BKOOMYPCSUNDGP-UHFFFAOYSA-N",
-    "smiles": "CC=C(C)C",
-    "subclass": "Branched unsaturated hydrocarbons"
+    "subclass": "Branched unsaturated hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Branched unsaturated hydrocarbons"
   },
   "513-37-1": {
     "class": "Vinyl halides",
-    "inchikey": "KWISWUFGPUHDRY-UHFFFAOYSA-N",
-    "smiles": "CC(=CCl)C",
-    "subclass": "Vinyl chlorides"
+    "subclass": "Vinyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl chlorides"
   },
   "513-88-2": {
     "class": "Organooxygen compounds",
-    "inchikey": "CSVFWMMPUJDVKH-UHFFFAOYSA-N",
-    "subclass": "Carbonyl compounds"
+    "subclass": "Carbonyl compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Alpha-chloroketones"
   },
   "5131-66-8": {
     "class": "Organooxygen compounds",
@@ -3873,8 +3995,10 @@
   },
   "527-53-7": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "BFIMMTCNYPIMRN-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Benzene and substituted derivatives"
   },
   "5274-66-8": {
     "class": "",
@@ -3890,9 +4014,10 @@
   },
   "528-29-0": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "IZUKQUVSCNEFMJ-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Nitrobenzenes"
+    "subclass": "Nitrobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Nitrobenzenes"
   },
   "5291-77-0": {
     "class": "Benzene and substituted derivatives",
@@ -3907,10 +4032,11 @@
     "subclass": ""
   },
   "53175-28-3": {
-    "class": "Organooxygen compounds",
-    "inchikey": "GMUIHGWBQIUCST-RQOWECAXSA-N",
-    "smiles": "C/C=C(/C=O)\\Cl",
-    "subclass": "Carbonyl compounds"
+    "class": "Acyl halides",
+    "subclass": "Acyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Acyl chlorides"
   },
   "532-27-4": {
     "class": "Organooxygen compounds",
@@ -3920,14 +4046,17 @@
   },
   "534-15-6": {
     "class": "Organooxygen compounds",
-    "inchikey": "SPEUIVXLLWOEMJ-UHFFFAOYSA-N",
-    "subclass": "Ethers"
+    "subclass": "Ethers",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Acetals"
   },
   "534-22-5": {
     "class": "Heteroaromatic compounds",
-    "inchikey": "VQKFNUFAXTZWDK-UHFFFAOYSA-N",
-    "smiles": "CC1=CC=CO1",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Heteroaromatic compounds"
   },
   "536-74-3": {
     "class": "",
@@ -3961,9 +4090,10 @@
   },
   "540-49-8": {
     "class": "Vinyl halides",
-    "inchikey": "UWTUEMKLYAGTNQ-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Vinyl bromides"
+    "subclass": "Vinyl bromides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl bromides"
   },
   "540-54-5": {
     "class": "",
@@ -3985,9 +4115,10 @@
   },
   "540-84-1": {
     "class": "Saturated hydrocarbons",
-    "inchikey": "NHTMVDHEPJAVLT-UHFFFAOYSA-N",
-    "smiles": "CC(C)CC(C)(C)C",
-    "subclass": "Alkanes"
+    "subclass": "Alkanes",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Branched alkanes"
   },
   "540-88-5": {
     "class": "",
@@ -4032,9 +4163,10 @@
   },
   "542-58-5": {
     "class": "Carboxylic acids and derivatives",
-    "inchikey": "VIRWKAJWTKAIMA-UHFFFAOYSA-N",
-    "smiles": "CC(=O)OCCCl",
-    "subclass": "Carboxylic acid derivatives"
+    "subclass": "Carboxylic acid derivatives",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic acids and derivatives",
+    "direct_parent": "Carboxylic acid esters"
   },
   "542-76-7": {
     "class": "Organonitrogen compounds",
@@ -4068,21 +4200,24 @@
   },
   "543-49-7": {
     "class": "Fatty Acyls",
-    "inchikey": "CETWDUZRCINIHU-UHFFFAOYSA-N",
-    "smiles": "CCCCCC(C)O",
-    "subclass": "Fatty alcohols"
+    "subclass": "Fatty alcohols",
+    "kingdom": "Organic compounds",
+    "superclass": "Lipids and lipid-like molecules",
+    "direct_parent": "Fatty alcohols"
   },
   "543-59-9": {
     "class": "Organochlorides",
-    "inchikey": "SQCZQTSHSZLZIQ-UHFFFAOYSA-N",
-    "smiles": "CCCCCCl",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "544-10-5": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organochlorides",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "544-76-3": {
     "class": "Saturated hydrocarbons",
@@ -4098,9 +4233,10 @@
   },
   "5459-90-5": {
     "class": "Carboxylic acids and derivatives",
-    "inchikey": "PPHOKWJFQIHKNR-UHFFFAOYSA-N",
-    "smiles": "CC(=O)OC(C(=C)Cl)OC(=O)C",
-    "subclass": "Carboxylic acid derivatives"
+    "subclass": "Carboxylic acid derivatives",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic acids and derivatives",
+    "direct_parent": "Acylals"
   },
   "5464-28-8": {
     "class": "",
@@ -4109,10 +4245,11 @@
     "subclass": ""
   },
   "54722-81-5": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "Ketene acetals",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Ketene acetals"
   },
   "54839-24-6": {
     "class": "Carboxylic acids and derivatives",
@@ -4146,9 +4283,10 @@
   },
   "554-00-7": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "KQCMTOWTPBNWDB-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C=C1Cl)Cl)N",
-    "subclass": "Halobenzenes"
+    "subclass": "Halobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Dichlorobenzenes"
   },
   "554-12-1": {
     "class": "Carboxylic acids and derivatives",
@@ -4199,20 +4337,24 @@
   },
   "557-91-5": {
     "class": "Organobromides",
-    "inchikey": "APQIUTYORBAGEZ-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organobromides"
   },
   "557-93-7": {
     "class": "Vinyl halides",
-    "inchikey": "PHMRPWPDDRGGGF-UHFFFAOYSA-N",
-    "smiles": "CC(=C)Br",
-    "subclass": "Vinyl bromides"
+    "subclass": "Vinyl bromides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl bromides"
   },
   "557-98-2": {
     "class": "Vinyl halides",
-    "inchikey": "PNLQPWWBHXMFCA-UHFFFAOYSA-N",
-    "smiles": "CC(=C)Cl",
-    "subclass": "Vinyl chlorides"
+    "subclass": "Vinyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl chlorides"
   },
   "557-99-3": {
     "class": "Acyl halides",
@@ -4258,9 +4400,10 @@
   },
   "563-46-2": {
     "class": "Unsaturated hydrocarbons",
-    "inchikey": "MHNNAWXXUZQSNM-UHFFFAOYSA-N",
-    "smiles": "CCC(=C)C",
-    "subclass": "Branched unsaturated hydrocarbons"
+    "subclass": "Branched unsaturated hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Branched unsaturated hydrocarbons"
   },
   "563-47-3": {
     "class": "",
@@ -4270,8 +4413,10 @@
   },
   "563-58-6": {
     "class": "Organooxygen compounds",
-    "inchikey": "ZAIDIVBQUMFXEC-UHFFFAOYSA-N",
-    "subclass": "Ketene acetals"
+    "subclass": "Ketene acetals",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Ketene acetals"
   },
   "563-78-0": {
     "class": "",
@@ -4305,9 +4450,10 @@
   },
   "57-14-7": {
     "class": "Organonitrogen compounds",
-    "inchikey": "RHUYHJGZWVXEHW-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Hydrazines and derivatives"
+    "subclass": "Hydrazines and derivatives",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic nitrogen compounds",
+    "direct_parent": "Alkylhydrazines"
   },
   "57-55-6": {
     "class": "",
@@ -4329,9 +4475,10 @@
   },
   "576-26-1": {
     "class": "Phenols",
-    "inchikey": "NXXYKOUNUYWIHA-UHFFFAOYSA-N",
-    "smiles": "CC1=C(C(=CC=C1)C)O",
-    "subclass": "Cresols"
+    "subclass": "Cresols",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Ortho cresols"
   },
   "577-71-9": {
     "class": "Phenols",
@@ -4370,22 +4517,25 @@
     "subclass": "Halobenzenes"
   },
   "583-59-5": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Cyclohexanols"
   },
   "583-60-8": {
     "class": "Organooxygen compounds",
-    "inchikey": "LFSAPCRASZRSKS-UHFFFAOYSA-N",
-    "smiles": "CC1CCCCC1=O",
-    "subclass": "Carbonyl compounds"
+    "subclass": "Carbonyl compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Cyclic ketones"
   },
   "583-78-8": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "RANCECPPZPIPNO-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C=C1Cl)O)Cl",
-    "subclass": "Halobenzenes"
+    "subclass": "Halobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Dichlorobenzenes"
   },
   "586-11-8": {
     "class": "Phenols",
@@ -4413,9 +4563,10 @@
   },
   "588-96-5": {
     "class": "Phenol ethers",
-    "inchikey": "WVUYYXUATWMVIT-UHFFFAOYSA-N",
-    "smiles": "CCOC1=CC=C(C=C1)Br",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Phenol ethers"
   },
   "589-82-2": {
     "class": "Organooxygen compounds",
@@ -4443,33 +4594,38 @@
   },
   "590-13-6": {
     "class": "Vinyl halides",
-    "inchikey": "NNQDMQVWOWCVEM-IHWYPQMZSA-N",
-    "smiles": "C/C=C\\Br",
-    "subclass": "Vinyl bromides"
+    "subclass": "Vinyl bromides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl bromides"
   },
   "590-18-1": {
     "class": "Unsaturated hydrocarbons",
-    "inchikey": "IAQRGUVFOMOMEM-ARJAWSKDSA-N",
-    "smiles": "C/C=C\\C",
-    "subclass": "Unsaturated aliphatic hydrocarbons"
+    "subclass": "Unsaturated aliphatic hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Unsaturated aliphatic hydrocarbons"
   },
   "590-19-2": {
     "class": "Acyclic allenes",
-    "inchikey": "QNRMTGGDHLBXQZ-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Allenes",
+    "direct_parent": "Acyclic allenes"
   },
   "590-21-6": {
     "class": "Vinyl halides",
-    "inchikey": "OWXJKYNZGFSVRC-UHFFFAOYSA-N",
-    "smiles": "CC=CCl",
-    "subclass": "Vinyl chlorides"
+    "subclass": "Vinyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl chlorides"
   },
   "590-67-0": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Cyclohexanols"
   },
   "590-86-3": {
     "class": "Organooxygen compounds",
@@ -4520,15 +4676,18 @@
     "subclass": ""
   },
   "591-97-9": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Organochlorides",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "592-41-6": {
     "class": "Unsaturated hydrocarbons",
-    "inchikey": "LIKMAJRDDDTEIG-UHFFFAOYSA-N",
-    "subclass": "Unsaturated aliphatic hydrocarbons"
+    "subclass": "Unsaturated aliphatic hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Unsaturated aliphatic hydrocarbons"
   },
   "592-51-8": {
     "class": "Organonitrogen compounds",
@@ -4537,9 +4696,10 @@
   },
   "592-76-7": {
     "class": "Unsaturated hydrocarbons",
-    "inchikey": "ZGEGCLOFRBLKSE-UHFFFAOYSA-N",
-    "smiles": "CCCCCC=C",
-    "subclass": "Unsaturated aliphatic hydrocarbons"
+    "subclass": "Unsaturated aliphatic hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Unsaturated aliphatic hydrocarbons"
   },
   "592-84-7": {
     "class": "Carboxylic acids and derivatives",
@@ -4591,8 +4751,10 @@
   },
   "593-92-0": {
     "class": "Organooxygen compounds",
-    "inchikey": "IWHJPYXAFGKABF-UHFFFAOYSA-N",
-    "subclass": "Ketene acetals"
+    "subclass": "Ketene acetals",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Ketene acetals"
   },
   "594-44-5": {
     "class": "Sulfonyl halides",
@@ -4602,25 +4764,31 @@
   },
   "594-72-9": {
     "class": "Allyl-type 1,3-dipolar organic compounds",
-    "inchikey": "OQOGEOLRYAOSKO-UHFFFAOYSA-N",
-    "subclass": "Organic nitro compounds"
+    "subclass": "Organic nitro compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic 1,3-dipolar compounds",
+    "direct_parent": "C-nitro compounds"
   },
   "5976-47-6": {
     "class": "Halohydrins",
-    "inchikey": "OSCXYTRISGREIM-UHFFFAOYSA-N",
-    "smiles": "C=C(CO)Cl",
-    "subclass": "Chlorohydrins"
+    "subclass": "Chlorohydrins",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Chlorohydrins"
   },
   "598-16-3": {
     "class": "Vinyl halides",
-    "inchikey": "OZVJKTHTULCNHB-UHFFFAOYSA-N",
-    "subclass": "Vinyl bromides"
+    "subclass": "Vinyl bromides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl bromides"
   },
   "598-19-6": {
     "class": "Halohydrins",
-    "inchikey": "MDFFZNIQPLKQSG-UHFFFAOYSA-N",
-    "smiles": "C=C(CO)Br",
-    "subclass": "Bromohydrins"
+    "subclass": "Bromohydrins",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Bromohydrins"
   },
   "598-25-4": {
     "class": "Unsaturated hydrocarbons",
@@ -4648,15 +4816,17 @@
   },
   "598-79-8": {
     "class": "Carboxylic acids and derivatives",
-    "inchikey": "SZTBMYHIYNGYIA-UHFFFAOYSA-N",
-    "smiles": "C=C(C(=O)O)Cl",
-    "subclass": "Alpha-halocarboxylic acids and derivatives"
+    "subclass": "Alpha-halocarboxylic acids and derivatives",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic acids and derivatives",
+    "direct_parent": "Alpha-halocarboxylic acids"
   },
   "598-92-5": {
     "class": "Allyl-type 1,3-dipolar organic compounds",
-    "inchikey": "LPIWIOBGUAPNQW-UHFFFAOYSA-N",
-    "smiles": "CC([N+](=O)[O-])Cl",
-    "subclass": "Organic nitro compounds"
+    "subclass": "Organic nitro compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic 1,3-dipolar compounds",
+    "direct_parent": "C-nitro compounds"
   },
   "5989-27-5": {
     "class": "Prenol lipids",
@@ -4672,8 +4842,10 @@
   },
   "60-12-8": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "WRMNZCZEMHIOCP-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Benzene and substituted derivatives"
   },
   "60-18-4": {
     "class": "Carboxylic acids and derivatives",
@@ -4701,26 +4873,31 @@
   },
   "600-25-9": {
     "class": "Allyl-type 1,3-dipolar organic compounds",
-    "inchikey": "XEKUXTMJEFPWCG-UHFFFAOYSA-N",
-    "smiles": "CCC([N+](=O)[O-])Cl",
-    "subclass": "Organic nitro compounds"
+    "subclass": "Organic nitro compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic 1,3-dipolar compounds",
+    "direct_parent": "C-nitro compounds"
   },
   "6032-29-7": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Secondary alcohols"
   },
   "609-40-5": {
     "class": "Thiophenes",
-    "inchikey": "JIZRGGUCOQKGQD-UHFFFAOYSA-N",
-    "subclass": "Nitrothiophenes"
+    "subclass": "Nitrothiophenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "2-nitrothiophenes"
   },
   "611-06-3": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "QUIMTLZDMCNYGY-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C=C1Cl)Cl)[N+](=O)[O-]",
-    "subclass": "Nitrobenzenes"
+    "subclass": "Nitrobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Nitrobenzenes"
   },
   "611-13-2": {
     "class": "Furans",
@@ -4729,15 +4906,18 @@
     "subclass": "Furoic acid and derivatives"
   },
   "611-15-4": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Benzene and substituted derivatives",
+    "subclass": "Styrenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Styrenes"
   },
   "614-72-2": {
     "class": "Phenol ethers",
-    "inchikey": "IRYSAAMKXPLGAM-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Phenol ethers"
   },
   "6140-80-3": {
     "class": "",
@@ -4747,15 +4927,17 @@
   },
   "615-65-6": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "XGYLSRFSXKAYCR-UHFFFAOYSA-N",
-    "smiles": "CC1=CC(=C(C=C1)N)Cl",
-    "subclass": "Toluenes"
+    "subclass": "Toluenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Aminotoluenes"
   },
   "615-74-7": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Phenols",
+    "subclass": "Cresols",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Meta cresols"
   },
   "616-02-4": {
     "class": "Dihydrofurans",
@@ -4765,9 +4947,10 @@
   },
   "616-23-9": {
     "class": "Halohydrins",
-    "inchikey": "ZXCYIJGIGSDJQQ-UHFFFAOYSA-N",
-    "smiles": "C(C(CCl)Cl)O",
-    "subclass": "Chlorohydrins"
+    "subclass": "Chlorohydrins",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Chlorohydrins"
   },
   "616-38-6": {
     "class": "",
@@ -4777,15 +4960,17 @@
   },
   "616-45-5": {
     "class": "Pyrrolidines",
-    "inchikey": "HNJBEVLQSNELDL-UHFFFAOYSA-N",
-    "smiles": "C1CC(=O)NC1",
-    "subclass": "Pyrrolidones"
+    "subclass": "Pyrrolidones",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Pyrrolidine-2-ones"
   },
   "616-47-7": {
     "class": "Azoles",
-    "inchikey": "MCTWTZJPVLRJOU-UHFFFAOYSA-N",
-    "smiles": "CN1C=CN=C1",
-    "subclass": "Imidazoles"
+    "subclass": "Imidazoles",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "N-substituted imidazoles"
   },
   "617-84-5": {
     "class": "",
@@ -4795,9 +4980,10 @@
   },
   "617-90-3": {
     "class": "Heteroaromatic compounds",
-    "inchikey": "YXDXXGXWFJCXEB-UHFFFAOYSA-N",
-    "smiles": "C1=COC(=C1)C#N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Heteroaromatic compounds"
   },
   "618-42-8": {
     "class": "Piperidines",
@@ -4836,15 +5022,17 @@
   },
   "622-24-2": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "MNNZINNZIQVULG-UHFFFAOYSA-N",
-    "smiles": "C1=CC=C(C=C1)CCCl",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Benzene and substituted derivatives"
   },
   "622-61-7": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Phenol ethers",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Phenol ethers"
   },
   "6222-17-9": {
     "class": "Carboxylic acids and derivatives",
@@ -4914,9 +5102,10 @@
   },
   "624-89-5": {
     "class": "Thioethers",
-    "inchikey": "WXEHBUMAEPOYKP-UHFFFAOYSA-N",
-    "smiles": "CCSC",
-    "subclass": "Dialkylthioethers"
+    "subclass": "Dialkylthioethers",
+    "kingdom": "Organic compounds",
+    "superclass": "Organosulfur compounds",
+    "direct_parent": "Dialkylthioethers"
   },
   "624-92-0": {
     "class": "Organic disulfides",
@@ -4937,10 +5126,11 @@
     "subclass": ""
   },
   "625-84-3": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Pyrroles",
+    "subclass": "Substituted pyrroles",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Substituted pyrroles"
   },
   "6262-51-7": {
     "class": "Organochlorides",
@@ -5016,9 +5206,10 @@
   },
   "628-34-2": {
     "class": "Organooxygen compounds",
-    "inchikey": "GPTVQTPMFOLLOA-UHFFFAOYSA-N",
-    "smiles": "CCOCCCl",
-    "subclass": "Ethers"
+    "subclass": "Ethers",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Dialkyl ethers"
   },
   "628-63-7": {
     "class": "Carboxylic acids and derivatives",
@@ -5028,9 +5219,10 @@
   },
   "628-76-2": {
     "class": "Organochlorides",
-    "inchikey": "LBKDGROORAKTLC-UHFFFAOYSA-N",
-    "smiles": "C(CCCl)CCCl",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "628-81-9": {
     "class": "Organooxygen compounds",
@@ -5070,8 +5262,10 @@
   },
   "630-20-6": {
     "class": "Organochlorides",
-    "inchikey": "QVLAWKAXOMEXPM-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "631-57-2": {
     "class": "Organooxygen compounds",
@@ -5135,9 +5329,10 @@
   },
   "646-06-0": {
     "class": "Dioxolanes",
-    "inchikey": "WNXJIVFYUVYPPR-UHFFFAOYSA-N",
-    "smiles": "C1COCO1",
-    "subclass": "1,3-dioxolanes"
+    "subclass": "1,3-dioxolanes",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "1,3-dioxolanes"
   },
   "65-71-4": {
     "class": "Diazines",
@@ -5159,9 +5354,10 @@
   },
   "6581-66-4": {
     "class": "Oxanes",
-    "inchikey": "XTDKZSUYCXHXJM-UHFFFAOYSA-N",
-    "smiles": "COC1CCCCO1",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Oxanes"
   },
   "66-25-1": {
     "class": "Organooxygen compounds",
@@ -5188,10 +5384,11 @@
     "subclass": "Alcohols and polyols"
   },
   "67-63-0": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Secondary alcohols"
   },
   "67-64-1": {
     "class": "Organooxygen compounds",
@@ -5260,9 +5457,10 @@
   },
   "683-51-2": {
     "class": "Organooxygen compounds",
-    "inchikey": "ZWHANXMMZRUTAY-UHFFFAOYSA-N",
-    "smiles": "C=C(C=O)Cl",
-    "subclass": "Carbonyl compounds"
+    "subclass": "Carbonyl compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Enals"
   },
   "6837-24-7": {
     "class": "Pyrrolidines",
@@ -5319,14 +5517,17 @@
   },
   "6923-20-2": {
     "class": "Vinyl halides",
-    "inchikey": "PPKPKFIWDXDAGC-IHWYPQMZSA-N",
-    "subclass": "Vinyl chlorides"
+    "subclass": "Vinyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl chlorides"
   },
   "693-07-2": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Thioethers",
+    "subclass": "Dialkylthioethers",
+    "kingdom": "Organic compounds",
+    "superclass": "Organosulfur compounds",
+    "direct_parent": "Dialkylthioethers"
   },
   "693-65-2": {
     "class": "",
@@ -5341,10 +5542,11 @@
     "subclass": "Halobenzenes"
   },
   "696-59-3": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Tetrahydrofurans",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Tetrahydrofurans"
   },
   "7085-85-0": {
     "class": "",
@@ -5360,21 +5562,24 @@
   },
   "71-23-8": {
     "class": "Organooxygen compounds",
-    "inchikey": "BDERNNFJNOPAEC-UHFFFAOYSA-N",
-    "smiles": "CCCO",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Primary alcohols"
   },
   "71-36-3": {
     "class": "Organooxygen compounds",
-    "inchikey": "LRHPLDYGYMQRHN-UHFFFAOYSA-N",
-    "smiles": "CCCCO",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Primary alcohols"
   },
   "71-41-0": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Primary alcohols"
   },
   "71-43-2": {
     "class": "",
@@ -5384,8 +5589,10 @@
   },
   "71-55-6": {
     "class": "Organochlorides",
-    "inchikey": "UOCLXMDMGBRAIB-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "71888-89-6": {
     "class": "",
@@ -5526,10 +5733,11 @@
     "subclass": "Diphenylethers"
   },
   "7491-74-9": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Carboxylic acids and derivatives",
+    "subclass": "Amino acids, peptides, and analogues",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic acids and derivatives",
+    "direct_parent": "Alpha amino acids and derivatives"
   },
   "75-00-3": {
     "class": "Organochlorides",
@@ -5633,10 +5841,11 @@
     "subclass": ""
   },
   "75-26-3": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organobromides",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organobromides"
   },
   "75-29-6": {
     "class": "Organochlorides",
@@ -5652,18 +5861,24 @@
   },
   "75-33-2": {
     "class": "Thiols",
-    "inchikey": "KJRCEJOSASVSRA-UHFFFAOYSA-N",
-    "subclass": "Alkylthiols"
+    "subclass": "Alkylthiols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organosulfur compounds",
+    "direct_parent": "Alkylthiols"
   },
   "75-34-3": {
     "class": "Organochlorides",
-    "inchikey": "SCYULBFZEHDVBN-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "75-35-4": {
     "class": "Organooxygen compounds",
-    "inchikey": "LGXVIGDEPROXKC-UHFFFAOYSA-N",
-    "subclass": "Ketene acetals"
+    "subclass": "Ketene acetals",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Ketene acetals"
   },
   "75-36-5": {
     "class": "",
@@ -5673,14 +5888,17 @@
   },
   "75-37-6": {
     "class": "Organofluorides",
-    "inchikey": "NPNPZTNLOVBDOC-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organofluorides"
   },
   "75-38-7": {
     "class": "Organooxygen compounds",
-    "inchikey": "BQCIDUSAKPWEOX-UHFFFAOYSA-N",
-    "subclass": "Ketene acetals"
+    "subclass": "Ketene acetals",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Ketene acetals"
   },
   "75-43-4": {
     "class": "Alkyl halides",
@@ -5774,15 +5992,17 @@
   },
   "75-84-3": {
     "class": "Organooxygen compounds",
-    "inchikey": "KPSSIOMAKSHJJG-UHFFFAOYSA-N",
-    "smiles": "CC(C)(C)CO",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Primary alcohols"
   },
   "75-85-4": {
     "class": "Organooxygen compounds",
-    "inchikey": "MSXVEPNJUHWQHW-UHFFFAOYSA-N",
-    "smiles": "CCC(C)(C)O",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Tertiary alcohols"
   },
   "75-86-5": {
     "class": "Organooxygen compounds",
@@ -5798,9 +6018,10 @@
   },
   "75-89-8": {
     "class": "Halohydrins",
-    "inchikey": "RHQDFWAXVIIEBN-UHFFFAOYSA-N",
-    "smiles": "C(C(F)(F)F)O",
-    "subclass": "Fluorohydrins"
+    "subclass": "Fluorohydrins",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Fluorohydrins"
   },
   "7529-22-8": {
     "class": "Oxazinanes",
@@ -5851,20 +6072,24 @@
   },
   "76-13-1": {
     "class": "Alkyl halides",
-    "inchikey": "AJDIZQLSFPQPEY-UHFFFAOYSA-N",
-    "subclass": "Alkyl chlorides"
+    "subclass": "Alkyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Chlorofluorocarbons"
   },
   "76-14-2": {
     "class": "Alkyl halides",
-    "inchikey": "DDMOUSALMHHKOS-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Alkyl chlorides"
+    "subclass": "Alkyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Chlorofluorocarbons"
   },
   "760-21-4": {
     "class": "Unsaturated hydrocarbons",
-    "inchikey": "RYKZRKKEYSRDNF-UHFFFAOYSA-N",
-    "smiles": "CCC(=C)CC",
-    "subclass": "Branched unsaturated hydrocarbons"
+    "subclass": "Branched unsaturated hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Branched unsaturated hydrocarbons"
   },
   "760-79-2": {
     "class": "Fatty Acyls",
@@ -5879,10 +6104,11 @@
     "subclass": "Carboxylic acid derivatives"
   },
   "764-41-0": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organochlorides",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "764-42-1": {
     "class": "",
@@ -5916,9 +6142,10 @@
   },
   "765-87-7": {
     "class": "Organooxygen compounds",
-    "inchikey": "OILAIQUEIWYQPH-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Carbonyl compounds"
+    "subclass": "Carbonyl compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Cyclic ketones"
   },
   "7651-91-4": {
     "class": "Organonitrogen compounds",
@@ -5981,9 +6208,10 @@
   },
   "771-69-7": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "ARCACZWMYGILNI-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C(=C1[N+](=O)[O-])F)F)F",
-    "subclass": "Nitrobenzenes"
+    "subclass": "Nitrobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Nitrobenzenes"
   },
   "7719-09-7": {
     "class": "Halogen organides",
@@ -6052,9 +6280,10 @@
   },
   "78-76-2": {
     "class": "Organobromides",
-    "inchikey": "UPSXAPQYNGXVBF-UHFFFAOYSA-N",
-    "smiles": "CCC(C)Br",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organobromides"
   },
   "78-78-4": {
     "class": "Saturated hydrocarbons",
@@ -6081,27 +6310,32 @@
     "subclass": "Carbonyl compounds"
   },
   "78-86-4": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organochlorides",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "78-87-5": {
     "class": "Organochlorides",
-    "inchikey": "KNKRKFALVUDBJE-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "78-88-6": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Vinyl halides",
+    "subclass": "Vinyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl chlorides"
   },
   "78-92-2": {
     "class": "Organooxygen compounds",
-    "inchikey": "BTANRVKWQNVYAZ-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Secondary alcohols"
   },
   "78-93-3": {
     "class": "Organooxygen compounds",
@@ -6129,13 +6363,17 @@
   },
   "78-99-9": {
     "class": "Organochlorides",
-    "inchikey": "WIHMGGWNMISDNJ-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "79-00-5": {
     "class": "Organochlorides",
-    "inchikey": "UBOXGVDOUJQMTN-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "79-01-6": {
     "class": "Vinyl halides",
@@ -6175,9 +6413,10 @@
   },
   "79-07-2": {
     "class": "Carboxylic acids and derivatives",
-    "inchikey": "VXIVSQZSERGHQP-UHFFFAOYSA-N",
-    "smiles": "C(C(=O)N)Cl",
-    "subclass": "Carboxylic acid derivatives"
+    "subclass": "Carboxylic acid derivatives",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic acids and derivatives",
+    "direct_parent": "Chloroacetamides"
   },
   "79-09-4": {
     "class": "Carboxylic acids and derivatives",
@@ -6223,8 +6462,10 @@
   },
   "79-27-6": {
     "class": "Organobromides",
-    "inchikey": "QXSZNDIIPUOQMB-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organobromides"
   },
   "79-31-2": {
     "class": "Carboxylic acids and derivatives",
@@ -6234,8 +6475,10 @@
   },
   "79-34-5": {
     "class": "Organochlorides",
-    "inchikey": "QPFMBZIOSGYJDE-UHFFFAOYSA-N",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "79-37-8": {
     "class": "",
@@ -6268,10 +6511,11 @@
     "subclass": "Alpha-halocarboxylic acids and derivatives"
   },
   "79-46-9": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Allyl-type 1,3-dipolar organic compounds",
+    "subclass": "Organic nitro compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic 1,3-dipolar compounds",
+    "direct_parent": "C-nitro compounds"
   },
   "79-92-5": {
     "class": "",
@@ -6305,9 +6549,10 @@
   },
   "80-56-8": {
     "class": "Prenol lipids",
-    "inchikey": "GRWFGVWFFZKLTI-UHFFFAOYSA-N",
-    "smiles": "CC1=CCC2CC1C2(C)C",
-    "subclass": "Monoterpenoids"
+    "subclass": "Monoterpenoids",
+    "kingdom": "Organic compounds",
+    "superclass": "Lipids and lipid-like molecules",
+    "direct_parent": "Bicyclic monoterpenoids"
   },
   "80-62-6": {
     "class": "Carboxylic acids and derivatives",
@@ -6388,10 +6633,11 @@
     "subclass": "Azo imides"
   },
   "822-87-7": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "Carbonyl compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Alpha-chloroketones"
   },
   "827-52-1": {
     "class": "Benzene and substituted derivatives",
@@ -6471,15 +6717,17 @@
   },
   "87-40-1": {
     "class": "Phenol ethers",
-    "inchikey": "WCVOGSZTONGSQY-UHFFFAOYSA-N",
-    "smiles": "COC1=C(C=C(C=C1Cl)Cl)Cl",
-    "subclass": "Anisoles"
+    "subclass": "Anisoles",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Anisoles"
   },
   "87-65-0": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Benzene and substituted derivatives",
+    "subclass": "Halobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Dichlorobenzenes"
   },
   "87-66-1": {
     "class": "Phenols",
@@ -6512,10 +6760,11 @@
     "subclass": "Azo imides"
   },
   "872-05-9": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Unsaturated hydrocarbons",
+    "subclass": "Unsaturated aliphatic hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Unsaturated aliphatic hydrocarbons"
   },
   "872-36-6": {
     "class": "Organic carbonic acids and derivatives",
@@ -6543,9 +6792,10 @@
   },
   "874-42-0": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "YSFBEAASFUWWHU-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C=C1Cl)Cl)C=O",
-    "subclass": "Halobenzenes"
+    "subclass": "Halobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Dichlorobenzenes"
   },
   "874-90-8": {
     "class": "Benzene and substituted derivatives",
@@ -6555,9 +6805,10 @@
   },
   "88-06-2": {
     "class": "Phenols",
-    "inchikey": "LINPIYWFGCPVIE-UHFFFAOYSA-N",
-    "smiles": "C1=C(C=C(C(=C1Cl)O)Cl)Cl",
-    "subclass": "Halophenols"
+    "subclass": "Halophenols",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "P-chlorophenols"
   },
   "88-12-0": {
     "class": "Pyrrolidines",
@@ -6566,10 +6817,11 @@
     "subclass": "Pyrrolidones"
   },
   "88-15-3": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Organooxygen compounds",
+    "subclass": "Carbonyl compounds",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Aryl alkyl ketones"
   },
   "88-89-1": {
     "class": "Phenols",
@@ -6602,10 +6854,11 @@
     "subclass": ""
   },
   "89-96-3": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Benzene and substituted derivatives",
+    "subclass": "Halobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Chlorobenzenes"
   },
   "90-02-8": {
     "class": "",
@@ -6627,39 +6880,45 @@
   },
   "90-11-9": {
     "class": "Naphthalenes",
-    "inchikey": "DLKQHBOKULLWDQ-UHFFFAOYSA-N",
-    "smiles": "C1=CC=C2C(=C1)C=CC=C2Br",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Naphthalenes"
   },
   "90-12-0": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Naphthalenes",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Naphthalenes"
   },
   "90-13-1": {
     "class": "Naphthalenes",
-    "inchikey": "JTPNRXUCIXHOKM-UHFFFAOYSA-N",
-    "smiles": "C1=CC=C2C(=C1)C=CC=C2Cl",
-    "subclass": "Chloronaphthalenes"
+    "subclass": "Chloronaphthalenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Chloronaphthalenes"
   },
   "90-15-3": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Naphthalenes",
+    "subclass": "Naphthols and derivatives",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Naphthols and derivatives"
   },
   "91-10-1": {
     "class": "Phenols",
-    "inchikey": "KLIDCXVFHGNTTM-UHFFFAOYSA-N",
-    "smiles": "COC1=C(C(=CC=C1)OC)O",
-    "subclass": "Methoxyphenols"
+    "subclass": "Methoxyphenols",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Methoxyphenols"
   },
   "91-16-7": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Benzene and substituted derivatives",
+    "subclass": "Methoxybenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Dimethoxybenzenes"
   },
   "91-20-3": {
     "class": "Naphthalenes",
@@ -6674,10 +6933,11 @@
     "subclass": ""
   },
   "91-23-6": {
-    "class": "",
-    "inchikey": "",
-    "smiles": "",
-    "subclass": ""
+    "class": "Benzene and substituted derivatives",
+    "subclass": "Nitrobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Nitrophenyl ethers"
   },
   "91-64-5": {
     "class": "Coumarins and derivatives",
@@ -6711,9 +6971,10 @@
   },
   "926-57-8": {
     "class": "Vinyl halides",
-    "inchikey": "WLIADPFXSACYLS-UHFFFAOYSA-N",
-    "smiles": "CC(=CCCl)Cl",
-    "subclass": "Vinyl chlorides"
+    "subclass": "Vinyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl chlorides"
   },
   "926-65-8": {
     "class": "Organooxygen compounds",
@@ -6759,9 +7020,10 @@
   },
   "931-17-9": {
     "class": "Organooxygen compounds",
-    "inchikey": "PFURGBBHAOXLIO-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Cyclohexanols"
   },
   "931-40-8": {
     "class": "Organic carbonic acids and derivatives",
@@ -6787,10 +7049,11 @@
     "subclass": ""
   },
   "95-14-7": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Benzotriazoles",
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Benzotriazoles"
   },
   "95-16-9": {
     "class": "",
@@ -6823,16 +7086,18 @@
     "subclass": "Halobenzenes"
   },
   "95-53-4": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Benzene and substituted derivatives",
+    "subclass": "Toluenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Aminotoluenes"
   },
   "95-57-8": {
     "class": "Phenols",
-    "inchikey": "ISPYQTSUDJAMAB-UHFFFAOYSA-N",
-    "smiles": "C1=CC=C(C(=C1)O)Cl",
-    "subclass": "Halophenols"
+    "subclass": "Halophenols",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "O-chlorophenols"
   },
   "95-63-6": {
     "class": "Benzene and substituted derivatives",
@@ -6848,9 +7113,10 @@
   },
   "95-68-1": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "CZZZABOKJQXEBO-UHFFFAOYSA-N",
-    "smiles": "CC1=CC(=C(C=C1)N)C",
-    "subclass": "Xylenes"
+    "subclass": "Xylenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "m-Xylenes"
   },
   "95-75-0": {
     "class": "Benzene and substituted derivatives",
@@ -6866,9 +7132,10 @@
   },
   "95-94-3": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "JHBKHLUZVFWLAG-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Halobenzenes"
+    "subclass": "Halobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Chlorobenzenes"
   },
   "96-02-6": {
     "class": "Dihydrofurans",
@@ -6890,15 +7157,17 @@
   },
   "96-18-4": {
     "class": "Organochlorides",
-    "inchikey": "CFXQEHVMCRXUSD-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Organochlorides"
   },
   "96-19-5": {
     "class": "Vinyl halides",
-    "inchikey": "HIILBTHBHCLUER-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Vinyl chlorides"
+    "subclass": "Vinyl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Vinyl chlorides"
   },
   "96-22-0": {
     "class": "",
@@ -6908,9 +7177,10 @@
   },
   "96-23-1": {
     "class": "Halohydrins",
-    "inchikey": "DEWLEGDTCGBNGU-UHFFFAOYSA-N",
-    "smiles": "",
-    "subclass": "Chlorohydrins"
+    "subclass": "Chlorohydrins",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Chlorohydrins"
   },
   "96-29-7": {
     "class": "",
@@ -6931,16 +7201,18 @@
     "subclass": "Cycloalkanes"
   },
   "96-43-5": {
-    "class": "",
-    "error": "no_inchikey",
-    "inchikey": "",
-    "subclass": ""
+    "class": "Aryl halides",
+    "subclass": "Aryl chlorides",
+    "kingdom": "Organic compounds",
+    "superclass": "Organohalogen compounds",
+    "direct_parent": "Aryl chlorides"
   },
   "96-47-9": {
     "class": "Tetrahydrofurans",
-    "inchikey": "JWUJQDFVADABEY-UHFFFAOYSA-N",
-    "smiles": "CC1CCCO1",
-    "subclass": ""
+    "subclass": "",
+    "kingdom": "Organic compounds",
+    "superclass": "Organoheterocyclic compounds",
+    "direct_parent": "Tetrahydrofurans"
   },
   "96-48-0": {
     "class": "Lactones",
@@ -6986,9 +7258,10 @@
   },
   "97-95-0": {
     "class": "Organooxygen compounds",
-    "inchikey": "TZYRSLHNPKPEFV-UHFFFAOYSA-N",
-    "smiles": "CCC(CC)CO",
-    "subclass": "Alcohols and polyols"
+    "subclass": "Alcohols and polyols",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Primary alcohols"
   },
   "97-99-4": {
     "class": "Tetrahydrofurans",
@@ -7064,9 +7337,10 @@
   },
   "99-54-7": {
     "class": "Benzene and substituted derivatives",
-    "inchikey": "NTBYINQTYWZXLH-UHFFFAOYSA-N",
-    "smiles": "C1=CC(=C(C=C1[N+](=O)[O-])Cl)Cl",
-    "subclass": "Nitrobenzenes"
+    "subclass": "Nitrobenzenes",
+    "kingdom": "Organic compounds",
+    "superclass": "Benzenoids",
+    "direct_parent": "Nitrobenzenes"
   },
   "99-75-2": {
     "class": "Benzene and substituted derivatives",
@@ -7090,5 +7364,19 @@
     "error": "no_inchikey",
     "inchikey": "",
     "subclass": ""
+  },
+  "624-64-6": {
+    "class": "Unsaturated hydrocarbons",
+    "subclass": "Unsaturated aliphatic hydrocarbons",
+    "kingdom": "Organic compounds",
+    "superclass": "Hydrocarbons",
+    "direct_parent": "Unsaturated aliphatic hydrocarbons"
+  },
+  "10034-14-7": {
+    "class": "Organooxygen compounds",
+    "subclass": "Ethers",
+    "kingdom": "Organic compounds",
+    "superclass": "Organic oxygen compounds",
+    "direct_parent": "Dialkyl ethers"
   }
 }

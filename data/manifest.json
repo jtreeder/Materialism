@@ -103,22 +103,29 @@
       "source_url": "",
       "description": "Hansen Solubility Parameters in Practice - solvent database",
       "imported_at": "2026-02-23T20:48:28.081178+00:00",
-      "chemical_count": 1218,
+      "chemical_count": 250,
       "polymer_count": 0,
       "fields_available": [
         "name",
         "cas_number",
+        "smiles",
+        "molecular_formula",
         "delta_d",
         "delta_p",
         "delta_h",
+        "molecular_weight",
+        "boiling_point",
+        "density",
         "category",
+        "ghs_hazard",
         "confidence",
         "source_count",
-        "source"
+        "source",
+        "source_url"
       ],
-      "quality_notes": "",
+      "quality_notes": "Enriched: CAS resolved, SMILES from PubChem, physical properties from NIST, GHS hazard statements from PubChem, ClassyFire classification.",
       "active": true,
-      "confidence_tier": 0.7
+      "confidence_tier": 0.9
     }
   }
 }
