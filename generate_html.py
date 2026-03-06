@@ -623,7 +623,7 @@ full_html = f"""<!DOCTYPE html>
         }}
         .legend-arrow {{
             display: inline-block; width: 10px; font-size: 0.6rem; color: #636e72;
-            transition: transform 0.15s;
+            transition: transform 0.15s; padding: 4px 8px; margin: -4px -8px;
         }}
         .legend-arrow.open {{ transform: rotate(90deg); }}
         .legend-marker {{
