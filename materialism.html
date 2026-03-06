@@ -5654,14 +5654,15 @@ return Plotly;
         };
 
         function _getActiveRanges() {
-            var maxD = 0, maxP = 0, maxH = 0;
+            var minD = Infinity, minP = Infinity, minH = Infinity;
+            var maxD = -Infinity, maxP = -Infinity, maxH = -Infinity;
             SOLVENTS.forEach(function(s) {
                 if (!_isDsActive(s.dsId)) return;
                 if (simpleMode && !s.common) return;
                 if (_hiddenSolCats[s.cat || 'other']) return;
-                if (s.dd > maxD) maxD = s.dd;
-                if (s.dp > maxP) maxP = s.dp;
-                if (s.dh > maxH) maxH = s.dh;
+                if (s.dd < minD) minD = s.dd; if (s.dd > maxD) maxD = s.dd;
+                if (s.dp < minP) minP = s.dp; if (s.dp > maxP) maxP = s.dp;
+                if (s.dh < minH) minH = s.dh; if (s.dh > maxH) maxH = s.dh;
             });
             for (var ti = 0; ti < _polyTraceCount; ti++) {
                 var cat = _polyCatOrder[ti];
@@ -5671,17 +5672,17 @@ return Plotly;
                     var p = items[j].p;
                     if (!_isDsActive(p.dsId)) continue;
                     if (simpleMode && !p.common) continue;
-                    if (p.dd > maxD) maxD = p.dd;
-                    if (p.dp > maxP) maxP = p.dp;
-                    if (p.dh > maxH) maxH = p.dh;
+                    if (p.dd < minD) minD = p.dd; if (p.dd > maxD) maxD = p.dd;
+                    if (p.dp < minP) minP = p.dp; if (p.dp > maxP) maxP = p.dp;
+                    if (p.dh < minH) minH = p.dh; if (p.dh > maxH) maxH = p.dh;
                 }
             }
             // Fall back to defaults if nothing is visible
-            if (maxD === 0) return DEFAULT_AXES;
+            if (!isFinite(maxD)) return DEFAULT_AXES;
             return {
-                xRange: [0, Math.ceil(maxD / 5) * 5 || 5],
-                yRange: [0, Math.ceil(maxP / 5) * 5 || 5],
-                zRange: [0, Math.ceil(maxH / 5) * 5 || 5],
+                xRange: [Math.floor(minD / 5) * 5, Math.ceil(maxD / 5) * 5 || 5],
+                yRange: [Math.floor(minP / 5) * 5, Math.ceil(maxP / 5) * 5 || 5],
+                zRange: [Math.floor(minH / 5) * 5, Math.ceil(maxH / 5) * 5 || 5],
             };
         }
 
