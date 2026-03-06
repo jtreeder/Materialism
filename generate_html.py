@@ -456,7 +456,7 @@ full_html = f"""<!DOCTYPE html>
             background: #fff; border-bottom: 1px solid #dfe6e9;
         }}
         .search-bar input {{
-            flex: 1; max-width: 700px; padding: 12px 18px; font-size: 1rem;
+            padding: 12px 18px; font-size: 1rem;
             background: #f5f6fa; border: 2px solid #dfe6e9; color: #2d3436;
             border-radius: 8px; outline: none; transition: border-color 0.2s;
         }}
@@ -689,8 +689,11 @@ full_html = f"""<!DOCTYPE html>
     </div>
 
     <div class="search-bar">
-        <input type="text" id="nl-search" placeholder="Ask anything — e.g. &quot;good solvents for polystyrene&quot;"
-               onkeydown="if(event.key==='Enter')runSearch()">
+        <div style="position:relative;flex:1;max-width:700px;display:flex;align-items:center;">
+            <input type="text" id="nl-search" placeholder="Ask anything — e.g. &quot;good solvents for polystyrene&quot;"
+                   onkeydown="if(event.key==='Enter')runSearch()" style="width:100%;max-width:none;box-sizing:border-box;padding-right:32px;">
+            <button id="nl-search-clear" onclick="goHome()" style="position:absolute;right:8px;background:none;border:none;cursor:pointer;color:#636e72;font-size:1.2rem;display:none;padding:0;line-height:1;" title="Clear search">&times;</button>
+        </div>
         <button onclick="runSearch()">Search</button>
         <label class="simple-toggle" title="When enabled, show only common, readily accessible solvents and polymers">
             <input type="checkbox" id="simple-mode" onchange="onSimpleModeChange()">
@@ -731,7 +734,10 @@ full_html = f"""<!DOCTYPE html>
         <div id="chat-panel" class="chat-panel"></div>
         <div id="home-panel" class="home-panel">
             <div class="home-panel-header">
-                <input type="text" id="home-filter" placeholder="Filter by name..." oninput="filterHomeTable(this.value)" style="width:180px;font-size:0.8rem;">
+                <div style="position:relative;display:inline-flex;align-items:center;">
+                    <input type="text" id="home-filter" placeholder="Filter by name..." oninput="filterHomeTable(this.value)" style="width:180px;font-size:0.8rem;padding-right:22px;">
+                    <button id="home-filter-clear" onclick="clearHomeFilter()" style="position:absolute;right:4px;background:none;border:none;cursor:pointer;color:#636e72;font-size:1rem;display:none;padding:0;line-height:1;" title="Clear filter">&times;</button>
+                </div>
             </div>
             <div class="home-tabs">
                 <button id="tab-solvents" class="home-tab active" onclick="switchHomeTab('solvents')">Solvents</button>
@@ -2170,7 +2176,7 @@ full_html = f"""<!DOCTYPE html>
 
         // Fixed axis ranges — never change
         var FIXED_AXES = {{
-            xRange: [12, 22], yRange: [0, 28], zRange: [0, 45],
+            xRange: [12, 30], yRange: [0, 28], zRange: [0, 45],
         }};
         var axisStyle = {{
             gridcolor: '#dfe6e9', zerolinecolor: '#b2bec3',
@@ -2681,6 +2687,13 @@ full_html = f"""<!DOCTYPE html>
             homeFilterText = val.trim();
             clearTimeout(_filterTimer);
             _filterTimer = setTimeout(buildHomeTable, 120);
+            var btn = document.getElementById('home-filter-clear');
+            if (btn) btn.style.display = val ? '' : 'none';
+        }}
+
+        function clearHomeFilter() {{
+            var input = document.getElementById('home-filter');
+            if (input) {{ input.value = ''; filterHomeTable(''); }}
         }}
 
         function showHomePanel() {{
@@ -2802,7 +2815,9 @@ full_html = f"""<!DOCTYPE html>
             }}
             lastSearchQuery = q;
             _isSearchActive = true;
-            input.value = '';
+            input.value = q;
+            var clearBtn = document.getElementById('nl-search-clear');
+            if (clearBtn) clearBtn.style.display = '';
             const parsed = parseQuery(q);
             const result = executeSearch(parsed);
             const html = renderResultsHTML(result);
@@ -2831,6 +2846,8 @@ full_html = f"""<!DOCTYPE html>
         function goHome() {{
             clearChat();
             document.getElementById('nl-search').value = '';
+            var clearBtn = document.getElementById('nl-search-clear');
+            if (clearBtn) clearBtn.style.display = 'none';
             document.querySelectorAll('.panel').forEach(function(p) {{ p.classList.remove('active'); }});
             document.querySelectorAll('.tab').forEach(function(t) {{ t.classList.remove('active'); }});
             window.dispatchEvent(new Event('resize'));
