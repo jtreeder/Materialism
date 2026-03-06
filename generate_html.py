@@ -4075,7 +4075,7 @@ function renderDetail() {{
     var items, cols;
     if (nc > 0) {{
         items = ds.chemicals;
-        cols = ['name','name_common','name_iupac','cas','dd','dp','dh','mw','bp','cf_class','cf_subclass'];
+        cols = ['name_common','name_iupac','cas','dd','dp','dh','mw','bp','cf_class','cf_subclass'];
     }} else {{
         items = ds.polymers;
         cols = ['name','cas','dd','dp','dh','r','type'];
@@ -4179,8 +4179,10 @@ function renderDetail() {{
             }}
             var catStyle = '';
             var display = v;
-            if (c === 'name' && v) {{
-                display = '<span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(String(v)) + '\\x27)" onmouseleave="hideStructure()">' + v + '</span>';
+            if ((c === 'name' || c === 'name_common') && (v || r.name)) {{
+                var _dispName = v || r.name;
+                var _lookupName = r.name || v;
+                display = '<span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(String(_lookupName)) + '\\x27)" onmouseleave="hideStructure()">' + _dispName + '</span>';
             }} else if (c === 'cat' && v) {{
                 var _catMap = (nc > 0) ? CAT_COLORS : POLY_CAT_COLORS;
                 var _catC = _catMap[v] || '#888';
