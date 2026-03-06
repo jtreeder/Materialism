@@ -5658,25 +5658,16 @@ return Plotly;
             var maxD = -Infinity, maxP = -Infinity, maxH = -Infinity;
             SOLVENTS.forEach(function(s) {
                 if (!_isDsActive(s.dsId)) return;
-                if (simpleMode && !s.common) return;
-                if (_hiddenSolCats[s.cat || 'other']) return;
                 if (s.dd < minD) minD = s.dd; if (s.dd > maxD) maxD = s.dd;
                 if (s.dp < minP) minP = s.dp; if (s.dp > maxP) maxP = s.dp;
                 if (s.dh < minH) minH = s.dh; if (s.dh > maxH) maxH = s.dh;
             });
-            for (var ti = 0; ti < _polyTraceCount; ti++) {
-                var cat = _polyCatOrder[ti];
-                if (_hiddenPolyCats[cat]) continue;
-                var items = _polyCatData[cat];
-                for (var j = 0; j < items.length; j++) {
-                    var p = items[j].p;
-                    if (!_isDsActive(p.dsId)) continue;
-                    if (simpleMode && !p.common) continue;
-                    if (p.dd < minD) minD = p.dd; if (p.dd > maxD) maxD = p.dd;
-                    if (p.dp < minP) minP = p.dp; if (p.dp > maxP) maxP = p.dp;
-                    if (p.dh < minH) minH = p.dh; if (p.dh > maxH) maxH = p.dh;
-                }
-            }
+            POLYMERS.forEach(function(p) {
+                if (!_isDsActive(p.dsId)) return;
+                if (p.dd < minD) minD = p.dd; if (p.dd > maxD) maxD = p.dd;
+                if (p.dp < minP) minP = p.dp; if (p.dp > maxP) maxP = p.dp;
+                if (p.dh < minH) minH = p.dh; if (p.dh > maxH) maxH = p.dh;
+            });
             // Fall back to defaults if nothing is visible
             if (!isFinite(maxD)) return DEFAULT_AXES;
             return {
