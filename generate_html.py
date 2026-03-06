@@ -5488,8 +5488,15 @@ function showStructure(event, encodedName) {{
     if (y < 8) y = event.clientY + 20;
     _dbTooltip.el.style.left = x + 'px'; _dbTooltip.el.style.top = y + 'px';
     if (_dbStructCache[name] === 'error') {{ _dbTooltip.el.style.display = 'none'; return; }}
-    var mat = (_solventMap && _solventMap.get) ? _solventMap.get(name) : null;
+    var mat = (typeof _solventMap !== 'undefined' && _solventMap && _solventMap.get) ? _solventMap.get(name) : null;
     if (!mat) {{ var arr = SOLVENTS.concat(POLYMERS); for (var i=0;i<arr.length;i++) {{ if (arr[i].name===name) {{ mat=arr[i]; break; }} }} }}
+    if (!mat && typeof DATASETS !== 'undefined') {{
+        var _dsKeys = Object.keys(DATASETS);
+        for (var di=0; di<_dsKeys.length && !mat; di++) {{
+            var _dsItems = (DATASETS[_dsKeys[di]].chemicals||[]).concat(DATASETS[_dsKeys[di]].polymers||[]);
+            for (var di2=0; di2<_dsItems.length; di2++) {{ if (_dsItems[di2].name===name) {{ mat=_dsItems[di2]; break; }} }}
+        }}
+    }}
     var cas = mat && mat.cas;
     var smiles = mat && mat.smiles;
     if (_dbStructCache[name]) {{
