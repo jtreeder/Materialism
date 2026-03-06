@@ -2002,12 +2002,10 @@ full_html = f"""<!DOCTYPE html>
                 modeBarButtonsToRemove: ['toImage','zoomIn3d','zoomOut3d','zoom3d','pan3d','orbitRotation','tableRotation','resetCameraLastSave3d','hoverClosest3d'],
                 displaylogo: false
             }}).then(function() {{
-                var needsFilter = simpleMode || _hasHiddenCats();
-                if (!needsFilter) {{
-                    var saved = _loadActiveDsets();
-                    if (saved) {{ for (var k in saved) {{ if (saved[k] === false) {{ needsFilter = true; break; }} }} }}
-                }}
-                if (needsFilter) _updatePlotForCommonFilter();
+                // Always call _updatePlotForCommonFilter so the solvent trace
+                // starts with array marker.size, preventing a scalar→array
+                // transition on first isolation that causes apparent size change.
+                _updatePlotForCommonFilter();
                 _buildLegend();
             }});
         }}
@@ -2180,7 +2178,7 @@ full_html = f"""<!DOCTYPE html>
         }};
         var axisStyle = {{
             gridcolor: '#dfe6e9', zerolinecolor: '#b2bec3',
-            backgroundcolor: '#f8f9fa', showbackground: true,
+            showbackground: false,
             tickfont: {{ size: 11, color: '#636e72' }},
             showspikes: false,
         }};
