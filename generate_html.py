@@ -424,7 +424,7 @@ full_html = f"""<!DOCTYPE html>
         html {{ height: 100%; overflow: hidden; }}
         body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
                 display: flex; flex-direction: column; height: 100vh; overflow: hidden; }}
-        .header {{ background: #fff; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #dfe6e9; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }}
+        .header {{ background: #fff; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #dfe6e9; box-shadow: 0 1px 3px rgba(0,0,0,0.08); flex-shrink: 0; }}
         .header h1 {{ font-size: 1.5rem; color: #e94560; cursor: pointer; }}
         .header .stats {{ color: #636e72; font-size: 0.9rem; }}
         .tabs {{ display: flex; gap: 0; background: #fff; border-bottom: 2px solid #dfe6e9; }}
@@ -453,7 +453,7 @@ full_html = f"""<!DOCTYPE html>
         /* --- Chat / Search UI --- */
         .search-bar {{
             display: flex; align-items: center; gap: 10px; padding: 16px 20px;
-            background: #fff; border-bottom: 1px solid #dfe6e9;
+            background: #fff; border-bottom: 1px solid #dfe6e9; flex-shrink: 0;
         }}
         .search-bar input {{
             padding: 12px 18px; font-size: 1rem;
@@ -489,7 +489,7 @@ full_html = f"""<!DOCTYPE html>
         .search-options {{
             display: flex; align-items: center; justify-content: space-between;
             padding: 4px 20px 10px; background: #fff;
-            border-bottom: 2px solid #dfe6e9;
+            border-bottom: 2px solid #dfe6e9; flex-shrink: 0;
         }}
         .search-examples {{
             font-size: 0.8rem; color: #636e72;
@@ -515,7 +515,7 @@ full_html = f"""<!DOCTYPE html>
         .chat-panel {{
             display: none; flex: 1 1 45%; min-width: 0;
             overflow: auto; padding: 12px 14px;
-            height: calc(100vh - 140px); box-sizing: border-box;
+            min-height: 0;
             background: #fff;
         }}
         .chat-panel.visible {{ display: block; }}
@@ -523,7 +523,7 @@ full_html = f"""<!DOCTYPE html>
         /* --- Home Panel (right side, shown when no search results) --- */
         .home-panel {{
             flex: 1 1 45%; min-width: 0; display: flex; flex-direction: column;
-            height: calc(100vh - 140px); box-sizing: border-box;
+            min-height: 0;
             background: #fff;
         }}
         .home-panel-header {{
@@ -726,10 +726,8 @@ full_html = f"""<!DOCTYPE html>
                 <div id="plotly-div" style="width:100%; height:100%;"></div>
                 <div id="legend-tab" class="legend-tab hidden" onclick="toggleLegendPanel()">&#9654;</div>
                 <div id="plot-legend" class="plot-legend"></div>
+                <p style="position:absolute;bottom:4px;left:10px;color:#636e72;font-size:0.8rem;margin:0;pointer-events:none;z-index:1;">Drag to rotate &middot; Scroll to zoom</p>
             </div>
-            <p style="color:#636e72; padding:6px 10px; font-size:0.8rem; margin:0;">
-                Drag to rotate &middot; Scroll to zoom
-            </p>
         </div>
         <div id="chat-panel" class="chat-panel"></div>
         <div id="home-panel" class="home-panel">
