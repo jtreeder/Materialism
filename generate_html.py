@@ -421,7 +421,9 @@ full_html = f"""<!DOCTYPE html>
     <script>{plotly_js_inline}</script>
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }}
+        html {{ height: 100%; overflow: hidden; }}
+        body {{ background: #f5f6fa; color: #2d3436; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                display: flex; flex-direction: column; height: 100vh; overflow: hidden; }}
         .header {{ background: #fff; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #dfe6e9; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }}
         .header h1 {{ font-size: 1.5rem; color: #e94560; cursor: pointer; }}
         .header .stats {{ color: #636e72; font-size: 0.9rem; }}
@@ -431,7 +433,7 @@ full_html = f"""<!DOCTYPE html>
         .tab.active {{ color: #e94560; border-bottom: 2px solid #e94560; background: #f5f6fa; }}
         .panel {{ display: none; padding: 20px; }}
         .panel.active {{ display: block; }}
-        .results-layout {{ display: flex; gap: 0; height: calc(100vh - 140px); min-height: 500px; }}
+        .results-layout {{ display: flex; gap: 0; flex: 1; min-height: 0; }}
         .plot-side {{ flex: 1 1 55%; min-width: 0; border-right: 1px solid #dfe6e9; overflow: hidden; background: #fff; display: flex; flex-direction: column; }}
         .plot-container {{ width: 100%; flex: 1; min-height: 0; overflow: hidden; }}
         table {{ width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }}
@@ -636,11 +638,7 @@ full_html = f"""<!DOCTYPE html>
         }}
         .legend-header:hover {{ background: #f5f6fa; }}
         .legend-header.legend-hidden {{
-            opacity: 0.35;
             text-decoration: line-through;
-        }}
-        .legend-header.legend-hidden .legend-marker {{
-            opacity: 0.3;
         }}
         .legend-arrow {{
             flex-shrink: 0; width: 22px; text-align: center; line-height: 1;
@@ -674,11 +672,7 @@ full_html = f"""<!DOCTYPE html>
             border-radius: 0; transform: rotate(45deg); width: 7px; height: 7px;
         }}
         .legend-item.legend-hidden {{
-            opacity: 0.35;
             text-decoration: line-through;
-        }}
-        .legend-item.legend-hidden .legend-swatch {{
-            opacity: 0.3;
         }}
         .src-popup {{ position: fixed; z-index: 9999; background: #fff; border: 1px solid #dfe6e9; border-radius: 6px; box-shadow: 0 4px 18px rgba(0,0,0,0.14); padding: 8px 12px; font-size: 0.78rem; color: #2d3436; max-width: 280px; pointer-events: auto; }}
         .src-popup-label {{ display: block; font-weight: 600; margin-bottom: 4px; color: #2d3436; }}
@@ -1174,6 +1168,7 @@ full_html = f"""<!DOCTYPE html>
         var _dragType = null;
         var _dragCtrl = false;
         var _dragWasMulti = false;
+        var _preDragIsolation = null;
 
         function _hasHiddenCats() {{
             for (var k in _hiddenSolCats) return true;
@@ -1195,6 +1190,40 @@ full_html = f"""<!DOCTYPE html>
                 if (type === 'solvent') delete _hiddenSolCats[cat];
                 else delete _hiddenPolyCats[cat];
             }});
+        }}
+
+        function _syncLegendHiddenClasses() {{
+            var legendEl = document.getElementById('plot-legend');
+            if (!legendEl) return;
+            legendEl.querySelectorAll('.legend-item').forEach(function(el) {{
+                var type = el.getAttribute('data-type');
+                var cat = el.getAttribute('data-cat');
+                var hidden = (type === 'solvent') ? !!_hiddenSolCats[cat] : !!_hiddenPolyCats[cat];
+                el.classList.toggle('legend-hidden', hidden);
+            }});
+            legendEl.querySelectorAll('.legend-group').forEach(function(group) {{
+                var header = group.querySelector('.legend-header');
+                var items = group.querySelectorAll('.legend-item');
+                var type = items[0] ? items[0].getAttribute('data-type') : null;
+                if (!type || !header) return;
+                var set = (type === 'solvent') ? _hiddenSolCats : _hiddenPolyCats;
+                var allHidden = items.length > 0;
+                items.forEach(function(it) {{ if (!set[it.getAttribute('data-cat')]) allHidden = false; }});
+                header.classList.toggle('legend-hidden', allHidden);
+            }});
+        }}
+
+        function _applyDragPreview() {{
+            var preview = (_dragCtrl && _preDragIsolation) ? new Set(_preDragIsolation) : new Set();
+            _dragItems.forEach(function(k) {{ preview.add(k); }});
+            var saved = _isolatedItems;
+            _isolatedItems = preview.size ? preview : null;
+            _applyIsolation();
+            _isolatedItems = saved;
+            _syncLegendHiddenClasses();
+            _updatePlotForCommonFilter();
+            buildHomeTable();
+            _rerunActiveSearch();
         }}
 
         function _isolationRefresh() {{
@@ -1261,6 +1290,7 @@ full_html = f"""<!DOCTYPE html>
             _dragItems = new Set();
             _dragType = el.getAttribute('data-type');
             _dragCtrl = event.ctrlKey;
+            _preDragIsolation = _isolatedItems ? new Set(_isolatedItems) : null;
             _dragItems.add(_isoKey(_dragType, el.getAttribute('data-cat')));
         }}
 
@@ -1268,6 +1298,7 @@ full_html = f"""<!DOCTYPE html>
             if (!_dragActive || event.buttons === 0) return;
             if (el.getAttribute('data-type') !== _dragType) return;
             _dragItems.add(_isoKey(_dragType, el.getAttribute('data-cat')));
+            _applyDragPreview();
         }}
 
         function _updatePlotForCommonFilter() {{
@@ -2861,7 +2892,8 @@ full_html = f"""<!DOCTYPE html>
                 _dragActive = false;
                 if (_dragItems.size > 1) {{
                     _dragWasMulti = true;
-                    if (_dragCtrl && _isolatedItems) {{
+                    if (_dragCtrl && _preDragIsolation) {{
+                        _isolatedItems = new Set(_preDragIsolation);
                         _dragItems.forEach(function(k) {{ _isolatedItems.add(k); }});
                     }} else {{
                         _isolatedItems = new Set(_dragItems);
@@ -2869,6 +2901,7 @@ full_html = f"""<!DOCTYPE html>
                     _isolationRefresh();
                 }}
                 _dragItems = new Set();
+                _preDragIsolation = null;
             }});
 
             // Click outside plot or table row clears pin
