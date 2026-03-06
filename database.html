@@ -835,7 +835,7 @@ function renderDetail() {
         filtered = filtered.slice().sort(function(a,b) {
             var ea = _isExcluded(itemType, dsId, a.name||'') ? 0 : 1;
             var eb = _isExcluded(itemType, dsId, b.name||'') ? 0 : 1;
-            return _sortAsc ? eb - ea : ea - eb;
+            return _sortAsc ? ea - eb : eb - ea;
         });
     } else if (_sortCol !== null && cols[_sortCol]) {
         var sk = cols[_sortCol];
@@ -881,7 +881,8 @@ function renderDetail() {
         var rChecked = !_isExcluded(itemType, dsId, rName);
         html += '<tr data-oidx="' + r._oidx + '"' + (rChecked ? '' : ' style="opacity:0.45"') + '>';
         html += '<td class="rownum-cell" data-rowidx="' + r._oidx + '">' + (i + 1) + '</td>';
-        html += '<td style="text-align:center;padding:0 4px"><input type="checkbox"' + (rChecked ? ' checked' : '') + ' onchange="_toggleExclusion(\x27' + itemType + '\x27,\x27' + dsId + '\x27,' + JSON.stringify(rName) + ',this);this.closest(\x27tr\x27).style.opacity=this.checked?\x271\x27:\x270.45\x27"></td>';
+        var _exclKey = (dsId + ':' + itemType + ':' + rName).replace(/"/g,'&quot;');
+        html += '<td style="text-align:center;padding:0 4px"><input type="checkbox"' + (rChecked ? ' checked' : '') + ' data-excl-key="' + _exclKey + '" onchange="_toggleExclusion(\x27' + itemType + '\x27,\x27' + dsId + '\x27,' + JSON.stringify(rName) + ',this);this.closest(\x27tr\x27).style.opacity=this.checked?\x271\x27:\x270.45\x27"></td>';
         cols.forEach(function(c) {
             var v = r[c]; if (v == null) v = '';
             var cellId = r._oidx + ':' + c;
@@ -935,6 +936,12 @@ function renderDetail() {
     }
 
     ct.innerHTML = html;
+    // Force correct checkbox states — overrides any browser form-state restoration
+    ct.querySelectorAll('input[type="checkbox"][data-excl-key]').forEach(function(cb) {
+        var shouldBeChecked = !_excludedItems[cb.getAttribute('data-excl-key')];
+        cb.checked = shouldBeChecked;
+        cb.closest('tr').style.opacity = shouldBeChecked ? '1' : '0.45';
+    });
     if (_savedDetailScroll) { var _ndc = ct.querySelector('.detail-content'); if (_ndc) _ndc.scrollTop = _savedDetailScroll; }
 
     if (_prevSel !== null) {
