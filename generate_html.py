@@ -1326,8 +1326,9 @@ full_html = f"""<!DOCTYPE html>
 
             // Solvent trace (trace 0) — always push real coordinates to avoid
             // Plotly 3D re-orienting axis titles when the data extent changes.
-            // Hidden points are made invisible via size=0 instead of null coords.
-            var sx = [], sy = [], sz = [], sc = [], sSz = [];
+            // Hidden points are made invisible via transparent color; size stays
+            // constant (uniform array) so WebGL never rescales visible markers.
+            var sx = [], sy = [], sz = [], sc = [];
             SOLVENTS.forEach(function(s) {{
                 var visible = true;
                 if (!_isDsActive(s.dsId)) visible = false;
@@ -1335,11 +1336,10 @@ full_html = f"""<!DOCTYPE html>
                 else if (_hiddenSolCats[s.cat || 'other']) visible = false;
                 sx.push(s.dd); sy.push(s.dp); sz.push(s.dh);
                 sc.push(visible ? (s.color || '#888') : 'rgba(0,0,0,0)');
-                sSz.push(visible ? sSize : 0);
             }});
             allX.push(sx); allY.push(sy); allZ.push(sz);
-            allSize.push(sSz);
-            allColor.push(_plotDimmed ? sc.map(function(c,i) {{ return sSz[i] > 0 ? '#999' : 'rgba(0,0,0,0)'; }}) : sc);
+            allSize.push(SOLVENTS.map(function() {{ return sSize; }}));
+            allColor.push(_plotDimmed ? sc.map(function(c) {{ return c === 'rgba(0,0,0,0)' ? 'rgba(0,0,0,0)' : '#999'; }}) : sc);
             allOpacity.push(sOpacity);
             allHInfo.push(hInfo);
 
