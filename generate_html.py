@@ -1165,7 +1165,7 @@ full_html = f"""<!DOCTYPE html>
         var _hiddenPolyCats = {{}};
         // Isolation state: null = all visible, else {{level:'item'|'group', type:'solvent'|'polymer', cat:string}}
         var _isolation = null;
-        var _legendOpen = false;
+        var _legendOpen = true;
         var _allSolCats = [];
         var _allPolyCats = [];
 
@@ -2833,13 +2833,6 @@ full_html = f"""<!DOCTYPE html>
                     'scene.camera.center': {{x: center.x+ddx, y: center.y+ddy, z: center.z+ddz}}
                 }});
             }}
-            plotDiv.addEventListener('wheel', function(e) {{
-                if (!e.ctrlKey && e.buttons > 0) {{
-                    e.preventDefault();
-                    e.stopPropagation();
-                    _panCamera(-e.deltaX, -e.deltaY);
-                }}
-            }}, {{passive: false}});
             // Touch two-finger drag → pan
             var _lastTouches = null;
             plotDiv.addEventListener('touchstart', function(e) {{
