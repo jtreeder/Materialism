@@ -398,7 +398,7 @@ var _mCurrentCols = [];
             var srcUrl = meta.source_url || '';
             (ds.chemicals || []).forEach(function(c) {
                 SOLVENTS.push({
-                    name: c.name || '', cas: c.cas || '', smiles: c.smiles || '',
+                    name: c.name || c.name_common || '', cas: c.cas || '', smiles: c.smiles || '',
                     formula: c.formula || '', dd: c.dd || '', dp: c.dp || '', dh: c.dh || '',
                     mw: c.mw || '', bp: c.bp || '', density: c.density || '',
                     mv: c.mv || '', cat: c.cat || '', ghs: c.ghs || '',
@@ -833,8 +833,8 @@ function renderDetail() {
     // Sort
     if (_sortCol === -1) {
         filtered = filtered.slice().sort(function(a,b) {
-            var ea = _isExcluded(itemType, dsId, a.name||'') ? 0 : 1;
-            var eb = _isExcluded(itemType, dsId, b.name||'') ? 0 : 1;
+            var ea = _isExcluded(itemType, dsId, a.name||a.name_common||'') ? 0 : 1;
+            var eb = _isExcluded(itemType, dsId, b.name||b.name_common||'') ? 0 : 1;
             return _sortAsc ? ea - eb : eb - ea;
         });
     } else if (_sortCol !== null && cols[_sortCol]) {
@@ -882,7 +882,7 @@ function renderDetail() {
         html += '<tr data-oidx="' + r._oidx + '"' + (rChecked ? '' : ' style="opacity:0.45"') + '>';
         html += '<td class="rownum-cell" data-rowidx="' + r._oidx + '">' + (i + 1) + '</td>';
         var _exclKey = (dsId + ':' + itemType + ':' + rName).replace(/"/g,'&quot;');
-        html += '<td style="text-align:center;padding:0 4px"><input type="checkbox"' + (rChecked ? ' checked' : '') + ' data-excl-key="' + _exclKey + '" onchange="_toggleExclusion(\x27' + itemType + '\x27,\x27' + dsId + '\x27,' + JSON.stringify(rName) + ',this);this.closest(\x27tr\x27).style.opacity=this.checked?\x271\x27:\x270.45\x27"></td>';
+        html += '<td style="text-align:center;padding:0 4px"><input type="checkbox"' + (rChecked ? ' checked' : '') + ' data-excl-key="' + _exclKey + '" onchange="_toggleExclusion(\x27' + itemType + '\x27,\x27' + dsId + '\x27,' + JSON.stringify(rName).replace(/"/g,'&quot;') + ',this);this.closest(\x27tr\x27).style.opacity=this.checked?\x271\x27:\x270.45\x27"></td>';
         cols.forEach(function(c) {
             var v = r[c]; if (v == null) v = '';
             var cellId = r._oidx + ':' + c;
