@@ -861,7 +861,7 @@ function renderDetail() {
             var attrs = ' data-row="' + r._oidx + '" data-col="' + c + '"';
             attrs += ' data-src="' + srcLabel.replace(/"/g,'&quot;') + '"';
             if (srcUrl) attrs += ' data-src-url="' + srcUrl.replace(/"/g,'&quot;') + '"';
-            if (isEdit && !isNote) {
+            if (isEdit) {
                 attrs += ' contenteditable="true" data-ds="' + dsId + '" data-idx="' + r._oidx + '" data-field="' + c + '"';
                 if (cls) cls += ' ';
                 cls += 'editable';
