@@ -4842,6 +4842,13 @@ return Plotly;
                     'marker.opacity': polyOpacities, 'hoverinfo': polyHInfos,
                 }, polyIndices);
             }
+            // Update axis ranges to match the currently visible data
+            var ar = _getActiveRanges();
+            Plotly.relayout(plotDiv, {
+                'scene.xaxis.range': ar.xRange,
+                'scene.yaxis.range': ar.yRange,
+                'scene.zaxis.range': ar.zRange,
+            });
         }
 
         // ===================== HSP MATH =====================
@@ -5641,10 +5648,43 @@ return Plotly;
             tab.innerHTML = _legendOpen ? '&#9664;' : '&#9654;';
         }
 
-        // Fixed axis ranges — never change
-        var FIXED_AXES = {
+        // Default axis ranges (full dataset extents, rounded to nearest 5)
+        var DEFAULT_AXES = {
             xRange: [0, 70], yRange: [0, 30], zRange: [0, 45],
         };
+
+        function _getActiveRanges() {
+            var maxD = 0, maxP = 0, maxH = 0;
+            SOLVENTS.forEach(function(s) {
+                if (!_isDsActive(s.dsId)) return;
+                if (simpleMode && !s.common) return;
+                if (_hiddenSolCats[s.cat || 'other']) return;
+                if (s.dd > maxD) maxD = s.dd;
+                if (s.dp > maxP) maxP = s.dp;
+                if (s.dh > maxH) maxH = s.dh;
+            });
+            for (var ti = 0; ti < _polyTraceCount; ti++) {
+                var cat = _polyCatOrder[ti];
+                if (_hiddenPolyCats[cat]) continue;
+                var items = _polyCatData[cat];
+                for (var j = 0; j < items.length; j++) {
+                    var p = items[j].p;
+                    if (!_isDsActive(p.dsId)) continue;
+                    if (simpleMode && !p.common) continue;
+                    if (p.dd > maxD) maxD = p.dd;
+                    if (p.dp > maxP) maxP = p.dp;
+                    if (p.dh > maxH) maxH = p.dh;
+                }
+            }
+            // Fall back to defaults if nothing is visible
+            if (maxD === 0) return DEFAULT_AXES;
+            return {
+                xRange: [0, Math.ceil(maxD / 5) * 5 || 5],
+                yRange: [0, Math.ceil(maxP / 5) * 5 || 5],
+                zRange: [0, Math.ceil(maxH / 5) * 5 || 5],
+            };
+        }
+
         var axisStyle = {
             gridcolor: '#dfe6e9', zerolinecolor: '#b2bec3',
             showbackground: false,
@@ -5656,10 +5696,11 @@ return Plotly;
             // Preserve the current camera position so the plot doesn't reset on updates
             var cam = (plotDiv && plotDiv.layout && plotDiv.layout.scene && plotDiv.layout.scene.camera)
                 ? plotDiv.layout.scene.camera : undefined;
+            var activeRanges = _getActiveRanges();
             var sceneObj = {
-                    xaxis: Object.assign({ title: { text: 'δD (Dispersion) MPa¹⁄²', font: { size: 14, color: '#2d3436' } }, range: FIXED_AXES.xRange.slice(), autorange: false }, axisStyle),
-                    yaxis: Object.assign({ title: { text: 'δP (Polar) MPa¹⁄²', font: { size: 14, color: '#2d3436' } }, range: FIXED_AXES.yRange.slice(), autorange: false }, axisStyle),
-                    zaxis: Object.assign({ title: { text: 'δH (H-bonding) MPa¹⁄²', font: { size: 14, color: '#2d3436' } }, range: FIXED_AXES.zRange.slice(), autorange: false }, axisStyle),
+                    xaxis: Object.assign({ title: { text: 'δD (Dispersion) MPa¹⁄²', font: { size: 14, color: '#2d3436' } }, range: activeRanges.xRange.slice(), autorange: false }, axisStyle),
+                    yaxis: Object.assign({ title: { text: 'δP (Polar) MPa¹⁄²', font: { size: 14, color: '#2d3436' } }, range: activeRanges.yRange.slice(), autorange: false }, axisStyle),
+                    zaxis: Object.assign({ title: { text: 'δH (H-bonding) MPa¹⁄²', font: { size: 14, color: '#2d3436' } }, range: activeRanges.zRange.slice(), autorange: false }, axisStyle),
                     aspectmode: 'cube',
             };
             if (cam) sceneObj.camera = cam;

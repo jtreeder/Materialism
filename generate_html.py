@@ -1384,6 +1384,13 @@ full_html = f"""<!DOCTYPE html>
                     'marker.opacity': polyOpacities, 'hoverinfo': polyHInfos,
                 }}, polyIndices);
             }}
+            // Update axis ranges to match the currently visible data
+            var ar = _getActiveRanges();
+            Plotly.relayout(plotDiv, {{
+                'scene.xaxis.range': ar.xRange,
+                'scene.yaxis.range': ar.yRange,
+                'scene.zaxis.range': ar.zRange,
+            }});
         }}
 
         // ===================== HSP MATH =====================
@@ -2183,10 +2190,43 @@ full_html = f"""<!DOCTYPE html>
             tab.innerHTML = _legendOpen ? '&#9664;' : '&#9654;';
         }}
 
-        // Fixed axis ranges — never change
-        var FIXED_AXES = {{
+        // Default axis ranges (full dataset extents, rounded to nearest 5)
+        var DEFAULT_AXES = {{
             xRange: [0, {_axis_max_d}], yRange: [0, {_axis_max_p}], zRange: [0, {_axis_max_h}],
         }};
+
+        function _getActiveRanges() {{
+            var maxD = 0, maxP = 0, maxH = 0;
+            SOLVENTS.forEach(function(s) {{
+                if (!_isDsActive(s.dsId)) return;
+                if (simpleMode && !s.common) return;
+                if (_hiddenSolCats[s.cat || 'other']) return;
+                if (s.dd > maxD) maxD = s.dd;
+                if (s.dp > maxP) maxP = s.dp;
+                if (s.dh > maxH) maxH = s.dh;
+            }});
+            for (var ti = 0; ti < _polyTraceCount; ti++) {{
+                var cat = _polyCatOrder[ti];
+                if (_hiddenPolyCats[cat]) continue;
+                var items = _polyCatData[cat];
+                for (var j = 0; j < items.length; j++) {{
+                    var p = items[j].p;
+                    if (!_isDsActive(p.dsId)) continue;
+                    if (simpleMode && !p.common) continue;
+                    if (p.dd > maxD) maxD = p.dd;
+                    if (p.dp > maxP) maxP = p.dp;
+                    if (p.dh > maxH) maxH = p.dh;
+                }}
+            }}
+            // Fall back to defaults if nothing is visible
+            if (maxD === 0) return DEFAULT_AXES;
+            return {{
+                xRange: [0, Math.ceil(maxD / 5) * 5 || 5],
+                yRange: [0, Math.ceil(maxP / 5) * 5 || 5],
+                zRange: [0, Math.ceil(maxH / 5) * 5 || 5],
+            }};
+        }}
+
         var axisStyle = {{
             gridcolor: '#dfe6e9', zerolinecolor: '#b2bec3',
             showbackground: false,
@@ -2198,10 +2238,11 @@ full_html = f"""<!DOCTYPE html>
             // Preserve the current camera position so the plot doesn't reset on updates
             var cam = (plotDiv && plotDiv.layout && plotDiv.layout.scene && plotDiv.layout.scene.camera)
                 ? plotDiv.layout.scene.camera : undefined;
+            var activeRanges = _getActiveRanges();
             var sceneObj = {{
-                    xaxis: Object.assign({{ title: {{ text: '\u03b4D (Dispersion) MPa\u00b9\u2044\u00b2', font: {{ size: 14, color: '#2d3436' }} }}, range: FIXED_AXES.xRange.slice(), autorange: false }}, axisStyle),
-                    yaxis: Object.assign({{ title: {{ text: '\u03b4P (Polar) MPa\u00b9\u2044\u00b2', font: {{ size: 14, color: '#2d3436' }} }}, range: FIXED_AXES.yRange.slice(), autorange: false }}, axisStyle),
-                    zaxis: Object.assign({{ title: {{ text: '\u03b4H (H-bonding) MPa\u00b9\u2044\u00b2', font: {{ size: 14, color: '#2d3436' }} }}, range: FIXED_AXES.zRange.slice(), autorange: false }}, axisStyle),
+                    xaxis: Object.assign({{ title: {{ text: '\u03b4D (Dispersion) MPa\u00b9\u2044\u00b2', font: {{ size: 14, color: '#2d3436' }} }}, range: activeRanges.xRange.slice(), autorange: false }}, axisStyle),
+                    yaxis: Object.assign({{ title: {{ text: '\u03b4P (Polar) MPa\u00b9\u2044\u00b2', font: {{ size: 14, color: '#2d3436' }} }}, range: activeRanges.yRange.slice(), autorange: false }}, axisStyle),
+                    zaxis: Object.assign({{ title: {{ text: '\u03b4H (H-bonding) MPa\u00b9\u2044\u00b2', font: {{ size: 14, color: '#2d3436' }} }}, range: activeRanges.zRange.slice(), autorange: false }}, axisStyle),
                     aspectmode: 'cube',
             }};
             if (cam) sceneObj.camera = cam;
