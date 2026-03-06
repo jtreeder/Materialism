@@ -148,6 +148,37 @@
       "quality_notes": "",
       "active": true,
       "confidence_tier": 0.7
+    },
+    "hsp_solvents_2": {
+      "id": "hsp_solvents_2",
+      "name": "HSP Solvents 2",
+      "source_url": "",
+      "description": "Re-processed HSPiP solvent database following the Materialism Data Cleaning & Enrichment Pipeline v2. Includes IUPAC names, common names, acronyms, ClassyFire taxonomy (cf_class/cf_subclass), GHS hazard codes, and processing audit trail.",
+      "imported_at": "2026-03-06T00:00:00+00:00",
+      "chemical_count": 1135,
+      "polymer_count": 0,
+      "fields_available": [
+        "name_iupac",
+        "name_common",
+        "name_acronyms",
+        "cas",
+        "mol_formula",
+        "smiles",
+        "dD",
+        "dP",
+        "dH",
+        "radius",
+        "mw",
+        "bp_c",
+        "density_g_ml",
+        "cf_class",
+        "cf_subclass",
+        "ghs_hazard",
+        "processing_notes"
+      ],
+      "quality_notes": "ClassyFire coverage: 880/1135 (78%). name_iupac coverage: 1135/1135. Acronym coverage: 53/1135. radius (R0) not available from HSPiP solvent source.",
+      "active": true,
+      "confidence_tier": 0.9
     }
   }
 }

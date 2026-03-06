@@ -62,6 +62,7 @@ SOURCE_NAMES = {
     "solvpred": "SolvPred (Fang)",
     "wolfram": "Wolfram Data Repo",
     "accudyne": "Accudyne Test",
+    "hsp_solvents_2": "HSP Solvents 2",
 }
 
 # Common solvents: readily available lab/industrial solvents
