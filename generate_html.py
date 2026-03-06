@@ -3698,9 +3698,12 @@ td[contenteditable="true"]:focus {{
     background: #fff;
 }}
 .detail-content {{ padding: 20px; flex: 1; min-height: 0; overflow-y: auto; }}
-.filter-row {{ margin-bottom: 10px; }}
-.filter-row input {{ padding: 6px 10px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.82rem; width: 250px; }}
+.filter-row {{ margin-bottom: 10px; position: relative; display: inline-block; }}
+.filter-row input {{ padding: 6px 28px 6px 10px; border: 1px solid #dfe6e9; border-radius: 4px; font-size: 0.82rem; width: 250px; }}
 .filter-row input:focus {{ outline: none; border-color: #e94560; }}
+.filter-row .clear-filter {{ position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #b2bec3; font-size: 1rem; line-height: 1; padding: 0; display: none; }}
+.filter-row .clear-filter:hover {{ color: #e94560; }}
+.filter-row.has-text .clear-filter {{ display: block; }}
 .empty-state {{
     text-align: center; padding: 60px 20px; color: #636e72;
 }}
@@ -4369,7 +4372,7 @@ function renderDetail() {{
     html += '</div>';
     html += '<div class="infer-progress" id="infer-progress" style="display:none"></div>';
 
-    html += '<div class="filter-row"><input type="text" id="manage-filter" placeholder="Filter by name or CAS..." oninput="_filterText=this.value;renderContent()" value="' + (_filterText||'').replace(/"/g,'&quot;') + '"></div>';
+    html += '<div class="filter-row' + (_filterText ? ' has-text' : '') + '"><input type="text" id="manage-filter" placeholder="Filter by name or CAS..." oninput="_filterText=this.value;this.parentElement.classList.toggle(\\x27has-text\\x27,this.value.length>0);renderContent()" value="' + (_filterText||'').replace(/"/g,'&quot;') + '"><button class="clear-filter" onclick="_filterText=\\x27\\x27;this.parentElement.classList.remove(\\x27has-text\\x27);document.getElementById(\\x27manage-filter\\x27).value=\\x27\\x27;renderContent()" title="Clear search">\u00d7</button></div>';
 
     // Determine what data to show
     var items, cols, itemType;
@@ -4417,7 +4420,13 @@ function renderDetail() {{
     }}
 
     // Sort
-    if (_sortCol !== null && cols[_sortCol]) {{
+    if (_sortCol === -1) {{
+        filtered = filtered.slice().sort(function(a,b) {{
+            var ea = _isExcluded(itemType, dsId, a.name||'') ? 0 : 1;
+            var eb = _isExcluded(itemType, dsId, b.name||'') ? 0 : 1;
+            return _sortAsc ? eb - ea : ea - eb;
+        }});
+    }} else if (_sortCol !== null && cols[_sortCol]) {{
         var sk = cols[_sortCol];
         filtered = filtered.slice().sort(function(a,b) {{
             var va = a[sk]||'', vb = b[sk]||'';
@@ -4443,7 +4452,8 @@ function renderDetail() {{
     _mCurrentCols = cols;
     _mVisibleOidxs = [];
 
-    html += '<table><thead><tr><th style="width:40px">#</th><th style="width:32px;text-align:center" title="Include in active database">&#10003;</th>';
+    var _activeColCls = (_sortCol === -1) ? (_sortAsc ? ' class="sort-asc"' : ' class="sort-desc"') : '';
+    html += '<table><thead><tr><th style="width:40px">#</th><th style="width:52px;text-align:center;cursor:pointer"' + _activeColCls + ' onclick="manageSort(-1)" title="Sort by active status">Active</th>';
     cols.forEach(function(c, i) {{
         html += '<th data-col="' + c + '" onclick="manageSort(' + i + ')">' + (colLabels[c]||c);
         if (_sortCol === i) html += _sortAsc ? ' \u25B2' : ' \u25BC';
