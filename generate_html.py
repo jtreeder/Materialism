@@ -1917,7 +1917,11 @@ full_html = f"""<!DOCTYPE html>
             // Render the plot. Only apply dataset/filter updates on initial load
             // if there are actually saved filters — calling restyle immediately
             // after newPlot on scatter3d diamond markers can reset colors.
-            Plotly.newPlot(plotDiv, fullTraces, makeLayout(), {{ responsive: true }}).then(function() {{
+            Plotly.newPlot(plotDiv, fullTraces, makeLayout(), {{
+                responsive: true,
+                modeBarButtonsToRemove: ['toImage','zoomIn3d','zoomOut3d','zoom3d','pan3d','orbitRotation','tableRotation','resetCameraLastSave3d','hoverClosest3d'],
+                displaylogo: false
+            }}).then(function() {{
                 var needsFilter = simpleMode || _hasHiddenCats();
                 if (!needsFilter) {{
                     var saved = _loadActiveDsets();
