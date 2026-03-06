@@ -831,11 +831,22 @@ full_html = f"""<!DOCTYPE html>
         }}
         var _activeDsets = _getActiveDsets();
 
+        // ===================== EXCLUSION STATE =====================
+        var _excludedItems = (function() {{
+            try {{ var v = localStorage.getItem('materialism_excluded_items'); return v ? JSON.parse(v) : {{}}; }}
+            catch(e) {{ return {{}}; }}
+        }})();
+        function _isExcluded(type, dsId, name) {{
+            if (!dsId) return false;
+            return !!_excludedItems[dsId + ':' + type + ':' + name];
+        }}
+
         // Each solvent/polymer has a pre-baked .color field set at generation time.
         // These helper functions get the color for a category name (for legends).
 
         function _onDatasetsChanged() {{
             _activeDsets = _getActiveDsets();
+            try {{ var v = localStorage.getItem('materialism_excluded_items'); _excludedItems = v ? JSON.parse(v) : {{}}; }} catch(e) {{}}
             if (plotDiv && plotDiv.data) _updatePlotForCommonFilter();
             _buildLegend();
             buildHomeTable();
@@ -890,12 +901,12 @@ full_html = f"""<!DOCTYPE html>
             }} catch(e) {{}}
         }})();
 
-        // Filter arrays by active datasets
+        // Filter arrays by active datasets and per-item exclusions
         function _dsFilterSolvents() {{
-            return SOLVENTS.filter(function(s) {{ return _isDsActive(s.dsId); }});
+            return SOLVENTS.filter(function(s) {{ return _isDsActive(s.dsId) && !_isExcluded('c', s.dsId, s.name); }});
         }}
         function _dsFilterPolymers() {{
-            return POLYMERS.filter(function(p) {{ return _isDsActive(p.dsId); }});
+            return POLYMERS.filter(function(p) {{ return _isDsActive(p.dsId) && !_isExcluded('p', p.dsId, p.name); }});
         }}
 
 
@@ -1333,7 +1344,7 @@ full_html = f"""<!DOCTYPE html>
             var sx = [], sy = [], sz = [], sc = [];
             SOLVENTS.forEach(function(s) {{
                 var visible = true;
-                if (!_isDsActive(s.dsId)) visible = false;
+                if (!_isDsActive(s.dsId) || _isExcluded('c', s.dsId, s.name)) visible = false;
                 else if (simpleMode && !s.common) visible = false;
                 else if (_hiddenSolCats[s.cat || 'other']) visible = false;
                 sx.push(s.dd); sy.push(s.dp); sz.push(s.dh);
@@ -1363,7 +1374,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var j = 0; j < items.length; j++) {{
                     var p = items[j].p;
                     var visible = true;
-                    if (!_isDsActive(p.dsId)) visible = false;
+                    if (!_isDsActive(p.dsId) || _isExcluded('p', p.dsId, p.name)) visible = false;
                     else if (simpleMode && !p.common) visible = false;
                     else if (catHidden) visible = false;
                     px.push(visible ? p.dd : null);
@@ -1731,7 +1742,7 @@ full_html = f"""<!DOCTYPE html>
                 var tRs = targets.map(function(t) {{ return (t.r && t.r > 0) ? t.r : 0; }});
                 var tGood = targets.map(function(t) {{ return t.requirement === 'good' ? 1 : -1; }});
                 for (var si = 0; si < N; si++) {{
-                    if (!_isDsActive(SOLVENTS[si].dsId)) continue;
+                    if (!_isDsActive(SOLVENTS[si].dsId) || _isExcluded('c', SOLVENTS[si].dsId, SOLVENTS[si].name)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
                     if (_hiddenSolCats[SOLVENTS[si].cat || 'other']) continue;
                     var cs = 0, dd0 = _sDD[si], dp0 = _sDP[si], dh0 = _sDH[si];
@@ -1764,7 +1775,7 @@ full_html = f"""<!DOCTYPE html>
                 var tDD = target.dd, tDP = target.dp, tDH = target.dh, N = SOLVENTS.length;
                 var scored = [];
                 for (var si = 0; si < N; si++) {{
-                    if (!_isDsActive(SOLVENTS[si].dsId)) continue;
+                    if (!_isDsActive(SOLVENTS[si].dsId) || _isExcluded('c', SOLVENTS[si].dsId, SOLVENTS[si].name)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
                     if (_hiddenSolCats[SOLVENTS[si].cat || 'other']) continue;
                     var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
@@ -1797,7 +1808,7 @@ full_html = f"""<!DOCTYPE html>
                 var scored = [];
                 for (var si = 0; si < SOLVENTS.length; si++) {{
                     if (SOLVENTS[si].name === target.name) continue;
-                    if (!_isDsActive(SOLVENTS[si].dsId)) continue;
+                    if (!_isDsActive(SOLVENTS[si].dsId) || _isExcluded('c', SOLVENTS[si].dsId, SOLVENTS[si].name)) continue;
                     if (simpleMode && !_sCommon[si]) continue;
                     if (_hiddenSolCats[SOLVENTS[si].cat || 'other']) continue;
                     var ddd = _sDD[si] - tDD, ddp = _sDP[si] - tDP, ddh = _sDH[si] - tDH;
@@ -1813,7 +1824,7 @@ full_html = f"""<!DOCTYPE html>
                 let target = findPolymer(material);
                 if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findPolymer(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find polymer "' + material + '". Try "polystyrene", "epoxy", "PMMA", etc.' }};
-                var scored = POLYMERS.filter(function(p) {{ return p.name !== target.name && _isDsActive(p.dsId) && !_hiddenPolyCats[p.cat || 'Other']; }});
+                var scored = POLYMERS.filter(function(p) {{ return p.name !== target.name && _isDsActive(p.dsId) && !_isExcluded('p', p.dsId, p.name) && !_hiddenPolyCats[p.cat || 'Other']; }});
                 if (simpleMode) scored = scored.filter(function(p) {{ return p.common; }});
                 scored = scored.map(p => ({{ ...p, ra: hspDistance(p, target) }}));
                 var results = topK(scored, resultCount, function(x) {{ return x.ra; }});
@@ -1825,7 +1836,7 @@ full_html = f"""<!DOCTYPE html>
                 let target = findSolvent(material);
                 if (!target) {{ const words = material.split(/\s+/); for (const w of words) {{ target = findSolvent(w); if (target) break; }} }}
                 if (!target) return {{ error: 'Could not find solvent "' + material + '". Try "toluene", "acetone", "NMP", "DMSO", etc.' }};
-                var scored = POLYMERS.filter(function(p) {{ return p.r && p.r > 0 && _isDsActive(p.dsId) && !_hiddenPolyCats[p.cat || 'Other']; }});
+                var scored = POLYMERS.filter(function(p) {{ return p.r && p.r > 0 && _isDsActive(p.dsId) && !_isExcluded('p', p.dsId, p.name) && !_hiddenPolyCats[p.cat || 'Other']; }});
                 if (simpleMode) scored = scored.filter(function(p) {{ return p.common; }});
                 scored = scored.map(p => ({{ ...p, ra: hspDistance(target, p), red: redNumber(target, p) }}));
                 var results = topK(scored, resultCount, function(x) {{ return x.ra; }});
@@ -2199,13 +2210,13 @@ full_html = f"""<!DOCTYPE html>
             var minD = Infinity, minP = Infinity, minH = Infinity;
             var maxD = -Infinity, maxP = -Infinity, maxH = -Infinity;
             SOLVENTS.forEach(function(s) {{
-                if (!_isDsActive(s.dsId)) return;
+                if (!_isDsActive(s.dsId) || _isExcluded('c', s.dsId, s.name)) return;
                 if (s.dd < minD) minD = s.dd; if (s.dd > maxD) maxD = s.dd;
                 if (s.dp < minP) minP = s.dp; if (s.dp > maxP) maxP = s.dp;
                 if (s.dh < minH) minH = s.dh; if (s.dh > maxH) maxH = s.dh;
             }});
             POLYMERS.forEach(function(p) {{
-                if (!_isDsActive(p.dsId)) return;
+                if (!_isDsActive(p.dsId) || _isExcluded('p', p.dsId, p.name)) return;
                 if (p.dd < minD) minD = p.dd; if (p.dd > maxD) maxD = p.dd;
                 if (p.dp < minP) minP = p.dp; if (p.dp > maxP) maxP = p.dp;
                 if (p.dh < minH) minH = p.dh; if (p.dh > maxH) maxH = p.dh;
@@ -3908,6 +3919,23 @@ var _activeDsets = _getActiveDsets();
 function _isDsActive(dsId) {{ if (!dsId) return true; var ids = dsId.split(','); for (var i = 0; i < ids.length; i++) {{ if (DATASETS[ids[i]] && _activeDsets[ids[i]] !== false) return true; }} return false; }}
 function _isFromActiveDataset(item) {{ return !!item._imported && !!DATASETS[item.dsId] && _isDsActive(item.dsId); }}
 
+// ===================== PER-ITEM EXCLUSION =====================
+var _LS_EXCL_KEY = 'materialism_excluded_items';
+var _excludedItems = (function() {{
+    try {{ var v = localStorage.getItem(_LS_EXCL_KEY); return v ? JSON.parse(v) : {{}}; }}
+    catch(e) {{ return {{}}; }}
+}})();
+function _isExcluded(type, dsId, name) {{
+    return !!_excludedItems[dsId + ':' + type + ':' + name];
+}}
+function _toggleExclusion(type, dsId, name, el) {{
+    var k = dsId + ':' + type + ':' + name;
+    if (el.checked) {{ delete _excludedItems[k]; }}
+    else {{ _excludedItems[k] = true; }}
+    try {{ localStorage.setItem(_LS_EXCL_KEY, JSON.stringify(_excludedItems)); }} catch(e) {{}}
+    updateActiveDbCounts();
+}}
+
 // View mode: 'active_db' or a dataset id
 var _viewMode = 'active_db';
 var _activeDbTab = 'solvents'; // solvents or polymers
@@ -4074,8 +4102,11 @@ function toggleDbLock() {{
 
 function _countForTab(tab) {{
     var data = tab === 'solvents' ? SOLVENTS : POLYMERS;
+    var type = tab === 'solvents' ? 'c' : 'p';
     var n = 0;
-    for (var i = 0; i < data.length; i++) {{ if (_isDsActive(data[i].dsId)) n++; }}
+    for (var i = 0; i < data.length; i++) {{
+        if (_isDsActive(data[i].dsId) && !_isExcluded(type, data[i].dsId, data[i].name)) n++;
+    }}
     return n;
 }}
 
@@ -4176,9 +4207,11 @@ function renderActiveDb() {{
     toolbar += '<div class="infer-progress" id="infer-progress" style="display:none"></div>';
 
     // Build index array for filtering
+    var _activeDbType = _activeDbTab === 'solvents' ? 'c' : 'p';
     var indices = [];
     for (var i = 0; i < data.length; i++) {{
         if (!_isDsActive(data[i].dsId)) continue;
+        if (_isExcluded(_activeDbType, data[i].dsId, data[i].name)) continue;
         if (filter) {{
             var name = getDbVal(_activeDbTab, i, 'name').toLowerCase();
             var cas = getDbVal(_activeDbTab, i, 'cas').toLowerCase();
@@ -4339,13 +4372,15 @@ function renderDetail() {{
     html += '<div class="filter-row"><input type="text" id="manage-filter" placeholder="Filter by name or CAS..." oninput="_filterText=this.value;renderContent()" value="' + (_filterText||'').replace(/"/g,'&quot;') + '"></div>';
 
     // Determine what data to show
-    var items, cols;
+    var items, cols, itemType;
     if (nc > 0) {{
         items = ds.chemicals;
         cols = ['name_common','name_iupac','cas','dd','dp','dh','mw','bp','cf_class','cf_subclass'];
+        itemType = 'c';
     }} else {{
         items = ds.polymers;
         cols = ['name','cas','dd','dp','dh','r','type'];
+        itemType = 'p';
     }}
     // Append any extra fields present on imported entries (passthrough columns)
     if (items && items.length) {{
@@ -4408,7 +4443,7 @@ function renderDetail() {{
     _mCurrentCols = cols;
     _mVisibleOidxs = [];
 
-    html += '<table><thead><tr><th style="width:40px">#</th>';
+    html += '<table><thead><tr><th style="width:40px">#</th><th style="width:32px;text-align:center" title="Include in active database">&#10003;</th>';
     cols.forEach(function(c, i) {{
         html += '<th data-col="' + c + '" onclick="manageSort(' + i + ')">' + (colLabels[c]||c);
         if (_sortCol === i) html += _sortAsc ? ' \u25B2' : ' \u25BC';
@@ -4421,8 +4456,11 @@ function renderDetail() {{
     for (var i = 0; i < limit; i++) {{
         var r = filtered[i];
         _mVisibleOidxs.push(r._oidx);
-        html += '<tr data-oidx="' + r._oidx + '">';
+        var rName = r.name || r.name_common || '';
+        var rChecked = !_isExcluded(itemType, dsId, rName);
+        html += '<tr data-oidx="' + r._oidx + '"' + (rChecked ? '' : ' style="opacity:0.45"') + '>';
         html += '<td class="rownum-cell" data-rowidx="' + r._oidx + '">' + (i + 1) + '</td>';
+        html += '<td style="text-align:center;padding:0 4px"><input type="checkbox"' + (rChecked ? ' checked' : '') + ' onchange="_toggleExclusion(\\x27' + itemType + '\\x27,\\x27' + dsId + '\\x27,' + JSON.stringify(rName) + ',this);this.closest(\\x27tr\\x27).style.opacity=this.checked?\\x271\\x27:\\x270.45\\x27"></td>';
         cols.forEach(function(c) {{
             var v = r[c]; if (v == null) v = '';
             var cellId = r._oidx + ':' + c;
