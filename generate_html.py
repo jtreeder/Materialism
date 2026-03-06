@@ -1318,21 +1318,22 @@ full_html = f"""<!DOCTYPE html>
             var allX = [], allY = [], allZ = [];
             var allSize = [], allColor = [], allOpacity = [], allHInfo = [];
 
-            // Solvent trace (trace 0)
-            var sx = [], sy = [], sz = [], sc = [];
-            SOLVENTS.forEach(function(s, i) {{
+            // Solvent trace (trace 0) — always push real coordinates to avoid
+            // Plotly 3D re-orienting axis titles when the data extent changes.
+            // Hidden points are made invisible via size=0 instead of null coords.
+            var sx = [], sy = [], sz = [], sc = [], sSz = [];
+            SOLVENTS.forEach(function(s) {{
                 var visible = true;
                 if (!_isDsActive(s.dsId)) visible = false;
                 else if (simpleMode && !s.common) visible = false;
                 else if (_hiddenSolCats[s.cat || 'other']) visible = false;
-                sx.push(visible ? s.dd : null);
-                sy.push(visible ? s.dp : null);
-                sz.push(visible ? s.dh : null);
+                sx.push(s.dd); sy.push(s.dp); sz.push(s.dh);
                 sc.push(visible ? (s.color || '#888') : 'rgba(0,0,0,0)');
+                sSz.push(visible ? sSize : 0);
             }});
             allX.push(sx); allY.push(sy); allZ.push(sz);
-            allSize.push(sSize);
-            allColor.push(_plotDimmed ? '#999' : sc);
+            allSize.push(sSz);
+            allColor.push(_plotDimmed ? sc.map(function(c,i) {{ return sSz[i] > 0 ? '#999' : 'rgba(0,0,0,0)'; }}) : sc);
             allOpacity.push(sOpacity);
             allHInfo.push(hInfo);
 
@@ -2794,6 +2795,11 @@ full_html = f"""<!DOCTYPE html>
             const input = document.getElementById('nl-search');
             const q = input.value.trim();
             if (!q) return;
+            // Clear any active isolation so the full dataset is visible in results
+            if (_isolatedItems) {{
+                _isolatedItems = null;
+                _applyIsolation();
+            }}
             lastSearchQuery = q;
             _isSearchActive = true;
             input.value = '';
