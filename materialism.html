@@ -4774,6 +4774,8 @@ return Plotly;
             _applyDragPreview();
         }
 
+        var _lastSolventDimmed = null; // tracks last dimmed state applied to solvent size
+
         function _updatePlotForCommonFilter() {
             if (!plotDiv || !plotDiv.data) return;
             // Use dimmed styling when a search has dimmed the base traces
@@ -4783,18 +4785,12 @@ return Plotly;
             var pOpacity = _plotDimmed ? 0.12 : 0.95;
             var hInfo = _plotDimmed ? 'skip' : 'none';
 
-            // Build filtered coordinate and color arrays for all traces,
-            // then apply via a single batched Plotly.restyle call.
-            // (Plotly.react with mutated data can interfere with scatter3d
-            //  WebGL diamond marker rendering; restyle is more reliable.)
-            var indices = [0];
-            var allX = [], allY = [], allZ = [];
-            var allSize = [], allColor = [], allOpacity = [], allHInfo = [];
-
-            // Solvent trace (trace 0) — always push real coordinates to avoid
+            // Solvent trace (trace 0) — always use real coordinates to avoid
             // Plotly 3D re-orienting axis titles when the data extent changes.
-            // Hidden points are made invisible via transparent color; size stays
-            // constant (uniform array) so WebGL never rescales visible markers.
+            // Hidden points are made invisible via transparent color.
+            // IMPORTANT: never restyle marker.size on the solvent trace except
+            // when the dimmed state changes — any restyle of size (even to the
+            // same scalar value) causes scatter3d WebGL to render markers smaller.
             var sx = [], sy = [], sz = [], sc = [];
             SOLVENTS.forEach(function(s) {
                 var visible = true;
@@ -4804,13 +4800,21 @@ return Plotly;
                 sx.push(s.dd); sy.push(s.dp); sz.push(s.dh);
                 sc.push(visible ? (s.color || '#888') : 'rgba(0,0,0,0)');
             });
-            allX.push(sx); allY.push(sy); allZ.push(sz);
-            allSize.push(SOLVENTS.map(function() { return sSize; }));
-            allColor.push(_plotDimmed ? sc.map(function(c) { return c === 'rgba(0,0,0,0)' ? 'rgba(0,0,0,0)' : '#999'; }) : sc);
-            allOpacity.push(sOpacity);
-            allHInfo.push(hInfo);
+            var solData = {
+                'x': [sx], 'y': [sy], 'z': [sz],
+                'marker.color': [_plotDimmed ? sc.map(function(c) { return c === 'rgba(0,0,0,0)' ? 'rgba(0,0,0,0)' : '#999'; }) : sc],
+                'marker.opacity': [sOpacity], 'hoverinfo': [hInfo],
+            };
+            // Only touch marker.size when dim state changes to avoid WebGL size glitch
+            if (_plotDimmed !== _lastSolventDimmed) {
+                solData['marker.size'] = [sSize];
+                _lastSolventDimmed = _plotDimmed;
+            }
+            Plotly.restyle(plotDiv, solData, [0]);
 
             // Polymer category traces
+            var polyIndices = [], polyX = [], polyY = [], polyZ = [];
+            var polySizes = [], polyColors = [], polyOpacities = [], polyHInfos = [];
             for (var ti = 0; ti < _polyTraceCount; ti++) {
                 var cat = _polyCatOrder[ti];
                 var items = _polyCatData[cat];
@@ -4827,19 +4831,20 @@ return Plotly;
                     py.push(visible ? p.dp : null);
                     pz.push(visible ? p.dh : null);
                 }
-                indices.push(_polyTraceStart + ti);
-                allX.push(px); allY.push(py); allZ.push(pz);
-                allSize.push(pSize);
-                allColor.push(_plotDimmed ? '#665500' : trColor);
-                allOpacity.push(pOpacity);
-                allHInfo.push(hInfo);
+                polyIndices.push(_polyTraceStart + ti);
+                polyX.push(px); polyY.push(py); polyZ.push(pz);
+                polySizes.push(pSize);
+                polyColors.push(_plotDimmed ? '#665500' : trColor);
+                polyOpacities.push(pOpacity);
+                polyHInfos.push(hInfo);
             }
-
-            Plotly.restyle(plotDiv, {
-                'x': allX, 'y': allY, 'z': allZ,
-                'marker.size': allSize, 'marker.color': allColor,
-                'marker.opacity': allOpacity, 'hoverinfo': allHInfo,
-            }, indices);
+            if (polyIndices.length > 0) {
+                Plotly.restyle(plotDiv, {
+                    'x': polyX, 'y': polyY, 'z': polyZ,
+                    'marker.size': polySizes, 'marker.color': polyColors,
+                    'marker.opacity': polyOpacities, 'hoverinfo': polyHInfos,
+                }, polyIndices);
+            }
         }
 
         // ===================== HSP MATH =====================
