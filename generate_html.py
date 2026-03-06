@@ -411,6 +411,15 @@ _plotly_js_path = os.path.join(os.path.dirname(_plotly_pkg.__file__), "package_d
 with open(_plotly_js_path) as _f:
     plotly_js_inline = _f.read()
 
+# Compute axis ranges from data (min=0, max=rounded-up maximum across all materials)
+import math as _math
+_all_dd = [s["dd"] for s in solvents] + [p["dd"] for p in poly_data]
+_all_dp = [s["dp"] for s in solvents] + [p["dp"] for p in poly_data]
+_all_dh = [s["dh"] for s in solvents] + [p["dh"] for p in poly_data]
+_axis_max_d = _math.ceil(max(_all_dd) / 5) * 5
+_axis_max_p = _math.ceil(max(_all_dp) / 5) * 5
+_axis_max_h = _math.ceil(max(_all_dh) / 5) * 5
+
 # Generate full HTML
 full_html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -726,7 +735,6 @@ full_html = f"""<!DOCTYPE html>
                 <div id="plotly-div" style="width:100%; height:100%;"></div>
                 <div id="legend-tab" class="legend-tab hidden" onclick="toggleLegendPanel()">&#9654;</div>
                 <div id="plot-legend" class="plot-legend"></div>
-                <p style="position:absolute;bottom:4px;left:10px;color:#636e72;font-size:0.8rem;margin:0;pointer-events:none;z-index:1;">Drag to rotate &middot; Scroll to zoom</p>
             </div>
         </div>
         <div id="chat-panel" class="chat-panel"></div>
@@ -2177,7 +2185,7 @@ full_html = f"""<!DOCTYPE html>
 
         // Fixed axis ranges — never change
         var FIXED_AXES = {{
-            xRange: [12, 30], yRange: [0, 28], zRange: [0, 45],
+            xRange: [0, {_axis_max_d}], yRange: [0, {_axis_max_p}], zRange: [0, {_axis_max_h}],
         }};
         var axisStyle = {{
             gridcolor: '#dfe6e9', zerolinecolor: '#b2bec3',
