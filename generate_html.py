@@ -433,7 +433,7 @@ full_html = f"""<!DOCTYPE html>
         .panel.active {{ display: block; }}
         .results-layout {{ display: flex; gap: 0; height: calc(100vh - 140px); min-height: 500px; }}
         .plot-side {{ flex: 1 1 55%; min-width: 0; border-right: 1px solid #dfe6e9; overflow: hidden; background: #fff; display: flex; flex-direction: column; }}
-        .plot-container {{ width: 100%; flex: 1; min-height: 0; }}
+        .plot-container {{ width: 100%; flex: 1; min-height: 0; overflow: hidden; }}
         table {{ width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }}
         th {{ background: #f0f2f5; color: #e94560; padding: 10px; text-align: left; position: sticky; top: 0; cursor: pointer; z-index: 1; border-bottom: 2px solid #dfe6e9; }}
         th:hover {{ background: #e8eaed; }}
@@ -606,6 +606,27 @@ full_html = f"""<!DOCTYPE html>
         }}
         .plot-legend::-webkit-scrollbar {{ width: 4px; }}
         .plot-legend::-webkit-scrollbar-thumb {{ background: #dfe6e9; border-radius: 2px; }}
+        /* Panel mode: slide-in from left (default/non-search state) */
+        .plot-legend.panel-mode {{
+            top: 0; left: 0; bottom: 0; right: auto; width: 160px; min-width: 0;
+            max-height: none; border-radius: 0; border: none;
+            border-right: 1px solid #dfe6e9; background: rgba(255,255,255,0.97);
+            box-shadow: 2px 0 8px rgba(0,0,0,0.10); padding: 8px 0;
+            transform: translateX(-100%); transition: transform 0.2s ease;
+        }}
+        .plot-legend.panel-mode.open {{ transform: translateX(0); }}
+        /* Toggle tab that sits on the left edge of the plot */
+        .legend-tab {{
+            position: absolute; top: 50%; left: 0; transform: translateY(-50%);
+            z-index: 12; background: rgba(255,255,255,0.95); border: 1px solid #dfe6e9;
+            border-left: none; border-radius: 0 5px 5px 0;
+            width: 18px; height: 44px; display: flex; align-items: center;
+            justify-content: center; cursor: pointer; font-size: 0.65rem; color: #636e72;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.08); transition: left 0.2s ease;
+            user-select: none;
+        }}
+        .legend-tab.open {{ left: 160px; }}
+        .legend-tab.hidden {{ display: none; }}
         .legend-group {{
             padding: 0;
         }}
@@ -623,7 +644,7 @@ full_html = f"""<!DOCTYPE html>
         }}
         .legend-arrow {{
             display: inline-block; width: 10px; font-size: 0.6rem; color: #636e72;
-            transition: transform 0.15s; padding: 4px 8px; margin: -4px -8px;
+            transition: transform 0.15s; padding: 0 8px; margin: 0 -8px;
         }}
         .legend-arrow.open {{ transform: rotate(90deg); }}
         .legend-marker {{
@@ -706,6 +727,7 @@ full_html = f"""<!DOCTYPE html>
         <div id="panel-plot" class="plot-side">
             <div class="plot-container" style="position:relative;">
                 <div id="plotly-div" style="width:100%; height:100%;"></div>
+                <div id="legend-tab" class="legend-tab hidden" onclick="toggleLegendPanel()">&#9654;</div>
                 <div id="plot-legend" class="plot-legend"></div>
             </div>
             <p style="color:#636e72; padding:6px 10px; font-size:0.8rem; margin:0;">
@@ -1143,6 +1165,7 @@ full_html = f"""<!DOCTYPE html>
         var _hiddenPolyCats = {{}};
         // Isolation state: null = all visible, else {{level:'item'|'group', type:'solvent'|'polymer', cat:string}}
         var _isolation = null;
+        var _legendOpen = false;
         var _allSolCats = [];
         var _allPolyCats = [];
 
@@ -1908,9 +1931,23 @@ full_html = f"""<!DOCTYPE html>
         function _buildLegend() {{
             var el = document.getElementById('plot-legend');
             if (!el) return;
+            var tab = document.getElementById('legend-tab');
+            var inResultsMode = _resultTraceCount > 0 && _resultColorMeta;
+            if (inResultsMode) {{
+                el.classList.remove('panel-mode', 'open');
+                if (tab) {{ tab.classList.add('hidden'); tab.classList.remove('open'); }}
+            }} else {{
+                el.classList.add('panel-mode');
+                el.classList.toggle('open', _legendOpen);
+                if (tab) {{
+                    tab.classList.remove('hidden');
+                    tab.classList.toggle('open', _legendOpen);
+                    tab.innerHTML = _legendOpen ? '&#9664;' : '&#9654;';
+                }}
+            }}
 
             // Results mode: replace category legend with a heat-bar
-            if (_resultTraceCount > 0 && _resultColorMeta) {{
+            if (inResultsMode) {{
                 var m = _resultColorMeta;
                 var hasRed = m.r0 && m.r0 > 0 && m.metric === 'Ra';
                 var minLabel, maxLabel;
@@ -2031,6 +2068,16 @@ full_html = f"""<!DOCTYPE html>
                 items.classList.add('open');
                 arrow.classList.add('open');
             }}
+        }}
+
+        function toggleLegendPanel() {{
+            _legendOpen = !_legendOpen;
+            var legend = document.getElementById('plot-legend');
+            var tab = document.getElementById('legend-tab');
+            if (!legend || !tab) return;
+            legend.classList.toggle('open', _legendOpen);
+            tab.classList.toggle('open', _legendOpen);
+            tab.innerHTML = _legendOpen ? '&#9664;' : '&#9654;';
         }}
 
         // Fixed axis ranges — never change
@@ -2759,6 +2806,62 @@ full_html = f"""<!DOCTYPE html>
                 if (e.target.closest('tr[data-name]')) return;
                 unpinAll();
             }});
+
+            // Two-finger trackpad scroll → pan; pinch (ctrlKey) → zoom (Plotly default)
+            function _panCamera(screenDx, screenDy) {{
+                if (!plotDiv || !plotDiv.layout || !plotDiv.layout.scene) return;
+                var cam = plotDiv.layout.scene.camera || {{}};
+                var eye = cam.eye || {{x: 1.25, y: 1.25, z: 1.25}};
+                var center = cam.center || {{x: 0, y: 0, z: 0}};
+                var up = cam.up || {{x: 0, y: 0, z: 1}};
+                // Camera forward vector
+                var fx = center.x - eye.x, fy = center.y - eye.y, fz = center.z - eye.z;
+                var flen = Math.sqrt(fx*fx + fy*fy + fz*fz) || 1;
+                fx /= flen; fy /= flen; fz /= flen;
+                // Camera right = forward × up
+                var rx = fy*up.z - fz*up.y, ry = fz*up.x - fx*up.z, rz = fx*up.y - fy*up.x;
+                var rlen = Math.sqrt(rx*rx + ry*ry + rz*rz) || 1;
+                rx /= rlen; ry /= rlen; rz /= rlen;
+                // Camera up = right × forward
+                var cux = ry*fz - rz*fy, cuy = rz*fx - rx*fz, cuz = rx*fy - ry*fx;
+                var scale = 0.008;
+                var ddx = -rx*screenDx*scale + cux*screenDy*scale;
+                var ddy = -ry*screenDx*scale + cuy*screenDy*scale;
+                var ddz = -rz*screenDx*scale + cuz*screenDy*scale;
+                Plotly.relayout(plotDiv, {{
+                    'scene.camera.eye':    {{x: eye.x+ddx,    y: eye.y+ddy,    z: eye.z+ddz}},
+                    'scene.camera.center': {{x: center.x+ddx, y: center.y+ddy, z: center.z+ddz}}
+                }});
+            }}
+            plotDiv.addEventListener('wheel', function(e) {{
+                if (!e.ctrlKey) {{
+                    e.preventDefault();
+                    e.stopPropagation();
+                    _panCamera(e.deltaX, e.deltaY);
+                }}
+            }}, {{passive: false}});
+            // Touch two-finger drag → pan
+            var _lastTouches = null;
+            plotDiv.addEventListener('touchstart', function(e) {{
+                if (e.touches.length === 2) {{
+                    _lastTouches = [{{x: e.touches[0].clientX, y: e.touches[0].clientY}},
+                                    {{x: e.touches[1].clientX, y: e.touches[1].clientY}}];
+                    e.preventDefault();
+                }} else {{ _lastTouches = null; }}
+            }}, {{passive: false}});
+            plotDiv.addEventListener('touchmove', function(e) {{
+                if (e.touches.length === 2 && _lastTouches) {{
+                    var cx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+                    var cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+                    var lx = (_lastTouches[0].x + _lastTouches[1].x) / 2;
+                    var ly = (_lastTouches[0].y + _lastTouches[1].y) / 2;
+                    _panCamera(cx - lx, ly - cy);
+                    _lastTouches = [{{x: e.touches[0].clientX, y: e.touches[0].clientY}},
+                                    {{x: e.touches[1].clientX, y: e.touches[1].clientY}}];
+                    e.preventDefault();
+                }}
+            }}, {{passive: false}});
+            plotDiv.addEventListener('touchend', function() {{ _lastTouches = null; }});
         }});
     </script>
 </body>
