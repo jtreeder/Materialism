@@ -103,7 +103,7 @@
       "source_url": "",
       "description": "Hansen Solubility Parameters in Practice - solvent database",
       "imported_at": "2026-02-23T20:48:28.081178+00:00",
-      "chemical_count": 250,
+      "chemical_count": 1135,
       "polymer_count": 0,
       "fields_available": [
         "name",
