@@ -3,48 +3,308 @@
     {
       "dataset": "hspip_solvents",
       "name": "1,4-Dioxane",
-      "delta_d": 17.5,
-      "delta_p": 1.8,
-      "delta_h": 9.0
+      "delta_d": 17.1,
+      "delta_p": 6.8,
+      "delta_h": 7.8
     },
     {
       "dataset": "hspip_solvents",
-      "name": "1,4-Dioxane",
+      "name": "1,4-Dioxane (High P)",
       "delta_d": 17.1,
       "delta_p": 6.8,
       "delta_h": 7.8
     }
   ],
-  "2butene": [
-    {
-      "dataset": "hspip_solvents",
-      "name": "2-Butene",
-      "delta_d": 14.7,
-      "delta_p": 1.3,
-      "delta_h": 4.1
-    },
-    {
-      "dataset": "hspip_solvents",
-      "name": "2-Butene",
-      "delta_d": 14.6,
-      "delta_p": 0.0,
-      "delta_h": 2.9
-    }
-  ],
   "2butenylmethylether": [
     {
       "dataset": "hspip_solvents",
-      "name": "2-Butenyl Methyl Ether",
+      "name": "2-Butenyl Methyl Ether (Cis)",
       "delta_d": 15.2,
       "delta_p": 3.4,
       "delta_h": 5.0
     },
     {
       "dataset": "hspip_solvents",
-      "name": "2-Butenyl Methyl Ether",
+      "name": "2-Butenyl Methyl Ether (Trans)",
       "delta_d": 15.3,
       "delta_p": 4.4,
       "delta_h": 4.3
+    }
+  ],
+  "NA": [
+    {
+      "dataset": "hspip_solvents",
+      "name": "3-Butoxybutanol",
+      "delta_d": 15.9,
+      "delta_p": 5.5,
+      "delta_h": 10.6
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "5,6-Indolequinone",
+      "delta_d": 19.5,
+      "delta_p": 9.3,
+      "delta_h": 7.8
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "5,6-Indolequinone-2-Carboxylic Acid",
+      "delta_d": 19.5,
+      "delta_p": 8.3,
+      "delta_h": 10.6
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Butyl-6-Methyl-3-Cyclohexene Carboxylate",
+      "delta_d": 16.1,
+      "delta_p": 2.5,
+      "delta_h": 5.7
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Cyclohexane-1,2-Dicarboxylic Acid Di-Isononyl Ether",
+      "delta_d": 16.4,
+      "delta_p": 2.2,
+      "delta_h": 5.0
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Glycerol Diacetate",
+      "delta_d": 16.4,
+      "delta_p": 8.9,
+      "delta_h": 14.2
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "HCFC-225ca:cb (45:55)",
+      "delta_d": 14.1,
+      "delta_p": 3.2,
+      "delta_h": 1.0
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Hexafluorohexanol",
+      "delta_d": 15.1,
+      "delta_p": 4.4,
+      "delta_h": 9.9
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "HFE 8200",
+      "delta_d": 13.0,
+      "delta_p": 4.0,
+      "delta_h": 1.0
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Methyl Riboside",
+      "delta_d": 17.0,
+      "delta_p": 12.0,
+      "delta_h": 32.8
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Vinyl Butyl Carbitol",
+      "delta_d": 16.0,
+      "delta_p": 5.0,
+      "delta_h": 6.0
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Vinyl S-Butyl Mercapto Ethyl Ether",
+      "delta_d": 16.5,
+      "delta_p": 5.0,
+      "delta_h": 5.8
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Vinyl S-Ethyl Mercapto Ethyl Ether",
+      "delta_d": 16.4,
+      "delta_p": 7.0,
+      "delta_h": 6.0
+    }
+  ],
+  "109-75-1": [
+    {
+      "dataset": "hspip_solvents",
+      "name": "3-Butenenitrile",
+      "delta_d": 16.2,
+      "delta_p": 14.3,
+      "delta_h": 5.6
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Allyl Cyanide",
+      "delta_d": 16.0,
+      "delta_p": 14.3,
+      "delta_h": 5.6
+    }
+  ],
+  "501-65-5": [
+    {
+      "dataset": "hspip_solvents",
+      "name": "Diphenyl Acetylene (0 Dipole Moment)",
+      "delta_d": 18.0,
+      "delta_p": 2.0,
+      "delta_h": 3.2
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Diphenyl Acetylene (P By Group Cont.)",
+      "delta_d": 18.0,
+      "delta_p": 2.0,
+      "delta_h": 3.2
+    }
+  ],
+  "624-89-5": [
+    {
+      "dataset": "hspip_solvents",
+      "name": "2-Thiabutane",
+      "delta_d": 16.2,
+      "delta_p": 5.9,
+      "delta_h": 5.3
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Ethyl Methyl Sulfide",
+      "delta_d": 17.1,
+      "delta_p": 4.8,
+      "delta_h": 2.5
+    }
+  ],
+  "110-71-4": [
+    {
+      "dataset": "hspip_solvents",
+      "name": "Dimethyl Cellosolve",
+      "delta_d": 15.4,
+      "delta_p": 6.0,
+      "delta_h": 6.0
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Ethylene Glycol Dimethyl Ether",
+      "delta_d": 15.4,
+      "delta_p": 6.3,
+      "delta_h": 6.0
+    }
+  ],
+  "3085-40-3": [
+    {
+      "dataset": "hspip_solvents",
+      "name": "Di-Isobutyl Sulfoxide",
+      "delta_d": 16.3,
+      "delta_p": 10.5,
+      "delta_h": 6.1
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Isobutyl Sulfoxide",
+      "delta_d": 16.3,
+      "delta_p": 10.5,
+      "delta_h": 6.1
+    }
+  ],
+  "67-56-1": [
+    {
+      "dataset": "hspip_solvents",
+      "name": "Methanol",
+      "delta_d": 14.7,
+      "delta_p": 12.3,
+      "delta_h": 22.3
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Methanol Cluster",
+      "delta_d": 14.7,
+      "delta_p": 5.0,
+      "delta_h": 10.0
+    }
+  ],
+  "109-87-5": [
+    {
+      "dataset": "hspip_solvents",
+      "name": "Dimethoxymethane",
+      "delta_d": 15.0,
+      "delta_p": 1.8,
+      "delta_h": 8.6
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Methylal (Dimethoxy Methane)",
+      "delta_d": 15.0,
+      "delta_p": 1.8,
+      "delta_h": 8.6
+    }
+  ],
+  "62-56-6": [
+    {
+      "dataset": "hspip_solvents",
+      "name": "Thiourea",
+      "delta_d": 20.0,
+      "delta_p": 19.4,
+      "delta_h": 14.8
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Thiourea From Urea Min Sphere",
+      "delta_d": 18.0,
+      "delta_p": 15.0,
+      "delta_h": 12.0
+    }
+  ],
+  "118-96-7": [
+    {
+      "dataset": "hspip_solvents",
+      "name": "Trinitrotoluene (TNT) (DM)",
+      "delta_d": 19.5,
+      "delta_p": 3.5,
+      "delta_h": 4.4
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Trinitrotoluene (TNT) (G.C.)",
+      "delta_d": 19.5,
+      "delta_p": 10.0,
+      "delta_h": 4.5
+    }
+  ],
+  "57-13-6": [
+    {
+      "dataset": "hspip_solvents",
+      "name": "Urea For Ro Equal 19.4",
+      "delta_d": 20.9,
+      "delta_p": 18.7,
+      "delta_h": 26.4
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Urea Min Sphere",
+      "delta_d": 17.6,
+      "delta_p": 17.3,
+      "delta_h": 16.0
+    }
+  ],
+  "7732-18-5": [
+    {
+      "dataset": "hspip_solvents",
+      "name": "Water",
+      "delta_d": 15.5,
+      "delta_p": 16.0,
+      "delta_h": 42.3
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Water 1% Soluble In - Ro=18.1",
+      "delta_d": 15.1,
+      "delta_p": 20.4,
+      "delta_h": 16.5
+    },
+    {
+      "dataset": "hspip_solvents",
+      "name": "Water Complete Misc. (R=13.0)",
+      "delta_d": 18.1,
+      "delta_p": 17.1,
+      "delta_h": 16.9
     }
   ]
 }
