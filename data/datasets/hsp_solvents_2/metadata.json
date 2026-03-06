@@ -5,7 +5,7 @@
   "source": "HSPiP Database (HSP Solvents 2 pipeline)",
   "source_url": "",
   "pipeline_version": 2,
-  "chemical_count": 1135,
+  "chemical_count": 1218,
   "polymer_count": 0,
   "fields_available": [
     "name_iupac",
@@ -26,5 +26,5 @@
     "ghs_hazard",
     "processing_notes"
   ],
-  "quality_notes": "ClassyFire coverage: 880/1135 (78%). name_iupac coverage: 1135/1135. Acronym coverage: 53/1135. radius (R0) not available from HSPiP solvent source \u2014 left blank."
+  "quality_notes": "ClassyFire coverage: 935/1218 (77%). name_iupac coverage: 1218/1218. Acronym coverage: 53/1218. radius (R0) not available from HSPiP solvent source \u2014 left blank."
 }

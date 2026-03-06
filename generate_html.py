@@ -2573,18 +2573,33 @@ full_html = f"""<!DOCTYPE html>
             if (structCache[name] === 'error') {{ tooltip.el.style.display = 'none'; return; }}
             const solvent = _solventMap.get(name);
             const casNum = (solvent && solvent.cas) ? solvent.cas : null;
-            let url = casNum
-                ? 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(casNum) + '/PNG?image_size=200x200'
-                : 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(name) + '/PNG?image_size=200x200';
             if (structCache[name]) {{
                 tooltip.img.src = structCache[name];
                 tooltip.el.classList.remove('loading');
-            }} else {{
-                tooltip.el.classList.add('loading');
-                tooltip.img.src = url;
-                tooltip.img.onload = function() {{ structCache[name] = url; tooltip.el.classList.remove('loading'); }};
+                return;
+            }}
+            tooltip.el.classList.add('loading');
+            function _fallbackPubchem() {{
+                const fbUrl = casNum
+                    ? 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(casNum) + '/PNG?image_size=200x200'
+                    : 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(name) + '/PNG?image_size=200x200';
+                tooltip.img.src = fbUrl;
+                tooltip.img.onload = function() {{ structCache[name] = fbUrl; tooltip.el.classList.remove('loading'); }};
                 tooltip.img.onerror = function() {{ structCache[name] = 'error'; tooltip.el.style.display = 'none'; }};
             }}
+            if (casNum) {{
+                fetch('https://commonchemistry.cas.org/api/detail?cas_rn=' + encodeURIComponent(casNum))
+                    .then(function(r) {{ return r.ok ? r.json() : Promise.reject(); }})
+                    .then(function(d) {{
+                        if (d && d.image) {{
+                            const blob = new Blob([d.image], {{type: 'image/svg+xml'}});
+                            const blobUrl = URL.createObjectURL(blob);
+                            structCache[name] = blobUrl;
+                            tooltip.img.src = blobUrl;
+                            tooltip.el.classList.remove('loading');
+                        }} else {{ _fallbackPubchem(); }}
+                    }}).catch(_fallbackPubchem);
+            }} else {{ _fallbackPubchem(); }}
         }}
 
         function hideStructure() {{
@@ -2883,6 +2898,10 @@ for ds_id, ds_meta in DATASETS_META.items():
                         row.get("name", "").strip(),
                         row.get("smiles", "").strip(),
                     ),
+                    "cf_class": row.get("cf_class", "").strip(),
+                    "cf_subclass": row.get("cf_subclass", "").strip(),
+                    "name_iupac": row.get("name_iupac", "").strip(),
+                    "name_common": row.get("name_common", "").strip(),
                     "ghs": row.get("ghs_hazard", "").strip(),
                     "conf": row.get("confidence", "").strip(),
                 })
@@ -4038,6 +4057,7 @@ function renderDetail() {{
     if (m.fields_available) html += 'Fields: ' + m.fields_available.join(', ') + '<br>';
     html += '</div>';
     html += '<button class="toggle-btn ' + (active ? 'on' : 'off') + '" onclick="toggleDs(\\x27' + dsId + '\\x27)">' + (active ? 'Active (click to deactivate)' : 'Inactive (click to activate)') + '</button>';
+    html += '<button class="infer-btn" onclick="toggleEditMode(\\x27' + dsId + '\\x27)" style="' + (isEdit ? 'background:#e94560;color:#fff;border-color:#e94560' : '') + '">' + (isEdit ? 'Lock Editing' : 'Edit Mode') + '</button>';
     var _rowSelN = Object.keys(_mSelRows).length;
     var _selN = _mGetSelCount();
     var _rowSfx = _rowSelN > 0 ? ' (' + _rowSelN + ' row' + (_rowSelN > 1 ? 's' : '') + ')' : '';
@@ -4055,10 +4075,10 @@ function renderDetail() {{
     var items, cols;
     if (nc > 0) {{
         items = ds.chemicals;
-        cols = ['name','cas','dd','dp','dh','mw','bp','cat'];
+        cols = ['name','cas','dd','dp','dh','mw','bp','cf_class','cf_subclass','name_iupac','name_common'];
     }} else {{
         items = ds.polymers;
-        cols = ['name','cas','dd','dp','dh','r','cat'];
+        cols = ['name','cas','dd','dp','dh','r','type'];
     }}
     // Append any extra fields present on imported entries (passthrough columns)
     if (items && items.length) {{
@@ -4111,7 +4131,9 @@ function renderDetail() {{
         mw:'MW (g/mol)', bp:'BP (\u00b0C)', cat:'Category',
         r:'R\u2080 (MPa\u00bd)', type:'Type',
         smiles:'SMILES', formula:'Formula', density:'Density (g/mL)',
-        ghs:'GHS'
+        ghs:'GHS',
+        cf_class:'Class', cf_subclass:'Subclass',
+        name_iupac:'IUPAC Name', name_common:'Common Name'
     }};
 
     items.forEach(function(item, idx) {{ item._oidx = idx; }});
@@ -5470,16 +5492,31 @@ function showStructure(event, encodedName) {{
     if (!mat) {{ var arr = SOLVENTS.concat(POLYMERS); for (var i=0;i<arr.length;i++) {{ if (arr[i].name===name) {{ mat=arr[i]; break; }} }} }}
     var cas = mat && mat.cas;
     var smiles = mat && mat.smiles;
-    var url = cas ? 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(cas) + '/PNG?image_size=200x200'
-                  : (smiles ? 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/' + encodeURIComponent(smiles) + '/PNG?image_size=200x200'
-                            : 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(name) + '/PNG?image_size=200x200');
     if (_dbStructCache[name]) {{
-        _dbTooltip.img.src = _dbStructCache[name]; _dbTooltip.el.classList.remove('loading');
-    }} else {{
-        _dbTooltip.el.classList.add('loading'); _dbTooltip.img.src = url;
-        _dbTooltip.img.onload = function() {{ _dbStructCache[name] = url; _dbTooltip.el.classList.remove('loading'); }};
+        _dbTooltip.img.src = _dbStructCache[name]; _dbTooltip.el.classList.remove('loading'); return;
+    }}
+    _dbTooltip.el.classList.add('loading');
+    function _dbFallback() {{
+        var fbUrl = cas ? 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(cas) + '/PNG?image_size=200x200'
+                       : (smiles ? 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/' + encodeURIComponent(smiles) + '/PNG?image_size=200x200'
+                                 : 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/' + encodeURIComponent(name) + '/PNG?image_size=200x200');
+        _dbTooltip.img.src = fbUrl;
+        _dbTooltip.img.onload = function() {{ _dbStructCache[name] = fbUrl; _dbTooltip.el.classList.remove('loading'); }};
         _dbTooltip.img.onerror = function() {{ _dbStructCache[name] = 'error'; _dbTooltip.el.style.display = 'none'; }};
     }}
+    if (cas) {{
+        fetch('https://commonchemistry.cas.org/api/detail?cas_rn=' + encodeURIComponent(cas))
+            .then(function(r) {{ return r.ok ? r.json() : Promise.reject(); }})
+            .then(function(d) {{
+                if (d && d.image) {{
+                    var blob = new Blob([d.image], {{type: 'image/svg+xml'}});
+                    var blobUrl = URL.createObjectURL(blob);
+                    _dbStructCache[name] = blobUrl;
+                    _dbTooltip.img.src = blobUrl;
+                    _dbTooltip.el.classList.remove('loading');
+                }} else {{ _dbFallback(); }}
+            }}).catch(_dbFallback);
+    }} else {{ _dbFallback(); }}
 }}
 function hideStructure() {{
     if (_dbTooltip.el) _dbTooltip.el.style.display = 'none';

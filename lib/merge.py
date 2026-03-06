@@ -9,11 +9,16 @@ def _merge_metadata(existing, new):
                   "boiling_point", "density", "molar_volume", "ghs_hazard"]:
         if not existing.get(field) and new.get(field):
             existing[field] = new[field]
-    if "source_count" not in existing:
+    if not existing.get("source_count"):
         existing["source_count"] = 1
+    else:
+        try:
+            existing["source_count"] = int(existing["source_count"])
+        except (TypeError, ValueError):
+            existing["source_count"] = 1
     new_src = new.get("source", "")
     if new_src and new_src != existing.get("source", ""):
-        existing["source_count"] = existing.get("source_count", 1) + 1
+        existing["source_count"] = existing["source_count"] + 1
     # Accumulate dataset_ids so the entry stays visible when any
     # contributing dataset is active.
     new_ds = new.get("dataset_id", "")
