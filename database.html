@@ -869,7 +869,7 @@ function renderDetail() {
             }
             var catStyle = '';
             var display = v;
-            if ((c === 'name' || c === 'name_common') && (v || r.name)) {
+            if ((c === 'name' || c === 'name_common' || c === 'name_iupac') && (v || r.name)) {
                 var _dispName = v || r.name;
                 var _lookupName = r.name || v;
                 display = '<span class="hoverable-name" onmouseenter="showStructure(event,\x27' + encodeURIComponent(String(_lookupName)) + '\x27)" onmouseleave="hideStructure()">' + _dispName + '</span>';
