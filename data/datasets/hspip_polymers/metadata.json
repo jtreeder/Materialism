@@ -1,0 +1,22 @@
+{
+  "id": "hspip_polymers",
+  "name": "HSPiP Polymers",
+  "source_url": "",
+  "description": "Hansen Solubility Parameters in Practice - polymer database",
+  "imported_at": "2026-03-06T00:00:00.000000+00:00",
+  "chemical_count": 0,
+  "polymer_count": 458,
+  "fields_available": [
+    "name",
+    "delta_d",
+    "delta_p",
+    "delta_h",
+    "radius",
+    "confidence",
+    "source_count",
+    "source"
+  ],
+  "quality_notes": "",
+  "active": true,
+  "confidence_tier": 0.7
+}
