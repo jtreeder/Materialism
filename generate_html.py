@@ -1163,11 +1163,17 @@ full_html = f"""<!DOCTYPE html>
         // Hidden-category state for legend toggle
         var _hiddenSolCats = {{}};
         var _hiddenPolyCats = {{}};
-        // Isolation state: null = all visible, else {{level:'item'|'group', type:'solvent'|'polymer', cat:string}}
-        var _isolation = null;
+        // Isolation state: null = all visible; Set of "type:cat" strings = only those shown
+        var _isolatedItems = null;
         var _legendOpen = true;
         var _allSolCats = [];
         var _allPolyCats = [];
+        // Drag-select state
+        var _dragActive = false;
+        var _dragItems = new Set();
+        var _dragType = null;
+        var _dragCtrl = false;
+        var _dragWasMulti = false;
 
         function _hasHiddenCats() {{
             for (var k in _hiddenSolCats) return true;
@@ -1175,35 +1181,23 @@ full_html = f"""<!DOCTYPE html>
             return false;
         }}
 
+        function _isoKey(type, cat) {{ return type + ':' + cat; }}
+
         function _applyIsolation() {{
             _hiddenSolCats = {{}};
             _hiddenPolyCats = {{}};
-            if (!_isolation) return;
-            if (_isolation.level === 'group') {{
-                if (_isolation.type === 'solvent') {{
-                    _allPolyCats.forEach(function(c) {{ _hiddenPolyCats[c] = true; }});
-                }} else {{
-                    _allSolCats.forEach(function(c) {{ _hiddenSolCats[c] = true; }});
-                }}
-            }} else {{
-                if (_isolation.type === 'solvent') {{
-                    _allPolyCats.forEach(function(c) {{ _hiddenPolyCats[c] = true; }});
-                    _allSolCats.forEach(function(c) {{ if (c !== _isolation.cat) _hiddenSolCats[c] = true; }});
-                }} else {{
-                    _allSolCats.forEach(function(c) {{ _hiddenSolCats[c] = true; }});
-                    _allPolyCats.forEach(function(c) {{ if (c !== _isolation.cat) _hiddenPolyCats[c] = true; }});
-                }}
-            }}
+            if (!_isolatedItems || _isolatedItems.size === 0) return;
+            _allSolCats.forEach(function(c) {{ _hiddenSolCats[c] = true; }});
+            _allPolyCats.forEach(function(c) {{ _hiddenPolyCats[c] = true; }});
+            _isolatedItems.forEach(function(key) {{
+                var idx = key.indexOf(':');
+                var type = key.slice(0, idx), cat = key.slice(idx + 1);
+                if (type === 'solvent') delete _hiddenSolCats[cat];
+                else delete _hiddenPolyCats[cat];
+            }});
         }}
 
-        function isolateLegendItem(el) {{
-            var cat = el.getAttribute('data-cat');
-            var type = el.getAttribute('data-type');
-            if (_isolation && _isolation.level === 'item' && _isolation.type === type && _isolation.cat === cat) {{
-                _isolation = null;
-            }} else {{
-                _isolation = {{ level: 'item', type: type, cat: cat }};
-            }}
+        function _isolationRefresh() {{
             _applyIsolation();
             _buildLegend();
             _updatePlotForCommonFilter();
@@ -1211,21 +1205,69 @@ full_html = f"""<!DOCTYPE html>
             _rerunActiveSearch();
         }}
 
-        function isolateLegendGroup(header) {{
+        function isolateLegendItem(event, el) {{
+            if (_dragWasMulti) {{ _dragWasMulti = false; return; }}
+            var cat = el.getAttribute('data-cat');
+            var type = el.getAttribute('data-type');
+            var key = _isoKey(type, cat);
+            if (event && event.ctrlKey) {{
+                if (!_isolatedItems) {{
+                    _isolatedItems = new Set([key]);
+                }} else if (_isolatedItems.has(key)) {{
+                    _isolatedItems.delete(key);
+                    if (_isolatedItems.size === 0) _isolatedItems = null;
+                }} else {{
+                    _isolatedItems.add(key);
+                }}
+            }} else {{
+                if (_isolatedItems && _isolatedItems.size === 1 && _isolatedItems.has(key)) {{
+                    _isolatedItems = null;
+                }} else {{
+                    _isolatedItems = new Set([key]);
+                }}
+            }}
+            _isolationRefresh();
+        }}
+
+        function isolateLegendGroup(event, header) {{
             var group = header.closest('.legend-group');
             var items = group.querySelectorAll('.legend-item');
             var type = items[0] ? items[0].getAttribute('data-type') : null;
             if (!type) return;
-            if (_isolation && _isolation.level === 'group' && _isolation.type === type) {{
-                _isolation = null;
+            var groupKeys = [];
+            items.forEach(function(it) {{ groupKeys.push(_isoKey(type, it.getAttribute('data-cat'))); }});
+            if (event && event.ctrlKey) {{
+                var allIn = _isolatedItems && groupKeys.every(function(k) {{ return _isolatedItems.has(k); }});
+                if (!_isolatedItems) {{
+                    _isolatedItems = new Set(groupKeys);
+                }} else if (allIn) {{
+                    groupKeys.forEach(function(k) {{ _isolatedItems.delete(k); }});
+                    if (_isolatedItems.size === 0) _isolatedItems = null;
+                }} else {{
+                    groupKeys.forEach(function(k) {{ _isolatedItems.add(k); }});
+                }}
             }} else {{
-                _isolation = {{ level: 'group', type: type }};
+                var currentGroupOnly = _isolatedItems && _isolatedItems.size === groupKeys.length &&
+                    groupKeys.every(function(k) {{ return _isolatedItems.has(k); }});
+                _isolatedItems = currentGroupOnly ? null : new Set(groupKeys);
             }}
-            _applyIsolation();
-            _buildLegend();
-            _updatePlotForCommonFilter();
-            buildHomeTable();
-            _rerunActiveSearch();
+            _isolationRefresh();
+        }}
+
+        function legendItemDragStart(event, el) {{
+            if (event.button !== 0) return;
+            _dragActive = true;
+            _dragWasMulti = false;
+            _dragItems = new Set();
+            _dragType = el.getAttribute('data-type');
+            _dragCtrl = event.ctrlKey;
+            _dragItems.add(_isoKey(_dragType, el.getAttribute('data-cat')));
+        }}
+
+        function legendItemDragEnter(event, el) {{
+            if (!_dragActive || event.buttons === 0) return;
+            if (el.getAttribute('data-type') !== _dragType) return;
+            _dragItems.add(_isoKey(_dragType, el.getAttribute('data-cat')));
         }}
 
         function _updatePlotForCommonFilter() {{
@@ -2031,7 +2073,7 @@ full_html = f"""<!DOCTYPE html>
             // Solvents group
             var allSolHidden = sCatOrder.length > 0 && sCatOrder.every(function(c) {{ return !!_hiddenSolCats[c]; }});
             h += '<div class="legend-group">';
-            h += '<div class="legend-header' + (allSolHidden ? ' legend-hidden' : '') + '" onclick="isolateLegendGroup(this)">';
+            h += '<div class="legend-header' + (allSolHidden ? ' legend-hidden' : '') + '" onclick="isolateLegendGroup(event,this)">';
             h += '<span class="legend-arrow open" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
             h += '<span class="legend-marker" style="background:#888"></span>';
             h += 'Solvents (' + activeSolCount + ')';
@@ -2041,13 +2083,18 @@ full_html = f"""<!DOCTYPE html>
                 var color = CAT_COLORS[cat] || '#888';
                 var hiddenCls = _hiddenSolCats[cat] ? ' legend-hidden' : '';
                 var label = cat.charAt(0).toUpperCase() + cat.slice(1);
-                h += '<div class="legend-item' + hiddenCls + '" data-cat="' + cat.replace(/"/g,'&quot;') + '" data-type="solvent" onclick="isolateLegendItem(this)"><span class="legend-swatch" style="background:' + color + '"></span>' + label + ' (' + sCats[cat] + ')</div>';
+                var catQ = cat.replace(/"/g,'&quot;');
+                h += '<div class="legend-item' + hiddenCls + '" data-cat="' + catQ + '" data-type="solvent"'
+                  + ' onclick="isolateLegendItem(event,this)"'
+                  + ' onmousedown="legendItemDragStart(event,this)"'
+                  + ' onmouseenter="legendItemDragEnter(event,this)">'
+                  + '<span class="legend-swatch" style="background:' + color + '"></span>' + label + ' (' + sCats[cat] + ')</div>';
             }});
             h += '</div></div>';
             // Polymers group
             var allPolyHidden = pCatOrder.length > 0 && pCatOrder.every(function(c) {{ return !!_hiddenPolyCats[c]; }});
             h += '<div class="legend-group">';
-            h += '<div class="legend-header' + (allPolyHidden ? ' legend-hidden' : '') + '" onclick="isolateLegendGroup(this)">';
+            h += '<div class="legend-header' + (allPolyHidden ? ' legend-hidden' : '') + '" onclick="isolateLegendGroup(event,this)">';
             h += '<span class="legend-arrow open" onclick="event.stopPropagation();toggleLegendGroup(this.parentNode)">&#9654;</span>';
             h += '<span class="legend-marker diamond" style="background:#a9a9a9"></span>';
             h += 'Polymers (' + activePolyCount + ')';
@@ -2056,7 +2103,12 @@ full_html = f"""<!DOCTYPE html>
             pCatOrder.forEach(function(cat) {{
                 var color = POLY_CAT_COLORS[cat] || '#a9a9a9';
                 var hiddenCls = _hiddenPolyCats[cat] ? ' legend-hidden' : '';
-                h += '<div class="legend-item' + hiddenCls + '" data-cat="' + cat.replace(/"/g,'&quot;') + '" data-type="polymer" onclick="isolateLegendItem(this)"><span class="legend-swatch diamond" style="background:' + color + '"></span>' + cat + ' (' + pCats[cat] + ')</div>';
+                var catQ = cat.replace(/"/g,'&quot;');
+                h += '<div class="legend-item' + hiddenCls + '" data-cat="' + catQ + '" data-type="polymer"'
+                  + ' onclick="isolateLegendItem(event,this)"'
+                  + ' onmousedown="legendItemDragStart(event,this)"'
+                  + ' onmouseenter="legendItemDragEnter(event,this)">'
+                  + '<span class="legend-swatch diamond" style="background:' + color + '"></span>' + cat + ' (' + pCats[cat] + ')</div>';
             }});
             h += '</div></div>';
             el.innerHTML = h;
@@ -2803,6 +2855,22 @@ full_html = f"""<!DOCTYPE html>
                     }}
                 }} catch(e) {{ console.error('plotly_click error:', e); }}
             }});
+            // Finalize drag-select on legend items
+            window.addEventListener('mouseup', function() {{
+                if (!_dragActive) return;
+                _dragActive = false;
+                if (_dragItems.size > 1) {{
+                    _dragWasMulti = true;
+                    if (_dragCtrl && _isolatedItems) {{
+                        _dragItems.forEach(function(k) {{ _isolatedItems.add(k); }});
+                    }} else {{
+                        _isolatedItems = new Set(_dragItems);
+                    }}
+                    _isolationRefresh();
+                }}
+                _dragItems = new Set();
+            }});
+
             // Click outside plot or table row clears pin
             document.addEventListener('click', function(e) {{
                 if (!_pinnedName) return;
