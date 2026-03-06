@@ -2834,10 +2834,10 @@ full_html = f"""<!DOCTYPE html>
                 }});
             }}
             plotDiv.addEventListener('wheel', function(e) {{
-                if (!e.ctrlKey) {{
+                if (!e.ctrlKey && e.buttons > 0) {{
                     e.preventDefault();
                     e.stopPropagation();
-                    _panCamera(e.deltaX, e.deltaY);
+                    _panCamera(-e.deltaX, -e.deltaY);
                 }}
             }}, {{passive: false}});
             // Touch two-finger drag → pan
@@ -2855,7 +2855,7 @@ full_html = f"""<!DOCTYPE html>
                     var cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
                     var lx = (_lastTouches[0].x + _lastTouches[1].x) / 2;
                     var ly = (_lastTouches[0].y + _lastTouches[1].y) / 2;
-                    _panCamera(cx - lx, ly - cy);
+                    _panCamera(lx - cx, cy - ly);
                     _lastTouches = [{{x: e.touches[0].clientX, y: e.touches[0].clientY}},
                                     {{x: e.touches[1].clientX, y: e.touches[1].clientY}}];
                     e.preventDefault();
