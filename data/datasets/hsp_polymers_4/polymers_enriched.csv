@@ -1,0 +1,459 @@
+name_input,name_iupac,name_common,name_common_all,name_acronyms,cas,product_url,tds_url,sds_url,dD,dP,dH,radius,class,subclass,processing_notes
+CELLIT BP-300,cellulose acetopropionate,cellulose ester,cellulose ester,,,,,,16.6,12.0,6.7,10.2,Cellulosic Polymer,Cellulose ester,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Cellulosic Polymer
+CELLIDORA A,cellulose acetate butyrate,cellulose acetate butyrate,cellulose acetate butyrate,,,,,,18.2,12.4,10.8,7.4,Cellulosic Polymer,CAB,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Cellulosic Polymer
+ETHOCEL HE10,ethyl cellulose,ethyl cellulose,ethyl cellulose,,,,,,17.9,4.3,3.9,5.9,Cellulosic Polymer,Ethyl cellulose,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Cellulosic Polymer
+ETHOCEL STD 20,ethyl cellulose,ethyl cellulose,ethyl cellulose,,,,,,20.1,6.9,5.9,9.9,Cellulosic Polymer,Ethyl cellulose,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Cellulosic Polymer
+ARALDITE DY O25,epoxy resin,epoxy resin,epoxy resin,,,,,,14.0,7.4,9.4,13.7,Epoxy Resin,Epoxy,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Epoxy Resin
+EPIKOTE 828,bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,23.1,14.6,5.0,20.5,Epoxy Resin,Bisphenol A epoxy,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Epoxy Resin
+EPIKOTE 1001,bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,20.0,10.32,10.11,10.02,Epoxy Resin,Bisphenol A epoxy,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Epoxy Resin
+EPIKOTE 1004,bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,17.4,10.5,9.0,7.9,Epoxy Resin,Bisphenol A epoxy,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Epoxy Resin
+EPIKOTE 1007,bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,21.0,11.1,13.4,11.7,Epoxy Resin,Bisphenol A epoxy,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Epoxy Resin
+EPIKOTE 1009,bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,19.3,9.37,10.95,8.26,Epoxy Resin,Bisphenol A epoxy,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Epoxy Resin
+PKHH,poly(hydroxy ether of bisphenol A),phenoxy resin,phenoxy resin,,26402-79-9,,,,23.4,7.2,14.8,14.9,Epoxy Resin,Phenoxy resin,[CAS] found via PubChem: 26402-79-9; [CLASS] trade_name route; class from brand mapping: Epoxy Resin
+VERSAMID 100,dimer acid-based polyamide,polyamide resin,polyamide resin,,,,,,23.8,5.3,16.2,16.1,Polyamide,Dimer acid polyamide,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyamide
+VERSAMID 115,dimer acid-based polyamide,polyamide resin,polyamide resin,,,,,,20.3,6.6,14.1,9.6,Polyamide,Dimer acid polyamide,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyamide
+VERSAMID 125,dimer acid-based polyamide,polyamide resin,polyamide resin,,,,,,24.9,3.1,18.7,20.3,Polyamide,Dimer acid polyamide,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyamide
+VERSAMID 140,dimer acid-based polyamide,polyamide resin,polyamide resin,,,,,,26.9,2.4,18.5,24.0,Polyamide,Dimer acid polyamide,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyamide
+DESMOPHEN 651,polyurethane polyol,polyurethane polyol,polyurethane polyol,,,,,,17.7,10.6,11.6,9.5,Polyurethane,Polyol,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+DESMOPHEN 800,polyurethane polyol,polyurethane polyol,polyurethane polyol,,,,,,19.1,12.2,9.9,8.0,Polyurethane,Polyol,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+DESMOPHEN 850,polyurethane polyol,polyurethane polyol,polyurethane polyol,,,,,,21.54,14.94,12.28,16.78,Polyurethane,Polyol,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+DESMOPHEN 1100,polyurethane polyol,polyurethane polyol,polyurethane polyol,,,,,,16.0,13.1,9.2,11.4,Polyurethane,Polyol,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+DESMOPHEN 1150,polyurethane polyol,polyurethane polyol,polyurethane polyol,,,,,,20.6,7.8,11.6,13.1,Polyurethane,Polyol,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+DESMOPHEN 1200,polyurethane polyol,polyurethane polyol,polyurethane polyol,,,,,,19.4,7.4,6.0,9.8,Polyurethane,Polyol,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+DESMOPHEN 1700,polyurethane polyol,polyurethane polyol,polyurethane polyol,,,,,,17.9,9.6,5.9,8.2,Polyurethane,Polyol,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+DESMOLAC 4200,polyurethane lacquer resin,polyurethane resin,polyurethane resin,,,,,,18.7,9.6,9.9,8.2,Polyurethane,PU lacquer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+MACRYNAL SM 510N,acrylic resin (hydroxyl-functional),hydroxy acrylic,hydroxy acrylic,,,,,,19.9,8.1,6.0,9.8,Acrylic,Hydroxy acrylic,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Acrylic
+SUPER BECKACITE 1001,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,23.26,6.55,8.35,19.85,Polyolefin,Polyethylene,[CLASS] trade_name route; class from brand mapping: Polyolefin
+PHENODUR 373U,phenol-modified amino resin,amino resin,amino resin,,,,,,19.74,11.62,14.59,12.69,Amino Resin,Phenol-amino resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Amino Resin
+PLIOLYTE S-100,styrene-butadiene resin,SB resin,SB resin,,,,,,16.47,0.37,2.84,8.59,Natural & Petroleum Resin,Styrene-butadiene resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Natural & Petroleum Resin
+PICCOPALE 110,aliphatic hydrocarbon resin,hydrocarbon resin,hydrocarbon resin,,,,,,17.55,1.19,3.6,6.55,Natural & Petroleum Resin,Aliphatic HC resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Natural & Petroleum Resin
+PICCORONE 450L,cyclopentadiene hydrocarbon resin,cyclopentadiene resin,cyclopentadiene resin,,,,,,19.42,5.48,5.77,9.62,Natural & Petroleum Resin,C5/C9 resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Natural & Petroleum Resin
+POLYSAR 5630,styrene-butadiene rubber,SBR,SBR,,,,,,17.55,3.35,2.7,6.55,Elastomer,SBR,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+HYCAR 1052,poly(acrylonitrile-co-butadiene),nitrile rubber,nitrile rubber,,,,,,18.62,8.78,4.17,9.627248,Elastomer,NBR,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+BUNA HULS B10,synthetic rubber,synthetic rubber,synthetic rubber,,,,,,17.53,2.25,3.42,6.55,Elastomer,,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+LUTONAL IC/1203,,Lutonal Ic/1203,Lutonal Ic/1203,,,,,,14.2,2.5,4.6,12.4,Vinyl Polymer,Polyvinyl ether,[CAS] not found; [CLASS] class: Vinyl Polymer
+LUTANAL I60,,Lutanal I60,Lutanal I60,,,,,,16.9,2.5,4.0,7.2,Vinyl Polymer,Polyvinyl ether,[CAS] not found; [CLASS] class: Vinyl Polymer
+POLYVINYLBUTYL ETHER,,Polyvinylbutyl Ether,Polyvinylbutyl Ether,,,,,,17.4,4.3,8.4,7.4,Vinyl Polymer,,[CAS] not found; [CLASS] class: Vinyl Polymer
+LIGNIN,lignin,lignin,lignin; lignosulfonate,,9005-53-2,,,,20.17,14.61,15.04,11.66,Biological & Other,Lignin,[CAS] found via PubChem: 9005-53-2; [CLASS] class: Biological & Other
+MODAFLOW,polyacrylate flow modifier,acrylic flow modifier,acrylic flow modifier,,,,,,16.1,3.7,7.9,8.9,Acrylic,Flow modifier,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Acrylic
+VIPLA KR (PVC),poly(vinyl chloride),polyvinyl chloride,polyvinyl chloride; PVC,PVC,9002-86-2,,,,18.4,6.6,8.0,3.0,Vinyl Polymer,Vinyl chloride polymer,[CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+CERECLOR 70,chlorinated paraffin,chlorinated paraffin,chlorinated paraffin,,,,,,20.0,8.3,6.8,9.8,Vinyl Polymer,Chlorinated paraffin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+CHLOROPAR 40,chlorinated paraffin,chlorinated paraffin,chlorinated paraffin,,,,,,17.0,7.6,7.9,11.9,Vinyl Polymer,Chlorinated paraffin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+PERGUT S 5,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,17.4,9.5,3.8,10.0,Polyolefin,Polyethylene,[CLASS] trade_name route; class from brand mapping: Polyolefin
+ALLOPREN R10,chlorinated natural rubber,chlorinated rubber,chlorinated rubber,,,,,,17.4,4.3,3.9,6.1,Elastomer,Chlorinated rubber,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+PARLON P 10,chlorinated rubber,chlorinated rubber,chlorinated rubber,,,,,,20.26,6.32,5.4,10.64,Elastomer,Chlorinated rubber,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+HYPALON 20,chlorosulfonated polyethylene,chlorosulfonated PE,chlorosulfonated PE,,,,,,18.1,3.4,4.9,3.6,Elastomer,CSM,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+HYPALON 30,chlorosulfonated polyethylene,chlorosulfonated PE,chlorosulfonated PE,,,,,,18.2,4.7,2.0,5.0,Elastomer,CSM,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+ALPEX,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,19.9,0.0,0.0,9.4,Polyolefin,Polyethylene,[HSP] near-nonpolar; [CLASS] class: Polyolefin
+1/2-sec.-NITRO CELLULOSE  H 23,cellulose,cellulose,cellulose; cellophane; regenerated cellulose,,,,,,15.41,14.73,8.84,11.46,Cellulosic Polymer,Regenerated cellulose,[CAS] not found; [CLASS] class: Cellulosic Polymer
+CELLOLYN 102,rosin-modified cellulose ester,rosin ester,rosin ester,,,,,,21.73,0.94,8.53,15.75,Natural & Petroleum Resin,Rosin-modified ester,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Natural & Petroleum Resin
+PENTALYN 255,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,17.55,9.37,14.32,10.64,Polyolefin,Polyethylene,[CLASS] trade_name route; class from brand mapping: Polyolefin
+PENTALYN 830,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,20.03,5.81,10.93,11.66,Polyolefin,Polyethylene,[CLASS] trade_name route; class from brand mapping: Polyolefin
+ESTER GUM BL,glycerol ester of rosin,rosin ester,rosin ester,,,,,,19.64,4.73,7.77,10.64,Natural & Petroleum Resin,Rosin ester,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Natural & Petroleum Resin
+VERSAMID 961,dimer acid-based polyamide,polyamide resin,polyamide resin,,,,,,18.9,9.6,11.1,6.2,Polyamide,Dimer acid polyamide,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyamide
+VERSAMID 965,dimer acid-based polyamide,polyamide resin,polyamide resin,,,,,,20.15,6.04,12.9,9.207248,Polyamide,Dimer acid polyamide,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyamide
+DESMODUR  L,polyisocyanate crosslinker,polyisocyanate,polyisocyanate,,,,,,17.5,11.3,5.9,8.5,Polyurethane,Polyisocyanate,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+DESMODUR N,polyisocyanate crosslinker,polyisocyanate,polyisocyanate,,,,,,17.6,10.0,3.7,9.3,Polyurethane,Polyisocyanate,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+SUPRASEC F-5100,polymeric MDI,polymeric MDI,polymeric MDI,,,,,,19.7,12.9,12.8,11.4,Polyurethane,MDI isocyanate,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+MOWITAL B 30 H,poly(vinyl butyral),polyvinyl butyral,polyvinyl butyral,,,,,,18.6,12.9,10.3,8.3,Vinyl Polymer,PVB,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+MOWITAL B 60 H,poly(vinyl butyral),polyvinyl butyral,polyvinyl butyral,,,,,,20.2,11.2,13.3,11.2,Vinyl Polymer,PVB,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+BUTV AR B 76,poly(vinyl butyral),polyvinyl butyral,polyvinyl butyral,,,,,,18.6,4.36,13.03,10.64,Vinyl Polymer,PVB,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+LUCITE 2042 PEMA,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,17.6,9.66,3.97,10.64,Polyolefin,Polyethylene,[CLASS] trade_name route; class from brand mapping: Polyolefin
+LUCITE 2044 PMMA,poly(methyl methacrylate),poly(methyl methacrylate),poly(methyl methacrylate); acrylic glass; Plexiglas; Perspex,PMMA,9011-14-7,,,,16.2,6.8,5.7,9.1,Acrylic,Methacrylate polymer,[CLASS] trade_name route; class from brand mapping: Acrylic
+PLEXIGUM MB319,poly(methyl methacrylate) copolymer,acrylic resin,acrylic resin,,79-10-7,,,,18.6,10.8,4.1,11.5,Acrylic,PMMA copolymer,[CAS] found via PubChem: 79-10-7; [CLASS] trade_name route; class from brand mapping: Acrylic
+PLEXIGUM M527,poly(methyl methacrylate) copolymer,acrylic resin,acrylic resin,,79-10-7,,,,18.4,9.4,6.5,10.7,Acrylic,PMMA copolymer,[CAS] found via PubChem: 79-10-7; [CLASS] trade_name route; class from brand mapping: Acrylic
+PMMA,poly(methyl methacrylate),poly(methyl methacrylate),poly(methyl methacrylate); acrylic glass; Plexiglas; Perspex,PMMA,9011-14-7,,,,18.64,10.52,7.51,8.59,Acrylic,Methacrylate polymer,[CLASS] class: Acrylic
+MOWILITH 50 PVAC,poly(vinyl acetate),polyvinyl acetate,polyvinyl acetate; PVAc,PVAc; PVAC,9003-20-7,,,,20.93,11.27,9.66,13.71,Vinyl Polymer,Vinyl acetate polymer,[CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+POLYSTYRENE LG,polystyrene,polystyrene,polystyrene,PS,9003-53-6,,,,22.28,5.75,4.3,12.68,Styrenic,Polystyrene,[CLASS] class: Styrenic
+LAROFLEX MP 45,vinyl chloride copolymer,vinyl copolymer,vinyl copolymer,,,,,,18.4,8.4,5.8,9.0,Vinyl Polymer,Vinyl copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VILIT MB 30,,Vilit Mb 30,Vilit Mb 30,,,,,,20.0,8.3,6.7,9.4,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] class: Vinyl Polymer
+VILIT MC 31,,Vilit Mc 31,Vilit Mc 31,,,,,,20.0,8.3,6.7,9.4,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] class: Vinyl Polymer
+VILIT MC 39,,Vilit Mc 39,Vilit Mc 39,,,,,,18.4,7.6,6.7,6.8,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] class: Vinyl Polymer
+VINYLITE VAGD,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,17.1,10.4,6.5,7.5,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE VAGH,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,16.5,10.9,6.4,7.7,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE VMCA,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,17.7,11.1,6.9,8.7,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE VMCC,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,17.6,11.1,6.8,8.8,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE VMCH,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,17.6,11.1,6.4,8.6,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE VYHH,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl chloride-vinyl acetate copolymer,,,,,,17.4,10.2,5.9,7.8,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE VYLF,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,18.1,10.3,4.2,8.3,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+ALFTALAT AC 366,saturated polyester resin,polyester resin,polyester resin,,,,,,18.6,10.0,5.0,10.4,Polyester & Alkyd,Saturated polyester,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+ALFTALAT AM 756,saturated polyester resin,polyester resin,polyester resin,,,,,,23.0,2.2,4.2,16.9,Polyester & Alkyd,Saturated polyester,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+ALFTALAT AN 896,saturated polyester resin,polyester resin,polyester resin,,,,,,22.9,15.2,7.6,18.1,Polyester & Alkyd,Saturated polyester,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+ALFTALAT AN 950,saturated polyester resin,polyester resin,polyester resin,,,,,,22.6,13.8,8.1,17.1,Polyester & Alkyd,Saturated polyester,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+ALFTALAT AT 316,saturated polyester resin,polyester resin,polyester resin,,,,,,20.5,9.3,9.1,12.4,Polyester & Alkyd,Saturated polyester,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+ALFTALAT AT 576,saturated polyester resin,polyester resin,polyester resin,,,,,,19.2,5.3,6.3,11.9,Polyester & Alkyd,Saturated polyester,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+ALKYDAL F 261 HS,alkyd resin,alkyd resin,alkyd resin,,,,,,23.6,1.0,7.6,19.0,Polyester & Alkyd,Alkyd resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+ALKYDAL F 41,alkyd resin,alkyd resin,alkyd resin,,,,,,20.6,4.6,5.5,12.6,Polyester & Alkyd,Alkyd resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+DUROFTAL T 354,alkyd resin (phthalate-based),alkyd resin,alkyd resin,,,,,,17.3,4.2,7.9,9.3,Polyester & Alkyd,Phthalate alkyd,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+DYNAPOL L 812,saturated linear polyester,polyester resin,polyester resin,,,,,,22.6,13.1,5.8,16.807248,Polyester & Alkyd,Linear polyester,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+DYNAPOL L 850,saturated linear polyester,polyester resin,polyester resin,,,,,,20.0,6.2,7.0,9.5,Polyester & Alkyd,Linear polyester,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+PLEXAL C-34,alkyd resin,alkyd resin,alkyd resin,,,,,,18.5,9.21,4.91,10.64,Polyester & Alkyd,Alkyd resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+SOALKYD 1935-EGAX,alkyd resin,alkyd resin,alkyd resin,,,,,,18.0,11.6,8.5,9.0,Polyester & Alkyd,Alkyd resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+VESTURIT BL 908,melamine crosslinker (blocked),blocked melamine,blocked melamine,,,,,,18.8,12.0,6.0,11.5,Amino Resin,Blocked melamine,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Amino Resin
+VESTURIT BL 915,melamine crosslinker (blocked),blocked melamine,blocked melamine,,,,,,17.7,13.0,7.6,11.5,Amino Resin,Blocked melamine,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Amino Resin
+BE 370,"poly(1,3-benzoxazine)",benzoxazine resin,benzoxazine resin; polybenzoxazine,,,,,,20.7,6.1,12.7,14.8,Phenolic Resin,Benzoxazine,[CAS] not found; [CLASS] class: Phenolic Resin
+CYMEL 300,melamine-formaldehyde resin,melamine resin,melamine resin,,,,,,19.35,12.83,12.87,9.82,Amino Resin,Melamine resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Amino Resin
+CYMEL 325,melamine-formaldehyde resin,melamine resin,melamine resin,,,,,,25.5,15.2,9.5,22.2,Amino Resin,Melamine resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Amino Resin
+DYNOMIN MM 9,melamine-formaldehyde resin,melamine resin,melamine resin,,,,,,18.8,14.0,12.3,10.5,Amino Resin,Melamine resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Amino Resin
+DYNOMIN UM 15,melamine-formaldehyde resin,melamine resin,melamine resin,,,,,,19.9,15.8,13.4,11.7,Amino Resin,Melamine resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Amino Resin
+SOAMIN M 60,amino resin,amino resin,amino resin,,,,,,15.9,8.1,6.5,10.6,Amino Resin,,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Amino Resin
+SYNRESIN A 560,melamine-formaldehyde resin,melamine resin,melamine resin,,,,,,22.1,5.0,11.3,15.5,Amino Resin,Melamine resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Amino Resin
+PLASTOPAL H,urea-formaldehyde resin,urea resin,urea resin,,,,,,20.81,8.29,14.96,12.69,Amino Resin,Urea resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Amino Resin
+UFORMITE MX-61,urea-formaldehyde resin,urea resin,urea resin,,,,,,22.7,2.8,5.4,16.2,Amino Resin,Urea resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Amino Resin
+URACRON 15,melamine acrylic copolymer,acrylic-amino resin,acrylic-amino resin,,,,,,19.2,7.7,5.7,10.6,Amino Resin,Acrylic-amino resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Amino Resin
+PARALOID P 400,acrylic copolymer resin,acrylic resin,acrylic resin,,79-10-7,,,,19.2,9.6,9.3,12.2,Acrylic,Acrylic copolymer,[CAS] found via PubChem: 79-10-7; [CLASS] trade_name route; class from brand mapping: Acrylic
+PARALOID P 410,acrylic copolymer resin,acrylic resin,acrylic resin,,79-10-7,,,,19.6,9.1,6.8,12.2,Acrylic,Acrylic copolymer,[CAS] found via PubChem: 79-10-7; [CLASS] trade_name route; class from brand mapping: Acrylic
+PARALOID EXPER. RES. QR 954,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,18.4,9.8,10.0,12.4,Polyolefin,Polyethylene,[CLASS] trade_name route; class from brand mapping: Polyolefin
+BAYSILON UD 125,polydimethylsiloxane,silicone resin,silicone resin,,,,,,19.4,9.9,10.1,6.9,Elastomer,Silicone,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+TEFLON (SL2-),poly(tetrafluoroethylene),polytetrafluoroethylene,polytetrafluoroethylene; Teflon; PTFE,PTFE,9002-84-0,,,,17.1,8.1,1.3,4.7,Fluoropolymer,PTFE,[CLASS] class: Fluoropolymer
+DOW EPOXY NOVOLAC 438,epoxy novolac resin,epoxy novolac,epoxy novolac,,,,,,20.3,15.4,5.3,15.1,Epoxy Resin,Novolac epoxy,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Epoxy Resin
+DOW EPOXY NOVOLAC 444,epoxy novolac resin,epoxy novolac,epoxy novolac,,,,,,19.5,11.6,9.3,10.0,Epoxy Resin,Novolac epoxy,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Epoxy Resin
+ZINK SILICATE - CHEMICAL RES.,,Zink Silicate - Chemical Res.,Zink Silicate - Chemical Res.,,,,,,23.5,17.5,16.8,15.6,Epoxy Resin,Zinc silicate coating,[CAS] not found; [CLASS] class: Epoxy Resin
+2-COMP EPOXY CHEMICAL RES.,,2-Comp Epoxy Chemical Res.,2-Comp Epoxy Chemical Res.,,,,,,18.4,9.4,10.1,7.0,Epoxy Resin,,[CAS] not found; [CLASS] class: Epoxy Resin
+POLYVINYLIDINE FLUORIDE SOL.,poly(vinylidene fluoride),polyvinylidene fluoride,polyvinylidene fluoride; Kynar; PVDF,PVDF,,,,,17.0,12.1,10.2,4.1,Fluoropolymer,PVDF,[CAS] not found; [CLASS] class: Fluoropolymer
+COAL TAR PITCH SOL.,coal tar pitch,coal tar pitch,coal tar pitch,,,,,,18.7,7.5,8.9,5.8,Natural & Petroleum Resin,Pitch,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+NITRILE 20 MIN,poly(acrylonitrile-co-butadiene),nitrile rubber,nitrile rubber; acrylonitrile butadiene rubber,NBR,,,,,17.5,7.3,6.5,5.1,Elastomer,Nitrile rubber,[PRE-CLASSIFY] time_series; condition: 20 MIN; base: NITRILE; [CAS] not found; [CLASS] class: Elastomer
+NITRILE 1 HR,poly(acrylonitrile-co-butadiene),nitrile rubber,nitrile rubber; acrylonitrile butadiene rubber,NBR,,,,,16.6,9.1,4.4,10.0,Elastomer,Nitrile rubber,[PRE-CLASSIFY] time_series; condition: 1 HR; base: NITRILE; [CAS] not found; [CLASS] class: Elastomer
+NITRILE 4 HR,poly(acrylonitrile-co-butadiene),nitrile rubber,nitrile rubber; acrylonitrile butadiene rubber,NBR,,,,,19.0,12.6,3.8,13.3,Elastomer,Nitrile rubber,[PRE-CLASSIFY] time_series; condition: 4 HR; base: NITRILE; [CAS] not found; [CLASS] class: Elastomer
+BUTYL 20 MIN,,Butyl,Butyl,,2492-36-6,,,,16.5,1.0,5.1,5.0,Elastomer,Butyl rubber,[PRE-CLASSIFY] time_series; condition: 20 MIN; base: BUTYL; [CAS] found via PubChem: 2492-36-6; [CLASS] class: Elastomer
+BUTYL  4 HR (2),,Butyl   (2),Butyl   (2),,,,,,17.6,2.1,2.1,7.0,Elastomer,Butyl rubber,[PRE-CLASSIFY] time_series; condition: 4 HR; base: BUTYL   (2); [CAS] not found; [CLASS] class: Elastomer
+NATURAL RUBBER 20 MIN,"poly(cis-1,4-isoprene)",natural rubber,natural rubber; latex; cis-polyisoprene,NR,78-79-5,,,,14.5,7.3,4.5,11.0,Elastomer,Natural rubber,[PRE-CLASSIFY] time_series; condition: 20 MIN; base: NATURAL RUBBER; [CAS] found via PubChem: 78-79-5; [CLASS] class: Elastomer
+NATURAL RUBBER 1 HR,"poly(cis-1,4-isoprene)",natural rubber,natural rubber; latex; cis-polyisoprene,NR,78-79-5,,,,15.6,3.4,9.1,14.0,Elastomer,Natural rubber,[PRE-CLASSIFY] time_series; condition: 1 HR; base: NATURAL RUBBER; [CAS] found via PubChem: 78-79-5; [CLASS] class: Elastomer
+NATURAL RUBBER 4 HR,"poly(cis-1,4-isoprene)",natural rubber,natural rubber; latex; cis-polyisoprene,NR,78-79-5,,,,19.4,13.2,7.7,19.0,Elastomer,Natural rubber,[PRE-CLASSIFY] time_series; condition: 4 HR; base: NATURAL RUBBER; [CAS] found via PubChem: 78-79-5; [CLASS] class: Elastomer
+PVC 20 MIN,poly(vinyl chloride),polyvinyl chloride,polyvinyl chloride; PVC,PVC,9002-86-2,,,,16.1,7.1,5.9,9.3,Vinyl Polymer,Vinyl chloride polymer,[PRE-CLASSIFY] time_series; condition: 20 MIN; base: PVC; [CLASS] class: Vinyl Polymer
+PVC 1 HR,poly(vinyl chloride),polyvinyl chloride,polyvinyl chloride; PVC,PVC,9002-86-2,,,,14.9,11.1,3.8,13.2,Vinyl Polymer,Vinyl chloride polymer,[PRE-CLASSIFY] time_series; condition: 1 HR; base: PVC; [CLASS] class: Vinyl Polymer
+PVC 4 HR,poly(vinyl chloride),polyvinyl chloride,polyvinyl chloride; PVC,PVC,9002-86-2,,,,24.4,4.9,9.9,22.707248,Vinyl Polymer,Vinyl chloride polymer,[PRE-CLASSIFY] time_series; condition: 4 HR; base: PVC; [CLASS] class: Vinyl Polymer
+POLYVINYLALCOHOL 20 MIN,poly(vinyl alcohol),polyvinyl alcohol,polyvinyl alcohol; PVOH; PVA,PVOH; PVA,9002-89-5,,,,11.2,12.4,13.0,12.1,Vinyl Polymer,Vinyl alcohol polymer,[PRE-CLASSIFY] time_series; condition: 20 MIN; base: POLYVINYLALCOHOL; [CLASS] class: Vinyl Polymer
+POLYVINYLALCOHOL 1 HR,poly(vinyl alcohol),polyvinyl alcohol,polyvinyl alcohol; PVOH; PVA,PVOH; PVA,9002-89-5,,,,15.3,13.2,13.5,8.8,Vinyl Polymer,Vinyl alcohol polymer,[PRE-CLASSIFY] time_series; condition: 1 HR; base: POLYVINYLALCOHOL; [CLASS] class: Vinyl Polymer
+POLYVINYLALCOHOL 4 HR,poly(vinyl alcohol),polyvinyl alcohol,polyvinyl alcohol; PVOH; PVA,PVOH; PVA,9002-89-5,,,,17.2,13.6,15.4,10.9,Vinyl Polymer,Vinyl alcohol polymer,[PRE-CLASSIFY] time_series; condition: 4 HR; base: POLYVINYLALCOHOL; [CLASS] class: Vinyl Polymer
+POLYETHYLENE 20 MIN,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,16.9,3.3,4.1,8.1,Polyolefin,Polyethylene,[PRE-CLASSIFY] time_series; condition: 20 MIN; base: POLYETHYLENE; [CLASS] class: Polyolefin
+POLYETHYLENE 1 HR,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,17.1,3.1,5.2,8.2,Polyolefin,Polyethylene,[PRE-CLASSIFY] time_series; condition: 1 HR; base: POLYETHYLENE; [CLASS] class: Polyolefin
+POLYETHYLENE 4 HR,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,24.1,14.9,0.3,24.3,Polyolefin,Polyethylene,[PRE-CLASSIFY] time_series; condition: 4 HR; base: POLYETHYLENE; [CLASS] class: Polyolefin
+VITON 20 MIN,,Viton,Viton,,27154-44-5,,,,10.9,14.5,3.1,14.1,Elastomer,FKM,[PRE-CLASSIFY] time_series; condition: 20 MIN; base: VITON; [CAS] found via PubChem: 27154-44-5; [CLASS] class: Elastomer
+VITON 1 HR,,Viton,Viton,,27154-44-5,,,,16.5,8.1,8.3,6.6,Elastomer,FKM,[PRE-CLASSIFY] time_series; condition: 1 HR; base: VITON; [CAS] found via PubChem: 27154-44-5; [CLASS] class: Elastomer
+VITON 4 HR,,Viton,Viton,,27154-44-5,,,,13.6,15.4,8.6,14.4,Elastomer,FKM,[PRE-CLASSIFY] time_series; condition: 4 HR; base: VITON; [CAS] found via PubChem: 27154-44-5; [CLASS] class: Elastomer
+NEOPRENE 20 MIN,,Neoprene,Neoprene,,,,,,17.6,2.5,5.9,6.2,Elastomer,Chloroprene rubber,[PRE-CLASSIFY] time_series; condition: 20 MIN; base: NEOPRENE; [CAS] not found; [CLASS] class: Elastomer
+NEOPRENE 1 HR,,Neoprene,Neoprene,,,,,,19.0,8.0,0.0,13.2,Elastomer,Chloroprene rubber,[PRE-CLASSIFY] time_series; condition: 1 HR; base: NEOPRENE; [CAS] not found; [CLASS] class: Elastomer
+NEOPRENE 4 HR,,Neoprene,Neoprene,,,,,,14.6,13.9,2.3,15.9,Elastomer,Chloroprene rubber,[PRE-CLASSIFY] time_series; condition: 4 HR; base: NEOPRENE; [CAS] not found; [CLASS] class: Elastomer
+CH 5100 3 HR,,Ch 5100,Ch 5100,,,,,,16.6,5.4,4.0,3.8,Epoxy Resin,Coal tar epoxy coating,[PRE-CLASSIFY] time_series; condition: 3 HR; base: CH 5100; [CAS] not found; [CLASS] class: Epoxy Resin
+CH 5200 3 HR,,Ch 5200,Ch 5200,,,,,,16.6,6.0,4.8,3.7,Epoxy Resin,Coal tar epoxy coating,[PRE-CLASSIFY] time_series; condition: 3 HR; base: CH 5200; [CAS] not found; [CLASS] class: Epoxy Resin
+PVDC (110C) SOLUBILITY,poly(vinylidene chloride),polyvinylidene chloride,polyvinylidene chloride; Saran,PVDC,9002-85-1,,,,17.6,9.1,7.8,3.9,Vinyl Polymer,Vinylidene chloride polymer,[CLASS] class: Vinyl Polymer
+PVDC (130C) SOLUBILITY,poly(vinylidene chloride),polyvinylidene chloride,polyvinylidene chloride; Saran,PVDC,9002-85-1,,,,20.4,10.0,10.2,7.6,Vinyl Polymer,Vinylidene chloride polymer,[CLASS] class: Vinyl Polymer
+PES L C=1,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,18.7,10.5,7.6,9.1,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+PES L B + C =1,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,17.7,9.7,6.4,9.3,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+PPS CR 93°C,polystyrene,polystyrene,polystyrene,PS,9003-53-6,,,,18.8,4.8,6.8,2.8,Styrenic,Polystyrene,[CLASS] class: Styrenic
+PPS TS60%12MO,polystyrene,polystyrene,polystyrene,PS,9003-53-6,,,,18.7,5.3,3.7,6.7,Styrenic,Polystyrene,[CLASS] class: Styrenic
+PA6 CR,poly(caprolactam),nylon 6,nylon 6; polyamide 6; polycaprolactam,PA6; PA-6; Nylon 6,25038-54-4,,,,17.0,3.4,10.6,5.1,Polyamide,Nylon 6,[CLASS] class: Polyamide
+PA66 SOL,poly(hexamethylene adipamide),nylon 66,"nylon 66; nylon 6,6; polyamide 66",PA66; PA-66; Nylon 66,32131-17-2,,,,17.4,9.8,14.6,5.1,Polyamide,"Nylon 6,6",[CLASS] class: Polyamide
+PA11 CR,poly(11-aminoundecanoic acid),nylon 11,nylon 11; polyamide 11; Rilsan,PA11; PA-11; Nylon 11,,,,,17.0,4.4,10.6,5.1,Polyamide,Nylon 11,[CAS] not found; [CLASS] class: Polyamide
+POMH+POMC CR,polyoxymethylene,polyoxymethylene,polyoxymethylene; acetal resin; Delrin,POM,,,,,17.1,3.1,10.7,5.2,Polyacetal / PEI / PC,Polyacetal,[CAS] not found; [CLASS] class: Polyacetal / PEI / PC
+PETP CR,poly(ethylene terephthalate),polyethylene terephthalate,polyethylene terephthalate; Mylar,PET; PETP,25038-59-9,,,,18.2,6.4,6.6,5.0,Polyester & Alkyd,PET,[CLASS] class: Polyester & Alkyd
+PTFE L80 CR,poly(tetrafluoroethylene),polytetrafluoroethylene,polytetrafluoroethylene; Teflon; PTFE,PTFE,9002-84-0,,,,16.2,1.8,3.4,3.9,Fluoropolymer,PTFE,[CLASS] class: Fluoropolymer
+PMMA CR,poly(methyl methacrylate),poly(methyl methacrylate),poly(methyl methacrylate); acrylic glass; Plexiglas; Perspex,PMMA,9011-14-7,,,,16.0,5.0,12.0,13.0,Acrylic,Methacrylate polymer,[CLASS] class: Acrylic
+PE? CR QUESTIONABLE V ALUES,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,16.8,5.4,2.4,4.7,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+PPO CR,"poly(2,6-dimethyl-1,4-phenylene oxide)",polyphenylene oxide,polyphenylene oxide; PPO; Noryl,PPO; PPE,,,,,17.9,3.1,8.5,8.6,Polyacetal / PEI / PC,Polyphenylene oxide,[CAS] not found; [CLASS] class: Polyacetal / PEI / PC
+PUR CR,polyurethane,polyurethane,polyurethane; PUR; PU,PU; PUR,,,,,18.1,9.3,4.5,9.7,Polyurethane,,[CAS] not found; [CLASS] class: Polyurethane
+ABS CR,poly(acrylonitrile-co-butadiene-co-styrene),acrylonitrile butadiene styrene,acrylonitrile butadiene styrene; ABS plastic,ABS,9003-56-9,,,,16.3,2.7,7.1,7.8,Styrenic,ABS terpolymer,[CLASS] class: Styrenic
+PSU CR,polysulfone,polysulfone,polysulfone; polysulphone,PSU; PSF,,,,,16.0,6.0,6.6,9.0,Polysulfone / PES / PPS,Polysulfone,[CAS] not found; [CLASS] class: Polysulfone / PES / PPS
+VINYL SILANE,vinyltrialkoxysilane polymer,vinyl silane resin,vinyl silane resin,,,,,,16.4,3.7,4.5,10.0,Elastomer,Silicone,[CAS] not found; [CLASS] class: Elastomer
+CELLOPHAN SW,regenerated cellulose film,cellophane,cellophane; regenerated cellulose,,,,,,16.1,18.5,14.5,9.3,Cellulosic Polymer,Regenerated cellulose,[CAS] not found; [CLASS] class: Cellulosic Polymer
+EVOH SOL,poly(ethylene-co-vinyl alcohol),ethylene vinyl alcohol copolymer,ethylene vinyl alcohol copolymer; EVOH; EVAL,EVOH; EVAL,,,,,20.5,10.5,12.3,7.3,Vinyl Polymer,EVOH copolymer,[CAS] not found; [CLASS] class: Vinyl Polymer
+SARANEX 4HR,,Saranex,Saranex,,,,,,17.7,18.3,0.7,18.4,Vinyl Polymer,VC/VA copolymer,[PRE-CLASSIFY] time_series; condition: 4HR; base: SARANEX; [CAS] not found; [CLASS] class: Vinyl Polymer
+4H 35°C,,4H 35°C,4H 35°C,,,,,,19.4,13.4,18.0,8.6,Biological & Other,Skin model/barrier,[CAS] not found; [CLASS] class: Biological & Other
+4H 35°C no plasticizer included,,4H 35°C No Plasticizer Included,4H 35°C No Plasticizer Included,,,,,,20.5,11.3,10.3,6.7,Biological & Other,Skin model/barrier,[CAS] not found; [CLASS] class: Biological & Other
+POLYVINYLALCOHOL,poly(vinyl alcohol),polyvinyl alcohol,polyvinyl alcohol; PVOH; PVA,PVOH; PVA,9002-89-5,,,,15.0,17.2,17.8,10.2,Vinyl Polymer,Vinyl alcohol polymer,[CLASS] class: Vinyl Polymer
+ACETAL CELANESE,polyoxymethylene,polyoxymethylene,polyoxymethylene; acetal resin,POM,,,,,21.1,9.3,5.9,11.4,Polyacetal / PEI / PC,Polyacetal,[CAS] not found; [CLASS] class: Polyacetal / PEI / PC
+ACETALHOMO-DUO,polyoxymethylene,polyoxymethylene,polyoxymethylene; acetal resin,POM,,,,,19.0,5.0,8.0,5.0,Polyacetal / PEI / PC,Polyacetal,[CAS] not found; [CLASS] class: Polyacetal / PEI / PC
+CELLULOSE ACETATE,cellulose acetate,cellulose acetate,cellulose acetate; CA,CA,9004-35-7,,,,16.9,16.3,3.7,13.707248,Cellulosic Polymer,Cellulose acetate,[CLASS] class: Cellulosic Polymer
+CELL. ACET. BUTYRATE,,Cell. Acet. Butyrate,Cell. Acet. Butyrate,,,,,,17.2,13.8,2.8,12.6,Cellulosic Polymer,Cellulose ester,[CAS] not found; [CLASS] class: Cellulosic Polymer
+CELL. ACET. PROPIONATE,,Cell. Acet. Propionate,Cell. Acet. Propionate,,,,,,9.8,13.6,11.4,15.2,Cellulosic Polymer,Cellulose ester,[HSP] dD unusually low; [CAS] not found; [CLASS] class: Cellulosic Polymer
+PCTFE,poly(chlorotrifluoroethylene),polychlorotrifluoroethylene,polychlorotrifluoroethylene; Kel-F,PCTFE,9002-83-9,,,,14.1,2.7,5.5,6.6,Fluoropolymer,PCTFE,[CLASS] class: Fluoropolymer
+FEP,poly(tetrafluoroethylene-co-hexafluoropropylene),fluorinated ethylene propylene,fluorinated ethylene propylene; FEP,FEP,,,,,19.0,4.0,3.0,4.0,Fluoropolymer,FEP copolymer,[CAS] not found; [CLASS] class: Fluoropolymer
+FURAN,poly(furfuryl alcohol),furan resin,furan resin; furfuryl alcohol polymer,,,,,,19.0,6.0,8.0,5.0,Phenolic Resin,Furan resin,[CAS] not found; [CLASS] class: Phenolic Resin
+FURF ALC,,Furf Alc,Furf Alc,,,,,,19.9,3.9,5.1,3.8,Phenolic Resin,Furan resin,[CAS] not found; [CLASS] class: Phenolic Resin
+PHENOLIC,phenol-formaldehyde resin,phenolic resin,phenolic resin; Bakelite,,,,,,21.6,5.2,18.8,15.4,Phenolic Resin,Phenol-formaldehyde,[CAS] not found; [CLASS] class: Phenolic Resin
+PETG,"poly(ethylene terephthalate-co-1,4-cyclohexanedimethanol terephthalate)",polyethylene terephthalate glycol,polyethylene terephthalate glycol; PETG copolyester,PETG; PET-G,,,,,18.0,3.0,4.0,6.0,Polyester & Alkyd,PET copolymer,[CAS] not found; [CLASS] class: Polyester & Alkyd
+HDPE,"polyethylene, high density",high-density polyethylene,high-density polyethylene; HDPE,HDPE,9002-88-4,,,,18.0,0.0,2.0,2.0,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+PP,polypropylene,polypropylene,polypropylene,PP,9003-07-0,,,,18.0,0.0,1.0,6.0,Polyolefin,Polypropylene,[CLASS] class: Polyolefin
+PECTFE SOL AT HIGH TEMP.,poly(chlorotrifluoroethylene),polychlorotrifluoroethylene,polychlorotrifluoroethylene; Kel-F,PCTFE,9002-83-9,,,,19.5,7.3,1.7,5.1,Fluoropolymer,PCTFE,[CLASS] class: Fluoropolymer
+PAN,polyacrylonitrile,polyacrylonitrile,polyacrylonitrile; Orlon,PAN,25014-41-9,,,,21.7,14.1,9.1,10.9,Acrylic,Polyacrylonitrile,[CLASS] class: Acrylic
+PEI 1200PSI,polystyrene,polystyrene,polystyrene,PS,9003-53-6,,,,17.2,6.4,5.2,3.6,Styrenic,Polystyrene,[CLASS] class: Styrenic
+PEI 2400PSI,polystyrene,polystyrene,polystyrene,PS,9003-53-6,,,,17.4,4.6,9.0,7.2,Styrenic,Polystyrene,[CLASS] class: Styrenic
+PEI 600PSI,polystyrene,polystyrene,polystyrene,PS,9003-53-6,,,,17.3,5.3,4.7,3.3,Styrenic,Polystyrene,[CLASS] class: Styrenic
+ESTER GUM,glycerol ester of rosin,rosin ester,rosin ester,,,,,,16.9,4.5,6.5,9.2,Natural & Petroleum Resin,Rosin ester,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Natural & Petroleum Resin
+ALKYD 45 SOYA,alkyd resin,alkyd resin,alkyd resin,,,,,,17.5,2.3,7.7,10.0,Polyester & Alkyd,Alkyd resin,[CAS] not found; [CLASS] class: Polyester & Alkyd
+SILICONE DC-1107?,polydimethylsiloxane,silicone rubber,silicone rubber; PDMS; polydimethylsiloxane,SI; Q; VMQ,,,,,19.6,3.4,10.8,9.8,Elastomer,Silicone rubber,[CAS] not found; [CLASS] class: Elastomer
+PVETHYLETHER?,,Pvethylether?,Pvethylether?,,,,,,15.1,3.1,11.9,12.9,Vinyl Polymer,[needs-review],[CAS] not found; [CLASS] class: Vinyl Polymer
+PBUTYLACRYLATE,,Pbutylacrylate,Pbutylacrylate,,,,,,16.2,9.0,3.0,10.1,Acrylic,Acrylate polymer,[CAS] not found; [CLASS] class: Acrylic
+PBMA?,,Pbma?,Pbma?,,,,,,15.9,5.5,5.9,8.5,Acrylic,Methacrylate polymer,[CAS] not found; [CLASS] class: Acrylic
+SILICONE DC 23?,polydimethylsiloxane,silicone rubber,silicone rubber; PDMS; polydimethylsiloxane,SI; Q; VMQ,,,,,16.4,0.0,7.8,5.5,Elastomer,Silicone rubber,[CAS] not found; [CLASS] class: Elastomer
+PE,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,16.0,0.8,2.8,3.2,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+GILSONITE,gilsonite (natural asphaltite),gilsonite,gilsonite; uintahite; natural asphalt,,,,,,17.1,2.1,3.9,4.9,Natural & Petroleum Resin,Asphaltite,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+PVINYLBUTYLETHER,,Pvinylbutylether,Pvinylbutylether,,,,,,17.4,3.4,7.8,8.4,Vinyl Polymer,Vinyl ether polymer,[CAS] not found; [CLASS] class: Vinyl Polymer
+NAT RUBBER,"poly(cis-1,4-isoprene)",natural rubber,natural rubber; cis-polyisoprene,NR,78-79-5,,,,16.0,4.0,6.0,1.3,Elastomer,Natural rubber,[CAS] found via PubChem: 78-79-5; [CLASS] class: Elastomer
+HYP 20 CHLOROSULFONATED PE,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,17.4,3.2,4.0,4.8,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+ETHCEL N22?,,Ethcel N22?,Ethcel N22?,,,,,,22.7,0.5,16.5,20.1,Cellulosic Polymer,,[CAS] not found; [CLASS] class: Cellulosic Polymer
+CHLORINATED RUBBER,"chlorinated poly(cis-1,4-isoprene)",chlorinated rubber,chlorinated rubber,CR,,,,,17.9,6.3,5.1,7.6,Elastomer,Chlorinated rubber,[CAS] not found; [CLASS] class: Elastomer
+DAMMAR GUM,dammar resin,dammar gum,dammar gum; damar gum; dammar resin,,,,,,18.4,4.2,7.8,8.3,Natural & Petroleum Resin,Dammar resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+VERSAMID 100?,dimer acid-based polyamide,polyamide resin,polyamide resin,,,,,,18.8,3.0,9.2,7.8,Polyamide,Dimer acid polyamide,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyamide
+PS,polystyrene,polystyrene,polystyrene,PS,9003-53-6,,,,18.5,4.5,2.9,5.3,Styrenic,Polystyrene,[CLASS] class: Styrenic
+PV AC,poly(vinyl chloride),polyvinyl chloride,polyvinyl chloride; PVC,PVC,9002-86-2,,,,17.6,2.2,4.0,4.1,Vinyl Polymer,Vinyl chloride polymer,[CLASS] class: Vinyl Polymer
+PVC,poly(vinyl chloride),polyvinyl chloride,polyvinyl chloride; PVC,PVC,9002-86-2,,,,17.6,7.8,3.4,8.2,Vinyl Polymer,Vinyl chloride polymer,[CLASS] class: Vinyl Polymer
+PHENOLICS,phenol-formaldehyde resin,phenolic resin,phenolic resin,,,,,,19.8,7.2,10.8,12.8,Phenolic Resin,Phenol-formaldehyde,[CAS] not found; [CLASS] class: Phenolic Resin
+BUNA N BUTADIENE/ACRYLONITRILE,poly(acrylonitrile-co-butadiene),nitrile rubber,nitrile rubber; acrylonitrile butadiene rubber,NBR,,,,,17.8,3.2,3.4,3.7,Elastomer,Nitrile rubber,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+PMMA,poly(methyl methacrylate),poly(methyl methacrylate),poly(methyl methacrylate); acrylic glass; Plexiglas; Perspex,PMMA,9011-14-7,,,,18.1,10.5,5.1,9.5,Acrylic,Methacrylate polymer,[CLASS] class: Acrylic
+PEO 4000 ? HEATED SAMPLES,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,21.5,10.9,13.1,15.9,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+POLYETHYLENESULFIDE (GOOD),polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,17.8,3.8,2.2,4.1,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+PC,poly(bisphenol A carbonate),polycarbonate,polycarbonate; Lexan; Makrolon,PC,25037-45-0,,,,18.1,5.9,6.9,5.5,Polyacetal / PEI / PC,Polycarbonate,[CLASS] class: Polyacetal / PEI / PC
+PLIOLITE P1230,styrene-butadiene resin,SB resin,SB resin,,,,,,18.1,4.7,3.7,3.907248,Natural & Petroleum Resin,Styrene-butadiene resin,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Natural & Petroleum Resin
+MYLAR PET,poly(ethylene terephthalate),polyethylene terephthalate,polyethylene terephthalate; Mylar,PET,,,,,18.0,6.2,6.2,5.0,Polyester & Alkyd,PET,[CAS] not found; [CLASS] class: Polyester & Alkyd
+VCV A COPOLY,,Vcv A Copoly,Vcv A Copoly,,,,,,17.3,8.7,6.1,7.8,Vinyl Polymer,VC/VA copolymer,[CAS] not found; [CLASS] class: Vinyl Polymer
+PUR,polyurethane,polyurethane,polyurethane; PUR; PU,PU; PUR,,,,,17.9,6.9,3.7,2.7,Polyurethane,,[CAS] not found; [CLASS] class: Polyurethane
+SAN,poly(styrene-co-acrylonitrile),styrene-acrylonitrile copolymer,styrene-acrylonitrile copolymer; SAN resin,SAN,9003-54-7,,,,16.6,9.8,7.6,4.8,Styrenic,SAN copolymer,[CLASS] class: Styrenic
+VINSOL ROSIN,hydrogenated wood rosin,vinsol resin,vinsol resin; rosin-phenolic,,,,,,17.4,10.0,13.0,10.5,Natural & Petroleum Resin,Rosin derivative,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+EPON 1001,bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,17.0,9.6,7.8,7.1,Epoxy Resin,Bisphenol A epoxy,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Epoxy Resin
+SHELLAC,shellac resin,shellac,shellac; lac resin; button lac,,,,,,19.7,10.1,15.1,10.7,Natural & Petroleum Resin,Lac resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+POLYMETHACRYLONITRILE,poly(methacrylonitrile),polymethacrylonitrile,polymethacrylonitrile,PMN,,,,,17.2,14.4,7.6,3.8,Acrylic,Methacrylonitrile polymer,[CAS] not found; [CLASS] class: Acrylic
+CELLULOSE ACETATE,cellulose acetate,cellulose acetate,cellulose acetate; CA,CA,9004-35-7,,,,18.3,16.5,11.9,8.8,Cellulosic Polymer,Cellulose acetate,[CLASS] class: Cellulosic Polymer
+CELLULOSE NITRATE,cellulose nitrate,nitrocellulose,nitrocellulose; cellulose nitrate; guncotton,NC,,,,,16.9,13.5,10.3,9.9,Cellulosic Polymer,Cellulose nitrate,[CAS] not found; [CLASS] class: Cellulosic Polymer
+"PVOH (NOT GOOD, SEE CHAP. 5)",poly(vinyl alcohol),polyvinyl alcohol,polyvinyl alcohol; PVOH; PVA,PVOH; PVA,9002-89-5,,,,17.0,9.0,18.0,4.0,Vinyl Polymer,Vinyl alcohol polymer,[CLASS] class: Vinyl Polymer
+NYLON 66,poly(hexamethylene adipamide),nylon 66,nylon 66; polyamide 66,PA66,,,,,16.0,11.0,24.0,3.0,Polyamide,"Nylon 6,6",[CAS] not found; [CLASS] class: Polyamide
+ACRYLOID B-44,acrylic copolymer resin,acrylic resin,acrylic resin,,79-10-7,,,,19.4,11.2,4.4,10.5,Acrylic,Acrylic copolymer,[CAS] found via PubChem: 79-10-7; [CLASS] trade_name route; class from brand mapping: Acrylic
+ACRYLOID B-66,acrylic copolymer resin,acrylic resin,acrylic resin,,79-10-7,,,,18.0,9.0,3.0,9.0,Acrylic,Acrylic copolymer,[CAS] found via PubChem: 79-10-7; [CLASS] trade_name route; class from brand mapping: Acrylic
+ACRYLOID B-72,acrylic copolymer resin,acrylic resin,acrylic resin,,79-10-7,,,,19.2,11.2,1.8,11.0,Acrylic,Acrylic copolymer,[CAS] found via PubChem: 79-10-7; [CLASS] trade_name route; class from brand mapping: Acrylic
+ACRYLOID B-82,acrylic copolymer resin,acrylic resin,acrylic resin,,79-10-7,,,,19.1,9.1,3.3,9.0,Acrylic,Acrylic copolymer,[CAS] found via PubChem: 79-10-7; [CLASS] trade_name route; class from brand mapping: Acrylic
+R+H PBA,,R+H Pba,R+H Pba,,,,,,16.0,8.0,8.0,12.0,Acrylic,Methacrylate polymer,[CAS] not found; [CLASS] class: Acrylic
+R+H PiMBA,,R+H Pimba,R+H Pimba,,,,,,20.7,4.1,10.7,11.5,Acrylic,Methacrylate polymer,[CAS] not found; [CLASS] class: Acrylic
+R+H PNBMA,,R+H Pnbma,R+H Pnbma,,,,,,16.0,6.2,6.6,9.5,Acrylic,Methacrylate polymer,[CAS] not found; [CLASS] class: Acrylic
+R+H PEMA,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,19.0,9.0,8.0,11.0,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+R+H PMAA,,R+H Pmaa,R+H Pmaa,,,,,,25.6,11.2,19.6,20.3,Acrylic,Methacrylate polymer,[CAS] not found; [CLASS] class: Acrylic
+R+H PMMA,poly(methyl methacrylate),poly(methyl methacrylate),poly(methyl methacrylate); acrylic glass; Plexiglas; Perspex,PMMA,9011-14-7,,,,19.1,11.3,4.1,10.3,Acrylic,Methacrylate polymer,[CLASS] class: Acrylic
+BMA/AN 80/20,,copolymer (BMA/AN 80/20),copolymer (BMA/AN 80/20),,,,,,17.5,9.9,4.1,9.5,Acrylic,Acrylic copolymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MAA/EA/ST 15/38/47,,copolymer (MAA/EA/ST 15/38/47),copolymer (MAA/EA/ST 15/38/47),,,,,,17.6,5.2,7.0,4.5,Acrylic,Acrylic copolymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MAA/MA/V A 15/27.5/,,copolymer (MAA/MA/V A 15/27.5/),copolymer (MAA/MA/V A 15/27.5/),,,,,,57.5,28.5,15.7,18.1,Acrylic,Acrylic copolymer,[HSP] dD unusually high; [PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MAA/MA/V A 15/17.5/,,copolymer (MAA/MA/V A 15/17.5/),copolymer (MAA/MA/V A 15/17.5/),,,,,,67.5,25.5,15.7,18.1,Acrylic,Acrylic copolymer,[HSP] dD unusually high; [PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MMA/CYCLOL 58/42,,copolymer (MMA/CYCLOL 58/42),copolymer (MMA/CYCLOL 58/42),,,,,,18.7,9.9,8.7,8.8,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MMA/EA 50/50,,copolymer (MMA/EA 50/50),copolymer (MMA/EA 50/50),,,,,,17.5,9.9,4.1,9.5,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MMA/EA 25/75,,copolymer (MMA/EA 25/75),copolymer (MMA/EA 25/75),,,,,,19.0,9.0,15.0,12.0,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MMA/EA/AGE 40/40/20,,copolymer (MMA/EA/AGE 40/40/20),copolymer (MMA/EA/AGE 40/40/20),,,,,,17.6,9.8,5.6,9.7,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MMA/EA/AA,,copolymer (MMA/EA/AA),copolymer (MMA/EA/AA),,,,,,15.9,15.9,11.5,11.1,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MMA/EA/AN 55/30/15?,,copolymer (MMA/EA/AN 55/30/15?),copolymer (MMA/EA/AN 55/30/15?),,,,,,16.7,10.9,8.5,8.5,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MMA/EA/AN 40/40/20,,copolymer (MMA/EA/AN 40/40/20),copolymer (MMA/EA/AN 40/40/20),,,,,,20.4,13.2,11.0,12.3,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MMA/EA/BAMA 40/40/20,,copolymer (MMA/EA/BAMA 40/40/20),copolymer (MMA/EA/BAMA 40/40/20),,,,,,17.9,8.5,11.7,12.9,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MMA/EA/CYCLOL,,copolymer (MMA/EA/CYCLOL),copolymer (MMA/EA/CYCLOL),,,,,,17.6,9.8,6.4,9.8,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MMA/EA/MAM 40/40/20,,copolymer (MMA/EA/MAM 40/40/20),copolymer (MMA/EA/MAM 40/40/20),,,,,,19.0,9.0,15.0,12.0,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MMA/EA/MAM 45/45/10?,,copolymer (MMA/EA/MAM 45/45/10?),copolymer (MMA/EA/MAM 45/45/10?),,,,,,19.5,11.1,8.7,11.2,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+MMA/EA/BVBE 40/40/20,,copolymer (MMA/EA/BVBE 40/40/20),copolymer (MMA/EA/BVBE 40/40/20),,,,,,17.8,10.0,6.6,9.8,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Acrylic
+ACID DEGMP,,Acid Degmp,Acid Degmp,,,,,,15.3,13.3,14.9,15.6,Polyester & Alkyd,Polyester,[CAS] not found; [CLASS] class: Polyester & Alkyd
+CARB DEG PTH,buckminsterfullerene,fullerene C60,fullerene C60; buckminsterfullerene; C60,C60,99685-96-8,,,,19.4,13.4,11.6,11.1,Biological & Other,Fullerene,[CAS] found via PubChem: 99685-96-8; [CLASS] class: Biological & Other
+CRYPLEX 1473-5,,Cryplex 1473-5,Cryplex 1473-5,,,,,,19.2,9.4,5.6,8.9,Vinyl Polymer,[needs-review],[CAS] not found; [CLASS] class: Vinyl Polymer
+DEG ISOPH,,Deg Isoph,Deg Isoph,,,,,,19.2,17.2,14.6,11.8,Polyester & Alkyd,,[CAS] not found; [CLASS] class: Polyester & Alkyd
+DEG PHTH,,Deg Phth,Deg Phth,,,,,,21.0,15.2,13.2,13.7,Polyester & Alkyd,,[CAS] not found; [CLASS] class: Polyester & Alkyd
+DPG PHTH,,Dpg Phth,Dpg Phth,,,,,,20.1,11.5,6.7,11.607248,Polyester & Alkyd,,[CAS] not found; [CLASS] class: Polyester & Alkyd
+DOW ADIP TEREP,,Dow Adip Terep,Dow Adip Terep,,,,,,17.8,10.4,6.8,9.3,Polyester & Alkyd,,[CAS] not found; [CLASS] class: Polyester & Alkyd
+DOW X-2635 MALEATE,,Dow X-2635 Maleate,Dow X-2635 Maleate,,,,,,17.8,5.6,6.8,4.5,Polyester & Alkyd,,[CAS] not found; [CLASS] class: Polyester & Alkyd
+VITEL PE LINEAR,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,14.9,10.1,2.9,6.1,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+VITEL PE101-X,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,21.3,6.3,4.7,7.3,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+HYD BIS A FUM ISPH,,Hyd Bis A Fum Isph,Hyd Bis A Fum Isph,,,,,,17.0,4.4,6.2,5.0,Polyester & Alkyd,Polyester,[CAS] not found; [CLASS] class: Polyester & Alkyd
+HYD BIS A PG FUM ISPH,,Hyd Bis A Pg Fum Isph,Hyd Bis A Pg Fum Isph,,,,,,18.7,8.9,5.5,8.4,Polyester & Alkyd,Polyester,[CAS] not found; [CLASS] class: Polyester & Alkyd
+PENTA BENZ MAL,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,19.4,12.2,10.2,10.8,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+SOL MYLAR 49001,poly(ethylene terephthalate),polyethylene terephthalate,polyethylene terephthalate; Mylar,PET,,,,,19.0,5.0,4.0,5.0,Polyester & Alkyd,PET,[CAS] not found; [CLASS] class: Polyester & Alkyd
+SOL MYLAR 49002,poly(ethylene terephthalate),polyethylene terephthalate,polyethylene terephthalate; Mylar,PET,,,,,19.0,5.0,5.0,5.0,Polyester & Alkyd,PET,[CAS] not found; [CLASS] class: Polyester & Alkyd
+TEG EG MAL TEREP,,Teg Eg Mal Terep,Teg Eg Mal Terep,,,,,,18.8,11.4,9.2,10.2,Polyester & Alkyd,Polyester,[CAS] not found; [CLASS] class: Polyester & Alkyd
+TEG MALEATE,,Teg Maleate,Teg Maleate,,,,,,18.1,13.9,12.1,9.7,Polyester & Alkyd,Polyester,[CAS] not found; [CLASS] class: Polyester & Alkyd
+V AREZ 123,vinyltrialkoxysilane polymer,vinyl silane resin,vinyl silane resin,,,,,,17.3,10.9,11.9,10.7,Elastomer,Silicone,[CAS] not found; [CLASS] class: Elastomer
+AMOCO 18-290,,Amoco 18-290,Amoco 18-290,,,,,,19.3,3.7,7.9,7.8,Natural & Petroleum Resin,Hydrocarbon resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+BUTON 100 BUTAD-STY,,Buton 100 Butad-Sty,Buton 100 Butad-Sty,,,,,,17.0,4.0,3.0,7.3,Styrenic,Styrene copolymer,[CAS] not found; [CLASS] class: Styrenic
+BUTON 300,,Buton 300,Buton 300,,,,,,17.3,3.7,7.3,7.0,Styrenic,Styrene copolymer,[CAS] not found; [CLASS] class: Styrenic
+KOPPERS KTPL-A,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,19.3,3.7,7.9,7.8,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+RUBBER MOD PS,polystyrene,polystyrene,polystyrene,PS,9003-53-6,,,,20.0,5.0,1.0,7.0,Styrenic,Polystyrene,[CLASS] class: Styrenic
+STY MAL ANH,,Sty Mal Anh,Sty Mal Anh,,,,,,23.4,13.8,15.2,16.5,Styrenic,Styrene copolymer,[CAS] not found; [CLASS] class: Styrenic
+LYTRON 820,,Lytron 820,Lytron 820,,,,,,21.1,13.1,14.5,14.4,Styrenic,Styrene copolymer,[CAS] not found; [CLASS] class: Styrenic
+MARBON 9200,,Marbon 9200,Marbon 9200,,61789-96-6,,,,19.0,4.0,4.0,6.0,Styrenic,Styrene copolymer,[CAS] found via PubChem: 61789-96-6; [CLASS] class: Styrenic
+PARAPOL S-50,,Parapol S-50,Parapol S-50,,,,,,17.9,3.9,4.9,3.9,Natural & Petroleum Resin,Hydrocarbon resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+PARAPOL S-60,,Parapol S-60,Parapol S-60,,,,,,17.9,3.9,4.9,3.9,Natural & Petroleum Resin,Hydrocarbon resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+PICCOFLEX 120,,Piccoflex 120,Piccoflex 120,,,,,,17.4,7.8,3.8,7.7,Natural & Petroleum Resin,Hydrocarbon resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+SHELL POLYALDEHYDE EX 39,shellac resin,shellac,shellac; lac resin; button lac,,,,,,19.6,10.0,3.6,9.4,Natural & Petroleum Resin,Lac resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+SHELL POLYALDEHYDE EX 40,shellac resin,shellac,shellac; lac resin; button lac,,,,,,19.6,10.0,3.6,9.4,Natural & Petroleum Resin,Lac resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+SHELL X-450,shellac resin,shellac,shellac; lac resin; button lac,,,,,,19.3,9.5,11.1,11.1,Natural & Petroleum Resin,Lac resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+SMA 1430A,,Sma 1430A,Sma 1430A,,,,,,18.8,11.4,16.4,14.1,Styrenic,Styrene copolymer,[CAS] not found; [CLASS] class: Styrenic
+SAN 85/15,poly(styrene-co-acrylonitrile),styrene-acrylonitrile copolymer,styrene-acrylonitrile copolymer; SAN resin,SAN,9003-54-7,,,,19.1,9.5,3.1,8.7,Styrenic,SAN copolymer,[CLASS] class: Styrenic
+STY/BUTENOL 85/15,,copolymer (STY/BUTENOL 85/15),copolymer (STY/BUTENOL 85/15),,,,,,17.4,7.8,3.8,7.7,Styrenic,Styrene copolymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Styrenic
+STY/CYCLOL 82/18,,copolymer (STY/CYCLOL 82/18),copolymer (STY/CYCLOL 82/18),,,,,,18.2,5.6,7.2,5.7,Styrenic,Styrene copolymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Styrenic
+STY/2EHA/AA 81/11/8,,Sty/2Eha/Aa 81/11/8,Sty/2Eha/Aa 81/11/8,,,,,,17.7,4.9,5.9,5.9,Styrenic,Styrene copolymer,[CAS] not found; [CLASS] class: Styrenic
+STY/MAA 90/10,,copolymer (STY/MAA 90/10),copolymer (STY/MAA 90/10),,,,,,18.7,6.3,7.3,6.7,Styrenic,Styrene copolymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Styrenic
+STY/MA 85/15,,copolymer (STY/MA 85/15),copolymer (STY/MA 85/15),,,,,,18.0,9.0,3.0,9.0,Styrenic,Styrene copolymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Styrenic
+STY/HALF ESTER MA 60/40,,copolymer (STY/HALF ESTER MA 60/40),copolymer (STY/HALF ESTER MA 60/40),,,,,,18.9,10.9,10.7,9.7,Styrenic,Styrene copolymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Styrenic
+STY/PROP HALF E MA 57/43,,copolymer (STY/PROP HALF E MA 57/43),copolymer (STY/PROP HALF E MA 57/43),,,,,,18.0,9.8,8.4,10.1,Styrenic,Styrene copolymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Styrenic
+STY/VBE 85/15,,copolymer (STY/VBE 85/15),copolymer (STY/VBE 85/15),,,,,,17.4,7.8,3.8,7.7,Vinyl Polymer,Vinyl ether polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Vinyl Polymer
+STYRON 44OM-27 MOD PS,polystyrene,polystyrene,polystyrene,PS,9003-53-6,,,,20.0,5.0,1.0,7.0,Styrenic,Polystyrene,[CLASS] trade_name route; class from brand mapping: Styrenic
+STYRON 475M-27,high-impact polystyrene,HIPS,HIPS,,,,,,20.0,5.0,1.0,7.0,Styrenic,HIPS,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Styrenic
+STYRON 480-27,high-impact polystyrene,HIPS,HIPS,,,,,,20.0,6.0,4.0,5.3,Styrenic,HIPS,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Styrenic
+ACRYLOID K120N,acrylic copolymer resin,acrylic resin,acrylic resin,,79-10-7,,,,17.6,10.0,3.8,9.5,Acrylic,Acrylic copolymer,[CAS] found via PubChem: 79-10-7; [CLASS] trade_name route; class from brand mapping: Acrylic
+DODA 6225,,Doda 6225,Doda 6225,,,,,,19.0,2.0,1.0,3.0,Polyester & Alkyd,,[CAS] not found; [CLASS] class: Polyester & Alkyd
+DODA 3457,,Doda 3457,Doda 3457,,,,,,19.0,2.0,1.0,3.0,Polyester & Alkyd,,[CAS] not found; [CLASS] class: Polyester & Alkyd
+ELV AX 250,poly(ethylene-co-vinyl acetate),EVA copolymer,EVA copolymer,,,,,,19.0,2.0,1.0,3.0,Vinyl Polymer,EVA,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+ELV AX 150,poly(ethylene-co-vinyl acetate),EVA copolymer,EVA copolymer,,,,,,18.7,2.3,0.7,6.0,Vinyl Polymer,EVA,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+ELV AX EOD 3602-1,poly(ethylene-co-vinyl acetate),EVA copolymer,EVA copolymer,,,,,,17.7,3.3,2.7,5.407248,Vinyl Polymer,EVA,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+EXON 470 PVC,poly(vinyl chloride),polyvinyl chloride,polyvinyl chloride; PVC,PVC,9002-86-2,,,,17.4,7.8,3.8,7.7,Vinyl Polymer,Vinyl chloride polymer,[CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+EXON 471,vinyl chloride copolymer,vinyl resin,vinyl resin,,,,,,17.9,8.7,2.5,9.0,Vinyl Polymer,PVC copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+EXON 473,vinyl chloride copolymer,vinyl resin,vinyl resin,,,,,,17.4,7.8,3.8,7.7,Vinyl Polymer,PVC copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+GEON 121,poly(vinyl chloride),polyvinyl chloride,polyvinyl chloride,,,,,,19.5,6.7,11.1,8.0,Vinyl Polymer,PVC,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+POLYCYCLOLa,,Polycyclola,Polycyclola,,,,,,19.0,9.0,15.0,12.0,Acrylic,Cyclohexyl methacrylate polymer,[CAS] not found; [CLASS] class: Acrylic
+PVBE,,Pvbe,Pvbe,,,,,,16.7,3.7,8.3,8.6,Vinyl Polymer,Vinyl ether polymer,[CAS] not found; [CLASS] class: Vinyl Polymer
+PVEE,,Pvee,Pvee,,,,,,16.0,4.0,12.0,14.0,Vinyl Polymer,Vinyl ether polymer,[CAS] not found; [CLASS] class: Vinyl Polymer
+FORMV AR 7/70E PVFORMAL,poly(vinyl formal),polyvinyl formal,polyvinyl formal,,,,,,22.2,12.6,14.2,14.0,Vinyl Polymer,PVF,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+FORMV AR 15/95E,poly(vinyl formal),polyvinyl formal,polyvinyl formal,,,,,,22.2,12.6,14.2,14.0,Vinyl Polymer,PVF,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+PVIBE,,Pvibe,Pvibe,,,,,,16.0,1.0,8.0,10.0,Vinyl Polymer,Vinyl ether polymer,[CAS] not found; [CLASS] class: Vinyl Polymer
+SARAN F-120 VCL2/AN?,,Saran F-120 Vcl2/An?,Saran F-120 Vcl2/An?,,,,,,28.8,16.8,0.8,23.7,Vinyl Polymer,Vinylidene chloride,[HSP] dD unusually high; [CAS] not found; [CLASS] class: Vinyl Polymer
+SARAN F-220 ?,,Saran F-220 ?,Saran F-220 ?,,,,,,28.8,16.8,0.8,23.7,Vinyl Polymer,Vinylidene chloride,[HSP] dD unusually high; [CAS] not found; [CLASS] class: Vinyl Polymer
+SINCLAIR 3840A,,Sinclair 3840A,Sinclair 3840A,,,,,,18.4,4.0,9.6,7.3,Vinyl Polymer,[needs-review],[CAS] not found; [CLASS] class: Vinyl Polymer
+V A/EHA/MA 63/33/4,vinyltrialkoxysilane polymer,vinyl silane resin,vinyl silane resin,,,,,,17.7,6.3,7.7,5.3,Elastomer,Silicone,[CAS] not found; [CLASS] class: Elastomer
+V A/EHA/CYC/MAA/76/12/8/4,vinyltrialkoxysilane polymer,vinyl silane resin,vinyl silane resin,,,,,,21.2,12.4,13.0,12.6,Elastomer,Silicone,[CAS] not found; [CLASS] class: Elastomer
+V A/EA/CY 70/20/10,vinyltrialkoxysilane polymer,vinyl silane resin,vinyl silane resin,,,,,,20.0,12.0,11.0,15.0,Elastomer,Silicone,[CAS] not found; [CLASS] class: Elastomer
+VBE/AN/MAA 46/27/27,,copolymer (VBE/AN/MAA 46/27/27),copolymer (VBE/AN/MAA 46/27/27),,,,,,18.9,11.7,11.1,9.6,Vinyl Polymer,Vinyl ether polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Vinyl Polymer
+VBE/MA/MAC46/27/27,,copolymer (VBE/MA/MAC46/27/27),copolymer (VBE/MA/MAC46/27/27),,,,,,19.4,13.0,13.8,12.3,Vinyl Polymer,Vinyl ether polymer,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Vinyl Polymer
+VDC/AA 75/25 ?,,copolymer (VDC/AA 75/25 ?),copolymer (VDC/AA 75/25 ?),,,,,,20.4,11.0,0.8,11.7,Vinyl Polymer,Vinylidene chloride,[PRE-CLASSIFY] copolymer; monomer ratio notation preserved; [CAS] not found; [CLASS] class: Vinyl Polymer
+VINYLITE AYAA PV AC,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,22.9,18.3,7.7,20.4,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE VAGH,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,17.0,7.8,6.8,7.1,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE VMCH,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,18.3,9.7,7.7,8.5,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE VXCC,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,18.0,9.4,4.6,8.4,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE VYHH,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl chloride-vinyl acetate copolymer,,,,,,19.0,11.0,5.0,10.0,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE VYLF,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,18.0,9.4,4.6,8.4,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE XYHL PVBUTYRAL,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,19.0,9.0,15.0,12.0,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VINYLITE XYSG PVBUTYRAL,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl resin,,,,,,19.0,9.0,15.0,12.0,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Vinyl Polymer
+VYSET 69,,Vyset 69,Vyset 69,,,,,,17.9,3.5,7.5,5.9,Vinyl Polymer,[needs-review],[CAS] not found; [CLASS] class: Vinyl Polymer
+ACRYLAMIDE MONOMER,,Acrylamide Monomer,Acrylamide Monomer,,79-06-1,,,,16.9,18.1,19.9,17.0,Acrylic,Acrylamide polymer,[CAS] found via PubChem: 79-06-1; [CLASS] class: Acrylic
+BAKELITE SULFONE P-47,,Bakelite Sulfone P-47,Bakelite Sulfone P-47,,,,,,20.0,3.0,6.0,3.0,Phenolic Resin,,[CAS] not found; [CLASS] class: Phenolic Resin
+BECKOLIN 27 MODIF OIL,,Beckolin 27 Modif Oil,Beckolin 27 Modif Oil,,,,,,11.4,0.0,3.0,18.1,Natural & Petroleum Resin,,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+PEO 4000 ? SAMPLES HEA TED,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,22.2,11.2,13.2,17.1,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+CHLORINATED RUBBER,"chlorinated poly(cis-1,4-isoprene)",chlorinated rubber,chlorinated rubber,CR,,,,,18.0,6.0,5.0,7.0,Elastomer,Chlorinated rubber,[CAS] not found; [CLASS] class: Elastomer
+CONOCO H-35 HYDROCARBON M,,Conoco H-35 Hydrocarbon M,Conoco H-35 Hydrocarbon M,,,,,,11.4,0.0,3.0,18.1,Natural & Petroleum Resin,,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+DAMMAR GUM DEWAXED,dammar resin,dammar gum,dammar gum; damar gum; dammar resin,,,,,,19.0,2.0,9.0,9.0,Natural & Petroleum Resin,Dammar resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+EPOCRYL E-11 ?,,Epocryl E-11 ?,Epocryl E-11 ?,,,,,,17.3,12.9,12.1,8.5,Epoxy Resin,Acrylate-modified epoxy,[CAS] not found; [CLASS] class: Epoxy Resin
+ESTANE X-7 ?? DIO XANE ONLY,polyurethane elastomer,polyurethane elastomer,polyurethane elastomer; Estane,,,,,,19.0,1.8,7.4,1.0,Polyurethane,PU elastomer,[CAS] not found; [CLASS] class: Polyurethane
+HEXADECYL MONOESTER TRIME,,Hexadecyl Monoester Trime,Hexadecyl Monoester Trime,,,,,,19.0,11.6,14.0,11.9,Natural & Petroleum Resin,Fatty acid ester,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+HYDR SPERM OIL WX135,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,20.0,4.0,2.0,5.0,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+HYPALON 20 CHL SULF PE,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,17.8,3.2,4.4,4.1,Polyolefin,Polyethylene,[CLASS] trade_name route; class from brand mapping: Polyolefin
+HYPALON 30,chlorosulfonated polyethylene,chlorosulfonated PE,chlorosulfonated PE,,,,,,17.8,3.4,3.2,5.1,Elastomer,CSM,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+KETONE RESIN S588,cyclohexanone-formaldehyde resin,ketone resin,ketone resin; cyclohexanone resin,,,,,,18.0,10.8,13.2,12.2,Natural & Petroleum Resin,Ketone resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+SANTOLITE MHP ARYLSULFONA,poly(styrene-co-acrylonitrile),styrene-acrylonitrile copolymer,styrene-acrylonitrile copolymer; SAN resin,SAN,9003-54-7,,,,18.4,12.0,8.4,10.6,Styrenic,SAN copolymer,[CLASS] class: Styrenic
+pTOLSULFONAMIDE-FORMALDEH,,Ptolsulfonamide-Formaldeh,Ptolsulfonamide-Formaldeh,,,,,,24.6,18.6,16.4,20.907248,Amino Resin,,[CAS] not found; [CLASS] class: Amino Resin
+VYHH-NIF REPT,vinyl chloride-vinyl acetate copolymer,vinyl resin,vinyl chloride-vinyl acetate copolymer,,,,,,17.4,9.9,6.7,7.5,Vinyl Polymer,VC/VAc copolymer,[CAS] not found; [CLASS] class: Vinyl Polymer
+PVF? (DMF ONLY GOOD SOLVENT),,Pvf? (Dmf Only Good Solvent),Pvf? (Dmf Only Good Solvent),,,,,,17.4,13.7,11.3,2.0,Fluoropolymer,PVF,[CAS] not found; [CLASS] class: Fluoropolymer
+PES SOL,poly(ether sulfone),polyethersulfone,polyethersulfone; polyether sulfone,PES; PESU,,,,,19.6,10.8,9.2,6.2,Polysulfone / PES / PPS,PES,[CAS] not found; [CLASS] class: Polysulfone / PES / PPS
+LARD 37C,,Lard 37C,Lard 37C,,,,,,15.9,1.16,5.41,12.03,Biological & Other,,[CAS] CAS lookup skipped: out of scope; [CLASS] class: Biological & Other
+LARD 23C,,Lard 23C,Lard 23C,,,,,,17.69,2.66,4.36,7.98,Biological & Other,,[CAS] CAS lookup skipped: out of scope; [CLASS] class: Biological & Other
+1%IN WATER -AMINES,,1%In Water -Amines,1%In Water -Amines,,,,,,15.07,20.44,16.5,18.12,Biological & Other,Aqueous system,[CAS] not found; [CLASS] class: Biological & Other
+1%IN WATER +AMINES,,1%In Water +Amines,1%In Water +Amines,,,,,,14.96,18.33,15.15,16.22,Biological & Other,Aqueous system,[CAS] not found; [CLASS] class: Biological & Other
+BLOOD SERUM,blood serum protein,blood serum,blood serum,,,,,,23.2,22.73,30.6,20.48,Biological & Other,Biological fluid,[CAS] CAS lookup skipped: out of scope; [CLASS] class: Biological & Other
+SUCROSE,sucrose,sucrose,sucrose; table sugar,,,,,,21.67,26.26,29.62,20.44,Biological & Other,Disaccharide,[CAS] CAS lookup skipped: out of scope; [CLASS] class: Biological & Other
+UREA,urea,urea,urea; carbamide,,,,,,20.9,18.7,26.4,19.42,Biological & Other,Small molecule,[CAS] CAS lookup skipped: out of scope; [CLASS] class: Biological & Other
+PSORIASIS SCALES,psoriasis scale protein,psoriasis scales,psoriasis scales,,,,,,24.64,11.94,12.92,19.04,Biological & Other,Biological material,[CAS] CAS lookup skipped: out of scope; [CLASS] class: Biological & Other
+LIGNIN,lignin,lignin,lignin; lignosulfonate,,9005-53-2,,,,20.61,13.88,15.25,11.83,Biological & Other,Lignin,[CAS] found via PubChem: 9005-53-2; [CLASS] class: Biological & Other
+CHOLESTEROL,cholesterol,cholesterol,cholesterol,,,,,,20.4,2.8,9.4,12.6,Biological & Other,Sterol,[CAS] CAS lookup skipped: out of scope; [CLASS] class: Biological & Other
+CHLOROPHYLL,chlorophyll,chlorophyll,chlorophyll,,,,,,20.2,15.6,18.2,11.1,Biological & Other,Pigment,[CAS] CAS lookup skipped: out of scope; [CLASS] class: Biological & Other
+CELLULOSE-PAPER STRENGTH,polyethylene,polyethylene,polyethylene,PE,9002-88-4,,,,25.4,18.6,24.8,21.7,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+PSU ULTRASON S,polystyrene,polystyrene,polystyrene,PS,9003-53-6,,,,19.7,8.3,8.3,8.0,Styrenic,Polystyrene,[CLASS] class: Styrenic
+BAREX 210 CR,acrylonitrile-methyl acrylate copolymer,acrylonitrile copolymer,acrylonitrile copolymer,,,,,,20.1,9.1,12.7,10.9,Acrylic,AN/MA copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Acrylic
+BAREX 210 CR-STYRENE,acrylonitrile-methyl acrylate copolymer,acrylonitrile copolymer,acrylonitrile copolymer,,,,,,17.7,8.9,10.9,6.4,Acrylic,AN/MA copolymer,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Acrylic
+PARALOID B72,acrylic copolymer resin,acrylic resin,acrylic resin,,79-10-7,,,,17.6,7.4,5.6,9.4,Acrylic,Acrylic copolymer,[CAS] found via PubChem: 79-10-7; [CLASS] trade_name route; class from brand mapping: Acrylic
+ESTIMATE DRIED OIL,,Estimate Dried Oil,Estimate Dried Oil,,,,,,16.0,6.0,7.0,5.0,Natural & Petroleum Resin,,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+DAMMAR DEWAXED,dammar resin,dammar gum,dammar gum; damar gum; dammar resin,,,,,,19.0,2.0,9.0,9.0,Natural & Petroleum Resin,Dammar resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+LDPE PERM>80,"polyethylene, low density",low-density polyethylene,low-density polyethylene; LDPE,LDPE,9002-88-4,,,,16.5,4.5,0.5,6.0,Polyolefin,Polyethylene,[CLASS] class: Polyolefin
+LDPE PERM<,"polyethylene, low density",low-density polyethylene,low-density polyethylene; LDPE,LDPE,9002-88-4,,,,0.8,15.3,5.3,2.5,Polyolefin,Polyethylene,[HSP] dD unusually low; [CLASS] class: Polyolefin
+TOLONATE HDT (RH-POULENC),polyisocyanate (HDT-based),polyisocyanate,polyisocyanate,,,,,,19.0,11.0,3.0,12.0,Polyurethane,Aliphatic isocyanate,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+TOLONATE HDB (RH-POULENC),polyisocyanate (HDT-based),polyisocyanate,polyisocyanate,,,,,,19.0,11.0,2.0,11.3,Polyurethane,Aliphatic isocyanate,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyurethane
+R ACM,,Acm,Acm,,,,,,16.8,11.8,11.6,17.0,Elastomer,ACM rubber,[PRE-CLASSIFY] resistance_data; base: ACM; [CAS] not found; [CLASS] class: Elastomer
+R BUTYL,,Butyl,Butyl,,2492-36-6,,,,18.0,0.0,3.0,9.0,Elastomer,Butyl rubber,[PRE-CLASSIFY] resistance_data; base: BUTYL; [CAS] found via PubChem: 2492-36-6; [CLASS] class: Elastomer
+R ECO,,Eco,Eco,,,,,,21.3,8.1,6.1,12.0,Elastomer,ECO rubber,[PRE-CLASSIFY] resistance_data; base: ECO; [CAS] not found; [CLASS] class: Elastomer
+R CSM,,Csm,Csm,,,,,,28.0,14.0,3.4,28.3,Elastomer,CSM,[PRE-CLASSIFY] resistance_data; base: CSM; [CAS] not found; [CLASS] class: Elastomer
+R EBONITE (DATA FIT 0.722),,Ebonite (Data Fit 0.722),Ebonite (Data Fit 0.722),,,,,,18.7,6.1,2.7,6.6,Elastomer,Vulcanized rubber,[PRE-CLASSIFY] resistance_data; base: EBONITE (DATA FIT 0.722); [CAS] not found; [CLASS] class: Elastomer
+R ETHYLENE/PROPYLENE,,Ethylene/Propylene,Ethylene/Propylene,,,,,,16.6,0.0,5.2,9.1,Elastomer,EPDM rubber,[PRE-CLASSIFY] resistance_data; base: ETHYLENE/PROPYLENE; [CAS] not found; [CLASS] class: Elastomer
+R FQ FL/SI,,Fq Fl/Si,Fq Fl/Si,,,,,,15.9,20.1,6.9,16.8,Fluoropolymer,,[PRE-CLASSIFY] resistance_data; base: FQ FL/SI; [CAS] not found; [CLASS] class: Fluoropolymer
+R FKM (VITON) (0.76 DATA FIT),,Fkm (Viton) (0.76 Data Fit),Fkm (Viton) (0.76 Data Fit),,,,,,11.6,23.0,5.0,21.6,Elastomer,FKM,[PRE-CLASSIFY] resistance_data; base: FKM (VITON) (0.76 DATA FIT); [CAS] not found; [CLASS] class: Elastomer
+R NR NAT RUB,,Nr Nat Rub,Nr Nat Rub,,,,,,20.8,1.8,3.6,14.0,Elastomer,,[PRE-CLASSIFY] resistance_data; base: NR NAT RUB; [CAS] not found; [CLASS] class: Elastomer
+R NBR,poly(acrylonitrile-co-butadiene),nitrile rubber,nitrile rubber; acrylonitrile butadiene rubber; NBR rubber,NBR; nitrile,,,,,19.8,17.8,3.2,19.007248,Elastomer,Nitrile rubber,[PRE-CLASSIFY] resistance_data; base: NBR; [CAS] not found; [CLASS] class: Elastomer
+R CR CHLOROPRENE,,Cr Chloroprene,Cr Chloroprene,,,,,,24.6,8.6,6.4,20.4,Elastomer,Chloroprene rubber,[PRE-CLASSIFY] resistance_data; base: CR CHLOROPRENE; [CAS] not found; [CLASS] class: Elastomer
+R AU ESTER PU,,Au Ester Pu,Au Ester Pu,,,,,,17.9,13.3,10.7,17.1,Polyurethane,,[PRE-CLASSIFY] resistance_data; base: AU ESTER PU; [CAS] not found; [CLASS] class: Polyurethane
+R PEU ETHER PU,,Peu Ether Pu,Peu Ether Pu,,,,,,17.9,13.3,10.7,17.1,Polyurethane,,[PRE-CLASSIFY] resistance_data; base: PEU ETHER PU; [CAS] not found; [CLASS] class: Polyurethane
+R T SULPHIDE,,T Sulphide,T Sulphide,,,,,,25.3,17.3,6.7,23.6,Elastomer,Polysulfide rubber,[PRE-CLASSIFY] resistance_data; base: T SULPHIDE; [CAS] not found; [CLASS] class: Elastomer
+R Q SILICONE (0.748 D ATA FIT),,Q Silicone (0.748 D Ata Fit),Q Silicone (0.748 D Ata Fit),,,,,,13.8,5.0,1.2,14.3,Elastomer,Silicone rubber,[PRE-CLASSIFY] resistance_data; base: Q SILICONE (0.748 D ATA FIT); [CAS] not found; [CLASS] class: Elastomer
+R SBR,,Sbr,Sbr,,,,,,17.2,6.0,4.6,9.8,Elastomer,SBR,[PRE-CLASSIFY] resistance_data; base: SBR; [CAS] not found; [CLASS] class: Elastomer
+R TFP TETFLPROP (0.744 DATA FIT),,Tfp Tetflprop (0.744 Data Fit),Tfp Tetflprop (0.744 Data Fit),,,,,,16.6,6.8,0.6,7.9,Fluoropolymer,,[PRE-CLASSIFY] resistance_data; base: TFP TETFLPROP (0.744 DATA FIT); [CAS] not found; [CLASS] class: Fluoropolymer
+R ABS,poly(acrylonitrile-co-butadiene-co-styrene),acrylonitrile butadiene styrene,acrylonitrile butadiene styrene; ABS plastic,ABS,9003-56-9,,,,17.6,8.6,6.4,10.9,Styrenic,ABS terpolymer,[PRE-CLASSIFY] resistance_data; base: ABS; [CLASS] class: Styrenic
+R CELLULOSE ACETATE,cellulose acetate,cellulose acetate,cellulose acetate; CA,CA,9004-35-7,,,,14.9,7.1,11.1,12.4,Cellulosic Polymer,Cellulose acetate,[PRE-CLASSIFY] resistance_data; base: CELLULOSE ACETATE; [CLASS] class: Cellulosic Polymer
+R CHLORINATED PVC,,Chlorinated Pvc,Chlorinated Pvc,,,,,,17.5,6.5,5.5,6.3,Vinyl Polymer,,[PRE-CLASSIFY] resistance_data; base: CHLORINATED PVC; [CAS] not found; [CLASS] class: Vinyl Polymer
+R DIALLYLPHTHALATE,,Diallylphthalate,Diallylphthalate,,131-17-9,,,,22.2,12.2,8.6,15.8,Polyester & Alkyd,Polyester,[PRE-CLASSIFY] resistance_data; base: DIALLYLPHTHALATE; [CAS] found via PubChem: 131-17-9; [CLASS] class: Polyester & Alkyd
+R POM ACETAL,,Pom Acetal,Pom Acetal,,,,,,17.2,9.0,9.8,5.3,Polyacetal / PEI / PC,Polyacetal,[PRE-CLASSIFY] resistance_data; base: POM ACETAL; [CAS] not found; [CLASS] class: Polyacetal / PEI / PC
+R PA12,poly(laurolactam),nylon 12,nylon 12; polyamide 12,PA12; PA-12; Nylon 12,,,,,18.5,8.1,9.1,6.3,Polyamide,Nylon 12,[PRE-CLASSIFY] resistance_data; base: PA12; [CAS] not found; [CLASS] class: Polyamide
+R PA66,poly(hexamethylene adipamide),nylon 66,"nylon 66; nylon 6,6; polyamide 66",PA66; PA-66; Nylon 66,32131-17-2,,,,18.2,8.8,10.8,5.2,Polyamide,"Nylon 6,6",[PRE-CLASSIFY] resistance_data; base: PA66; [CLASS] class: Polyamide
+R POLYAMIDEIMIDE,poly(amide-co-imide),polyamide-imide,polyamide-imide; PAI,PAI,,,,,18.5,5.7,8.7,4.2,Polyamide,Polyamide-imide,[PRE-CLASSIFY] resistance_data; base: POLYAMIDEIMIDE; [CAS] not found; [CLASS] class: Polyamide
+R POLYBUTYLENETEREPH,,Polybutylenetereph,Polybutylenetereph,,,,,,18.0,5.6,8.4,4.5,Polyester & Alkyd,,[PRE-CLASSIFY] resistance_data; base: POLYBUTYLENETEREPH; [CAS] not found; [CLASS] class: Polyester & Alkyd
+R POLYCARBONATE,poly(bisphenol A carbonate),polycarbonate,polycarbonate; Lexan; Makrolon,PC,,,,,19.1,10.9,5.1,12.1,Polyacetal / PEI / PC,Polycarbonate,[PRE-CLASSIFY] resistance_data; base: POLYCARBONATE; [CAS] not found; [CLASS] class: Polyacetal / PEI / PC
+R HDPE/LDPE,,Hdpe/Ldpe,Hdpe/Ldpe,,,,,,17.5,4.3,8.3,3.9,Polyolefin,Polyethylene,[PRE-CLASSIFY] resistance_data; base: HDPE/LDPE; [CAS] not found; [CLASS] class: Polyolefin
+R PET,poly(ethylene terephthalate),polyethylene terephthalate,polyethylene terephthalate; Mylar; Dacron,PET; PETP,25038-59-9,,,,19.1,6.3,9.1,4.8,Polyester & Alkyd,PET,[PRE-CLASSIFY] resistance_data; base: PET; [CLASS] class: Polyester & Alkyd
+R POLYIMIDES,,Polyimides,Polyimides,,,,,,24.3,19.5,22.9,21.6,Polyacetal / PEI / PC,Polyimide,[PRE-CLASSIFY] resistance_data; base: POLYIMIDES; [CAS] not found; [CLASS] class: Polyacetal / PEI / PC
+R PMMA,poly(methyl methacrylate),poly(methyl methacrylate),poly(methyl methacrylate); acrylic glass; Plexiglas; Perspex,PMMA,9011-14-7,,,,19.3,16.7,4.7,17.4,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] resistance_data; base: PMMA; [CLASS] class: Acrylic
+R TPX,,Tpx,Tpx,,,,,,18.8,1.4,6.4,7.9,Polyolefin,Polypropylene,[PRE-CLASSIFY] resistance_data; base: TPX; [CAS] not found; [CLASS] class: Polyolefin
+R POLYPHENYLENEOXIDE,"poly(2,6-dimethyl-1,4-phenylene oxide)",polyphenylene oxide,polyphenylene oxide; PPO,PPO,,,,,16.9,8.9,2.7,11.7,Polyacetal / PEI / PC,Polyphenylene oxide,[PRE-CLASSIFY] resistance_data; base: POLYPHENYLENEOXIDE; [CAS] not found; [CLASS] class: Polyacetal / PEI / PC
+R POLYSULPHONE,,Polysulphone,Polysulphone,,,,,,19.8,11.2,6.2,11.3,Polysulfone / PES / PPS,,[PRE-CLASSIFY] resistance_data; base: POLYSULPHONE; [CAS] not found; [CLASS] class: Polysulfone / PES / PPS
+R EPOXY COLD CURING,,Epoxy Cold Curing,Epoxy Cold Curing,,,,,,16.8,10.8,8.8,8.2,Epoxy Resin,,[PRE-CLASSIFY] resistance_data; base: EPOXY COLD CURING; [CAS] not found; [CLASS] class: Epoxy Resin
+R EPOXY HOT CURING,,Epoxy Hot Curing,Epoxy Hot Curing,,,,,,18.3,12.3,9.7,7.3,Epoxy Resin,,[PRE-CLASSIFY] resistance_data; base: EPOXY HOT CURING; [CAS] not found; [CLASS] class: Epoxy Resin
+R HET RESIN,,Het Resin,Het Resin,,,,,,17.5,11.3,8.3,8.6,Epoxy Resin,Halogenated epoxy,[PRE-CLASSIFY] resistance_data; base: HET RESIN; [CAS] not found; [CLASS] class: Epoxy Resin
+R ISOPHTHALIC,,Isophthalic,Isophthalic,,,,,,19.8,17.4,4.2,18.0,Polyester & Alkyd,Polyester,[PRE-CLASSIFY] resistance_data; base: ISOPHTHALIC; [CAS] not found; [CLASS] class: Polyester & Alkyd
+R TEREPHTALIC,,Terephtalic,Terephtalic,,,,,,19.8,17.4,4.2,18.0,Polyester & Alkyd,Polyester,[PRE-CLASSIFY] resistance_data; base: TEREPHTALIC; [CAS] not found; [CLASS] class: Polyester & Alkyd
+EPIKOTE 828 (60%),bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,16.6,14.0,2.8,14.9,Epoxy Resin,Bisphenol A epoxy,[PRE-CLASSIFY] concentration_series; concentration: 60%; [CAS] not found; [CLASS] class: Epoxy Resin
+EPIKOTE 828 (30%),bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,16.3,16.4,1.9,16.7,Epoxy Resin,Bisphenol A epoxy,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Epoxy Resin
+EPIKOTE 1001 (60%),bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,15.8,16.3,3.3,16.4,Epoxy Resin,Bisphenol A epoxy,[PRE-CLASSIFY] concentration_series; concentration: 60%; [CAS] not found; [CLASS] class: Epoxy Resin
+EPIKOTE 1001 (40%),bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,16.3,13.1,6.3,10.9,Epoxy Resin,Bisphenol A epoxy,[PRE-CLASSIFY] concentration_series; concentration: 40%; [CAS] not found; [CLASS] class: Epoxy Resin
+EPIKOTE 1001 (20%),bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,19.8,13.6,8.9,12.0,Epoxy Resin,Bisphenol A epoxy,[PRE-CLASSIFY] concentration_series; concentration: 20%; [CAS] not found; [CLASS] class: Epoxy Resin
+EPIKOTE 1001 (10%),bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,18.1,11.4,9.0,9.1,Epoxy Resin,Bisphenol A epoxy,[PRE-CLASSIFY] concentration_series; concentration: 10%; [CAS] not found; [CLASS] class: Epoxy Resin
+EPIKOTE 1004 (60%),bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,17.7,10.1,7.6,9.8,Epoxy Resin,Bisphenol A epoxy,[PRE-CLASSIFY] concentration_series; concentration: 60%; [CAS] not found; [CLASS] class: Epoxy Resin
+EPIKOTE 1004 (30%),bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,18.5,9.3,8.0,9.6,Epoxy Resin,Bisphenol A epoxy,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Epoxy Resin
+EPIKOTE 1007 (30%),bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,18.6,10.6,8.1,8.8,Epoxy Resin,Bisphenol A epoxy,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Epoxy Resin
+EPIKOTE 1009 (60%),bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,17.0,9.6,8.5,7.6,Epoxy Resin,Bisphenol A epoxy,[PRE-CLASSIFY] concentration_series; concentration: 60%; [CAS] not found; [CLASS] class: Epoxy Resin
+EPIKOTE 1009 (30%),bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,19.8,10.6,10.3,9.7,Epoxy Resin,Bisphenol A epoxy,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Epoxy Resin
+EPIKOTE 1009 (10%),bisphenol A diglycidyl ether epoxy resin,epoxy resin,epoxy resin,,,,,,19.0,9.1,10.7,8.0,Epoxy Resin,Bisphenol A epoxy,[PRE-CLASSIFY] concentration_series; concentration: 10%; [CAS] not found; [CLASS] class: Epoxy Resin
+PIBMA (10%),,Pibma,Pibma,,,,,,17.0,4.6,7.6,9.5,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] concentration_series; concentration: 10%; [CAS] not found; [CLASS] class: Acrylic
+PIBMA (30%),,Pibma,Pibma,,,,,,17.1,5.9,0.7,7.307248,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Acrylic
+PMMA (10%),poly(methyl methacrylate),poly(methyl methacrylate),poly(methyl methacrylate); acrylic glass; Plexiglas; Perspex,PMMA,9011-14-7,,,,17.8,10.4,2.9,9.6,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] concentration_series; concentration: 10%; [CLASS] class: Acrylic
+PMMA (30%),poly(methyl methacrylate),poly(methyl methacrylate),poly(methyl methacrylate); acrylic glass; Plexiglas; Perspex,PMMA,9011-14-7,,,,17.2,7.2,3.5,4.8,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CLASS] class: Acrylic
+PBMA (10%),,Pbma,Pbma,,,,,,20.6,3.5,7.2,12.8,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] concentration_series; concentration: 10%; [CAS] not found; [CLASS] class: Acrylic
+PBMA (30%),,Pbma,Pbma,,,,,,18.1,5.7,0.0,8.5,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Acrylic
+PMMA (10%),poly(methyl methacrylate),poly(methyl methacrylate),poly(methyl methacrylate); acrylic glass; Plexiglas; Perspex,PMMA,9011-14-7,,,,17.6,10.1,5.8,9.4,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] concentration_series; concentration: 10%; [CLASS] class: Acrylic
+PMMA (30%),poly(methyl methacrylate),poly(methyl methacrylate),poly(methyl methacrylate); acrylic glass; Plexiglas; Perspex,PMMA,9011-14-7,,,,17.5,5.5,3.8,4.5,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CLASS] class: Acrylic
+PEMA (10%),,Pema,Pema,,7206-76-0,,,,16.5,8.7,5.0,10.4,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] concentration_series; concentration: 10%; [CAS] found via PubChem: 7206-76-0; [CLASS] class: Acrylic
+PEMA (30%),,Pema,Pema,,7206-76-0,,,,16.9,7.8,0.5,7.3,Acrylic,Methacrylate polymer,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] found via PubChem: 7206-76-0; [CLASS] class: Acrylic
+CRODA AC500 THERMOSET (10%),acrylic resin,acrylic resin,acrylic resin,,,,,,17.8,6.4,4.7,10.7,Acrylic,Acrylic,[PRE-CLASSIFY] concentration_series; concentration: 10%; [CAS] not found; [CLASS] class: Acrylic
+CRODA AC500 THERMOSET (30%),acrylic resin,acrylic resin,acrylic resin,,,,,,21.2,1.4,10.7,12.3,Acrylic,Acrylic,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Acrylic
+CRODA AC550 THERMOSET (10%),acrylic resin,acrylic resin,acrylic resin,,,,,,16.3,10.6,7.4,12.9,Acrylic,Acrylic,[PRE-CLASSIFY] concentration_series; concentration: 10%; [CAS] not found; [CLASS] class: Acrylic
+CRODA AC550 THERMOSET (30%),acrylic resin,acrylic resin,acrylic resin,,,,,,16.3,10.6,7.4,12.9,Acrylic,Acrylic,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Acrylic
+LUMFLON LF200 (10%),fluoroethylene-vinyl ether alternating copolymer,fluoroacrylic resin,fluoroacrylic resin,,,,,,18.5,5.4,6.9,9.9,Fluoropolymer,FEVE copolymer,[PRE-CLASSIFY] concentration_series; concentration: 10%; [CAS] not found; [CLASS] class: Fluoropolymer
+LUMFLON LF200 (30%),fluoroethylene-vinyl ether alternating copolymer,fluoroacrylic resin,fluoroacrylic resin,,,,,,20.1,4.4,3.2,8.5,Fluoropolymer,FEVE copolymer,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Fluoropolymer
+LUMFLON LF916 (10%),fluoroethylene-vinyl ether alternating copolymer,fluoroacrylic resin,fluoroacrylic resin,,,,,,17.5,6.8,10.5,12.5,Fluoropolymer,FEVE copolymer,[PRE-CLASSIFY] concentration_series; concentration: 10%; [CAS] not found; [CLASS] class: Fluoropolymer
+LUMFLON LF916 (30%),fluoroethylene-vinyl ether alternating copolymer,fluoroacrylic resin,fluoroacrylic resin,,,,,,18.1,3.9,8.3,8.8,Fluoropolymer,FEVE copolymer,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Fluoropolymer
+PLASTOKYD S27 (30%),polyester resin,polyester resin,polyester resin,,,,,,20.1,5.7,5.3,20.0,Polyester & Alkyd,Polyester,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Polyester & Alkyd
+PLASTOKYD SC140 (30%),polyester resin,polyester resin,polyester resin,,,,,,25.2,9.2,3.7,20.0,Polyester & Alkyd,Polyester,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Polyester & Alkyd
+PLASTOKYD SC400 (30%),polyester resin,polyester resin,polyester resin,,,,,,23.7,0.5,10.3,20.0,Polyester & Alkyd,Polyester,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Polyester & Alkyd
+PLASTOKYD AC4X (30%),polyester resin,polyester resin,polyester resin,,,,,,23.9,7.8,8.8,19.9,Polyester & Alkyd,Polyester,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Polyester & Alkyd
+ALLOPRENE R10 (10%),chlorinated natural rubber,chlorinated rubber,chlorinated rubber,,,,,,19.5,9.2,6.9,7.5,Elastomer,Chlorinated rubber,[PRE-CLASSIFY] concentration_series; concentration: 10%; [CAS] not found; [CLASS] class: Elastomer
+ALLOPRENE R10 (30%),chlorinated natural rubber,chlorinated rubber,chlorinated rubber,,,,,,17.9,5.6,6.7,5.8,Elastomer,Chlorinated rubber,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Elastomer
+ALLOPRENE R10 (60%),chlorinated natural rubber,chlorinated rubber,chlorinated rubber,,,,,,19.6,6.5,5.8,9.1,Elastomer,Chlorinated rubber,[PRE-CLASSIFY] concentration_series; concentration: 60%; [CAS] not found; [CLASS] class: Elastomer
+HYPALON 20 (30%),chlorosulfonated polyethylene,chlorosulfonated PE,chlorosulfonated PE,,,,,,20.3,3.2,0.7,11.3,Elastomer,CSM,[PRE-CLASSIFY] concentration_series; concentration: 30%; [CAS] not found; [CLASS] class: Elastomer
+POLYISOPRENE SW,poly(isoprene),polyisoprene,polyisoprene; synthetic rubber,PI; IR,,,,,17.0,4.0,4.0,7.3,Elastomer,Polyisoprene,[CAS] not found; [CLASS] class: Elastomer
+BROMOBUTYL RUBBER S,"poly(isobutylene-co-isoprene), brominated",bromobutyl rubber,bromobutyl rubber; BIIR,BIIR,,,,,17.6,1.7,2.0,6.0,Elastomer,Bromobutyl rubber,[CAS] not found; [CLASS] class: Elastomer
+BROMOBUTYL RUBBER L,"poly(isobutylene-co-isoprene), brominated",bromobutyl rubber,bromobutyl rubber; BIIR,BIIR,,,,,17.0,3.4,2.0,6.0,Elastomer,Bromobutyl rubber,[CAS] not found; [CLASS] class: Elastomer
+NEOPRENE CR,"poly(2-chloro-1,3-butadiene)",neoprene,neoprene,,,,,,18.1,4.3,6.7,8.9,Elastomer,Chloroprene rubber,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+HYTREL +/- OK,poly(butylene terephthalate-co-polyether),thermoplastic polyester elastomer,thermoplastic polyester elastomer,,,,,,24.2,14.6,13.2,18.8,Polyester & Alkyd,TPE-E,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+HYTREL +/- NOT OK,poly(butylene terephthalate-co-polyether),thermoplastic polyester elastomer,thermoplastic polyester elastomer,,,,,,26.4,18.8,7.4,26.3,Polyester & Alkyd,TPE-E,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Polyester & Alkyd
+HYPALON +/- OK,chlorosulfonated polyethylene,chlorosulfonated PE,chlorosulfonated PE,,,,,,18.4,3.6,6.4,9.0,Elastomer,CSM,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+HYPALON +/- NOT OK,chlorosulfonated polyethylene,chlorosulfonated PE,chlorosulfonated PE,,,,,,18.4,5.6,6.0,9.4,Elastomer,CSM,[CAS] not found; [CLASS] trade_name route; class from brand mapping: Elastomer
+EV A 4055 SOL,poly(ethylene-co-vinyl alcohol),ethylene vinyl alcohol copolymer,ethylene vinyl alcohol copolymer; EVOH; EVAL,EVOH; EVAL,,,,,17.7,3.5,3.7,4.707248,Vinyl Polymer,EVOH copolymer,[CAS] not found; [CLASS] class: Vinyl Polymer
+TOPAS 6013 SOL,,Topas 6013 Sol,Topas 6013 Sol,,,,,,18.0,3.0,2.0,5.0,Polyolefin,Polypropylene,[CAS] not found; [CLASS] class: Polyolefin
+CZ RESIN SOL,cyclopentadiene hydrocarbon resin,CZ resin,CZ resin; hydrocarbon resin,,,,,,18.0,1.0,3.0,4.0,Natural & Petroleum Resin,Hydrocarbon Resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+KAURI GUM,kauri resin (agathis australis),kauri gum,kauri gum; kauri resin; copal,,,,,,18.7,8.1,13.0,8.2,Natural & Petroleum Resin,Kauri resin,[CAS] not found; [CLASS] class: Natural & Petroleum Resin
+POLYVINYLPYRROLIDONE (PVP),poly(1-vinyl-2-pyrrolidinone),polyvinylpyrrolidone,polyvinylpyrrolidone; povidone; PVP,PVP,9003-39-8,,,,21.4,11.6,21.6,17.3,Vinyl Polymer,Vinyl lactam polymer,[CLASS] class: Vinyl Polymer
+PALM OIL,palm oil,palm oil,palm oil; palmolein,,,,,,17.7,3.5,3.7,4.7,Biological & Other,Vegetable oil,[CAS] CAS lookup skipped: out of scope; [CLASS] class: Biological & Other
+BETHOXAZIN,"poly(1,3-benzoxazine)",benzoxazine resin,benzoxazine resin; polybenzoxazine,,,,,,22.4,7.6,10.8,13.9,Phenolic Resin,Benzoxazine,[CAS] not found; [CLASS] class: Phenolic Resin
+CARBON-60,buckminsterfullerene,fullerene C60,fullerene C60; buckminsterfullerene; C60,C60,,,,,19.7,2.9,2.7,3.97248,Biological & Other,Fullerene,[CAS] CAS lookup skipped: out of scope; [CLASS] class: Biological & Other

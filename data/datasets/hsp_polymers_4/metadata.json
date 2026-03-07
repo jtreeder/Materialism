@@ -1,0 +1,29 @@
+{
+  "id": "hsp_polymers_4",
+  "name": "HSP Polymers 4",
+  "source_url": "https://github.com/jtreeder/Materialism/blob/claude/hansen-solubility-planning-D5iok/data/datasets/hspip_polymers/raw/HSPiP_polymers.csv",
+  "description": "Re-processed HSPiP polymer database (pipeline v4). Full enrichment: name_input preserved (never modified), name_iupac/common/common_all/acronyms resolved via rule-based knowledge tables, 13-class polymer classification, CAS lookup via PubChem, product/TDS/SDS URLs for trade names, HSP plausibility flags, processing audit trail.",
+  "imported_at": "2026-03-07T00:00:00+00:00",
+  "chemical_count": 0,
+  "polymer_count": 458,
+  "fields_available": [
+    "name_iupac",
+    "name_common",
+    "name_common_all",
+    "name_acronyms",
+    "cas",
+    "product_url",
+    "tds_url",
+    "sds_url",
+    "dD",
+    "dP",
+    "dH",
+    "radius",
+    "class",
+    "subclass",
+    "processing_notes"
+  ],
+  "quality_notes": "Pipeline v4: 13-class classification (rule-based with comprehensive knowledge tables), PubChem CAS lookup. CAS found: 28/458. Classification routes: 181 standard, 138 trade_name, 39 resistance_data, 38 concentration_series, 26 time_series, 26 copolymer, 10 out_of_scope.",
+  "active": true,
+  "confidence_tier": 0.9
+}
