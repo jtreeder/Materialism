@@ -4568,6 +4568,13 @@ function toggleDs(dsId) {{
 }}
 
 function toggleEditMode(dsId) {{
+    // Flush any focused contenteditable cell before toggling, so the edit is
+    // saved even in browsers (Firefox, Safari) that don't focus a button on
+    // click (which would otherwise prevent the blur-save from firing first).
+    var focused = document.activeElement;
+    if (focused && focused.tagName === 'TD' && focused.hasAttribute('contenteditable')) {{
+        focused.blur();
+    }}
     _editMode[dsId] = !_editMode[dsId];
     renderContent();
 }}
