@@ -179,6 +179,31 @@
       "quality_notes": "ClassyFire coverage: 880/1135 (78%). name_iupac coverage: 1135/1135. Acronym coverage: 53/1135. radius (R0) not available from HSPiP solvent source.",
       "active": true,
       "confidence_tier": 0.9
+    },
+    "hsp_polymers_2": {
+      "id": "hsp_polymers_2",
+      "name": "HSP Polymers 2",
+      "source_url": "",
+      "description": "Re-processed HSPiP polymer database following the Materialism Data Cleaning & Enrichment Pipeline v2. Includes IUPAC names, common names, acronyms, 13-class polymer classification (class/subclass), CAS resolution, and processing audit trail.",
+      "imported_at": "2026-03-07T00:00:00+00:00",
+      "chemical_count": 0,
+      "polymer_count": 458,
+      "fields_available": [
+        "name_iupac",
+        "name_common",
+        "name_acronyms",
+        "cas",
+        "dD",
+        "dP",
+        "dH",
+        "radius",
+        "class",
+        "subclass",
+        "processing_notes"
+      ],
+      "quality_notes": "13-class polymer classification. name_common coverage: high. CAS lookup via PubChem (12/458 found \u2014 typical for polymer trade names).",
+      "active": true,
+      "confidence_tier": 0.85
     }
   }
 }
