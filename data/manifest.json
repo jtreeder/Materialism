@@ -204,6 +204,32 @@
       "quality_notes": "13-class polymer classification. name_common coverage: high. CAS lookup via PubChem (12/458 found \u2014 typical for polymer trade names).",
       "active": true,
       "confidence_tier": 0.85
+    },
+    "hsp_polymers_3": {
+      "id": "hsp_polymers_3",
+      "name": "HSP Polymers 3",
+      "source_url": "https://github.com/jtreeder/Materialism/blob/claude/hansen-solubility-planning-D5iok/data/datasets/hspip_polymers/raw/HSPiP_polymers.csv",
+      "description": "Re-processed HSPiP polymer database (pipeline v3). Adds name_common_all, improved IUPAC names, 13-class classification, CAS resolution.",
+      "imported_at": "2026-03-07T00:00:00+00:00",
+      "chemical_count": 0,
+      "polymer_count": 458,
+      "fields_available": [
+        "name_iupac",
+        "name_common",
+        "name_common_all",
+        "name_acronyms",
+        "cas",
+        "dD",
+        "dP",
+        "dH",
+        "radius",
+        "class",
+        "subclass",
+        "processing_notes"
+      ],
+      "quality_notes": "Pipeline v3: 13-class classification. name_common_all for all searchable name variants. 12/458 CAS found.",
+      "active": true,
+      "confidence_tier": 0.85
     }
   }
 }

@@ -4090,6 +4090,12 @@ var _LOCK_ICON_LOCKED = '<path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9a2 2 0 
 var _LOCK_ICON_UNLOCKED = '<path fill-rule="evenodd" d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM6 10h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z"/><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" d="M9 10V6a3 3 0 0 1 6 0"/>';
 
 function toggleDbLock() {{
+    // Flush any focused input cell before toggling, so the edit is saved
+    // even in browsers (Firefox, Safari) that don't blur inputs on button click.
+    var focused = document.activeElement;
+    if (focused && focused.tagName === 'INPUT' && focused.type === 'text') {{
+        focused.blur();
+    }}
     _dbEditing = !_dbEditing;
     var btn = document.getElementById('title-lock-btn');
     var svg = document.getElementById('title-lock-svg');
