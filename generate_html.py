@@ -1472,7 +1472,7 @@ full_html = f"""<!DOCTYPE html>
             return 'rgb(' + r + ',' + g + ',' + b + ')';
         }}
 
-        function computeResultColors(validResults, r0) {{
+        function computeResultColors(validResults, r0, isReverse) {{
             if (validResults.length === 0) {{ _resultColorMeta = null; return []; }}
             const useScore = validResults[0].ra == null && validResults[0].combinedScore != null;
             const distances = validResults.map(r => {{
@@ -1483,10 +1483,11 @@ full_html = f"""<!DOCTYPE html>
             const minD = Math.min(...distances);
             const maxD = Math.max(...distances);
             const range = maxD - minD;
-            _resultColorMeta = {{ min: minD, max: maxD, r0: r0 || null, metric: useScore ? 'Score' : 'Ra' }};
+            _resultColorMeta = {{ min: minD, max: maxD, r0: r0 || null, metric: useScore ? 'Score' : 'Ra', isReverse: !!isReverse }};
             return distances.map(d => {{
-                if (range === 0) return distanceToColor(0);
-                return distanceToColor((d - minD) / range);
+                if (range === 0) return distanceToColor(isReverse ? 1 : 0);
+                const t = (d - minD) / range;
+                return distanceToColor(isReverse ? 1 - t : t);
             }});
         }}
 
@@ -2082,8 +2083,11 @@ full_html = f"""<!DOCTYPE html>
 
                 var h = '<div style="padding:8px 10px;min-width:170px">';
                 h += '<div style="font-size:0.7rem;font-weight:700;color:#636e72;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px">Match Quality</div>';
-                // Gradient bar
-                h += '<div style="position:relative;height:14px;border-radius:3px;background:linear-gradient(to right,#00cc66,#cccc00 50%,#ef553b);margin-bottom:2px">';
+                // Gradient bar (reversed for bad_solvents: far = good)
+                var gradCss = m.isReverse
+                    ? 'linear-gradient(to right,#ef553b,#cccc00 50%,#00cc66)'
+                    : 'linear-gradient(to right,#00cc66,#cccc00 50%,#ef553b)';
+                h += '<div style="position:relative;height:14px;border-radius:3px;background:' + gradCss + ';margin-bottom:2px">';
                 if (tickPct !== null) {{
                     h += '<div style="position:absolute;top:-4px;bottom:-4px;left:' + tickPct + '%;width:2px;background:#2d3436;border-radius:1px"></div>';
                 }}
@@ -2099,8 +2103,13 @@ full_html = f"""<!DOCTYPE html>
                 }}
                 // Good / poor labels
                 h += '<div style="display:flex;justify-content:space-between;font-size:0.7rem;padding-top:4px;border-top:1px solid #eee">';
-                h += '<span style="color:#00aa55;font-weight:600">&#9679; Good match</span>';
-                h += '<span style="color:#ef553b;font-weight:600">Poor &#9679;</span>';
+                if (m.isReverse) {{
+                    h += '<span style="color:#ef553b;font-weight:600">&#9679; Poor match</span>';
+                    h += '<span style="color:#00aa55;font-weight:600">Good &#9679;</span>';
+                }} else {{
+                    h += '<span style="color:#00aa55;font-weight:600">&#9679; Good match</span>';
+                    h += '<span style="color:#ef553b;font-weight:600">Poor &#9679;</span>';
+                }}
                 h += '</div>';
                 h += '</div>';
                 el.innerHTML = h;
@@ -2317,7 +2326,8 @@ full_html = f"""<!DOCTYPE html>
             }}
 
             const valid = results.filter(r => !r.notFound);
-            const resultColors = computeResultColors(valid, isMulti ? null : (target && target.r));
+            const isBadSearch = parentIntent === 'bad_solvents';
+            const resultColors = computeResultColors(valid, isMulti ? null : (target && target.r), isBadSearch);
             var newTraces = [];
 
             if (isMulti) {{
