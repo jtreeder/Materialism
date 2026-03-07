@@ -4277,15 +4277,15 @@ return Plotly;
         }
         function _isDsActive(dsId) {
             if (!dsId) return true; // entries without dataset_id always shown
-            // Hide if ANY associated dataset has been explicitly deactivated.
-            // This ensures that deactivating e.g. "hspip_polymers" hides all
-            // entries tagged with that dataset, even if they're also in others.
+            // Show if ANY associated dataset is active. This matches the database
+            // page logic so that solvents visible in the active database also
+            // appear on the search page even when some of their datasets are off.
             var active = _getActiveDsets();
             var ids = dsId.split(',');
             for (var i = 0; i < ids.length; i++) {
-                if (active[ids[i]] === false) return false;
+                if (DATASETS_META[ids[i]] && active[ids[i]] !== false) return true;
             }
-            return true;
+            return false;
         }
         var _activeDsets = _getActiveDsets();
 
