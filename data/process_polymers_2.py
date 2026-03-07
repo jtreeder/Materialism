@@ -118,6 +118,253 @@ VALID_CLASSES = {
     "Polyacetal / PEI / PC", "Phenolic Resin",
 }
 
+# Rule-based classifier: (pattern, class, subclass) — ordered by specificity
+RULE_BASED_CLASSES = [
+    # Fluoropolymers
+    (r'FLUORO|PTFE|TEFLON|PVDF|POLYVINYLIDENE FLUORIDE|FLUOROCARBON|VITON|LUMIFLON|KYNAR|HALAR|PCTFE|FEP\b|PFA\b', "Fluoropolymer", None),
+    # Polyolefins
+    (r'POLYETHYLENE|\bHDPE\b|\bLDPE\b|\bLLDPE\b|POLYPROPYLENE|\bPIB\b|POLYISOBUTYLENE|POLYOLEFIN|ALATHON|MARLEX|HOSTALEN|LUPOLEN|MOPLEN|TOPAS|ZEONEX|SURLYN|POLYBUTENE', "Polyolefin", None),
+    # Silicone (Elastomer subtype)
+    (r'SILICONE|BAYSILON|SILICON RESIN|POLY.DIMETHYLSILOXANE|PDMS', "Elastomer", "Silicone"),
+    # Elastomers
+    (r'\bRUBBER\b|ELASTOMER|\bNBR\b|\bSBR\b|NEOPRENE|CHLOROPRENE|BUTYL RUBBER|ISOPRENE|POLYISOPRENE|POLYBUTADIENE|HYCAR|HYPALON|HYTREL|BUNA|KRATON|SANTOPRENE|THIOKOL|ALLOPRENE|BROMOBUTYL|POLYSAR|PLIOLYTE|\bEPDM\b|\bCR\b RUBBER', "Elastomer", None),
+    # Chlorinated/halogenated polymers
+    (r'CHLORINATED RUBBER|CHLOROPAR|CERECLOR|PERGUT|ALLOPREN|PARLON|CHLORO.POLYETHYLENE', "Elastomer", "Chlorinated Rubber"),
+    # Polyurethane
+    (r'POLYURETHANE|URETHANE|\bTPU\b|DESMOPHEN|DESMODUR|DESMOLAC|ADIPRENE|PELLETHANE|ISOCYANATE|SUPRASEC', "Polyurethane", None),
+    # Polyamide
+    (r'POLYAMIDE|\bNYLON\b|VERSAMID|POLYPHTHALAMIDE|KEVLAR|TORLON|ZYTEL|GRILON|\bPA 6\b|\bPA 12\b|\bPA66\b|\bPA11\b', "Polyamide", None),
+    # Epoxy Resin
+    (r'EPOXY|\bEPIKOTE\b|\bEPON\b|\bARALDITE\b|BISPHENOL|PHENOXY|\bPKHH\b|PAPHEN|NOVOLAC EPOXY', "Epoxy Resin", None),
+    # Polyester & Alkyd (check before vinyl to avoid PET confusion)
+    (r'ALKYD|ALKYDAL|ALFTALAT|DYNAPOL|GLYPTAL|BECKACITE|SUPER BECKACITE|URALAC|SYNRESIN|PLEXAL|VESTURIT|DUROFTAL|POLYESTER ALKYD', "Polyester & Alkyd", "Alkyd"),
+    (r'\bPET\b|\bPBT\b|\bPETG\b|POLY.ETHYLENE TEREPHTH|POLY.BUTYLENE TEREPHTH|DACRON|MYLAR|ARNITEL|HYTREL POLYESTER|PETP', "Polyester & Alkyd", "Saturated Polyester"),
+    (r'POLYESTER(?!.*ALKYD)', "Polyester & Alkyd", None),
+    # Acrylics
+    (r'ACRYLIC|ACRYLATE|METHACRYLATE|\bPMMA\b|POLY.METHYL METHACRYLATE|PERSPEX|PLEXIGLAS|LUCITE|MACRYNAL|PARALOID|ACRYLOID|ELVACITE|PLEXIGUM|LAROFLEX', "Acrylic", None),
+    # Styrenic
+    (r'STYRENE|POLYSTYRENE|\bABS\b|\bSAN\b|\bSBS\b|\bSEBS\b|STYRON|LUSTRAN|CYCOLAC|\bHIPS\b|TOUGHENED POLYSTYRENE', "Styrenic", None),
+    # Vinyl Polymers
+    (r'POLYVINYL|VINYL ACETATE|VINYL ALCOHOL|VINYL CHLORIDE|\bPVC\b|\bPVAC\b|\bPVAL\b|PVDC|POLYVINYLIDENE CHLORIDE|BUTVAR|MOWITAL|VINNOL|RHODOPAS|\bELVAX\b|VINYLITE|LUTONAL|LUTANAL|VIPLA|VILIT|EVOH|SARANEX|VINYL SILANE', "Vinyl Polymer", None),
+    # Cellulosic
+    (r'CELLUL|CELLIT\b|ETHOCEL|CELLIDORA|NITROCELLULOSE|CELLOPHAN|CARBOXYMETHYL|HYDROXYETHYL|HYDROXYPROPYL|\bHPMC\b|METHYL CELLULOSE|CELLOLYN|ESTER GUM', "Cellulosic Polymer", None),
+    # Amino Resins
+    (r'MELAMINE|UREA.FORMALDEHYDE|AMINO RESIN|CYMEL|PHENODUR|METHOXYMETHYL|DYNOMIN|SOAMIN|PLASTOPAL|UFORMITE|URACRON', "Amino Resin", None),
+    # Phenolic Resins
+    (r'PHENOL.FORMALDEHYDE|PHENOLIC|NOVOLAC|RESOLE|BAKELITE|BECKOPOX|EPOXY RESIN PHENOL', "Phenolic Resin", None),
+    # Natural & Petroleum Resins
+    (r'ROSIN|TERPENE|PETROLEUM RESIN|COUMARONE|INDENE|KAURI|DAMMAR|SHELLAC|COPAL|PICCO|PENTALYN|REGALITE|ARKON|WINGTACK|COAL TAR|TALL OIL|LIGNIN|WOOD RESIN|COLOPHONY', "Natural & Petroleum Resin", None),
+    # Polysulfone / PES / PPS
+    (r'POLYSULFONE|POLYETHERSULFONE|\bPPS\b|\bPSF\b|UDEL|RADEL|RYTON', "Polysulfone / PES / PPS", None),
+    # Polyacetal / PEI / PC
+    (r'POLYCARBONATE|\bPOM\b|POLYACETAL|POLYOXYMETHYLENE|DELRIN|CELCON|POLYETHERIMIDE|\bULTEM\b|LEXAN|MAKROLON|BISPHENOL A POLYCARBONATE|\bPPO\b|NORYL|XENOY', "Polyacetal / PEI / PC", None),
+    # Modaflow → Acrylic (rheology modifier)
+    (r'MODAFLOW', "Acrylic", "Flow Modifier"),
+    # Polyvinylpyrrolidone
+    (r'PYRROLIDONE|\bPVP\b', "Vinyl Polymer", "PVP"),
+    # Polyimide
+    (r'POLYIMIDE|\bPI\b|KAPTON', "Polysulfone / PES / PPS", "Polyimide"),
+    # Bethoxazin / Benzoxazine → Phenolic
+    (r'BETHOXAZIN|BENZOXAZIN', "Phenolic Resin", "Benzoxazine"),
+    # CZ resin (cyclized rubber / hydrocarbon resin)
+    (r'\bCZ RESIN\b', "Natural & Petroleum Resin", "Hydrocarbon Resin"),
+    # EVA / ELVAX
+    (r'\bEVA\b|\bEVA \d|\bELVAX\b|ELV AX', "Vinyl Polymer", "EVA"),
+    # EVOH
+    (r'\bEVOH\b', "Vinyl Polymer", "EVOH"),
+    # Resistance data entries (R prefix + polymer class) — classify by polymer type after "R "
+    (r'^R\s+.*RUBBER|^R\s+.*\bNR\b|^R\s+.*NAT RUB', "Elastomer", None),
+    (r'^R\s+.*BUTYL|^R\s+.*\bCSM\b|^R\s+.*\bACM\b|\bR BUTYL\b|\bR CSM\b|\bR ACM\b', "Elastomer", None),
+    (r'^R\s+.*ETHYLENE.*PROPYLENE|^R\s+.*\bEPDM\b|\bR ETHYLENE', "Elastomer", None),
+    (r'^R\s+.*POLYURETHANE|^R\s+.*\bPU\b|^R\s+.*\bAU\b|^R\s+.*\bEU\b|\bR AU\b|\bR PEU\b', "Polyurethane", None),
+    (r'^R\s+.*POLYSULFONE|^R\s+.*PSU|\bR POLYSULPHONE\b|\bPSU CR\b|\bPSU ULTRASON\b', "Polysulfone / PES / PPS", None),
+    (r'^R\s+.*POLYAMIDE|^R\s+.*\bPA\d|^R\s+.*NYLON|\bR PA12\b', "Polyamide", None),
+    (r'^R\s+.*POLYESTER|^R\s+.*TEREPHTH|^R\s+.*ISOPHTHAL|\bR ISOPHTHALIC\b|\bR TEREPHTALIC\b|\bR POLYBUTYLENETEREPH\b', "Polyester & Alkyd", None),
+    (r'^R\s+.*POLYCARBONATE|^R\s+.*\bPC\b|^R\s+.*POLYPHENYLENE|^R\s+.*PPO|\bR POLYPHENYLENEOXIDE\b', "Polyacetal / PEI / PC", None),
+    (r'^R\s+.*POLYSULPHIDE|^R\s+.*\bT SULPHIDE\b|\bR T SULPHIDE\b', "Polysulfone / PES / PPS", "Polysulfide"),
+    (r'^R\s+.*DIALLYL|^R\s+.*DIALLYLPHTHALATE|\bR DIALLYLPHTHALATE\b', "Polyester & Alkyd", "Allyl Resin"),
+    (r'^R\s+.*FURAN|\bR HET RESIN\b', "Phenolic Resin", None),
+    (r'^R\s+.*FLUOROCARBON|^R\s+.*FQ FL|^R\s+.*TETFL|\bR FQ\b|\bR TFP\b', "Fluoropolymer", None),
+    (r'\bR TPX\b|TPX\b', "Polyolefin", "Poly(4-methylpentene)"),
+    (r'\bR EBONITE\b', "Elastomer", "Ebonite"),
+    # Copolymers by monomer composition
+    (r'MMA/|/MMA|METHYL METHACRYLATE|PLEXIGUM|PLEXIGLAS|PEMA\b|PBMA\b|PIBMA\b|POLYMETHACRYL', "Acrylic", None),
+    (r'STY/|/STY\b|STY MAL|STYRENE MALEIC|STYRENE/|SMA\b', "Styrenic", None),
+    (r'V A/|VA/|/V A|VINYL ACETATE/|POLY.VINYL ACETATE|PVAC\b|\bPV AC\b', "Vinyl Polymer", "PVAc"),
+    (r'VDC/|PVDC|VINYLIDENE CHLORIDE|SARAN', "Vinyl Polymer", "PVDC"),
+    (r'\bVCL2\b|VCL2/', "Vinyl Polymer", "PVDC"),
+    (r'VBE/|PVBE\b|PVEE\b|PVIBE\b|PVETHYL|PVINYLBUTYL|VINYL.*ETHER', "Vinyl Polymer", "PVE"),
+    (r'\bPVF\b|POLY.VINYL FLUORIDE', "Fluoropolymer", None),
+    (r'\bPVOH\b|\bPVAL\b', "Vinyl Polymer", "PVOH"),
+    (r'\bPAN\b|POLYACRYLONITRILE', "Acrylic", "PAN"),
+    (r'\bPBMA\b', "Acrylic", "PBMA"),
+    (r'\bPEMA\b', "Acrylic", "PEMA"),
+    (r'\bPIBMA\b', "Acrylic", "PIBMA"),
+    (r'POLYMETHACRYLONITRILE', "Acrylic", "PMAN"),
+    # Polyester abbreviations
+    (r'\bPBT\b|\bPET\b|\bPETP\b|\bPEI\b|ESTANE|VITEL', "Polyester & Alkyd", None),
+    # Polyacetal / PC
+    (r'\bPOM\b|ACETAL.*CELANESE|ACETALHOMO|ACETAL\b', "Polyacetal / PEI / PC", "Polyacetal"),
+    (r'\bPC\b(?!\s*\d)', "Polyacetal / PEI / PC", "Polycarbonate"),
+    # Polysulfone
+    (r'\bPSU\b|\bPES\b\s*(SOL|L\s)', "Polysulfone / PES / PPS", None),
+    # Polyolefin abbreviations
+    (r'\bPE\b(?!\s*\d)|POLYETHYLENEOXIDE|PEO\b|\bPOMH\b|\bPOMC\b', "Polyolefin", None),
+    (r'\bPP\b(?!\s*\d)', "Polyolefin", "Polypropylene"),
+    # Polyurethane
+    (r'\bPUR\b|\bPU\b(?!\S)|TOLONATE|ISOCYANATE', "Polyurethane", None),
+    (r'ESTANE', "Polyurethane", "TPU"),
+    # Polystyrene
+    (r'\bPS\b(?!\s*\d)', "Styrenic", "Polystyrene"),
+    # Chlorosulfonated polyethylene
+    (r'CHLOROSULFONATED|CHLOROSULFON|HYP 20|\bCSM\b', "Elastomer", "CSM"),
+    # Polyimide / PEI
+    (r'\bPEI\b.*PSI|\bPEI\b', "Polyacetal / PEI / PC", "PEI"),
+    # Amino resins (formaldehyde type)
+    (r'FORMALDEH|SULFONAMIDE.*FORMALD|pTOLSULFON|SANTOLITE', "Amino Resin", None),
+    # Petroleum / natural resins
+    (r'HYDROCARBON M|CONOCO H-|GILSONITE|COAL TAR|PARAPOL|PLIOLITE|LYTRON', "Natural & Petroleum Resin", None),
+    # Ketone resins
+    (r'KETONE RESIN', "Natural & Petroleum Resin", "Ketone Resin"),
+    # Furan resins
+    (r'\bFURAN\b|FURF|FURFURYL', "Phenolic Resin", "Furan Resin"),
+    # Polyester (DEG, DPG, TEG type — condensation polyesters)
+    (r'\bDEG\b|\bDPG\b|\bTEG\b|\bHYD BIS\b|ISOPH|TEREP|MALEATE|PHTHAL|GLYPTAL|BECKOLIN|PLASTOKYD', "Polyester & Alkyd", None),
+    # Croda thermoset acrylics
+    (r'\bCRODA\b', "Acrylic", "Thermoset Acrylic"),
+    # Formvar / PVF (polyvinyl formal)
+    (r'FORMV AR|PVFORMAL|POLYVINYL FORMAL|FORMVAR', "Vinyl Polymer", "PVFormal"),
+    # Polyolefin (Amoco, TOPAS, etc.)
+    (r'AMOCO|TOPAS', "Polyolefin", None),
+    # Geon (PVC)
+    (r'\bGEON\b|\bEXON\b', "Vinyl Polymer", "PVC"),
+    # Barex (polyacrylonitrile copolymer)
+    (r'\bBAREX\b', "Acrylic", None),
+    # Marbon (ABS-like)
+    (r'\bMARBON\b', "Styrenic", None),
+    # Epoxy acrylate
+    (r'\bEPOCRYL\b', "Acrylic", "Epoxy Acrylate"),
+    # Polyhydroxy compounds (used as resins)
+    (r'SPERM OIL|DRYING OIL|LINSEED|TUNG OIL|SOYBEAN OIL|DRIED OIL|ESTIMATE DRIED', "Natural & Petroleum Resin", "Drying Oil"),
+    # Polycyclol / cyclohexyl monomers → Acrylic
+    (r'CYCLOL|POLYCYCLOL', "Acrylic", None),
+    # Polyoxymethylene
+    (r'POLYOXYMETHYLENE|POLYALDEHYDE|SHELL POLYALDEHYDE', "Polyacetal / PEI / PC", "Polyacetal"),
+    # Sinclair / Cryplex → Acrylic/emulsion polymers
+    (r'\bSINCLAIR\b|\bCRYPLEX\b|\bVYSET\b', "Acrylic", None),
+    # BE resin → Epoxy
+    (r'^\bBE \d', "Epoxy Resin", None),
+    # Penta benzene maleate → polyester
+    (r'PENTA.*BENZ.*MAL|HEXADECYL.*TRIM', "Polyester & Alkyd", None),
+    # Alpex → Natural/Petroleum Resin (rosin-based)
+    (r'\bALPEX\b', "Natural & Petroleum Resin", None),
+    # Epocryl / epoxy
+    (r'\bEPOCRYL\b', "Epoxy Resin", None),
+    # Polyethyleneoxide
+    (r'POLYETHYLENEOXIDE|POLYETHYLENE OXIDE', "Polyolefin", "PEO"),
+    # Zinc silicate
+    (r'ZINK SILICATE|ZINC SILICATE', "Biological & Other", "Inorganic"),
+    # Water-based entries
+    (r'IN WATER|WATER\s*\+', "Biological & Other", "Aqueous"),
+    # Uncured / monomer
+    (r'MONOMER\b', "Biological & Other", "Monomer"),
+    # Doda (Dimer diol-based polyester)
+    (r'\bDODA\b', "Polyester & Alkyd", None),
+    # Buton (styrene-butadiene)
+    (r'\bBUTON\b', "Styrenic", "SBS"),
+    # Koppers / KTPL → Phenolic
+    (r'KOPPERS', "Phenolic Resin", None),
+    # V AREZ → Vinyl polymer (resin)
+    (r'\bV AREZ\b|\bVAREZ\b', "Vinyl Polymer", None),
+    # VCV A → Vinyl
+    (r'\bVCV A\b|\bVCVA\b', "Vinyl Polymer", None),
+    # BUTV AR / BUTVAR (name with OCR spacing)
+    (r'\bBUTV AR\b', "Vinyl Polymer", "PVB"),
+    # ELV AX (OCR spaced ELVAX)
+    (r'\bELV AX\b', "Vinyl Polymer", "EVA"),
+    # Cell. Acet. → Cellulosic
+    (r'CELL\.\s*ACET', "Cellulosic Polymer", None),
+    # ETHCEL → Cellulosic
+    (r'\bETHCEL\b', "Cellulosic Polymer", None),
+    # Cellophan → Cellulosic
+    (r'\bCELLOPHAN\b', "Cellulosic Polymer", None),
+    # Nitrile (generic) → Elastomer
+    (r'^\s*NITRILE\b', "Elastomer", "NBR"),
+    # CH 5100/5200 → likely nitrile (Chemigum code)
+    (r'^\s*CH \d{4}', "Elastomer", None),
+    # POLYCYCLOLa → Acrylic
+    (r'POLYCYCLOL', "Acrylic", None),
+    # Acid (DEG/DPG type) polyester
+    (r'\bACID DEG\b|\bACID DPG\b', "Polyester & Alkyd", None),
+    # Shell X-450 → Epoxy
+    (r'SHELL X-\d|SHELL POLYALD', "Polyacetal / PEI / PC", "Polyaldehyde"),
+    # POMH/POMC → Polyacetal
+    (r'\bPOMH\b|\bPOMC\b', "Polyacetal / PEI / PC", "Polyacetal"),
+    # VYHH → PVC/vinyl
+    (r'\bVYHH\b', "Vinyl Polymer", "PVC Copolymer"),
+    # ACRYLAMIDE monomer
+    (r'ACRYLAMIDE', "Acrylic", "Polyacrylamide"),
+    # Polyetherimide pressure series
+    (r'PEI\s+\d+PSI', "Polyacetal / PEI / PC", "PEI"),
+    # Furane
+    (r'\bFURANE\b', "Phenolic Resin", "Furan Resin"),
+    # Copolymers R+H → acrylic interpolymers
+    (r'^R\+H\b', "Acrylic", None),
+    # V A/EHA/MA type → Vinyl Polymer (vinyl acetate copolymers)
+    (r'^V\s+A/', "Vinyl Polymer", "PVAc copolymer"),
+    # MAA/EA → Acrylic copolymer
+    (r'^MAA/', "Acrylic", None),
+    # BMA/AN → Acrylic copolymer (butyl methacrylate / acrylonitrile)
+    (r'^BMA/', "Acrylic", None),
+    # LUMFLON (OCR spacing) → Fluoropolymer
+    (r'\bLUMFLON\b|\bLUMFLON LF', "Fluoropolymer", None),
+    # PECTFE → Fluoropolymer (polychlorotrifluoroethylene)
+    (r'\bPECTFE\b|\bPCTFE\b', "Fluoropolymer", None),
+    # Butyl time series → Elastomer
+    (r'^\s*BUTYL\s+\d', "Elastomer", "Butyl Rubber"),
+    # PA6 resistance → Polyamide
+    (r'^\s*PA6\b|^\s*PA 6\b', "Polyamide", None),
+    # EV A (OCR-spaced EVA)
+    (r'^\s*EV\s+A\b', "Vinyl Polymer", "EVA"),
+    # ACID DEGMP → polyester
+    (r'ACID DEG', "Polyester & Alkyd", None),
+    # R ECO → Elastomer (epichlorohydrin rubber)
+    (r'\bR ECO\b|\bECO\b.*RUBBER', "Elastomer", "ECO"),
+]
+
+def rule_based_classify(name_upper: str, class_predicted: str = None) -> dict:
+    """Classify using rule-based pattern matching."""
+    if class_predicted and class_predicted in VALID_CLASSES:
+        return {
+            "class": class_predicted,
+            "subclass": None,
+            "confidence": 0.85,
+            "notes": "Class from Step 0 brand prefix mapping",
+        }
+
+    # Strip resistance/time/concentration suffixes for matching
+    clean_for_match = re.sub(r'\s+(CR|SOL|SW)\s*$', '', name_upper).strip()
+    clean_for_match = re.sub(r'\s+\d+\s*(MIN|HR|HOUR).*$', '', clean_for_match).strip()
+    clean_for_match = re.sub(r'\s*\(\d+%\)\s*$', '', clean_for_match).strip()
+    clean_for_match = re.sub(r'\s*\d+%\s*$', '', clean_for_match).strip()
+
+    for name_to_check in [clean_for_match, name_upper]:
+        for pattern, cls, subclass in RULE_BASED_CLASSES:
+            if re.search(pattern, name_to_check):
+                return {
+                    "class": cls,
+                    "subclass": subclass,
+                    "confidence": 0.75,
+                    "notes": f"Rule-based classification: matched pattern '{pattern[:40]}'",
+                }
+
+    return {
+        "class": "Biological & Other",
+        "subclass": None,
+        "confidence": 0.3,
+        "notes": "No rule matched; assigned Biological & Other as default",
+    }
+
 
 # ─── STEP 0: PRE-CLASSIFICATION ───────────────────────────────────────────────
 
@@ -426,15 +673,28 @@ def lookup_cas(name_clean: str, route: str) -> tuple[str | None, str]:
 # ─── STEP 9: CLASSIFICATION VIA CLAUDE ───────────────────────────────────────
 
 def classify_with_claude(rows: list[dict]) -> list[dict]:
-    """Classify polymers using Claude claude-haiku-4-5. Returns list with class, subclass."""
+    """Classify polymers using Claude claude-haiku-4-5. Returns list with class, subclass.
+    Falls back to rule-based classification if ANTHROPIC_API_KEY is not set."""
     import anthropic
 
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
-        print("WARNING: ANTHROPIC_API_KEY not set, skipping AI classification")
-        return [{"class": r.get("class_predicted") or "Biological & Other",
-                 "subclass": None, "confidence": 0.0,
-                 "notes": "ANTHROPIC_API_KEY not set"} for r in rows]
+        print("WARNING: ANTHROPIC_API_KEY not set, using rule-based classification fallback")
+        results = []
+        for r in rows:
+            # Combine cleaned name + original name for better pattern coverage
+            name_parts = [
+                r.get("name_clean") or "",
+                r.get("name_original") or "",
+            ]
+            name_upper = " ".join(n.upper() for n in name_parts if n)
+            # Out-of-scope
+            if r.get("route") == "flag_out_of_scope":
+                results.append({"class": "Biological & Other", "subclass": None,
+                                 "confidence": 1.0, "notes": "Out-of-scope entry"})
+            else:
+                results.append(rule_based_classify(name_upper, r.get("class_predicted")))
+        return results
 
     client = anthropic.Anthropic(api_key=api_key)
     results = []
@@ -645,6 +905,7 @@ def run_pipeline():
             uncached_indices.append(i)
             uncached_rows.append({
                 "name_clean": row.get("name_clean", row["name"]),
+                "name_original": row.get("name", ""),
                 "name_iupac": row.get("name_iupac"),
                 "class_predicted": row.get("class_predicted"),
                 "brand_prefix": row.get("brand_prefix"),
