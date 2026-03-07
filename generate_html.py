@@ -236,7 +236,6 @@ with open(CHEM_CSV) as f:
             continue
         chem_name = row["name"].strip()
         chem_cas = row.get("cas_number", "").strip()
-        conf_val = row.get("confidence", "").strip()
         srcn_val = row.get("source_count", "").strip()
         solvents.append({
             "name": chem_name,
@@ -250,7 +249,6 @@ with open(CHEM_CSV) as f:
                 row.get("smiles", "").strip(),
             ),
             "smiles": row.get("smiles", "").strip(),
-            "conf": float(conf_val) if conf_val else 0,
             "srcN": int(srcn_val) if srcn_val else 1,
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": src_url,
@@ -276,7 +274,6 @@ with open(POLY_CSV) as f:
         if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
             continue
         poly_name = row["name"].strip()
-        pconf_val = row.get("confidence", "").strip()
         psrcn_val = row.get("source_count", "").strip()
         poly_data.append({
             "name": poly_name,
@@ -284,7 +281,6 @@ with open(POLY_CSV) as f:
             "r": float(r_val) if r_val else None,
             "type": row.get("type", "").strip(),
             "cas": row.get("cas_number", "").strip(),
-            "conf": float(pconf_val) if pconf_val else 0,
             "srcN": int(psrcn_val) if psrcn_val else 1,
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": src_url,
@@ -819,15 +815,15 @@ full_html = f"""<!DOCTYPE html>
         }}
         function _isDsActive(dsId) {{
             if (!dsId) return true; // entries without dataset_id always shown
-            // Visibility on the search page is controlled solely by the active toggle.
-            // Deletion in the database management view does not hide embedded data here —
-            // user-imported datasets are already excluded by the IIFE before reaching this.
+            // Hide if ANY associated dataset has been explicitly deactivated.
+            // This ensures that deactivating e.g. "hspip_polymers" hides all
+            // entries tagged with that dataset, even if they're also in others.
             var active = _getActiveDsets();
             var ids = dsId.split(',');
             for (var i = 0; i < ids.length; i++) {{
-                if (active[ids[i]] !== false) return true;
+                if (active[ids[i]] === false) return false;
             }}
-            return false;
+            return true;
         }}
         var _activeDsets = _getActiveDsets();
 
@@ -876,7 +872,7 @@ full_html = f"""<!DOCTYPE html>
                             mw: c.mw || '', bp: c.bp || '', density: c.density || '',
                             mv: c.mv || '', cat: cat, ghs: c.ghs || '',
                             color: CAT_COLORS[cat] || '#888',
-                            conf: c.conf || '', srcN: 1, src: srcLabel, srcUrl: srcUrl,
+                            srcN: 1, src: srcLabel, srcUrl: srcUrl,
                             dsId: dsId, _imported: true
                         }};
                         SOLVENTS.push(entry);
@@ -886,7 +882,7 @@ full_html = f"""<!DOCTYPE html>
                         var cat = p.cat || POLY_TYPE_TO_CAT[p.type] || 'Other';
                         var entry = {{
                             name: p.name || '', cas: p.cas || '', dd: p.dd || '', dp: p.dp || '', dh: p.dh || '',
-                            r: p.r || '', type: p.type || '', cat: cat, conf: p.conf || '',
+                            r: p.r || '', type: p.type || '', cat: cat,
                             color: POLY_CAT_COLORS[cat] || '#a9a9a9',
                             srcN: 1, src: srcLabel, srcUrl: srcUrl,
                             dsId: dsId, _imported: true
@@ -2920,7 +2916,7 @@ full_html = f"""<!DOCTYPE html>
         // ===================== INIT =====================
         // Listen for dataset changes from the manage page (localStorage sync)
         window.addEventListener('storage', function(e) {{
-            if (e.key === _LS_DS_KEY || e.key === 'materialism_imported_datasets') {{
+            if (e.key === _LS_DS_KEY || e.key === 'materialism_imported_datasets' || e.key === 'materialism_excluded_items') {{
                 _onDatasetsChanged();
             }}
         }});
@@ -3089,7 +3085,6 @@ with open(CHEM_CSV) as f:
             "cat": _db_cat,
             "color": CATEGORY_COLORS.get(_db_cat, "#888888"),
             "ghs": row.get("ghs_hazard", "").strip(),
-            "conf": row.get("confidence", "").strip(),
             "srcN": int(row.get("source_count", "1").strip() or "1"),
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": row.get("source_url", "").strip(),
@@ -3118,7 +3113,8 @@ with open(POLY_CSV) as f:
             "type": _db_poly_type,
             "cat": _db_poly_cat,
             "color": POLYMER_CAT_COLORS.get(_db_poly_cat, "#a9a9a9"),
-            "conf": row.get("confidence", "").strip(),
+            "name_iupac": row.get("name_iupac", "").strip(),
+            "name_common": row.get("name_common", "").strip(),
             "srcN": int(row.get("source_count", "1").strip() or "1"),
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": row.get("source_url", "").strip(),
@@ -3192,7 +3188,6 @@ for ds_id, ds_meta in DATASETS_META.items():
                     "name_iupac": row.get("name_iupac", "").strip(),
                     "name_common": row.get("name_common", "").strip(),
                     "ghs": row.get("ghs_hazard", "").strip(),
-                    "conf": row.get("confidence", "").strip(),
                 })
     if os.path.exists(poly_path):
         with open(poly_path, encoding="utf-8") as f:
@@ -3208,7 +3203,8 @@ for ds_id, ds_meta in DATASETS_META.items():
                     "dd": dd, "dp": dp, "dh": dh,
                     "r": row.get("radius", "").strip(),
                     "type": row.get("type", "").strip(),
-                    "conf": row.get("confidence", "").strip(),
+                    "name_iupac": row.get("name_iupac", "").strip(),
+                    "name_common": row.get("name_common", "").strip(),
                 })
     per_dataset_data[ds_id] = {"chemicals": chems, "polymers": polys, "meta": ds_meta, "_embedded": True}
 
@@ -3289,7 +3285,6 @@ var _CSV_FIELD_DEFS = [
     {id: 'smiles',  label: 'SMILES'},
     {id: 'cat',     label: 'Category'},
     {id: 'type',    label: 'Type'},
-    {id: 'conf',    label: 'Confidence'},
 ];
 // Fast lookup: which values are predefined field IDs (not passthrough)
 var _PREDEFINED_FIELD_ID_SET = {};
@@ -3318,7 +3313,6 @@ var _CSV_PATTERNS = {
     smiles:  [/^smiles$/i, /^canonical[\s_-]?smiles$/i, /^smi$/i, /^structure$/i],
     cat:     [/^cat(egory)?$/i, /^class(ification)?$/i, /^group$/i],
     type:    [/^type$/i, /^polymer[\s_-]?type$/i, /^kind$/i],
-    conf:    [/^conf(idence)?$/i, /^quality$/i, /^score$/i],
 };
 
 function _detectCsvCols(headers) {
@@ -3526,7 +3520,7 @@ function _executeQuickImport() {
             entry = {
                 name: g('name'), cas: g('cas'),
                 dd: g('dd'), dp: g('dp'), dh: g('dh'),
-                r: g('r'), type: g('type') || g('cat'), conf: g('conf')
+                r: g('r'), type: g('type') || g('cat')
             };
             polymers.push(entry);
         } else {
@@ -3534,7 +3528,7 @@ function _executeQuickImport() {
                 name: g('name'), cas: g('cas'),
                 dd: g('dd'), dp: g('dp'), dh: g('dh'),
                 mw: g('mw'), bp: g('bp'), density: g('density'),
-                smiles: g('smiles'), cat: g('cat'), conf: g('conf')
+                smiles: g('smiles'), cat: g('cat')
             };
             chemicals.push(entry);
         }
@@ -4001,14 +3995,14 @@ var _mCurrentCols = [];
                     formula: c.formula || '', dd: c.dd || '', dp: c.dp || '', dh: c.dh || '',
                     mw: c.mw || '', bp: c.bp || '', density: c.density || '',
                     mv: c.mv || '', cat: c.cat || '', ghs: c.ghs || '',
-                    conf: c.conf || '', srcN: 1, src: srcLabel, srcUrl: srcUrl,
+                    srcN: 1, src: srcLabel, srcUrl: srcUrl,
                     dsId: dsId, _imported: true
                 }});
             }});
             (ds.polymers || []).forEach(function(p) {{
                 POLYMERS.push({{
                     name: p.name || '', cas: p.cas || '', dd: p.dd || '', dp: p.dp || '', dh: p.dh || '',
-                    r: p.r || '', type: p.type || '', conf: p.conf || '',
+                    r: p.r || '', type: p.type || '',
                     srcN: 1, src: srcLabel, srcUrl: srcUrl,
                     dsId: dsId, _imported: true
                 }});
@@ -4366,7 +4360,6 @@ function renderDetail() {{
     if (m.source_url) html += 'Source: <a href="' + m.source_url + '" target="_blank">' + m.source_url + '</a><br>';
     if (m.imported_at) html += 'Imported: ' + m.imported_at.replace('T', ' ').replace(/\..*/,'') + '<br>';
     html += nc + ' chemicals, ' + np + ' polymers<br>';
-    if (m.confidence_tier != null) html += 'Confidence tier: ' + m.confidence_tier + '<br>';
     if (m.quality_notes) html += 'Notes: ' + m.quality_notes + '<br>';
     if (m.fields_available) html += 'Fields: ' + m.fields_available.join(', ') + '<br>';
     html += '</div>';
@@ -4392,7 +4385,7 @@ function renderDetail() {{
         itemType = 'c';
     }} else {{
         items = ds.polymers;
-        cols = ['name','cas','dd','dp','dh','r','type'];
+        cols = ['name','name_common','name_iupac','cas','dd','dp','dh','r','type'];
         itemType = 'p';
     }}
     // Append any extra fields present on imported entries (passthrough columns)
@@ -5778,7 +5771,7 @@ function triggerRebuild() {{
 function exportCSV(dsId, type) {{
     var ds = DATASETS[dsId]; var items = ds[type] || [];
     if (items.length === 0) return;
-    var cols = type === 'chemicals' ? ['name','cas','dd','dp','dh','mw','bp','cat','smiles','density','conf'] : ['name','cas','dd','dp','dh','r','type','conf'];
+    var cols = type === 'chemicals' ? ['name','cas','dd','dp','dh','mw','bp','cat','smiles','density'] : ['name','name_common','name_iupac','cas','dd','dp','dh','r','type'];
     var csv = cols.join(',') + '\\n';
     items.forEach(function(r) {{
         csv += cols.map(function(c) {{ var v = r[c]; v = v == null ? '' : String(v); return v.indexOf(',') > -1 ? '"' + v + '"' : v; }}).join(',') + '\\n';
