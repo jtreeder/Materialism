@@ -2002,7 +2002,7 @@ full_html = f"""<!DOCTYPE html>
                     y: items.map(function(e) {{ return e.p.dp; }}),
                     z: items.map(function(e) {{ return e.p.dh; }}),
                     hoverinfo: 'none',
-                    marker: {{ size: 7, color: color, symbol: 'diamond', opacity: 0.95 }},
+                    marker: {{ size: 5, color: color, symbol: 'diamond', opacity: 0.95 }},
                     showlegend: false,
                     _polyCat: cat,
                     _polyIndices: items.map(function(e) {{ return e.idx; }}),
