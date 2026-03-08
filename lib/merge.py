@@ -129,6 +129,9 @@ def merge_polymers(all_sources):
                 existing["radius"] = poly["radius"]
             if not existing.get("type") and poly.get("type"):
                 existing["type"] = poly["type"]
+            for url_field in ("product_url", "tds_url", "sds_url"):
+                if not existing.get(url_field) and poly.get(url_field):
+                    existing[url_field] = poly[url_field]
             # Accumulate dataset_ids
             new_ds = poly.get("dataset_id", "")
             if new_ds:

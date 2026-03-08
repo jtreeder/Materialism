@@ -286,6 +286,9 @@ with open(POLY_CSV) as f:
             "srcUrl": src_url,
             "common": _is_common_polymer(poly_name),
             "dsId": row.get("dataset_id", "").strip(),
+            "productUrl": row.get("product_url", "").strip(),
+            "tdsUrl": row.get("tds_url", "").strip(),
+            "sdsUrl": row.get("sds_url", "").strip(),
         })
 
 CATEGORY_COLORS = {
@@ -1921,6 +1924,7 @@ full_html = f"""<!DOCTYPE html>
             else if (showRed) {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('RED')); }}
             else if (parentIntent === 'similar_solvents') {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)')); }}
             else {{ h.push(th('Ra (MPa<sup>\u00bd</sup>)'), th('R&#8320; (MPa<sup>\u00bd</sup>)')); }}
+            h.push(th('Links'));
             h.push('</tr></thead><tbody>');
 
             // --- Target material rows ---
@@ -1951,6 +1955,11 @@ full_html = f"""<!DOCTYPE html>
                     }} else {{
                         h.push('<td></td><td>', (t.r || ''), '</td>');
                     }}
+                    var _tlnks = '';
+                    if (t.productUrl) _tlnks += '<a href="' + t.productUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Product Page" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F517;</a>';
+                    if (t.tdsUrl) _tlnks += '<a href="' + t.tdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Technical Data Sheet (TDS)" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F4CB;</a>';
+                    if (t.sdsUrl) _tlnks += '<a href="' + t.sdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Safety Data Sheet (SDS)" onclick="event.stopPropagation()" style="text-decoration:none">&#x26A0;&#xFE0F;</a>';
+                    h.push('<td style="white-space:nowrap">', _tlnks, '</td>');
                     h.push('</tr>');
                 }});
             }}
@@ -1965,6 +1974,11 @@ full_html = f"""<!DOCTYPE html>
                 h.push('<td>', (r.mw != null ? r.mw : ''), '</td><td>', (r.bp != null ? r.bp : ''), '</td>');
                 if (isMulti) {{ result.targets.forEach(t => {{ const ra = r.ras[t.name]; const red = r.reds[t.name]; h.push('<td>', (ra != null ? ra.toFixed(2) : ''), '</td>'); let cls = 'red-bad'; if (red != null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red != null ? red.toFixed(2) : 'N/A'), '</td>'); }}); }}
                 else {{ h.push('<td>', (r.ra != null ? r.ra.toFixed(2) : ''), '</td>'); if (showRed) {{ const red = r.red; let cls = 'red-bad'; if (red !== null) {{ if (red < 1) cls = 'red-good'; else if (red < 1.2) cls = 'red-boundary'; }} h.push('<td class="', cls, '">', (red !== null ? red.toFixed(2) : 'N/A'), '</td>'); }} else if (parentIntent === 'similar_solvents') {{ }} else {{ h.push('<td>', (r.r || ''), '</td>'); }} }}
+                var _rlnks = '';
+                if (r.productUrl) _rlnks += '<a href="' + r.productUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Product Page" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F517;</a>';
+                if (r.tdsUrl) _rlnks += '<a href="' + r.tdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Technical Data Sheet (TDS)" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F4CB;</a>';
+                if (r.sdsUrl) _rlnks += '<a href="' + r.sdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Safety Data Sheet (SDS)" onclick="event.stopPropagation()" style="text-decoration:none">&#x26A0;&#xFE0F;</a>';
+                h.push('<td style="white-space:nowrap">', _rlnks, '</td>');
                 h.push('</tr>');
             }});
             h.push('</tbody></table>');
@@ -2670,9 +2684,9 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '</tr>';
                 }}
             }} else {{
-                // Name, CAS, δD, δP, δH, R₀, Type
+                // Name, CAS, δD, δP, δH, R₀, Links
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)'].forEach(function(label, i) {{
+                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)','Links'].forEach(function(label, i) {{
                     headerHtml += thWithTip(label, i);
                 }});
                 headerHtml += '</tr>';
@@ -2700,6 +2714,11 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl, p.src) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl, p.src) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
+                    var _plinks = '';
+                    if (p.productUrl) _plinks += '<a href="' + p.productUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Product Page" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F517;</a>';
+                    if (p.tdsUrl) _plinks += '<a href="' + p.tdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Technical Data Sheet (TDS)" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F4CB;</a>';
+                    if (p.sdsUrl) _plinks += '<a href="' + p.sdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Safety Data Sheet (SDS)" onclick="event.stopPropagation()" style="text-decoration:none">&#x26A0;&#xFE0F;</a>';
+                    rowsHtml += '<td style="white-space:nowrap">' + _plinks + '</td>';
                     rowsHtml += '</tr>';
                 }}
             }}
@@ -3119,6 +3138,9 @@ with open(POLY_CSV) as f:
             "src": SOURCE_NAMES.get(src_key, src_key),
             "srcUrl": row.get("source_url", "").strip(),
             "dsId": row.get("dataset_id", "").strip(),
+            "productUrl": row.get("product_url", "").strip(),
+            "tdsUrl": row.get("tds_url", "").strip(),
+            "sdsUrl": row.get("sds_url", "").strip(),
         })
 
 db_solvents_json = json.dumps(db_solvents)
@@ -4045,6 +4067,9 @@ var POLY_COLS = [
     {{key:'dp', label:'\u03b4P (MPa\u00bd)', w:'78px', tip:'Polarity parameter'}},
     {{key:'dh', label:'\u03b4H (MPa\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
     {{key:'r', label:'R\u2080 (MPa\u00bd)', w:'70px', tip:'Interaction radius'}},
+    {{key:'productUrl', label:'Product', w:'60px', tip:'Manufacturer product page'}},
+    {{key:'tdsUrl', label:'TDS', w:'50px', tip:'Technical Data Sheet'}},
+    {{key:'sdsUrl', label:'SDS', w:'50px', tip:'Safety Data Sheet'}},
 ];
 
 // ===================== ACTIVE DATABASE EDITS =====================
@@ -4305,6 +4330,11 @@ function renderActiveDb() {{
                     if (_cfLvl === 'class') {{
                         display = val + '<sup class="cf-class-note" title="ClassyFire class used \u2014 no subclass available for this compound">\u2020</sup>';
                     }}
+                }}
+                if ((c.key === 'productUrl' || c.key === 'tdsUrl' || c.key === 'sdsUrl') && val) {{
+                    var _lnkLabel = c.key === 'productUrl' ? 'Product Page' : (c.key === 'tdsUrl' ? 'Technical Data Sheet (TDS)' : 'Safety Data Sheet (SDS)');
+                    var _lnkIcon = c.key === 'productUrl' ? '&#x1F517;' : (c.key === 'tdsUrl' ? '&#x1F4CB;' : '&#x26A0;&#xFE0F;');
+                    display = '<a href="' + val.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="' + _lnkLabel + '" onclick="event.stopPropagation()" style="text-decoration:none">' + _lnkIcon + '</a>';
                 }}
                 // Per-cell source reference — stored as data attrs, shown on cell click
                 var _mat = (_activeDbTab === 'solvents' ? SOLVENTS : POLYMERS)[idx];

@@ -14,6 +14,7 @@ POLYMER_FIELDS = [
     "delta_d", "delta_p", "delta_h",
     "radius", "type",
     "confidence", "source_count", "source", "source_url",
+    "product_url", "tds_url", "sds_url",
     "dataset_id",
 ]
 
