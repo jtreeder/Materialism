@@ -290,6 +290,40 @@
             "quality_notes": "Pipeline v5: name_clean added per spec. 13-class classification (rule-based). CAS found: 11/458. PubChem queries: 7.",
             "active": true,
             "confidence_tier": 0.9
+        },
+        "hsp_polymers_6": {
+            "id": "hsp_polymers_6",
+            "name": "HSP Polymers 6",
+            "source_url": "https://github.com/jtreeder/Materialism/blob/claude/hansen-solubility-planning-D5iok/data/raw/a1%20and%20a2%20only.pdf",
+            "description": "Re-processed Hansen Solubility Parameters Table A.1 solvents from the original PDF source (Hansen 2007). Full enrichment pipeline: name cleaning, IUPAC/common name resolution, CAS lookup, SMILES, molecular formula, physical properties, ClassyFire taxonomy, GHS hazard codes.",
+            "imported_at": "2026-03-08T00:00:00+00:00",
+            "chemical_count": 1130,
+            "polymer_count": 0,
+            "fields_available": [
+                "name_input",
+                "name_iupac",
+                "name_common",
+                "name_common_all",
+                "name_acronyms",
+                "cas_number",
+                "smiles",
+                "molecular_formula",
+                "delta_d",
+                "delta_p",
+                "delta_h",
+                "molar_volume",
+                "molecular_weight",
+                "boiling_point",
+                "density",
+                "category",
+                "cf_class",
+                "cf_subclass",
+                "ghs_hazard",
+                "processing_notes"
+            ],
+            "quality_notes": "Source: Hansen PDF Table A.1 (1130 solvents). Reference hits (hsp_solvents_2): 908/1130 (80%). IUPAC coverage: 908/1130 (80%). CAS: 903/1130 (80%). ClassyFire: 702/1130 (62%).",
+            "active": true,
+            "confidence_tier": 0.9
         }
     }
 }

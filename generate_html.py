@@ -63,6 +63,7 @@ SOURCE_NAMES = {
     "wolfram": "Wolfram Data Repo",
     "accudyne": "Accudyne Test",
     "hsp_solvents_2": "HSP Solvents 2",
+    "hsp_polymers_6": "HSP Polymers 6",
 }
 
 # Common solvents: readily available lab/industrial solvents
