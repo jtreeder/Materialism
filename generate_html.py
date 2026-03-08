@@ -3227,6 +3227,9 @@ for ds_id, ds_meta in DATASETS_META.items():
                     "type": row.get("type", "").strip(),
                     "name_iupac": row.get("name_iupac", "").strip(),
                     "name_common": row.get("name_common", "").strip(),
+                    "product_url": row.get("product_url", "").strip(),
+                    "tds_url": row.get("tds_url", "").strip(),
+                    "sds_url": row.get("sds_url", "").strip(),
                 })
     per_dataset_data[ds_id] = {"chemicals": chems, "polymers": polys, "meta": ds_meta, "_embedded": True}
 
@@ -4421,7 +4424,7 @@ function renderDetail() {{
         itemType = 'c';
     }} else {{
         items = ds.polymers;
-        cols = ['name','name_common','name_iupac','cas','dd','dp','dh','r','type'];
+        cols = ['name','name_common','name_iupac','cas','dd','dp','dh','r','type','product_url','tds_url','sds_url'];
         itemType = 'p';
     }}
     // Append any extra fields present on imported entries (passthrough columns)
@@ -4483,7 +4486,8 @@ function renderDetail() {{
         smiles:'SMILES', formula:'Formula', density:'Density (g/mL)',
         ghs:'GHS',
         cf_class:'Class', cf_subclass:'Subclass',
-        name_iupac:'IUPAC Name', name_common:'Common Name'
+        name_iupac:'IUPAC Name', name_common:'Common Name',
+        product_url:'Product', tds_url:'TDS', sds_url:'SDS'
     }};
 
     items.forEach(function(item, idx) {{ item._oidx = idx; }});
@@ -4544,6 +4548,10 @@ function renderDetail() {{
                 var _catMap = (nc > 0) ? CAT_COLORS : POLY_CAT_COLORS;
                 var _catC = _catMap[v] || '#888';
                 display = '<span style="display:inline-flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:50%;flex-shrink:0;background:' + _catC + '"></span>' + v + '</span>';
+            }} else if ((c === 'product_url' || c === 'tds_url' || c === 'sds_url') && v) {{
+                var _urlLabel = c === 'product_url' ? 'Product Page' : (c === 'tds_url' ? 'Technical Data Sheet (TDS)' : 'Safety Data Sheet (SDS)');
+                var _urlIcon = c === 'product_url' ? '&#x1F517;' : (c === 'tds_url' ? '&#x1F4CB;' : '&#x26A0;&#xFE0F;');
+                display = '<a href="' + v.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="' + _urlLabel + '" onclick="event.stopPropagation()" style="text-decoration:none">' + _urlIcon + '</a>';
             }}
             html += '<td' + (cls ? ' class="' + cls + '"' : '') + attrs + catStyle + '>' + display;
             html += '</td>';
