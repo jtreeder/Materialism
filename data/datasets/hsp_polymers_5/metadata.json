@@ -1,0 +1,31 @@
+{
+  "id": "hsp_polymers_5",
+  "name": "HSP Polymers 5",
+  "source_url": "https://github.com/jtreeder/Materialism/blob/claude/hansen-solubility-planning-D5iok/data/datasets/hspip_polymers/raw/HSPiP_polymers.csv",
+  "description": "Re-processed HSPiP polymer database (pipeline v5). Adds name_clean as explicit output column per pipeline spec. Comprehensive IUPAC name knowledge table, 13-class polymer classification, CAS lookup via PubChem, HSP plausibility flags, processing audit trail.",
+  "imported_at": "2026-03-08T00:00:00+00:00",
+  "chemical_count": 0,
+  "polymer_count": 458,
+  "fields_available": [
+    "name_input",
+    "name_clean",
+    "name_iupac",
+    "name_common",
+    "name_common_all",
+    "name_acronyms",
+    "cas",
+    "product_url",
+    "tds_url",
+    "sds_url",
+    "dD",
+    "dP",
+    "dH",
+    "radius",
+    "class",
+    "subclass",
+    "processing_notes"
+  ],
+  "quality_notes": "Pipeline v5: name_clean added per spec. 13-class classification (rule-based). CAS found: 11/458. PubChem queries: 7.",
+  "active": true,
+  "confidence_tier": 0.9
+}
