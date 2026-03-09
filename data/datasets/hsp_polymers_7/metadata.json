@@ -1,0 +1,33 @@
+{
+  "id": "hsp_polymers_7",
+  "name": "HSP Polymers 7",
+  "source_url": "https://github.com/jtreeder/Materialism/blob/claude/hansen-solubility-planning-D5iok/data/raw/a2only.pdf",
+  "description": "Hansen Solubility Parameters Table A.2 extracted directly from the original Hansen (2007) PDF. Full pipeline: PDF extraction with pdfplumber, Step 0B OCR corrections, 13-class polymer classification, Step 0E data_type/data_reliability metadata, CAS lookup via PubChem, name enrichment (IUPAC, common, acronyms), processing audit trail.",
+  "imported_at": "2026-03-09T00:00:00+00:00",
+  "chemical_count": 0,
+  "polymer_count": 466,
+  "fields_available": [
+    "name_input",
+    "name_clean",
+    "name_iupac",
+    "name_common",
+    "name_common_all",
+    "name_acronyms",
+    "cas",
+    "product_url",
+    "tds_url",
+    "sds_url",
+    "dD",
+    "dP",
+    "dH",
+    "radius",
+    "class",
+    "subclass",
+    "data_type",
+    "data_reliability",
+    "processing_notes"
+  ],
+  "quality_notes": "Pipeline v7: PDF source (a2only.pdf, 466 rows). 13-class classification (rule-based). Step 0E data_type/data_reliability metadata. CAS found: 11/466. PubChem queries: 2.",
+  "active": true,
+  "confidence_tier": 0.9
+}

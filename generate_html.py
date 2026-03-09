@@ -64,6 +64,7 @@ SOURCE_NAMES = {
     "accudyne": "Accudyne Test",
     "hsp_solvents_2": "HSP Solvents 2",
     "hsp_polymers_6": "HSP Polymers 6",
+    "hsp_polymers_7": "HSP Polymers 7",
 }
 
 # Common solvents: readily available lab/industrial solvents
