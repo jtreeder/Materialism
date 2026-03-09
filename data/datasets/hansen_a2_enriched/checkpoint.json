@@ -1,0 +1,1872 @@
+{
+  "last_completed_row": 466,
+  "total_rows": 466,
+  "output_file": "/home/user/Materialism/data/datasets/hansen_a2_enriched/polymers_enriched.csv",
+  "timestamp": "2026-03-09T00:31:21.125784+00:00",
+  "done": {
+    "1": {
+      "cas": "",
+      "product_url": ""
+    },
+    "2": {
+      "cas": "",
+      "product_url": ""
+    },
+    "3": {
+      "cas": "",
+      "product_url": ""
+    },
+    "4": {
+      "cas": "",
+      "product_url": ""
+    },
+    "5": {
+      "cas": "",
+      "product_url": ""
+    },
+    "6": {
+      "cas": "",
+      "product_url": ""
+    },
+    "7": {
+      "cas": "",
+      "product_url": ""
+    },
+    "8": {
+      "cas": "",
+      "product_url": ""
+    },
+    "9": {
+      "cas": "",
+      "product_url": ""
+    },
+    "10": {
+      "cas": "",
+      "product_url": ""
+    },
+    "11": {
+      "cas": "",
+      "product_url": ""
+    },
+    "12": {
+      "cas": "",
+      "product_url": ""
+    },
+    "13": {
+      "cas": "",
+      "product_url": ""
+    },
+    "14": {
+      "cas": "",
+      "product_url": ""
+    },
+    "15": {
+      "cas": "",
+      "product_url": ""
+    },
+    "16": {
+      "cas": "",
+      "product_url": ""
+    },
+    "17": {
+      "cas": "",
+      "product_url": ""
+    },
+    "18": {
+      "cas": "",
+      "product_url": ""
+    },
+    "19": {
+      "cas": "",
+      "product_url": ""
+    },
+    "20": {
+      "cas": "",
+      "product_url": ""
+    },
+    "21": {
+      "cas": "",
+      "product_url": ""
+    },
+    "22": {
+      "cas": "",
+      "product_url": ""
+    },
+    "23": {
+      "cas": "",
+      "product_url": ""
+    },
+    "24": {
+      "cas": "",
+      "product_url": ""
+    },
+    "25": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "26": {
+      "cas": "",
+      "product_url": ""
+    },
+    "27": {
+      "cas": "",
+      "product_url": ""
+    },
+    "28": {
+      "cas": "",
+      "product_url": ""
+    },
+    "29": {
+      "cas": "",
+      "product_url": ""
+    },
+    "30": {
+      "cas": "",
+      "product_url": ""
+    },
+    "31": {
+      "cas": "",
+      "product_url": ""
+    },
+    "32": {
+      "cas": "",
+      "product_url": ""
+    },
+    "33": {
+      "cas": "",
+      "product_url": ""
+    },
+    "34": {
+      "cas": "",
+      "product_url": ""
+    },
+    "35": {
+      "cas": "",
+      "product_url": ""
+    },
+    "36": {
+      "cas": "",
+      "product_url": ""
+    },
+    "37": {
+      "cas": "",
+      "product_url": ""
+    },
+    "38": {
+      "cas": "",
+      "product_url": ""
+    },
+    "39": {
+      "cas": "9002-86-2",
+      "product_url": ""
+    },
+    "40": {
+      "cas": "",
+      "product_url": ""
+    },
+    "41": {
+      "cas": "",
+      "product_url": ""
+    },
+    "42": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "43": {
+      "cas": "",
+      "product_url": ""
+    },
+    "44": {
+      "cas": "",
+      "product_url": ""
+    },
+    "45": {
+      "cas": "",
+      "product_url": ""
+    },
+    "46": {
+      "cas": "",
+      "product_url": ""
+    },
+    "47": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "48": {
+      "cas": "",
+      "product_url": ""
+    },
+    "49": {
+      "cas": "",
+      "product_url": ""
+    },
+    "50": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "51": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "52": {
+      "cas": "",
+      "product_url": ""
+    },
+    "53": {
+      "cas": "",
+      "product_url": ""
+    },
+    "54": {
+      "cas": "",
+      "product_url": ""
+    },
+    "55": {
+      "cas": "",
+      "product_url": ""
+    },
+    "56": {
+      "cas": "",
+      "product_url": ""
+    },
+    "57": {
+      "cas": "",
+      "product_url": ""
+    },
+    "58": {
+      "cas": "",
+      "product_url": ""
+    },
+    "59": {
+      "cas": "",
+      "product_url": ""
+    },
+    "60": {
+      "cas": "",
+      "product_url": ""
+    },
+    "61": {
+      "cas": "",
+      "product_url": ""
+    },
+    "62": {
+      "cas": "25608-33-7",
+      "product_url": ""
+    },
+    "63": {
+      "cas": "9011-14-7",
+      "product_url": ""
+    },
+    "64": {
+      "cas": "",
+      "product_url": ""
+    },
+    "65": {
+      "cas": "",
+      "product_url": ""
+    },
+    "66": {
+      "cas": "9011-14-7",
+      "product_url": ""
+    },
+    "67": {
+      "cas": "9003-20-7",
+      "product_url": ""
+    },
+    "68": {
+      "cas": "9003-53-6",
+      "product_url": ""
+    },
+    "69": {
+      "cas": "",
+      "product_url": ""
+    },
+    "70": {
+      "cas": "",
+      "product_url": ""
+    },
+    "71": {
+      "cas": "",
+      "product_url": ""
+    },
+    "72": {
+      "cas": "",
+      "product_url": ""
+    },
+    "73": {
+      "cas": "",
+      "product_url": ""
+    },
+    "74": {
+      "cas": "",
+      "product_url": ""
+    },
+    "75": {
+      "cas": "",
+      "product_url": ""
+    },
+    "76": {
+      "cas": "",
+      "product_url": ""
+    },
+    "77": {
+      "cas": "",
+      "product_url": ""
+    },
+    "78": {
+      "cas": "",
+      "product_url": ""
+    },
+    "79": {
+      "cas": "",
+      "product_url": ""
+    },
+    "80": {
+      "cas": "",
+      "product_url": ""
+    },
+    "81": {
+      "cas": "",
+      "product_url": ""
+    },
+    "82": {
+      "cas": "",
+      "product_url": ""
+    },
+    "83": {
+      "cas": "",
+      "product_url": ""
+    },
+    "84": {
+      "cas": "",
+      "product_url": ""
+    },
+    "85": {
+      "cas": "",
+      "product_url": ""
+    },
+    "86": {
+      "cas": "",
+      "product_url": ""
+    },
+    "87": {
+      "cas": "",
+      "product_url": ""
+    },
+    "88": {
+      "cas": "",
+      "product_url": ""
+    },
+    "89": {
+      "cas": "",
+      "product_url": ""
+    },
+    "90": {
+      "cas": "",
+      "product_url": ""
+    },
+    "91": {
+      "cas": "",
+      "product_url": ""
+    },
+    "92": {
+      "cas": "",
+      "product_url": ""
+    },
+    "93": {
+      "cas": "",
+      "product_url": ""
+    },
+    "94": {
+      "cas": "",
+      "product_url": ""
+    },
+    "95": {
+      "cas": "",
+      "product_url": ""
+    },
+    "96": {
+      "cas": "",
+      "product_url": ""
+    },
+    "97": {
+      "cas": "",
+      "product_url": ""
+    },
+    "98": {
+      "cas": "",
+      "product_url": ""
+    },
+    "99": {
+      "cas": "",
+      "product_url": ""
+    },
+    "100": {
+      "cas": "",
+      "product_url": ""
+    },
+    "101": {
+      "cas": "",
+      "product_url": ""
+    },
+    "102": {
+      "cas": "",
+      "product_url": ""
+    },
+    "103": {
+      "cas": "",
+      "product_url": ""
+    },
+    "104": {
+      "cas": "",
+      "product_url": ""
+    },
+    "105": {
+      "cas": "",
+      "product_url": ""
+    },
+    "106": {
+      "cas": "",
+      "product_url": ""
+    },
+    "107": {
+      "cas": "",
+      "product_url": ""
+    },
+    "108": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "109": {
+      "cas": "",
+      "product_url": ""
+    },
+    "110": {
+      "cas": "9002-84-0",
+      "product_url": ""
+    },
+    "111": {
+      "cas": "",
+      "product_url": ""
+    },
+    "112": {
+      "cas": "",
+      "product_url": ""
+    },
+    "113": {
+      "cas": "",
+      "product_url": ""
+    },
+    "114": {
+      "cas": "",
+      "product_url": ""
+    },
+    "115": {
+      "cas": "",
+      "product_url": ""
+    },
+    "116": {
+      "cas": "",
+      "product_url": ""
+    },
+    "117": {
+      "cas": "",
+      "product_url": ""
+    },
+    "118": {
+      "cas": "",
+      "product_url": ""
+    },
+    "119": {
+      "cas": "",
+      "product_url": ""
+    },
+    "120": {
+      "cas": "",
+      "product_url": ""
+    },
+    "121": {
+      "cas": "",
+      "product_url": ""
+    },
+    "122": {
+      "cas": "",
+      "product_url": ""
+    },
+    "123": {
+      "cas": "",
+      "product_url": ""
+    },
+    "124": {
+      "cas": "",
+      "product_url": ""
+    },
+    "125": {
+      "cas": "",
+      "product_url": ""
+    },
+    "126": {
+      "cas": "9002-86-2",
+      "product_url": ""
+    },
+    "127": {
+      "cas": "9002-86-2",
+      "product_url": ""
+    },
+    "128": {
+      "cas": "9002-86-2",
+      "product_url": ""
+    },
+    "129": {
+      "cas": "",
+      "product_url": ""
+    },
+    "130": {
+      "cas": "",
+      "product_url": ""
+    },
+    "131": {
+      "cas": "",
+      "product_url": ""
+    },
+    "132": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "133": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "134": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "135": {
+      "cas": "",
+      "product_url": ""
+    },
+    "136": {
+      "cas": "",
+      "product_url": ""
+    },
+    "137": {
+      "cas": "",
+      "product_url": ""
+    },
+    "138": {
+      "cas": "",
+      "product_url": ""
+    },
+    "139": {
+      "cas": "",
+      "product_url": ""
+    },
+    "140": {
+      "cas": "",
+      "product_url": ""
+    },
+    "141": {
+      "cas": "",
+      "product_url": ""
+    },
+    "142": {
+      "cas": "",
+      "product_url": ""
+    },
+    "143": {
+      "cas": "9002-85-1",
+      "product_url": ""
+    },
+    "144": {
+      "cas": "9002-85-1",
+      "product_url": ""
+    },
+    "145": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "146": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "147": {
+      "cas": "9003-53-6",
+      "product_url": ""
+    },
+    "148": {
+      "cas": "9003-53-6",
+      "product_url": ""
+    },
+    "149": {
+      "cas": "25038-54-4",
+      "product_url": ""
+    },
+    "150": {
+      "cas": "32131-17-2",
+      "product_url": ""
+    },
+    "151": {
+      "cas": "",
+      "product_url": ""
+    },
+    "152": {
+      "cas": "",
+      "product_url": ""
+    },
+    "153": {
+      "cas": "25038-59-9",
+      "product_url": ""
+    },
+    "154": {
+      "cas": "9002-84-0",
+      "product_url": ""
+    },
+    "155": {
+      "cas": "9011-14-7",
+      "product_url": ""
+    },
+    "156": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "157": {
+      "cas": "",
+      "product_url": ""
+    },
+    "158": {
+      "cas": "",
+      "product_url": ""
+    },
+    "159": {
+      "cas": "9003-56-9",
+      "product_url": ""
+    },
+    "160": {
+      "cas": "",
+      "product_url": ""
+    },
+    "161": {
+      "cas": "",
+      "product_url": ""
+    },
+    "162": {
+      "cas": "",
+      "product_url": ""
+    },
+    "163": {
+      "cas": "",
+      "product_url": ""
+    },
+    "164": {
+      "cas": "",
+      "product_url": ""
+    },
+    "165": {
+      "cas": "",
+      "product_url": ""
+    },
+    "166": {
+      "cas": "",
+      "product_url": ""
+    },
+    "167": {
+      "cas": "",
+      "product_url": ""
+    },
+    "168": {
+      "cas": "",
+      "product_url": ""
+    },
+    "169": {
+      "cas": "",
+      "product_url": ""
+    },
+    "170": {
+      "cas": "9004-35-7",
+      "product_url": ""
+    },
+    "171": {
+      "cas": "",
+      "product_url": ""
+    },
+    "172": {
+      "cas": "",
+      "product_url": ""
+    },
+    "173": {
+      "cas": "9002-83-9",
+      "product_url": ""
+    },
+    "174": {
+      "cas": "",
+      "product_url": ""
+    },
+    "175": {
+      "cas": "",
+      "product_url": ""
+    },
+    "176": {
+      "cas": "",
+      "product_url": ""
+    },
+    "177": {
+      "cas": "",
+      "product_url": ""
+    },
+    "178": {
+      "cas": "",
+      "product_url": ""
+    },
+    "179": {
+      "cas": "",
+      "product_url": ""
+    },
+    "180": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "181": {
+      "cas": "9003-07-0",
+      "product_url": ""
+    },
+    "182": {
+      "cas": "9002-83-9",
+      "product_url": ""
+    },
+    "183": {
+      "cas": "25014-41-9",
+      "product_url": ""
+    },
+    "184": {
+      "cas": "9003-53-6",
+      "product_url": ""
+    },
+    "185": {
+      "cas": "9003-53-6",
+      "product_url": ""
+    },
+    "186": {
+      "cas": "9003-53-6",
+      "product_url": ""
+    },
+    "187": {
+      "cas": "",
+      "product_url": ""
+    },
+    "188": {
+      "cas": "",
+      "product_url": ""
+    },
+    "189": {
+      "cas": "",
+      "product_url": ""
+    },
+    "190": {
+      "cas": "",
+      "product_url": ""
+    },
+    "191": {
+      "cas": "",
+      "product_url": ""
+    },
+    "192": {
+      "cas": "9003-63-8",
+      "product_url": ""
+    },
+    "193": {
+      "cas": "",
+      "product_url": ""
+    },
+    "194": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "195": {
+      "cas": "",
+      "product_url": ""
+    },
+    "196": {
+      "cas": "",
+      "product_url": ""
+    },
+    "197": {
+      "cas": "",
+      "product_url": ""
+    },
+    "198": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "199": {
+      "cas": "",
+      "product_url": ""
+    },
+    "200": {
+      "cas": "",
+      "product_url": ""
+    },
+    "201": {
+      "cas": "",
+      "product_url": ""
+    },
+    "202": {
+      "cas": "",
+      "product_url": ""
+    },
+    "203": {
+      "cas": "9003-53-6",
+      "product_url": ""
+    },
+    "204": {
+      "cas": "9003-20-7",
+      "product_url": ""
+    },
+    "205": {
+      "cas": "9002-86-2",
+      "product_url": ""
+    },
+    "206": {
+      "cas": "",
+      "product_url": ""
+    },
+    "207": {
+      "cas": "",
+      "product_url": ""
+    },
+    "208": {
+      "cas": "9011-14-7",
+      "product_url": ""
+    },
+    "209": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "210": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "211": {
+      "cas": "25037-45-0",
+      "product_url": ""
+    },
+    "212": {
+      "cas": "",
+      "product_url": ""
+    },
+    "213": {
+      "cas": "",
+      "product_url": ""
+    },
+    "214": {
+      "cas": "",
+      "product_url": ""
+    },
+    "215": {
+      "cas": "",
+      "product_url": ""
+    },
+    "216": {
+      "cas": "9003-54-7",
+      "product_url": ""
+    },
+    "217": {
+      "cas": "",
+      "product_url": ""
+    },
+    "218": {
+      "cas": "",
+      "product_url": ""
+    },
+    "219": {
+      "cas": "",
+      "product_url": ""
+    },
+    "220": {
+      "cas": "",
+      "product_url": ""
+    },
+    "221": {
+      "cas": "9004-35-7",
+      "product_url": ""
+    },
+    "222": {
+      "cas": "",
+      "product_url": ""
+    },
+    "223": {
+      "cas": "9002-89-5",
+      "product_url": ""
+    },
+    "224": {
+      "cas": "",
+      "product_url": ""
+    },
+    "225": {
+      "cas": "",
+      "product_url": ""
+    },
+    "226": {
+      "cas": "",
+      "product_url": ""
+    },
+    "227": {
+      "cas": "",
+      "product_url": ""
+    },
+    "228": {
+      "cas": "",
+      "product_url": ""
+    },
+    "229": {
+      "cas": "",
+      "product_url": ""
+    },
+    "230": {
+      "cas": "",
+      "product_url": ""
+    },
+    "231": {
+      "cas": "",
+      "product_url": ""
+    },
+    "232": {
+      "cas": "25608-33-7",
+      "product_url": ""
+    },
+    "233": {
+      "cas": "",
+      "product_url": ""
+    },
+    "234": {
+      "cas": "9011-14-7",
+      "product_url": ""
+    },
+    "235": {
+      "cas": "",
+      "product_url": ""
+    },
+    "236": {
+      "cas": "",
+      "product_url": ""
+    },
+    "237": {
+      "cas": "",
+      "product_url": ""
+    },
+    "238": {
+      "cas": "",
+      "product_url": ""
+    },
+    "239": {
+      "cas": "",
+      "product_url": ""
+    },
+    "240": {
+      "cas": "",
+      "product_url": ""
+    },
+    "241": {
+      "cas": "",
+      "product_url": ""
+    },
+    "242": {
+      "cas": "",
+      "product_url": ""
+    },
+    "243": {
+      "cas": "",
+      "product_url": ""
+    },
+    "244": {
+      "cas": "",
+      "product_url": ""
+    },
+    "245": {
+      "cas": "",
+      "product_url": ""
+    },
+    "246": {
+      "cas": "",
+      "product_url": ""
+    },
+    "247": {
+      "cas": "",
+      "product_url": ""
+    },
+    "248": {
+      "cas": "",
+      "product_url": ""
+    },
+    "249": {
+      "cas": "",
+      "product_url": ""
+    },
+    "250": {
+      "cas": "",
+      "product_url": ""
+    },
+    "251": {
+      "cas": "",
+      "product_url": ""
+    },
+    "252": {
+      "cas": "",
+      "product_url": ""
+    },
+    "253": {
+      "cas": "",
+      "product_url": ""
+    },
+    "254": {
+      "cas": "",
+      "product_url": ""
+    },
+    "255": {
+      "cas": "",
+      "product_url": ""
+    },
+    "256": {
+      "cas": "",
+      "product_url": ""
+    },
+    "257": {
+      "cas": "",
+      "product_url": ""
+    },
+    "258": {
+      "cas": "",
+      "product_url": ""
+    },
+    "259": {
+      "cas": "",
+      "product_url": ""
+    },
+    "260": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "261": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "262": {
+      "cas": "",
+      "product_url": ""
+    },
+    "263": {
+      "cas": "",
+      "product_url": ""
+    },
+    "264": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "265": {
+      "cas": "",
+      "product_url": ""
+    },
+    "266": {
+      "cas": "",
+      "product_url": ""
+    },
+    "267": {
+      "cas": "",
+      "product_url": ""
+    },
+    "268": {
+      "cas": "",
+      "product_url": ""
+    },
+    "269": {
+      "cas": "",
+      "product_url": ""
+    },
+    "270": {
+      "cas": "",
+      "product_url": ""
+    },
+    "271": {
+      "cas": "",
+      "product_url": ""
+    },
+    "272": {
+      "cas": "",
+      "product_url": ""
+    },
+    "273": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "274": {
+      "cas": "9003-53-6",
+      "product_url": ""
+    },
+    "275": {
+      "cas": "",
+      "product_url": ""
+    },
+    "276": {
+      "cas": "",
+      "product_url": ""
+    },
+    "277": {
+      "cas": "",
+      "product_url": ""
+    },
+    "278": {
+      "cas": "",
+      "product_url": ""
+    },
+    "279": {
+      "cas": "",
+      "product_url": ""
+    },
+    "280": {
+      "cas": "",
+      "product_url": ""
+    },
+    "281": {
+      "cas": "",
+      "product_url": ""
+    },
+    "282": {
+      "cas": "",
+      "product_url": ""
+    },
+    "283": {
+      "cas": "",
+      "product_url": ""
+    },
+    "284": {
+      "cas": "",
+      "product_url": ""
+    },
+    "285": {
+      "cas": "9003-54-7",
+      "product_url": ""
+    },
+    "286": {
+      "cas": "",
+      "product_url": ""
+    },
+    "287": {
+      "cas": "",
+      "product_url": ""
+    },
+    "288": {
+      "cas": "",
+      "product_url": ""
+    },
+    "289": {
+      "cas": "",
+      "product_url": ""
+    },
+    "290": {
+      "cas": "",
+      "product_url": ""
+    },
+    "291": {
+      "cas": "",
+      "product_url": ""
+    },
+    "292": {
+      "cas": "",
+      "product_url": ""
+    },
+    "293": {
+      "cas": "",
+      "product_url": ""
+    },
+    "294": {
+      "cas": "9003-53-6",
+      "product_url": ""
+    },
+    "295": {
+      "cas": "",
+      "product_url": ""
+    },
+    "296": {
+      "cas": "",
+      "product_url": ""
+    },
+    "297": {
+      "cas": "",
+      "product_url": ""
+    },
+    "298": {
+      "cas": "",
+      "product_url": ""
+    },
+    "299": {
+      "cas": "",
+      "product_url": ""
+    },
+    "300": {
+      "cas": "",
+      "product_url": ""
+    },
+    "301": {
+      "cas": "",
+      "product_url": ""
+    },
+    "302": {
+      "cas": "",
+      "product_url": ""
+    },
+    "303": {
+      "cas": "9002-86-2",
+      "product_url": ""
+    },
+    "304": {
+      "cas": "",
+      "product_url": ""
+    },
+    "305": {
+      "cas": "",
+      "product_url": ""
+    },
+    "306": {
+      "cas": "",
+      "product_url": ""
+    },
+    "307": {
+      "cas": "",
+      "product_url": ""
+    },
+    "308": {
+      "cas": "63148-65-2",
+      "product_url": ""
+    },
+    "309": {
+      "cas": "",
+      "product_url": ""
+    },
+    "310": {
+      "cas": "",
+      "product_url": ""
+    },
+    "311": {
+      "cas": "",
+      "product_url": ""
+    },
+    "312": {
+      "cas": "",
+      "product_url": ""
+    },
+    "313": {
+      "cas": "",
+      "product_url": ""
+    },
+    "314": {
+      "cas": "",
+      "product_url": ""
+    },
+    "315": {
+      "cas": "",
+      "product_url": ""
+    },
+    "316": {
+      "cas": "",
+      "product_url": ""
+    },
+    "317": {
+      "cas": "",
+      "product_url": ""
+    },
+    "318": {
+      "cas": "",
+      "product_url": ""
+    },
+    "319": {
+      "cas": "",
+      "product_url": ""
+    },
+    "320": {
+      "cas": "",
+      "product_url": ""
+    },
+    "321": {
+      "cas": "",
+      "product_url": ""
+    },
+    "322": {
+      "cas": "9003-20-7",
+      "product_url": ""
+    },
+    "323": {
+      "cas": "",
+      "product_url": ""
+    },
+    "324": {
+      "cas": "",
+      "product_url": ""
+    },
+    "325": {
+      "cas": "",
+      "product_url": ""
+    },
+    "326": {
+      "cas": "",
+      "product_url": ""
+    },
+    "327": {
+      "cas": "",
+      "product_url": ""
+    },
+    "328": {
+      "cas": "63148-65-2",
+      "product_url": ""
+    },
+    "329": {
+      "cas": "63148-65-2",
+      "product_url": ""
+    },
+    "330": {
+      "cas": "",
+      "product_url": ""
+    },
+    "331": {
+      "cas": "",
+      "product_url": ""
+    },
+    "332": {
+      "cas": "",
+      "product_url": ""
+    },
+    "333": {
+      "cas": "",
+      "product_url": ""
+    },
+    "334": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "335": {
+      "cas": "",
+      "product_url": ""
+    },
+    "336": {
+      "cas": "",
+      "product_url": ""
+    },
+    "337": {
+      "cas": "",
+      "product_url": ""
+    },
+    "338": {
+      "cas": "",
+      "product_url": ""
+    },
+    "339": {
+      "cas": "",
+      "product_url": ""
+    },
+    "340": {
+      "cas": "",
+      "product_url": ""
+    },
+    "341": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "342": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "343": {
+      "cas": "",
+      "product_url": ""
+    },
+    "344": {
+      "cas": "",
+      "product_url": ""
+    },
+    "345": {
+      "cas": "9003-54-7",
+      "product_url": ""
+    },
+    "346": {
+      "cas": "",
+      "product_url": ""
+    },
+    "347": {
+      "cas": "",
+      "product_url": ""
+    },
+    "348": {
+      "cas": "",
+      "product_url": ""
+    },
+    "349": {
+      "cas": "",
+      "product_url": ""
+    },
+    "350": {
+      "cas": "",
+      "product_url": ""
+    },
+    "351": {
+      "cas": "",
+      "product_url": ""
+    },
+    "352": {
+      "cas": "",
+      "product_url": ""
+    },
+    "353": {
+      "cas": "",
+      "product_url": ""
+    },
+    "354": {
+      "cas": "",
+      "product_url": ""
+    },
+    "355": {
+      "cas": "",
+      "product_url": ""
+    },
+    "356": {
+      "cas": "",
+      "product_url": ""
+    },
+    "357": {
+      "cas": "",
+      "product_url": ""
+    },
+    "358": {
+      "cas": "",
+      "product_url": ""
+    },
+    "359": {
+      "cas": "",
+      "product_url": ""
+    },
+    "360": {
+      "cas": "",
+      "product_url": ""
+    },
+    "361": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "362": {
+      "cas": "9003-53-6",
+      "product_url": ""
+    },
+    "363": {
+      "cas": "",
+      "product_url": ""
+    },
+    "364": {
+      "cas": "",
+      "product_url": ""
+    },
+    "365": {
+      "cas": "",
+      "product_url": ""
+    },
+    "366": {
+      "cas": "",
+      "product_url": ""
+    },
+    "367": {
+      "cas": "",
+      "product_url": ""
+    },
+    "368": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "369": {
+      "cas": "9002-88-4",
+      "product_url": ""
+    },
+    "370": {
+      "cas": "",
+      "product_url": ""
+    },
+    "371": {
+      "cas": "",
+      "product_url": ""
+    },
+    "372": {
+      "cas": "",
+      "product_url": ""
+    },
+    "373": {
+      "cas": "",
+      "product_url": ""
+    },
+    "374": {
+      "cas": "",
+      "product_url": ""
+    },
+    "375": {
+      "cas": "",
+      "product_url": ""
+    },
+    "376": {
+      "cas": "",
+      "product_url": ""
+    },
+    "377": {
+      "cas": "",
+      "product_url": ""
+    },
+    "378": {
+      "cas": "",
+      "product_url": ""
+    },
+    "379": {
+      "cas": "",
+      "product_url": ""
+    },
+    "380": {
+      "cas": "",
+      "product_url": ""
+    },
+    "381": {
+      "cas": "",
+      "product_url": ""
+    },
+    "382": {
+      "cas": "",
+      "product_url": ""
+    },
+    "383": {
+      "cas": "",
+      "product_url": ""
+    },
+    "384": {
+      "cas": "",
+      "product_url": ""
+    },
+    "385": {
+      "cas": "",
+      "product_url": ""
+    },
+    "386": {
+      "cas": "",
+      "product_url": ""
+    },
+    "387": {
+      "cas": "",
+      "product_url": ""
+    },
+    "388": {
+      "cas": "",
+      "product_url": ""
+    },
+    "389": {
+      "cas": "",
+      "product_url": ""
+    },
+    "390": {
+      "cas": "9003-56-9",
+      "product_url": ""
+    },
+    "391": {
+      "cas": "9004-35-7",
+      "product_url": ""
+    },
+    "392": {
+      "cas": "",
+      "product_url": ""
+    },
+    "393": {
+      "cas": "",
+      "product_url": ""
+    },
+    "394": {
+      "cas": "",
+      "product_url": ""
+    },
+    "395": {
+      "cas": "",
+      "product_url": ""
+    },
+    "396": {
+      "cas": "32131-17-2",
+      "product_url": ""
+    },
+    "397": {
+      "cas": "",
+      "product_url": ""
+    },
+    "398": {
+      "cas": "",
+      "product_url": ""
+    },
+    "399": {
+      "cas": "",
+      "product_url": ""
+    },
+    "400": {
+      "cas": "",
+      "product_url": ""
+    },
+    "401": {
+      "cas": "25038-59-9",
+      "product_url": ""
+    },
+    "402": {
+      "cas": "",
+      "product_url": ""
+    },
+    "403": {
+      "cas": "9011-14-7",
+      "product_url": ""
+    },
+    "404": {
+      "cas": "",
+      "product_url": ""
+    },
+    "405": {
+      "cas": "",
+      "product_url": ""
+    },
+    "406": {
+      "cas": "",
+      "product_url": ""
+    },
+    "407": {
+      "cas": "",
+      "product_url": ""
+    },
+    "408": {
+      "cas": "",
+      "product_url": ""
+    },
+    "409": {
+      "cas": "",
+      "product_url": ""
+    },
+    "410": {
+      "cas": "",
+      "product_url": ""
+    },
+    "411": {
+      "cas": "",
+      "product_url": ""
+    },
+    "412": {
+      "cas": "",
+      "product_url": ""
+    },
+    "413": {
+      "cas": "",
+      "product_url": ""
+    },
+    "414": {
+      "cas": "",
+      "product_url": ""
+    },
+    "415": {
+      "cas": "",
+      "product_url": ""
+    },
+    "416": {
+      "cas": "",
+      "product_url": ""
+    },
+    "417": {
+      "cas": "",
+      "product_url": ""
+    },
+    "418": {
+      "cas": "",
+      "product_url": ""
+    },
+    "419": {
+      "cas": "",
+      "product_url": ""
+    },
+    "420": {
+      "cas": "",
+      "product_url": ""
+    },
+    "421": {
+      "cas": "",
+      "product_url": ""
+    },
+    "422": {
+      "cas": "",
+      "product_url": ""
+    },
+    "423": {
+      "cas": "",
+      "product_url": ""
+    },
+    "424": {
+      "cas": "",
+      "product_url": ""
+    },
+    "425": {
+      "cas": "",
+      "product_url": ""
+    },
+    "426": {
+      "cas": "",
+      "product_url": ""
+    },
+    "427": {
+      "cas": "9011-14-7",
+      "product_url": ""
+    },
+    "428": {
+      "cas": "9011-14-7",
+      "product_url": ""
+    },
+    "429": {
+      "cas": "9003-63-8",
+      "product_url": ""
+    },
+    "430": {
+      "cas": "9003-63-8",
+      "product_url": ""
+    },
+    "431": {
+      "cas": "9011-14-7",
+      "product_url": ""
+    },
+    "432": {
+      "cas": "9011-14-7",
+      "product_url": ""
+    },
+    "433": {
+      "cas": "25608-33-7",
+      "product_url": ""
+    },
+    "434": {
+      "cas": "25608-33-7",
+      "product_url": ""
+    },
+    "435": {
+      "cas": "",
+      "product_url": ""
+    },
+    "436": {
+      "cas": "",
+      "product_url": ""
+    },
+    "437": {
+      "cas": "",
+      "product_url": ""
+    },
+    "438": {
+      "cas": "",
+      "product_url": ""
+    },
+    "439": {
+      "cas": "",
+      "product_url": ""
+    },
+    "440": {
+      "cas": "",
+      "product_url": ""
+    },
+    "441": {
+      "cas": "",
+      "product_url": ""
+    },
+    "442": {
+      "cas": "",
+      "product_url": ""
+    },
+    "443": {
+      "cas": "",
+      "product_url": ""
+    },
+    "444": {
+      "cas": "",
+      "product_url": ""
+    },
+    "445": {
+      "cas": "",
+      "product_url": ""
+    },
+    "446": {
+      "cas": "",
+      "product_url": ""
+    },
+    "447": {
+      "cas": "",
+      "product_url": ""
+    },
+    "448": {
+      "cas": "",
+      "product_url": ""
+    },
+    "449": {
+      "cas": "",
+      "product_url": ""
+    },
+    "450": {
+      "cas": "",
+      "product_url": ""
+    },
+    "451": {
+      "cas": "",
+      "product_url": ""
+    },
+    "452": {
+      "cas": "",
+      "product_url": ""
+    },
+    "453": {
+      "cas": "",
+      "product_url": ""
+    },
+    "454": {
+      "cas": "",
+      "product_url": ""
+    },
+    "455": {
+      "cas": "",
+      "product_url": ""
+    },
+    "456": {
+      "cas": "",
+      "product_url": ""
+    },
+    "457": {
+      "cas": "",
+      "product_url": ""
+    },
+    "458": {
+      "cas": "",
+      "product_url": ""
+    },
+    "459": {
+      "cas": "",
+      "product_url": ""
+    },
+    "460": {
+      "cas": "",
+      "product_url": ""
+    },
+    "461": {
+      "cas": "",
+      "product_url": ""
+    },
+    "462": {
+      "cas": "",
+      "product_url": ""
+    },
+    "463": {
+      "cas": "9003-39-8",
+      "product_url": ""
+    },
+    "464": {
+      "cas": "",
+      "product_url": ""
+    },
+    "465": {
+      "cas": "",
+      "product_url": ""
+    },
+    "466": {
+      "cas": "",
+      "product_url": ""
+    }
+  }
+}

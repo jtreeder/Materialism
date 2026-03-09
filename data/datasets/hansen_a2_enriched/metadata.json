@@ -1,0 +1,30 @@
+{
+  "id": "hansen_a2_enriched",
+  "name": "Hansen A.2 Polymers \u2014 Enriched",
+  "source": "data/processed/table_a2.csv",
+  "description": "Hansen Solubility Parameters Table A.2 polymer dataset, enriched with name resolution, CAS, classification, and URL fields.",
+  "processed_at": "2026-03-09T00:31:21.128003+00:00",
+  "polymer_count": 466,
+  "cas_found": 0,
+  "cas_skipped": 10,
+  "fields": [
+    "name_input",
+    "name_clean",
+    "name_iupac",
+    "name_common",
+    "name_common_all",
+    "name_acronyms",
+    "cas",
+    "product_url",
+    "tds_url",
+    "sds_url",
+    "dD",
+    "dP",
+    "dH",
+    "radius",
+    "class",
+    "subclass",
+    "processing_notes"
+  ],
+  "pipeline_version": "pipeline_hansen_a2.py v1"
+}
