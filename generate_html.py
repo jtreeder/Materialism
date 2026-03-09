@@ -220,78 +220,123 @@ def _is_common_polymer(name):
     return False
 
 
-solvents = []
-with open(CHEM_CSV) as f:
-    for row in csv.DictReader(f):
-        dd = row.get("delta_d", "").strip()
-        dp = row.get("delta_p", "").strip()
-        dh = row.get("delta_h", "").strip()
-        if not (dd and dp and dh):
-            continue
-        src_key = row.get("source", "").strip()
-        src_url = row.get("source_url", "").strip()
-        mw_src = row.get("mw_source", "").strip() or src_url
-        bp_src = row.get("bp_source", "").strip() or src_url
-        mw_val = row.get("molecular_weight", "").strip()
-        bp_val = row.get("boiling_point", "").strip()
-        if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
-            continue
-        chem_name = row["name"].strip()
-        chem_cas = row.get("cas_number", "").strip()
-        srcn_val = row.get("source_count", "").strip()
-        solvents.append({
-            "name": chem_name,
-            "cas": chem_cas,
-            "dd": float(dd), "dp": float(dp), "dh": float(dh),
-            "mw": float(mw_val) if mw_val else None,
-            "bp": float(bp_val) if bp_val else None,
-            "cat": (lambda _c, _n, _s: classify_chemical(_n, _s) if _c == "other" else _c)(
-                row.get("category", "other").strip() or "other",
-                chem_name,
-                row.get("smiles", "").strip(),
-            ),
-            "smiles": row.get("smiles", "").strip(),
-            "srcN": int(srcn_val) if srcn_val else 1,
-            "src": SOURCE_NAMES.get(src_key, src_key),
-            "srcUrl": src_url,
-            "mwSrc": mw_src if mw_val else "",
-            "bpSrc": bp_src if bp_val else "",
-            "common": _is_common_solvent(chem_name, chem_cas),
-            "dsId": row.get("dataset_id", "").strip(),
-            "cfclass": _get_cfclass(chem_cas)[0],
-            "cflevel": _get_cfclass(chem_cas)[1],
-        })
+# Load search page data from per-dataset CSV files.
+# Each item gets a single canonical dsId (from the highest-priority dataset that contains it),
+# so the dataset active/inactive toggle in database.html correctly shows/hides items here.
+def _norm_name(n):
+    """Normalize name for deduplication: lowercase alphanumeric only."""
+    return "".join(c for c in n.lower() if c.isalnum()) if n else ""
 
+# Sort active datasets by priority: confidence_tier desc, then imported_at desc (newest first)
+_ds_search_priority = sorted(
+    DATASETS_META.items(),
+    key=lambda item: (item[1].get("confidence_tier", 0), item[1].get("imported_at", "")),
+    reverse=True,
+)
+
+_DATASETS_DIR = os.path.join(os.path.dirname(__file__), "data", "datasets")
+
+solvents = []
+_seen_sol_keys = {}  # dedup_key -> True (CAS preferred, else normalized name)
 poly_data = []
-with open(POLY_CSV) as f:
-    for row in csv.DictReader(f):
-        dd = row.get("delta_d", "").strip()
-        dp = row.get("delta_p", "").strip()
-        dh = row.get("delta_h", "").strip()
-        if not (dd and dp and dh):
-            continue
-        src_key = row.get("source", "").strip()
-        src_url = row.get("source_url", "").strip()
-        r_val = row.get("radius", "").strip()
-        if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
-            continue
-        poly_name = row["name"].strip()
-        psrcn_val = row.get("source_count", "").strip()
-        poly_data.append({
-            "name": poly_name,
-            "dd": float(dd), "dp": float(dp), "dh": float(dh),
-            "r": float(r_val) if r_val else None,
-            "type": row.get("type", "").strip(),
-            "cas": row.get("cas_number", "").strip(),
-            "srcN": int(psrcn_val) if psrcn_val else 1,
-            "src": SOURCE_NAMES.get(src_key, src_key),
-            "srcUrl": src_url,
-            "common": _is_common_polymer(poly_name),
-            "dsId": row.get("dataset_id", "").strip(),
-            "productUrl": row.get("product_url", "").strip(),
-            "tdsUrl": row.get("tds_url", "").strip(),
-            "sdsUrl": row.get("sds_url", "").strip(),
-        })
+_seen_poly_keys = {}  # normalized name -> True
+
+for _ds_id, _ds_meta in _ds_search_priority:
+    _ds_dir = os.path.join(_DATASETS_DIR, _ds_id)
+
+    # Load chemicals (solvents) for this dataset
+    _chem_csv = os.path.join(_ds_dir, "chemicals.csv")
+    if os.path.exists(_chem_csv):
+        with open(_chem_csv, encoding="utf-8") as _f:
+            for row in csv.DictReader(_f):
+                dd = row.get("delta_d", "").strip()
+                dp = row.get("delta_p", "").strip()
+                dh = row.get("delta_h", "").strip()
+                if not (dd and dp and dh):
+                    continue
+                if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
+                    continue
+                chem_name = row.get("name", "").strip()
+                if not chem_name:
+                    continue
+                chem_cas = row.get("cas_number", "").strip()
+                _dedup_key = chem_cas if chem_cas else _norm_name(chem_name)
+                if not _dedup_key or _dedup_key in _seen_sol_keys:
+                    continue
+                _seen_sol_keys[_dedup_key] = True
+                src_url = row.get("source_url", "").strip()
+                mw_val = row.get("molecular_weight", "").strip()
+                bp_val = row.get("boiling_point", "").strip()
+                srcn_val = row.get("source_count", "").strip()
+                # Use inline cf_class/subclass if available, else fall back to cache
+                _cf_class_raw = row.get("cf_class", "").strip()
+                _cf_sub_raw = row.get("cf_subclass", "").strip()
+                if _cf_sub_raw:
+                    _cfclass, _cflevel = _cf_sub_raw, "subclass"
+                elif _cf_class_raw:
+                    _cfclass, _cflevel = _cf_class_raw, "class"
+                else:
+                    _cfclass, _cflevel = _get_cfclass(chem_cas)
+                solvents.append({
+                    "name": chem_name,
+                    "cas": chem_cas,
+                    "dd": float(dd), "dp": float(dp), "dh": float(dh),
+                    "mw": float(mw_val) if mw_val else None,
+                    "bp": float(bp_val) if bp_val else None,
+                    "cat": (lambda _c, _n, _s: classify_chemical(_n, _s) if _c == "other" else _c)(
+                        row.get("category", "other").strip() or "other",
+                        chem_name,
+                        row.get("smiles", "").strip(),
+                    ),
+                    "smiles": row.get("smiles", "").strip(),
+                    "srcN": int(float(srcn_val)) if srcn_val else 1,
+                    "src": SOURCE_NAMES.get(_ds_id, _ds_meta.get("name", _ds_id)),
+                    "srcUrl": src_url,
+                    "mwSrc": src_url if mw_val else "",
+                    "bpSrc": src_url if bp_val else "",
+                    "common": _is_common_solvent(chem_name, chem_cas),
+                    "dsId": _ds_id,
+                    "cfclass": _cfclass,
+                    "cflevel": _cflevel,
+                })
+
+    # Load polymers for this dataset
+    _poly_csv = os.path.join(_ds_dir, "polymers.csv")
+    if os.path.exists(_poly_csv):
+        with open(_poly_csv, encoding="utf-8") as _f:
+            for row in csv.DictReader(_f):
+                dd = row.get("delta_d", "").strip()
+                dp = row.get("delta_p", "").strip()
+                dh = row.get("delta_h", "").strip()
+                if not (dd and dp and dh):
+                    continue
+                if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
+                    continue
+                poly_name = row.get("name", "").strip()
+                if not poly_name:
+                    continue
+                _dedup_key = _norm_name(poly_name)
+                if not _dedup_key or _dedup_key in _seen_poly_keys:
+                    continue
+                _seen_poly_keys[_dedup_key] = True
+                src_url = row.get("source_url", "").strip()
+                r_val = row.get("radius", "").strip()
+                psrcn_val = row.get("source_count", "").strip()
+                poly_data.append({
+                    "name": poly_name,
+                    "dd": float(dd), "dp": float(dp), "dh": float(dh),
+                    "r": float(r_val) if r_val else None,
+                    "type": row.get("type", "").strip(),
+                    "cas": row.get("cas_number", "").strip(),
+                    "srcN": int(float(psrcn_val)) if psrcn_val else 1,
+                    "src": SOURCE_NAMES.get(_ds_id, _ds_meta.get("name", _ds_id)),
+                    "srcUrl": src_url,
+                    "common": _is_common_polymer(poly_name),
+                    "dsId": _ds_id,
+                    "productUrl": row.get("product_url", "").strip(),
+                    "tdsUrl": row.get("tds_url", "").strip(),
+                    "sdsUrl": row.get("sds_url", "").strip(),
+                })
 
 CATEGORY_COLORS = {
     "hydrocarbon": "#1f77b4", "aromatic": "#ff7f0e", "halogenated": "#2ca02c",
