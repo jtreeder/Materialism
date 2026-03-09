@@ -336,6 +336,8 @@ for _ds_id, _ds_meta in _ds_search_priority:
                     "productUrl": row.get("product_url", "").strip(),
                     "tdsUrl": row.get("tds_url", "").strip(),
                     "sdsUrl": row.get("sds_url", "").strip(),
+                    "name_iupac": row.get("name_iupac", "").strip(),
+                    "name_common": row.get("name_common", "").strip(),
                 })
 
 CATEGORY_COLORS = {
@@ -418,6 +420,20 @@ POLYMER_TYPE_TO_CAT = {
     "Special": "Other",
     "Supplemental Chemical Resistance Corrlations": "Other",
     "Polymer Solubility Data from Various Sources": "Other",
+    # 13-class scheme type names (used by hsp_polymers_7 and similar enriched datasets)
+    "Vinyl Polymer": "Vinyl & Styrene",
+    "Acrylic": "Acrylic",
+    "Polyester & Alkyd": "Polyester & Alkyd",
+    "Epoxy Resin": "Epoxy",
+    "Natural & Petroleum Resin": "Natural & Bio",
+    "Styrenic": "Vinyl & Styrene",
+    "Biological & Other": "Other",
+    "Polyolefin": "Polyolefin",
+    "Cellulosic Polymer": "Cellulose",
+    "Polyacetal / PEI / PC": "Engineering",
+    "Amino Resin": "Resin",
+    "Polysulfone / PES / PPS": "Engineering",
+    "Phenolic Resin": "Resin",
 }
 # Everything not explicitly mapped falls to "Other"
 POLYMER_CAT_COLORS = {
@@ -3158,37 +3174,30 @@ with open(CHEM_CSV) as f:
             "cfclass": _get_cfclass(row.get("cas_number", "").strip())[0],
             "cflevel": _get_cfclass(row.get("cas_number", "").strip())[1],
         })
+# Build db_polymers from poly_data (which reads all per-dataset CSVs with deduplication).
+# This ensures every active dataset's polymers appear in the database page POLYMERS array,
+# including datasets like hsp_polymers_7 that are not in unified_polymers.csv.
 db_polymers = []
-with open(POLY_CSV) as f:
-    for row in csv.DictReader(f):
-        dd = row.get("delta_d", "").strip()
-        dp = row.get("delta_p", "").strip()
-        dh = row.get("delta_h", "").strip()
-        if not (dd and dp and dh):
-            continue
-        if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
-            continue
-        src_key = row.get("source", "").strip()
-        _db_poly_type = row.get("type", "").strip()
-        _db_poly_cat = POLYMER_TYPE_TO_CAT.get(_db_poly_type, "Other")
-        db_polymers.append({
-            "name": row["name"].strip(),
-            "cas": row.get("cas_number", "").strip(),
-            "dd": dd, "dp": dp, "dh": dh,
-            "r": row.get("radius", "").strip(),
-            "type": _db_poly_type,
-            "cat": _db_poly_cat,
-            "color": POLYMER_CAT_COLORS.get(_db_poly_cat, "#a9a9a9"),
-            "name_iupac": row.get("name_iupac", "").strip(),
-            "name_common": row.get("name_common", "").strip(),
-            "srcN": int(row.get("source_count", "1").strip() or "1"),
-            "src": SOURCE_NAMES.get(src_key, src_key),
-            "srcUrl": row.get("source_url", "").strip(),
-            "dsId": row.get("dataset_id", "").strip(),
-            "productUrl": row.get("product_url", "").strip(),
-            "tdsUrl": row.get("tds_url", "").strip(),
-            "sdsUrl": row.get("sds_url", "").strip(),
-        })
+for _dbp in poly_data:
+    _dbp_cat = _dbp.get("cat", "Other")
+    db_polymers.append({
+        "name": _dbp["name"],
+        "cas": _dbp.get("cas", ""),
+        "dd": _dbp["dd"], "dp": _dbp["dp"], "dh": _dbp["dh"],
+        "r": _dbp.get("r"),
+        "type": _dbp.get("type", ""),
+        "cat": _dbp_cat,
+        "color": POLYMER_CAT_COLORS.get(_dbp_cat, "#a9a9a9"),
+        "name_iupac": _dbp.get("name_iupac", ""),
+        "name_common": _dbp.get("name_common", ""),
+        "srcN": _dbp.get("srcN", 1),
+        "src": _dbp.get("src", ""),
+        "srcUrl": _dbp.get("srcUrl", ""),
+        "dsId": _dbp.get("dsId", ""),
+        "productUrl": _dbp.get("productUrl", ""),
+        "tdsUrl": _dbp.get("tdsUrl", ""),
+        "sdsUrl": _dbp.get("sdsUrl", ""),
+    })
 
 db_solvents_json = json.dumps(db_solvents)
 db_polymers_json = json.dumps(db_polymers)
