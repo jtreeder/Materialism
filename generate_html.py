@@ -912,6 +912,7 @@ full_html = f"""<!DOCTYPE html>
             if (plotDiv && plotDiv.data) _updatePlotForCommonFilter();
             _buildLegend();
             buildHomeTable();
+            _rerunActiveSearch();
         }}
 
         // --- Load imported datasets from manage page ---
@@ -3246,6 +3247,8 @@ for ds_id, ds_meta in DATASETS_META.items():
                 dh = row.get("delta_h", "").strip()
                 if not (dd and dp and dh):
                     continue
+                if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
+                    continue
                 chems.append({
                     "name": row.get("name", "").strip(),
                     "cas": row.get("cas_number", "").strip(),
@@ -3274,6 +3277,8 @@ for ds_id, ds_meta in DATASETS_META.items():
                 dp = row.get("delta_p", "").strip()
                 dh = row.get("delta_h", "").strip()
                 if not (dd and dp and dh):
+                    continue
+                if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
                     continue
                 polys.append({
                     "name": row.get("name", "").strip(),
