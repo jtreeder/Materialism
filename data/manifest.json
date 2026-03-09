@@ -1,6 +1,17 @@
 {
     "version": 1,
     "datasets": {
+        "hsp_polymers_8": {
+            "id": "hsp_polymers_8",
+            "name": "HSP Polymers 8",
+            "source_url": "https://github.com/jtreeder/Materialism/blob/claude/hansen-solubility-planning-D5iok/data/raw/a2only.pdf",
+            "description": "Hansen Solubility Parameters Table A.2 extracted from the original Hansen (2007) PDF (a2only.pdf). Full pipeline v8: PDF extraction with pdfplumber, Step 0B OCR corrections (8 missing negative-HSP rows inserted, column-shift repairs, name word-split fixes, source document error fixes), 13-class polymer classification, data_type/data_reliability metadata, CAS lookup via PubChem, name enrichment (IUPAC, common, common_all, acronyms), out-of-scope entries flagged with hidden=true, processing audit trail.",
+            "imported_at": "2026-03-09T00:00:00+00:00",
+            "chemical_count": 0,
+            "polymer_count": 466,
+            "active": true,
+            "confidence_tier": 0.95
+        },
         "hsp_polymers_7": {
             "id": "hsp_polymers_7",
             "name": "HSP Polymers 7",
