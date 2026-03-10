@@ -50,7 +50,7 @@ if os.path.exists(MANIFEST_PATH):
         _manifest = json.load(_mf)
 else:
     _manifest = {"version": 1, "datasets": {}}
-DATASETS_META = {k: v for k, v in _manifest.get("datasets", {}).items() if v.get("active", True)}
+DATASETS_META = _manifest.get("datasets", {})
 
 # Source display name mapping
 SOURCE_NAMES = {
@@ -876,7 +876,7 @@ full_html = f"""<!DOCTYPE html>
             var saved = _loadActiveDsets();
             if (saved) return saved;
             var d = {{}};
-            Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = true; }});
+            Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = DATASETS_META[k].active !== false; }});
             return d;
         }}
         function _isDsActive(dsId) {{
@@ -4007,7 +4007,7 @@ var POLY_TYPE_TO_CAT = {poly_type_to_cat_json};
 var _LS_DS_KEY = 'materialism_active_datasets';
 function _loadActiveDsets() {{ try {{ var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; }} catch(e) {{ return null; }} }}
 function _saveActiveDsets(obj) {{ try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); }} catch(e) {{}} }}
-function _getActiveDsets() {{ var s = _loadActiveDsets(); if (s) return s; var d = {{}}; Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = true; }}); return d; }}
+function _getActiveDsets() {{ var s = _loadActiveDsets(); if (s) return s; var d = {{}}; Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = DATASETS_META[k].active !== false; }}); return d; }}
 var _activeDsets = _getActiveDsets();
 function _isDsActive(dsId) {{ if (!dsId) return true; var ids = dsId.split(','); for (var i = 0; i < ids.length; i++) {{ if (DATASETS[ids[i]] && _activeDsets[ids[i]] !== false) return true; }} return false; }}
 function _isFromActiveDataset(item) {{ return !!item._imported && !!DATASETS[item.dsId] && _isDsActive(item.dsId); }}
