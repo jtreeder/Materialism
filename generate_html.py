@@ -237,6 +237,7 @@ _ds_search_priority = sorted(
 _DATASETS_DIR = os.path.join(os.path.dirname(__file__), "data", "datasets")
 
 solvents = []
+db_solvents = []  # same entries as solvents but with extra columns for database page
 _seen_sol_keys = {}  # dedup_key -> True (CAS preferred, else normalized name)
 poly_data = []
 _seen_poly_keys = {}  # normalized name -> True
@@ -277,24 +278,45 @@ for _ds_id, _ds_meta in _ds_search_priority:
                     _cfclass, _cflevel = _cf_class_raw, "class"
                 else:
                     _cfclass, _cflevel = _get_cfclass(chem_cas)
+                _smiles_val = row.get("smiles", "").strip()
+                _cat_val = (lambda _c, _n, _s: classify_chemical(_n, _s) if _c == "other" else _c)(
+                    row.get("category", "other").strip() or "other",
+                    chem_name,
+                    _smiles_val,
+                )
                 solvents.append({
                     "name": chem_name,
                     "cas": chem_cas,
                     "dd": float(dd), "dp": float(dp), "dh": float(dh),
                     "mw": float(mw_val) if mw_val else None,
                     "bp": float(bp_val) if bp_val else None,
-                    "cat": (lambda _c, _n, _s: classify_chemical(_n, _s) if _c == "other" else _c)(
-                        row.get("category", "other").strip() or "other",
-                        chem_name,
-                        row.get("smiles", "").strip(),
-                    ),
-                    "smiles": row.get("smiles", "").strip(),
+                    "cat": _cat_val,
+                    "smiles": _smiles_val,
                     "srcN": int(float(srcn_val)) if srcn_val else 1,
                     "src": SOURCE_NAMES.get(_ds_id, _ds_meta.get("name", _ds_id)),
                     "srcUrl": src_url,
                     "mwSrc": src_url if mw_val else "",
                     "bpSrc": src_url if bp_val else "",
                     "common": _is_common_solvent(chem_name, chem_cas),
+                    "dsId": _ds_id,
+                    "cfclass": _cfclass,
+                    "cflevel": _cflevel,
+                })
+                db_solvents.append({
+                    "name": chem_name,
+                    "cas": chem_cas,
+                    "smiles": _smiles_val,
+                    "formula": row.get("molecular_formula", "").strip(),
+                    "dd": float(dd), "dp": float(dp), "dh": float(dh),
+                    "mw": row.get("molecular_weight", "").strip(),
+                    "bp": row.get("boiling_point", "").strip(),
+                    "density": row.get("density", "").strip(),
+                    "mv": row.get("molar_volume", "").strip(),
+                    "cat": _cat_val,
+                    "ghs": row.get("ghs_hazard", "").strip(),
+                    "srcN": int(float(srcn_val)) if srcn_val else 1,
+                    "src": SOURCE_NAMES.get(_ds_id, _ds_meta.get("name", _ds_id)),
+                    "srcUrl": src_url,
                     "dsId": _ds_id,
                     "cfclass": _cfclass,
                     "cflevel": _cflevel,
@@ -457,6 +479,8 @@ for p in poly_data:
 
 # Pre-compute color field for solvents too
 for s in solvents:
+    s["color"] = CATEGORY_COLORS.get(s.get("cat", "other"), "#888888")
+for s in db_solvents:
     s["color"] = CATEGORY_COLORS.get(s.get("cat", "other"), "#888888")
 
 # Serialize data for JS embedding
@@ -3139,45 +3163,9 @@ print(f"File size: {os.path.getsize(output_path) / 1024 / 1024:.1f} MB")
 print(f"Contains: {len(solvents)} solvents, {len(poly_data)} polymers")
 
 # ===================== DATABASE PAGE =====================
-# Load full data for database page (all CSV columns)
-db_solvents = []
-with open(CHEM_CSV) as f:
-    for row in csv.DictReader(f):
-        dd = row.get("delta_d", "").strip()
-        dp = row.get("delta_p", "").strip()
-        dh = row.get("delta_h", "").strip()
-        if not (dd and dp and dh):
-            continue
-        if row.get("hidden", "").strip().lower() in ("1", "true", "yes"):
-            continue
-        src_key = row.get("source", "").strip()
-        _db_cat_raw = row.get("category", "other").strip() or "other"
-        _db_name = row["name"].strip()
-        _db_smiles = row.get("smiles", "").strip()
-        _db_cat = classify_chemical(_db_name, _db_smiles) if _db_cat_raw == "other" else _db_cat_raw
-        db_solvents.append({
-            "name": _db_name,
-            "cas": row.get("cas_number", "").strip(),
-            "smiles": _db_smiles,
-            "formula": row.get("molecular_formula", "").strip(),
-            "dd": dd, "dp": dp, "dh": dh,
-            "mw": row.get("molecular_weight", "").strip(),
-            "bp": row.get("boiling_point", "").strip(),
-            "density": row.get("density", "").strip(),
-            "mv": row.get("molar_volume", "").strip(),
-            "cat": _db_cat,
-            "color": CATEGORY_COLORS.get(_db_cat, "#888888"),
-            "ghs": row.get("ghs_hazard", "").strip(),
-            "srcN": int(row.get("source_count", "1").strip() or "1"),
-            "src": SOURCE_NAMES.get(src_key, src_key),
-            "srcUrl": row.get("source_url", "").strip(),
-            "dsId": row.get("dataset_id", "").strip(),
-            "cfclass": _get_cfclass(row.get("cas_number", "").strip())[0],
-            "cflevel": _get_cfclass(row.get("cas_number", "").strip())[1],
-        })
+# db_solvents is built alongside solvents in the per-dataset loop above (colors assigned above too).
+
 # Build db_polymers from poly_data (which reads all per-dataset CSVs with deduplication).
-# This ensures every active dataset's polymers appear in the database page POLYMERS array,
-# including datasets like hsp_polymers_7 that are not in unified_polymers.csv.
 db_polymers = []
 for _dbp in poly_data:
     _dbp_cat = _dbp.get("cat", "Other")
