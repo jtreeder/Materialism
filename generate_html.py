@@ -996,6 +996,17 @@ full_html = f"""<!DOCTYPE html>
             return POLYMERS.filter(function(p) {{ return _isDsActive(p.dsId) && !_isExcluded('p', p.dsId, p.name); }});
         }}
 
+        // Returns true if any active item has a non-empty value for the given field key
+        function _activeHasField(type, key) {{
+            var arr = type === 'solvents' ? SOLVENTS : POLYMERS;
+            for (var i = 0; i < arr.length; i++) {{
+                if (!_isDsActive(arr[i].dsId)) continue;
+                var v = arr[i][key];
+                if (v !== null && v !== undefined && v !== '') return true;
+            }}
+            return false;
+        }}
+
 
         // ===================== APPLY DATABASE EDITS =====================
         (function applyDbEdits() {{
@@ -2736,11 +2747,16 @@ full_html = f"""<!DOCTYPE html>
             if (existingCg) existingCg.remove();
 
             if (homeTab === 'solvents') {{
-                // Name, CAS #, δD, δP, δH, MW, BP, Class
+                // Columns determined by which fields are present in active datasets
+                var _showMw = _activeHasField('solvents', 'mw');
+                var _showBp = _activeHasField('solvents', 'bp');
+                var _showClass = _activeHasField('solvents', 'cfclass');
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','MW (g/mol)','BP (&deg;C)','Class'].forEach(function(label, i) {{
-                    headerHtml += thWithTip(label, i);
-                }});
+                var _solCols = ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)'];
+                if (_showMw) _solCols.push('MW (g/mol)');
+                if (_showBp) _solCols.push('BP (&deg;C)');
+                if (_showClass) _solCols.push('Class');
+                _solCols.forEach(function(label, i) {{ headerHtml += thWithTip(label, i); }});
                 headerHtml += '</tr>';
                 var filtered = _dsFilterSolvents();
                 if (simpleMode) {{
@@ -2765,18 +2781,18 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(s.dd, s.srcUrl, s.src) + '</td>';
                     rowsHtml += '<td>' + lnk(s.dp, s.srcUrl, s.src) + '</td>';
                     rowsHtml += '<td>' + lnk(s.dh, s.srcUrl, s.src) + '</td>';
-                    rowsHtml += '<td>' + lnk(s.mw, s.mwSrc, s.src) + '</td>';
-                    rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc, s.src) : '') + '</td>';
-                    var _cfNote = s.cfclass ? (s.cflevel === 'class' ? '<sup title="ClassyFire class used \u2014 no subclass available" style="color:#b2bec3;font-size:0.65rem;cursor:help">\u2020</sup>' : '') : '';
-                    rowsHtml += '<td style="color:#636e72;font-size:0.82rem">' + (s.cfclass || '') + _cfNote + '</td>';
+                    if (_showMw) rowsHtml += '<td>' + lnk(s.mw, s.mwSrc, s.src) + '</td>';
+                    if (_showBp) rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc, s.src) : '') + '</td>';
+                    if (_showClass) {{ var _cfNote = s.cfclass ? (s.cflevel === 'class' ? '<sup title="ClassyFire class used \u2014 no subclass available" style="color:#b2bec3;font-size:0.65rem;cursor:help">\u2020</sup>' : '') : ''; rowsHtml += '<td style="color:#636e72;font-size:0.82rem">' + (s.cfclass || '') + _cfNote + '</td>'; }}
                     rowsHtml += '</tr>';
                 }}
             }} else {{
-                // Name, CAS, δD, δP, δH, R₀, Links
+                // Columns determined by which fields are present in active datasets
+                var _showPolyLinks = _activeHasField('polymers', 'productUrl') || _activeHasField('polymers', 'tdsUrl') || _activeHasField('polymers', 'sdsUrl');
                 headerHtml = '<tr>';
-                ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)','Links'].forEach(function(label, i) {{
-                    headerHtml += thWithTip(label, i);
-                }});
+                var _polyCols = ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)'];
+                if (_showPolyLinks) _polyCols.push('Links');
+                _polyCols.forEach(function(label, i) {{ headerHtml += thWithTip(label, i); }});
                 headerHtml += '</tr>';
                 var filtered = _dsFilterPolymers();
                 if (simpleMode) {{
@@ -2802,11 +2818,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(p.dp, p.srcUrl, p.src) + '</td>';
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl, p.src) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
-                    var _plinks = '';
-                    if (p.productUrl) _plinks += '<a href="' + p.productUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Product Page" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F517;</a>';
-                    if (p.tdsUrl) _plinks += '<a href="' + p.tdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Technical Data Sheet (TDS)" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F4CB;</a>';
-                    if (p.sdsUrl) _plinks += '<a href="' + p.sdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Safety Data Sheet (SDS)" onclick="event.stopPropagation()" style="text-decoration:none">&#x26A0;&#xFE0F;</a>';
-                    rowsHtml += '<td style="white-space:nowrap">' + _plinks + '</td>';
+                    if (_showPolyLinks) {{ var _plinks = ''; if (p.productUrl) _plinks += '<a href="' + p.productUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Product Page" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F517;</a>'; if (p.tdsUrl) _plinks += '<a href="' + p.tdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Technical Data Sheet (TDS)" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F4CB;</a>'; if (p.sdsUrl) _plinks += '<a href="' + p.sdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Safety Data Sheet (SDS)" onclick="event.stopPropagation()" style="text-decoration:none">&#x26A0;&#xFE0F;</a>'; rowsHtml += '<td style="white-space:nowrap">' + _plinks + '</td>'; }}
                     rowsHtml += '</tr>';
                 }}
             }}
@@ -4098,31 +4110,55 @@ var SRC_TIERS = {{
     'Pang et al. 2024': 30, 'Hansen Handbook A.1': 30, 'Hansen Handbook A.2': 30,
 }};
 
-var SOLV_COLS = [
-    {{key:'name', label:'Name', w:'200px'}},
-    {{key:'cas', label:'CAS #', w:'110px'}},
-    {{key:'formula', label:'Formula', w:'110px'}},
-    {{key:'smiles', label:'SMILES', w:'160px'}},
-    {{key:'dd', label:'\u03b4D (MPa\u00bd)', w:'78px', tip:'Dispersion parameter'}},
-    {{key:'dp', label:'\u03b4P (MPa\u00bd)', w:'78px', tip:'Polarity parameter'}},
-    {{key:'dh', label:'\u03b4H (MPa\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
-    {{key:'mw', label:'MW (g/mol)', w:'80px', tip:'Molecular weight'}},
-    {{key:'bp', label:'BP (\u00b0C)', w:'70px', tip:'Boiling point'}},
-    {{key:'density', label:'Density (g/mL)', w:'90px', tip:'Density (g/mL)'}},
-    {{key:'ghs', label:'GHS Hazard', w:'120px'}},
-    {{key:'cfclass', label:'Class', w:'160px', tip:'ClassyFire chemical classification (subclass preferred)'}},
-];
-var POLY_COLS = [
-    {{key:'name', label:'Name', w:'250px'}},
-    {{key:'cas', label:'CAS #', w:'110px'}},
-    {{key:'dd', label:'\u03b4D (MPa\u00bd)', w:'78px', tip:'Dispersion parameter'}},
-    {{key:'dp', label:'\u03b4P (MPa\u00bd)', w:'78px', tip:'Polarity parameter'}},
-    {{key:'dh', label:'\u03b4H (MPa\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
-    {{key:'r', label:'R\u2080 (MPa\u00bd)', w:'70px', tip:'Interaction radius'}},
-    {{key:'productUrl', label:'Product', w:'60px', tip:'Manufacturer product page'}},
-    {{key:'tdsUrl', label:'TDS', w:'50px', tip:'Technical Data Sheet'}},
-    {{key:'sdsUrl', label:'SDS', w:'50px', tip:'Safety Data Sheet'}},
-];
+var SOLV_COLS = [];
+var POLY_COLS = [];
+
+// Returns true if any active item has a non-empty value for the given field key
+function _activeHasField(type, key) {{
+    var arr = type === 'solvents' ? SOLVENTS : POLYMERS;
+    for (var i = 0; i < arr.length; i++) {{
+        if (!_isDsActive(arr[i].dsId)) continue;
+        var v = arr[i][key];
+        if (v !== null && v !== undefined && v !== '') return true;
+    }}
+    return false;
+}}
+
+// Recompute column definitions based on which fields are present in active datasets
+function _computeActiveCols() {{
+    SOLV_COLS = [
+        {{key:'name', label:'Name', w:'200px'}},
+        {{key:'cas', label:'CAS #', w:'110px'}},
+        {{key:'dd', label:'\u03b4D (MPa\u00bd)', w:'78px', tip:'Dispersion parameter'}},
+        {{key:'dp', label:'\u03b4P (MPa\u00bd)', w:'78px', tip:'Polarity parameter'}},
+        {{key:'dh', label:'\u03b4H (MPa\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
+    ];
+    if (_activeHasField('solvents', 'formula')) SOLV_COLS.push({{key:'formula', label:'Formula', w:'110px'}});
+    if (_activeHasField('solvents', 'smiles')) SOLV_COLS.push({{key:'smiles', label:'SMILES', w:'160px'}});
+    if (_activeHasField('solvents', 'mw')) SOLV_COLS.push({{key:'mw', label:'MW (g/mol)', w:'80px', tip:'Molecular weight'}});
+    if (_activeHasField('solvents', 'bp')) SOLV_COLS.push({{key:'bp', label:'BP (\u00b0C)', w:'70px', tip:'Boiling point'}});
+    if (_activeHasField('solvents', 'density')) SOLV_COLS.push({{key:'density', label:'Density (g/mL)', w:'90px', tip:'Density (g/mL)'}});
+    if (_activeHasField('solvents', 'ghs')) SOLV_COLS.push({{key:'ghs', label:'GHS Hazard', w:'120px'}});
+    if (_activeHasField('solvents', 'cfclass')) SOLV_COLS.push({{key:'cfclass', label:'Class', w:'160px', tip:'ClassyFire chemical classification (subclass preferred)'}});
+
+    POLY_COLS = [
+        {{key:'name', label:'Name', w:'250px'}},
+        {{key:'cas', label:'CAS #', w:'110px'}},
+        {{key:'dd', label:'\u03b4D (MPa\u00bd)', w:'78px', tip:'Dispersion parameter'}},
+        {{key:'dp', label:'\u03b4P (MPa\u00bd)', w:'78px', tip:'Polarity parameter'}},
+        {{key:'dh', label:'\u03b4H (MPa\u00bd)', w:'78px', tip:'Hydrogen bonding parameter'}},
+        {{key:'r', label:'R\u2080 (MPa\u00bd)', w:'70px', tip:'Interaction radius'}},
+    ];
+    if (_activeHasField('polymers', 'productUrl')) POLY_COLS.push({{key:'productUrl', label:'Product', w:'60px', tip:'Manufacturer product page'}});
+    if (_activeHasField('polymers', 'tdsUrl')) POLY_COLS.push({{key:'tdsUrl', label:'TDS', w:'50px', tip:'Technical Data Sheet'}});
+    if (_activeHasField('polymers', 'sdsUrl')) POLY_COLS.push({{key:'sdsUrl', label:'SDS', w:'50px', tip:'Safety Data Sheet'}});
+
+    // Reset sort if the sort column no longer exists
+    if (_sortCol !== null && _sortCol >= (_activeDbTab === 'solvents' ? SOLV_COLS : POLY_COLS).length) {{
+        _sortCol = null;
+    }}
+}}
+_computeActiveCols();
 
 // ===================== ACTIVE DATABASE EDITS =====================
 function loadDbEdits() {{
@@ -4209,6 +4245,7 @@ function selectActiveDb() {{
     _selCells = {{}};
     _dragStart = null;
     _lastRowNum = null;
+    _computeActiveCols();
     buildSidebar();
     renderContent();
 }}
@@ -4656,6 +4693,7 @@ function renderContent() {{
 function toggleDs(dsId) {{
     _activeDsets[dsId] = !(_activeDsets[dsId] !== false);
     _saveActiveDsets(_activeDsets);
+    _computeActiveCols();
     buildSidebar();
     renderContent();
 }}

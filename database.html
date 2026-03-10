@@ -431,31 +431,55 @@ var SRC_TIERS = {
     'Pang et al. 2024': 30, 'Hansen Handbook A.1': 30, 'Hansen Handbook A.2': 30,
 };
 
-var SOLV_COLS = [
-    {key:'name', label:'Name', w:'200px'},
-    {key:'cas', label:'CAS #', w:'110px'},
-    {key:'formula', label:'Formula', w:'110px'},
-    {key:'smiles', label:'SMILES', w:'160px'},
-    {key:'dd', label:'δD (MPa½)', w:'78px', tip:'Dispersion parameter'},
-    {key:'dp', label:'δP (MPa½)', w:'78px', tip:'Polarity parameter'},
-    {key:'dh', label:'δH (MPa½)', w:'78px', tip:'Hydrogen bonding parameter'},
-    {key:'mw', label:'MW (g/mol)', w:'80px', tip:'Molecular weight'},
-    {key:'bp', label:'BP (°C)', w:'70px', tip:'Boiling point'},
-    {key:'density', label:'Density (g/mL)', w:'90px', tip:'Density (g/mL)'},
-    {key:'ghs', label:'GHS Hazard', w:'120px'},
-    {key:'cfclass', label:'Class', w:'160px', tip:'ClassyFire chemical classification (subclass preferred)'},
-];
-var POLY_COLS = [
-    {key:'name', label:'Name', w:'250px'},
-    {key:'cas', label:'CAS #', w:'110px'},
-    {key:'dd', label:'δD (MPa½)', w:'78px', tip:'Dispersion parameter'},
-    {key:'dp', label:'δP (MPa½)', w:'78px', tip:'Polarity parameter'},
-    {key:'dh', label:'δH (MPa½)', w:'78px', tip:'Hydrogen bonding parameter'},
-    {key:'r', label:'R₀ (MPa½)', w:'70px', tip:'Interaction radius'},
-    {key:'productUrl', label:'Product', w:'60px', tip:'Manufacturer product page'},
-    {key:'tdsUrl', label:'TDS', w:'50px', tip:'Technical Data Sheet'},
-    {key:'sdsUrl', label:'SDS', w:'50px', tip:'Safety Data Sheet'},
-];
+var SOLV_COLS = [];
+var POLY_COLS = [];
+
+// Returns true if any active item has a non-empty value for the given field key
+function _activeHasField(type, key) {
+    var arr = type === 'solvents' ? SOLVENTS : POLYMERS;
+    for (var i = 0; i < arr.length; i++) {
+        if (!_isDsActive(arr[i].dsId)) continue;
+        var v = arr[i][key];
+        if (v !== null && v !== undefined && v !== '') return true;
+    }
+    return false;
+}
+
+// Recompute column definitions based on which fields are present in active datasets
+function _computeActiveCols() {
+    SOLV_COLS = [
+        {key:'name', label:'Name', w:'200px'},
+        {key:'cas', label:'CAS #', w:'110px'},
+        {key:'dd', label:'δD (MPa½)', w:'78px', tip:'Dispersion parameter'},
+        {key:'dp', label:'δP (MPa½)', w:'78px', tip:'Polarity parameter'},
+        {key:'dh', label:'δH (MPa½)', w:'78px', tip:'Hydrogen bonding parameter'},
+    ];
+    if (_activeHasField('solvents', 'formula')) SOLV_COLS.push({key:'formula', label:'Formula', w:'110px'});
+    if (_activeHasField('solvents', 'smiles')) SOLV_COLS.push({key:'smiles', label:'SMILES', w:'160px'});
+    if (_activeHasField('solvents', 'mw')) SOLV_COLS.push({key:'mw', label:'MW (g/mol)', w:'80px', tip:'Molecular weight'});
+    if (_activeHasField('solvents', 'bp')) SOLV_COLS.push({key:'bp', label:'BP (°C)', w:'70px', tip:'Boiling point'});
+    if (_activeHasField('solvents', 'density')) SOLV_COLS.push({key:'density', label:'Density (g/mL)', w:'90px', tip:'Density (g/mL)'});
+    if (_activeHasField('solvents', 'ghs')) SOLV_COLS.push({key:'ghs', label:'GHS Hazard', w:'120px'});
+    if (_activeHasField('solvents', 'cfclass')) SOLV_COLS.push({key:'cfclass', label:'Class', w:'160px', tip:'ClassyFire chemical classification (subclass preferred)'});
+
+    POLY_COLS = [
+        {key:'name', label:'Name', w:'250px'},
+        {key:'cas', label:'CAS #', w:'110px'},
+        {key:'dd', label:'δD (MPa½)', w:'78px', tip:'Dispersion parameter'},
+        {key:'dp', label:'δP (MPa½)', w:'78px', tip:'Polarity parameter'},
+        {key:'dh', label:'δH (MPa½)', w:'78px', tip:'Hydrogen bonding parameter'},
+        {key:'r', label:'R₀ (MPa½)', w:'70px', tip:'Interaction radius'},
+    ];
+    if (_activeHasField('polymers', 'productUrl')) POLY_COLS.push({key:'productUrl', label:'Product', w:'60px', tip:'Manufacturer product page'});
+    if (_activeHasField('polymers', 'tdsUrl')) POLY_COLS.push({key:'tdsUrl', label:'TDS', w:'50px', tip:'Technical Data Sheet'});
+    if (_activeHasField('polymers', 'sdsUrl')) POLY_COLS.push({key:'sdsUrl', label:'SDS', w:'50px', tip:'Safety Data Sheet'});
+
+    // Reset sort if the sort column no longer exists
+    if (_sortCol !== null && _sortCol >= (_activeDbTab === 'solvents' ? SOLV_COLS : POLY_COLS).length) {
+        _sortCol = null;
+    }
+}
+_computeActiveCols();
 
 // ===================== ACTIVE DATABASE EDITS =====================
 function loadDbEdits() {
@@ -542,6 +566,7 @@ function selectActiveDb() {
     _selCells = {};
     _dragStart = null;
     _lastRowNum = null;
+    _computeActiveCols();
     buildSidebar();
     renderContent();
 }
@@ -989,6 +1014,7 @@ function renderContent() {
 function toggleDs(dsId) {
     _activeDsets[dsId] = !(_activeDsets[dsId] !== false);
     _saveActiveDsets(_activeDsets);
+    _computeActiveCols();
     buildSidebar();
     renderContent();
 }
