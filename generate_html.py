@@ -228,8 +228,9 @@ def _norm_name(n):
     return "".join(c for c in n.lower() if c.isalnum()) if n else ""
 
 # Sort active datasets by priority: confidence_tier desc, then imported_at desc (newest first)
+# Only include datasets that are active (active: False means disabled by default)
 _ds_search_priority = sorted(
-    DATASETS_META.items(),
+    [(k, v) for k, v in DATASETS_META.items() if v.get("active", True)],
     key=lambda item: (item[1].get("confidence_tier", 0), item[1].get("imported_at", "")),
     reverse=True,
 )
@@ -914,7 +915,9 @@ full_html = f"""<!DOCTYPE html>
             var saved = null;
             try {{ var v = localStorage.getItem(_LS_DS_KEY); saved = v ? JSON.parse(v) : null; }} catch(e) {{}}
             Object.keys(DATASETS).forEach(function(dsId) {{
-                if (!saved || saved[dsId] !== false) ACTIVE_DATASET_IDS.add(dsId);
+                // Default active state comes from dataset metadata (matching database page behavior)
+                var defaultActive = DATASETS[dsId] && DATASETS[dsId].meta ? DATASETS[dsId].meta.active !== false : true;
+                if (saved ? saved[dsId] !== false : defaultActive) ACTIVE_DATASET_IDS.add(dsId);
             }});
         }})();
 
@@ -1088,7 +1091,8 @@ full_html = f"""<!DOCTYPE html>
             var saved = null;
             try {{ var sv = localStorage.getItem(_LS_DS_KEY); saved = sv ? JSON.parse(sv) : null; }} catch(e) {{}}
             Object.keys(DATASETS).forEach(function(dsId) {{
-                if (!saved || saved[dsId] !== false) ACTIVE_DATASET_IDS.add(dsId);
+                var defaultActive = DATASETS[dsId] && DATASETS[dsId].meta ? DATASETS[dsId].meta.active !== false : true;
+                if (saved ? saved[dsId] !== false : defaultActive) ACTIVE_DATASET_IDS.add(dsId);
             }});
             recomputeActiveDB();
             notifyActiveDBChanged();
