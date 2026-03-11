@@ -368,6 +368,44 @@
             "quality_notes": "Source: Hansen PDF Table A.1 (1130 solvents). Reference hits (hsp_solvents_2): 908/1130 (80%). IUPAC coverage: 908/1130 (80%). CAS: 903/1130 (80%). ClassyFire: 702/1130 (62%).",
             "active": true,
             "confidence_tier": 0.9
+        },
+        "hsp_polymers_9": {
+            "id": "hsp_polymers_9",
+            "name": "HSP Polymers 9",
+            "source_url": "https://github.com/jtreeder/Materialism/blob/claude/hansen-solubility-planning-D5iok/data/raw/a2only.pdf",
+            "description": "Hansen Solubility Parameters Table A.2 extracted from the original Hansen (2007) PDF (a2only.pdf). Pipeline v9: PDF extraction with PyMuPDF/fitz, abbreviation seed table enrichment, brand/trade name classification, CAS from seed tables, IUPAC/common/acronym fields resolved from seed data, out-of-scope entries flagged hidden=true.",
+            "imported_at": "2026-03-11T00:00:00+00:00",
+            "chemical_count": 0,
+            "polymer_count": 466,
+            "active": true,
+            "confidence_tier": 0.95,
+            "fields_available": [
+                "name",
+                "name_input",
+                "cas_number",
+                "delta_d",
+                "delta_p",
+                "delta_h",
+                "radius",
+                "type",
+                "subclass",
+                "data_type",
+                "data_reliability",
+                "confidence",
+                "source_count",
+                "source",
+                "source_url",
+                "name_iupac",
+                "name_common",
+                "name_common_all",
+                "name_acronyms",
+                "product_url",
+                "tds_url",
+                "sds_url",
+                "processing_notes",
+                "hidden"
+            ],
+            "quality_notes": "Pipeline v9: fitz PDF extraction (466 rows). CAS from seed: 27/466. IUPAC from seed: 8/466. Hidden (out-of-scope): 120."
         }
     }
 }
