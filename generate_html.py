@@ -871,12 +871,9 @@ full_html = f"""<!DOCTYPE html>
 
     <script>
         // ===================== DATA =====================
-        const SOLVENTS = {solvents_json};
-        const POLYMERS = {polymers_json};
-        const DATASETS_META = {datasets_meta_json};
-        // O(1) lookup maps for materials by name
-        const _solventMap = new Map(SOLVENTS.map(s => [s.name, s]));
-        const _polymerMap = new Map(POLYMERS.map(p => [p.name, p]));
+        // Ground truth: all datasets keyed by dsId
+        var DATASETS = {datasets_json};
+
         const CAT_COLORS = {cat_colors_json};
         const POLY_CAT_COLORS = {poly_cat_colors_json};
         const POLYMER_TYPE_TO_CAT = {poly_type_to_cat_json};
@@ -910,30 +907,26 @@ full_html = f"""<!DOCTYPE html>
             return 'other';
         }}
 
+        // ===================== ACTIVE DATASET IDS =====================
         const _LS_DS_KEY = 'materialism_active_datasets';
-        function _loadActiveDsets() {{
-            try {{ var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; }} catch(e) {{ return null; }}
+        var ACTIVE_DATASET_IDS = new Set();
+        (function() {{
+            var saved = null;
+            try {{ var v = localStorage.getItem(_LS_DS_KEY); saved = v ? JSON.parse(v) : null; }} catch(e) {{}}
+            Object.keys(DATASETS).forEach(function(dsId) {{
+                if (!saved || saved[dsId] !== false) ACTIVE_DATASET_IDS.add(dsId);
+            }});
+        }})();
+
+        function setDatasetActive(dsId, active) {{
+            if (active) ACTIVE_DATASET_IDS.add(dsId);
+            else ACTIVE_DATASET_IDS.delete(dsId);
+            var state = {{}};
+            Object.keys(DATASETS).forEach(function(id) {{ state[id] = ACTIVE_DATASET_IDS.has(id); }});
+            try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(state)); }} catch(e) {{}}
+            recomputeActiveDB();
+            notifyActiveDBChanged();
         }}
-        function _getActiveDsets() {{
-            var saved = _loadActiveDsets();
-            if (saved) return saved;
-            var d = {{}};
-            Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = DATASETS_META[k].active !== false; }});
-            return d;
-        }}
-        function _isDsActive(dsId) {{
-            if (!dsId) return true; // entries without dataset_id always shown
-            // Show if ANY associated dataset is active. This matches the database
-            // page logic so that solvents visible in the active database also
-            // appear on the search page even when some of their datasets are off.
-            var active = _getActiveDsets();
-            var ids = dsId.split(',');
-            for (var i = 0; i < ids.length; i++) {{
-                if (DATASETS_META[ids[i]] && active[ids[i]] !== false) return true;
-            }}
-            return false;
-        }}
-        var _activeDsets = _getActiveDsets();
 
         // ===================== EXCLUSION STATE =====================
         var _excludedItems = (function() {{
@@ -945,90 +938,175 @@ full_html = f"""<!DOCTYPE html>
             return !!_excludedItems[dsId + ':' + type + ':' + name];
         }}
 
-        // Each solvent/polymer has a pre-baked .color field set at generation time.
-        // These helper functions get the color for a category name (for legends).
-
-        function _onDatasetsChanged() {{
-            _activeDsets = _getActiveDsets();
-            try {{ var v = localStorage.getItem('materialism_excluded_items'); _excludedItems = v ? JSON.parse(v) : {{}}; }} catch(e) {{}}
-            if (plotDiv && plotDiv.data) _updatePlotForCommonFilter();
-            _buildLegend();
-            buildHomeTable();
-            _rerunActiveSearch();
-        }}
-
-        // --- Load imported datasets from manage page ---
+        // ===================== LOAD IMPORTED DATASETS =====================
         (function() {{
             try {{
                 var raw = localStorage.getItem('materialism_imported_datasets');
                 if (!raw) return;
                 var imported = JSON.parse(raw);
-                var _delRaw = localStorage.getItem('materialism_deleted_datasets');
-                var _deletedIds = _delRaw ? JSON.parse(_delRaw) : [];
+                var deleted = [];
+                try {{ var dr = localStorage.getItem('materialism_deleted_datasets'); deleted = dr ? JSON.parse(dr) : []; }} catch(e) {{}}
                 Object.keys(imported).forEach(function(dsId) {{
-                    if (_activeDsets[dsId] === false) return; // explicitly toggled off
-                    if (_deletedIds.indexOf(dsId) !== -1) return; // deleted via UI — never re-add
-                    if (DATASETS_META[dsId]) return; // already in embedded data — skip to prevent duplication
+                    if (deleted.indexOf(dsId) !== -1) return;
+                    if (DATASETS[dsId]) return; // already embedded
                     var ds = imported[dsId];
                     var meta = ds.meta || {{}};
                     var srcLabel = meta.name || dsId;
                     var srcUrl = meta.source_url || '';
+                    var solvRows = [];
                     (ds.chemicals || []).forEach(function(c) {{
                         var cat = _normalizeCat(c.cat);
                         var entry = {{
                             name: c.name || '', cas: c.cas || '', smiles: c.smiles || '',
-                            formula: c.formula || '', dd: c.dd || '', dp: c.dp || '', dh: c.dh || '',
+                            formula: c.formula || '', dd: +c.dd || 0, dp: +c.dp || 0, dh: +c.dh || 0,
                             mw: c.mw || '', bp: c.bp || '', density: c.density || '',
-                            mv: c.mv || '', cat: cat, ghs: c.ghs || '',
-                            color: CAT_COLORS[cat] || '#888',
-                            srcN: 1, src: srcLabel, srcUrl: srcUrl,
-                            dsId: dsId, _imported: true
+                            cat: cat, ghs: c.ghs || '', color: CAT_COLORS[cat] || '#888',
+                            src: srcLabel, srcUrl: srcUrl, dsId: dsId
                         }};
-                        var _sSStd = {{name:1,cas:1,smiles:1,formula:1,dd:1,dp:1,dh:1,mw:1,bp:1,density:1,mv:1,cat:1,ghs:1,color:1,srcN:1,src:1,srcUrl:1,dsId:1,_imported:1}};
-                        Object.keys(c).forEach(function(k) {{ if (!_sSStd[k] && k[0] !== '_') entry[k] = c[k]; }});
-                        SOLVENTS.push(entry);
-                        if (!_solventMap.has(entry.name)) _solventMap.set(entry.name, entry);
+                        var _stdS = {{name:1,cas:1,smiles:1,formula:1,dd:1,dp:1,dh:1,mw:1,bp:1,density:1,cat:1,ghs:1,color:1,src:1,srcUrl:1,dsId:1}};
+                        Object.keys(c).forEach(function(k) {{ if (!_stdS[k] && k[0] !== '_') entry[k] = c[k]; }});
+                        solvRows.push(entry);
                     }});
+                    var polyRows = [];
                     (ds.polymers || []).forEach(function(p) {{
-                        var cat = p.cat || POLY_TYPE_TO_CAT[p.type] || 'Other';
+                        var cat = POLYMER_TYPE_TO_CAT[p.type] || p.cat || 'Other';
                         var entry = {{
-                            name: p.name || '', cas: p.cas || '', dd: p.dd || '', dp: p.dp || '', dh: p.dh || '',
+                            name: p.name || '', cas: p.cas || '',
+                            dd: +p.dd || 0, dp: +p.dp || 0, dh: +p.dh || 0,
                             r: p.r || '', type: p.type || '', cat: cat,
                             color: POLY_CAT_COLORS[cat] || '#a9a9a9',
-                            srcN: 1, src: srcLabel, srcUrl: srcUrl,
-                            dsId: dsId, _imported: true
+                            src: srcLabel, srcUrl: srcUrl, dsId: dsId
                         }};
-                        var _sPStd = {{name:1,cas:1,dd:1,dp:1,dh:1,r:1,type:1,cat:1,color:1,srcN:1,src:1,srcUrl:1,dsId:1,_imported:1}};
-                        Object.keys(p).forEach(function(k) {{ if (!_sPStd[k] && k[0] !== '_') entry[k] = p[k]; }});
-                        POLYMERS.push(entry);
-                        if (!_polymerMap.has(entry.name)) _polymerMap.set(entry.name, entry);
+                        var _stdP = {{name:1,cas:1,dd:1,dp:1,dh:1,r:1,type:1,cat:1,color:1,src:1,srcUrl:1,dsId:1}};
+                        Object.keys(p).forEach(function(k) {{ if (!_stdP[k] && k[0] !== '_') entry[k] = p[k]; }});
+                        polyRows.push(entry);
                     }});
-                    if (!DATASETS_META[dsId]) {{
-                        DATASETS_META[dsId] = {{ name: srcLabel, source_url: srcUrl }};
-                    }}
+                    DATASETS[dsId] = {{ meta: {{name: srcLabel, source_url: srcUrl}}, solvents: solvRows, polymers: polyRows }};
+                    var sv = null;
+                    try {{ var _sr = localStorage.getItem(_LS_DS_KEY); sv = _sr ? JSON.parse(_sr) : null; }} catch(e) {{}}
+                    if (!sv || sv[dsId] !== false) ACTIVE_DATASET_IDS.add(dsId);
                 }});
             }} catch(e) {{}}
         }})();
 
-        // Filter arrays by active datasets and per-item exclusions
+        // ===================== ACTIVE DB =====================
+        // Keys that exist on row objects but should NOT be display columns
+        var _INTERNAL_KEYS = {{cat:1,color:1,common:1,src:1,srcUrl:1,mwSrc:1,bpSrc:1,dsId:1,srcN:1,cflevel:1,type:1,name_iupac:1,name_common:1,productUrl:1,tdsUrl:1,sdsUrl:1,mv:1}};
+        // Standard column display order (shown before custom columns)
+        var _SOLV_STD_COLS = ['name','cas','dd','dp','dh','formula','smiles','mw','bp','density','ghs','cfclass'];
+        var _POLY_STD_COLS = ['name','cas','dd','dp','dh','r'];
+        // Column display metadata
+        var COLUMN_META = {{
+            name:    {{label:'Name'}},
+            cas:     {{label:'CAS #', tip:'CAS Registry Number \u2014 unique identifier for chemical substances'}},
+            dd:      {{label:'\u03b4D (MPa\u00bd)', tip:'Dispersion \u2014 van der Waals / London dispersion forces'}},
+            dp:      {{label:'\u03b4P (MPa\u00bd)', tip:'Polarity \u2014 dipole-dipole intermolecular forces'}},
+            dh:      {{label:'\u03b4H (MPa\u00bd)', tip:'Hydrogen bonding \u2014 donor/acceptor capability'}},
+            mw:      {{label:'MW (g/mol)', tip:'Molecular weight (g/mol)'}},
+            bp:      {{label:'BP (\u00b0C)', tip:'Boiling point in degrees Celsius'}},
+            formula: {{label:'Formula'}},
+            smiles:  {{label:'SMILES'}},
+            density: {{label:'Density (g/mL)'}},
+            ghs:     {{label:'GHS Hazard'}},
+            cfclass: {{label:'Class', tip:'ClassyFire chemical classification'}},
+            r:       {{label:'R\u2080 (MPa\u00bd)', tip:'Interaction radius of the polymer solubility sphere'}},
+        }};
+
+        function _computeDisplayCols(rows, stdCols) {{
+            var present = {{}};
+            rows.forEach(function(r) {{
+                Object.keys(r).forEach(function(k) {{
+                    if (!_INTERNAL_KEYS[k] && r[k] != null && r[k] !== '') present[k] = true;
+                }});
+            }});
+            var cols = [];
+            stdCols.forEach(function(k) {{ if (present[k]) cols.push(k); }});
+            Object.keys(present).sort().forEach(function(k) {{
+                if (stdCols.indexOf(k) === -1) cols.push(k);
+            }});
+            return cols;
+        }}
+
+        var ACTIVE_DB = {{ solvents: {{columns:[], rows:[]}}, polymers: {{columns:[], rows:[]}} }};
+        var SOLVENTS = [];
+        var POLYMERS = [];
+        var _solventMap = new Map();
+        var _polymerMap = new Map();
+
+        function recomputeActiveDB() {{
+            var solRows = [], polyRows = [];
+            var solSeen = {{}}, polySeen = {{}};
+            Object.keys(DATASETS).forEach(function(dsId) {{
+                if (!ACTIVE_DATASET_IDS.has(dsId)) return;
+                var ds = DATASETS[dsId];
+                (ds.solvents || []).forEach(function(row) {{
+                    var key = (row.name || '').toLowerCase();
+                    if (solSeen[key]) return;
+                    solSeen[key] = true;
+                    solRows.push(row);
+                }});
+                (ds.polymers || []).forEach(function(row) {{
+                    var key = (row.name || '').toLowerCase();
+                    if (polySeen[key]) return;
+                    polySeen[key] = true;
+                    polyRows.push(row);
+                }});
+            }});
+            // Compute display columns (standard fields present + custom fields alphabetically)
+            var hasSolvLinks = polyRows.some(function(r) {{ return r.productUrl || r.tdsUrl || r.sdsUrl; }});
+            var polyCols = _computeDisplayCols(polyRows, _POLY_STD_COLS);
+            if (hasSolvLinks && polyCols.indexOf('_links') === -1) polyCols.push('_links');
+            ACTIVE_DB.solvents = {{ columns: _computeDisplayCols(solRows, _SOLV_STD_COLS), rows: solRows }};
+            ACTIVE_DB.polymers = {{ columns: polyCols, rows: polyRows }};
+            // Sync SOLVENTS/POLYMERS in-place (arrays referenced throughout)
+            SOLVENTS.length = 0;
+            solRows.forEach(function(r) {{ SOLVENTS.push(r); }});
+            POLYMERS.length = 0;
+            polyRows.forEach(function(r) {{ POLYMERS.push(r); }});
+            // Rebuild lookup maps
+            _solventMap = new Map();
+            SOLVENTS.forEach(function(s) {{ if (!_solventMap.has(s.name)) _solventMap.set(s.name, s); }});
+            _polymerMap = new Map();
+            POLYMERS.forEach(function(p) {{ if (!_polymerMap.has(p.name)) _polymerMap.set(p.name, p); }});
+            // Rebuild data structures used by plot and search engine
+            _rebuildPlotData();
+            _rebuildTypedArrays();
+        }}
+
+        function notifyActiveDBChanged() {{
+            try {{ var v = localStorage.getItem('materialism_excluded_items'); _excludedItems = v ? JSON.parse(v) : {{}}; }} catch(e) {{}}
+            if (plotDiv && plotDiv.data) buildFullPlot();
+            _buildLegend();
+            buildHomeTable();
+            _rerunActiveSearch();
+        }}
+
+        function _onDatasetsChanged() {{
+            try {{ var v = localStorage.getItem('materialism_excluded_items'); _excludedItems = v ? JSON.parse(v) : {{}}; }} catch(e) {{}}
+            // Reload active state from localStorage (changed by database page)
+            ACTIVE_DATASET_IDS = new Set();
+            var saved = null;
+            try {{ var sv = localStorage.getItem(_LS_DS_KEY); saved = sv ? JSON.parse(sv) : null; }} catch(e) {{}}
+            Object.keys(DATASETS).forEach(function(dsId) {{
+                if (!saved || saved[dsId] !== false) ACTIVE_DATASET_IDS.add(dsId);
+            }});
+            recomputeActiveDB();
+            notifyActiveDBChanged();
+        }}
+
+        // Filter arrays by per-item exclusions (dataset filter already handled by recomputeActiveDB)
         function _dsFilterSolvents() {{
-            return SOLVENTS.filter(function(s) {{ return _isDsActive(s.dsId) && !_isExcluded('c', s.dsId, s.name); }});
+            return SOLVENTS.filter(function(s) {{ return !_isExcluded('c', s.dsId, s.name); }});
         }}
         function _dsFilterPolymers() {{
-            return POLYMERS.filter(function(p) {{ return _isDsActive(p.dsId) && !_isExcluded('p', p.dsId, p.name); }});
+            return POLYMERS.filter(function(p) {{ return !_isExcluded('p', p.dsId, p.name); }});
         }}
 
-        // Returns true if any active item has a non-empty value for the given field key
-        function _activeHasField(type, key) {{
-            var arr = type === 'solvents' ? SOLVENTS : POLYMERS;
-            for (var i = 0; i < arr.length; i++) {{
-                if (!_isDsActive(arr[i].dsId)) continue;
-                var v = arr[i][key];
-                if (v !== null && v !== undefined && v !== '') return true;
-            }}
-            return false;
+        // Backward compat: check if a dsId is active
+        function _isDsActive(dsId) {{
+            if (!dsId) return true;
+            return ACTIVE_DATASET_IDS.has(dsId);
         }}
-
 
         // ===================== APPLY DATABASE EDITS =====================
         (function applyDbEdits() {{
@@ -1057,6 +1135,9 @@ full_html = f"""<!DOCTYPE html>
                 }}
             }} catch(e) {{}}
         }})();
+
+        // Initialize the active database from loaded datasets
+        recomputeActiveDB();
 
         // ===================== COLUMN WIDTH LOCK =====================
         var columnWidthsLocked = false;
@@ -1273,9 +1354,7 @@ full_html = f"""<!DOCTYPE html>
         // Pre-compute full coordinate arrays (used for initial plot creation).
         // All filtering (dataset, simpleMode, hidden categories) is done
         // dynamically in _updatePlotForCommonFilter via coordinate nulling.
-        var _allSolX = SOLVENTS.map(function(s) {{ return s.dd; }});
-        var _allSolY = SOLVENTS.map(function(s) {{ return s.dp; }});
-        var _allSolZ = SOLVENTS.map(function(s) {{ return s.dh; }});
+        var _allSolX, _allSolY, _allSolZ;
         // Color palette for data sources — assigned deterministically by first appearance
         var _srcColorPalette = ['#3498db','#e74c3c','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#34495e','#e91e8c','#00bcd4'];
         var _srcColorMap = {{}};
@@ -1289,13 +1368,21 @@ full_html = f"""<!DOCTYPE html>
         // scatter3d coloring — per-point color arrays can fail with non-default symbols).
         var _polyCatOrder = [];
         var _polyCatData = {{}};
-        POLYMERS.forEach(function(p, i) {{
-            var cat = p.cat || 'Other';
-            if (!_polyCatData[cat]) {{ _polyCatData[cat] = []; _polyCatOrder.push(cat); }}
-            _polyCatData[cat].push({{ idx: i, p: p }});
-        }});
         var _polyTraceStart = 1; // polymer traces start right after solvents trace (index 0)
-        var _polyTraceCount = _polyCatOrder.length;
+        var _polyTraceCount = 0;
+        function _rebuildPlotData() {{
+            _allSolX = SOLVENTS.map(function(s) {{ return s.dd; }});
+            _allSolY = SOLVENTS.map(function(s) {{ return s.dp; }});
+            _allSolZ = SOLVENTS.map(function(s) {{ return s.dh; }});
+            _polyCatOrder = [];
+            _polyCatData = {{}};
+            POLYMERS.forEach(function(p, i) {{
+                var cat = p.cat || 'Other';
+                if (!_polyCatData[cat]) {{ _polyCatData[cat] = []; _polyCatOrder.push(cat); }}
+                _polyCatData[cat].push({{ idx: i, p: p }});
+            }});
+            _polyTraceCount = _polyCatOrder.length;
+        }}
 
         // Hidden-category state for legend toggle
         var _hiddenSolCats = {{}};
@@ -1464,7 +1551,7 @@ full_html = f"""<!DOCTYPE html>
             var sx = [], sy = [], sz = [], sc = [];
             SOLVENTS.forEach(function(s) {{
                 var visible = true;
-                if (!_isDsActive(s.dsId) || _isExcluded('c', s.dsId, s.name)) visible = false;
+                if (_isExcluded('c', s.dsId, s.name)) visible = false;
                 else if (simpleMode && !s.common) visible = false;
                 else if (_hiddenSolCats[s.cat || 'other']) visible = false;
                 sx.push(s.dd); sy.push(s.dp); sz.push(s.dh);
@@ -1494,7 +1581,7 @@ full_html = f"""<!DOCTYPE html>
                 for (var j = 0; j < items.length; j++) {{
                     var p = items[j].p;
                     var visible = true;
-                    if (!_isDsActive(p.dsId) || _isExcluded('p', p.dsId, p.name)) visible = false;
+                    if (_isExcluded('p', p.dsId, p.name)) visible = false;
                     else if (simpleMode && !p.common) visible = false;
                     else if (catHidden) visible = false;
                     px.push(visible ? p.dd : null);
@@ -1525,14 +1612,16 @@ full_html = f"""<!DOCTYPE html>
         }}
 
         // ===================== HSP MATH =====================
-        // Pre-compute typed arrays for fast distance calculations
-        var _sDD = new Float64Array(SOLVENTS.length);
-        var _sDP = new Float64Array(SOLVENTS.length);
-        var _sDH = new Float64Array(SOLVENTS.length);
-        var _sCommon = new Uint8Array(SOLVENTS.length);
-        for (var _si = 0; _si < SOLVENTS.length; _si++) {{
-            _sDD[_si] = SOLVENTS[_si].dd; _sDP[_si] = SOLVENTS[_si].dp; _sDH[_si] = SOLVENTS[_si].dh;
-            _sCommon[_si] = SOLVENTS[_si].common ? 1 : 0;
+        var _sDD, _sDP, _sDH, _sCommon;
+        function _rebuildTypedArrays() {{
+            _sDD = new Float64Array(SOLVENTS.length);
+            _sDP = new Float64Array(SOLVENTS.length);
+            _sDH = new Float64Array(SOLVENTS.length);
+            _sCommon = new Uint8Array(SOLVENTS.length);
+            for (var _si = 0; _si < SOLVENTS.length; _si++) {{
+                _sDD[_si] = SOLVENTS[_si].dd; _sDP[_si] = SOLVENTS[_si].dp; _sDH[_si] = SOLVENTS[_si].dh;
+                _sCommon[_si] = SOLVENTS[_si].common ? 1 : 0;
+            }}
         }}
 
         function hspDistance(a, b) {{
@@ -2350,13 +2439,13 @@ full_html = f"""<!DOCTYPE html>
             var minD = Infinity, minP = Infinity, minH = Infinity;
             var maxD = -Infinity, maxP = -Infinity, maxH = -Infinity;
             SOLVENTS.forEach(function(s) {{
-                if (!_isDsActive(s.dsId) || _isExcluded('c', s.dsId, s.name)) return;
+                if (_isExcluded('c', s.dsId, s.name)) return;
                 if (s.dd < minD) minD = s.dd; if (s.dd > maxD) maxD = s.dd;
                 if (s.dp < minP) minP = s.dp; if (s.dp > maxP) maxP = s.dp;
                 if (s.dh < minH) minH = s.dh; if (s.dh > maxH) maxH = s.dh;
             }});
             POLYMERS.forEach(function(p) {{
-                if (!_isDsActive(p.dsId) || _isExcluded('p', p.dsId, p.name)) return;
+                if (_isExcluded('p', p.dsId, p.name)) return;
                 if (p.dd < minD) minD = p.dd; if (p.dd > maxD) maxD = p.dd;
                 if (p.dp < minP) minP = p.dp; if (p.dp > maxP) maxP = p.dp;
                 if (p.dh < minH) minH = p.dh; if (p.dh > maxH) maxH = p.dh;
@@ -2769,28 +2858,15 @@ full_html = f"""<!DOCTYPE html>
             if (existingCg) existingCg.remove();
 
             if (homeTab === 'solvents') {{
-                // Columns determined by which fields are present in active datasets
-                var _showMw = _activeHasField('solvents', 'mw');
-                var _showBp = _activeHasField('solvents', 'bp');
-                var _showClass = _activeHasField('solvents', 'cfclass');
-                var _showFormula = _activeHasField('solvents', 'formula');
-                var _showSmiles = _activeHasField('solvents', 'smiles');
-                var _showDensity = _activeHasField('solvents', 'density');
-                var _showGhs = _activeHasField('solvents', 'ghs');
-                var _SOLV_KNOWN = {{name:1,cas:1,dd:1,dp:1,dh:1,mw:1,bp:1,cfclass:1,cflevel:1,formula:1,smiles:1,density:1,ghs:1,mv:1,cat:1,color:1,common:1,src:1,srcUrl:1,mwSrc:1,bpSrc:1,productUrl:1,tdsUrl:1,sdsUrl:1,dsId:1,srcN:1,_imported:1}};
-                var _solCustomCols = []; var _solCustomSeen = {{}};
-                _dsFilterSolvents().forEach(function(s) {{ Object.keys(s).forEach(function(k) {{ if (!_SOLV_KNOWN[k] && !_solCustomSeen[k] && k[0] !== '_') {{ _solCustomSeen[k] = true; _solCustomCols.push(k); }} }}); }});
+                // Columns from ACTIVE_DB (dynamic — no hardcoding)
+                var cols = ACTIVE_DB.solvents.columns;
                 headerHtml = '<tr>';
-                var _solCols = ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)'];
-                if (_showFormula) _solCols.push('Formula');
-                if (_showSmiles) _solCols.push('SMILES');
-                if (_showMw) _solCols.push('MW (g/mol)');
-                if (_showBp) _solCols.push('BP (&deg;C)');
-                if (_showDensity) _solCols.push('Density (g/mL)');
-                if (_showGhs) _solCols.push('GHS Hazard');
-                if (_showClass) _solCols.push('Class');
-                _solCustomCols.forEach(function(k) {{ _solCols.push(k); }});
-                _solCols.forEach(function(label, i) {{ headerHtml += thWithTip(label, i); }});
+                cols.forEach(function(key, i) {{
+                    var meta = COLUMN_META[key] || {{}};
+                    var label = meta.label || key;
+                    var tip = meta.tip || '';
+                    headerHtml += '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + i + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
+                }});
                 headerHtml += '</tr>';
                 var filtered = _dsFilterSolvents();
                 if (simpleMode) {{
@@ -2804,38 +2880,47 @@ full_html = f"""<!DOCTYPE html>
                     filtered = filtered.filter(function(s) {{ return s.name.toLowerCase().indexOf(q) !== -1 || (s.cas && s.cas.indexOf(q) !== -1) || (s.src && s.src.toLowerCase().indexOf(q) !== -1); }});
                 }}
                 document.getElementById('tab-solvents').textContent = 'Solvents (' + filtered.length + ')';
+                function lnkS(val, url, lbl) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; if (!url) return String(v); var sl = (lbl || 'Source').replace(/'/g,'\\x27'); var su = url.replace(/'/g,'\\x27'); return '<span class="src-val" onclick="event.stopPropagation();_showSrcPop(this,\\x27' + sl + '\\x27,\\x27' + su + '\\x27)">' + v + '</span>'; }}
                 rowsHtml = '';
                 for (var i = 0; i < filtered.length; i++) {{
                     var s = filtered[i];
                     var catColor = s.color || CAT_COLORS[s.cat] || '#888';
-                    function lnk(val, url, lbl) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; if (!url) return String(v); var sl = (lbl || 'Source').replace(/'/g,'\\x27'); var su = url.replace(/'/g,'\\x27'); return '<span class="src-val" onclick="event.stopPropagation();_showSrcPop(this,\\x27' + sl + '\\x27,\\x27' + su + '\\x27)">' + v + '</span>'; }}
                     rowsHtml += '<tr data-name="' + s.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
-                    rowsHtml += '<td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
-                    rowsHtml += '<td>' + (s.cas || '') + '</td>';
-                    rowsHtml += '<td>' + lnk(s.dd, s.srcUrl, s.src) + '</td>';
-                    rowsHtml += '<td>' + lnk(s.dp, s.srcUrl, s.src) + '</td>';
-                    rowsHtml += '<td>' + lnk(s.dh, s.srcUrl, s.src) + '</td>';
-                    if (_showFormula) rowsHtml += '<td>' + (s.formula || '') + '</td>';
-                    if (_showSmiles) rowsHtml += '<td style="font-size:0.78rem;font-family:monospace;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (s.smiles || '').replace(/"/g,'&quot;') + '">' + (s.smiles || '') + '</td>';
-                    if (_showMw) rowsHtml += '<td>' + lnk(s.mw, s.mwSrc, s.src) + '</td>';
-                    if (_showBp) rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc, s.src) : '') + '</td>';
-                    if (_showDensity) rowsHtml += '<td>' + (s.density != null && s.density !== '' ? s.density : '') + '</td>';
-                    if (_showGhs) rowsHtml += '<td style="font-size:0.82rem">' + (s.ghs || '') + '</td>';
-                    if (_showClass) {{ var _cfNote = s.cfclass ? (s.cflevel === 'class' ? '<sup title="ClassyFire class used \u2014 no subclass available" style="color:#b2bec3;font-size:0.65rem;cursor:help">\u2020</sup>' : '') : ''; rowsHtml += '<td style="color:#636e72;font-size:0.82rem">' + (s.cfclass || '') + _cfNote + '</td>'; }}
-                    _solCustomCols.forEach(function(k) {{ rowsHtml += '<td style="font-size:0.82rem">' + (s[k] != null ? s[k] : '') + '</td>'; }});
+                    cols.forEach(function(key) {{
+                        var val = s[key];
+                        if (key === 'name') {{
+                            rowsHtml += '<td><span class="hoverable-name" onmouseenter="showStructure(event,\\x27' + encodeURIComponent(s.name) + '\\x27)" onmouseleave="hideStructure()">' + s.name + '</span></td>';
+                        }} else if (key === 'dd' || key === 'dp' || key === 'dh') {{
+                            rowsHtml += '<td>' + lnkS(val, s.srcUrl, s.src) + '</td>';
+                        }} else if (key === 'mw') {{
+                            rowsHtml += '<td>' + lnkS(val, s.mwSrc, s.src) + '</td>';
+                        }} else if (key === 'bp') {{
+                            rowsHtml += '<td>' + lnkS(val, s.bpSrc, s.src) + '</td>';
+                        }} else if (key === 'smiles') {{
+                            rowsHtml += '<td style="font-size:0.78rem;font-family:monospace;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (val || '').replace(/"/g,'&quot;') + '">' + (val || '') + '</td>';
+                        }} else if (key === 'cfclass') {{
+                            var _cfNote = val ? (s.cflevel === 'class' ? '<sup title="ClassyFire class used \u2014 no subclass available" style="color:#b2bec3;font-size:0.65rem;cursor:help">\u2020</sup>' : '') : '';
+                            rowsHtml += '<td style="color:#636e72;font-size:0.82rem">' + (val || '') + _cfNote + '</td>';
+                        }} else {{
+                            rowsHtml += '<td style="font-size:0.82rem">' + (val != null && val !== '' ? val : '') + '</td>';
+                        }}
+                    }});
                     rowsHtml += '</tr>';
                 }}
             }} else {{
-                // Columns determined by which fields are present in active datasets
-                var _showPolyLinks = _activeHasField('polymers', 'productUrl') || _activeHasField('polymers', 'tdsUrl') || _activeHasField('polymers', 'sdsUrl');
-                var _POLY_KNOWN = {{name:1,cas:1,dd:1,dp:1,dh:1,r:1,type:1,cat:1,color:1,common:1,src:1,srcUrl:1,dsId:1,srcN:1,_imported:1,productUrl:1,tdsUrl:1,sdsUrl:1}};
-                var _polyCustomCols = []; var _polyCustomSeen = {{}};
-                _dsFilterPolymers().forEach(function(p) {{ Object.keys(p).forEach(function(k) {{ if (!_POLY_KNOWN[k] && !_polyCustomSeen[k] && k[0] !== '_') {{ _polyCustomSeen[k] = true; _polyCustomCols.push(k); }} }}); }});
+                // Columns from ACTIVE_DB (dynamic — no hardcoding)
+                var cols = ACTIVE_DB.polymers.columns;
                 headerHtml = '<tr>';
-                var _polyCols = ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)'];
-                if (_showPolyLinks) _polyCols.push('Links');
-                _polyCustomCols.forEach(function(k) {{ _polyCols.push(k); }});
-                _polyCols.forEach(function(label, i) {{ headerHtml += thWithTip(label, i); }});
+                cols.forEach(function(key, i) {{
+                    if (key === '_links') {{
+                        headerHtml += '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + i + ')" style="cursor:pointer">Links</th>';
+                        return;
+                    }}
+                    var meta = COLUMN_META[key] || {{}};
+                    var label = meta.label || key;
+                    var tip = meta.tip || '';
+                    headerHtml += '<th onclick="sortResultsTable(this.closest(\\x27table\\x27),' + i + ')" style="cursor:pointer"' + (tip ? ' title="' + tip + '"' : '') + '>' + label + '</th>';
+                }});
                 headerHtml += '</tr>';
                 var filtered = _dsFilterPolymers();
                 if (simpleMode) {{
@@ -2849,20 +2934,30 @@ full_html = f"""<!DOCTYPE html>
                     filtered = filtered.filter(function(p) {{ return p.name.toLowerCase().indexOf(q) !== -1 || (p.cas && p.cas.indexOf(q) !== -1) || (p.src && p.src.toLowerCase().indexOf(q) !== -1); }});
                 }}
                 document.getElementById('tab-polymers').textContent = 'Polymers (' + filtered.length + ')';
+                function lnkP(val, url, lbl) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; if (!url) return String(v); var sl = (lbl || 'Source').replace(/'/g,'\\x27'); var su = url.replace(/'/g,'\\x27'); return '<span class="src-val" onclick="event.stopPropagation();_showSrcPop(this,\\x27' + sl + '\\x27,\\x27' + su + '\\x27)">' + v + '</span>'; }}
                 rowsHtml = '';
                 for (var i = 0; i < filtered.length; i++) {{
                     var p = filtered[i];
-                    function lnk(val, url, lbl) {{ if (val == null || val === '') return ''; var v = (typeof val === 'number') ? val.toFixed(1) : val; if (!url) return String(v); var sl = (lbl || 'Source').replace(/'/g,'\\x27'); var su = url.replace(/'/g,'\\x27'); return '<span class="src-val" onclick="event.stopPropagation();_showSrcPop(this,\\x27' + sl + '\\x27,\\x27' + su + '\\x27)">' + v + '</span>'; }}
                     var catColor = p.color || POLY_CAT_COLORS[p.cat] || '#a9a9a9';
                     rowsHtml += '<tr data-name="' + p.name.replace(/"/g, '&quot;') + '" onclick="highlightInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseenter="hoverInPlot(\\x27' + encodeURIComponent(p.name) + '\\x27)" onmouseleave="unhoverInPlot()" style="cursor:pointer;border-left:3px solid ' + catColor + '">';
-                    rowsHtml += '<td><span class="hoverable-name">' + p.name + '</span></td>';
-                    rowsHtml += '<td>' + (p.cas || '') + '</td>';
-                    rowsHtml += '<td>' + lnk(p.dd, p.srcUrl, p.src) + '</td>';
-                    rowsHtml += '<td>' + lnk(p.dp, p.srcUrl, p.src) + '</td>';
-                    rowsHtml += '<td>' + lnk(p.dh, p.srcUrl, p.src) + '</td>';
-                    rowsHtml += '<td>' + (p.r || '') + '</td>';
-                    if (_showPolyLinks) {{ var _plinks = ''; if (p.productUrl) _plinks += '<a href="' + p.productUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Product Page" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F517;</a>'; if (p.tdsUrl) _plinks += '<a href="' + p.tdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Technical Data Sheet (TDS)" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F4CB;</a>'; if (p.sdsUrl) _plinks += '<a href="' + p.sdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Safety Data Sheet (SDS)" onclick="event.stopPropagation()" style="text-decoration:none">&#x26A0;&#xFE0F;</a>'; rowsHtml += '<td style="white-space:nowrap">' + _plinks + '</td>'; }}
-                    _polyCustomCols.forEach(function(k) {{ rowsHtml += '<td style="font-size:0.82rem">' + (p[k] != null ? p[k] : '') + '</td>'; }});
+                    cols.forEach(function(key) {{
+                        if (key === '_links') {{
+                            var _plinks = '';
+                            if (p.productUrl) _plinks += '<a href="' + p.productUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Product Page" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F517;</a>';
+                            if (p.tdsUrl) _plinks += '<a href="' + p.tdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Technical Data Sheet (TDS)" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F4CB;</a>';
+                            if (p.sdsUrl) _plinks += '<a href="' + p.sdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Safety Data Sheet (SDS)" onclick="event.stopPropagation()" style="text-decoration:none">&#x26A0;&#xFE0F;</a>';
+                            rowsHtml += '<td style="white-space:nowrap">' + _plinks + '</td>';
+                            return;
+                        }}
+                        var val = p[key];
+                        if (key === 'name') {{
+                            rowsHtml += '<td><span class="hoverable-name">' + p.name + '</span></td>';
+                        }} else if (key === 'dd' || key === 'dp' || key === 'dh' || key === 'r') {{
+                            rowsHtml += '<td>' + lnkP(val, p.srcUrl, p.src) + '</td>';
+                        }} else {{
+                            rowsHtml += '<td style="font-size:0.82rem">' + (val != null && val !== '' ? val : '') + '</td>';
+                        }}
+                    }});
                     rowsHtml += '</tr>';
                 }}
             }}
