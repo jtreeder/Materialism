@@ -966,6 +966,8 @@ full_html = f"""<!DOCTYPE html>
                             srcN: 1, src: srcLabel, srcUrl: srcUrl,
                             dsId: dsId, _imported: true
                         }};
+                        var _sSStd = {{name:1,cas:1,smiles:1,formula:1,dd:1,dp:1,dh:1,mw:1,bp:1,density:1,mv:1,cat:1,ghs:1,color:1,srcN:1,src:1,srcUrl:1,dsId:1,_imported:1}};
+                        Object.keys(c).forEach(function(k) {{ if (!_sSStd[k] && k[0] !== '_') entry[k] = c[k]; }});
                         SOLVENTS.push(entry);
                         if (!_solventMap.has(entry.name)) _solventMap.set(entry.name, entry);
                     }});
@@ -978,6 +980,8 @@ full_html = f"""<!DOCTYPE html>
                             srcN: 1, src: srcLabel, srcUrl: srcUrl,
                             dsId: dsId, _imported: true
                         }};
+                        var _sPStd = {{name:1,cas:1,dd:1,dp:1,dh:1,r:1,type:1,cat:1,color:1,srcN:1,src:1,srcUrl:1,dsId:1,_imported:1}};
+                        Object.keys(p).forEach(function(k) {{ if (!_sPStd[k] && k[0] !== '_') entry[k] = p[k]; }});
                         POLYMERS.push(entry);
                         if (!_polymerMap.has(entry.name)) _polymerMap.set(entry.name, entry);
                     }});
@@ -2751,11 +2755,23 @@ full_html = f"""<!DOCTYPE html>
                 var _showMw = _activeHasField('solvents', 'mw');
                 var _showBp = _activeHasField('solvents', 'bp');
                 var _showClass = _activeHasField('solvents', 'cfclass');
+                var _showFormula = _activeHasField('solvents', 'formula');
+                var _showSmiles = _activeHasField('solvents', 'smiles');
+                var _showDensity = _activeHasField('solvents', 'density');
+                var _showGhs = _activeHasField('solvents', 'ghs');
+                var _SOLV_KNOWN = {{name:1,cas:1,dd:1,dp:1,dh:1,mw:1,bp:1,cfclass:1,cflevel:1,formula:1,smiles:1,density:1,ghs:1,mv:1,cat:1,color:1,common:1,src:1,srcUrl:1,mwSrc:1,bpSrc:1,productUrl:1,tdsUrl:1,sdsUrl:1,dsId:1,srcN:1,_imported:1}};
+                var _solCustomCols = []; var _solCustomSeen = {{}};
+                _dsFilterSolvents().forEach(function(s) {{ Object.keys(s).forEach(function(k) {{ if (!_SOLV_KNOWN[k] && !_solCustomSeen[k] && k[0] !== '_') {{ _solCustomSeen[k] = true; _solCustomCols.push(k); }} }}); }});
                 headerHtml = '<tr>';
                 var _solCols = ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)'];
+                if (_showFormula) _solCols.push('Formula');
+                if (_showSmiles) _solCols.push('SMILES');
                 if (_showMw) _solCols.push('MW (g/mol)');
                 if (_showBp) _solCols.push('BP (&deg;C)');
+                if (_showDensity) _solCols.push('Density (g/mL)');
+                if (_showGhs) _solCols.push('GHS Hazard');
                 if (_showClass) _solCols.push('Class');
+                _solCustomCols.forEach(function(k) {{ _solCols.push(k); }});
                 _solCols.forEach(function(label, i) {{ headerHtml += thWithTip(label, i); }});
                 headerHtml += '</tr>';
                 var filtered = _dsFilterSolvents();
@@ -2781,17 +2797,26 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(s.dd, s.srcUrl, s.src) + '</td>';
                     rowsHtml += '<td>' + lnk(s.dp, s.srcUrl, s.src) + '</td>';
                     rowsHtml += '<td>' + lnk(s.dh, s.srcUrl, s.src) + '</td>';
+                    if (_showFormula) rowsHtml += '<td>' + (s.formula || '') + '</td>';
+                    if (_showSmiles) rowsHtml += '<td style="font-size:0.78rem;font-family:monospace;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (s.smiles || '').replace(/"/g,'&quot;') + '">' + (s.smiles || '') + '</td>';
                     if (_showMw) rowsHtml += '<td>' + lnk(s.mw, s.mwSrc, s.src) + '</td>';
                     if (_showBp) rowsHtml += '<td>' + (s.bp != null ? lnk(s.bp, s.bpSrc, s.src) : '') + '</td>';
+                    if (_showDensity) rowsHtml += '<td>' + (s.density != null && s.density !== '' ? s.density : '') + '</td>';
+                    if (_showGhs) rowsHtml += '<td style="font-size:0.82rem">' + (s.ghs || '') + '</td>';
                     if (_showClass) {{ var _cfNote = s.cfclass ? (s.cflevel === 'class' ? '<sup title="ClassyFire class used \u2014 no subclass available" style="color:#b2bec3;font-size:0.65rem;cursor:help">\u2020</sup>' : '') : ''; rowsHtml += '<td style="color:#636e72;font-size:0.82rem">' + (s.cfclass || '') + _cfNote + '</td>'; }}
+                    _solCustomCols.forEach(function(k) {{ rowsHtml += '<td style="font-size:0.82rem">' + (s[k] != null ? s[k] : '') + '</td>'; }});
                     rowsHtml += '</tr>';
                 }}
             }} else {{
                 // Columns determined by which fields are present in active datasets
                 var _showPolyLinks = _activeHasField('polymers', 'productUrl') || _activeHasField('polymers', 'tdsUrl') || _activeHasField('polymers', 'sdsUrl');
+                var _POLY_KNOWN = {{name:1,cas:1,dd:1,dp:1,dh:1,r:1,type:1,cat:1,color:1,common:1,src:1,srcUrl:1,dsId:1,srcN:1,_imported:1,productUrl:1,tdsUrl:1,sdsUrl:1}};
+                var _polyCustomCols = []; var _polyCustomSeen = {{}};
+                _dsFilterPolymers().forEach(function(p) {{ Object.keys(p).forEach(function(k) {{ if (!_POLY_KNOWN[k] && !_polyCustomSeen[k] && k[0] !== '_') {{ _polyCustomSeen[k] = true; _polyCustomCols.push(k); }} }}); }});
                 headerHtml = '<tr>';
                 var _polyCols = ['Name','CAS #','&delta;D (MPa<sup>\u00bd</sup>)','&delta;P (MPa<sup>\u00bd</sup>)','&delta;H (MPa<sup>\u00bd</sup>)','R&#8320; (MPa<sup>\u00bd</sup>)'];
                 if (_showPolyLinks) _polyCols.push('Links');
+                _polyCustomCols.forEach(function(k) {{ _polyCols.push(k); }});
                 _polyCols.forEach(function(label, i) {{ headerHtml += thWithTip(label, i); }});
                 headerHtml += '</tr>';
                 var filtered = _dsFilterPolymers();
@@ -2819,6 +2844,7 @@ full_html = f"""<!DOCTYPE html>
                     rowsHtml += '<td>' + lnk(p.dh, p.srcUrl, p.src) + '</td>';
                     rowsHtml += '<td>' + (p.r || '') + '</td>';
                     if (_showPolyLinks) {{ var _plinks = ''; if (p.productUrl) _plinks += '<a href="' + p.productUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Product Page" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F517;</a>'; if (p.tdsUrl) _plinks += '<a href="' + p.tdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Technical Data Sheet (TDS)" onclick="event.stopPropagation()" style="text-decoration:none;margin-right:4px">&#x1F4CB;</a>'; if (p.sdsUrl) _plinks += '<a href="' + p.sdsUrl.replace(/"/g,'&quot;') + '" target="_blank" rel="noopener" title="Safety Data Sheet (SDS)" onclick="event.stopPropagation()" style="text-decoration:none">&#x26A0;&#xFE0F;</a>'; rowsHtml += '<td style="white-space:nowrap">' + _plinks + '</td>'; }}
+                    _polyCustomCols.forEach(function(k) {{ rowsHtml += '<td style="font-size:0.82rem">' + (p[k] != null ? p[k] : '') + '</td>'; }});
                     rowsHtml += '</tr>';
                 }}
             }}
