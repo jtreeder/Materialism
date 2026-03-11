@@ -483,12 +483,30 @@ for s in solvents:
 for s in db_solvents:
     s["color"] = CATEGORY_COLORS.get(s.get("cat", "other"), "#888888")
 
+# Build per-dataset structure for JS — solvents and db_solvents are parallel (same loop iteration)
+_datasets_output = {dsId: {'meta': DATASETS_META[dsId], 'solvents': [], 'polymers': []}
+                    for dsId in DATASETS_META}
+for _s, _dbs in zip(solvents, db_solvents):
+    _dsId = _s['dsId']
+    if _dsId in _datasets_output:
+        _entry = dict(_s)  # copy all solvent fields (name, cas, dd, dp, dh, mw, bp, cat, smiles, cfclass, cflevel, common, src, srcUrl, mwSrc, bpSrc, color, dsId, srcN)
+        _entry['formula'] = _dbs.get('formula', '')
+        _entry['density'] = _dbs.get('density', '')
+        _entry['ghs'] = _dbs.get('ghs', '')
+        _datasets_output[_dsId]['solvents'].append(_entry)
+for _p in poly_data:
+    _dsId = _p['dsId']
+    if _dsId in _datasets_output:
+        _datasets_output[_dsId]['polymers'].append(_p)
+
 # Serialize data for JS embedding
-solvents_json = json.dumps(solvents)
-polymers_json = json.dumps(poly_data)
+datasets_json = json.dumps(_datasets_output)
 cat_colors_json = json.dumps(CATEGORY_COLORS)
 poly_cat_colors_json = json.dumps(POLYMER_CAT_COLORS)
 poly_type_to_cat_json = json.dumps(POLYMER_TYPE_TO_CAT)
+# Keep these for database page and axis range computation
+solvents_json = json.dumps(solvents)
+polymers_json = json.dumps(poly_data)
 datasets_meta_json = json.dumps(DATASETS_META)
 
 # Embed Plotly.js inline so the file works offline / from file://
