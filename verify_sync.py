@@ -68,38 +68,25 @@ for ds_id, ds_meta in _ds_priority:
                 _seen_poly[key] = True
                 polymers.append({"name": name, "dsId": ds_id})
 
-# ── JS logic: search page active state (AFTER our fix) ─────────────────────────
-def search_page_active_ids(saved: dict | None) -> set:
-    """Mirrors the fixed search-page init block."""
+# ── JS logic (shared by both pages after fix) ──────────────────────────────────
+# Rule: if localStorage is null (first visit) → use manifest default
+#       if localStorage exists → missing keys are INACTIVE (never silently active)
+def _compute_active_ids(saved: dict | None) -> set:
     active = set()
-    for ds_id, ds_meta in DATASETS_META.items():
-        if ds_id not in _active_ds_ids:
-            continue   # not embedded in search page (inactive by manifest)
-        default_active = ds_meta.get("active", True) is not False
-        stored = saved.get(ds_id) if saved is not None else None
-        # KEY FIX: missing key uses defaultActive, not blindly True
-        is_active = (stored is not None and stored is not False) \
-                    if stored is not None else default_active
-        # Cleaner: if key present use it, else use manifest default
-        if saved is not None and ds_id in saved:
-            is_active = saved[ds_id] is not False
+    for ds_id in _active_ds_ids:
+        if saved is None:
+            is_active = DATASETS_META[ds_id].get("active", True) is not False
         else:
-            is_active = default_active
+            is_active = saved.get(ds_id) is True   # missing key → False
         if is_active:
             active.add(ds_id)
     return active
 
-# ── JS logic: database page active state (AFTER our fix) ──────────────────────
-def db_page_active_ids(saved: dict | None) -> set:
-    """Mirrors the fixed _getActiveDsets in database page."""
-    # Start from manifest defaults
-    d = {k: v.get("active", True) is not False for k, v in DATASETS_META.items()}
-    # Overlay stored values
-    if saved:
-        for k, v in saved.items():
-            d[k] = (v is not False)
-    # Only datasets that are actually embedded in the database page
-    return {k for k, v in d.items() if v and k in _active_ds_ids}
+def search_page_active_ids(saved):
+    return _compute_active_ids(saved)
+
+def db_page_active_ids(saved):
+    return _compute_active_ids(saved)
 
 # ── count materials visible on each page for a given active set ────────────────
 def count_materials(active_ids: set) -> tuple[int, int]:

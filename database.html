@@ -329,13 +329,15 @@ var _LS_DS_KEY = 'materialism_active_datasets';
 function _loadActiveDsets() { try { var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; } catch(e) { return null; } }
 function _saveActiveDsets(obj) { try { localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); } catch(e) {} }
 function _getActiveDsets() {
-    // Start from manifest defaults, then override with any explicitly stored values.
-    // Never return partial localStorage state — missing keys must use manifest defaults,
-    // not silently become "active" (undefined !== false = true).
-    var d = {};
-    Object.keys(DATASETS_META).forEach(function(k) { d[k] = DATASETS_META[k].active !== false; });
     var s = _loadActiveDsets();
-    if (s) Object.keys(s).forEach(function(k) { d[k] = s[k]; });
+    var d = {};
+    if (s === null) {
+        // First visit — no localStorage. Use manifest defaults.
+        Object.keys(DATASETS_META).forEach(function(k) { d[k] = DATASETS_META[k].active !== false; });
+    } else {
+        // User has stored state. Missing keys are INACTIVE — never silently activate new datasets.
+        Object.keys(DATASETS_META).forEach(function(k) { d[k] = s[k] === true; });
+    }
     return d;
 }
 var _activeDsets = _getActiveDsets();
