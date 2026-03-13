@@ -328,7 +328,16 @@ var POLY_TYPE_TO_CAT = {"Polyethylene": "Polyolefin", "Polypropylene": "Polyolef
 var _LS_DS_KEY = 'materialism_active_datasets';
 function _loadActiveDsets() { try { var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; } catch(e) { return null; } }
 function _saveActiveDsets(obj) { try { localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); } catch(e) {} }
-function _getActiveDsets() { var s = _loadActiveDsets(); if (s) return s; var d = {}; Object.keys(DATASETS_META).forEach(function(k) { d[k] = DATASETS_META[k].active !== false; }); return d; }
+function _getActiveDsets() {
+    // Start from manifest defaults, then override with any explicitly stored values.
+    // Never return partial localStorage state — missing keys must use manifest defaults,
+    // not silently become "active" (undefined !== false = true).
+    var d = {};
+    Object.keys(DATASETS_META).forEach(function(k) { d[k] = DATASETS_META[k].active !== false; });
+    var s = _loadActiveDsets();
+    if (s) Object.keys(s).forEach(function(k) { d[k] = s[k]; });
+    return d;
+}
 var _activeDsets = _getActiveDsets();
 function _isDsActive(dsId) { if (!dsId) return true; var ids = dsId.split(','); for (var i = 0; i < ids.length; i++) { if (DATASETS[ids[i]] && _activeDsets[ids[i]] !== false) return true; } return false; }
 function _isFromActiveDataset(item) { return !!item._imported && !!DATASETS[item.dsId] && _isDsActive(item.dsId); }

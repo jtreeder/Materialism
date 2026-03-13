@@ -484,9 +484,11 @@ for s in solvents:
 for s in db_solvents:
     s["color"] = CATEGORY_COLORS.get(s.get("cat", "other"), "#888888")
 
-# Build per-dataset structure for JS — solvents and db_solvents are parallel (same loop iteration)
+# Build per-dataset structure for JS — only include active datasets (same set as per_dataset_data)
+# so the search page and database page always reference the exact same dataset list.
+_active_ds_ids = {k for k, v in DATASETS_META.items() if v.get("active", True)}
 _datasets_output = {dsId: {'meta': DATASETS_META[dsId], 'solvents': [], 'polymers': []}
-                    for dsId in DATASETS_META}
+                    for dsId in _active_ds_ids}
 for _s, _dbs in zip(solvents, db_solvents):
     _dsId = _s['dsId']
     if _dsId in _datasets_output:
@@ -915,10 +917,17 @@ full_html = f"""<!DOCTYPE html>
             var saved = null;
             try {{ var v = localStorage.getItem(_LS_DS_KEY); saved = v ? JSON.parse(v) : null; }} catch(e) {{}}
             Object.keys(DATASETS).forEach(function(dsId) {{
-                // Default active state comes from dataset metadata (matching database page behavior)
                 var defaultActive = DATASETS[dsId] && DATASETS[dsId].meta ? DATASETS[dsId].meta.active !== false : true;
-                if (saved ? saved[dsId] !== false : defaultActive) ACTIVE_DATASET_IDS.add(dsId);
+                // If this dataset has an explicit stored value use it; otherwise fall back to manifest default.
+                // Never treat a missing key as "active" — that caused search/database count divergence.
+                var stored = saved ? saved[dsId] : undefined;
+                if (stored !== undefined ? stored !== false : defaultActive) ACTIVE_DATASET_IDS.add(dsId);
             }});
+            // Persist the full state immediately so every dataset has an explicit entry going forward.
+            // This prevents the "missing key defaults to active" bug from ever recurring.
+            var _fullState = {{}};
+            Object.keys(DATASETS).forEach(function(dsId) {{ _fullState[dsId] = ACTIVE_DATASET_IDS.has(dsId); }});
+            try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(_fullState)); }} catch(e) {{}}
         }})();
 
         function setDatasetActive(dsId, active) {{
@@ -1092,8 +1101,13 @@ full_html = f"""<!DOCTYPE html>
             try {{ var sv = localStorage.getItem(_LS_DS_KEY); saved = sv ? JSON.parse(sv) : null; }} catch(e) {{}}
             Object.keys(DATASETS).forEach(function(dsId) {{
                 var defaultActive = DATASETS[dsId] && DATASETS[dsId].meta ? DATASETS[dsId].meta.active !== false : true;
-                if (saved ? saved[dsId] !== false : defaultActive) ACTIVE_DATASET_IDS.add(dsId);
+                var stored = saved ? saved[dsId] : undefined;
+                if (stored !== undefined ? stored !== false : defaultActive) ACTIVE_DATASET_IDS.add(dsId);
             }});
+            // Persist full state so any newly-known datasets get an explicit entry.
+            var _fullState = {{}};
+            Object.keys(DATASETS).forEach(function(dsId) {{ _fullState[dsId] = ACTIVE_DATASET_IDS.has(dsId); }});
+            try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(_fullState)); }} catch(e) {{}}
             recomputeActiveDB();
             notifyActiveDBChanged();
         }}
@@ -4150,7 +4164,16 @@ var POLY_TYPE_TO_CAT = {poly_type_to_cat_json};
 var _LS_DS_KEY = 'materialism_active_datasets';
 function _loadActiveDsets() {{ try {{ var v = localStorage.getItem(_LS_DS_KEY); return v ? JSON.parse(v) : null; }} catch(e) {{ return null; }} }}
 function _saveActiveDsets(obj) {{ try {{ localStorage.setItem(_LS_DS_KEY, JSON.stringify(obj)); }} catch(e) {{}} }}
-function _getActiveDsets() {{ var s = _loadActiveDsets(); if (s) return s; var d = {{}}; Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = DATASETS_META[k].active !== false; }}); return d; }}
+function _getActiveDsets() {{
+    // Start from manifest defaults, then override with any explicitly stored values.
+    // Never return partial localStorage state — missing keys must use manifest defaults,
+    // not silently become "active" (undefined !== false = true).
+    var d = {{}};
+    Object.keys(DATASETS_META).forEach(function(k) {{ d[k] = DATASETS_META[k].active !== false; }});
+    var s = _loadActiveDsets();
+    if (s) Object.keys(s).forEach(function(k) {{ d[k] = s[k]; }});
+    return d;
+}}
 var _activeDsets = _getActiveDsets();
 function _isDsActive(dsId) {{ if (!dsId) return true; var ids = dsId.split(','); for (var i = 0; i < ids.length; i++) {{ if (DATASETS[ids[i]] && _activeDsets[ids[i]] !== false) return true; }} return false; }}
 function _isFromActiveDataset(item) {{ return !!item._imported && !!DATASETS[item.dsId] && _isDsActive(item.dsId); }}
