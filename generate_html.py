@@ -228,9 +228,25 @@ def _norm_name(n):
     """Normalize name for deduplication: lowercase alphanumeric only."""
     return "".join(c for c in n.lower() if c.isalnum()) if n else ""
 
-# Sort active datasets by priority: confidence_tier desc, then imported_at desc (newest first)
+# Sort datasets by priority: confidence_tier desc, then imported_at desc (newest first)
 _ds_search_priority = sorted(
     DATASETS_META.items(),
+    key=lambda item: (item[1].get("confidence_tier", 0), item[1].get("imported_at", "")),
+    reverse=True,
+)
+
+# Chemical-specific priority: active datasets first, then inactive; within active, prefer
+# explicitly solvent-named datasets so canonical dsId matches what the user sees in the
+# database page sidebar (e.g. hspip_solvents wins over hsp_polymers_6 for chemicals).
+def _is_solvent_ds(ds_id):
+    return 1 if ("solvent" in ds_id.lower() or "chem" in ds_id.lower()) else 0
+
+_chem_priority = sorted(
+    [(k, v) for k, v in DATASETS_META.items() if v.get("active", True)],
+    key=lambda item: (_is_solvent_ds(item[0]), item[1].get("confidence_tier", 0), item[1].get("imported_at", "")),
+    reverse=True,
+) + sorted(
+    [(k, v) for k, v in DATASETS_META.items() if not v.get("active", True)],
     key=lambda item: (item[1].get("confidence_tier", 0), item[1].get("imported_at", "")),
     reverse=True,
 )
@@ -243,7 +259,7 @@ _seen_sol_keys = {}  # dedup_key -> True (CAS preferred, else normalized name)
 poly_data = []
 _seen_poly_keys = {}  # normalized name -> True
 
-for _ds_id, _ds_meta in _ds_search_priority:
+for _ds_id, _ds_meta in _chem_priority:
     _ds_dir = os.path.join(_DATASETS_DIR, _ds_id)
 
     # Load chemicals (solvents) for this dataset
@@ -322,6 +338,9 @@ for _ds_id, _ds_meta in _ds_search_priority:
                     "cfclass": _cfclass,
                     "cflevel": _cflevel,
                 })
+
+for _ds_id, _ds_meta in _ds_search_priority:
+    _ds_dir = os.path.join(_DATASETS_DIR, _ds_id)
 
     # Load polymers for this dataset
     _poly_csv = os.path.join(_ds_dir, "polymers.csv")

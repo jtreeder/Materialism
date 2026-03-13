@@ -221,7 +221,7 @@
                 "processing_notes"
             ],
             "quality_notes": "ClassyFire coverage: 880/1135 (78%). name_iupac coverage: 1135/1135. Acronym coverage: 53/1135. radius (R0) not available from HSPiP solvent source.",
-            "active": true,
+            "active": false,
             "confidence_tier": 0.9
         },
         "hsp_polymers_2": {
