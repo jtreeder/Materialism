@@ -3102,7 +3102,7 @@ full_html = f"""<!DOCTYPE html>
         // ===================== INIT =====================
         // Listen for dataset changes from the manage page (localStorage sync)
         window.addEventListener('storage', function(e) {{
-            if (e.key === _LS_DS_KEY || e.key === 'materialism_imported_datasets' || e.key === 'materialism_excluded_items') {{
+            if (e.key === _LS_DS_KEY || e.key === 'materialism_imported_datasets' || e.key === 'materialism_excluded_items' || e.key === 'materialism_deleted_datasets') {{
                 _onDatasetsChanged();
             }}
         }});
@@ -4833,7 +4833,7 @@ function deleteDs(dsId) {{
         localStorage.setItem('materialism_deleted_datasets', JSON.stringify(deleted));
     }} catch(e) {{}}
     delete DATASETS[dsId];
-    delete _activeDsets[dsId];
+    _activeDsets[dsId] = false;
     _saveActiveDsets(_activeDsets);
     _saveImportedDatasets();
     delete _editMode[dsId];

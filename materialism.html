@@ -6433,7 +6433,7 @@ return Plotly;
         // ===================== INIT =====================
         // Listen for dataset changes from the manage page (localStorage sync)
         window.addEventListener('storage', function(e) {
-            if (e.key === _LS_DS_KEY || e.key === 'materialism_imported_datasets' || e.key === 'materialism_excluded_items') {
+            if (e.key === _LS_DS_KEY || e.key === 'materialism_imported_datasets' || e.key === 'materialism_excluded_items' || e.key === 'materialism_deleted_datasets') {
                 _onDatasetsChanged();
             }
         });
