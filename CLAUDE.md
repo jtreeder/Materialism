@@ -9,19 +9,16 @@ GitHub Pages serves from branch: `claude/hansen-solubility-planning-D5iok`
 
 ## How to Deploy Changes
 
-After editing `generate_html.py`, always regenerate and push to the live site:
+After editing `generate_html.py`, always regenerate, commit, and deploy:
 
 ```bash
 python3 generate_html.py
 git add generate_html.py materialism.html database.html
 git commit -m "your message"
-
-# Push to origin (feature branch) as required by session rules:
-git push -u origin claude/YOUR-FEATURE-BRANCH
-
-# Push directly to GitHub Pages branch to go live immediately:
-git push github claude/YOUR-FEATURE-BRANCH:claude/hansen-solubility-planning-D5iok
+./deploy.sh
 ```
+
+**`./deploy.sh` does both pushes in one step** — to the feature branch (origin) and to the live GitHub Pages branch. Always run it after every commit. Never push to origin alone without also running deploy.sh, or the live site will fall behind.
 
 The `github` remote is pre-configured with credentials that allow direct pushes.
 If `github` remote is missing, add it:
